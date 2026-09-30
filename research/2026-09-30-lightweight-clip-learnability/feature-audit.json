@@ -1,0 +1,185 @@
+{
+  "scope": "post-result-descriptive-not-causal-not-significance-test",
+  "current_normalization": "C per-frame mean across32mel dimensions then fixed configured scale; no fitted train statistics, no corpus CMVN or per-utterance CMVN",
+  "diagnostic_standardization": "mean/std fitted to human12training frames only, std floor0.05; NEVER applied to existing trained models",
+  "groups": {
+    "human:train": {
+      "clips": 12,
+      "frames": 1200,
+      "seconds_total": 24.240000000000002,
+      "duration_median_s": 1.92,
+      "feature_std": 0.360322505235672,
+      "feature_min": -1.3633310794830322,
+      "feature_max": 2.0116052627563477,
+      "rms_train_standardized_centroid_shift": 0.0,
+      "dbfs_p10_p50_p90": [
+        -92.4480591,
+        -74.42916869999999,
+        -18.00018099
+      ],
+      "frame_fraction_dbfs_above_minus50": 0.43083333333333335
+    },
+    "human:development_a": {
+      "clips": 4,
+      "frames": 316,
+      "seconds_total": 6.4,
+      "duration_median_s": 1.6400000000000001,
+      "feature_std": 0.43305498361587524,
+      "feature_min": -0.8460094928741455,
+      "feature_max": 1.7235602140426636,
+      "rms_train_standardized_centroid_shift": 0.3852541446685791,
+      "dbfs_p10_p50_p90": [
+        -95.24308395,
+        -31.58538055,
+        -21.059238450000002
+      ],
+      "frame_fraction_dbfs_above_minus50": 0.6613924050632911
+    },
+    "human:development_b": {
+      "clips": 4,
+      "frames": 212,
+      "seconds_total": 4.32,
+      "duration_median_s": 1.08,
+      "feature_std": 0.5127169489860535,
+      "feature_min": -1.1848030090332031,
+      "feature_max": 1.8485593795776367,
+      "rms_train_standardized_centroid_shift": 0.48200786113739014,
+      "dbfs_p10_p50_p90": [
+        -73.80400388,
+        -23.467720999999997,
+        -17.859295829999997
+      ],
+      "frame_fraction_dbfs_above_minus50": 0.839622641509434
+    },
+    "asr:train": {
+      "clips": 18,
+      "frames": 1870,
+      "seconds_total": 37.76,
+      "duration_median_s": 1.92,
+      "feature_std": 0.38938820362091064,
+      "feature_min": -1.336783766746521,
+      "feature_max": 2.021317481994629,
+      "rms_train_standardized_centroid_shift": 0.12340034544467926,
+      "dbfs_p10_p50_p90": [
+        -88.04281995,
+        -46.45596125,
+        -17.958332249999998
+      ],
+      "frame_fraction_dbfs_above_minus50": 0.5096256684491979
+    },
+    "asr:development_a": {
+      "clips": 3,
+      "frames": 229,
+      "seconds_total": 4.640000000000001,
+      "duration_median_s": 1.52,
+      "feature_std": 0.3818455934524536,
+      "feature_min": -1.022477388381958,
+      "feature_max": 1.6696313619613647,
+      "rms_train_standardized_centroid_shift": 0.3057870864868164,
+      "dbfs_p10_p50_p90": [
+        -120.0,
+        -33.7968445,
+        -22.061258279999997
+      ],
+      "frame_fraction_dbfs_above_minus50": 0.6593886462882096
+    },
+    "asr:development_b": {
+      "clips": 1,
+      "frames": 59,
+      "seconds_total": 1.2,
+      "duration_median_s": 1.2,
+      "feature_std": 0.4669809639453888,
+      "feature_min": -1.2138503789901733,
+      "feature_max": 1.7547953128814697,
+      "rms_train_standardized_centroid_shift": 0.6747788786888123,
+      "dbfs_p10_p50_p90": [
+        -96.28453825999999,
+        -21.7637901,
+        -17.22304914
+      ],
+      "frame_fraction_dbfs_above_minus50": 0.7796610169491526
+    }
+  },
+  "human_speakers": {
+    "Dylan": {
+      "clips": 4,
+      "frames": 356,
+      "seconds_total": 7.2,
+      "duration_median_s": 1.8399999999999999,
+      "feature_std": 0.3411284387111664,
+      "feature_min": -1.1571835279464722,
+      "feature_max": 1.9660019874572754,
+      "rms_train_standardized_centroid_shift": 0.07477294653654099,
+      "dbfs_p10_p50_p90": [
+        -87.28837970000001,
+        -69.23843385,
+        -20.194392200000003
+      ],
+      "frame_fraction_dbfs_above_minus50": 0.45786516853932585
+    },
+    "Eric": {
+      "clips": 4,
+      "frames": 212,
+      "seconds_total": 4.32,
+      "duration_median_s": 1.08,
+      "feature_std": 0.5127169489860535,
+      "feature_min": -1.1848030090332031,
+      "feature_max": 1.8485593795776367,
+      "rms_train_standardized_centroid_shift": 0.48200786113739014,
+      "dbfs_p10_p50_p90": [
+        -73.80400388,
+        -23.467720999999997,
+        -17.859295829999997
+      ],
+      "frame_fraction_dbfs_above_minus50": 0.839622641509434
+    },
+    "Serena": {
+      "clips": 4,
+      "frames": 316,
+      "seconds_total": 6.4,
+      "duration_median_s": 1.6400000000000001,
+      "feature_std": 0.43305498361587524,
+      "feature_min": -0.8460094928741455,
+      "feature_max": 1.7235602140426636,
+      "rms_train_standardized_centroid_shift": 0.3852541446685791,
+      "dbfs_p10_p50_p90": [
+        -95.24308395,
+        -31.58538055,
+        -21.059238450000002
+      ],
+      "frame_fraction_dbfs_above_minus50": 0.6613924050632911
+    },
+    "Uncle_Fu": {
+      "clips": 4,
+      "frames": 472,
+      "seconds_total": 9.52,
+      "duration_median_s": 2.4000000000000004,
+      "feature_std": 0.3410179018974304,
+      "feature_min": -1.2286655902862549,
+      "feature_max": 1.8364630937576294,
+      "rms_train_standardized_centroid_shift": 0.15649910271167755,
+      "dbfs_p10_p50_p90": [
+        -120.0,
+        -81.76073075,
+        -18.50126461
+      ],
+      "frame_fraction_dbfs_above_minus50": 0.3877118644067797
+    },
+    "Vivian": {
+      "clips": 4,
+      "frames": 372,
+      "seconds_total": 7.5200000000000005,
+      "duration_median_s": 1.92,
+      "feature_std": 0.3998693525791168,
+      "feature_min": -1.3633310794830322,
+      "feature_max": 2.0116052627563477,
+      "rms_train_standardized_centroid_shift": 0.19220449030399323,
+      "dbfs_p10_p50_p90": [
+        -86.00089647,
+        -70.27519225,
+        -15.857681159999993
+      ],
+      "frame_fraction_dbfs_above_minus50": 0.4596774193548387
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "architectures": {
+    "A": {
+      "cache_floats": 5952,
+      "mac_per_frame": 14352,
+      "parameters": 14882
+    },
+    "B": {
+      "cache_floats": 2880,
+      "mac_per_frame": 11712,
+      "parameters": 11954
+    }
+  },
+  "asr_training_allowed": false,
+  "augmentation": "none",
+  "batch_size": 4,
+  "catalog_sha256": "27b590cdc325d48d2cf5e1293b8e431c815382be0219bc2e069d4e08896ee391",
+  "checkpoint_selection": "last-step-only",
+  "cpu_threads": 1,
+  "data_commit": "2f9658ffa9568076ef547615c76861abed84f56e",
+  "decision": "per-keyword max logit >= 0; no threshold calibration or event decoder",
+  "deterministic_algorithms": true,
+  "evaluation_groups": [
+    "human:train",
+    "human:development_a",
+    "human:development_b",
+    "asr:train",
+    "asr:development_a",
+    "asr:development_b"
+  ],
+  "evidence_scope": "observed-development-only",
+  "excludes": [
+    "token alignment",
+    "word endpoint labels",
+    "continuous FAR",
+    "event-aligned FRR",
+    "fresh heldout",
+    "board resource evidence",
+    "product qualification",
+    "superiority claim"
+  ],
+  "experiment_id": "causal-two-word-clip-learnability-v1",
+  "feature_cache_sha256": "8e8785d81fe9ea8a32a13d40f26efa424a8fa25cdfcdeec0f521f8e79434df6f",
+  "feature_runner_sha256": "014f4f3f1a71a5de192a415f186d5bb6cc791dcf1d553055869ee913be7f47b8",
+  "feature_runner_source_commit": "0539106167f0bb7a657ce461a0ac5a508ecb3a22",
+  "formal_oci_equivalent": false,
+  "frontend": {
+    "dimensions": 32,
+    "hop_samples": 320,
+    "kind": "logmel",
+    "padding": "none",
+    "rate_hz": 16000,
+    "window_samples": 400
+  },
+  "install_report_sha256": "f475b10342b2eae08ff3ffb4576baeb737aa3416b9ed7bbc0681b8b2672faf00",
+  "lr": 0.001,
+  "mkldnn": false,
+  "native_export_sha256": "8e4d5c13cc5694e813ef6dc58bedbe34d2b893721283f1945d6d944ca38570b5",
+  "objective": "two-logit masked temporal max then binary cross entropy; native clip labels only",
+  "optimizer": "Adam",
+  "per_run_wall_cap_seconds": 3600,
+  "precision": "float32 CPU",
+  "protocol_change_note": "No optional calibration grid or data augmentation in this first bounded comparison.",
+  "research_numpy": "2.5.2",
+  "research_python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "research_torch": "2.13.0+cpu",
+  "rows_sha256": "8c83078136fbe0fb712330e276356fe41e6227e081b323f661164f20bfcd58ea",
+  "runtime_difference": "Python3.12.14 versus formal3.12.11; independently installed official CPU wheel, no formal OCI digest",
+  "seeds": [
+    1337,
+    2346
+  ],
+  "source_hashes": {
+    "models.py": "caf4ec2bc4856e169cc46ec358682a30c04c3db9920fbeab869c22d002d6b096",
+    "prepare.py": "f8bdfff75a72a94d8bbec58f48b44185c4e83afd3dbb617a5faa1cbd507793bb",
+    "run.py": "14ede02e94ee08447b23402c5f33514d21664cb3c84aea7479f5bce8ae6895a9",
+    "test_models.py": "d8b2d9bcfb9ab130c7cd5903fc027d360470f82315d2d22695c97ada0df4c77d"
+  },
+  "steps": 1000,
+  "training_membership": {
+    "count": 12,
+    "review_method": "human",
+    "split": "train"
+  },
+  "training_order": "private torch Generator(seed+10000); successive randperm train rows, batches4"
+}
