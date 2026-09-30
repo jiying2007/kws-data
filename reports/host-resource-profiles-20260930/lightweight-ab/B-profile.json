@@ -1,0 +1,171 @@
+{
+  "architecture": "B",
+  "checkpoint_serialized_bytes": 54105,
+  "checkpoint_sha256": "652f182c974043cb5042276f88054902ca2e71964f8fc4c75c1af41fd1e8f7e7",
+  "empty_timer_overhead_cpu": {
+    "max_us": 1.032,
+    "mean_us": 0.19666399999999998,
+    "p50_us": 0.191,
+    "p95_us": 0.221,
+    "p99_us": 0.231
+  },
+  "empty_timer_overhead_wall": {
+    "max_us": 24.436,
+    "mean_us": 0.45458499999999996,
+    "p50_us": 0.421,
+    "p95_us": 0.46,
+    "p99_us": 0.48001
+  },
+  "estimate_only": {
+    "excluded": [
+      "quantization scales",
+      "alignment",
+      "frontend",
+      "working memory",
+      "code"
+    ],
+    "int8_weight_plus_fp32_bias_bytes": 12680,
+    "quantization_executed": false
+  },
+  "evidence_scope": "host-PyTorch-model-only-not-SSC305",
+  "feature_cache_sha256": "8e8785d81fe9ea8a32a13d40f26efa424a8fa25cdfcdeec0f521f8e79434df6f",
+  "host": {
+    "affinity_cpu_count": 9,
+    "kernel": "6.18.44",
+    "machine": "x86_64",
+    "mkldnn": false,
+    "process_cpu_affinity_pinned": false,
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "torch": "2.13.0+cpu",
+    "torch_interop_threads": 1,
+    "torch_threads": 1
+  },
+  "host_one_core_equivalent_at50fps_percent_from_cpu_mean": 3.1742203600000005,
+  "io_observer_caveat": "proc/self/io snapshots themselves cause read syscall/character counts; do not infer frame-loop reads from raw syscr/rchar alone",
+  "io_raw_delta": {
+    "cancelled_write_bytes": 0,
+    "rchar": 100,
+    "read_bytes": 0,
+    "syscr": 1,
+    "syscw": 0,
+    "wchar": 0,
+    "write_bytes": 0
+  },
+  "measured_memory": {
+    "causal_state_backing_storage_bytes": 11904,
+    "causal_state_logical_tensor_bytes": 11520,
+    "fp32_parameter_backing_storage_bytes": 47816,
+    "fp32_parameter_payload_bytes": 47816,
+    "parameters": 11954,
+    "rss_scope": "whole Python/PyTorch process, model, loaded feature cache, timing arrays, allocator; not fixed KWS RAM",
+    "ru_maxrss_kib": 332936,
+    "state_note": "returned cache views retain joined-history-plus-current-frame storage; not a C fixed arena",
+    "status_after_window": {
+      "Threads": "1",
+      "VmHWM": "333116 kB",
+      "VmRSS": "333116 kB",
+      "VmSize": "682268 kB"
+    },
+    "status_before_window": {
+      "Threads": "1",
+      "VmHWM": "333056 kB",
+      "VmRSS": "333056 kB",
+      "VmSize": "682268 kB"
+    }
+  },
+  "model_code_sha256": "caf4ec2bc4856e169cc46ec358682a30c04c3db9920fbeab869c22d002d6b096",
+  "per_repeat": [
+    {
+      "cpu": {
+        "max_us": 8242.506,
+        "mean_us": 656.2534440000001,
+        "p50_us": 567.4615,
+        "p95_us": 1000.3985,
+        "p99_us": 1139.8862599999995
+      },
+      "repeat": 0,
+      "wall": {
+        "max_us": 8245.615,
+        "mean_us": 657.459488,
+        "p50_us": 568.4025,
+        "p95_us": 1001.8589499999999,
+        "p99_us": 1142.0411499999993
+      }
+    },
+    {
+      "cpu": {
+        "max_us": 1758.568,
+        "mean_us": 630.234828,
+        "p50_us": 554.522,
+        "p95_us": 936.67605,
+        "p99_us": 1082.5687599999999
+      },
+      "repeat": 1,
+      "wall": {
+        "max_us": 1760.204,
+        "mean_us": 631.239188,
+        "p50_us": 555.4025,
+        "p95_us": 937.9865500000001,
+        "p99_us": 1084.3065499999998
+      }
+    },
+    {
+      "cpu": {
+        "max_us": 1739.399,
+        "mean_us": 618.043944,
+        "p50_us": 545.779,
+        "p95_us": 958.2991999999998,
+        "p99_us": 1057.06949
+      },
+      "repeat": 2,
+      "wall": {
+        "max_us": 1740.835,
+        "mean_us": 619.045371,
+        "p50_us": 546.6445,
+        "p95_us": 959.9131999999998,
+        "p99_us": 1058.3068999999998
+      }
+    }
+  ],
+  "process_cpu_per_frame": {
+    "max_us": 8242.506,
+    "mean_us": 634.8440720000001,
+    "p50_us": 557.6265,
+    "p95_us": 975.8815,
+    "p99_us": 1114.2521000000002
+  },
+  "profile_script_sha256": "4a5d43c48d4c3afa9e7d4d6623d6c8e0b3c63bc4cf77f190586e67feac832db2",
+  "protocol": {
+    "batch": 1,
+    "frame_hop_ms": 20,
+    "frames_per_repeat": 1000,
+    "includes": "Python/PyTorch dispatch, dynamic tensor allocation and kernel execution; timer overhead retained",
+    "incremental_state": true,
+    "input": "existing32-dimensional Clogmel features; no PCM/frontend in timed window",
+    "io": "inputs preloaded; no file/log/network operations in measured frame loop; reports written after window",
+    "measured_frames": 3000,
+    "repeats": 3,
+    "timed_api": "CausalClassifier.chunk(B=1,T=1,F=32)",
+    "warmup_frames": 200
+  },
+  "rusage_window_delta": {
+    "input_blocks": 0,
+    "major_faults": 0,
+    "minor_faults": 12,
+    "output_blocks": 0
+  },
+  "schema_version": 1,
+  "seed": 1337,
+  "source_spec_sha256": "c0022e6abee8555d1abfa982d7c947da8a662e09f5bc39c88fd41d1b2edf6dc5",
+  "target_cpu_claim": null,
+  "timings_sha256": "688efdb6e4660913d4be0a5a1df8e9af311526ca8038f734c10f78a84a1cb925",
+  "wall_per_frame": {
+    "max_us": 8245.615,
+    "mean_us": 635.9146823333333,
+    "p50_us": 558.5575,
+    "p95_us": 977.1394499999999,
+    "p99_us": 1115.8048999999999
+  },
+  "whole_window_process_cpu_seconds": 1.913205489,
+  "whole_window_wall_seconds": 1.913238454
+}

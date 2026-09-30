@@ -1,0 +1,708 @@
+{
+  "schema_version": 1,
+  "scope": "x86 Python/ORT persistent-model microbenchmark, not SSC305 qualification or planned C working RAM",
+  "assets": [
+    {
+      "file": "encoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx",
+      "bytes": 4807159,
+      "sha256": "017af32f2c0138f931d05fbc009ee864295e910aff304f77d2f563815fc834fb"
+    },
+    {
+      "file": "decoder-epoch-12-avg-2-chunk-16-left-64.onnx",
+      "bytes": 675349,
+      "sha256": "bb3d8640cc6a495088707173bc1707a8a4ffe014594fc9adcba8389e27d0339f"
+    },
+    {
+      "file": "joiner-epoch-12-avg-2-chunk-16-left-64.onnx",
+      "bytes": 253410,
+      "sha256": "d990f5b67ae9d740048709f5d5f3e777af442061896a8322d5c3ab3ec480f3cb"
+    },
+    {
+      "file": "tokens.txt",
+      "bytes": 1627,
+      "sha256": "72316508d9119696145abc6f1f8cdc46287535c34e5ce7e595f845cb1499cf2e"
+    }
+  ],
+  "asset_total_bytes": 5737545,
+  "identity": {
+    "thread_environment": {
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    },
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "numpy": "2.2.6",
+    "sherpa_onnx": "1.13.8",
+    "logical_cpus": 9,
+    "affinity_count": 9,
+    "cpu_model": "AMD EPYC 9V74 80-Core Processor"
+  },
+  "config": {
+    "frozen_before_inference": true,
+    "runtime": "sherpa-onnx==1.13.8",
+    "runtime_source_commit": "11afbd009a7f8c08f4bcf2fc1b265d0df4670fbf",
+    "model": "sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01",
+    "model_revision": "3787015f084cb241dfa0e4ba237703a2d4322d50",
+    "precision": "official-int8-encoder-fp32-decoder-joiner",
+    "provider": "cpu",
+    "num_threads": 1,
+    "sample_rate": 16000,
+    "feature_dim": 80,
+    "max_active_paths": 4,
+    "keywords_score": 1.0,
+    "keywords_threshold": 0.25,
+    "num_trailing_blanks": 1,
+    "feed_samples_per_block": 320,
+    "tail_padding_seconds": 0,
+    "input_finished": true,
+    "stream_reset": "new stream per original WAV; reset after every emitted keyword",
+    "scoring": "positive hit if expected phrase detected anywhere; preserve wrong/additional events; all confusable events counted",
+    "evidence_class": "previously-observed-synthetic-development-clips",
+    "qualification_allowed": false,
+    "interpretation_limits": [
+      "No fresh holdout claim",
+      "No real-human or 3-5m validation",
+      "No endpoint timing labels",
+      "No continuous FAR",
+      "No equal-resource or SSC305 superiority claim",
+      "No appended silence, unlike upstream offline example's 0.66s flush; do not tune after observing outputs"
+    ],
+    "encoder_file": "encoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx"
+  },
+  "protocol": {
+    "model_loads": 1,
+    "audio_preloaded_float32": true,
+    "warmup_passes": 1,
+    "measured_passes": 3,
+    "clips_per_pass": 42,
+    "feed_samples": 320,
+    "model_thread_setting": 1,
+    "fresh_stream_per_clip": true,
+    "tail_padding_samples": 0,
+    "quality_result_mutated": false,
+    "cache": "not cold; assets hashed before constructor; OS cache otherwise unknown; no cache drops",
+    "io_note": "/proc/self/io rchar/syscr include proc/status bookkeeping; read_bytes is storage-layer accounting, not mapped model size; report major/minor faults separately",
+    "timing_note": "wall feed timing includes accept_waveform, is_ready, all ready decode calls, result check and event reset; no real-time pacing; partial final block may be shorter than20ms; percentile includes all original clips and repeated passes; EOF/stream construction separately reported",
+    "memory_note": "RSS includes Python, NumPy, ORT, loaded weights, preloaded audio and instrumentation; peak is process-lifetime ru_maxrss, not incremental model workspace"
+  },
+  "native_export_sha256": "8e4d5c13cc5694e813ef6dc58bedbe34d2b893721283f1945d6d944ca38570b5",
+  "config_source_sha256": "9850355f89c74dbe6613870355287e5d3f270fc77188d99749b46ac8356d01cf",
+  "keywords_sha256": "bdbeeb12c2b95b9a71f09994024c8ef86d88bdaa8146b758116d48471fd91e1a",
+  "script_sha256": "eec4eed1f8979749398e1bb7ca58ac0ea80be99526db131dfdf009e60b72ed16",
+  "imports": {
+    "wall_s": 0.055537113001264515,
+    "cpu_s": 0.055537541,
+    "before": {
+      "io": {
+        "rchar": 740271,
+        "wchar": 0,
+        "syscr": 90,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      "status": {
+        "VmSize": "36732 kB",
+        "VmHWM": "10184 kB",
+        "VmRSS": "10184 kB",
+        "Threads": "1"
+      },
+      "user_cpu_s": 0.024856999999999997,
+      "system_cpu_s": 0.0,
+      "max_rss_kib": 10112,
+      "minor_faults": 2929,
+      "major_faults": 0
+    },
+    "after": {
+      "io": {
+        "rchar": 3459567,
+        "wchar": 0,
+        "syscr": 321,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      "status": {
+        "VmSize": "150992 kB",
+        "VmHWM": "40748 kB",
+        "VmRSS": "40748 kB",
+        "Threads": "1"
+      },
+      "user_cpu_s": 0.08057199999999999,
+      "system_cpu_s": 0.0,
+      "max_rss_kib": 40660,
+      "minor_faults": 6415,
+      "major_faults": 0
+    }
+  },
+  "audio_preload": {
+    "wall_s": 0.008110241000395035,
+    "before": {
+      "io": {
+        "rchar": 3544791,
+        "wchar": 0,
+        "syscr": 329,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      "status": {
+        "VmSize": "150992 kB",
+        "VmHWM": "40800 kB",
+        "VmRSS": "40800 kB",
+        "Threads": "1"
+      },
+      "user_cpu_s": 0.081178,
+      "system_cpu_s": 0.0,
+      "max_rss_kib": 40660,
+      "minor_faults": 6428,
+      "major_faults": 0
+    },
+    "after": {
+      "io": {
+        "rchar": 8577569,
+        "wchar": 0,
+        "syscr": 543,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      "status": {
+        "VmSize": "155764 kB",
+        "VmHWM": "45648 kB",
+        "VmRSS": "45648 kB",
+        "Threads": "1"
+      },
+      "user_cpu_s": 0.085094,
+      "system_cpu_s": 0.00428,
+      "max_rss_kib": 45600,
+      "minor_faults": 7698,
+      "major_faults": 0
+    },
+    "total_pcm_frames": 1256960,
+    "audio_seconds": 78.56,
+    "numpy_array_bytes": 5027840
+  },
+  "model_load": {
+    "wall_s": 0.6867448949997197,
+    "cpu_s": 0.686301206,
+    "before": {
+      "io": {
+        "rchar": 14319250,
+        "wchar": 0,
+        "syscr": 559,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      "status": {
+        "VmSize": "156424 kB",
+        "VmHWM": "50336 kB",
+        "VmRSS": "46308 kB",
+        "Threads": "1"
+      },
+      "user_cpu_s": 0.085094,
+      "system_cpu_s": 0.010457,
+      "max_rss_kib": 50336,
+      "minor_faults": 9037,
+      "major_faults": 0
+    },
+    "after": {
+      "io": {
+        "rchar": 24884201,
+        "wchar": 0,
+        "syscr": 595,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      "status": {
+        "VmSize": "183388 kB",
+        "VmHWM": "83552 kB",
+        "VmRSS": "83552 kB",
+        "Threads": "1"
+      },
+      "user_cpu_s": 0.7574679999999999,
+      "system_cpu_s": 0.024645,
+      "max_rss_kib": 83380,
+      "minor_faults": 15933,
+      "major_faults": 0
+    },
+    "delta": {
+      "io": {
+        "rchar": 10564951,
+        "wchar": 0,
+        "syscr": 36,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      "minor_faults": 6896,
+      "major_faults": 0,
+      "user_cpu_s": 0.6723739999999999,
+      "system_cpu_s": 0.014188000000000001
+    }
+  },
+  "warmup": {
+    "clips": 42,
+    "wall_s": 1.6923373569989053,
+    "cpu_s": 1.6901363889999999,
+    "before": {
+      "io": {
+        "rchar": 24885444,
+        "wchar": 0,
+        "syscr": 599,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      "status": {
+        "VmSize": "183388 kB",
+        "VmHWM": "83552 kB",
+        "VmRSS": "83552 kB",
+        "Threads": "1"
+      },
+      "user_cpu_s": 0.757521,
+      "system_cpu_s": 0.024645999999999998,
+      "max_rss_kib": 83380,
+      "minor_faults": 15933,
+      "major_faults": 0
+    },
+    "after": {
+      "io": {
+        "rchar": 24886687,
+        "wchar": 0,
+        "syscr": 603,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      "status": {
+        "VmSize": "191696 kB",
+        "VmHWM": "88840 kB",
+        "VmRSS": "88840 kB",
+        "Threads": "1"
+      },
+      "user_cpu_s": 2.443866,
+      "system_cpu_s": 0.028686999999999997,
+      "max_rss_kib": 88800,
+      "minor_faults": 17120,
+      "major_faults": 0
+    },
+    "events": 19
+  },
+  "runs": [
+    {
+      "repeat": 1,
+      "clips": 42,
+      "audio_s": 78.56,
+      "wall_s": 1.5122300340008223,
+      "cpu_s": 1.512169848,
+      "wall_rtf": 0.019249363976588878,
+      "cpu_rtf": 0.01924859786150713,
+      "decode_calls": 211,
+      "events": 19,
+      "feed_plus_ready_decode": {
+        "count": 3928,
+        "p50_ms": 0.029785,
+        "p95_ms": 4.7934678,
+        "p99_ms": 7.37877349,
+        "max_ms": 10.889782
+      },
+      "feeds_with_decode": {
+        "count": 211,
+        "p50_ms": 6.338961,
+        "p95_ms": 8.7278855,
+        "p99_ms": 9.503100400000001,
+        "max_ms": 10.889782
+      },
+      "feeds_without_decode": {
+        "count": 3717,
+        "p50_ms": 0.029745,
+        "p95_ms": 0.06756279999999998,
+        "p99_ms": 0.11757008000000016,
+        "max_ms": 1.090892
+      },
+      "eof_drain": {
+        "count": 42,
+        "p50_ms": 0.010551,
+        "p95_ms": 0.024719949999999997,
+        "p99_ms": 0.026160379999999993,
+        "max_ms": 0.02685
+      },
+      "stream_creation": {
+        "count": 42,
+        "p50_ms": 0.1892225,
+        "p95_ms": 0.3710093999999998,
+        "p99_ms": 0.7887137699999976,
+        "max_ms": 1.047753
+      },
+      "before": {
+        "io": {
+          "rchar": 24889175,
+          "wchar": 0,
+          "syscr": 611,
+          "syscw": 0,
+          "read_bytes": 0,
+          "write_bytes": 0,
+          "cancelled_write_bytes": 0
+        },
+        "status": {
+          "VmSize": "191696 kB",
+          "VmHWM": "88840 kB",
+          "VmRSS": "88840 kB",
+          "Threads": "1"
+        },
+        "user_cpu_s": 2.443958,
+        "system_cpu_s": 0.028687999999999998,
+        "max_rss_kib": 88800,
+        "minor_faults": 17120,
+        "major_faults": 0
+      },
+      "after": {
+        "io": {
+          "rchar": 24890419,
+          "wchar": 0,
+          "syscr": 615,
+          "syscw": 0,
+          "read_bytes": 0,
+          "write_bytes": 0,
+          "cancelled_write_bytes": 0
+        },
+        "status": {
+          "VmSize": "191696 kB",
+          "VmHWM": "88888 kB",
+          "VmRSS": "88888 kB",
+          "Threads": "1"
+        },
+        "user_cpu_s": 3.956344,
+        "system_cpu_s": 0.028687999999999998,
+        "max_rss_kib": 88800,
+        "minor_faults": 17132,
+        "major_faults": 0
+      },
+      "delta": {
+        "io": {
+          "rchar": 1244,
+          "wchar": 0,
+          "syscr": 4,
+          "syscw": 0,
+          "read_bytes": 0,
+          "write_bytes": 0,
+          "cancelled_write_bytes": 0
+        },
+        "minor_faults": 12,
+        "major_faults": 0,
+        "user_cpu_s": 1.5123860000000002,
+        "system_cpu_s": 0.0
+      }
+    },
+    {
+      "repeat": 2,
+      "clips": 42,
+      "audio_s": 78.56,
+      "wall_s": 1.5953059140010737,
+      "cpu_s": 1.595264785,
+      "wall_rtf": 0.020306847174148088,
+      "cpu_rtf": 0.020306323637983705,
+      "decode_calls": 211,
+      "events": 19,
+      "feed_plus_ready_decode": {
+        "count": 3928,
+        "p50_ms": 0.029965,
+        "p95_ms": 5.110399799999995,
+        "p99_ms": 7.76713886,
+        "max_ms": 13.635195
+      },
+      "feeds_with_decode": {
+        "count": 211,
+        "p50_ms": 6.666217,
+        "p95_ms": 8.977302,
+        "p99_ms": 11.264530200000005,
+        "max_ms": 13.635195
+      },
+      "feeds_without_decode": {
+        "count": 3717,
+        "p50_ms": 0.029905,
+        "p95_ms": 0.07041699999999998,
+        "p99_ms": 0.10541780000000005,
+        "max_ms": 1.929726
+      },
+      "eof_drain": {
+        "count": 42,
+        "p50_ms": 0.0103655,
+        "p95_ms": 0.030533949999999997,
+        "p99_ms": 0.03731718999999999,
+        "max_ms": 0.037826
+      },
+      "stream_creation": {
+        "count": 42,
+        "p50_ms": 0.2050655,
+        "p95_ms": 0.31724019999999997,
+        "p99_ms": 0.3416450399999999,
+        "max_ms": 0.351754
+      },
+      "before": {
+        "io": {
+          "rchar": 24891663,
+          "wchar": 0,
+          "syscr": 619,
+          "syscw": 0,
+          "read_bytes": 0,
+          "write_bytes": 0,
+          "cancelled_write_bytes": 0
+        },
+        "status": {
+          "VmSize": "191696 kB",
+          "VmHWM": "88888 kB",
+          "VmRSS": "88888 kB",
+          "Threads": "1"
+        },
+        "user_cpu_s": 3.95741,
+        "system_cpu_s": 0.028687999999999998,
+        "max_rss_kib": 88800,
+        "minor_faults": 17132,
+        "major_faults": 0
+      },
+      "after": {
+        "io": {
+          "rchar": 24892907,
+          "wchar": 0,
+          "syscr": 623,
+          "syscw": 0,
+          "read_bytes": 0,
+          "write_bytes": 0,
+          "cancelled_write_bytes": 0
+        },
+        "status": {
+          "VmSize": "191696 kB",
+          "VmHWM": "89020 kB",
+          "VmRSS": "89020 kB",
+          "Threads": "1"
+        },
+        "user_cpu_s": 5.552943,
+        "system_cpu_s": 0.028687999999999998,
+        "max_rss_kib": 88928,
+        "minor_faults": 17165,
+        "major_faults": 0
+      },
+      "delta": {
+        "io": {
+          "rchar": 1244,
+          "wchar": 0,
+          "syscr": 4,
+          "syscw": 0,
+          "read_bytes": 0,
+          "write_bytes": 0,
+          "cancelled_write_bytes": 0
+        },
+        "minor_faults": 33,
+        "major_faults": 0,
+        "user_cpu_s": 1.595533,
+        "system_cpu_s": 0.0
+      }
+    },
+    {
+      "repeat": 3,
+      "clips": 42,
+      "audio_s": 78.56,
+      "wall_s": 1.68870068599972,
+      "cpu_s": 1.6886483659999998,
+      "wall_rtf": 0.021495680829935335,
+      "cpu_rtf": 0.021495014842158856,
+      "decode_calls": 211,
+      "events": 19,
+      "feed_plus_ready_decode": {
+        "count": 3928,
+        "p50_ms": 0.029984,
+        "p95_ms": 5.8273119499999995,
+        "p99_ms": 7.97683386,
+        "max_ms": 16.104576
+      },
+      "feeds_with_decode": {
+        "count": 211,
+        "p50_ms": 6.989609,
+        "p95_ms": 9.0674485,
+        "p99_ms": 11.886966300000006,
+        "max_ms": 16.104576
+      },
+      "feeds_without_decode": {
+        "count": 3717,
+        "p50_ms": 0.029915,
+        "p95_ms": 0.07385999999999998,
+        "p99_ms": 0.12043720000000001,
+        "max_ms": 1.273628
+      },
+      "eof_drain": {
+        "count": 42,
+        "p50_ms": 0.010496,
+        "p95_ms": 0.034228449999999966,
+        "p99_ms": 0.043551469999999995,
+        "max_ms": 0.044426
+      },
+      "stream_creation": {
+        "count": 42,
+        "p50_ms": 0.2143095,
+        "p95_ms": 0.3462806999999999,
+        "p99_ms": 0.3772962699999999,
+        "max_ms": 0.386256
+      },
+      "before": {
+        "io": {
+          "rchar": 24894151,
+          "wchar": 0,
+          "syscr": 627,
+          "syscw": 0,
+          "read_bytes": 0,
+          "write_bytes": 0,
+          "cancelled_write_bytes": 0
+        },
+        "status": {
+          "VmSize": "191696 kB",
+          "VmHWM": "89020 kB",
+          "VmRSS": "89020 kB",
+          "Threads": "1"
+        },
+        "user_cpu_s": 5.554065,
+        "system_cpu_s": 0.028687999999999998,
+        "max_rss_kib": 88928,
+        "minor_faults": 17165,
+        "major_faults": 0
+      },
+      "after": {
+        "io": {
+          "rchar": 24895395,
+          "wchar": 0,
+          "syscr": 631,
+          "syscw": 0,
+          "read_bytes": 0,
+          "write_bytes": 0,
+          "cancelled_write_bytes": 0
+        },
+        "status": {
+          "VmSize": "192720 kB",
+          "VmHWM": "89152 kB",
+          "VmRSS": "89152 kB",
+          "Threads": "1"
+        },
+        "user_cpu_s": 7.242983,
+        "system_cpu_s": 0.028692,
+        "max_rss_kib": 89056,
+        "minor_faults": 17198,
+        "major_faults": 0
+      },
+      "delta": {
+        "io": {
+          "rchar": 1244,
+          "wchar": 0,
+          "syscr": 4,
+          "syscw": 0,
+          "read_bytes": 0,
+          "write_bytes": 0,
+          "cancelled_write_bytes": 0
+        },
+        "minor_faults": 33,
+        "major_faults": 0,
+        "user_cpu_s": 1.6889180000000001,
+        "system_cpu_s": 4.000000000000531e-06
+      }
+    }
+  ],
+  "steady": {
+    "before": {
+      "io": {
+        "rchar": 24887931,
+        "wchar": 0,
+        "syscr": 607,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      "status": {
+        "VmSize": "191696 kB",
+        "VmHWM": "88840 kB",
+        "VmRSS": "88840 kB",
+        "Threads": "1"
+      },
+      "user_cpu_s": 2.443919,
+      "system_cpu_s": 0.028686999999999997,
+      "max_rss_kib": 88800,
+      "minor_faults": 17120,
+      "major_faults": 0
+    },
+    "after": {
+      "io": {
+        "rchar": 24896639,
+        "wchar": 0,
+        "syscr": 635,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      "status": {
+        "VmSize": "192720 kB",
+        "VmHWM": "89152 kB",
+        "VmRSS": "89152 kB",
+        "Threads": "1"
+      },
+      "user_cpu_s": 7.243788,
+      "system_cpu_s": 0.028696,
+      "max_rss_kib": 89056,
+      "minor_faults": 17198,
+      "major_faults": 0
+    },
+    "delta": {
+      "io": {
+        "rchar": 8708,
+        "wchar": 0,
+        "syscr": 28,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      "minor_faults": 78,
+      "major_faults": 0,
+      "user_cpu_s": 4.799869,
+      "system_cpu_s": 9.000000000002062e-06
+    },
+    "audio_s": 235.68,
+    "cpu_s": 4.796082998999999,
+    "wall_s": 4.796236634001616,
+    "cpu_rtf": 0.020349978780549893,
+    "wall_rtf": 0.0203506306602241,
+    "feed_plus_ready_decode": {
+      "count": 11784,
+      "p50_ms": 0.029905,
+      "p95_ms": 5.052559850000003,
+      "p99_ms": 7.811524610000001,
+      "max_ms": 16.104576
+    },
+    "feeds_with_decode": {
+      "count": 633,
+      "p50_ms": 6.68128,
+      "p95_ms": 9.0030682,
+      "p99_ms": 10.950618199999996,
+      "max_ms": 16.104576
+    },
+    "feeds_without_decode": {
+      "count": 11151,
+      "p50_ms": 0.029854,
+      "p95_ms": 0.071211,
+      "p99_ms": 0.1163985,
+      "max_ms": 1.929726
+    }
+  }
+}

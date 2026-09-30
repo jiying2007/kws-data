@@ -1,0 +1,53 @@
+{
+  "scope": "Sequential x86 warm-cache single-thread observations; no target-device or equal-FAR claim",
+  "fp32_measurement_path": "/workspace/shared/kws-sherpa-resource-profile/measurement.json",
+  "fp32_measurement_sha256": "f8feb4132aa41736af92706e35369eaf15206c85140aa56115488ff9308c9005",
+  "int8_measurement_sha256": "6b184ba66f181cc3cf78f2a5e920a6d954b7a00c172f2bdefc5ccc6eb6dd2192",
+  "metrics": {
+    "assets_bytes": {
+      "fp32": 13104605,
+      "int8_encoder": 5737545,
+      "observed_reduction_percent": 56.21733734057608
+    },
+    "cpu_rtf": {
+      "fp32": 0.023142041276306854,
+      "int8_encoder": 0.020349978780549893,
+      "observed_reduction_percent": 12.064892903874968
+    },
+    "wall_rtf": {
+      "fp32": 0.023157356483371937,
+      "int8_encoder": 0.0203506306602241,
+      "observed_reduction_percent": 12.120234125873552
+    },
+    "all_feed_p99_ms": {
+      "fp32": 8.965548420000001,
+      "int8_encoder": 7.811524610000001,
+      "observed_reduction_percent": 12.871759271587313
+    },
+    "decode_active_p99_ms": {
+      "fp32": 12.362001879999967,
+      "int8_encoder": 10.950618199999996,
+      "observed_reduction_percent": 11.41711264648324
+    },
+    "decode_active_max_ms": {
+      "fp32": 19.4996,
+      "int8_encoder": 16.104576,
+      "observed_reduction_percent": 17.410736630494984
+    },
+    "final_rss_kib": {
+      "fp32": 91516,
+      "int8_encoder": 89152,
+      "observed_reduction_percent": 2.5831548581668806
+    },
+    "constructor_wall_s": {
+      "fp32": 0.712434191000284,
+      "int8_encoder": 0.6867448949997197,
+      "observed_reduction_percent": 3.605848276946899
+    },
+    "constructor_rchar_bytes": {
+      "fp32": 25299069,
+      "int8_encoder": 10564951,
+      "observed_reduction_percent": 58.2397636845846
+    }
+  }
+}
