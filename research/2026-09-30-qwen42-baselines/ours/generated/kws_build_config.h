@@ -1,0 +1,12 @@
+#ifndef KWS_PIPELINE_BUILD_CONFIG_H
+#define KWS_PIPELINE_BUILD_CONFIG_H
+
+#define KWS_BUILD_VERSION "0.3.0"
+#define KWS_BUILD_SOURCE_REVISION "0539106167f0bb7a657ce461a0ac5a508ecb3a22"
+#define KWS_BUILD_COMPILER_ID "manual-cc"
+#define KWS_BUILD_COMPILER_VERSION "cc (Debian 14.2.0-19) 14.2.0"
+#define KWS_BUILD_TARGET_TRIPLE "x86_64-linux-gnu"
+#define KWS_BUILD_TYPE "manual-cc-development"
+#define KWS_BUILD_CONFIG_DIGEST "ae37129bca537136b5f52f36f9a53eda2c5a12617c7e903fd71caab631b1d33a"
+
+#endif
