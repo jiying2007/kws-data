@@ -37,6 +37,9 @@ docker run --rm --network none \
 
 历史推理环境没有发布可验证的 OCI 镜像 digest，因此本配方是生成方法与脚本身份归档，不宣称完整容器级可复现。新生成音频必须重新做文件/PCM 哈希、文本筛选与独立审核，不能沿用旧人工收据。
 
-## 迁入已有批次
+## 历史一次性迁入
 
-`python3 -m tools.codex_assets import-existing --source-root /path/to/kws-pipeline --scripts-root /path/to/historical-scripts --dry-run` 可只读验证本次迁入输入。去掉 `--dry-run` 只适用于尚无 catalog 的新仓初始化；工具拒绝覆盖已发布 catalog。通常消费者只需运行 `verify`。
+`import-existing` 只用于首批 42 条迁入、生成 catalog v1，已从当前工具退役。
+需要重放该历史过程时，checkout `8e1de6081fe675fbf45afeaf09d7a644cc298f6c` 并使用其 README 和命令；不要在当前已归档批次上重跑导入。历史生成脚本与哈希仍保留。
+
+当前消费者仅使用 `verify` 与 `export`，见[资产架构](../../docs/ASSET_ARCHITECTURE.md)。

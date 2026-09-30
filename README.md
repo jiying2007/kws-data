@@ -18,9 +18,11 @@ cd kws-data
 python3 -m tools.codex_assets verify
 ```
 
-`catalog.json` 固定各批 manifest、收据和切分文件的 SHA-256。核验工具检查全部音频格式、文件/PCM 哈希、标签与审核覆盖、重复 PCM、跨批声线切分一致性及生成脚本身份。工具没有第三方依赖，Python 3.8+ 可运行；TTS 推理环境另见生成配方。
+`catalog.json` v2 是唯一目录，固定各批 manifest、收据和切分文件的 SHA-256，并引用结构化来源/权利、审核与切分规则。核验工具检查全部音频格式、文件/PCM 哈希、标签与审核覆盖、重复 PCM、跨批声线切分一致性及生成脚本身份。工具没有第三方依赖，Python 3.8+ 可运行；TTS 推理环境另见生成配方。
 
 训练加载时读取 `manifest.json` 的 `recordings`，将 `path` 相对于该数据集目录解析。`splits.json` 固定开发切分：Vivian、Uncle_Fu、Dylan 为训练声线；Serena 为开发 A；Eric 为开发 B。同一声线的新增 seed 或增强派生必须沿用切分。音频只有整段文本标签，没有可靠逐词/音素结束时刻，不应把音频末尾直接当作唤醒词结束帧。
+
+长期消费使用 `python3 -m tools.codex_assets export`，必须指定已固定的完整数据 commit、catalog SHA-256 和数据集 ID。只在干净 checkout 导出；保留原生 split/审核类型，不发明 token 或词尾时刻。详见[资产架构与固定消费](docs/ASSET_ARCHITECTURE.md)。
 
 ## 内容入口
 

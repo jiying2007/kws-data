@@ -29,3 +29,7 @@
 运行 `python3 -m tools.codex_assets verify`。将失败视为数据版本不可消费，先定位缺文件、格式、hash、收据或切分原因。训练端需要绑定本仓 Git commit 与 catalog SHA-256，并自行生成该算法所需 token 标签；本仓文本真值不绑定某个四 token 或整词 token 模型。
 
 现有文本标签没有词结束时间；需要事件帧监督时另生成并人工/强制对齐验证，记录对齐器身份和时间误差。用唤醒模型自己的事件作为语音标签会形成循环验证，应保留独立转写/审核证据。
+
+## 当前 catalog v2
+
+来源、审核和声线切分规则现在由 catalog 的 source/review/split 配置提供；验证器不再把五个名字或某个 ASR hash 写死为全仓规则。split 的已观察状态和资格禁用也实际校验。当前支持范围仍是公开合成开发资产，扩展新类别需具体 schema/测试审查。固定消费使用唯一 exporter，见[资产架构](ASSET_ARCHITECTURE.md)。
