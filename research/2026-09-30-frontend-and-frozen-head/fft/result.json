@@ -1,0 +1,319 @@
+{
+  "scope": "Two fixed 400-sample windows only; frontend-only diagnosis, no model/full-clip inference or numerical-gate changes",
+  "preflight_sha256": "a5540f1de9d78700bcef6a7b0174f7ad1908c30adde04ec4eaf13f8a5cad269d",
+  "executed_script_sha256": "d8795523771c78fec1bb573a8f493cfb86dcb20eeb9f6947346b70b44a8435c4",
+  "summary_script_sha256": "ae58dd21638d0f3ece1feb280ffabf23221779fc4362ded5a1e13c93a433a4f9",
+  "compiler": {
+    "script_sha256": "d8795523771c78fec1bb573a8f493cfb86dcb20eeb9f6947346b70b44a8435c4",
+    "compiler_path": "/usr/bin/x86_64-linux-gnu-gcc-14",
+    "compiler_sha256": "a23ecab8ff08f09ad8c80602c2c5df7f49e09c25905cb8975902e101bf72635f",
+    "compiler_version": "x86_64-linux-gnu-gcc-14 (Debian 14.2.0-19) 14.2.0\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+    "torch": "2.13.0+cpu",
+    "numpy": "2.5.2"
+  },
+  "library_sha256": "7b6667de2deae0066effab362c01b6321c25a25baa9afd9e09de9899ebc1f798",
+  "traces_sha256": "c0136ae5923df7b8a041039c4d8f3b69d327eb4728cb9be0d007800b89723bd4",
+  "execution_note": "One frontend execution completed and saved all traces; original final JSON serialization failed on numpy.float32. This script summarizes existing arrays only; no repeated frontend execution.",
+  "cases": [
+    {
+      "case": {
+        "recording": "qwen3-closure-serena-kw2-s6202",
+        "source_path": "/workspace/shared/kws-data-pinned/datasets/qwen3-holdout-asr-v1/audio/qwen3-closure-serena-kw2-s6202.wav",
+        "source_sha256": "092d92d244b98b70de25f7f87583242659791ecf1d4a6fad49e8605724e8b495",
+        "source_pcm_sha256": "96e97a982e2c5b3a836c25567d429185c440d3717e0a14eb57d3c07b736127ec",
+        "window_path": "inputs/01.pcm16le",
+        "window_sha256": "3950b14a0e9d7d475fd46e4d20b46566837d1ae6bf64e0636aa83aee02014418",
+        "frame": 91,
+        "start_sample": 14560,
+        "end_sample": 14960,
+        "call": 3,
+        "row": 3,
+        "mel": 4,
+        "fft_bins": [
+          4,
+          5
+        ],
+        "archives": {
+          "reference": {
+            "path": "/workspace/shared/kws-fsmn-pcm-diagnostic-v1/reference/raw-01.npz",
+            "sha256": "c61097ef394e212954765a04a7831757026cff2d9273fad6d05088843b74f2ac"
+          },
+          "native": {
+            "path": "/workspace/shared/kws-fsmn-pcm-diagnostic-v1/native/raw-01.npz",
+            "sha256": "7d80695f51386ace4e55a0fa3b949c7084fd0b036366bf226e37e8d1e7c8be4d"
+          }
+        }
+      },
+      "historical_reproduction": {
+        "reference": {
+          "all80_bit_exact": true,
+          "max_abs": 0.0,
+          "selected_old": 1.2436106204986572,
+          "selected_now": 1.2436106204986572
+        },
+        "native": {
+          "all80_bit_exact": true,
+          "max_abs": 0.0,
+          "selected_old": 1.2423732280731201,
+          "selected_now": 1.2423732280731201
+        }
+      },
+      "layers": {
+        "dc": {
+          "different_elements": 0,
+          "max_abs": 0.0,
+          "first_difference": null
+        },
+        "preemphasis": {
+          "different_elements": 0,
+          "max_abs": 0.0,
+          "first_difference": null
+        },
+        "windowed": {
+          "different_elements": 0,
+          "max_abs": 0.0,
+          "first_difference": null
+        },
+        "power": {
+          "different_elements": 240,
+          "max_abs": 192.0,
+          "first_difference": 1
+        },
+        "mel": {
+          "different_elements": 73,
+          "max_abs": 256.0,
+          "first_difference": 0
+        },
+        "logfbank": {
+          "different_elements": 52,
+          "max_abs": 0.0012373924255371094,
+          "first_difference": 0
+        }
+      },
+      "fft": [
+        {
+          "bin": 4,
+          "python": [
+            -0.520751953125,
+            -2.578125
+          ],
+          "c": [
+            -0.5205078125,
+            -2.576171875
+          ],
+          "dft_python_window": [
+            -0.5210403023015545,
+            -2.577053676927572
+          ],
+          "dft_c_window": [
+            -0.5210403023015545,
+            -2.577053676927572
+          ],
+          "python_abs_error_own_dft": 0.0011094495811600283,
+          "c_abs_error_own_dft": 0.0010301068042826054,
+          "python_power": 6.917911529541016,
+          "c_power": 6.907589912414551
+        },
+        {
+          "bin": 5,
+          "python": [
+            1.111328125,
+            -0.451171875
+          ],
+          "c": [
+            1.1114501953125,
+            -0.451171875
+          ],
+          "dft_python_window": [
+            1.1107627543669492,
+            -0.45132505274781043
+          ],
+          "dft_c_window": [
+            1.1107627543669492,
+            -0.45132505274781043
+          ],
+          "python_abs_error_own_dft": 0.0005857536812864148,
+          "c_abs_error_own_dft": 0.0007042999900923704,
+          "python_power": 1.4386062622070312,
+          "c_power": 1.4388775825500488
+        }
+      ],
+      "mel_weights": [
+        [
+          4,
+          0.4251501262187958
+        ],
+        [
+          5,
+          0.3663003742694855
+        ]
+      ],
+      "energies": {
+        "python": {
+          "stored_mel": 3.4681129455566406,
+          "stored_log": 1.2436106204986572,
+          "double_sum_saved_power": 3.4681129722276864,
+          "double_dft_mel": 3.465482917791718,
+          "double_dft_log": 1.2428519931448005
+        },
+        "c": {
+          "stored_mel": 3.4638242721557617,
+          "stored_log": 1.2423732280731201,
+          "double_sum_saved_power": 3.463824120146782,
+          "double_dft_mel": 3.465482917791718,
+          "double_dft_log": 1.2428519931448005
+        }
+      }
+    },
+    {
+      "case": {
+        "recording": "qwen3-closure-uncle_fu-kw2-s4110",
+        "source_path": "/workspace/shared/kws-data-pinned/datasets/qwen3-train-asr-v1/audio/qwen3-closure-uncle_fu-kw2-s4110.wav",
+        "source_sha256": "65ad1baea9fd9bc50b2f2c281904969fe75634f2bb25e777edcc7557c50361ed",
+        "source_pcm_sha256": "6ceda4e0018711f493b70008f1cd17797f4a528f3e3a7a1997fe229454af8b07",
+        "window_path": "inputs/12.pcm16le",
+        "window_sha256": "45c9f1463e828fbff4c6781b6efa272124978abfedc0c6f8735233da873c1486",
+        "frame": 269,
+        "start_sample": 43040,
+        "end_sample": 43440,
+        "call": 9,
+        "row": 1,
+        "mel": 9,
+        "fft_bins": [
+          8,
+          9
+        ],
+        "archives": {
+          "reference": {
+            "path": "/workspace/shared/kws-fsmn-pcm-diagnostic-v1/reference/raw-12.npz",
+            "sha256": "039f8d5f1706ec3549848ac20d89134aa5b028ff6803e4ba79e05a8b6b88e03b"
+          },
+          "native": {
+            "path": "/workspace/shared/kws-fsmn-pcm-diagnostic-v1/native/raw-12.npz",
+            "sha256": "affef8229042650ae7f457faba930c8e85099f77f783902247608ba12f83c8d8"
+          }
+        }
+      },
+      "historical_reproduction": {
+        "reference": {
+          "all80_bit_exact": false,
+          "max_abs": 9.5367431640625e-07,
+          "selected_old": 4.281309127807617,
+          "selected_now": 4.281309127807617
+        },
+        "native": {
+          "all80_bit_exact": true,
+          "max_abs": 0.0,
+          "selected_old": 4.282323837280273,
+          "selected_now": 4.282323837280273
+        }
+      },
+      "layers": {
+        "dc": {
+          "different_elements": 0,
+          "max_abs": 0.0,
+          "first_difference": null
+        },
+        "preemphasis": {
+          "different_elements": 0,
+          "max_abs": 0.0,
+          "first_difference": null
+        },
+        "windowed": {
+          "different_elements": 0,
+          "max_abs": 0.0,
+          "first_difference": null
+        },
+        "power": {
+          "different_elements": 234,
+          "max_abs": 1024.0,
+          "first_difference": 1
+        },
+        "mel": {
+          "different_elements": 73,
+          "max_abs": 1536.0,
+          "first_difference": 0
+        },
+        "logfbank": {
+          "different_elements": 46,
+          "max_abs": 0.00101470947265625,
+          "first_difference": 0
+        }
+      },
+      "fft": [
+        {
+          "bin": 8,
+          "python": [
+            -8.76123046875,
+            -16.03125
+          ],
+          "c": [
+            -8.759765625,
+            -16.0322265625
+          ],
+          "dft_python_window": [
+            -8.760471025302007,
+            -16.03344002775209
+          ],
+          "dft_c_window": [
+            -8.760471025302007,
+            -16.03344002775209
+          ],
+          "python_abs_error_own_dft": 0.002317968055349555,
+          "c_abs_error_own_dft": 0.0014035980564602315,
+          "python_power": 333.7601623535156,
+          "c_power": 333.7657775878906
+        },
+        {
+          "bin": 9,
+          "python": [
+            4.6142578125,
+            -7.208984375
+          ],
+          "c": [
+            4.6181640625,
+            -7.2119140625
+          ],
+          "dft_python_window": [
+            4.616729375340709,
+            -7.209885737438626
+          ],
+          "dft_c_window": [
+            4.616729375340709,
+            -7.209885737438626
+          ],
+          "python_abs_error_own_dft": 0.0026307940096744224,
+          "c_abs_error_own_dft": 0.002484437521781105,
+          "python_power": 73.26082611083984,
+          "c_power": 73.33914184570312
+        }
+      ],
+      "mel_weights": [
+        [
+          8,
+          0.01109082717448473
+        ],
+        [
+          9,
+          0.9368360638618469
+        ]
+      ],
+      "energies": {
+        "python": {
+          "stored_mel": 72.3350601196289,
+          "stored_log": 4.281309127807617,
+          "double_sum_saved_power": 72.33506024733722,
+          "double_dft_mel": 72.3692452562058,
+          "double_dft_log": 4.281781419864221
+        },
+        "c": {
+          "stored_mel": 72.40849304199219,
+          "stored_log": 4.282323837280273,
+          "double_sum_saved_power": 72.40849152971899,
+          "double_dft_mel": 72.3692452562058,
+          "double_dft_log": 4.281781419864221
+        }
+      }
+    }
+  ]
+}

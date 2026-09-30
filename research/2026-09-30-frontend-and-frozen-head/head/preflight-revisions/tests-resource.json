@@ -1,0 +1,39 @@
+{
+  "action": "tests",
+  "child_CPU_seconds": 2.895394,
+  "effective_memory_at_launch": 8879427584,
+  "environment_allowlist": {
+    "BLIS_NUM_THREADS": "1",
+    "CUDA_VISIBLE_DEVICES": "",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "exit_code": 1,
+  "finite_cgroup_limit_visible": false,
+  "guard_scope": "child process group plus process RLIMIT_CPU; Python main is sole permitted process; sampled RSS/CPU may overshoot; no SSC305 inference",
+  "limits": {
+    "cpu_seconds_process_group": 600,
+    "minimum_available_bytes": 1073741824,
+    "minimum_launch_available_bytes": 3221225472,
+    "monitor_interval_seconds": 0.1,
+    "rlimit_cpu_hard": 605,
+    "rlimit_cpu_soft": 600,
+    "rss_bytes": 2147483648,
+    "termination_grace_seconds": 3,
+    "wall_seconds": 900
+  },
+  "peak_sampled": {
+    "cpu_seconds": 2.87,
+    "processes": 1,
+    "rss_bytes": 305397760,
+    "threads": 1
+  },
+  "stop_reason": null,
+  "success": false,
+  "wall_seconds": 3.1285641159993247
+}

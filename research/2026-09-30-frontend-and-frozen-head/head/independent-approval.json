@@ -1,0 +1,22 @@
+{
+  "approved": true,
+  "preflight_lock_sha256": "247337d462b9fe0173ddc85bb8832ef5983e2b8f3c1778ca3f27aa88101c963d",
+  "reviewer": "review_kws_evaluation_patch",
+  "scope": "Parent-authorized single fixed P/R frozen Python encoder and 282-parameter clip BCE head experiment; 44 TRAIN rows, 100 updates per arm, fixed 0.5 threshold; no sweep or retry",
+  "reviewed": [
+    "Exact source/runtime/dataset/initialization lock bindings",
+    "12 human-reviewed Qwen TRAIN plus recipe-specific 32 FLEURS source-transcript absence labels; original admitted=false unchanged",
+    "Independent shared head seed, frozen encoders and same donor CMVN",
+    "Train-only per-arm normalization; initial eight emitted frames excluded; no extra EOF padding",
+    "Development inference only after both heads finish training; two-output exact-bit and unweighted BCE gates",
+    "Launcher git pre/postchecks outside monitored sole-process worker; 600-second CPU budget and watchdog",
+    "Synthetic test/preflight successful receipts; no real-corpus result observed during review"
+  ],
+  "limitations": [
+    "Observed development only, corpus/style confounding remains",
+    "Source-provided absence is not human-reviewed transcript truth",
+    "Prior CTC/distillation/native numerical failures remain unchanged",
+    "Not streaming/FAR/device/product qualification"
+  ],
+  "authorization_source": "Parent explicit task-specific approval relayed on 2026-09-30; this receipt records independent preflight review, not new scope authorization"
+}
