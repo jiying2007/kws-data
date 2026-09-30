@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/shared/kws-frozen-keyword-head/experiment.py", line 376, in <module>
+    try:globals()[args.action]()
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/shared/kws-frozen-keyword-head/experiment.py", line 266, in preflight
+    'runtime':runtime(),'train_recording_order':[r['recording'] for r in train]}
+              ^^^^^^^^^
+  File "/workspace/shared/kws-frozen-keyword-head/experiment.py", line 232, in runtime
+    selected=[sys.executable,torch.__file__,np.__file__,torch.nn.modules.linear.__file__,torch.nn.modules.conv.__file__,torch.optim.adamw.__file__,torch.nn.functional.__file__]
+                                                                                                                        ^^^^^^^^^^^^^^^^^
+AttributeError: module 'torch.optim' has no attribute 'adamw'. Did you mean: 'AdamW'?

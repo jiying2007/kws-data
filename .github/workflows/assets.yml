@@ -38,6 +38,10 @@ jobs:
         run: python3 research/2026-09-30-full-fsmn-numeric-alignment/verify.py
       - name: Test full FSMN archive rejection rules
         run: python3 research/2026-09-30-full-fsmn-numeric-alignment/test_verify.py
+      - name: Verify frontend diagnosis and frozen-head evidence
+        run: python3 research/2026-09-30-frontend-and-frozen-head/verify.py
+      - name: Test frontend and frozen-head archive rejection rules
+        run: python3 research/2026-09-30-frontend-and-frozen-head/test_verify.py
       - name: Export pinned native consumer receipt
         run: |
           python3 -m tools.codex_assets export \
