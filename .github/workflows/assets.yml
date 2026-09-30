@@ -1,0 +1,29 @@
+name: Asset integrity
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Verify all catalog assets
+        run: python3 -m tools.codex_assets verify
+      - name: Test rejected mutations and consumer contract
+        run: python3 -m unittest discover -s tests -v
+      - name: Export pinned native consumer receipt
+        run: |
+          python3 -m tools.codex_assets export \
+            --dataset qwen3-xiaowo-reviewed-development-20260928 \
+            --expected-commit "$(git rev-parse HEAD)" \
+            --expected-catalog-sha256 "$(sha256sum catalog.json | cut -d' ' -f1)" \
+            > "$RUNNER_TEMP/kws-data-consumer.json"
+      - name: Check whitespace
+        run: git diff --check
