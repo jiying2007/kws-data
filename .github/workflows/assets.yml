@@ -30,6 +30,10 @@ jobs:
         run: python3 research/2026-09-30-compact-head-distillation/verify.py
       - name: Test compact-head archive rejection rules
         run: python3 research/2026-09-30-compact-head-distillation/test_verify.py
+      - name: Verify retained source-neighbor evidence
+        run: python3 research/2026-09-30-himia-source-neighbors/verify.py
+      - name: Test source-neighbor evidence rejection rules
+        run: python3 research/2026-09-30-himia-source-neighbors/test_verify.py
       - name: Export pinned native consumer receipt
         run: |
           python3 -m tools.codex_assets export \
