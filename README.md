@@ -20,6 +20,7 @@
 | [轻量 CNN/FSMN 四运行负结果](research/2026-09-30-lightweight-clip-learnability/README.md) · [完整结果](research/2026-09-30-lightweight-clip-learnability/RESULTS.md) | 各运行仅命中人工审核开发正例的 1/4 或 2/4；跨声线双词目标未达到，已停止追加训练 | 保存失败证据与自产研究权重，没有提升为产品候选；整片预测与事件指标不能混用 |
 | [云端 CPU / 内存 / I/O 测量](reports/host-resource-profiles-20260930/README.md) | 冻结 C、cFSMN、sherpa FP32/INT8 与轻量 A/B 的测量范围、时序和资源证据 | x86 host-only，未测 SSC305；各路径计时范围不同，不直接排名。CPU/I/O 优先，模型/RAM 可调整；单核 5%/10% 只是待确认预算建议 |
 | [紧凑输出头蒸馏失败档案](research/2026-09-30-compact-head-distillation/README.md) | 保留开发集 teacher 的 3 条命中，但四个目标类误差均未通过固定保真门，已停止该候选 | 仅保存本次训练的 846 参数 head；冻结 donor 按来源、许可与 SHA 重建，不重复发布整块预训练权重。失败、数值报表异常及缺失统计均保留 |
+| [完整 FSMN 数值诊断与固定原生成本](research/2026-09-30-full-fsmn-numeric-alignment/README.md) | 旧 B / 实际 PCM 严格数值门仍失败；非分数事件字段一致，34 条触发分数存在微小差异；后续 x86 固定原生测量 RTF 0.024435（235.68 s） | 全层传播界过宽，不证明保真；保留全部原始标量报告，未发布 donor 权重/大数组；不是 SSC305 或产品验收 |
 
 新增[源标注近邻与单线程配置回读](research/2026-09-30-himia-source-neighbors/README.md)：相同历史7006片三模型均零事件，Qwen正例仍为0/20、19/20、11/20；sherpa API1重复保持全部事件，实测worker采样均1线程。仅12种弱文本、已观察开发素材，非连续家庭FAR；主机CPU成本与部署边界见原报告。
 

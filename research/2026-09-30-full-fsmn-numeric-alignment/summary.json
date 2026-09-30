@@ -1,0 +1,296 @@
+{
+  "schema_version": 1,
+  "scope": "retained scalar reports, event records and x86 timing only; no inference or NPZ reconstruction",
+  "history": {
+    "old_B_variants": {
+      "v1": {
+        "checks": 264,
+        "failed_checks": 33
+      },
+      "v2": {
+        "checks": 264,
+        "failed_checks": 35
+      },
+      "double-diagnostic": {
+        "checks": 264,
+        "failed_checks": 29
+      }
+    },
+    "full_oracle_records": 132,
+    "full_oracle_cache_records": 12,
+    "full_oracle_B_failing_records": 27,
+    "full_oracle_max_envelope": 2308069467687359.5,
+    "envelope_establishes_fidelity": false
+  },
+  "pcm": {
+    "conditions": {
+      "raw": {
+        "clips": 42,
+        "positive_clips": 20,
+        "target_hits": 11,
+        "confusable_clips": 22,
+        "confusable_triggered_clips": 0
+      },
+      "tail500ms": {
+        "clips": 42,
+        "positive_clips": 20,
+        "target_hits": 11,
+        "confusable_clips": 22,
+        "confusable_triggered_clips": 0
+      },
+      "head500ms_tail500ms": {
+        "clips": 42,
+        "positive_clips": 20,
+        "target_hits": 12,
+        "confusable_clips": 22,
+        "confusable_triggered_clips": 0
+      }
+    },
+    "score_different_recordings": 34,
+    "max_score_difference": 2.694541942516171e-06,
+    "full_fields_events_exact": false,
+    "non_score_event_fields_exact": true,
+    "reported_per_element_metrics": {
+      "cache": {
+        "elements": 5907968,
+        "fail_elements": 35838,
+        "failing_calls": 1027,
+        "failing_recordings": 126,
+        "max_abs": 0.00213623046875
+      },
+      "cmvn": {
+        "elements": 3929200,
+        "fail_elements": 0,
+        "failing_calls": 0,
+        "failing_recordings": 0,
+        "max_abs": 0.0001863241195678711
+      },
+      "fbank": {
+        "elements": 2368160,
+        "fail_elements": 6,
+        "failing_calls": 6,
+        "failing_recordings": 6,
+        "max_abs": 0.0012373924255371094
+      },
+      "logits": {
+        "elements": 25529977,
+        "fail_elements": 6126,
+        "failing_calls": 63,
+        "failing_recordings": 42,
+        "max_abs": 0.005767822265625
+      },
+      "probabilities": {
+        "elements": 25529977,
+        "fail_elements": 0,
+        "failing_calls": 0,
+        "failing_recordings": 0,
+        "max_abs": 8.046627044677734e-06
+      },
+      "splice": {
+        "elements": 3929200,
+        "fail_elements": 11,
+        "failing_calls": 6,
+        "failing_recordings": 6,
+        "max_abs": 0.0012373924255371094
+      },
+      "stage0": {
+        "elements": 1375220,
+        "fail_elements": 326,
+        "failing_calls": 41,
+        "failing_recordings": 22,
+        "max_abs": 0.00021708011627197266
+      },
+      "stage1": {
+        "elements": 2455750,
+        "fail_elements": 5926,
+        "failing_calls": 207,
+        "failing_recordings": 105,
+        "max_abs": 0.001800537109375
+      },
+      "stage10": {
+        "elements": 2455750,
+        "fail_elements": 2611,
+        "failing_calls": 421,
+        "failing_recordings": 117,
+        "max_abs": 0.002017974853515625
+      },
+      "stage11": {
+        "elements": 1257344,
+        "fail_elements": 9812,
+        "failing_calls": 834,
+        "failing_recordings": 126,
+        "max_abs": 0.001800537109375
+      },
+      "stage12": {
+        "elements": 1257344,
+        "fail_elements": 399,
+        "failing_calls": 78,
+        "failing_recordings": 35,
+        "max_abs": 0.0008220672607421875
+      },
+      "stage13": {
+        "elements": 2455750,
+        "fail_elements": 982,
+        "failing_calls": 169,
+        "failing_recordings": 67,
+        "max_abs": 0.002197265625
+      },
+      "stage14": {
+        "elements": 2455750,
+        "fail_elements": 431,
+        "failing_calls": 127,
+        "failing_recordings": 58,
+        "max_abs": 0.001861572265625
+      },
+      "stage15": {
+        "elements": 1257344,
+        "fail_elements": 879,
+        "failing_calls": 165,
+        "failing_recordings": 69,
+        "max_abs": 0.0013427734375
+      },
+      "stage16": {
+        "elements": 1257344,
+        "fail_elements": 12,
+        "failing_calls": 10,
+        "failing_recordings": 10,
+        "max_abs": 0.00045013427734375
+      },
+      "stage17": {
+        "elements": 2455750,
+        "fail_elements": 282,
+        "failing_calls": 95,
+        "failing_recordings": 66,
+        "max_abs": 0.003692626953125
+      },
+      "stage18": {
+        "elements": 2455750,
+        "fail_elements": 152,
+        "failing_calls": 86,
+        "failing_recordings": 62,
+        "max_abs": 0.0035400390625
+      },
+      "stage19": {
+        "elements": 1375220,
+        "fail_elements": 3140,
+        "failing_calls": 289,
+        "failing_recordings": 118,
+        "max_abs": 0.0032196044921875
+      },
+      "stage2": {
+        "elements": 2455750,
+        "fail_elements": 1239,
+        "failing_calls": 166,
+        "failing_recordings": 93,
+        "max_abs": 0.0013153553009033203
+      },
+      "stage20": {
+        "elements": 25529977,
+        "fail_elements": 6126,
+        "failing_calls": 63,
+        "failing_recordings": 42,
+        "max_abs": 0.005767822265625
+      },
+      "stage3": {
+        "elements": 1257344,
+        "fail_elements": 7974,
+        "failing_calls": 508,
+        "failing_recordings": 118,
+        "max_abs": 0.0020570755004882812
+      },
+      "stage4": {
+        "elements": 1257344,
+        "fail_elements": 1055,
+        "failing_calls": 93,
+        "failing_recordings": 54,
+        "max_abs": 0.0004324913024902344
+      },
+      "stage5": {
+        "elements": 2455750,
+        "fail_elements": 8060,
+        "failing_calls": 570,
+        "failing_recordings": 120,
+        "max_abs": 0.00238037109375
+      },
+      "stage6": {
+        "elements": 2455750,
+        "fail_elements": 2847,
+        "failing_calls": 302,
+        "failing_recordings": 115,
+        "max_abs": 0.001373291015625
+      },
+      "stage7": {
+        "elements": 1257344,
+        "fail_elements": 13487,
+        "failing_calls": 857,
+        "failing_recordings": 126,
+        "max_abs": 0.00213623046875
+      },
+      "stage8": {
+        "elements": 1257344,
+        "fail_elements": 1585,
+        "failing_calls": 120,
+        "failing_recordings": 59,
+        "max_abs": 0.00074005126953125
+      },
+      "stage9": {
+        "elements": 2455750,
+        "fail_elements": 6177,
+        "failing_calls": 596,
+        "failing_recordings": 123,
+        "max_abs": 0.002017974853515625
+      }
+    },
+    "reported_probability_row_sum_max_error": 2.181402831702428e-06,
+    "tensor_arrays_independently_recomputed": false
+  },
+  "profile": {
+    "passes": 3,
+    "clips_per_pass": 42,
+    "audio_seconds": 235.68,
+    "pipeline_cpu_seconds": 5.758814368,
+    "pipeline_wall_seconds": 5.734398696,
+    "pipeline_cpu_RTF": 0.024434887847929396,
+    "component_cpu_ns": {
+      "callback_copy": 8003267,
+      "frontend_splice_inclusive": 152644713,
+      "model_including_cmvn": 5201670355,
+      "python_decoder": 172264473,
+      "standalone_cmvn_micro": 60044159,
+      "torch_softmax": 27976982
+    },
+    "disjoint_component_cpu_ns": 5554556523,
+    "clip_initialization_cpu_ns_outside_pipeline": 74619186,
+    "pass_io_deltas": [
+      {
+        "rchar": 106,
+        "wchar": 0,
+        "syscr": 2,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      {
+        "rchar": 106,
+        "wchar": 0,
+        "syscr": 2,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      },
+      {
+        "rchar": 106,
+        "wchar": 0,
+        "syscr": 2,
+        "syscw": 0,
+        "read_bytes": 0,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      }
+    ],
+    "SSC305_measured": false,
+    "numerically_qualified": false
+  }
+}
