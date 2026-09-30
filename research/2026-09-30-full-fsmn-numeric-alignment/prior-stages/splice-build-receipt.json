@@ -1,0 +1,81 @@
+{
+  "artifacts": {
+    "libdonor_splice.so": "fee277477850ba9bde8d327af7b16e38817974a23e529ef7362fd3daaa7278de",
+    "libdonor_splice_sanitize.so": "d607284e4c9e2ede3abc341d293ad1467afc551482235460be23405a682bd35b",
+    "result.json": "81c919995c55b387f56be53bdea10cd1e0e876049380dcbf5ca530ac26363d11",
+    "sanitize-result.json": "8b3f2416dacbd48395c593b5d7a070b61b1ea7e95ae107f09c8df826977a58ff"
+  },
+  "base_commit": "e4a280c6a2b655818e525339416a1caf42bd2db6",
+  "chronology": "Actual source tagged-fbank goldens were saved first; initial normal C output passed; then sanitizer C output passed; no oracle regeneration",
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "golden_receipt_sha256": "f3796ebc9bc1a891720ba17b8a385fc7035b8cfce1c4bddd83d03d1d9628a4d1",
+  "leak_sanitizer": "disabled for Python host; no leak-clean claim",
+  "normal_flags": [
+    "-O2",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic",
+    "-Wconversion",
+    "-Wshadow",
+    "-Wcast-qual",
+    "-Werror",
+    "-ffp-contract=off",
+    "-fPIC",
+    "-shared"
+  ],
+  "normal_tests": {
+    "calls": 67,
+    "cases": 29,
+    "errors": 0,
+    "failures": 0,
+    "golden_receipt_sha256": "f3796ebc9bc1a891720ba17b8a385fc7035b8cfce1c4bddd83d03d1d9628a4d1",
+    "library_sha256": "fee277477850ba9bde8d327af7b16e38817974a23e529ef7362fd3daaa7278de",
+    "numeric_gate": "exact bytes and discrete state, no tolerance",
+    "passed": true,
+    "scope": "synthetic tagged-fbank source parity; external PCM accounting only",
+    "test_runner_sha256": "f4c4a72bf3741a37a253ead5cdc8550641aaba45816793322d868e2bfe5c6174",
+    "tests": 8
+  },
+  "sanitizer_environment": {
+    "ASAN_OPTIONS": "detect_leaks=0:halt_on_error=1",
+    "LD_PRELOAD": "/usr/lib/gcc/x86_64-linux-gnu/14/libasan.so",
+    "UBSAN_OPTIONS": "halt_on_error=1"
+  },
+  "sanitizer_flags": [
+    "-O1",
+    "-g",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic",
+    "-Wconversion",
+    "-Wshadow",
+    "-Wcast-qual",
+    "-Werror",
+    "-ffp-contract=off",
+    "-fno-omit-frame-pointer",
+    "-fsanitize=address,undefined",
+    "-fPIC",
+    "-shared"
+  ],
+  "sanitizer_tests": {
+    "calls": 67,
+    "cases": 29,
+    "errors": 0,
+    "failures": 0,
+    "golden_receipt_sha256": "f3796ebc9bc1a891720ba17b8a385fc7035b8cfce1c4bddd83d03d1d9628a4d1",
+    "library_sha256": "d607284e4c9e2ede3abc341d293ad1467afc551482235460be23405a682bd35b",
+    "numeric_gate": "exact bytes and discrete state, no tolerance",
+    "passed": true,
+    "scope": "synthetic tagged-fbank source parity; external PCM accounting only",
+    "test_runner_sha256": "f4c4a72bf3741a37a253ead5cdc8550641aaba45816793322d868e2bfe5c6174",
+    "tests": 8
+  },
+  "scope": "Isolated feature-level splice/skip/reference-call plan, exact tagged-fbank source parity; no corpus/model/decoder inference",
+  "sources": {
+    "research/donor_fsmn/splice.c": "d0b9a7207ae9aad5b99e7cc1f3d11476f4d53bef66eeb7c630c430dd7831fee0",
+    "research/donor_fsmn/splice.h": "33c47cbb20f65caa3b3d1abe41409d2b6b48467ca2a727db0e6edcb53cd7d861",
+    "research/donor_fsmn/tests/test_splice.py": "f4c4a72bf3741a37a253ead5cdc8550641aaba45816793322d868e2bfe5c6174"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "cases": [
+    {
+      "frames": 9,
+      "input": "zero",
+      "offset": 0,
+      "prefix": "zero_whole_0",
+      "reset": true
+    },
+    {
+      "frames": 1,
+      "input": "zero",
+      "offset": 0,
+      "prefix": "zero_split_0",
+      "reset": true
+    },
+    {
+      "frames": 8,
+      "input": "zero",
+      "offset": 1,
+      "prefix": "zero_split_1",
+      "reset": false
+    },
+    {
+      "frames": 17,
+      "input": "impulse",
+      "offset": 0,
+      "prefix": "impulse_whole_0",
+      "reset": true
+    },
+    {
+      "frames": 1,
+      "input": "impulse",
+      "offset": 0,
+      "prefix": "impulse_split_0",
+      "reset": true
+    },
+    {
+      "frames": 16,
+      "input": "impulse",
+      "offset": 1,
+      "prefix": "impulse_split_1",
+      "reset": false
+    },
+    {
+      "frames": 37,
+      "input": "random",
+      "offset": 0,
+      "prefix": "random_whole_0",
+      "reset": true
+    },
+    {
+      "frames": 1,
+      "input": "random",
+      "offset": 0,
+      "prefix": "random_split_0",
+      "reset": true
+    },
+    {
+      "frames": 3,
+      "input": "random",
+      "offset": 1,
+      "prefix": "random_split_1",
+      "reset": false
+    },
+    {
+      "frames": 9,
+      "input": "random",
+      "offset": 4,
+      "prefix": "random_split_2",
+      "reset": false
+    },
+    {
+      "frames": 8,
+      "input": "random",
+      "offset": 13,
+      "prefix": "random_split_3",
+      "reset": false
+    },
+    {
+      "frames": 16,
+      "input": "random",
+      "offset": 21,
+      "prefix": "random_split_4",
+      "reset": false
+    }
+  ],
+  "driver_sha256": "498af9c026d6172fc1fe92616d2edc2c0cc848dae2f410bcef3822912eb8cbd0",
+  "gate": {
+    "atol": 0.0001,
+    "rtol": 1e-05
+  },
+  "generator_sha256": "8cce25b1218b3d3d925ba8f161bcbd2ce5798a0a92080d3bff8aca6a046002e6",
+  "goldens_sha256": "123749c14df166917169a887310a656a9735c429049a107d1980e669f22b96dc",
+  "numpy": "2.5.2",
+  "range": [
+    -1,
+    1
+  ],
+  "schema": 1,
+  "scope": "synthetic-only; no corpus inference; weights local-only",
+  "seed": 734,
+  "torch": "2.13.0+cpu",
+  "weights_manifest_sha256": "3ab46a8bdde14708e3a2f390b96be6b33dd3d752acf6d6ed449a83dde22bacf5"
+}
