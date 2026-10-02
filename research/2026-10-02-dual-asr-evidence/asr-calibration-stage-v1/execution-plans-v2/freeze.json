@@ -1,0 +1,22 @@
+{
+  "schema": "asr-local-preregistration-v2",
+  "frozen_at_utc": "2026-10-02T00:17:52.415964+00:00",
+  "plan_receipts": [
+    {
+      "name": "qwen06",
+      "plan_sha256": "0da6856b7342ad1c8f7b66dfd2a189bf4bb9fa32b9a8dc176b74a2c458df922c",
+      "contract_sha256": "3998483713ca851f6f6225830070ab75e4f9c26032aa427d26bcd46c63fb8c86"
+    },
+    {
+      "name": "sensevoice",
+      "plan_sha256": "0ec850fb323cbdd42267e9a0c695107633a3f650757bfe7d307993f8e93d61cb",
+      "contract_sha256": "6e39bc198487d833339df40a802165946c36e61ed659fc14262425c741e8586d"
+    }
+  ],
+  "manifest_sha256": "500a5fac10960bcbe3ead0be38a81f9cfe6c0b8a22e11b25cca5bb292cd86355",
+  "rules_sha256": "1495ae540c56a20de1ba78074d10f488f741acca82be9e358d2a2b4c68828f8b",
+  "code_inventory_sha256": "468ec1c259281a64868fa6b4edca3ac3e777962bef241d8613f12eb6e7e4b03f",
+  "model_forward_calls_before_freeze": 0,
+  "supersedes": "execution-plans-v1 after SenseVoice metadata-only load failure; no prior model transcript",
+  "change": "Metadata-preserving exact SenseVoice recipe; explicit nested Qwen FP32; unchanged data/order/labels/scoring"
+}

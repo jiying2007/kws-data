@@ -1,0 +1,179 @@
+{
+  "schema": "asr-calibration-completion-summary-v1",
+  "completed_utc": "2026-10-02T00:28:11.355472+00:00",
+  "audio_clips": 16,
+  "audio_seconds": 62.8,
+  "successful_model_decodes": 32,
+  "models": {
+    "qwen06": {
+      "attempted": 16,
+      "successful": 16,
+      "retries": 0,
+      "run_wall_seconds": 223.61828690499897,
+      "supervised_wall_seconds": 225.51232551799694,
+      "sampled_process_group_peak_rss_bytes": 5927325696,
+      "host_available_memory_minimum_bytes": 4508962816,
+      "cleanup_errors": [],
+      "remaining_live_group_members": []
+    },
+    "sensevoice": {
+      "attempted": 16,
+      "successful": 16,
+      "retries": 0,
+      "run_wall_seconds": 39.475912705000155,
+      "supervised_wall_seconds": 40.77596669400009,
+      "sampled_process_group_peak_rss_bytes": 2895990784,
+      "host_available_memory_minimum_bytes": 6543802368,
+      "cleanup_errors": [],
+      "remaining_live_group_members": []
+    }
+  },
+  "human_label_counts": {
+    "positive": 9,
+    "negative": 17,
+    "unknown": 6
+  },
+  "readout_sha256": "c332fd6390de1ccf5f3b21f3f6a38724721deb45e28f44d74993c2195b43bac3",
+  "manifest_sha256": "500a5fac10960bcbe3ead0be38a81f9cfe6c0b8a22e11b25cca5bb292cd86355",
+  "rules_sha256": "1495ae540c56a20de1ba78074d10f488f741acca82be9e358d2a2b4c68828f8b",
+  "per_model": [
+    {
+      "model": {
+        "model_id": "Qwen/Qwen3-ASR-0.6B",
+        "revision": "5eb144179a02acc5e5ba31e748d22b0cf3e303b0",
+        "run_id": "asr-calibration-20261002-qwen06-primary-v1"
+      },
+      "per_target": [
+        {
+          "target": "你好小窝",
+          "human_known_bits": 14,
+          "human_unknown_bits": 2,
+          "human_positive_bits": 5,
+          "human_negative_bits": 9,
+          "true_positive": 0,
+          "false_negative": 0,
+          "true_negative": 0,
+          "false_positive": 0,
+          "unknown_on_positive": 5,
+          "unknown_on_negative": 9,
+          "covered_known_bits": 0,
+          "error_bits": [],
+          "known_bit_coverage": {
+            "numerator": 0,
+            "denominator": 14,
+            "fraction": 0.0
+          }
+        },
+        {
+          "target": "小窝小窝",
+          "human_known_bits": 12,
+          "human_unknown_bits": 4,
+          "human_positive_bits": 4,
+          "human_negative_bits": 8,
+          "true_positive": 0,
+          "false_negative": 0,
+          "true_negative": 0,
+          "false_positive": 0,
+          "unknown_on_positive": 4,
+          "unknown_on_negative": 8,
+          "covered_known_bits": 0,
+          "error_bits": [],
+          "known_bit_coverage": {
+            "numerator": 0,
+            "denominator": 12,
+            "fraction": 0.0
+          }
+        }
+      ],
+      "total_known_bit_coverage": {
+        "numerator": 0,
+        "denominator": 26
+      },
+      "blocker_counts_all_32_model_target_bits": {
+        "lexicon_ambiguous_reading": 32,
+        "confusable_or_partial_target": 3
+      }
+    },
+    {
+      "model": {
+        "model_id": "FunAudioLLM/SenseVoiceSmall",
+        "revision": "3847d57b6bdf2dd8875cb1508d2af43d80a16bf7",
+        "run_id": "asr-calibration-20261002-sensevoice-primary-v2"
+      },
+      "per_target": [
+        {
+          "target": "你好小窝",
+          "human_known_bits": 14,
+          "human_unknown_bits": 2,
+          "human_positive_bits": 5,
+          "human_negative_bits": 9,
+          "true_positive": 0,
+          "false_negative": 0,
+          "true_negative": 0,
+          "false_positive": 0,
+          "unknown_on_positive": 5,
+          "unknown_on_negative": 9,
+          "covered_known_bits": 0,
+          "error_bits": [],
+          "known_bit_coverage": {
+            "numerator": 0,
+            "denominator": 14,
+            "fraction": 0.0
+          }
+        },
+        {
+          "target": "小窝小窝",
+          "human_known_bits": 12,
+          "human_unknown_bits": 4,
+          "human_positive_bits": 4,
+          "human_negative_bits": 8,
+          "true_positive": 0,
+          "false_negative": 0,
+          "true_negative": 0,
+          "false_positive": 0,
+          "unknown_on_positive": 4,
+          "unknown_on_negative": 8,
+          "covered_known_bits": 0,
+          "error_bits": [],
+          "known_bit_coverage": {
+            "numerator": 0,
+            "denominator": 12,
+            "fraction": 0.0
+          }
+        }
+      ],
+      "total_known_bit_coverage": {
+        "numerator": 0,
+        "denominator": 26
+      },
+      "blocker_counts_all_32_model_target_bits": {
+        "lexicon_ambiguous_reading": 32,
+        "confusable_or_partial_target": 13
+      }
+    }
+  ],
+  "paired": {
+    "both_covered_known_bits": 0,
+    "both_unknown_known_bits": 26,
+    "definite_disagreements": 0,
+    "one_unknown_disagreements": 0,
+    "joint_definite_errors": 0,
+    "interpretation": "All known bits are jointly unknown; zero reported definite errors/disagreements is not demonstrated correctness or agreement on audio truth"
+  },
+  "finding": "The frozen conservative text gate provides zero known-bit coverage on this selected16-clip set. Both runtime pipelines executed successfully; model accuracy and relative ranking are not established.",
+  "diagnosis": [
+    "Every model target bit has whole-transcript lexicon_ambiguous_reading blocker with full official dictionaries",
+    "Neither raw transcript contains the exact contiguous target strings; Qwen additionally outputs boundary-separated correct-character candidates on clip0014/target2 and clip0016/target1",
+    "No rules were relaxed or transcripts repaired after collection; human labels remain unchanged"
+  ],
+  "recommended_next_step": "Keep this as a completed negative calibration of the frozen text gate. Do not admit training data based on it. A new target-local evidence rule needs a separately frozen protocol and fresh independent evaluation; reanalysis of these raw outputs would be exploratory.",
+  "limitations": [
+    "Selected synthetic16clips and26known human bits, not population performance",
+    "No full human transcripts, so no CER/WER/general ASR accuracy",
+    "Dictionary phonetics are not acoustic tone/count/timing evidence",
+    "Human unknowns remain unknown; machine text does not replace gold",
+    "Offline flags/local files, not kernel network isolation; sampled process limits, not cgroups",
+    "SenseVoice native-fbank dither RNG reproducibility is not established",
+    "Qwen0.6B only; no larger-model optimality claim"
+  ]
+}

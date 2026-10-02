@@ -1,0 +1,3390 @@
+{
+  "architecture_only": {},
+  "changed": {},
+  "checkpoint_only": {
+    "encoder.rwkv_encoders": {
+      "version": 1
+    },
+    "frontend": {
+      "version": 1
+    }
+  },
+  "checkpoint_read": false,
+  "classes": [
+    {
+      "class": "funasr.models.sense_voice.model.SenseVoiceSmall",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/funasr/models/sense_voice/model.py",
+      "source_sha256": "c304214cc2b3c67c445b64b3a0e491d20de4af274be12218fc8548c768920c3f",
+      "version": 1
+    },
+    {
+      "class": "funasr.models.specaug.specaug.SpecAugLFR",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/funasr/models/specaug/specaug.py",
+      "source_sha256": "cf57e99b64e7a697c91bd3a27b5cf7e71fe33a477c11ca622661ba6d79ad81ba",
+      "version": 1
+    },
+    {
+      "class": "funasr.models.specaug.mask_along_axis.MaskAlongAxisLFR",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/funasr/models/specaug/mask_along_axis.py",
+      "source_sha256": "9e4bd182034228b69054ef1e6bc474ac74682fff69c6ca496b02249429ff154a",
+      "version": 1
+    },
+    {
+      "class": "funasr.models.sense_voice.model.SenseVoiceEncoderSmall",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/funasr/models/sense_voice/model.py",
+      "source_sha256": "c304214cc2b3c67c445b64b3a0e491d20de4af274be12218fc8548c768920c3f",
+      "version": 1
+    },
+    {
+      "class": "funasr.models.sense_voice.model.SinusoidalPositionEncoder",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/funasr/models/sense_voice/model.py",
+      "source_sha256": "c304214cc2b3c67c445b64b3a0e491d20de4af274be12218fc8548c768920c3f",
+      "version": 1
+    },
+    {
+      "class": "torch.nn.modules.container.ModuleList",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/torch/nn/modules/container.py",
+      "source_sha256": "0478b94a43b507276cc4dcd85cfbdff7fc83807f30226f575aaac69d416b658a",
+      "version": 1
+    },
+    {
+      "class": "funasr.models.sense_voice.model.EncoderLayerSANM",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/funasr/models/sense_voice/model.py",
+      "source_sha256": "c304214cc2b3c67c445b64b3a0e491d20de4af274be12218fc8548c768920c3f",
+      "version": 1
+    },
+    {
+      "class": "funasr.models.sense_voice.model.MultiHeadedAttentionSANM",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/funasr/models/sense_voice/model.py",
+      "source_sha256": "c304214cc2b3c67c445b64b3a0e491d20de4af274be12218fc8548c768920c3f",
+      "version": 1
+    },
+    {
+      "class": "torch.nn.modules.linear.Linear",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/torch/nn/modules/linear.py",
+      "source_sha256": "1961ad1a1f650e104b3c7f78d19af2d21bf977e7af6c3fdf2420aad563c9e202",
+      "version": 1
+    },
+    {
+      "class": "torch.nn.modules.dropout.Dropout",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/torch/nn/modules/dropout.py",
+      "source_sha256": "f1abdbdda095e9ee0bb96701e9afd70dbca20298bd3190aa68b79d0ec98c47f7",
+      "version": 1
+    },
+    {
+      "class": "torch.nn.modules.conv.Conv1d",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/torch/nn/modules/conv.py",
+      "source_sha256": "fcd11330712354ae22f6e928bf72994fb1c8f6ed30b28d58be3c64acc99a44a4",
+      "version": 1
+    },
+    {
+      "class": "torch.nn.modules.padding.ConstantPad1d",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/torch/nn/modules/padding.py",
+      "source_sha256": "372bec6afd21d1d275aed52dea2e5cd239cfb5f22646521de7aedebac25c1cd9",
+      "version": 1
+    },
+    {
+      "class": "funasr.models.sense_voice.model.PositionwiseFeedForward",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/funasr/models/sense_voice/model.py",
+      "source_sha256": "c304214cc2b3c67c445b64b3a0e491d20de4af274be12218fc8548c768920c3f",
+      "version": 1
+    },
+    {
+      "class": "torch.nn.modules.activation.ReLU",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/torch/nn/modules/activation.py",
+      "source_sha256": "89c774e9d0d6fc06a3d8cbf06036f32e0fc7fbd18b80436b6d462c398d4d1a8b",
+      "version": 1
+    },
+    {
+      "class": "funasr.models.sense_voice.model.LayerNorm",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/funasr/models/sense_voice/model.py",
+      "source_sha256": "c304214cc2b3c67c445b64b3a0e491d20de4af274be12218fc8548c768920c3f",
+      "version": 1
+    },
+    {
+      "class": "funasr.models.ctc.ctc.CTC",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/funasr/models/ctc/ctc.py",
+      "source_sha256": "1e5dd9c4f139d996749bc257c434e4657ea40bab248f5023efa1c5e20e2bffe0",
+      "version": 1
+    },
+    {
+      "class": "torch.nn.modules.loss.CTCLoss",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/torch/nn/modules/loss.py",
+      "source_sha256": "b434a0fb742520d5d73293c4f09604620d38dd799d397f3b170239b4877f5be6",
+      "version": 1
+    },
+    {
+      "class": "torch.nn.modules.sparse.Embedding",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/torch/nn/modules/sparse.py",
+      "source_sha256": "4897b5402c35e49c830edaee1eacc1b1c3f802ddc8e7ddf4112a71c78bea81f5",
+      "version": 1
+    },
+    {
+      "class": "funasr.losses.label_smoothing_loss.LabelSmoothingLoss",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/funasr/losses/label_smoothing_loss.py",
+      "source_sha256": "4ef2493c14faaa89e57fad32640c954f43174e8893e7c76fa813e372403c2cb7",
+      "version": 1
+    },
+    {
+      "class": "torch.nn.modules.loss.KLDivLoss",
+      "loader": "torch.nn.modules.module.Module._load_from_state_dict",
+      "loader_source_sha256": "56a1fa39f332238e3bad87f431903a875965abef92547afee6356c1390f2b713",
+      "source_path": "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/torch/nn/modules/loss.py",
+      "source_sha256": "b434a0fb742520d5d73293c4f09604620d38dd799d397f3b170239b4877f5be6",
+      "version": 1
+    }
+  ],
+  "forward_executed": false,
+  "hook_modules": [],
+  "metadata": {
+    "": {
+      "version": 1
+    },
+    "criterion_att": {
+      "version": 1
+    },
+    "criterion_att.criterion": {
+      "version": 1
+    },
+    "ctc": {
+      "version": 1
+    },
+    "ctc.ctc_lo": {
+      "version": 1
+    },
+    "ctc.ctc_loss": {
+      "version": 1
+    },
+    "embed": {
+      "version": 1
+    },
+    "encoder": {
+      "version": 1
+    },
+    "encoder.after_norm": {
+      "version": 1
+    },
+    "encoder.embed": {
+      "version": 1
+    },
+    "encoder.encoders": {
+      "version": 1
+    },
+    "encoder.encoders.0": {
+      "version": 1
+    },
+    "encoder.encoders.0.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.0.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.0.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.0.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.0.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.0.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.0.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.0.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.0.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.0.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.0.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.0.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.0.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.0.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.1": {
+      "version": 1
+    },
+    "encoder.encoders.1.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.1.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.1.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.1.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.1.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.1.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.1.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.1.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.1.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.1.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.1.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.1.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.1.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.1.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.10": {
+      "version": 1
+    },
+    "encoder.encoders.10.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.10.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.10.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.10.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.10.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.10.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.10.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.10.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.10.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.10.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.10.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.10.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.10.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.10.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.11": {
+      "version": 1
+    },
+    "encoder.encoders.11.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.11.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.11.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.11.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.11.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.11.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.11.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.11.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.11.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.11.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.11.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.11.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.11.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.11.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.12": {
+      "version": 1
+    },
+    "encoder.encoders.12.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.12.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.12.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.12.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.12.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.12.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.12.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.12.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.12.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.12.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.12.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.12.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.12.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.12.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.13": {
+      "version": 1
+    },
+    "encoder.encoders.13.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.13.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.13.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.13.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.13.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.13.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.13.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.13.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.13.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.13.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.13.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.13.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.13.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.13.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.14": {
+      "version": 1
+    },
+    "encoder.encoders.14.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.14.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.14.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.14.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.14.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.14.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.14.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.14.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.14.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.14.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.14.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.14.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.14.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.14.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.15": {
+      "version": 1
+    },
+    "encoder.encoders.15.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.15.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.15.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.15.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.15.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.15.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.15.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.15.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.15.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.15.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.15.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.15.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.15.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.15.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.16": {
+      "version": 1
+    },
+    "encoder.encoders.16.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.16.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.16.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.16.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.16.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.16.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.16.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.16.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.16.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.16.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.16.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.16.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.16.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.16.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.17": {
+      "version": 1
+    },
+    "encoder.encoders.17.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.17.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.17.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.17.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.17.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.17.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.17.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.17.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.17.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.17.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.17.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.17.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.17.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.17.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.18": {
+      "version": 1
+    },
+    "encoder.encoders.18.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.18.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.18.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.18.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.18.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.18.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.18.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.18.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.18.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.18.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.18.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.18.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.18.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.18.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.19": {
+      "version": 1
+    },
+    "encoder.encoders.19.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.19.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.19.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.19.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.19.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.19.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.19.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.19.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.19.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.19.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.19.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.19.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.19.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.19.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.2": {
+      "version": 1
+    },
+    "encoder.encoders.2.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.2.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.2.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.2.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.2.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.2.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.2.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.2.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.2.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.2.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.2.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.2.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.2.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.2.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.20": {
+      "version": 1
+    },
+    "encoder.encoders.20.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.20.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.20.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.20.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.20.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.20.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.20.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.20.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.20.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.20.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.20.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.20.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.20.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.20.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.21": {
+      "version": 1
+    },
+    "encoder.encoders.21.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.21.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.21.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.21.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.21.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.21.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.21.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.21.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.21.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.21.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.21.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.21.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.21.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.21.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.22": {
+      "version": 1
+    },
+    "encoder.encoders.22.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.22.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.22.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.22.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.22.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.22.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.22.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.22.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.22.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.22.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.22.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.22.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.22.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.22.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.23": {
+      "version": 1
+    },
+    "encoder.encoders.23.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.23.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.23.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.23.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.23.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.23.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.23.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.23.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.23.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.23.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.23.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.23.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.23.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.23.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.24": {
+      "version": 1
+    },
+    "encoder.encoders.24.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.24.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.24.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.24.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.24.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.24.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.24.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.24.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.24.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.24.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.24.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.24.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.24.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.24.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.25": {
+      "version": 1
+    },
+    "encoder.encoders.25.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.25.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.25.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.25.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.25.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.25.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.25.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.25.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.25.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.25.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.25.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.25.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.25.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.25.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.26": {
+      "version": 1
+    },
+    "encoder.encoders.26.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.26.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.26.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.26.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.26.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.26.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.26.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.26.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.26.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.26.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.26.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.26.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.26.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.26.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.27": {
+      "version": 1
+    },
+    "encoder.encoders.27.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.27.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.27.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.27.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.27.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.27.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.27.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.27.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.27.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.27.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.27.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.27.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.27.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.27.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.28": {
+      "version": 1
+    },
+    "encoder.encoders.28.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.28.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.28.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.28.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.28.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.28.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.28.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.28.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.28.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.28.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.28.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.28.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.28.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.28.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.29": {
+      "version": 1
+    },
+    "encoder.encoders.29.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.29.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.29.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.29.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.29.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.29.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.29.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.29.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.29.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.29.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.29.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.29.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.29.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.29.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.3": {
+      "version": 1
+    },
+    "encoder.encoders.3.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.3.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.3.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.3.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.3.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.3.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.3.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.3.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.3.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.3.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.3.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.3.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.3.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.3.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.30": {
+      "version": 1
+    },
+    "encoder.encoders.30.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.30.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.30.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.30.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.30.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.30.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.30.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.30.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.30.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.30.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.30.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.30.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.30.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.30.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.31": {
+      "version": 1
+    },
+    "encoder.encoders.31.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.31.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.31.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.31.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.31.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.31.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.31.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.31.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.31.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.31.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.31.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.31.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.31.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.31.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.32": {
+      "version": 1
+    },
+    "encoder.encoders.32.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.32.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.32.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.32.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.32.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.32.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.32.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.32.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.32.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.32.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.32.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.32.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.32.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.32.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.33": {
+      "version": 1
+    },
+    "encoder.encoders.33.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.33.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.33.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.33.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.33.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.33.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.33.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.33.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.33.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.33.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.33.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.33.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.33.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.33.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.34": {
+      "version": 1
+    },
+    "encoder.encoders.34.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.34.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.34.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.34.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.34.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.34.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.34.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.34.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.34.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.34.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.34.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.34.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.34.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.34.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.35": {
+      "version": 1
+    },
+    "encoder.encoders.35.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.35.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.35.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.35.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.35.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.35.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.35.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.35.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.35.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.35.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.35.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.35.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.35.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.35.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.36": {
+      "version": 1
+    },
+    "encoder.encoders.36.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.36.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.36.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.36.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.36.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.36.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.36.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.36.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.36.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.36.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.36.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.36.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.36.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.36.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.37": {
+      "version": 1
+    },
+    "encoder.encoders.37.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.37.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.37.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.37.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.37.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.37.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.37.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.37.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.37.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.37.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.37.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.37.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.37.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.37.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.38": {
+      "version": 1
+    },
+    "encoder.encoders.38.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.38.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.38.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.38.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.38.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.38.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.38.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.38.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.38.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.38.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.38.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.38.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.38.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.38.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.39": {
+      "version": 1
+    },
+    "encoder.encoders.39.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.39.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.39.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.39.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.39.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.39.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.39.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.39.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.39.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.39.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.39.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.39.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.39.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.39.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.4": {
+      "version": 1
+    },
+    "encoder.encoders.4.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.4.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.4.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.4.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.4.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.4.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.4.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.4.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.4.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.4.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.4.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.4.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.4.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.4.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.40": {
+      "version": 1
+    },
+    "encoder.encoders.40.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.40.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.40.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.40.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.40.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.40.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.40.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.40.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.40.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.40.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.40.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.40.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.40.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.40.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.41": {
+      "version": 1
+    },
+    "encoder.encoders.41.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.41.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.41.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.41.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.41.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.41.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.41.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.41.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.41.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.41.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.41.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.41.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.41.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.41.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.42": {
+      "version": 1
+    },
+    "encoder.encoders.42.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.42.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.42.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.42.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.42.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.42.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.42.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.42.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.42.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.42.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.42.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.42.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.42.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.42.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.43": {
+      "version": 1
+    },
+    "encoder.encoders.43.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.43.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.43.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.43.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.43.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.43.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.43.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.43.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.43.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.43.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.43.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.43.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.43.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.43.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.44": {
+      "version": 1
+    },
+    "encoder.encoders.44.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.44.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.44.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.44.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.44.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.44.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.44.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.44.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.44.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.44.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.44.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.44.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.44.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.44.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.45": {
+      "version": 1
+    },
+    "encoder.encoders.45.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.45.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.45.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.45.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.45.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.45.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.45.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.45.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.45.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.45.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.45.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.45.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.45.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.45.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.46": {
+      "version": 1
+    },
+    "encoder.encoders.46.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.46.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.46.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.46.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.46.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.46.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.46.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.46.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.46.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.46.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.46.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.46.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.46.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.46.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.47": {
+      "version": 1
+    },
+    "encoder.encoders.47.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.47.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.47.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.47.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.47.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.47.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.47.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.47.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.47.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.47.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.47.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.47.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.47.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.47.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.48": {
+      "version": 1
+    },
+    "encoder.encoders.48.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.48.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.48.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.48.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.48.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.48.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.48.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.48.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.48.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.48.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.48.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.48.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.48.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.48.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.5": {
+      "version": 1
+    },
+    "encoder.encoders.5.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.5.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.5.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.5.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.5.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.5.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.5.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.5.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.5.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.5.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.5.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.5.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.5.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.5.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.6": {
+      "version": 1
+    },
+    "encoder.encoders.6.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.6.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.6.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.6.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.6.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.6.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.6.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.6.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.6.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.6.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.6.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.6.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.6.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.6.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.7": {
+      "version": 1
+    },
+    "encoder.encoders.7.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.7.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.7.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.7.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.7.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.7.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.7.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.7.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.7.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.7.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.7.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.7.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.7.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.7.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.8": {
+      "version": 1
+    },
+    "encoder.encoders.8.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.8.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.8.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.8.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.8.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.8.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.8.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.8.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.8.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.8.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.8.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.8.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.8.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.8.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders.9": {
+      "version": 1
+    },
+    "encoder.encoders.9.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.9.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders.9.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders.9.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.9.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders.9.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders.9.norm1": {
+      "version": 1
+    },
+    "encoder.encoders.9.norm2": {
+      "version": 1
+    },
+    "encoder.encoders.9.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders.9.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders.9.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders.9.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders.9.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders.9.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.encoders0": {
+      "version": 1
+    },
+    "encoder.encoders0.0": {
+      "version": 1
+    },
+    "encoder.encoders0.0.dropout": {
+      "version": 1
+    },
+    "encoder.encoders0.0.feed_forward": {
+      "version": 1
+    },
+    "encoder.encoders0.0.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.encoders0.0.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.encoders0.0.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.encoders0.0.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.encoders0.0.norm1": {
+      "version": 1
+    },
+    "encoder.encoders0.0.norm2": {
+      "version": 1
+    },
+    "encoder.encoders0.0.self_attn": {
+      "version": 1
+    },
+    "encoder.encoders0.0.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.encoders0.0.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.encoders0.0.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.encoders0.0.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.encoders0.0.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.0.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.1.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.10.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.11.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.12.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.13.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.14.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.15.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.16.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.17.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.18.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.19.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.2.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.3.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.4.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.5.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.6.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.7.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.8.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.feed_forward": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.feed_forward.activation": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.feed_forward.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.feed_forward.w_1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.feed_forward.w_2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.norm1": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.norm2": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.self_attn": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.self_attn.dropout": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.self_attn.fsmn_block": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.self_attn.linear_out": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.self_attn.linear_q_k_v": {
+      "version": 1
+    },
+    "encoder.tp_encoders.9.self_attn.pad_fn": {
+      "version": 1
+    },
+    "encoder.tp_norm": {
+      "version": 1
+    },
+    "specaug": {
+      "version": 1
+    },
+    "specaug.freq_mask": {
+      "version": 1
+    },
+    "specaug.time_mask": {
+      "version": 1
+    }
+  },
+  "metadata_entries": 1067,
+  "metadata_sha256": "5471f36f6c3e5b6295d918347d60b0c9471cf03496f150c5072948c3cbfa14de",
+  "versions": {
+    "funasr": "1.4.16",
+    "kaldi-native-fbank": "1.22.3",
+    "numpy": "1.26.4",
+    "qwen-asr": "0.0.6",
+    "torch": "2.12.1",
+    "transformers": "4.57.6"
+  }
+}

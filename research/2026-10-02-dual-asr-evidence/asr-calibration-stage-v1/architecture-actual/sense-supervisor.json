@@ -1,0 +1,35 @@
+{
+  "cleanup_errors": [],
+  "command": [
+    "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/bin/python",
+    "-B",
+    "-I",
+    "/workspace/scratch/6c2ef8b5a46e/asr-calibration-stage-v1/qualify_architecture.py",
+    "--model",
+    "sense",
+    "--config",
+    "/workspace/scratch/6c2ef8b5a46e/asr-model-metadata-lock-v1/verified-model-bodies-20261001T2348Z/FunAudioLLM--SenseVoiceSmall--3847d57b6bdf2dd8875cb1508d2af43d80a16bf7/config.yaml",
+    "--config-sha256",
+    "f71e239ba36705564b5bf2d2ffd07eece07b8e3f2bbf6d2c99d8df856339ac19",
+    "--output-directory",
+    "/workspace/scratch/6c2ef8b5a46e/asr-calibration-stage-v1/architecture-actual/sense"
+  ],
+  "cpu_affinity": [
+    0,
+    1
+  ],
+  "host_available_memory_minimum_bytes": 8408236032,
+  "limitations": "Sampled RSS/headroom/process-group guard and per-process limits; not aggregate cgroup memory enforcement or network isolation.",
+  "log_path": "/workspace/scratch/6c2ef8b5a46e/asr-calibration-stage-v1/architecture-actual/sense-supervisor.log",
+  "output_bytes": 1182,
+  "output_tail_truncated": false,
+  "per_process_address_space_limit_bytes": 6442450944,
+  "platform_proxy_route_inherited": false,
+  "remaining_live_process_group_members": [],
+  "returncode": 0,
+  "sampled_process_group_rss_peak_bytes": 1039876096,
+  "sampled_process_group_threads_peak": 2,
+  "status": "pass",
+  "stop_reason": null,
+  "wall_seconds": 6.8017061760001525
+}

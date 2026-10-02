@@ -1,0 +1,2665 @@
+{
+  "schema": "asr-publication-projection-v1",
+  "input_commit": "c8c1a92f428bf515737bcaa5c4933de0fba50f7b",
+  "new_model_forwards": 0,
+  "raw_token_transcript_and_readout_bytes_changed": false,
+  "privacy_projection": {
+    "modified_files": [
+      "asr-calibration-stage-v1/README.md",
+      "asr-calibration-stage-v1/scoring/clock-verification.json",
+      "asr-calibration-stage-v1/scoring/freeze_lexicons.py",
+      "asr-calibration-stage-v1/scoring/frozen/freeze.json",
+      "asr-calibration-stage-v1/scoring/posthoc-v2/README.md",
+      "asr-calibration-stage-v1/scoring/posthoc-v2/evaluate_reused_outputs.py",
+      "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/evaluation-provenance.json"
+    ],
+    "reason": "Remove private Library identifiers and internal workflow wording from support/provenance fields; adapt archive-only directions and add historical-label notices to overviews. Scorer algorithms, lexical data, raw decodes, original labels, original frozen rules and both original readouts are byte-identical."
+  },
+  "omitted_source_files": [
+    {
+      "path": "asr-calibration-stage-v1/LIVE-STATE.json",
+      "sha256": "b02c74847031fc61c64e5f7684ff3aa650d7e60e3e5cd5b999ae163c38cd5bed",
+      "reason": "Transient task status omitted"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0001.wav",
+      "sha256": "9d3dbbeea866f6bbdc56eb348461f8d0b0751b0aeebf42064b0e4cc4c632731f",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0002.wav",
+      "sha256": "c092245adaa8af77594e155d4a17045aa237ccaea2818cccee5d6ac7a6dc4d61",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0003.wav",
+      "sha256": "b2cb9e280854b77ec2e3746df3617628db63a02413b4dfbc00c5b0f7d24004d1",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0004.wav",
+      "sha256": "a9344deed334fa976e6879e14033166dcf67a2f516c70ab7b2065ba3e70cafdd",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0005.wav",
+      "sha256": "9dd17beb3035e446d9078fc71830268ba152165ac9a73885f018b7da78f25078",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0006.wav",
+      "sha256": "2b5cb97962931e8b8f38e57ef9e93cd81cd104f37e9e6118767a9da34f5b9c80",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0007.wav",
+      "sha256": "69e525019052115f85b03eae019d89ce5f63bc2e05374c6a0b96d7e4cc172465",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0008.wav",
+      "sha256": "6743c4694a9c06ce0a869e2d33a51e4e9d267f6d5b46f4c6ce823784e3d45b69",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0009.wav",
+      "sha256": "4e9a9e725267e47af05000c65447d11a292895af08234bc4fea6b8acef79fd07",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0010.wav",
+      "sha256": "5d4f2e8c2f7e846dd507209557123b2d8798ac315b869ed1cba7304ad39019b6",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0011.wav",
+      "sha256": "48af10baa0fbf799bf86eb28226e5bfe7cb50317476a6fb618574b4a647d245b",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0012.wav",
+      "sha256": "cbb1109d2c9736e0992094140b4ae8e7a475d3170f1d3059ac303e8f6eda8e74",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0013.wav",
+      "sha256": "6e09bb520d1808a89c02a92368cc74e1bbd953719cf1ecd834aa8625f304676a",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0014.wav",
+      "sha256": "723d086b8796a01ed79a05f1b9da0467033d1c76dffbaddd31743fc8e9ca7c79",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0015.wav",
+      "sha256": "53bbbd00f727e592cfb759b04dbfede67041c64787d5c5d29dac33c2ee81e649",
+      "reason": "Audio already published at preserved input commit"
+    },
+    {
+      "path": "asr-calibration-stage-v1/opaque-wavs-v1/clip-0016.wav",
+      "sha256": "b2bad4fa59b697203c5df7bb03282a140306c707c5e3881927fcd8b650d9011b",
+      "reason": "Audio already published at preserved input commit"
+    }
+  ],
+  "expanded_archive_members": [
+    {
+      "path": "asr-calibration-stage-v1/README.md",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "ee87bbedf72908035cd835ddba30ea816ebb70dc699114337cf6c81950eced0f",
+      "published_sha256": "569ddd4b7a4e54a08c0e3056dd02ad38e2d22b524a7702989262da0bdea9c0e7",
+      "bytes": 11858
+    },
+    {
+      "path": "asr-calibration-stage-v1/SHA256SUMS",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0c56c98d1a15f805f41e543d7b4dbbb4b6f688524ab206596544ccf80a0cf54c",
+      "published_sha256": "0c56c98d1a15f805f41e543d7b4dbbb4b6f688524ab206596544ccf80a0cf54c",
+      "bytes": 36504
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/qwen-fp32-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e3edaf4f5086b1cfa70bb4584cc4eafb4b642e5e4264324d91e66082666b4145",
+      "published_sha256": "e3edaf4f5086b1cfa70bb4584cc4eafb4b642e5e4264324d91e66082666b4145",
+      "bytes": 1431
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/qwen-fp32-supervisor.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "15f90773a8155eca1d3ba91fb45a6580ea4f1d6ab6be707e5f2c14bc739ace92",
+      "published_sha256": "15f90773a8155eca1d3ba91fb45a6580ea4f1d6ab6be707e5f2c14bc739ace92",
+      "bytes": 106271
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/qwen-nested-fp32/receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "5c9d7526e85c4e794629e00507fe32459b7c8d5a28ab39a4bdc72bced64943c1",
+      "published_sha256": "5c9d7526e85c4e794629e00507fe32459b7c8d5a28ab39a4bdc72bced64943c1",
+      "bytes": 5916
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/qwen-nested-fp32-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f684a1189e3c91ca3d80fd4879b18e972a2eed24c9ac7a7dd15ef1335f16719c",
+      "published_sha256": "f684a1189e3c91ca3d80fd4879b18e972a2eed24c9ac7a7dd15ef1335f16719c",
+      "bytes": 1442
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/qwen-nested-fp32-supervisor.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "ee933d75b12e5100ae50098ecacdd71d1e2527c7887185b6cfc4cf5a0b82ebcf",
+      "published_sha256": "ee933d75b12e5100ae50098ecacdd71d1e2527c7887185b6cfc4cf5a0b82ebcf",
+      "bytes": 6244
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/qwen-processor-fixed-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "314335b320447a754c34a376546d9c597ed59777212b823489126e9ab8715f19",
+      "published_sha256": "314335b320447a754c34a376546d9c597ed59777212b823489126e9ab8715f19",
+      "bytes": 1188
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/qwen-processor-fixed-supervisor.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "2b6676dd6d3c612378733a9f4f20b8e6d3582fb4f27907ebb29ee0eeddb8e721",
+      "published_sha256": "2b6676dd6d3c612378733a9f4f20b8e6d3582fb4f27907ebb29ee0eeddb8e721",
+      "bytes": 1312
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/qwen-processor-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "484dc7af58f3cbaf821adba1b64b954cd036b1f739547d65b856bad00ba64f4a",
+      "published_sha256": "484dc7af58f3cbaf821adba1b64b954cd036b1f739547d65b856bad00ba64f4a",
+      "bytes": 1183
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/qwen-processor-supervisor.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "2edafd4cfc59c3212b1a227172973f02323a451001054a797924e9162622cd88",
+      "published_sha256": "2edafd4cfc59c3212b1a227172973f02323a451001054a797924e9162622cd88",
+      "bytes": 619
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/qwen-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "6010312bceff9748149c9b1443703994ba2d46f2de602e60b744ace4963b796a",
+      "published_sha256": "6010312bceff9748149c9b1443703994ba2d46f2de602e60b744ace4963b796a",
+      "bytes": 1421
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/qwen-supervisor.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "b5ffa807bb460c5d4f35cfec4e6a0dd12fbfe642cce51c51611104baf58a086d",
+      "published_sha256": "b5ffa807bb460c5d4f35cfec4e6a0dd12fbfe642cce51c51611104baf58a086d",
+      "bytes": 106271
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/sense/receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "49b9c8603fc6ae1bbd3365121521f096e6423592a254dbfd2ab9e7c18b271ce4",
+      "published_sha256": "49b9c8603fc6ae1bbd3365121521f096e6423592a254dbfd2ab9e7c18b271ce4",
+      "bytes": 1129
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/sense-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "9f78d09581e06f746c76165d0b524f10d716a38d62c2d1e8bf54578786719ed6",
+      "published_sha256": "9f78d09581e06f746c76165d0b524f10d716a38d62c2d1e8bf54578786719ed6",
+      "bytes": 1429
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/sense-supervisor.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "917860e2061f876d98ea6f9152c56333cd3f3c5cb9cbecce94500e1b39c48a57",
+      "published_sha256": "917860e2061f876d98ea6f9152c56333cd3f3c5cb9cbecce94500e1b39c48a57",
+      "bytes": 1182
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/tensor-inputs-mask-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1f9051bf024329087aa6b13f19587a0ebb02b8db0148e8bd33c0489a9b8db45c",
+      "published_sha256": "1f9051bf024329087aa6b13f19587a0ebb02b8db0148e8bd33c0489a9b8db45c",
+      "bytes": 998
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/tensor-inputs-mask-supervisor.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "bc94f655aa8073c7433f78a217cc27ca7c967f7e78ea1293dc7f60b4f82c3eab",
+      "published_sha256": "bc94f655aa8073c7433f78a217cc27ca7c967f7e78ea1293dc7f60b4f82c3eab",
+      "bytes": 404
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/tensor-inputs-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e6476787e21b89923a7a5b26316b1b61ca10d2853e69a86ea97e6e848d13eafb",
+      "published_sha256": "e6476787e21b89923a7a5b26316b1b61ca10d2853e69a86ea97e6e848d13eafb",
+      "bytes": 992
+    },
+    {
+      "path": "asr-calibration-stage-v1/architecture-actual/tensor-inputs-supervisor.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "fd385af313c6b1925e470ba986794154d33ac12d8c7e9f10cdcbe6a7e540d427",
+      "published_sha256": "fd385af313c6b1925e470ba986794154d33ac12d8c7e9f10cdcbe6a7e540d427",
+      "bytes": 401
+    },
+    {
+      "path": "asr-calibration-stage-v1/artifact-inventory.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "cf5ac4254ea2108c8d7217d24abc67ddec865c0c3559c4f2eea03e5606f83a1c",
+      "published_sha256": "cf5ac4254ea2108c8d7217d24abc67ddec865c0c3559c4f2eea03e5606f83a1c",
+      "bytes": 55138
+    },
+    {
+      "path": "asr-calibration-stage-v1/asr_stage/__init__.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "asr-calibration-stage-v1/asr_stage/adapters.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "23544f0c0b4d452d8a6dd3053a52324d4ed6be178b8d0d57c09f98208b6a8392",
+      "published_sha256": "23544f0c0b4d452d8a6dd3053a52324d4ed6be178b8d0d57c09f98208b6a8392",
+      "bytes": 16793
+    },
+    {
+      "path": "asr-calibration-stage-v1/asr_stage/architecture.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "d3f0d67bcf724c34763ac4666a1570b02dfd979182e6183403ef91e0897d58ab",
+      "published_sha256": "d3f0d67bcf724c34763ac4666a1570b02dfd979182e6183403ef91e0897d58ab",
+      "bytes": 6922
+    },
+    {
+      "path": "asr-calibration-stage-v1/asr_stage/assets.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "91a8c7e75f37872fc1b07cabc2afd1790901bf44a3fda1e48fb5abc2b129ff6e",
+      "published_sha256": "91a8c7e75f37872fc1b07cabc2afd1790901bf44a3fda1e48fb5abc2b129ff6e",
+      "bytes": 5481
+    },
+    {
+      "path": "asr-calibration-stage-v1/asr_stage/bundles.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "10d0af21d832998fb529bfe30b328bb6485c48f847b5821b0ce07e6846fd8bc7",
+      "published_sha256": "10d0af21d832998fb529bfe30b328bb6485c48f847b5821b0ce07e6846fd8bc7",
+      "bytes": 16368
+    },
+    {
+      "path": "asr-calibration-stage-v1/asr_stage/decoding.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e2f2afe765d3740c339451e0bf834a0c1e14507e9f3e352c0c05b722169a9c87",
+      "published_sha256": "e2f2afe765d3740c339451e0bf834a0c1e14507e9f3e352c0c05b722169a9c87",
+      "bytes": 4322
+    },
+    {
+      "path": "asr-calibration-stage-v1/asr_stage/execution.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "096a68239dc2af36355d4f610731a0aa59c81391669c3f363304d9510bea9b78",
+      "published_sha256": "096a68239dc2af36355d4f610731a0aa59c81391669c3f363304d9510bea9b78",
+      "bytes": 9765
+    },
+    {
+      "path": "asr-calibration-stage-v1/asr_stage/results.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "253c4136a8cb2b69b7e1c3496a4473f48cf68de4d8c33e5521a1cf65ba735189",
+      "published_sha256": "253c4136a8cb2b69b7e1c3496a4473f48cf68de4d8c33e5521a1cf65ba735189",
+      "bytes": 12490
+    },
+    {
+      "path": "asr-calibration-stage-v1/asr_stage/runtime_support.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0dd45e7457762429c3d07618e9b5b081775112a9b4433d198ca4af464539b288",
+      "published_sha256": "0dd45e7457762429c3d07618e9b5b081775112a9b4433d198ca4af464539b288",
+      "bytes": 5711
+    },
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/invocation.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "bb75c291feb1f0cfb6a13f51ef71a88feb809bb3c45a1e778152344c87a5d7f7",
+      "published_sha256": "bb75c291feb1f0cfb6a13f51ef71a88feb809bb3c45a1e778152344c87a5d7f7",
+      "bytes": 1519
+    },
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/post-run-model-assets.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a8e28ffa08565553b517e208c299f2ad68e281932104b8df0a4fca8b3e1793c3",
+      "published_sha256": "a8e28ffa08565553b517e208c299f2ad68e281932104b8df0a4fca8b3e1793c3",
+      "bytes": 3050
+    },
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/qwen06-bundle-validation.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "50d240695a0e0e182a8612a1a66d57ab444fe4b5f6a9e4308f4d642ad6ac4332",
+      "published_sha256": "50d240695a0e0e182a8612a1a66d57ab444fe4b5f6a9e4308f4d642ad6ac4332",
+      "bytes": 10618
+    },
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/qwen06-envelope.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "bf99c7d209eaaa317b03c6f0d99c9f96eba5a46506ff34f3f5cfde8bb47545fa",
+      "published_sha256": "bf99c7d209eaaa317b03c6f0d99c9f96eba5a46506ff34f3f5cfde8bb47545fa",
+      "bytes": 5812
+    },
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/qwen06-receipt-bindings.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "94618704cf18d0bf90baef6c16d15daf16d268c71ee83feec58d28acc2ce0f59",
+      "published_sha256": "94618704cf18d0bf90baef6c16d15daf16d268c71ee83feec58d28acc2ce0f59",
+      "bytes": 13485
+    },
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/readout.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c332fd6390de1ccf5f3b21f3f6a38724721deb45e28f44d74993c2195b43bac3",
+      "published_sha256": "c332fd6390de1ccf5f3b21f3f6a38724721deb45e28f44d74993c2195b43bac3",
+      "bytes": 268305
+    },
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/scorer.stderr.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/scorer.stdout.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0a31a57992f833fbecc07a8ed6ccfa7dfd152fdb52266c762e04d5cf294702c4",
+      "published_sha256": "0a31a57992f833fbecc07a8ed6ccfa7dfd152fdb52266c762e04d5cf294702c4",
+      "bytes": 1227
+    },
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/sensevoice-bundle-validation.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c955aa90875839074a86b6f75322bf36efda329a29228d42436092a7e8a8f3fa",
+      "published_sha256": "c955aa90875839074a86b6f75322bf36efda329a29228d42436092a7e8a8f3fa",
+      "bytes": 10630
+    },
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/sensevoice-envelope.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c678aaef9312b6192dbacd503976cac19013f780862ec354a0bba137634c1453",
+      "published_sha256": "c678aaef9312b6192dbacd503976cac19013f780862ec354a0bba137634c1453",
+      "bytes": 5662
+    },
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/sensevoice-receipt-bindings.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1ac617cf1c9ff083b28f934c3ab00018f14dc1a5205a5198dc60ae391675ffd9",
+      "published_sha256": "1ac617cf1c9ff083b28f934c3ab00018f14dc1a5205a5198dc60ae391675ffd9",
+      "bytes": 13689
+    },
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/summary.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "5b7c4959c4b53c576d15432a12c024e8e8f839351280a561e3ae581553fad4a7",
+      "published_sha256": "5b7c4959c4b53c576d15432a12c024e8e8f839351280a561e3ae581553fad4a7",
+      "bytes": 6493
+    },
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/transcript-comparison.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "bbeae47e1ea5ce94b539cb5adc3851aa2cb21e27981ae89d9860fb1933acabfa",
+      "published_sha256": "bbeae47e1ea5ce94b539cb5adc3851aa2cb21e27981ae89d9860fb1933acabfa",
+      "bytes": 9442
+    },
+    {
+      "path": "asr-calibration-stage-v1/execution-plans-v1/freeze.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "6df099091683dc3c8f6e6f0254a3cbdb53e9c1548c34f6fca4cb5d1d184e7062",
+      "published_sha256": "6df099091683dc3c8f6e6f0254a3cbdb53e9c1548c34f6fca4cb5d1d184e7062",
+      "bytes": 1158
+    },
+    {
+      "path": "asr-calibration-stage-v1/execution-plans-v1/qwen06.plan.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f5d70a3f23b06a251c74654a68e3e65fc1739c152484d13d1f49229b5fea9f01",
+      "published_sha256": "f5d70a3f23b06a251c74654a68e3e65fc1739c152484d13d1f49229b5fea9f01",
+      "bytes": 4355
+    },
+    {
+      "path": "asr-calibration-stage-v1/execution-plans-v1/scientific-manifest.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "8781b659af8d98ef428d9b7b572db4e0ba204f70fb3d5939510fa69b0b61220a",
+      "published_sha256": "8781b659af8d98ef428d9b7b572db4e0ba204f70fb3d5939510fa69b0b61220a",
+      "bytes": 3562
+    },
+    {
+      "path": "asr-calibration-stage-v1/execution-plans-v1/sensevoice.plan.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "afa61bde4707dd28a9f144ad5fce17786ff969e87d4d3b3fdae5f46ce450c559",
+      "published_sha256": "afa61bde4707dd28a9f144ad5fce17786ff969e87d4d3b3fdae5f46ce450c559",
+      "bytes": 3891
+    },
+    {
+      "path": "asr-calibration-stage-v1/execution-plans-v2/code-inventory.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "468ec1c259281a64868fa6b4edca3ac3e777962bef241d8613f12eb6e7e4b03f",
+      "published_sha256": "468ec1c259281a64868fa6b4edca3ac3e777962bef241d8613f12eb6e7e4b03f",
+      "bytes": 2247
+    },
+    {
+      "path": "asr-calibration-stage-v1/execution-plans-v2/freeze.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "ec449a902d5b6b7c47504efdc93fe0fb66491720cee046c4ddb18eb5922ee25e",
+      "published_sha256": "ec449a902d5b6b7c47504efdc93fe0fb66491720cee046c4ddb18eb5922ee25e",
+      "bytes": 1111
+    },
+    {
+      "path": "asr-calibration-stage-v1/execution-plans-v2/qwen06.plan.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0da6856b7342ad1c8f7b66dfd2a189bf4bb9fa32b9a8dc176b74a2c458df922c",
+      "published_sha256": "0da6856b7342ad1c8f7b66dfd2a189bf4bb9fa32b9a8dc176b74a2c458df922c",
+      "bytes": 4355
+    },
+    {
+      "path": "asr-calibration-stage-v1/execution-plans-v2/scientific-manifest.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "500a5fac10960bcbe3ead0be38a81f9cfe6c0b8a22e11b25cca5bb292cd86355",
+      "published_sha256": "500a5fac10960bcbe3ead0be38a81f9cfe6c0b8a22e11b25cca5bb292cd86355",
+      "bytes": 3562
+    },
+    {
+      "path": "asr-calibration-stage-v1/execution-plans-v2/sensevoice.plan.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0ec850fb323cbdd42267e9a0c695107633a3f650757bfe7d307993f8e93d61cb",
+      "published_sha256": "0ec850fb323cbdd42267e9a0c695107633a3f650757bfe7d307993f8e93d61cb",
+      "bytes": 3891
+    },
+    {
+      "path": "asr-calibration-stage-v1/external-qualification/DOWNLOAD-RECEIPTS.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "cc468c8619106e06fefea6bcb2c134bfc085e4d15b70eafea8c8fe21c5d7a671",
+      "published_sha256": "cc468c8619106e06fefea6bcb2c134bfc085e4d15b70eafea8c8fe21c5d7a671",
+      "bytes": 1424
+    },
+    {
+      "path": "asr-calibration-stage-v1/external-qualification/FunAudioLLM--SenseVoiceSmall--adapter-assets.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "114f80592d0ad8c65437d205a50bcdb28ebb70f3fce68d6307a52d6057fd9c74",
+      "published_sha256": "114f80592d0ad8c65437d205a50bcdb28ebb70f3fce68d6307a52d6057fd9c74",
+      "bytes": 1413
+    },
+    {
+      "path": "asr-calibration-stage-v1/external-qualification/INDEPENDENT-BODY-VERIFICATION.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "8a48a9341ab0df6cd050059569cee2862eea4fad4a945d33388fb347177005a7",
+      "published_sha256": "8a48a9341ab0df6cd050059569cee2862eea4fad4a945d33388fb347177005a7",
+      "bytes": 2806
+    },
+    {
+      "path": "asr-calibration-stage-v1/external-qualification/Qwen--Qwen3-ASR-0.6B--adapter-assets.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "69a085208a42c3cc428d0d5c1bbcb973db0417fb40f20c0ecea78f6218b6e777",
+      "published_sha256": "69a085208a42c3cc428d0d5c1bbcb973db0417fb40f20c0ecea78f6218b6e777",
+      "bytes": 2116
+    },
+    {
+      "path": "asr-calibration-stage-v1/external-qualification/architecture-metadata.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "85b08c749a793e265d4d2a3e2a41e400ceaa4ab08e1383d895fc2107adfeb776",
+      "published_sha256": "85b08c749a793e265d4d2a3e2a41e400ceaa4ab08e1383d895fc2107adfeb776",
+      "bytes": 85333
+    },
+    {
+      "path": "asr-calibration-stage-v1/external-qualification/architecture-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "d98e886a7ea64ee7856462cdd894edb40325435f16e8d401911e5c0c49a468b8",
+      "published_sha256": "d98e886a7ea64ee7856462cdd894edb40325435f16e8d401911e5c0c49a468b8",
+      "bytes": 962
+    },
+    {
+      "path": "asr-calibration-stage-v1/external-qualification/inspect-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e3c755e5337a54982a46e87454d10ffbe66bf7e6f14531e78be93599db761ba8",
+      "published_sha256": "e3c755e5337a54982a46e87454d10ffbe66bf7e6f14531e78be93599db761ba8",
+      "bytes": 933
+    },
+    {
+      "path": "asr-calibration-stage-v1/external-qualification/official-metadata.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "71e4ca21bc21162495fd9cdb7efcea5d61ca07e412d910ad89c21d077c077482",
+      "published_sha256": "71e4ca21bc21162495fd9cdb7efcea5d61ca07e412d910ad89c21d077c077482",
+      "bytes": 75316
+    },
+    {
+      "path": "asr-calibration-stage-v1/external-qualification/runtime-cpu-probe.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "35fc2b05903001d773c7b730468be5a20b81476b6e4f3e16bbffe4ec3b1e686c",
+      "published_sha256": "35fc2b05903001d773c7b730468be5a20b81476b6e4f3e16bbffe4ec3b1e686c",
+      "bytes": 4057
+    },
+    {
+      "path": "asr-calibration-stage-v1/external-qualification/runtime-qualification.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "d42a92a8001bc75006e98207a5fd9d06a62ee7094ec093cd7f9fe32d0970c1f6",
+      "published_sha256": "d42a92a8001bc75006e98207a5fd9d06a62ee7094ec093cd7f9fe32d0970c1f6",
+      "bytes": 6715
+    },
+    {
+      "path": "asr-calibration-stage-v1/human-labels.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "400b11710507a2fd912b8400b21dba61fd1ab374fae317dd07da29b14c9f7b88",
+      "published_sha256": "400b11710507a2fd912b8400b21dba61fd1ab374fae317dd07da29b14c9f7b88",
+      "bytes": 5845
+    },
+    {
+      "path": "asr-calibration-stage-v1/locks/qwen06-expected-state.candidate.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "cc6429ffdab21662645eac75a0abae46fdcbe4a5b52d6a2885e3ea6f3d378689",
+      "published_sha256": "cc6429ffdab21662645eac75a0abae46fdcbe4a5b52d6a2885e3ea6f3d378689",
+      "bytes": 78142
+    },
+    {
+      "path": "asr-calibration-stage-v1/locks/qwen06-package-source.candidate.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0055b0e6272924aceddacbd5c189813eba347c1571d50ad38ac9eae518662b83",
+      "published_sha256": "0055b0e6272924aceddacbd5c189813eba347c1571d50ad38ac9eae518662b83",
+      "bytes": 964
+    },
+    {
+      "path": "asr-calibration-stage-v1/locks/sensevoice-expected-state.candidate.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1e6bb67df8079ddec32425647cb3fb035ba0f36bf6ed53e8e37caef7b50ade8a",
+      "published_sha256": "1e6bb67df8079ddec32425647cb3fb035ba0f36bf6ed53e8e37caef7b50ade8a",
+      "bytes": 110190
+    },
+    {
+      "path": "asr-calibration-stage-v1/locks/sensevoice-package-source.candidate.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "93d26c78edb03f75db8aea1f4e4fea5194f8bc1662b6033d0266b83aadd07729",
+      "published_sha256": "93d26c78edb03f75db8aea1f4e4fea5194f8bc1662b6033d0266b83aadd07729",
+      "bytes": 1223
+    },
+    {
+      "path": "asr-calibration-stage-v1/pcm/README.md",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "4798e981355070616f7e1b45a15e1605076e5948a6d0d3ef150880238591d1db",
+      "published_sha256": "4798e981355070616f7e1b45a15e1605076e5948a6d0d3ef150880238591d1db",
+      "bytes": 6656
+    },
+    {
+      "path": "asr-calibration-stage-v1/pcm/actual-verification.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "ead86e3ff1979fd3c0256186721fa2de8e94d7a0dda9731a53dbbf20beca395b",
+      "published_sha256": "ead86e3ff1979fd3c0256186721fa2de8e94d7a0dda9731a53dbbf20beca395b",
+      "bytes": 1094
+    },
+    {
+      "path": "asr-calibration-stage-v1/pcm/decoder-inputs.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "49e7b6b3a1bdbf9e48de698ea3eb6053fc7c13cb2be800b95f8e1e7a86fd8729",
+      "published_sha256": "49e7b6b3a1bdbf9e48de698ea3eb6053fc7c13cb2be800b95f8e1e7a86fd8729",
+      "bytes": 18353
+    },
+    {
+      "path": "asr-calibration-stage-v1/pcm/pcm_binding.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0055506e67146740fadb609d38194ca8ad533b2ffb0915c586673149700d6333",
+      "published_sha256": "0055506e67146740fadb609d38194ca8ad533b2ffb0915c586673149700d6333",
+      "bytes": 15735
+    },
+    {
+      "path": "asr-calibration-stage-v1/pcm/test_pcm_binding.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "bf17011d60bd6b9c66c610b6a702dd7a3a15463a195318383faa61ef9b1ffebf",
+      "published_sha256": "bf17011d60bd6b9c66c610b6a702dd7a3a15463a195318383faa61ef9b1ffebf",
+      "bytes": 20289
+    },
+    {
+      "path": "asr-calibration-stage-v1/pcm/tests.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "6b38a74b753424ea3f6f922b90d1021bd0b2eda7cde2da9c2d1c688d99459433",
+      "published_sha256": "6b38a74b753424ea3f6f922b90d1021bd0b2eda7cde2da9c2d1c688d99459433",
+      "bytes": 3938
+    },
+    {
+      "path": "asr-calibration-stage-v1/pcm/tests.stderr.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "ce5bb2c070ca3d6e2867815a8adb08eb742e4f4b26f0b2007ab21e9710b1354c",
+      "published_sha256": "ce5bb2c070ca3d6e2867815a8adb08eb742e4f4b26f0b2007ab21e9710b1354c",
+      "bytes": 10134
+    },
+    {
+      "path": "asr-calibration-stage-v1/pcm/tests.stdout.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "asr-calibration-stage-v1/pcm/verification-report.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "ead86e3ff1979fd3c0256186721fa2de8e94d7a0dda9731a53dbbf20beca395b",
+      "published_sha256": "ead86e3ff1979fd3c0256186721fa2de8e94d7a0dda9731a53dbbf20beca395b",
+      "bytes": 1094
+    },
+    {
+      "path": "asr-calibration-stage-v1/pcm/verify_recovered.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "fd11efc6749252dc70532828bd1139eeb4d8b827bb85470ffd57facc6c7c05cf",
+      "published_sha256": "fd11efc6749252dc70532828bd1139eeb4d8b827bb85470ffd57facc6c7c05cf",
+      "bytes": 4760
+    },
+    {
+      "path": "asr-calibration-stage-v1/preparation-inventory.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "d461b21209396392e97ce409d5ad0a91c5abdb1275d2821a9c358a38ea5211fd",
+      "published_sha256": "d461b21209396392e97ce409d5ad0a91c5abdb1275d2821a9c358a38ea5211fd",
+      "bytes": 7332
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v1/sense-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "46cf9107d51fc155fdb3239be3e18fd9c93927068925d50d17baa17de29999f3",
+      "published_sha256": "46cf9107d51fc155fdb3239be3e18fd9c93927068925d50d17baa17de29999f3",
+      "bytes": 1408
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v1/sense-supervisor.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0f8629a3c13875f4d3114de42d9d099baf7eaa3586d470bd5e4bc1744c9a171c",
+      "published_sha256": "0f8629a3c13875f4d3114de42d9d099baf7eaa3586d470bd5e4bc1744c9a171c",
+      "bytes": 300
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v1/sensevoice/contract.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "39ab2890153e5cdbea7421e19dee2910d0f3ed665ab927b082b3200e84bf7b8e",
+      "published_sha256": "39ab2890153e5cdbea7421e19dee2910d0f3ed665ab927b082b3200e84bf7b8e",
+      "bytes": 668
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v1/sensevoice/decoder-inputs.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "49e7b6b3a1bdbf9e48de698ea3eb6053fc7c13cb2be800b95f8e1e7a86fd8729",
+      "published_sha256": "49e7b6b3a1bdbf9e48de698ea3eb6053fc7c13cb2be800b95f8e1e7a86fd8729",
+      "bytes": 18353
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v1/sensevoice/environment.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "087e3f11b5171c74ac8c94b7ef78c1dfb1b679a34118dfc7ea0b697b924fc577",
+      "published_sha256": "087e3f11b5171c74ac8c94b7ef78c1dfb1b679a34118dfc7ea0b697b924fc577",
+      "bytes": 285
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v1/sensevoice/load-failure.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "11e96287f4ca770401c2db741f34da7e498e4d39b4e9b7f1724b2991c13aa632",
+      "published_sha256": "11e96287f4ca770401c2db741f34da7e498e4d39b4e9b7f1724b2991c13aa632",
+      "bytes": 168
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v1/sensevoice/model-load-started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "81dd8012ef7ceb46dfa8c6dfd4de611b498c0c7cb134776b0bf57d5e96a9764b",
+      "published_sha256": "81dd8012ef7ceb46dfa8c6dfd4de611b498c0c7cb134776b0bf57d5e96a9764b",
+      "bytes": 274
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v1/sensevoice/outcomes.initial.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1bfaca233f5a22a43886293d894758ce040917b25e93a49ce23f906a75115bd4",
+      "published_sha256": "1bfaca233f5a22a43886293d894758ce040917b25e93a49ce23f906a75115bd4",
+      "bytes": 3473
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v1/sensevoice/outcomes.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1bfaca233f5a22a43886293d894758ce040917b25e93a49ce23f906a75115bd4",
+      "published_sha256": "1bfaca233f5a22a43886293d894758ce040917b25e93a49ce23f906a75115bd4",
+      "bytes": 3473
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v1/sensevoice/plan.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "afa61bde4707dd28a9f144ad5fce17786ff969e87d4d3b3fdae5f46ce450c559",
+      "published_sha256": "afa61bde4707dd28a9f144ad5fce17786ff969e87d4d3b3fdae5f46ce450c559",
+      "bytes": 3891
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v1/sensevoice/summary.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "281dce96935ed75f08e6555bf065b1a0c2814c06af78cf7835f1b46771715e8b",
+      "published_sha256": "281dce96935ed75f08e6555bf065b1a0c2814c06af78cf7835f1b46771715e8b",
+      "bytes": 259
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "cf827e8e6b91f42012b949a751b2b0159b4b4db732442a203fc399bc0eb5df60",
+      "published_sha256": "cf827e8e6b91f42012b949a751b2b0159b4b4db732442a203fc399bc0eb5df60",
+      "bytes": 1399
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen-supervisor.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "951e4be54b551834ac6b97c1f166021afc5032981310ac53e791faf71288eb69",
+      "published_sha256": "951e4be54b551834ac6b97c1f166021afc5032981310ac53e791faf71288eb69",
+      "bytes": 4032
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0001.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1d05a208a990b0967e7bffe187874117f1c84fc678063a8c9eca2b992dcf9351",
+      "published_sha256": "1d05a208a990b0967e7bffe187874117f1c84fc678063a8c9eca2b992dcf9351",
+      "bytes": 3253
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0001.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "b2a8f3e0773d5ae687e540b0ef4b680e4d9f694466ea64624671eb9cf64b5a9a",
+      "published_sha256": "b2a8f3e0773d5ae687e540b0ef4b680e4d9f694466ea64624671eb9cf64b5a9a",
+      "bytes": 902
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0001.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "10a059e5e84c4bab7379699d1664a06b8e8e525db58a26d49846e80c90235ce6",
+      "published_sha256": "10a059e5e84c4bab7379699d1664a06b8e8e525db58a26d49846e80c90235ce6",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0002.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "923f734d15096467b18eb1fa8eb4682af51df66d52c1320504a93ef3166209f4",
+      "published_sha256": "923f734d15096467b18eb1fa8eb4682af51df66d52c1320504a93ef3166209f4",
+      "bytes": 3222
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0002.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "3e117080ce2bf84615294260cab04f602120869807bc484ba45e9ab0f0d61f33",
+      "published_sha256": "3e117080ce2bf84615294260cab04f602120869807bc484ba45e9ab0f0d61f33",
+      "bytes": 896
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0002.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "9ddf64563fb05f3dd2dc4959910180b94366da04d6ec15abfaa4c9b40c6abe26",
+      "published_sha256": "9ddf64563fb05f3dd2dc4959910180b94366da04d6ec15abfaa4c9b40c6abe26",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0003.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "fcc9b3a3869f4b353cd434eeed2714dd093d11b1b27fc0385b3b834446ca8681",
+      "published_sha256": "fcc9b3a3869f4b353cd434eeed2714dd093d11b1b27fc0385b3b834446ca8681",
+      "bytes": 3240
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0003.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "01e1d62963a9a137b850f66b99d98a0418641df0d38da4aa383da9d7e1cff8bc",
+      "published_sha256": "01e1d62963a9a137b850f66b99d98a0418641df0d38da4aa383da9d7e1cff8bc",
+      "bytes": 902
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0003.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e78b7d539404ff59650f27033a0fc77a3da6b044f933ec4c750a5c446d7844c1",
+      "published_sha256": "e78b7d539404ff59650f27033a0fc77a3da6b044f933ec4c750a5c446d7844c1",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0004.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "65e18545b6770456b448420f94b5dfabeb391163778fd794323c7d4a47022c43",
+      "published_sha256": "65e18545b6770456b448420f94b5dfabeb391163778fd794323c7d4a47022c43",
+      "bytes": 3244
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0004.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "97acdf6a4e0d240ba261e0ebe992153245a632b76960c968fff6a024fe92fc86",
+      "published_sha256": "97acdf6a4e0d240ba261e0ebe992153245a632b76960c968fff6a024fe92fc86",
+      "bytes": 902
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0004.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "d55fb439c3c854a5f0cd2f000ba9d9d036fb273b672d53f3345d9af32a19df91",
+      "published_sha256": "d55fb439c3c854a5f0cd2f000ba9d9d036fb273b672d53f3345d9af32a19df91",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0005.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "d0b2f7a4dfdd7b21159c09e12c204dba4f77272e9a25e3716103277ddc4c0484",
+      "published_sha256": "d0b2f7a4dfdd7b21159c09e12c204dba4f77272e9a25e3716103277ddc4c0484",
+      "bytes": 3245
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0005.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "8dfe9015c2cc8f3e1a6b1db2c83e9ebc85a660bd4d4651cecb8b29c72cc18c9b",
+      "published_sha256": "8dfe9015c2cc8f3e1a6b1db2c83e9ebc85a660bd4d4651cecb8b29c72cc18c9b",
+      "bytes": 902
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0005.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "9c39760b418dc56273f4b3e893dc37beddbdff5795b8eb3cfd4498ee15247cfb",
+      "published_sha256": "9c39760b418dc56273f4b3e893dc37beddbdff5795b8eb3cfd4498ee15247cfb",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0006.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0023cc02761c79e40ddc01dcf0f4b940f973c810353ca1847d3c2d8eecdeb5bf",
+      "published_sha256": "0023cc02761c79e40ddc01dcf0f4b940f973c810353ca1847d3c2d8eecdeb5bf",
+      "bytes": 3246
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0006.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "908d0a3c2782ea8d0f21f9d9a8114b7127f2ad3f3d135fa5898f7423104ad039",
+      "published_sha256": "908d0a3c2782ea8d0f21f9d9a8114b7127f2ad3f3d135fa5898f7423104ad039",
+      "bytes": 902
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0006.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "06621f00687e93541652b1895e604b8a8392f6385d073308841dff053404d4d9",
+      "published_sha256": "06621f00687e93541652b1895e604b8a8392f6385d073308841dff053404d4d9",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0007.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "704e2c64418346af95d87b4c41a87190d04e42677673289225dab6cfbe62dc97",
+      "published_sha256": "704e2c64418346af95d87b4c41a87190d04e42677673289225dab6cfbe62dc97",
+      "bytes": 3404
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0007.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "bb2ce5f20b48dc2cee569b95d078023187e08419ec9a0cf22b3e53b33460fb11",
+      "published_sha256": "bb2ce5f20b48dc2cee569b95d078023187e08419ec9a0cf22b3e53b33460fb11",
+      "bytes": 944
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0007.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "3ea92bf10f2ef9b06124d4720ff8c9492e73bd376c416cf90c304d1e2a0e3218",
+      "published_sha256": "3ea92bf10f2ef9b06124d4720ff8c9492e73bd376c416cf90c304d1e2a0e3218",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0008.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "9701c1488b958fdb1ed371ad0de59e20c1a9b1df723e862b31bf6d1f9d80cf7b",
+      "published_sha256": "9701c1488b958fdb1ed371ad0de59e20c1a9b1df723e862b31bf6d1f9d80cf7b",
+      "bytes": 3251
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0008.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "5ce3e468396194bdf516abc70773602d36dbd6e3198ecb6ba2aec3e9970ab6d8",
+      "published_sha256": "5ce3e468396194bdf516abc70773602d36dbd6e3198ecb6ba2aec3e9970ab6d8",
+      "bytes": 902
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0008.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "9dd65f6216d0d78f61e02ec54854464323f05775a28a29c8d45c79eddff8cc1a",
+      "published_sha256": "9dd65f6216d0d78f61e02ec54854464323f05775a28a29c8d45c79eddff8cc1a",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0009.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "fc035c1721b86e91fa53d522fbf55976b2f9d7c1f45fc3a1692d94c36a854e5a",
+      "published_sha256": "fc035c1721b86e91fa53d522fbf55976b2f9d7c1f45fc3a1692d94c36a854e5a",
+      "bytes": 3397
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0009.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "af314e210c0d17f8f5ee4348015d6d4332c86694580cccb9f0c95bc3c2318fdf",
+      "published_sha256": "af314e210c0d17f8f5ee4348015d6d4332c86694580cccb9f0c95bc3c2318fdf",
+      "bytes": 944
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0009.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "6f864c95b7f9317a3119de75dcea367fc2696733ecde18623bbe6dd32cb37923",
+      "published_sha256": "6f864c95b7f9317a3119de75dcea367fc2696733ecde18623bbe6dd32cb37923",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0010.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "99cd7b3188b89d217d420d04c24a78583006e4a6f3a56f07111ddb5aea45d8b4",
+      "published_sha256": "99cd7b3188b89d217d420d04c24a78583006e4a6f3a56f07111ddb5aea45d8b4",
+      "bytes": 3379
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0010.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "b58b5102f30646d000b5b91a57ac8149ed48715dbd486b065be727977bee78f1",
+      "published_sha256": "b58b5102f30646d000b5b91a57ac8149ed48715dbd486b065be727977bee78f1",
+      "bytes": 938
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0010.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "65906eec4e7b874db37ecd59a82a8e63f5252ba7e6d0247bffe4cd9f07f0df88",
+      "published_sha256": "65906eec4e7b874db37ecd59a82a8e63f5252ba7e6d0247bffe4cd9f07f0df88",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0011.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "080b93243a7353f6032ff50682e82661ed51db48b63a5cf59f2325d01de66d5d",
+      "published_sha256": "080b93243a7353f6032ff50682e82661ed51db48b63a5cf59f2325d01de66d5d",
+      "bytes": 3260
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0011.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "25d704ce665f639f24b8985861084d78d4627aa8f42edf168b0b79ddba74d69f",
+      "published_sha256": "25d704ce665f639f24b8985861084d78d4627aa8f42edf168b0b79ddba74d69f",
+      "bytes": 908
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0011.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "2a6c77c05ff0b9e8e48d46a0621fbea9393165cf06b22f26f653640fa59ece1b",
+      "published_sha256": "2a6c77c05ff0b9e8e48d46a0621fbea9393165cf06b22f26f653640fa59ece1b",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0012.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "b04f2d858abe5d83fb467c4a5a57152ed5966838a9b34830d5114389a095c8a9",
+      "published_sha256": "b04f2d858abe5d83fb467c4a5a57152ed5966838a9b34830d5114389a095c8a9",
+      "bytes": 3210
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0012.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "17a522dc6d3bd88d2acb75271566c147f915654679b81c16c59a17604837b31f",
+      "published_sha256": "17a522dc6d3bd88d2acb75271566c147f915654679b81c16c59a17604837b31f",
+      "bytes": 896
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0012.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0b6a540f687e6dab1ee7d681492fed05da7512e412ce95dd18718f814ffe5629",
+      "published_sha256": "0b6a540f687e6dab1ee7d681492fed05da7512e412ce95dd18718f814ffe5629",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0013.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "525365394b07287bf84415d1fa66755929cfd16339394a1e0e1daee356d6e636",
+      "published_sha256": "525365394b07287bf84415d1fa66755929cfd16339394a1e0e1daee356d6e636",
+      "bytes": 3261
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0013.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "3f3a1e2a4f537d0d0bd3012ca93d492c7b236def6cf1ee1f67cf15ee938b02bf",
+      "published_sha256": "3f3a1e2a4f537d0d0bd3012ca93d492c7b236def6cf1ee1f67cf15ee938b02bf",
+      "bytes": 908
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0013.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "fef05c435c509ffe31e5fa2e095b0a5e3813f624564bfd2352b1b96549eb27b5",
+      "published_sha256": "fef05c435c509ffe31e5fa2e095b0a5e3813f624564bfd2352b1b96549eb27b5",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0014.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a016dddc2f83db1cbb57a22fc0ffcf9f3a90e73da91a8c64376ef8d6c35ca9ad",
+      "published_sha256": "a016dddc2f83db1cbb57a22fc0ffcf9f3a90e73da91a8c64376ef8d6c35ca9ad",
+      "bytes": 3246
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0014.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a5c4c007d029e07df2b03b5855944c143e877be22aa9317aa64aa9a73bc8c78d",
+      "published_sha256": "a5c4c007d029e07df2b03b5855944c143e877be22aa9317aa64aa9a73bc8c78d",
+      "bytes": 902
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0014.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "903a07ebc425cc253b74abd9e657238cd426fc2c1c8779fb6d37c6791d4eae84",
+      "published_sha256": "903a07ebc425cc253b74abd9e657238cd426fc2c1c8779fb6d37c6791d4eae84",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0015.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "4e90a69056eb68ea4c77a64fbd8399cc658296b0d52a573a0e844869ae226668",
+      "published_sha256": "4e90a69056eb68ea4c77a64fbd8399cc658296b0d52a573a0e844869ae226668",
+      "bytes": 3430
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0015.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "b42e9949d5f406b1af0c53b177599353bbf369110f5921a32fdef31e067fad45",
+      "published_sha256": "b42e9949d5f406b1af0c53b177599353bbf369110f5921a32fdef31e067fad45",
+      "bytes": 950
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0015.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "fe68b023f7789f277657417aa85abc4d45347946b8cd9604a2532232b29881d6",
+      "published_sha256": "fe68b023f7789f277657417aa85abc4d45347946b8cd9604a2532232b29881d6",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0016.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "8fab6adce05aefdaee8ac84e5b03742feafee9115f486af41966072ca00912fc",
+      "published_sha256": "8fab6adce05aefdaee8ac84e5b03742feafee9115f486af41966072ca00912fc",
+      "bytes": 3373
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0016.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "4e27f8c645cec7564faeb77f396c04aecf98f49746078ee268b17cb933b3165b",
+      "published_sha256": "4e27f8c645cec7564faeb77f396c04aecf98f49746078ee268b17cb933b3165b",
+      "bytes": 938
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0016.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "d38a8ffd3f59cc3d7d20308cd1310b9b79eef6131a06c0a104fe5c48da0d8fdc",
+      "published_sha256": "d38a8ffd3f59cc3d7d20308cd1310b9b79eef6131a06c0a104fe5c48da0d8fdc",
+      "bytes": 588
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/contract.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "3998483713ca851f6f6225830070ab75e4f9c26032aa427d26bcd46c63fb8c86",
+      "published_sha256": "3998483713ca851f6f6225830070ab75e4f9c26032aa427d26bcd46c63fb8c86",
+      "bytes": 656
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/decoder-inputs.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "49e7b6b3a1bdbf9e48de698ea3eb6053fc7c13cb2be800b95f8e1e7a86fd8729",
+      "published_sha256": "49e7b6b3a1bdbf9e48de698ea3eb6053fc7c13cb2be800b95f8e1e7a86fd8729",
+      "bytes": 18353
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/environment.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "087e3f11b5171c74ac8c94b7ef78c1dfb1b679a34118dfc7ea0b697b924fc577",
+      "published_sha256": "087e3f11b5171c74ac8c94b7ef78c1dfb1b679a34118dfc7ea0b697b924fc577",
+      "bytes": 285
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/model-load-started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a70c8b7c9a0cdc980c56370b372381169710a12ff506704607538ecacc2804b0",
+      "published_sha256": "a70c8b7c9a0cdc980c56370b372381169710a12ff506704607538ecacc2804b0",
+      "bytes": 262
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/model-load.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "53048cc088ff09b2577cfe4a14ff646ef86a0c31e801998932ff7f2477e6d7bf",
+      "published_sha256": "53048cc088ff09b2577cfe4a14ff646ef86a0c31e801998932ff7f2477e6d7bf",
+      "bytes": 623142
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0001.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "95dded93747a178a2e07b1f99edf0954e99a70fb9e3dbd8ae99d3a5d4cd9035a",
+      "published_sha256": "95dded93747a178a2e07b1f99edf0954e99a70fb9e3dbd8ae99d3a5d4cd9035a",
+      "bytes": 3636
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0002.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "91dd4065b44ff8c27806d640f3fedb3a5e2573824a6046d9f6a68df63acd0971",
+      "published_sha256": "91dd4065b44ff8c27806d640f3fedb3a5e2573824a6046d9f6a68df63acd0971",
+      "bytes": 3793
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0003.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "cdf60fb50b8315f2c0258bb476a6055d439444993cf391bd9bd799776bb6610b",
+      "published_sha256": "cdf60fb50b8315f2c0258bb476a6055d439444993cf391bd9bd799776bb6610b",
+      "bytes": 3956
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0004.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "af0d7d075395140f9e2605ba365fd1a6942ef66a83d10b036856358a70700cbb",
+      "published_sha256": "af0d7d075395140f9e2605ba365fd1a6942ef66a83d10b036856358a70700cbb",
+      "bytes": 4119
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0005.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "df7bc93a52116c38d11710507903286a5ca17248652b52e0916e053ffea8f492",
+      "published_sha256": "df7bc93a52116c38d11710507903286a5ca17248652b52e0916e053ffea8f492",
+      "bytes": 4282
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0006.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f5bcd9aa346e47924745b20d9320957d5e52c8c9816a9e81aabb1ccb1a550b49",
+      "published_sha256": "f5bcd9aa346e47924745b20d9320957d5e52c8c9816a9e81aabb1ccb1a550b49",
+      "bytes": 4445
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0007.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f884243d1b49e1ffece880f2618a893030bd32c2b5d00bcd4e9659dd438c3157",
+      "published_sha256": "f884243d1b49e1ffece880f2618a893030bd32c2b5d00bcd4e9659dd438c3157",
+      "bytes": 4650
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0008.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "77d12173e71dabf011938b2cf25ff28487f5f104d93c03deddee642ff195ed9a",
+      "published_sha256": "77d12173e71dabf011938b2cf25ff28487f5f104d93c03deddee642ff195ed9a",
+      "bytes": 4813
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0009.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "2084018da433c292ed0d183326e7177d17f3c4fd5c0cefd3969a5eb82d23a52c",
+      "published_sha256": "2084018da433c292ed0d183326e7177d17f3c4fd5c0cefd3969a5eb82d23a52c",
+      "bytes": 5018
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0010.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c8ea9016306ac3958d1d52b975ad5cd39d559e90a81f701c5560300c38ac192c",
+      "published_sha256": "c8ea9016306ac3958d1d52b975ad5cd39d559e90a81f701c5560300c38ac192c",
+      "bytes": 5217
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0011.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "dc95cff8030e8b911ca4d85b472a5639d5cb9844d441300d684e0e9fd440ed95",
+      "published_sha256": "dc95cff8030e8b911ca4d85b472a5639d5cb9844d441300d684e0e9fd440ed95",
+      "bytes": 5386
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0012.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "714a0475a8684d5e1975eeaaf857201f8d9657d920b7690781115979815bf3d8",
+      "published_sha256": "714a0475a8684d5e1975eeaaf857201f8d9657d920b7690781115979815bf3d8",
+      "bytes": 5543
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0013.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "65a854c7aad9d0f544220e0a58df8ef5acfe882d88e0b821e3481a932f2aad2d",
+      "published_sha256": "65a854c7aad9d0f544220e0a58df8ef5acfe882d88e0b821e3481a932f2aad2d",
+      "bytes": 5712
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0014.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0e71023ba341e844bcf8b0c772d94f2eef02cb9567c946dc1bf202f270e8a09c",
+      "published_sha256": "0e71023ba341e844bcf8b0c772d94f2eef02cb9567c946dc1bf202f270e8a09c",
+      "bytes": 5875
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0015.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "2eefd8e3fb165c9f74859928ada5b70ed9854267c8cbdbb5e45962f5f22aded9",
+      "published_sha256": "2eefd8e3fb165c9f74859928ada5b70ed9854267c8cbdbb5e45962f5f22aded9",
+      "bytes": 6086
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.0016.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c708caa7657cc55c0b12600496b72c4b0c2d752977535f7ca956a47afa7f6722",
+      "published_sha256": "c708caa7657cc55c0b12600496b72c4b0c2d752977535f7ca956a47afa7f6722",
+      "bytes": 6285
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.initial.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1bfaca233f5a22a43886293d894758ce040917b25e93a49ce23f906a75115bd4",
+      "published_sha256": "1bfaca233f5a22a43886293d894758ce040917b25e93a49ce23f906a75115bd4",
+      "bytes": 3473
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/outcomes.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c708caa7657cc55c0b12600496b72c4b0c2d752977535f7ca956a47afa7f6722",
+      "published_sha256": "c708caa7657cc55c0b12600496b72c4b0c2d752977535f7ca956a47afa7f6722",
+      "bytes": 6285
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/plan.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0da6856b7342ad1c8f7b66dfd2a189bf4bb9fa32b9a8dc176b74a2c458df922c",
+      "published_sha256": "0da6856b7342ad1c8f7b66dfd2a189bf4bb9fa32b9a8dc176b74a2c458df922c",
+      "bytes": 4355
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/summary.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "5b6f2a0c0fe444038a4624279c7a6b2ab79eed571e3a2c7b80fd65b3f05b7ef7",
+      "published_sha256": "5b6f2a0c0fe444038a4624279c7a6b2ab79eed571e3a2c7b80fd65b3f05b7ef7",
+      "bytes": 324
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sense-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "2b63a8e6727a2baedbd2ee48e8497f6f04aa24d095ba75e4896a1fd9c457d45a",
+      "published_sha256": "2b63a8e6727a2baedbd2ee48e8497f6f04aa24d095ba75e4896a1fd9c457d45a",
+      "bytes": 1407
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sense-supervisor.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e9aa904d0a9a17cd1e2b91eea255a6dfa1d3703c8fcc0b775ee784fd5b11fb19",
+      "published_sha256": "e9aa904d0a9a17cd1e2b91eea255a6dfa1d3703c8fcc0b775ee784fd5b11fb19",
+      "bytes": 2894
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0001.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "4f209121a3c1834d7b7ab757d828211637e5ab4d163feba5036159031aeca7f7",
+      "published_sha256": "4f209121a3c1834d7b7ab757d828211637e5ab4d163feba5036159031aeca7f7",
+      "bytes": 2440
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0001.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "272c1d0a00249fd488d351ad9155bc1f3d40220fcf064e8c6dcac7ff8b3e38ca",
+      "published_sha256": "272c1d0a00249fd488d351ad9155bc1f3d40220fcf064e8c6dcac7ff8b3e38ca",
+      "bytes": 896
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0001.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "ebd28098e5bd7c59706b57d3180e5c506043ebf4cadd01fab1a8dbb9767621f7",
+      "published_sha256": "ebd28098e5bd7c59706b57d3180e5c506043ebf4cadd01fab1a8dbb9767621f7",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0002.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f116a469987c38770bac8c71bb34d2a7d209c3eac649dd6c49b3d3e25238fd37",
+      "published_sha256": "f116a469987c38770bac8c71bb34d2a7d209c3eac649dd6c49b3d3e25238fd37",
+      "bytes": 2417
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0002.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "8a960effad28d2323480b895a10c3500d140410f6902c4630eabdbcc79deec6c",
+      "published_sha256": "8a960effad28d2323480b895a10c3500d140410f6902c4630eabdbcc79deec6c",
+      "bytes": 890
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0002.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "4690e099523599e209eb8c1420f52e6375665414b7f126883b607308765f3c93",
+      "published_sha256": "4690e099523599e209eb8c1420f52e6375665414b7f126883b607308765f3c93",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0003.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1a836a6fe6ac01411a3168f15260a713a7526003c6517412d1dbd4cc98e695fc",
+      "published_sha256": "1a836a6fe6ac01411a3168f15260a713a7526003c6517412d1dbd4cc98e695fc",
+      "bytes": 2441
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0003.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a984d2afa1c44cbd3a858350a61bad82d05374584b7c536114ebb0acba378118",
+      "published_sha256": "a984d2afa1c44cbd3a858350a61bad82d05374584b7c536114ebb0acba378118",
+      "bytes": 896
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0003.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c00281b2e279709dea8e826fe0e0c6d4d9d7c9bb88f310ad553cee7dc1e13f18",
+      "published_sha256": "c00281b2e279709dea8e826fe0e0c6d4d9d7c9bb88f310ad553cee7dc1e13f18",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0004.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "131f8ba52b3d3930746e9a49b1794c8f06b02bf60da95b4d80fe5fba107ab576",
+      "published_sha256": "131f8ba52b3d3930746e9a49b1794c8f06b02bf60da95b4d80fe5fba107ab576",
+      "bytes": 2441
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0004.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a06ae9fe9767da11ae3739a0cb815682c25dbce06c9c17c3182611984d2d765d",
+      "published_sha256": "a06ae9fe9767da11ae3739a0cb815682c25dbce06c9c17c3182611984d2d765d",
+      "bytes": 896
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0004.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "590339b845ea20a122aec88751d42efcb1e9f87a2ea476be5b359324cd41cb02",
+      "published_sha256": "590339b845ea20a122aec88751d42efcb1e9f87a2ea476be5b359324cd41cb02",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0005.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "67f1e39d14313d139a08e5ac58b5aba0dc78d8e2b7ef64eb9ec67d0eb565490c",
+      "published_sha256": "67f1e39d14313d139a08e5ac58b5aba0dc78d8e2b7ef64eb9ec67d0eb565490c",
+      "bytes": 2433
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0005.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "2563196699178dd3a22ef6a4e450c6aa9afe31e06ddadd63cc443f89c5d6ea3e",
+      "published_sha256": "2563196699178dd3a22ef6a4e450c6aa9afe31e06ddadd63cc443f89c5d6ea3e",
+      "bytes": 896
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0005.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "adda811fa18d3bbd0e80c1aba3507205523ba6695a5b21ee0a3494215c781c88",
+      "published_sha256": "adda811fa18d3bbd0e80c1aba3507205523ba6695a5b21ee0a3494215c781c88",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0006.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c96244ada0dbdd6599f977ec1b061b7b1845b3e4afb3ac4d86315705b7492507",
+      "published_sha256": "c96244ada0dbdd6599f977ec1b061b7b1845b3e4afb3ac4d86315705b7492507",
+      "bytes": 2440
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0006.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a26d4a3688fdb4ee1043e6c232b9b749cf1e6f14763f27635b878e55276ad0ab",
+      "published_sha256": "a26d4a3688fdb4ee1043e6c232b9b749cf1e6f14763f27635b878e55276ad0ab",
+      "bytes": 896
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0006.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "08d49b761723613c1c39119900d3e71bad819272e412f3ea557ae0e0937eb0a1",
+      "published_sha256": "08d49b761723613c1c39119900d3e71bad819272e412f3ea557ae0e0937eb0a1",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0007.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "fd5b953ef8c1a728125a1e6790bd9d91d02e33158cd8922025c0a1d2d8c7b821",
+      "published_sha256": "fd5b953ef8c1a728125a1e6790bd9d91d02e33158cd8922025c0a1d2d8c7b821",
+      "bytes": 2584
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0007.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "cf6e3c75fa19878a98369eaa861ad04843759783336ed3926d74d2fb623864d0",
+      "published_sha256": "cf6e3c75fa19878a98369eaa861ad04843759783336ed3926d74d2fb623864d0",
+      "bytes": 932
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0007.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "3c11e436a6bea6da5c91b0d65acb4348af07f5476abba1f899c659956fe915a9",
+      "published_sha256": "3c11e436a6bea6da5c91b0d65acb4348af07f5476abba1f899c659956fe915a9",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0008.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "21c0b997372c5c0173092e58d175394acf1635f9c9fc129b4124484154dd05d7",
+      "published_sha256": "21c0b997372c5c0173092e58d175394acf1635f9c9fc129b4124484154dd05d7",
+      "bytes": 2441
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0008.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "92f7589aa55067790459aff93e79b4c46f211aa866123eeec112c62f382bedfb",
+      "published_sha256": "92f7589aa55067790459aff93e79b4c46f211aa866123eeec112c62f382bedfb",
+      "bytes": 896
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0008.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "cdc4847d52086b86208fb3e16dd7484992029bfc6a1f313aba68a96b694ebc67",
+      "published_sha256": "cdc4847d52086b86208fb3e16dd7484992029bfc6a1f313aba68a96b694ebc67",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0009.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f895a790a2ac751c50400d65d606f1e8b133f8aea9b08537473f0e3e8d796cfa",
+      "published_sha256": "f895a790a2ac751c50400d65d606f1e8b133f8aea9b08537473f0e3e8d796cfa",
+      "bytes": 2584
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0009.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "bae61bf07b611d183679f14795cf9393c3826838bce733b2beeb0a20b6a264af",
+      "published_sha256": "bae61bf07b611d183679f14795cf9393c3826838bce733b2beeb0a20b6a264af",
+      "bytes": 932
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0009.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "770cffd41d7dbf18c3f3a1190a45b33f1b5ffa72440b264d3a9ce522cefa6e2d",
+      "published_sha256": "770cffd41d7dbf18c3f3a1190a45b33f1b5ffa72440b264d3a9ce522cefa6e2d",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0010.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "ab87d3f56918c57ff2d37ef3198eea45a107ae0896162073473f7960dbe7f65b",
+      "published_sha256": "ab87d3f56918c57ff2d37ef3198eea45a107ae0896162073473f7960dbe7f65b",
+      "bytes": 2584
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0010.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c521f9efcb2ed7fb778d7b6553c28a6b037aee1e2d1b37acfd68760b5b163352",
+      "published_sha256": "c521f9efcb2ed7fb778d7b6553c28a6b037aee1e2d1b37acfd68760b5b163352",
+      "bytes": 932
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0010.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c5ddcc63be8c88002ef012f21b0c69179281110c0f879e2cf388ca167f44ba5e",
+      "published_sha256": "c5ddcc63be8c88002ef012f21b0c69179281110c0f879e2cf388ca167f44ba5e",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0011.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "bfa85f3800fd3c540a2daa449b52cea6cabbb7ed968b813f702a45cb02f30d0d",
+      "published_sha256": "bfa85f3800fd3c540a2daa449b52cea6cabbb7ed968b813f702a45cb02f30d0d",
+      "bytes": 2411
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0011.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "bceeb19d338062808010e567be83723c12f94df199cb6315a331ef5772e57147",
+      "published_sha256": "bceeb19d338062808010e567be83723c12f94df199cb6315a331ef5772e57147",
+      "bytes": 890
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0011.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "d9137b204f2cc603c1d3269f9bd6180a0809ee8688b21801fd5a2fa59ec3a4f7",
+      "published_sha256": "d9137b204f2cc603c1d3269f9bd6180a0809ee8688b21801fd5a2fa59ec3a4f7",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0012.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "da38ed8d42ff359750f0b1b5bfbd7a196c5bdb5a60f73a36c28df6e383dcb9c8",
+      "published_sha256": "da38ed8d42ff359750f0b1b5bfbd7a196c5bdb5a60f73a36c28df6e383dcb9c8",
+      "bytes": 2385
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0012.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "274b4da71b2db82b94f2b137b10d9e0a7f81fc81b9f2ac5b2deb38e3fa671c39",
+      "published_sha256": "274b4da71b2db82b94f2b137b10d9e0a7f81fc81b9f2ac5b2deb38e3fa671c39",
+      "bytes": 884
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0012.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "6393419917ae75ca913b488cc9d8f8067403a8b741758929d4c6e321fdfe2b4a",
+      "published_sha256": "6393419917ae75ca913b488cc9d8f8067403a8b741758929d4c6e321fdfe2b4a",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0013.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e90068707399a14069e7f3773bc6069f7cf957bf22b72964cf5c96034a5011ad",
+      "published_sha256": "e90068707399a14069e7f3773bc6069f7cf957bf22b72964cf5c96034a5011ad",
+      "bytes": 2462
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0013.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "7d8818332dd66f3673f852aa5ac62d5585e579fe2b71ae4a8bbb92cf27fa6493",
+      "published_sha256": "7d8818332dd66f3673f852aa5ac62d5585e579fe2b71ae4a8bbb92cf27fa6493",
+      "bytes": 902
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0013.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "428807f67ef66f31479ff8be1e4fc81e4e84f5918fc5c4f59bba2735b6d42285",
+      "published_sha256": "428807f67ef66f31479ff8be1e4fc81e4e84f5918fc5c4f59bba2735b6d42285",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0014.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "96498691fa60e95ba19c8912348f9e50a775e1ceb0a0d3d1be5a6a03a4a9ba6c",
+      "published_sha256": "96498691fa60e95ba19c8912348f9e50a775e1ceb0a0d3d1be5a6a03a4a9ba6c",
+      "bytes": 2435
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0014.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "86d3c864e2092847b01e9acf5fa71897e758ce531187232c475a8215b1286e6c",
+      "published_sha256": "86d3c864e2092847b01e9acf5fa71897e758ce531187232c475a8215b1286e6c",
+      "bytes": 896
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0014.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "627175854bf1d594e49d71c88b6e717ab870ca1465473f6b88ddba1f5f12d404",
+      "published_sha256": "627175854bf1d594e49d71c88b6e717ab870ca1465473f6b88ddba1f5f12d404",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0015.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "aa516579ac186c6b9ae9709ea6655bf53c59547669e5b762ecb9af1421fef08f",
+      "published_sha256": "aa516579ac186c6b9ae9709ea6655bf53c59547669e5b762ecb9af1421fef08f",
+      "bytes": 2602
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0015.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c53bd0ac22992e594e9ee0b4317793b80b13d315c013692522d82e5aba17b6c6",
+      "published_sha256": "c53bd0ac22992e594e9ee0b4317793b80b13d315c013692522d82e5aba17b6c6",
+      "bytes": 938
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0015.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "9d6c739ceb0837de40b8ed7be7b45df6a32f5ddbf82d3a666ff984cf14141dc9",
+      "published_sha256": "9d6c739ceb0837de40b8ed7be7b45df6a32f5ddbf82d3a666ff984cf14141dc9",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0016.decoder.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a91be398b4a0dbfffa13dec5ecddf9112f3d352c6a82239edb4bd75c1ce791b9",
+      "published_sha256": "a91be398b4a0dbfffa13dec5ecddf9112f3d352c6a82239edb4bd75c1ce791b9",
+      "bytes": 2578
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0016.receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "db4c0e97de5a6d851956ff178fc6254ae27b151e1ad2c539975543feb21e0b2f",
+      "published_sha256": "db4c0e97de5a6d851956ff178fc6254ae27b151e1ad2c539975543feb21e0b2f",
+      "bytes": 932
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0016.started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "d07aa53f851b587696a6d068b44eb9ab7ce410b3d68cb04940d93ef46c97117f",
+      "published_sha256": "d07aa53f851b587696a6d068b44eb9ab7ce410b3d68cb04940d93ef46c97117f",
+      "bytes": 600
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/contract.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "6e39bc198487d833339df40a802165946c36e61ed659fc14262425c741e8586d",
+      "published_sha256": "6e39bc198487d833339df40a802165946c36e61ed659fc14262425c741e8586d",
+      "bytes": 668
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/decoder-inputs.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "49e7b6b3a1bdbf9e48de698ea3eb6053fc7c13cb2be800b95f8e1e7a86fd8729",
+      "published_sha256": "49e7b6b3a1bdbf9e48de698ea3eb6053fc7c13cb2be800b95f8e1e7a86fd8729",
+      "bytes": 18353
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/environment.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "087e3f11b5171c74ac8c94b7ef78c1dfb1b679a34118dfc7ea0b697b924fc577",
+      "published_sha256": "087e3f11b5171c74ac8c94b7ef78c1dfb1b679a34118dfc7ea0b697b924fc577",
+      "bytes": 285
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/model-load-started.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "376b9baa058b0805bac7a3cae188a765a3cc0229e1c87b07a22b9705470f74cf",
+      "published_sha256": "376b9baa058b0805bac7a3cae188a765a3cc0229e1c87b07a22b9705470f74cf",
+      "bytes": 274
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/model-load.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "d40e7fed74d22387e449bf7e00d0d70174df0b4e25426251e11029d643807676",
+      "published_sha256": "d40e7fed74d22387e449bf7e00d0d70174df0b4e25426251e11029d643807676",
+      "bytes": 487129
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0001.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a9d1e310f5c35511b339107c177721df73c4138d96175f29eecbf8ddda2dfdfd",
+      "published_sha256": "a9d1e310f5c35511b339107c177721df73c4138d96175f29eecbf8ddda2dfdfd",
+      "bytes": 3618
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0002.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "efa95fc953dff3f071a3941f6dc0cd5c178d16eb4a3afbcd7664b49f19bf2fa0",
+      "published_sha256": "efa95fc953dff3f071a3941f6dc0cd5c178d16eb4a3afbcd7664b49f19bf2fa0",
+      "bytes": 3757
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0003.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "882df1dbc7aec632e006b6dd67046bc3d672a1fa37f193b5a71df09e64715879",
+      "published_sha256": "882df1dbc7aec632e006b6dd67046bc3d672a1fa37f193b5a71df09e64715879",
+      "bytes": 3902
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0004.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a71fccba6697974cdc565686523a5a55f57411744e1d89f2095bb7af60918d3e",
+      "published_sha256": "a71fccba6697974cdc565686523a5a55f57411744e1d89f2095bb7af60918d3e",
+      "bytes": 4047
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0005.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "20d907176e3fe1767a4956e1825f19a8e67eb0c17a2ae8cac6ac8e52ff7cac2e",
+      "published_sha256": "20d907176e3fe1767a4956e1825f19a8e67eb0c17a2ae8cac6ac8e52ff7cac2e",
+      "bytes": 4192
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0006.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "ee03df7b315bbb7fdb03e62cba5ac37af53a84225a77830d86794510b17db6be",
+      "published_sha256": "ee03df7b315bbb7fdb03e62cba5ac37af53a84225a77830d86794510b17db6be",
+      "bytes": 4337
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0007.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f370167a826423500de78ea73cc27d9352ab0c39462bc8a2585e521173888bea",
+      "published_sha256": "f370167a826423500de78ea73cc27d9352ab0c39462bc8a2585e521173888bea",
+      "bytes": 4518
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0008.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "145f99d4be3d21e5a2cc1e8421bff5214088abdc5caf59bbff0fff608fe0dfc3",
+      "published_sha256": "145f99d4be3d21e5a2cc1e8421bff5214088abdc5caf59bbff0fff608fe0dfc3",
+      "bytes": 4663
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0009.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "872dc12ce1b08321df7bb81148239c5f48a4db569e3675c944ff88ea8ed57b01",
+      "published_sha256": "872dc12ce1b08321df7bb81148239c5f48a4db569e3675c944ff88ea8ed57b01",
+      "bytes": 4844
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0010.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0e1a87222752bec01ac6d73ae066ed7e707deff19efa9f2d0c11080619b89b23",
+      "published_sha256": "0e1a87222752bec01ac6d73ae066ed7e707deff19efa9f2d0c11080619b89b23",
+      "bytes": 5025
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0011.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0a0651cac4ea5beab40f70ff8e17be7ec1850f3cebc359055202f3ad3f18de2d",
+      "published_sha256": "0a0651cac4ea5beab40f70ff8e17be7ec1850f3cebc359055202f3ad3f18de2d",
+      "bytes": 5164
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0012.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f939ac65f26f710037406f335f1348420e940fb25ad8182cc11c07a97c17e998",
+      "published_sha256": "f939ac65f26f710037406f335f1348420e940fb25ad8182cc11c07a97c17e998",
+      "bytes": 5297
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0013.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "7ecc7c37047c532ddbe9c96074e71e37d84da91d0e452674a43afc6fe0f8a7b5",
+      "published_sha256": "7ecc7c37047c532ddbe9c96074e71e37d84da91d0e452674a43afc6fe0f8a7b5",
+      "bytes": 5448
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0014.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "2d0930ac62159c797bcdaaa06059f14e5c1a83f5f8d7c0744a56c0fbfe87cd48",
+      "published_sha256": "2d0930ac62159c797bcdaaa06059f14e5c1a83f5f8d7c0744a56c0fbfe87cd48",
+      "bytes": 5593
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0015.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "12822d59669b53d651421d1386a8a67c7545141208a1218223dd01c67876b575",
+      "published_sha256": "12822d59669b53d651421d1386a8a67c7545141208a1218223dd01c67876b575",
+      "bytes": 5780
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.0016.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "4a2d4b641164bb23cbd60987eb90d96a1408b20753c139f3fa2ca40101e9ad19",
+      "published_sha256": "4a2d4b641164bb23cbd60987eb90d96a1408b20753c139f3fa2ca40101e9ad19",
+      "bytes": 5961
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.initial.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1bfaca233f5a22a43886293d894758ce040917b25e93a49ce23f906a75115bd4",
+      "published_sha256": "1bfaca233f5a22a43886293d894758ce040917b25e93a49ce23f906a75115bd4",
+      "bytes": 3473
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/outcomes.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "4a2d4b641164bb23cbd60987eb90d96a1408b20753c139f3fa2ca40101e9ad19",
+      "published_sha256": "4a2d4b641164bb23cbd60987eb90d96a1408b20753c139f3fa2ca40101e9ad19",
+      "bytes": 5961
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/plan.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0ec850fb323cbdd42267e9a0c695107633a3f650757bfe7d307993f8e93d61cb",
+      "published_sha256": "0ec850fb323cbdd42267e9a0c695107633a3f650757bfe7d307993f8e93d61cb",
+      "bytes": 3891
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/summary.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "92380ca88f3416e7c6ab04818a6e75bef015a4e651a37bff8128df3f2df0ab2a",
+      "published_sha256": "92380ca88f3416e7c6ab04818a6e75bef015a4e651a37bff8128df3f2df0ab2a",
+      "bytes": 336
+    },
+    {
+      "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice-bundle-validation.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c955aa90875839074a86b6f75322bf36efda329a29228d42436092a7e8a8f3fa",
+      "published_sha256": "c955aa90875839074a86b6f75322bf36efda329a29228d42436092a7e8a8f3fa",
+      "bytes": 10630
+    },
+    {
+      "path": "asr-calibration-stage-v1/probe_tensor_inputs.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "bbf7e57a004e5b6517be3dabb485dad7db98f50039a30b0d982520f8c55afd40",
+      "published_sha256": "bbf7e57a004e5b6517be3dabb485dad7db98f50039a30b0d982520f8c55afd40",
+      "bytes": 3177
+    },
+    {
+      "path": "asr-calibration-stage-v1/qualify_architecture.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "746c84d297cbb34138f2e02c02378b4d0572bdf20c036e75122933e7a12bf5d8",
+      "published_sha256": "746c84d297cbb34138f2e02c02378b4d0572bdf20c036e75122933e7a12bf5d8",
+      "bytes": 4627
+    },
+    {
+      "path": "asr-calibration-stage-v1/qwen-header-check.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "4c880b24ebb9debca08a4b59ce179eb95578e8dc99bd1880a85096087b795309",
+      "published_sha256": "4c880b24ebb9debca08a4b59ce179eb95578e8dc99bd1880a85096087b795309",
+      "bytes": 455
+    },
+    {
+      "path": "asr-calibration-stage-v1/run_primary.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "ca816f5fd887b20b0bbd5fb5f840cbd36d0a5a35889fb7297b18fb3f986ffda8",
+      "published_sha256": "ca816f5fd887b20b0bbd5fb5f840cbd36d0a5a35889fb7297b18fb3f986ffda8",
+      "bytes": 1434
+    },
+    {
+      "path": "asr-calibration-stage-v1/score_primary.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c91d4a8e0d89bc9ed935f76ffab9b3e101d4cc0e05b88387da4848de12a228b4",
+      "published_sha256": "c91d4a8e0d89bc9ed935f76ffab9b3e101d4cc0e05b88387da4848de12a228b4",
+      "bytes": 3322
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/README.md",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "4c77421021fb4bd1162246085256058f7fccf1868d0b78e0f363ae6e18cfa015",
+      "published_sha256": "4c77421021fb4bd1162246085256058f7fccf1868d0b78e0f363ae6e18cfa015",
+      "bytes": 8075
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/THIRD-PARTY-NOTICES.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1fee600456df0f14131bbbff337914307ba2a1b2287a19e617ee513054d58d2a",
+      "published_sha256": "1fee600456df0f14131bbbff337914307ba2a1b2287a19e617ee513054d58d2a",
+      "bytes": 6633
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/clock-verification.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0524c4015bb0ff2e94fbdff4c48a6a7403deffbbd15f392a0747d7a3540f62c6",
+      "published_sha256": "80f265a72c3ce56e3f7fc1f24d0b78c26bd01b8805e2ff6be866dc20bc6d82d7",
+      "bytes": 873
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/freeze_lexicons.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c5794a4fbbc5a675ae09836a6666f8ff2f52bc8474cf9062d9e38fd9653b512a",
+      "published_sha256": "be0cc1a421c8ba4da0993dbd42d632b889f0c81a48c196e64ae05560655d1b06",
+      "bytes": 10968
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/frozen/characters.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "2800d2c3b3dde2ee476d095149cc9a0f40d475729704fb085ac705a6413d508d",
+      "published_sha256": "2800d2c3b3dde2ee476d095149cc9a0f40d475729704fb085ac705a6413d508d",
+      "bytes": 705099
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/frozen/freeze.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "8110a26a1a9382045139c2f3662c2c18ba771b4f444d6529a4453e4da0d9e6da",
+      "published_sha256": "69bfc8f70770bfd6cb02924d46e7928fa9d3be68e907151a7943b3df565ec97f",
+      "bytes": 5208
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/frozen/phrases.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "5bdc1773b7af068bfb6ba34687e08c95fa37b0cc2468f25025d57e776f4ca648",
+      "published_sha256": "5bdc1773b7af068bfb6ba34687e08c95fa37b0cc2468f25025d57e776f4ca648",
+      "bytes": 1973232
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/frozen/reading-roundtrip.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "8737a9cf084844acee728457c0615c579932926826682cfd48c0637ff473bf33",
+      "published_sha256": "8737a9cf084844acee728457c0615c579932926826682cfd48c0637ff473bf33",
+      "bytes": 22165
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/frozen/rules.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1495ae540c56a20de1ba78074d10f488f741acca82be9e358d2a2b4c68828f8b",
+      "published_sha256": "1495ae540c56a20de1ba78074d10f488f741acca82be9e358d2a2b4c68828f8b",
+      "bytes": 500
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/scorer/LICENSE",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "06d4c76347e397987c4951179b1c65fbd17bc948e09b5617b38be02bc1f93eab",
+      "published_sha256": "06d4c76347e397987c4951179b1c65fbd17bc948e09b5617b38be02bc1f93eab",
+      "bytes": 9108
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/scorer/calibrate.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "2bd566983f9846e19c3ac24d59cffe155cc4b45c39c1d64a9f1fae7772af104a",
+      "published_sha256": "2bd566983f9846e19c3ac24d59cffe155cc4b45c39c1d64a9f1fae7772af104a",
+      "bytes": 30305
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/scorer/source-reference.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "08d4f8673135d96832879de10642ad9a364ad16b3f1635becb5c56c636ac1475",
+      "published_sha256": "08d4f8673135d96832879de10642ad9a364ad16b3f1635becb5c56c636ac1475",
+      "bytes": 261
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/test-results.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "95f768cc6aaf216c8a18c8d3e46b64db9832bf4155ea1d12c16800ef6ea8b6bd",
+      "published_sha256": "95f768cc6aaf216c8a18c8d3e46b64db9832bf4155ea1d12c16800ef6ea8b6bd",
+      "bytes": 3103
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/test_frozen_lexicons.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "96024a975543519aade37689a701f18d4072273e3a2ecd9df2cdf8a21406bf3b",
+      "published_sha256": "96024a975543519aade37689a701f18d4072273e3a2ecd9df2cdf8a21406bf3b",
+      "bytes": 12923
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/LICENSE.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1e6c90014b4912815c296ee64bb6f6280af47e6d4c5d80e86232dfc5defe764c",
+      "published_sha256": "1e6c90014b4912815c296ee64bb6f6280af47e6d4c5d80e86232dfc5defe764c",
+      "bytes": 1105
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/PKG-INFO",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "82ac94eb74fa0eb500355219bc585228716759ed255c385c5e32dd28ddbaf03f",
+      "published_sha256": "82ac94eb74fa0eb500355219bc585228716759ed255c385c5e32dd28ddbaf03f",
+      "bytes": 12651
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/README.rst",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f68d7d27ba5b1e1abc1958c4e7ed8a09aee5261c7c6f2394ac16fc8b101a15b5",
+      "published_sha256": "f68d7d27ba5b1e1abc1958c4e7ed8a09aee5261c7c6f2394ac16fc8b101a15b5",
+      "bytes": 10571
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/phrase-pinyin-data/LICENSE",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "89ac55df747e4776088c3e77531ef61b973a1a59dd8e6a4548a58996da9a4f70",
+      "published_sha256": "89ac55df747e4776088c3e77531ef61b973a1a59dd8e6a4548a58996da9a4f70",
+      "bytes": 1066
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/phrase-pinyin-data/README.md",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "79e9b1a13e6948af49c055a75a792df7844429bb8de3d38c75f383886e100654",
+      "published_sha256": "79e9b1a13e6948af49c055a75a792df7844429bb8de3d38c75f383886e100654",
+      "bytes": 2565
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/phrase-pinyin-data/pinyin.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "dcc769607c220b312fea3e71cb63421298b4b891b1f7356a95ab58f2c96fff81",
+      "published_sha256": "dcc769607c220b312fea3e71cb63421298b4b891b1f7356a95ab58f2c96fff81",
+      "bytes": 1256063
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pinyin-data/LICENSE",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "9c048697be2502a16e8bcb282d5d465a07295b2def0ffb05a269c5d39dbe1586",
+      "published_sha256": "9c048697be2502a16e8bcb282d5d465a07295b2def0ffb05a269c5d39dbe1586",
+      "bytes": 1076
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pinyin-data/README.md",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "775c581af29c3069421bfbe6cd641856bb0141487a02a7c39a1842cedd875a6d",
+      "published_sha256": "775c581af29c3069421bfbe6cd641856bb0141487a02a7c39a1842cedd875a6d",
+      "bytes": 4956
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pinyin-data/pinyin.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "6170ab4ff7c9740fe765b1d35e6d3ad43554dd02874199388db513c44dcddf9d",
+      "published_sha256": "6170ab4ff7c9740fe765b1d35e6d3ad43554dd02874199388db513c44dcddf9d",
+      "bytes": 929764
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pinyin-data-tree.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "64905411b7fa10590209c00d631ee9d69d58d73d956bfdb9582d0e1d9ac9cfb1",
+      "published_sha256": "64905411b7fa10590209c00d631ee9d69d58d73d956bfdb9582d0e1d9ac9cfb1",
+      "bytes": 10401
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pypi-0.55.0.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "3d153bb6a0607981164f30c7cc5524591c5dc01eefce3bac232c4032be7f71e4",
+      "published_sha256": "3d153bb6a0607981164f30c7cc5524591c5dc01eefce3bac232c4032be7f71e4",
+      "bytes": 14864
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pypinyin/phonetic_symbol.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "4072121012dabf2d35442d8ee4e75044624545aedb6e4adc4bada592b97f1b9a",
+      "published_sha256": "4072121012dabf2d35442d8ee4e75044624545aedb6e4adc4bada592b97f1b9a",
+      "bytes": 874
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pypinyin/phrases_dict.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a45ff140a6b631ca9c82127b280a2f414e0aba6bb2824a0e9d1e77fff359c665",
+      "published_sha256": "a45ff140a6b631ca9c82127b280a2f414e0aba6bb2824a0e9d1e77fff359c665",
+      "bytes": 2545585
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pypinyin/phrases_dict.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "3f6f39bbca68d8d1676ea463cd4620b934b03160cc5042fb9d9007b8f3a80b9e",
+      "published_sha256": "3f6f39bbca68d8d1676ea463cd4620b934b03160cc5042fb9d9007b8f3a80b9e",
+      "bytes": 421
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pypinyin/pinyin_dict.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "5f294c01e6c6c0a1c8e329c79335a3f8e0b27d06bf1de7a99244b765892d1e5b",
+      "published_sha256": "5f294c01e6c6c0a1c8e329c79335a3f8e0b27d06bf1de7a99244b765892d1e5b",
+      "bytes": 788780
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pypinyin/pinyin_dict.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "245c1f70509432b289cde1f938157cd5ff1372d1d083b577d5fab72b4dfcda08",
+      "published_sha256": "245c1f70509432b289cde1f938157cd5ff1372d1d083b577d5fab72b4dfcda08",
+      "bytes": 517
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pypinyin/style/_constants.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0e925a829e8884f61ea06a5d53c9a12984ed84ecb2a12d26fccb749eb11b9d03",
+      "published_sha256": "0e925a829e8884f61ea06a5d53c9a12984ed84ecb2a12d26fccb749eb11b9d03",
+      "bytes": 1532
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pypinyin/style/_tone_convert.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c31261e3ab6ed74159ef5b9edaae8d5493b51b83671b79287710b4a217000c88",
+      "published_sha256": "c31261e3ab6ed74159ef5b9edaae8d5493b51b83671b79287710b4a217000c88",
+      "bytes": 19866
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pypinyin/style/_utils.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "581c7dc5dd4cadaf9dba136a1c29f1310fd1396df13a6aed89039370bf177600",
+      "published_sha256": "581c7dc5dd4cadaf9dba136a1c29f1310fd1396df13a6aed89039370bf177600",
+      "bytes": 2558
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/pypinyin-0.55.0.tar.gz",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "b5711b3a0c6f76e67408ec6b2e3c4987a3a806b7c528076e7c7b86fcf0eaa66b",
+      "published_sha256": "b5711b3a0c6f76e67408ec6b2e3c4987a3a806b7c528076e7c7b86fcf0eaa66b",
+      "bytes": 839836
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/python-pinyin/.gitmodules",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c5c54b882e3e1df332d192d481c5c1c7f996303fe0047d78053e3eccb277fc46",
+      "published_sha256": "c5c54b882e3e1df332d192d481c5c1c7f996303fe0047d78053e3eccb277fc46",
+      "bytes": 217
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/python-pinyin/Makefile",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0a70dd3b2902af31f6cb82784b25609cf70b2b0b766fa01cb1064db3acf40f50",
+      "published_sha256": "0a70dd3b2902af31f6cb82784b25609cf70b2b0b766fa01cb1064db3acf40f50",
+      "bytes": 2918
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/python-pinyin/gen_phrases_dict.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "2044330084a33767b0fdc1ddff90f5d6af58948ea1dd23d65847e6508017cf38",
+      "published_sha256": "2044330084a33767b0fdc1ddff90f5d6af58948ea1dd23d65847e6508017cf38",
+      "bytes": 1663
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/python-pinyin/gen_pinyin_dict.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "ab5a636f1db7907cbfe3b0db418f94dcd2afa338f9db0b70ee6bc16bbb3a3e7b",
+      "published_sha256": "ab5a636f1db7907cbfe3b0db418f94dcd2afa338f9db0b70ee6bc16bbb3a3e7b",
+      "bytes": 1118
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/python-pinyin/pypinyin/phrases_dict.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a45ff140a6b631ca9c82127b280a2f414e0aba6bb2824a0e9d1e77fff359c665",
+      "published_sha256": "a45ff140a6b631ca9c82127b280a2f414e0aba6bb2824a0e9d1e77fff359c665",
+      "bytes": 2545585
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/python-pinyin/pypinyin/pinyin_dict.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "5f294c01e6c6c0a1c8e329c79335a3f8e0b27d06bf1de7a99244b765892d1e5b",
+      "published_sha256": "5f294c01e6c6c0a1c8e329c79335a3f8e0b27d06bf1de7a99244b765892d1e5b",
+      "bytes": 788780
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/python-pinyin-tree.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e5634e32289c5cd294ac7cca25e1e04fa9e45445fc84e2ce2681c8b1504e8c11",
+      "published_sha256": "e5634e32289c5cd294ac7cca25e1e04fa9e45445fc84e2ce2681c8b1504e8c11",
+      "bytes": 37541
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/unicode-16.0.0-ReadMe.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "14cafa23788d3a20dd21d6b0cdcb8d6dab520781fcd9ad9392f3b88ea607e633",
+      "published_sha256": "14cafa23788d3a20dd21d6b0cdcb8d6dab520781fcd9ad9392f3b88ea607e633",
+      "bytes": 693
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/unicode-license.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96",
+      "published_sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96",
+      "bytes": 1995
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/unicode-notice-references.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "53925cd09c3f87faa23ef5414f9a54721732b00a3357792c703dc53790ced403",
+      "published_sha256": "53925cd09c3f87faa23ef5414f9a54721732b00a3357792c703dc53790ced403",
+      "bytes": 431
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/upstream/upstream-references.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "d217d31cd5e83b932c2d37d3a3267284822f2de0efb274f4a46628b051e43402",
+      "published_sha256": "d217d31cd5e83b932c2d37d3a3267284822f2de0efb274f4a46628b051e43402",
+      "bytes": 3492
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/validation-receipt.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "63f8fe0c07e13715998e22f9f366d877af77a6e60ad96e5935b3eeb5d4a78eec",
+      "published_sha256": "63f8fe0c07e13715998e22f9f366d877af77a6e60ad96e5935b3eeb5d4a78eec",
+      "bytes": 790
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/licenses/funasr-LICENSE.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f382b62dcc61fc566b9215b1e3b604b539bfd96ed52ae1eeff5090f6dc176057",
+      "published_sha256": "f382b62dcc61fc566b9215b1e3b604b539bfd96ed52ae1eeff5090f6dc176057",
+      "bytes": 1061
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/licenses/provenance.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "cf6c43522c6246e7b8f60f917bb560b33bfb4a0c0187f5e954413b7545d06def",
+      "published_sha256": "cf6c43522c6246e7b8f60f917bb560b33bfb4a0c0187f5e954413b7545d06def",
+      "bytes": 692
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/licenses/qwen_asr-LICENSE.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a44a6081c73ad75f0255bb2bb5cab74ef1829565a895a24e53a4f11290ab7655",
+      "published_sha256": "a44a6081c73ad75f0255bb2bb5cab74ef1829565a895a24e53a4f11290ab7655",
+      "bytes": 11343
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/qwen_configuration.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "acf6c3f1cb3dc1ea0df621a11f7df6ccca109be73b6bf51508b5052942f5bec1",
+      "published_sha256": "acf6c3f1cb3dc1ea0df621a11f7df6ccca109be73b6bf51508b5052942f5bec1",
+      "bytes": 20164
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/qwen_inference.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0b1770f8e907b6c5a0a1e9ebce037cb63f48555f3cd15eaf6ea2078e9df41a7b",
+      "published_sha256": "0b1770f8e907b6c5a0a1e9ebce037cb63f48555f3cd15eaf6ea2078e9df41a7b",
+      "bytes": 31163
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/qwen_init.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "26897071129fd175b1851cb3407be711f79b912efaefb9dc4a19fe3e88427e94",
+      "published_sha256": "26897071129fd175b1851cb3407be711f79b912efaefb9dc4a19fe3e88427e94",
+      "bytes": 861
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/qwen_modeling.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "2fb5d98da1933748f5117ee05ce4e7150c9ead8154fb8e25f7af3968b853adc7",
+      "published_sha256": "2fb5d98da1933748f5117ee05ce4e7150c9ead8154fb8e25f7af3968b853adc7",
+      "bytes": 57850
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/qwen_processing.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "a61f1fbfc06e3dfc63a2b8d15e3b29e98b032792c3fb7d0e01c04ca9c2181ffb",
+      "published_sha256": "a61f1fbfc06e3dfc63a2b8d15e3b29e98b032792c3fb7d0e01c04ca9c2181ffb",
+      "bytes": 8545
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/qwen_pyproject.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "073b776779667e112aa809df94f0dcc5b1caa3cdd031f0f9f01af29749b5df14",
+      "published_sha256": "073b776779667e112aa809df94f0dcc5b1caa3cdd031f0f9f01af29749b5df14",
+      "bytes": 1304
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/sense_auto.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f838ed55ef3949e5dabdb4052bebc0e39b76ee1a1e01e604145ebd720416730a",
+      "published_sha256": "f838ed55ef3949e5dabdb4052bebc0e39b76ee1a1e01e604145ebd720416730a",
+      "bytes": 59700
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/sense_ctc.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1e5dd9c4f139d996749bc257c434e4657ea40bab248f5023efa1c5e20e2bffe0",
+      "published_sha256": "1e5dd9c4f139d996749bc257c434e4657ea40bab248f5023efa1c5e20e2bffe0",
+      "bytes": 7313
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/sense_fbank.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "93dc12d6f9e9b67bbdbdd337e66a868a1c8a6359d5f0329b13e0238b69c246fc",
+      "published_sha256": "93dc12d6f9e9b67bbdbdd337e66a868a1c8a6359d5f0329b13e0238b69c246fc",
+      "bytes": 6497
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/sense_frontend.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f0ecff8313064245610d7c69a3f6d99890e3f21bf977959ff6ea37f96297aecf",
+      "published_sha256": "f0ecff8313064245610d7c69a3f6d99890e3f21bf977959ff6ea37f96297aecf",
+      "bytes": 26735
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/sense_load_utils.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "55731d913c76de3959be6c6da523dff8ce73f8a7329dd20d97aa5aba8fd4092d",
+      "published_sha256": "55731d913c76de3959be6c6da523dff8ce73f8a7329dd20d97aa5aba8fd4092d",
+      "bytes": 18061
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/sense_model.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "c304214cc2b3c67c445b64b3a0e491d20de4af274be12218fc8548c768920c3f",
+      "published_sha256": "c304214cc2b3c67c445b64b3a0e491d20de4af274be12218fc8548c768920c3f",
+      "bytes": 39612
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/sense_tokenizer.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "66f3e8db5ddb85ea0b3e0af96d6bead9bee0cc9f19b42e31295431ba164582c5",
+      "published_sha256": "66f3e8db5ddb85ea0b3e0af96d6bead9bee0cc9f19b42e31295431ba164582c5",
+      "bytes": 3085
+    },
+    {
+      "path": "asr-calibration-stage-v1/source-audit/sources.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "7cb13dfc013571bbd636ee332932fcf67daeff22e15271b19e713b8a3486ed9d",
+      "published_sha256": "7cb13dfc013571bbd636ee332932fcf67daeff22e15271b19e713b8a3486ed9d",
+      "bytes": 4335
+    },
+    {
+      "path": "asr-calibration-stage-v1/supervise_model.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "16f4817bd61149cc71346fbc5e59acb51e2abf5ac6557a15c3b3ddd184e0bd14",
+      "published_sha256": "16f4817bd61149cc71346fbc5e59acb51e2abf5ac6557a15c3b3ddd184e0bd14",
+      "bytes": 10193
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/bundles.stderr.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "05cf0009e37d3158921dbba67b15c21e2d2a28b6f2b6bb6dff1b806551dd9c01",
+      "published_sha256": "05cf0009e37d3158921dbba67b15c21e2d2a28b6f2b6bb6dff1b806551dd9c01",
+      "bytes": 4925
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/bundles.stdout.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/execution.stderr.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "3a15630bcd240ec738ea11d92de2de244d2e537545aa812959f75d123beb3ee9",
+      "published_sha256": "3a15630bcd240ec738ea11d92de2de244d2e537545aa812959f75d123beb3ee9",
+      "bytes": 981
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/execution.stdout.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "7bdb5627b2a4ff49d0b03b5ac9856b197568b1bcc900a97d74c9a07bf24748d3",
+      "published_sha256": "7bdb5627b2a4ff49d0b03b5ac9856b197568b1bcc900a97d74c9a07bf24748d3",
+      "bytes": 4912
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/guard88.stderr.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "0e0a6bc156031972c69edc66992df472bac3772d8d3d3377c71a48a257335d28",
+      "published_sha256": "0e0a6bc156031972c69edc66992df472bac3772d8d3d3377c71a48a257335d28",
+      "bytes": 9195
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/guard88.stdout.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/metadata.stderr.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "88e3f4d517b55be87ab7d8fa955b0fc95ea913503d16a019422fa720ea961ac0",
+      "published_sha256": "88e3f4d517b55be87ab7d8fa955b0fc95ea913503d16a019422fa720ea961ac0",
+      "bytes": 1058
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/metadata.stdout.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/stage.stderr.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "8de4f9dda196ed7698c97c1af3b1565b40fdd8041c0936b269d8540487fcbd9b",
+      "published_sha256": "8de4f9dda196ed7698c97c1af3b1565b40fdd8041c0936b269d8540487fcbd9b",
+      "bytes": 13848
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/stage.stdout.txt",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/test_bundles.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "7d39f7f826510c662c0aa8b2e1396f65a15295e616649060a348e11edd847d92",
+      "published_sha256": "7d39f7f826510c662c0aa8b2e1396f65a15295e616649060a348e11edd847d92",
+      "bytes": 38741
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/test_execution.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "7715f815c14673ddd6c957f312725491c4f66425822205c6bbbd29adc8ba2a89",
+      "published_sha256": "7715f815c14673ddd6c957f312725491c4f66425822205c6bbbd29adc8ba2a89",
+      "bytes": 5552
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/test_metadata_recipe.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "207d121a33f2705f13e961c1da44b7b18bf6c601f34755a05222e5e0cb758409",
+      "published_sha256": "207d121a33f2705f13e961c1da44b7b18bf6c601f34755a05222e5e0cb758409",
+      "bytes": 5190
+    },
+    {
+      "path": "asr-calibration-stage-v1/tests/test_stage_contracts.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "3fe60c4c050fb37046d8ccac05c3ca5bc6cb06b8a445170daa72a6c411f76507",
+      "published_sha256": "3fe60c4c050fb37046d8ccac05c3ca5bc6cb06b8a445170daa72a6c411f76507",
+      "bytes": 32604
+    },
+    {
+      "path": "asr-calibration-stage-v1/vendor/__init__.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "asr-calibration-stage-v1/vendor/checkpoint_guard/__init__.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "ca1bfd88d26591efeb70bb58155294be4ebc2af7a6e45cc5f09f3e90dc5c541e",
+      "published_sha256": "ca1bfd88d26591efeb70bb58155294be4ebc2af7a6e45cc5f09f3e90dc5c541e",
+      "bytes": 85
+    },
+    {
+      "path": "asr-calibration-stage-v1/vendor/checkpoint_guard/checkpoint_contract.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "80cd48b0ce8beb2f7473372a3d904ba42af316c7df4a3c44f8a8b54dd50896c4",
+      "published_sha256": "80cd48b0ce8beb2f7473372a3d904ba42af316c7df4a3c44f8a8b54dd50896c4",
+      "bytes": 11858
+    },
+    {
+      "path": "asr-calibration-stage-v1/vendor/checkpoint_guard/exact_apply.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "10bc8634053a602b1669a007865c9d18955577b8aab4b7e7f14dfdcc6ce9e22b",
+      "published_sha256": "10bc8634053a602b1669a007865c9d18955577b8aab4b7e7f14dfdcc6ce9e22b",
+      "bytes": 7190
+    },
+    {
+      "path": "asr-calibration-stage-v1/vendor/qwen_loading_gate_v2.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "1b0cbd7b96e24925bfcf72438edea9dfb286860d2a990cdbad48104ae595d3fb",
+      "published_sha256": "1b0cbd7b96e24925bfcf72438edea9dfb286860d2a990cdbad48104ae595d3fb",
+      "bytes": 20790
+    },
+    {
+      "path": "checkpoint-metadata-review-20261002/architecture-metadata.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "85b08c749a793e265d4d2a3e2a41e400ceaa4ab08e1383d895fc2107adfeb776",
+      "published_sha256": "85b08c749a793e265d4d2a3e2a41e400ceaa4ab08e1383d895fc2107adfeb776",
+      "bytes": 85333
+    },
+    {
+      "path": "checkpoint-metadata-review-20261002/architecture-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "d98e886a7ea64ee7856462cdd894edb40325435f16e8d401911e5c0c49a468b8",
+      "published_sha256": "d98e886a7ea64ee7856462cdd894edb40325435f16e8d401911e5c0c49a468b8",
+      "bytes": 962
+    },
+    {
+      "path": "checkpoint-metadata-review-20261002/architecture-supervisor.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f35a5c23d00f6aef115e9f134db638e5cc85202a0aaf4102450acc9fe1e964c6",
+      "published_sha256": "f35a5c23d00f6aef115e9f134db638e5cc85202a0aaf4102450acc9fe1e964c6",
+      "bytes": 468
+    },
+    {
+      "path": "checkpoint-metadata-review-20261002/inspect-supervisor.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "e3c755e5337a54982a46e87454d10ffbe66bf7e6f14531e78be93599db761ba8",
+      "published_sha256": "e3c755e5337a54982a46e87454d10ffbe66bf7e6f14531e78be93599db761ba8",
+      "bytes": 933
+    },
+    {
+      "path": "checkpoint-metadata-review-20261002/inspect-supervisor.log",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "69c749404d0dd3b5a3544aa33d328856d2364b922da45a2a1c931dc836a05185",
+      "published_sha256": "69c749404d0dd3b5a3544aa33d328856d2364b922da45a2a1c931dc836a05185",
+      "bytes": 435
+    },
+    {
+      "path": "checkpoint-metadata-review-20261002/inspect_architecture.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "ba8049d1208ae4460811fb27a36b9238e024696630fdcf8c3d38408c18fa1455",
+      "published_sha256": "ba8049d1208ae4460811fb27a36b9238e024696630fdcf8c3d38408c18fa1455",
+      "bytes": 3097
+    },
+    {
+      "path": "checkpoint-metadata-review-20261002/inspect_official.py",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "f3eeb8244562ec62c8f8a3205706a2bf22d0cdeaa9db75e4681277dd123954d6",
+      "published_sha256": "f3eeb8244562ec62c8f8a3205706a2bf22d0cdeaa9db75e4681277dd123954d6",
+      "bytes": 1710
+    },
+    {
+      "path": "checkpoint-metadata-review-20261002/official-metadata.json",
+      "source_archive": "asr-dual-calibration-frozen-v1-20261002.zip",
+      "source_sha256": "71e4ca21bc21162495fd9cdb7efcea5d61ca07e412d910ad89c21d077c077482",
+      "published_sha256": "71e4ca21bc21162495fd9cdb7efcea5d61ca07e412d910ad89c21d077c077482",
+      "bytes": 75316
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/LICENSE",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "06d4c76347e397987c4951179b1c65fbd17bc948e09b5617b38be02bc1f93eab",
+      "published_sha256": "06d4c76347e397987c4951179b1c65fbd17bc948e09b5617b38be02bc1f93eab",
+      "bytes": 9108
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/POLICY-NOTES.md",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "b03b48d014badec09aa7b5682f2d6084fe1f9fe1ff2a051efcd986a84eb1e698",
+      "published_sha256": "b03b48d014badec09aa7b5682f2d6084fe1f9fe1ff2a051efcd986a84eb1e698",
+      "bytes": 3986
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/README.md",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "e4af128cb9a59a1ea43546031179002cae00bf8e8e24a0849a8710a078fbb3e3",
+      "published_sha256": "fb9ba31f73e1770d3c2502bcf2ffeecbb9569f2bfe521be14d46b96e0237b877",
+      "bytes": 5589
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/SHA256SUMS",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "5b0ca71864e395fcb237bdd2f0ee163b0c59d18eff99fe1e76e3465bf61aef08",
+      "published_sha256": "5b0ca71864e395fcb237bdd2f0ee163b0c59d18eff99fe1e76e3465bf61aef08",
+      "bytes": 2494
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/artifact-inventory.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "c178e9e82a4f838bee8ae75dc570fc78323560c9399061b2307211808de196c5",
+      "published_sha256": "c178e9e82a4f838bee8ae75dc570fc78323560c9399061b2307211808de196c5",
+      "bytes": 4036
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/baseline_v1.py",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "2bd566983f9846e19c3ac24d59cffe155cc4b45c39c1d64a9f1fae7772af104a",
+      "published_sha256": "2bd566983f9846e19c3ac24d59cffe155cc4b45c39c1d64a9f1fae7772af104a",
+      "bytes": 30305
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/calibrate.py",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "1bccdd66bca3cd67109df1eff63770b5d7e9ba3a9a10b578a665b7bbcc9575b4",
+      "published_sha256": "1bccdd66bca3cd67109df1eff63770b5d7e9ba3a9a10b578a665b7bbcc9575b4",
+      "bytes": 33132
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluate_reused_outputs.py",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "720ed582e16321af90796bd8c102092de765784053dcce97c1e901c869a08b0d",
+      "published_sha256": "b66c01086ebf04c9acc23533b545457b87a8e93410812df85df131d3826da985",
+      "bytes": 5439
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/evaluation-provenance.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "3a14fba7cd08be5603a9b168973c346abead3bfb3bfd74fff3c6f16606d19080",
+      "published_sha256": "7db821ed91156abc29febd2a0781dd4b186870b11db84d1f3c2a94268ba91348",
+      "bytes": 2268
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/invocation.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "f73d6d23d14549e64b98bb72332c4bc4244c3b0f5a418d266299e82dd97e98cb",
+      "published_sha256": "f73d6d23d14549e64b98bb72332c4bc4244c3b0f5a418d266299e82dd97e98cb",
+      "bytes": 1326
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/qwen06-reused-envelope.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "353bd51e56a4158f5edf4bf58fa70722b00cb82db2f4fdb04bfbf8843ea232ad",
+      "published_sha256": "353bd51e56a4158f5edf4bf58fa70722b00cb82db2f4fdb04bfbf8843ea232ad",
+      "bytes": 5812
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/qwen06-source-bundle-validation.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "50d240695a0e0e182a8612a1a66d57ab444fe4b5f6a9e4308f4d642ad6ac4332",
+      "published_sha256": "50d240695a0e0e182a8612a1a66d57ab444fe4b5f6a9e4308f4d642ad6ac4332",
+      "bytes": 10618
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/readout.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "c95d26e8e8edf9e53ef5ea5862b6049d8c3e54a995cdf4240101ef5de2053743",
+      "published_sha256": "c95d26e8e8edf9e53ef5ea5862b6049d8c3e54a995cdf4240101ef5de2053743",
+      "bytes": 310708
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/rules.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "c8f484427f670c2be76ff6389f9e8114cfb72578968b150fbfe5711eb54222de",
+      "published_sha256": "c8f484427f670c2be76ff6389f9e8114cfb72578968b150fbfe5711eb54222de",
+      "bytes": 662
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/scorer.stderr.txt",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/scorer.stdout.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "5cc83a07829b2388284a6ab224e817b2e53af4e1841f469fbf540eeb444a2bf1",
+      "published_sha256": "5cc83a07829b2388284a6ab224e817b2e53af4e1841f469fbf540eeb444a2bf1",
+      "bytes": 1235
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/sensevoice-reused-envelope.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "5620154131027c66e81da1a98d509a3f0f6e5621f951dbaf773e2377c2f4fe88",
+      "published_sha256": "5620154131027c66e81da1a98d509a3f0f6e5621f951dbaf773e2377c2f4fe88",
+      "bytes": 5662
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/sensevoice-source-bundle-validation.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "c955aa90875839074a86b6f75322bf36efda329a29228d42436092a7e8a8f3fa",
+      "published_sha256": "c955aa90875839074a86b6f75322bf36efda329a29228d42436092a7e8a8f3fa",
+      "bytes": 10630
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/summary.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "914399f6221d31f72f71c48c5cff19f6b1fda755cb32164d4c83748782ba6c90",
+      "published_sha256": "914399f6221d31f72f71c48c5cff19f6b1fda755cb32164d4c83748782ba6c90",
+      "bytes": 10182
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/transcript-comparison.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "795c8916b25ac102a4a3c8b6bf1d7ea22ed7cb34560e8a4d3664a8f4f85f4a9b",
+      "published_sha256": "795c8916b25ac102a4a3c8b6bf1d7ea22ed7cb34560e8a4d3664a8f4f85f4a9b",
+      "bytes": 13161
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/implementation-receipt.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "801669826b5215170c71993259d0d66a84d91bf37506204cfc13a152c1761c72",
+      "published_sha256": "801669826b5215170c71993259d0d66a84d91bf37506204cfc13a152c1761c72",
+      "bytes": 1332
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/review/test_phonetic_distance_oracle.py",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "f46bdbf76990d45a6c11ea71bd9888049da89ec651956c3ac33d4070b45c1b20",
+      "published_sha256": "f46bdbf76990d45a6c11ea71bd9888049da89ec651956c3ac33d4070b45c1b20",
+      "bytes": 5236
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/review/validation-receipt.json",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "c92c50e2442118e6490bdc59dc05648aa72876e67e76e3baa7a2da3e5dc9dde0",
+      "published_sha256": "c92c50e2442118e6490bdc59dc05648aa72876e67e76e3baa7a2da3e5dc9dde0",
+      "bytes": 1568
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/scorer-v1-to-v2.diff",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "54fad98942ed33b933fc7f7c65fe4fa6f91cfa2468b96200f711f83fe9de74a4",
+      "published_sha256": "54fad98942ed33b933fc7f7c65fe4fa6f91cfa2468b96200f711f83fe9de74a4",
+      "bytes": 6814
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/tests/test_target_local_v2.py",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "803f0fa18094df2d8daa467e80ab6859b53eea6d2d8ed2309e11e7ae7d571bb9",
+      "published_sha256": "803f0fa18094df2d8daa467e80ab6859b53eea6d2d8ed2309e11e7ae7d571bb9",
+      "bytes": 12127
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/v1-regression-results.txt",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "9a0419235a13631fd8f8d9305d4cfe1db06731bb268787edf36bcffdd597e191",
+      "published_sha256": "9a0419235a13631fd8f8d9305d4cfe1db06731bb268787edf36bcffdd597e191",
+      "bytes": 4885
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/v2-contract-regression-results.txt",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "09cfcc736e8da0bfd3279f1dbfb1037e42352ea019fc335b759d93d76920fa17",
+      "published_sha256": "09cfcc736e8da0bfd3279f1dbfb1037e42352ea019fc335b759d93d76920fa17",
+      "bytes": 4809
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/v2-target-local-results.txt",
+      "source_archive": "asr-dual-calibration-posthoc-v2-20261002.zip",
+      "source_sha256": "9fb36b1cfa8507ffd409f5ae25df88a7efe26d0f9bed9fa3db78a034faed2b50",
+      "published_sha256": "9fb36b1cfa8507ffd409f5ae25df88a7efe26d0f9bed9fa3db78a034faed2b50",
+      "bytes": 2940
+    }
+  ],
+  "source_archive_sha256": {
+    "asr-dual-calibration-frozen-v1-20261002.zip": "b629479217934db38792a7d6ddcb349f91a98f9a8924c8f073ec4905f03bc194",
+    "asr-dual-calibration-posthoc-v2-20261002.zip": "b5dec8fd50c53e0eac3bbddddc7a562a5a40c634279e10002ff3b4f0ce5cffba"
+  },
+  "new_human_correction": {
+    "directory": "asr-calibration-stage-v1/human-review-019-v1",
+    "changed_bits": 1,
+    "original_results_preserved": true,
+    "shared_false_negative_019_withdrawn": true
+  }
+}
