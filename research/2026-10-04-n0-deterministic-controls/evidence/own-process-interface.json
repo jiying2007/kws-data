@@ -1,0 +1,95 @@
+{
+  "candidate_runs": 0,
+  "children": {
+    "error": {
+      "errno": 2,
+      "message": "[Errno 2] No such file or directory: '/proc/2/task/2/children'",
+      "path": "/proc/2/task/2/children",
+      "type": "FileNotFoundError"
+    },
+    "status": "NOT_AVAILABLE",
+    "value": null
+  },
+  "current_resource_limits": {
+    "RLIMIT_AS": [
+      -1,
+      -1
+    ],
+    "RLIMIT_CORE": [
+      0,
+      -1
+    ],
+    "RLIMIT_CPU": [
+      -1,
+      -1
+    ],
+    "RLIMIT_FSIZE": [
+      -1,
+      -1
+    ],
+    "RLIMIT_NOFILE": [
+      16384,
+      16384
+    ],
+    "RLIMIT_NPROC": [
+      39792,
+      39792
+    ],
+    "RLIMIT_STACK": [
+      8388608,
+      -1
+    ]
+  },
+  "inspection_count": 1,
+  "kernel_enforcement_stress_tested": false,
+  "limits_read_only": true,
+  "new_fixture_processes": 0,
+  "own_affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "own_path_presence": {
+    "/proc/2": {
+      "exists": true,
+      "is_directory": true,
+      "stat_mode_type": 16384
+    },
+    "/proc/2/task": {
+      "exists": true,
+      "is_directory": true,
+      "stat_mode_type": 16384
+    },
+    "/proc/2/task/2": {
+      "exists": true,
+      "is_directory": true,
+      "stat_mode_type": 16384
+    }
+  },
+  "own_pid": 2,
+  "resource_api_support": {
+    "getrlimit": true,
+    "sched_getaffinity": true,
+    "sched_setaffinity": true,
+    "setrlimit": true
+  },
+  "schema": "n0-owned-current-process-interface-v1",
+  "scope": "This already-running ordinary inspection interpreter only; no spawned fixture, sleep, candidate, model, decoder, unrelated process or environment-secret inspection",
+  "settings_changed": false,
+  "status": {
+    "Pid": "2",
+    "State": "R (running)",
+    "Tgid": "2",
+    "Threads": "1",
+    "VmHWM": "8920 kB",
+    "VmRSS": "8920 kB",
+    "VmSize": "36004 kB"
+  },
+  "utc": "2026-10-04T06:04:29.816815+00:00"
+}
