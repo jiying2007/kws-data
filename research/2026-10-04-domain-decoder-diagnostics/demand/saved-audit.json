@@ -1,0 +1,194 @@
+{
+  "record_type": "PUBLIC_PROJECTION_OF_SAVED_EVIDENCE",
+  "original_evidence_sha256": "ce9bf11cd3b8702ae7c387a8c897725087d59267f25b9fb9d4acd43476df3b6c",
+  "projection_was_executed_as_experiment": false,
+  "omissions": [
+    "future_execution_authorized",
+    "raw_persistence_receipt_sha256"
+  ],
+  "saved_evidence": {
+    "aggregate": {
+      "activation_events": 0,
+      "actual_decoder_search_rows": 9999,
+      "by_keyword": {
+        "1": 0,
+        "2": 0
+      },
+      "callbacks": 1001,
+      "fbank_rows": 29998,
+      "input_samples": 4800064,
+      "input_seconds": 300.004,
+      "model_rows": 9999,
+      "six_class_logit_values_validated": 59994,
+      "streams": 1
+    },
+    "audit_script_sha256": "f094ed450ac079208736fde3c745f3450c2c13ae439e00b3b2592280d93060f5",
+    "beam_trace": "NOT_CAPTURED",
+    "blocking_findings": [],
+    "candidate_runs_by_auditor": 0,
+    "completeness": "ONE_CLIP_COMPLETE",
+    "event_adjudication": "UNADJUDICATED",
+    "events": [],
+    "execution_status": "RAW_COMPLETE_PENDING_AUDIT",
+    "far": "NOT_APPLICABLE_NO_VERIFIED_NEGATIVE_EXPOSURE",
+    "freeze_sha256": "0d80ddc840a02cc608ffaafd1576dbf4405df396384212509d35247e931dd36d",
+    "frozen_scorer_result_sha256": "ad721e4b5629c8c509cbfb226a16a307b70c9a10ca29d3fe2867d2af13c72480",
+    "frozen_scorer_saved_only_crosscheck": "PASS",
+    "interpretation": [
+      "All activation events retained as UNADJUDICATED; source label UNKNOWN and verified-negative exposure zero, so no FAR or Poisson bound.",
+      "300.004 seconds is offline input duration, not wall soak, capture I/O, AFE or board qualification.",
+      "Original amplitude RMS -56.44120505758021 dBFS limits representativeness. No gain or threshold sweep, training, adjudication or new numerical qualification.",
+      "Probabilities and beam trace NOT_CAPTURED. Original frame endpoints and consumed-input coordinates are not true word-end timing.",
+      "RSS is sampled, AS is kernel-limited. No lifetime children-absence or aggregate descendant-tree guarantee. Terminal I/O remains UNKNOWN.",
+      "Strict prior N0 probe and Qwen FAILED_NO_RETRY remain separate and unchanged."
+    ],
+    "label": "UNKNOWN",
+    "manifest_payloads_verified": 9,
+    "new_platform_or_proc_observations": 0,
+    "probabilities": "NOT_CAPTURED",
+    "protocol_sha256": "1897de0b8bb97178f49ca6ca471103408ffec7a38cf8b6f0d501f356ba81e085",
+    "raw_record_counts": {
+      "callback": 1001,
+      "clip_end": 1,
+      "clip_start": 1,
+      "feed": 1001,
+      "finish": 1,
+      "model_loaded": 1,
+      "run_end": 1,
+      "run_start": 1
+    },
+    "raw_sha256": "4605f7e8e581a2556db9bd2797bbadf29c741228011357be3b1595b06c7f5882",
+    "resources": {
+      "candidate_cpu_s": 3.370690463,
+      "candidate_main_wall_s": 3.371339552,
+      "children_observation": "NOT_AVAILABLE",
+      "cleanup": {
+        "errors": [],
+        "kill_exit_race": false,
+        "kill_requested": false,
+        "reaped": true,
+        "returncode": 0
+      },
+      "io_final_observation": {
+        "cancelled_write_bytes": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "rchar": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "read_bytes": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "syscr": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "syscw": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "wchar": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "write_bytes": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        }
+      },
+      "io_last_successful_observation": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0,
+          "wall_s": 3.3238643660006346
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 11028800,
+          "wall_s": 3.3238643660006346
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0,
+          "wall_s": 3.3238643660006346
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1954,
+          "wall_s": 3.3238643660006346
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1970,
+          "wall_s": 3.3238643660006346
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1511532,
+          "wall_s": 3.3238643660006346
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1515520,
+          "wall_s": 3.3238643660006346
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "live_rss_threads_samples": 34,
+      "native_maxrss_kib": 39376,
+      "observer_usage": {
+        "after": {
+          "maxrss_bytes_linux": 45670400,
+          "process_cpu_ns": 231007285,
+          "system_cpu_s": 0.064362,
+          "user_cpu_s": 0.16663699999999998
+        },
+        "before": {
+          "maxrss_bytes_linux": 13107200,
+          "process_cpu_ns": 48353586,
+          "system_cpu_s": 0.008019,
+          "user_cpu_s": 0.040327999999999996
+        },
+        "child_hard_limits_do_not_bound_observer": true,
+        "excludes": "Python startup/imports and final resource record/ledger encoding and persistence",
+        "includes": "admission and final identity hashing, child launch/wait, proc monitoring, earlier metadata writes",
+        "maxrss_is_process_lifetime_high_water_not_delta": true,
+        "process_cpu_ns_delta": 182653699,
+        "scope": "RUN_ENTRY_BEFORE_ADMISSION_THROUGH_BEFORE_FINAL_RECORD_ENCODING",
+        "system_cpu_s_delta": 0.056343000000000004,
+        "user_cpu_s_delta": 0.12630899999999998
+      },
+      "raw_bytes": 1537908,
+      "rss_scopes_are_distinct": true,
+      "run_artifact_plus_ledger_bytes": 1610958,
+      "sampled_peak_rss_bytes": 2916352,
+      "supervisor_elapsed_s": 3.471086417994229,
+      "terminal_lifetime_io": "UNKNOWN",
+      "total_proc_observations": 35
+    },
+    "reviewed_utc": "2026-10-04T07:24:44.253680+00:00",
+    "schema": "a20-demand-independent-saved-output-audit-v1",
+    "scope": "Persisted/read-back bytes only; no candidate/frontend/decoder/audio execution or probability recomputation",
+    "status": "PASS_DESCRIPTIVE_WITH_LIMITATIONS",
+    "tail": {
+      "decoder_clock": 29997,
+      "empty_result_preserved": true,
+      "feed_callbacks": 0,
+      "feed_samples": 64,
+      "finish_callbacks": 1,
+      "retained_waveform_samples": 384,
+      "selected_rows": 0
+    },
+    "verified_negative_hours": 0
+  }
+}

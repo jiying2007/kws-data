@@ -1,0 +1,2256 @@
+{
+  "schema": "a20-domain-full-field-numeric-review-v1",
+  "scope": "Every JSONL record and nested value inspected; scalar wave_samples/waveform_samples/fbank_rows/splice_rows/feature_count are counts, never sample/vector contents. centers are integer model frame coordinates. pid is an ephemeral process-local numeric identifier, not a host/boot identity.",
+  "privacy": "No direct person identity found in admitted numeric fields. IDs/hashes intentionally link known public source recordings. Six-class outputs are not an anonymization guarantee; no inversion or speaker-privacy proof attempted. Qwen Serena/Eric labels are synthetic preset names.",
+  "forbidden_content_present": false,
+  "waveform_feature_vectors_or_voice_frames_present": false,
+  "speaker_identity_known": false,
+  "schemas": {
+    "demand/raw.jsonl": {
+      "records": 2008,
+      "kinds": {
+        "run_start": {
+          "records": 1,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.decoder_config_sha256": [
+              "str"
+            ],
+            "$.geometry_sha256": [
+              "str"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.library_sha256": [
+              "str"
+            ],
+            "$.manifest_sha256": [
+              "str"
+            ],
+            "$.model_sha256": [
+              "str"
+            ],
+            "$.pid": [
+              "int"
+            ],
+            "$.protocol_sha256": [
+              "str"
+            ],
+            "$.schema": [
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "decoder_config_sha256",
+                "geometry_sha256",
+                "kind",
+                "library_sha256",
+                "manifest_sha256",
+                "model_sha256",
+                "pid",
+                "protocol_sha256",
+                "schema"
+              ]
+            ]
+          }
+        },
+        "model_loaded": {
+          "records": 1,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.cpu_ns_since_run_start": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.state_bytes": [
+              "int"
+            ],
+            "$.wall_ns_since_run_start": [
+              "int"
+            ],
+            "$.weights_bytes": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "cpu_ns_since_run_start",
+                "kind",
+                "state_bytes",
+                "wall_ns_since_run_start",
+                "weights_bytes"
+              ]
+            ]
+          }
+        },
+        "clip_start": {
+          "records": 1,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.frames": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.pcm_sha256": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.wav_sha256": [
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "frames",
+                "kind",
+                "pcm_sha256",
+                "recording",
+                "wav_sha256"
+              ]
+            ]
+          }
+        },
+        "callback": {
+          "records": 1001,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.available_samples": [
+              "int"
+            ],
+            "$.call_index": [
+              "int"
+            ],
+            "$.call_samples": [
+              "int"
+            ],
+            "$.callback_entry_cpu_ns_since_run_start": [
+              "int"
+            ],
+            "$.callback_entry_wall_ns_since_run_start": [
+              "int"
+            ],
+            "$.centers": [
+              "list"
+            ],
+            "$.centers[]": [
+              "int"
+            ],
+            "$.decoder_rows_decoded": [
+              "int"
+            ],
+            "$.decoder_total_frames": [
+              "int"
+            ],
+            "$.end_frame": [
+              "int"
+            ],
+            "$.fbank_rows": [
+              "int"
+            ],
+            "$.feature_count": [
+              "int"
+            ],
+            "$.is_final_short": [
+              "int"
+            ],
+            "$.keyword": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.logits": [
+              "list"
+            ],
+            "$.logits[]": [
+              "list"
+            ],
+            "$.logits[][]": [
+              "float"
+            ],
+            "$.offset": [
+              "int"
+            ],
+            "$.phase": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.score": [
+              "int"
+            ],
+            "$.selected_rows": [
+              "int"
+            ],
+            "$.splice_rows": [
+              "int"
+            ],
+            "$.start_frame": [
+              "int"
+            ],
+            "$.state": [
+              "int"
+            ],
+            "$.valid": [
+              "int"
+            ],
+            "$.wave_samples": [
+              "int"
+            ],
+            "$.waveform_samples": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "available_samples",
+                "call_index",
+                "call_samples",
+                "callback_entry_cpu_ns_since_run_start",
+                "callback_entry_wall_ns_since_run_start",
+                "centers",
+                "decoder_rows_decoded",
+                "decoder_total_frames",
+                "end_frame",
+                "fbank_rows",
+                "feature_count",
+                "is_final_short",
+                "keyword",
+                "kind",
+                "logits",
+                "offset",
+                "phase",
+                "recording",
+                "score",
+                "selected_rows",
+                "splice_rows",
+                "start_frame",
+                "state",
+                "valid",
+                "wave_samples",
+                "waveform_samples"
+              ]
+            ]
+          }
+        },
+        "feed": {
+          "records": 1001,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.callbacks_delta": [
+              "int"
+            ],
+            "$.cumulative_samples": [
+              "int"
+            ],
+            "$.feed_index": [
+              "int"
+            ],
+            "$.input_samples": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.service_cpu_ns_including_callback_output": [
+              "int"
+            ],
+            "$.service_wall_ns_including_callback_output": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "callbacks_delta",
+                "cumulative_samples",
+                "feed_index",
+                "input_samples",
+                "kind",
+                "recording",
+                "service_cpu_ns_including_callback_output",
+                "service_wall_ns_including_callback_output"
+              ]
+            ]
+          }
+        },
+        "finish": {
+          "records": 1,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.callbacks_delta": [
+              "int"
+            ],
+            "$.finish_calls": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.service_cpu_ns_including_callback_output": [
+              "int"
+            ],
+            "$.service_wall_ns_including_callback_output": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "callbacks_delta",
+                "finish_calls",
+                "kind",
+                "recording",
+                "service_cpu_ns_including_callback_output",
+                "service_wall_ns_including_callback_output"
+              ]
+            ]
+          }
+        },
+        "clip_end": {
+          "records": 1,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.callbacks": [
+              "int"
+            ],
+            "$.complete": [
+              "bool"
+            ],
+            "$.decoder_rows_decoded": [
+              "int"
+            ],
+            "$.event_count": [
+              "int"
+            ],
+            "$.fbank_rows": [
+              "int"
+            ],
+            "$.feed_calls": [
+              "int"
+            ],
+            "$.finish_calls": [
+              "int"
+            ],
+            "$.frames": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.model_rows": [
+              "int"
+            ],
+            "$.pcm_sha256": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.wav_sha256": [
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "callbacks",
+                "complete",
+                "decoder_rows_decoded",
+                "event_count",
+                "fbank_rows",
+                "feed_calls",
+                "finish_calls",
+                "frames",
+                "kind",
+                "model_rows",
+                "pcm_sha256",
+                "recording",
+                "wav_sha256"
+              ]
+            ]
+          }
+        },
+        "run_end": {
+          "records": 1,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.block_input_ops": [
+              "int"
+            ],
+            "$.block_output_ops": [
+              "int"
+            ],
+            "$.callbacks": [
+              "int"
+            ],
+            "$.clips": [
+              "int"
+            ],
+            "$.complete": [
+              "bool"
+            ],
+            "$.decoder_rows_decoded": [
+              "int"
+            ],
+            "$.event_count": [
+              "int"
+            ],
+            "$.fbank_rows": [
+              "int"
+            ],
+            "$.feed_calls": [
+              "int"
+            ],
+            "$.finish_calls": [
+              "int"
+            ],
+            "$.frames": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.major_faults": [
+              "int"
+            ],
+            "$.maxrss_kib": [
+              "int"
+            ],
+            "$.minor_faults": [
+              "int"
+            ],
+            "$.model_rows": [
+              "int"
+            ],
+            "$.process_cpu_ns": [
+              "int"
+            ],
+            "$.wall_ns": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "block_input_ops",
+                "block_output_ops",
+                "callbacks",
+                "clips",
+                "complete",
+                "decoder_rows_decoded",
+                "event_count",
+                "fbank_rows",
+                "feed_calls",
+                "finish_calls",
+                "frames",
+                "kind",
+                "major_faults",
+                "maxrss_kib",
+                "minor_faults",
+                "model_rows",
+                "process_cpu_ns",
+                "wall_ns"
+              ]
+            ]
+          }
+        }
+      },
+      "string_classes": {
+        "$.decoder_config_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.geometry_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.kind": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "callback",
+            "clip_end",
+            "clip_start",
+            "feed",
+            "finish",
+            "model_loaded",
+            "run_end",
+            "run_start"
+          ]
+        },
+        "$.library_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.manifest_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.model_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.pcm_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.phase": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "feed",
+            "finish"
+          ]
+        },
+        "$.protocol_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.recording": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "DEMAND-DLIVING-ch01"
+          ]
+        },
+        "$.schema": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "a20-demand-dliving-raw-v1"
+          ]
+        },
+        "$.wav_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        }
+      }
+    },
+    "fleurs20/raw.jsonl": {
+      "records": 1733,
+      "kinds": {
+        "run_start": {
+          "records": 1,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.decoder_config_sha256": [
+              "str"
+            ],
+            "$.geometry_sha256": [
+              "str"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.library_sha256": [
+              "str"
+            ],
+            "$.manifest_sha256": [
+              "str"
+            ],
+            "$.model_sha256": [
+              "str"
+            ],
+            "$.pid": [
+              "int"
+            ],
+            "$.protocol_sha256": [
+              "str"
+            ],
+            "$.schema": [
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "decoder_config_sha256",
+                "geometry_sha256",
+                "kind",
+                "library_sha256",
+                "manifest_sha256",
+                "model_sha256",
+                "pid",
+                "protocol_sha256",
+                "schema"
+              ]
+            ]
+          }
+        },
+        "model_loaded": {
+          "records": 1,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.cpu_ns_since_run_start": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.state_bytes": [
+              "int"
+            ],
+            "$.wall_ns_since_run_start": [
+              "int"
+            ],
+            "$.weights_bytes": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "cpu_ns_since_run_start",
+                "kind",
+                "state_bytes",
+                "wall_ns_since_run_start",
+                "weights_bytes"
+              ]
+            ]
+          }
+        },
+        "clip_start": {
+          "records": 20,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.frames": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.pcm_sha256": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.wav_sha256": [
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "frames",
+                "kind",
+                "pcm_sha256",
+                "recording",
+                "wav_sha256"
+              ]
+            ]
+          }
+        },
+        "callback": {
+          "records": 835,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.available_samples": [
+              "int"
+            ],
+            "$.call_index": [
+              "int"
+            ],
+            "$.call_samples": [
+              "int"
+            ],
+            "$.callback_entry_cpu_ns_since_run_start": [
+              "int"
+            ],
+            "$.callback_entry_wall_ns_since_run_start": [
+              "int"
+            ],
+            "$.centers": [
+              "list"
+            ],
+            "$.centers[]": [
+              "int"
+            ],
+            "$.decoder_rows_decoded": [
+              "int"
+            ],
+            "$.decoder_total_frames": [
+              "int"
+            ],
+            "$.end_frame": [
+              "int"
+            ],
+            "$.fbank_rows": [
+              "int"
+            ],
+            "$.feature_count": [
+              "int"
+            ],
+            "$.is_final_short": [
+              "int"
+            ],
+            "$.keyword": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.logits": [
+              "list"
+            ],
+            "$.logits[]": [
+              "list"
+            ],
+            "$.logits[][]": [
+              "float"
+            ],
+            "$.offset": [
+              "int"
+            ],
+            "$.phase": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.score": [
+              "float",
+              "int"
+            ],
+            "$.selected_rows": [
+              "int"
+            ],
+            "$.splice_rows": [
+              "int"
+            ],
+            "$.start_frame": [
+              "int"
+            ],
+            "$.state": [
+              "int"
+            ],
+            "$.valid": [
+              "int"
+            ],
+            "$.wave_samples": [
+              "int"
+            ],
+            "$.waveform_samples": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "available_samples",
+                "call_index",
+                "call_samples",
+                "callback_entry_cpu_ns_since_run_start",
+                "callback_entry_wall_ns_since_run_start",
+                "centers",
+                "decoder_rows_decoded",
+                "decoder_total_frames",
+                "end_frame",
+                "fbank_rows",
+                "feature_count",
+                "is_final_short",
+                "keyword",
+                "kind",
+                "logits",
+                "offset",
+                "phase",
+                "recording",
+                "score",
+                "selected_rows",
+                "splice_rows",
+                "start_frame",
+                "state",
+                "valid",
+                "wave_samples",
+                "waveform_samples"
+              ]
+            ]
+          }
+        },
+        "feed": {
+          "records": 835,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.callbacks_delta": [
+              "int"
+            ],
+            "$.cumulative_samples": [
+              "int"
+            ],
+            "$.feed_index": [
+              "int"
+            ],
+            "$.input_samples": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.service_cpu_ns_including_callback_output": [
+              "int"
+            ],
+            "$.service_wall_ns_including_callback_output": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "callbacks_delta",
+                "cumulative_samples",
+                "feed_index",
+                "input_samples",
+                "kind",
+                "recording",
+                "service_cpu_ns_including_callback_output",
+                "service_wall_ns_including_callback_output"
+              ]
+            ]
+          }
+        },
+        "finish": {
+          "records": 20,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.callbacks_delta": [
+              "int"
+            ],
+            "$.finish_calls": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.service_cpu_ns_including_callback_output": [
+              "int"
+            ],
+            "$.service_wall_ns_including_callback_output": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "callbacks_delta",
+                "finish_calls",
+                "kind",
+                "recording",
+                "service_cpu_ns_including_callback_output",
+                "service_wall_ns_including_callback_output"
+              ]
+            ]
+          }
+        },
+        "clip_end": {
+          "records": 20,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.callbacks": [
+              "int"
+            ],
+            "$.complete": [
+              "bool"
+            ],
+            "$.decoder_rows_decoded": [
+              "int"
+            ],
+            "$.event_count": [
+              "int"
+            ],
+            "$.fbank_rows": [
+              "int"
+            ],
+            "$.feed_calls": [
+              "int"
+            ],
+            "$.finish_calls": [
+              "int"
+            ],
+            "$.frames": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.model_rows": [
+              "int"
+            ],
+            "$.pcm_sha256": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.wav_sha256": [
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "callbacks",
+                "complete",
+                "decoder_rows_decoded",
+                "event_count",
+                "fbank_rows",
+                "feed_calls",
+                "finish_calls",
+                "frames",
+                "kind",
+                "model_rows",
+                "pcm_sha256",
+                "recording",
+                "wav_sha256"
+              ]
+            ]
+          }
+        },
+        "run_end": {
+          "records": 1,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.block_input_ops": [
+              "int"
+            ],
+            "$.block_output_ops": [
+              "int"
+            ],
+            "$.callbacks": [
+              "int"
+            ],
+            "$.clips": [
+              "int"
+            ],
+            "$.complete": [
+              "bool"
+            ],
+            "$.decoder_rows_decoded": [
+              "int"
+            ],
+            "$.event_count": [
+              "int"
+            ],
+            "$.fbank_rows": [
+              "int"
+            ],
+            "$.feed_calls": [
+              "int"
+            ],
+            "$.finish_calls": [
+              "int"
+            ],
+            "$.frames": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.major_faults": [
+              "int"
+            ],
+            "$.maxrss_kib": [
+              "int"
+            ],
+            "$.minor_faults": [
+              "int"
+            ],
+            "$.model_rows": [
+              "int"
+            ],
+            "$.process_cpu_ns": [
+              "int"
+            ],
+            "$.wall_ns": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "block_input_ops",
+                "block_output_ops",
+                "callbacks",
+                "clips",
+                "complete",
+                "decoder_rows_decoded",
+                "event_count",
+                "fbank_rows",
+                "feed_calls",
+                "finish_calls",
+                "frames",
+                "kind",
+                "major_faults",
+                "maxrss_kib",
+                "minor_faults",
+                "model_rows",
+                "process_cpu_ns",
+                "wall_ns"
+              ]
+            ]
+          }
+        }
+      },
+      "string_classes": {
+        "$.decoder_config_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.geometry_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.kind": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "callback",
+            "clip_end",
+            "clip_start",
+            "feed",
+            "finish",
+            "model_loaded",
+            "run_end",
+            "run_start"
+          ]
+        },
+        "$.library_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.manifest_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.model_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.pcm_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.phase": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "feed",
+            "finish"
+          ]
+        },
+        "$.protocol_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.recording": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "FLEURS-cmn20-row00",
+            "FLEURS-cmn20-row01",
+            "FLEURS-cmn20-row02",
+            "FLEURS-cmn20-row03",
+            "FLEURS-cmn20-row04",
+            "FLEURS-cmn20-row05",
+            "FLEURS-cmn20-row06",
+            "FLEURS-cmn20-row07",
+            "FLEURS-cmn20-row08",
+            "FLEURS-cmn20-row09",
+            "FLEURS-cmn20-row10",
+            "FLEURS-cmn20-row11",
+            "FLEURS-cmn20-row12",
+            "FLEURS-cmn20-row13",
+            "FLEURS-cmn20-row14",
+            "FLEURS-cmn20-row15",
+            "FLEURS-cmn20-row16",
+            "FLEURS-cmn20-row17",
+            "FLEURS-cmn20-row18",
+            "FLEURS-cmn20-row19"
+          ]
+        },
+        "$.schema": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "a20-fleurs20-descriptive-raw-v1"
+          ]
+        },
+        "$.wav_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        }
+      }
+    },
+    "qwen3case/raw.jsonl": {
+      "records": 939,
+      "kinds": {
+        "run_start": {
+          "records": 1,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.callbacks": [
+              "int"
+            ],
+            "$.clips": [
+              "int"
+            ],
+            "$.input_rows": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.original_probabilities": [
+              "str"
+            ],
+            "$.scope": [
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "callbacks",
+                "clips",
+                "input_rows",
+                "kind",
+                "original_probabilities",
+                "scope"
+              ]
+            ]
+          }
+        },
+        "top": {
+          "records": 127,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.call": [
+              "int"
+            ],
+            "$.clip": [
+              "str"
+            ],
+            "$.frame": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.probs_f32_bits": [
+              "list"
+            ],
+            "$.probs_f32_bits[]": [
+              "str"
+            ],
+            "$.top": [
+              "list"
+            ],
+            "$.top[]": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "call",
+                "clip",
+                "frame",
+                "kind",
+                "probs_f32_bits",
+                "top"
+              ]
+            ]
+          }
+        },
+        "candidates": {
+          "records": 127,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.call": [
+              "int"
+            ],
+            "$.clip": [
+              "str"
+            ],
+            "$.count": [
+              "int"
+            ],
+            "$.hyps": [
+              "list"
+            ],
+            "$.hyps[]": [
+              "list"
+            ],
+            "$.hyps[][]": [
+              "list",
+              "str"
+            ],
+            "$.hyps[][][]": [
+              "int"
+            ],
+            "$.keep_first": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.nodes": [
+              "list"
+            ],
+            "$.nodes[]": [
+              "list"
+            ],
+            "$.nodes[][]": [
+              "int",
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "call",
+                "clip",
+                "count",
+                "hyps",
+                "keep_first",
+                "kind",
+                "nodes"
+              ]
+            ]
+          }
+        },
+        "word_check": {
+          "records": 415,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.call": [
+              "int"
+            ],
+            "$.clip": [
+              "str"
+            ],
+            "$.hyp": [
+              "int"
+            ],
+            "$.keyword": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.offset": [
+              "int"
+            ],
+            "$.prior_hit_score_bits": [
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "call",
+                "clip",
+                "hyp",
+                "keyword",
+                "kind",
+                "offset",
+                "prior_hit_score_bits"
+              ]
+            ]
+          }
+        },
+        "guard": {
+          "records": 127,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.call": [
+              "int"
+            ],
+            "$.clip": [
+              "str"
+            ],
+            "$.end": [
+              "int"
+            ],
+            "$.hit_score_bits": [
+              "str"
+            ],
+            "$.keyword": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.last_active_pos": [
+              "int"
+            ],
+            "$.start": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "call",
+                "clip",
+                "end",
+                "hit_score_bits",
+                "keyword",
+                "kind",
+                "last_active_pos",
+                "start"
+              ]
+            ]
+          }
+        },
+        "row_end": {
+          "records": 127,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.call": [
+              "int"
+            ],
+            "$.clip": [
+              "str"
+            ],
+            "$.hit_score_bits": [
+              "str"
+            ],
+            "$.hyps": [
+              "list"
+            ],
+            "$.hyps[]": [
+              "list"
+            ],
+            "$.hyps[][]": [
+              "list",
+              "str"
+            ],
+            "$.hyps[][][]": [
+              "int"
+            ],
+            "$.keyword": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.nodes": [
+              "list"
+            ],
+            "$.nodes[]": [
+              "list"
+            ],
+            "$.nodes[][]": [
+              "int",
+              "str"
+            ],
+            "$.row_in_call": [
+              "int"
+            ],
+            "$.state": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "call",
+                "clip",
+                "hit_score_bits",
+                "hyps",
+                "keyword",
+                "kind",
+                "nodes",
+                "row_in_call",
+                "state"
+              ]
+            ]
+          }
+        },
+        "callback_result": {
+          "records": 14,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.call": [
+              "int"
+            ],
+            "$.clip": [
+              "str"
+            ],
+            "$.end_frame": [
+              "int"
+            ],
+            "$.exact_fields": [
+              "bool"
+            ],
+            "$.hit_score_bits": [
+              "str"
+            ],
+            "$.hyps": [
+              "list"
+            ],
+            "$.hyps[]": [
+              "list"
+            ],
+            "$.hyps[][]": [
+              "list",
+              "str"
+            ],
+            "$.hyps[][][]": [
+              "int"
+            ],
+            "$.input_rows": [
+              "int"
+            ],
+            "$.keyword": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.last_active_pos": [
+              "int"
+            ],
+            "$.nodes": [
+              "list"
+            ],
+            "$.nodes[]": [
+              "list"
+            ],
+            "$.nodes[][]": [
+              "int",
+              "str"
+            ],
+            "$.rows_decoded": [
+              "int"
+            ],
+            "$.score_bits": [
+              "str"
+            ],
+            "$.score_bitwise_equal": [
+              "bool"
+            ],
+            "$.score_within_1e_5": [
+              "bool"
+            ],
+            "$.start_frame": [
+              "int"
+            ],
+            "$.state": [
+              "int"
+            ],
+            "$.total_frames": [
+              "int"
+            ],
+            "$.valid": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "call",
+                "clip",
+                "end_frame",
+                "exact_fields",
+                "hit_score_bits",
+                "hyps",
+                "input_rows",
+                "keyword",
+                "kind",
+                "last_active_pos",
+                "nodes",
+                "rows_decoded",
+                "score_bits",
+                "score_bitwise_equal",
+                "score_within_1e_5",
+                "start_frame",
+                "state",
+                "total_frames",
+                "valid"
+              ]
+            ]
+          }
+        },
+        "run_end": {
+          "records": 1,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.complete": [
+              "bool"
+            ],
+            "$.events_gate": [
+              "str"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.maxrss_kib": [
+              "int"
+            ],
+            "$.searched_rows": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "complete",
+                "events_gate",
+                "kind",
+                "maxrss_kib",
+                "searched_rows"
+              ]
+            ]
+          }
+        }
+      },
+      "string_classes": {
+        "$.clip": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "qwen3-kw1-serena",
+            "qwen3-kw2-eric",
+            "qwen3-repeat-nihao-eric"
+          ]
+        },
+        "$.events_gate": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "MATCHED_SAVED_FIELDS_AND_1E_5_SCORE"
+          ]
+        },
+        "$.hit_score_bits": {
+          "class": "binary64_bits",
+          "pattern": "[0-9a-f]{16}"
+        },
+        "$.hyps[][]": {
+          "class": "binary64_bits",
+          "pattern": "[0-9a-f]{16}"
+        },
+        "$.kind": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "callback_result",
+            "candidates",
+            "guard",
+            "row_end",
+            "run_end",
+            "run_start",
+            "top",
+            "word_check"
+          ]
+        },
+        "$.nodes[][]": {
+          "class": "binary64_bits",
+          "pattern": "[0-9a-f]{16}"
+        },
+        "$.original_probabilities": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "NOT_CAPTURED"
+          ]
+        },
+        "$.prior_hit_score_bits": {
+          "class": "binary64_bits",
+          "pattern": "[0-9a-f]{16}"
+        },
+        "$.probs_f32_bits[]": {
+          "class": "binary32_bits",
+          "pattern": "[0-9a-f]{8}"
+        },
+        "$.scope": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "NEW_RECONSTRUCTION_NOT_HISTORICAL_TRACE"
+          ]
+        },
+        "$.score_bits": {
+          "class": "binary64_bits",
+          "pattern": "[0-9a-f]{16}"
+        }
+      }
+    },
+    "path-witness/raw.jsonl": {
+      "records": 42,
+      "kinds": {
+        "start": {
+          "records": 1,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.fixtures": [
+              "int"
+            ],
+            "$.rows": [
+              "int"
+            ],
+            "$.schema": [
+              "str"
+            ],
+            "$.type": [
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "fixtures",
+                "rows",
+                "schema",
+                "type"
+              ]
+            ]
+          }
+        },
+        "row": {
+          "records": 40,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.clock_after": [
+              "int"
+            ],
+            "$.fixture": [
+              "str"
+            ],
+            "$.frame": [
+              "int"
+            ],
+            "$.hit_score_after": [
+              "float",
+              "int"
+            ],
+            "$.hyps": [
+              "list"
+            ],
+            "$.hyps[]": [
+              "dict"
+            ],
+            "$.hyps[].nodes": [
+              "list"
+            ],
+            "$.hyps[].nodes[]": [
+              "dict"
+            ],
+            "$.hyps[].nodes[].frame": [
+              "int"
+            ],
+            "$.hyps[].nodes[].id": [
+              "int"
+            ],
+            "$.hyps[].nodes[].prob": [
+              "float",
+              "int"
+            ],
+            "$.hyps[].nodes[].token": [
+              "int"
+            ],
+            "$.hyps[].pb": [
+              "float",
+              "int"
+            ],
+            "$.hyps[].pnb": [
+              "float",
+              "int"
+            ],
+            "$.hyps[].rank": [
+              "int"
+            ],
+            "$.last_active_after": [
+              "int"
+            ],
+            "$.observer_api_equal": [
+              "bool"
+            ],
+            "$.post_detect_hit_score": [
+              "float",
+              "int"
+            ],
+            "$.prior_hit_score": [
+              "float",
+              "int"
+            ],
+            "$.prior_last_active": [
+              "int"
+            ],
+            "$.result": [
+              "dict"
+            ],
+            "$.result.end": [
+              "int"
+            ],
+            "$.result.keyword": [
+              "int"
+            ],
+            "$.result.score": [
+              "float",
+              "int"
+            ],
+            "$.result.start": [
+              "int"
+            ],
+            "$.result.state": [
+              "int"
+            ],
+            "$.row": [
+              "int"
+            ],
+            "$.type": [
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "clock_after",
+                "fixture",
+                "frame",
+                "hit_score_after",
+                "hyps",
+                "last_active_after",
+                "observer_api_equal",
+                "post_detect_hit_score",
+                "prior_hit_score",
+                "prior_last_active",
+                "result",
+                "row",
+                "type"
+              ]
+            ],
+            "$.hyps[]": [
+              [
+                "nodes",
+                "pb",
+                "pnb",
+                "rank"
+              ]
+            ],
+            "$.hyps[].nodes[]": [
+              [
+                "frame",
+                "id",
+                "prob",
+                "token"
+              ]
+            ],
+            "$.result": [
+              [
+                "end",
+                "keyword",
+                "score",
+                "start",
+                "state"
+              ]
+            ]
+          }
+        },
+        "end": {
+          "records": 1,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.events": [
+              "int"
+            ],
+            "$.init_calls": [
+              "int"
+            ],
+            "$.logits_calls": [
+              "int"
+            ],
+            "$.observer_detect_calls": [
+              "int"
+            ],
+            "$.observer_frame_calls": [
+              "int"
+            ],
+            "$.public_process_probs_calls": [
+              "int"
+            ],
+            "$.snapshots": [
+              "int"
+            ],
+            "$.softmax_calls": [
+              "int"
+            ],
+            "$.total_detect_calls_including_api": [
+              "int"
+            ],
+            "$.total_frame_calls_including_api": [
+              "int"
+            ],
+            "$.type": [
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "events",
+                "init_calls",
+                "logits_calls",
+                "observer_detect_calls",
+                "observer_frame_calls",
+                "public_process_probs_calls",
+                "snapshots",
+                "softmax_calls",
+                "total_detect_calls_including_api",
+                "total_frame_calls_including_api",
+                "type"
+              ]
+            ]
+          }
+        }
+      },
+      "string_classes": {
+        "$.fixture": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "F01_repeat_blank",
+            "F02_same_prefix_merge",
+            "F03_low_rank_positive",
+            "F04_shared_internal",
+            "F05_shared_start_end_duration",
+            "F06_cooldown_end_update"
+          ]
+        },
+        "$.schema": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "unchanged-decoder-unit-observer-v1"
+          ]
+        },
+        "$.type": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "end",
+            "row",
+            "start"
+          ]
+        }
+      }
+    },
+    "qwen3case/original-selected-records.jsonl": {
+      "records": 37,
+      "kinds": {
+        "clip_start": {
+          "records": 3,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.frames": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.pcm_sha256": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.wav_sha256": [
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "frames",
+                "kind",
+                "pcm_sha256",
+                "recording",
+                "wav_sha256"
+              ]
+            ]
+          }
+        },
+        "callback": {
+          "records": 14,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.available_samples": [
+              "int"
+            ],
+            "$.call_index": [
+              "int"
+            ],
+            "$.call_samples": [
+              "int"
+            ],
+            "$.callback_entry_cpu_ns_since_run_start": [
+              "int"
+            ],
+            "$.callback_entry_wall_ns_since_run_start": [
+              "int"
+            ],
+            "$.centers": [
+              "list"
+            ],
+            "$.centers[]": [
+              "int"
+            ],
+            "$.decoder_rows_decoded": [
+              "int"
+            ],
+            "$.decoder_total_frames": [
+              "int"
+            ],
+            "$.end_frame": [
+              "int"
+            ],
+            "$.fbank_rows": [
+              "int"
+            ],
+            "$.feature_count": [
+              "int"
+            ],
+            "$.is_final_short": [
+              "int"
+            ],
+            "$.keyword": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.logits": [
+              "list"
+            ],
+            "$.logits[]": [
+              "list"
+            ],
+            "$.logits[][]": [
+              "float"
+            ],
+            "$.offset": [
+              "int"
+            ],
+            "$.phase": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.score": [
+              "float",
+              "int"
+            ],
+            "$.selected_rows": [
+              "int"
+            ],
+            "$.splice_rows": [
+              "int"
+            ],
+            "$.start_frame": [
+              "int"
+            ],
+            "$.state": [
+              "int"
+            ],
+            "$.valid": [
+              "int"
+            ],
+            "$.wave_samples": [
+              "int"
+            ],
+            "$.waveform_samples": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "available_samples",
+                "call_index",
+                "call_samples",
+                "callback_entry_cpu_ns_since_run_start",
+                "callback_entry_wall_ns_since_run_start",
+                "centers",
+                "decoder_rows_decoded",
+                "decoder_total_frames",
+                "end_frame",
+                "fbank_rows",
+                "feature_count",
+                "is_final_short",
+                "keyword",
+                "kind",
+                "logits",
+                "offset",
+                "phase",
+                "recording",
+                "score",
+                "selected_rows",
+                "splice_rows",
+                "start_frame",
+                "state",
+                "valid",
+                "wave_samples",
+                "waveform_samples"
+              ]
+            ]
+          }
+        },
+        "feed": {
+          "records": 14,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.callbacks_delta": [
+              "int"
+            ],
+            "$.cumulative_samples": [
+              "int"
+            ],
+            "$.feed_index": [
+              "int"
+            ],
+            "$.input_samples": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.service_cpu_ns_including_callback_output": [
+              "int"
+            ],
+            "$.service_wall_ns_including_callback_output": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "callbacks_delta",
+                "cumulative_samples",
+                "feed_index",
+                "input_samples",
+                "kind",
+                "recording",
+                "service_cpu_ns_including_callback_output",
+                "service_wall_ns_including_callback_output"
+              ]
+            ]
+          }
+        },
+        "finish": {
+          "records": 3,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.callbacks_delta": [
+              "int"
+            ],
+            "$.finish_calls": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.service_cpu_ns_including_callback_output": [
+              "int"
+            ],
+            "$.service_wall_ns_including_callback_output": [
+              "int"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "callbacks_delta",
+                "finish_calls",
+                "kind",
+                "recording",
+                "service_cpu_ns_including_callback_output",
+                "service_wall_ns_including_callback_output"
+              ]
+            ]
+          }
+        },
+        "clip_end": {
+          "records": 3,
+          "fields": {
+            "$": [
+              "dict"
+            ],
+            "$.callbacks": [
+              "int"
+            ],
+            "$.complete": [
+              "bool"
+            ],
+            "$.decoder_rows_decoded": [
+              "int"
+            ],
+            "$.event_count": [
+              "int"
+            ],
+            "$.fbank_rows": [
+              "int"
+            ],
+            "$.feed_calls": [
+              "int"
+            ],
+            "$.finish_calls": [
+              "int"
+            ],
+            "$.frames": [
+              "int"
+            ],
+            "$.kind": [
+              "str"
+            ],
+            "$.model_rows": [
+              "int"
+            ],
+            "$.pcm_sha256": [
+              "str"
+            ],
+            "$.recording": [
+              "str"
+            ],
+            "$.wav_sha256": [
+              "str"
+            ]
+          },
+          "object_keys": {
+            "$": [
+              [
+                "callbacks",
+                "complete",
+                "decoder_rows_decoded",
+                "event_count",
+                "fbank_rows",
+                "feed_calls",
+                "finish_calls",
+                "frames",
+                "kind",
+                "model_rows",
+                "pcm_sha256",
+                "recording",
+                "wav_sha256"
+              ]
+            ]
+          }
+        }
+      },
+      "string_classes": {
+        "$.kind": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "callback",
+            "clip_end",
+            "clip_start",
+            "feed",
+            "finish"
+          ]
+        },
+        "$.pcm_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "$.phase": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "feed",
+            "finish"
+          ]
+        },
+        "$.recording": {
+          "class": "literal_scientific_enum_or_recording_identifier",
+          "values": [
+            "qwen3-kw1-serena",
+            "qwen3-kw2-eric",
+            "qwen3-repeat-nihao-eric"
+          ]
+        },
+        "$.wav_sha256": {
+          "class": "sha256",
+          "pattern": "[0-9a-f]{64}"
+        }
+      }
+    }
+  }
+}

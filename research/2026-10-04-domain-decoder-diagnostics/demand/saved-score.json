@@ -1,0 +1,95 @@
+{
+  "aggregate": {
+    "activation_events": 0,
+    "by_keyword": {
+      "1": 0,
+      "2": 0
+    },
+    "duration_s": 300.004,
+    "event_adjudication": "UNADJUDICATED",
+    "streams": 1,
+    "verified_negative_hours": 0
+  },
+  "decoder_frame_semantics": "raw start/end frame IDs on original 10ms grid; no true word endpoints",
+  "event_adjudication": "UNADJUDICATED",
+  "event_time_semantics": "available_audio_s = available_samples / 16000; available input time, not a word endpoint",
+  "far_and_poisson_bound": "NOT_APPLICABLE_NO_VERIFIED_NEGATIVE_EXPOSURE",
+  "label": "UNKNOWN",
+  "model_load_record": {
+    "cpu_ns_since_run_start": 6217823,
+    "kind": "model_loaded",
+    "state_bytes": 333704,
+    "wall_ns_since_run_start": 7840002,
+    "weights_bytes": 1565280
+  },
+  "native_run_end": {
+    "block_input_ops": 0,
+    "block_output_ops": 3008,
+    "callbacks": 1001,
+    "clips": 1,
+    "complete": true,
+    "decoder_rows_decoded": 9999,
+    "event_count": 0,
+    "fbank_rows": 29998,
+    "feed_calls": 1001,
+    "finish_calls": 1,
+    "frames": 4800064,
+    "kind": "run_end",
+    "major_faults": 0,
+    "maxrss_kib": 39376,
+    "minor_faults": 1030,
+    "model_rows": 9999,
+    "process_cpu_ns": 3370690463,
+    "wall_ns": 3371339552
+  },
+  "observed_totals": {
+    "callbacks": 1001,
+    "clips": 1,
+    "decoder_rows_decoded": 9999,
+    "fbank_rows": 29998,
+    "feed_calls": 1001,
+    "frames": 4800064,
+    "model_rows": 9999
+  },
+  "probabilities": "NOT_CAPTURED",
+  "probability_and_beam_trace": "NOT_CAPTURED",
+  "representativeness": "One source session/channel at original RMS -56.44120505758021 dBFS; no gain normalization, sweep, or expected-zero gate",
+  "resource_and_identity_admission": "SEPARATE_SUPERVISOR_AND_INDEPENDENT_AUDIT_REQUIRED; this scorer alone cannot PASS them",
+  "schema": "a20-demand-dliving-score-v1",
+  "scope": "exactly one original-amplitude DEMAND DLIVING ch01 full waveform; 300.004 input seconds in offline fast replay; UNKNOWN label, zero verified-negative hours; no FAR/product/board/soak/word-tail qualification",
+  "source_hashes": {
+    "decoder_config_sha256": "073f57e82dc346d5c71bf7070e21cb8dfaf593d11e9dbfed263efb93b00b2360",
+    "geometry_sha256": "5a04191ddf09cc4faf927fec0233f255f6468eb42e57126a0a49eb1eda033d88",
+    "library_sha256": "68457311f93540405dfa0bf5fdc1cd74421fea22b44d5920fec465be5de4d912",
+    "manifest_sha256": "ce5db865e4801aeaabe6fc19b1fe10f588d551b5be7a74bb52e10bd804c0a4a4",
+    "model_sha256": "a80b233d3c958d25f49085f487ef5cde839bd69f803ed057b59bbd20adc6e43d",
+    "protocol_sha256": "1897de0b8bb97178f49ca6ca471103408ffec7a38cf8b6f0d501f356ba81e085",
+    "raw_sha256": "4605f7e8e581a2556db9bd2797bbadf29c741228011357be3b1595b06c7f5882"
+  },
+  "status": "complete_original_waveform_unadjudicated_counts_only",
+  "streams": [
+    {
+      "beam_trace": "NOT_CAPTURED",
+      "callbacks": 1001,
+      "complete": true,
+      "decoder_rows_decoded": 9999,
+      "domain": "DEMAND.v1.DLIVING",
+      "duration_s": 300.004,
+      "event_adjudication": "UNADJUDICATED",
+      "event_count": 0,
+      "events": [],
+      "fbank_rows": 29998,
+      "feed_finish_records_validated": true,
+      "frames": 4800064,
+      "kind": "environmental_recording_unadjudicated",
+      "label": "UNKNOWN",
+      "model_rows": 9999,
+      "pcm_sha256": "5b333ef00c765b4f091f39d6b6f1e5ae64939bae98911bf01a76dcac784d619d",
+      "probabilities": "NOT_CAPTURED",
+      "recording": "DEMAND-DLIVING-ch01",
+      "verified_negative_hours": 0,
+      "wav_sha256": "9567ff039c040359534075d575b469b587b1e3858ef48a93acd3ecba95f57210"
+    }
+  ],
+  "verified_negative_hours": 0
+}
