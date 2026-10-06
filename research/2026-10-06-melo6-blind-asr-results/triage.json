@@ -1,0 +1,145 @@
+{
+  "schema": "melo6-text-only-diagnostic-triage-v1",
+  "basis": "ordinary dictionary citation-form reading of saved text; no acoustic observation",
+  "original_comparison_sha256": "7af81332103cf8174d8cbda9deda00e988027493e84f4643518993f20cdf280e",
+  "original_overall_result": "failed_or_inconclusive_quarantine",
+  "original_all_six_weak_lexical_gate_passed": false,
+  "original_dual_asr_exact_intent_rows": 2,
+  "new_training_admissions": 0,
+  "new_inference_calls": 0,
+  "acceptance_rule_changed": false,
+  "clips": [
+    {
+      "clip_id": "clip-000001",
+      "intended_text": "你好小窝",
+      "asr_evidence": [
+        {
+          "model": "sensevoice",
+          "normalized_asr_text": "你好小沃",
+          "text_relation_to_intent": "segmental_agreement_tone_conflict"
+        },
+        {
+          "model": "qwen06",
+          "normalized_asr_text": "你好小窝",
+          "text_relation_to_intent": "lexical_match"
+        }
+      ],
+      "diagnostic_category": "segmental_agreement_tone_conflict",
+      "acoustic_truth": "UNKNOWN",
+      "original_assessment": "quarantine",
+      "gold_label": null,
+      "ctc_target": null,
+      "training_admission": false
+    },
+    {
+      "clip_id": "clip-000002",
+      "intended_text": "小窝小窝",
+      "asr_evidence": [
+        {
+          "model": "sensevoice",
+          "normalized_asr_text": "小窝小窝",
+          "text_relation_to_intent": "lexical_match"
+        },
+        {
+          "model": "qwen06",
+          "normalized_asr_text": "叫我小我",
+          "text_relation_to_intent": "segmental_mismatch"
+        }
+      ],
+      "diagnostic_category": "segmental_mismatch",
+      "acoustic_truth": "UNKNOWN",
+      "original_assessment": "quarantine",
+      "gold_label": null,
+      "ctc_target": null,
+      "training_admission": false
+    },
+    {
+      "clip_id": "clip-000003",
+      "intended_text": "你好小屋",
+      "asr_evidence": [
+        {
+          "model": "sensevoice",
+          "normalized_asr_text": "你好小屋",
+          "text_relation_to_intent": "lexical_match"
+        },
+        {
+          "model": "qwen06",
+          "normalized_asr_text": "你好小屋",
+          "text_relation_to_intent": "lexical_match"
+        }
+      ],
+      "diagnostic_category": "lexical_match",
+      "acoustic_truth": "UNKNOWN",
+      "original_assessment": "weak_lexical_support_only",
+      "gold_label": null,
+      "ctc_target": null,
+      "training_admission": false
+    },
+    {
+      "clip_id": "clip-000004",
+      "intended_text": "小屋小屋",
+      "asr_evidence": [
+        {
+          "model": "sensevoice",
+          "normalized_asr_text": "老屋小屋",
+          "text_relation_to_intent": "segmental_mismatch"
+        },
+        {
+          "model": "qwen06",
+          "normalized_asr_text": "小屋小屋",
+          "text_relation_to_intent": "lexical_match"
+        }
+      ],
+      "diagnostic_category": "segmental_mismatch",
+      "acoustic_truth": "UNKNOWN",
+      "original_assessment": "quarantine",
+      "gold_label": null,
+      "ctc_target": null,
+      "training_admission": false
+    },
+    {
+      "clip_id": "clip-000005",
+      "intended_text": "你好你好",
+      "asr_evidence": [
+        {
+          "model": "sensevoice",
+          "normalized_asr_text": "你好你好",
+          "text_relation_to_intent": "lexical_match"
+        },
+        {
+          "model": "qwen06",
+          "normalized_asr_text": "你好你好",
+          "text_relation_to_intent": "lexical_match"
+        }
+      ],
+      "diagnostic_category": "lexical_match",
+      "acoustic_truth": "UNKNOWN",
+      "original_assessment": "weak_lexical_support_only",
+      "gold_label": null,
+      "ctc_target": null,
+      "training_admission": false
+    },
+    {
+      "clip_id": "clip-000006",
+      "intended_text": "今天天气很好",
+      "asr_evidence": [
+        {
+          "model": "sensevoice",
+          "normalized_asr_text": "明天天气很好",
+          "text_relation_to_intent": "segmental_mismatch"
+        },
+        {
+          "model": "qwen06",
+          "normalized_asr_text": "明天天气很好",
+          "text_relation_to_intent": "segmental_mismatch"
+        }
+      ],
+      "diagnostic_category": "segmental_mismatch",
+      "acoustic_truth": "UNKNOWN",
+      "original_assessment": "quarantine",
+      "gold_label": null,
+      "ctc_target": null,
+      "training_admission": false
+    }
+  ]
+}
