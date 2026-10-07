@@ -1,0 +1,65 @@
+{
+  "evidence_class": "saved-clip-presence-diagnostic-v1",
+  "positive_clips": 1,
+  "positive_clips_with_target": 1,
+  "negative_clips": 0,
+  "negative_clips_with_events": 0,
+  "negative_events": 0,
+  "missing_keywords": 0,
+  "wrong_keyword_events": 0,
+  "repeat_events": 0,
+  "event_annotations_available": false,
+  "qualification_allowed": false,
+  "timing_scope": "saved detection coordinates only; acoustic word end unknown",
+  "recordings": [
+    {
+      "recording": "N1",
+      "expected_keywords": [
+        1
+      ],
+      "missing_keywords": [],
+      "wrong_keyword_events": 0,
+      "repeat_events": 0,
+      "detections": [
+        {
+          "recording": "N1",
+          "keyword_id": 1,
+          "time_s": 2.4,
+          "confidence": 0.9687314846116618
+        }
+      ]
+    }
+  ],
+  "context": {
+    "status": "CONTEXT_UNVERIFIED",
+    "matched_context": false,
+    "scope": "saved declarations and input bindings only; no execution attestation",
+    "qualification_allowed": false,
+    "unknown": [
+      "both positive and negative recordings required"
+    ],
+    "differences": [],
+    "manifest_sha256": "47d92e0630c90f22bc5a784cdc58f9866b0962483632ef0086a5c5b0491f31e9",
+    "recordings": {
+      "N1": {
+        "audio_sha256": "2752dab0ca534795cf29da1726f8abd17fb76a5bc2723f1e11c91a9ddb9c46ae",
+        "policy": {
+          "appended_context_kind": "digital-zero",
+          "appended_context_samples": 4800,
+          "eof_flush": false,
+          "eof_padding": "none",
+          "eof_partial_chunk": "process-retained",
+          "feed_chunk_samples": 4800,
+          "reset_clocks": "per-recording",
+          "reset_decoder": "per-recording",
+          "reset_frontend": "per-recording",
+          "reset_model": "per-recording",
+          "sample_rate_hz": 16000
+        },
+        "role": "positive"
+      }
+    }
+  },
+  "references_sha256": "ac28e5b360e6cf9997e39c140156ff646d3d6ea9174a35bafd89f99eb2cdbf9f",
+  "detections_sha256": "702e2a978cb45cc9ea6ba518a50be8aef19418afa674cec0e8707f2b2ff7eb0f"
+}
