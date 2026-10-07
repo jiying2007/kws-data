@@ -1,0 +1,401 @@
+{
+  "admission_controls": "Scientific results and abstract admission gates preserved; actual private controls are not distributed.",
+  "excluded_payloads": [
+    "WAV and PCM inputs",
+    "weights",
+    "native shared library and collector binary",
+    "inherited archive files",
+    "actual release/approval/private-control and transport records",
+    "host nodename and boot identity"
+  ],
+  "mapping": [
+    {
+      "original": {
+        "bytes": 3121,
+        "sha256": "68515c3f50518b1bdb6852ec8e2ffef67667bb71bc78688337f560e8e7e5a559"
+      },
+      "original_role": "GENERATOR-RECIPE.json",
+      "public": {
+        "bytes": 3121,
+        "sha256": "68515c3f50518b1bdb6852ec8e2ffef67667bb71bc78688337f560e8e7e5a559"
+      },
+      "public_path": "GENERATOR-RECIPE.json",
+      "repository": "jiying2007/kws-data",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 75733,
+        "sha256": "3063d60ecb973ab2e6f1c4de7b25c8db5ef5cbc95c268e4fc3511dec0a52919b"
+      },
+      "original_role": "metadata/verified-inputs.json",
+      "public": {
+        "bytes": 75733,
+        "sha256": "3063d60ecb973ab2e6f1c4de7b25c8db5ef5cbc95c268e4fc3511dec0a52919b"
+      },
+      "public_path": "metadata/verified-inputs.json",
+      "repository": "jiying2007/kws-data",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 2709,
+        "sha256": "073f57e82dc346d5c71bf7070e21cb8dfaf593d11e9dbfed263efb93b00b2360"
+      },
+      "original_role": "metadata/decoder-config.json",
+      "public": {
+        "bytes": 2709,
+        "sha256": "073f57e82dc346d5c71bf7070e21cb8dfaf593d11e9dbfed263efb93b00b2360"
+      },
+      "public_path": "metadata/decoder-config.json",
+      "repository": "jiying2007/kws-data",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 1025,
+        "sha256": "436bfb1c9fdf334186b4fbdb5df3764e80b7e85989272346d59c428e7b39f9c2"
+      },
+      "original_role": "metadata/output-bound.json",
+      "public": {
+        "bytes": 1025,
+        "sha256": "436bfb1c9fdf334186b4fbdb5df3764e80b7e85989272346d59c428e7b39f9c2"
+      },
+      "public_path": "metadata/output-bound.json",
+      "repository": "jiying2007/kws-data",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 4616,
+        "sha256": "074c20084b06356941c6b9a730e1dea01913789489375b318354a4fd3ac64d23"
+      },
+      "original_role": "analysis-after-run/constructed-domain-score.json",
+      "public": {
+        "bytes": 4616,
+        "sha256": "074c20084b06356941c6b9a730e1dea01913789489375b318354a4fd3ac64d23"
+      },
+      "public_path": "evidence/constructed-domain-score.json",
+      "repository": "jiying2007/kws-data",
+      "transformation": "byte-identical"
+    },
+    {
+      "detail": {
+        "complete_records": 6012,
+        "compression": "gzip level9, mtime0, no original filename",
+        "includes_ephemeral_run_pid": true
+      },
+      "original": {
+        "bytes": 4617273,
+        "sha256": "ac881e0407496a92dbcbe5ed54adc2f2367bd36478240ed093f1433c4c6be998"
+      },
+      "original_role": "run-once/raw.jsonl",
+      "public": {
+        "bytes": 1256139,
+        "sha256": "5a6161468178cd8804ecfd193eec8abbaeb2ace48b006d99d4dab2687f06a545"
+      },
+      "public_path": "evidence/raw.jsonl.gz",
+      "repository": "jiying2007/kws-data",
+      "transformation": "gzip byte-exact original"
+    },
+    {
+      "original": {
+        "bytes": 1947411,
+        "sha256": "46c2a74c276a472167b4f80e04aa7950efa3c64e4805633f9643c9ead04e5c75"
+      },
+      "original_role": "metadata/geometry.json",
+      "public": {
+        "bytes": 108404,
+        "sha256": "3e8a670935964683ee210787ae3ecdc6415874355308c1f720a1bf7cbaa7a9b3"
+      },
+      "public_path": "metadata/geometry.json.gz",
+      "repository": "jiying2007/kws-data",
+      "transformation": "gzip byte-exact original"
+    },
+    {
+      "detail": {
+        "added": "projection schema/status and corrected r2 timing/RSS labels; original numerical observations unchanged",
+        "all_108_proc_samples": "byte-value-equivalent JSON objects retained, including all107 LIVE RSS/Threads samples and exact error objects",
+        "removed_top_level_fields": [
+          "limited_capability_evidence",
+          "supervision_contract_proposal_sha256"
+        ]
+      },
+      "original": {
+        "bytes": 155516,
+        "sha256": "8ffb8c1324b7ae41a5c77785598c3177d690acd465c4cd27abc63ad44043c384"
+      },
+      "original_role": "run-once/resource-record.json",
+      "public": {
+        "bytes": 154951,
+        "sha256": "cb919d7dc123fb8ef225a31454aaa1bee538de28db60dc889f87fb6ee6c202e0"
+      },
+      "public_path": "evidence/resource-record.public.json",
+      "repository": "jiying2007/kws-data",
+      "transformation": "public technical projection"
+    },
+    {
+      "detail": {
+        "removed": "host nodename and actual coordination assertion"
+      },
+      "original": {
+        "bytes": 787,
+        "sha256": "298cdf900617c43198bb095b4e9880c7da65a580807555b9257b10635454c677"
+      },
+      "original_role": "run-once/resource-context.json",
+      "public": {
+        "bytes": 789,
+        "sha256": "be1a813e21d9e673bf16a2704875846506380a0bd4131908d6599589ba527a6f"
+      },
+      "public_path": "evidence/resource-context.public.json",
+      "repository": "jiying2007/kws-data",
+      "transformation": "public technical projection"
+    },
+    {
+      "detail": {
+        "removed_top_level_fields": [
+          "boot_id_sha256",
+          "host_uname",
+          "identities_after",
+          "independent_guard_probe_review",
+          "probe_release_sha256"
+        ],
+        "technical_values": "All remaining diagnostic fields, error objects, samples and cleanup kept unchanged"
+      },
+      "original": {
+        "bytes": 14001,
+        "sha256": "191427fcf71bdf63b9dede09deac94782d3af10eba8f380ae1666088bbce23f6"
+      },
+      "original_role": "a20-n0-deterministic-negative-controls-v1/guard-probe-once/report.json",
+      "public": {
+        "bytes": 4965,
+        "sha256": "c58be9b9dd4e81ee669fb499707707337ba4db83c1b68fecf941833209671975"
+      },
+      "public_path": "evidence/strict-probe-failure.public.json",
+      "repository": "jiying2007/kws-data",
+      "transformation": "public technical projection"
+    },
+    {
+      "original": {
+        "bytes": 1878,
+        "sha256": "a31e5949757ced78e8fe6be908ede523b2f5725961d4564100d63857c2e7d41b"
+      },
+      "original_role": "a20-n0-supervision-contract-proposal-v1/OWN-PROCESS-INTERFACE-ONCE.json",
+      "public": {
+        "bytes": 1878,
+        "sha256": "a31e5949757ced78e8fe6be908ede523b2f5725961d4564100d63857c2e7d41b"
+      },
+      "public_path": "evidence/own-process-interface.json",
+      "repository": "jiying2007/kws-data",
+      "transformation": "byte-identical"
+    },
+    {
+      "detail": {
+        "other_changes": [
+          "private lock path replaced with role",
+          "system dependency keys reduced to basenames, hashes unchanged",
+          "private proposal reference removed from supervision_contract",
+          "correct sampled RSS scope",
+          "new projection schema/status and original hash",
+          "abstract admission gates retained without actual control records"
+        ],
+        "removed_top_level_fields": [
+          "after_run",
+          "limited_capability_evidence",
+          "release_requirements",
+          "source_admission_plan_sha256",
+          "source_future_supervisor_review_sha256",
+          "supervision_contract_proposal_sha256"
+        ]
+      },
+      "original": {
+        "bytes": 10698,
+        "sha256": "4c98537a997a1451626ceef47d032d0f27257473d971974578002fc5d5aada6f"
+      },
+      "original_role": "PROTOCOL.json",
+      "public": {
+        "bytes": 9354,
+        "sha256": "63bdc8d6fa04471de14b7992c575830e2c241306ebd98297899c89c6b0a6ce67"
+      },
+      "public_path": "metadata/protocol.public.json",
+      "repository": "jiying2007/kws-data",
+      "transformation": "public technical projection"
+    },
+    {
+      "original": {
+        "bytes": 29763,
+        "sha256": "48c0fc5bdb94a70e748ce86f2b1a4bb4915594605c9549f0187f0a5f1c425139"
+      },
+      "original_role": "src/score_n0.py",
+      "public": {
+        "bytes": 29763,
+        "sha256": "48c0fc5bdb94a70e748ce86f2b1a4bb4915594605c9549f0187f0a5f1c425139"
+      },
+      "public_path": "src/score_n0.py",
+      "repository": "jiying2007/kws-pipeline",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 6649,
+        "sha256": "8dbb6c1a24f684bcd23df71f41950b16d4b2d31bd3dd83887d6982cab5fe99fb"
+      },
+      "original_role": "src/generate_inputs.py",
+      "public": {
+        "bytes": 6649,
+        "sha256": "8dbb6c1a24f684bcd23df71f41950b16d4b2d31bd3dd83887d6982cab5fe99fb"
+      },
+      "public_path": "src/generate_inputs.py",
+      "repository": "jiying2007/kws-pipeline",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 1602,
+        "sha256": "cc6c73eae46231df20f80b36ab533c4d2447917611e86ca82a05f92e271536cf"
+      },
+      "original_role": "src/geometry.py",
+      "public": {
+        "bytes": 1602,
+        "sha256": "cc6c73eae46231df20f80b36ab533c4d2447917611e86ca82a05f92e271536cf"
+      },
+      "public_path": "src/geometry.py",
+      "repository": "jiying2007/kws-pipeline",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 2951,
+        "sha256": "1750a2e5dcdfead62550768b896f7254fba939864dfb1f5838519ab10c50320a"
+      },
+      "original_role": "src/calculate_output_bound.py",
+      "public": {
+        "bytes": 2951,
+        "sha256": "1750a2e5dcdfead62550768b896f7254fba939864dfb1f5838519ab10c50320a"
+      },
+      "public_path": "src/calculate_output_bound.py",
+      "repository": "jiying2007/kws-pipeline",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 8418,
+        "sha256": "70065cde981f9ea4294370aa264deea4f5dd1b45c5a9a37f004402fc7601e567"
+      },
+      "original_role": "src/collector.c",
+      "public": {
+        "bytes": 8418,
+        "sha256": "70065cde981f9ea4294370aa264deea4f5dd1b45c5a9a37f004402fc7601e567"
+      },
+      "public_path": "src/collector.c",
+      "repository": "jiying2007/kws-pipeline",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 777,
+        "sha256": "4e14cd7089d9f093cfef88fb70f9ef836d2136b7456e5c181d12bf0ac65dac6d"
+      },
+      "original_role": "src/inputs.h",
+      "public": {
+        "bytes": 777,
+        "sha256": "4e14cd7089d9f093cfef88fb70f9ef836d2136b7456e5c181d12bf0ac65dac6d"
+      },
+      "public_path": "src/inputs.h",
+      "repository": "jiying2007/kws-pipeline",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 311,
+        "sha256": "8b5844bb9c74238f7655e3fcefd82adad8067a937b176e2ab7c09648a039f6de"
+      },
+      "original_role": "src/build_collector.sh",
+      "public": {
+        "bytes": 311,
+        "sha256": "8b5844bb9c74238f7655e3fcefd82adad8067a937b176e2ab7c09648a039f6de"
+      },
+      "public_path": "archive/build_collector.sh.txt",
+      "repository": "jiying2007/kws-pipeline",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 382,
+        "sha256": "936e1a7039624ddc9305304a1a0d6620f28ffc9b49900ff2f8c853581e5b93a6"
+      },
+      "original_role": "src/guard_probe.py",
+      "public": {
+        "bytes": 382,
+        "sha256": "936e1a7039624ddc9305304a1a0d6620f28ffc9b49900ff2f8c853581e5b93a6"
+      },
+      "public_path": "archive/guard_probe_v2.py.txt",
+      "repository": "jiying2007/kws-pipeline",
+      "transformation": "byte-identical"
+    },
+    {
+      "detail": [
+        "private sibling lock location replaced; locking gate retained"
+      ],
+      "original": {
+        "bytes": 28464,
+        "sha256": "b6603f1e2f8208f2eba8e31c0fd0d4985609f517c21f511401e94107ecb26496"
+      },
+      "original_role": "a20-n0-deterministic-negative-controls-v1/src/launch_once.py",
+      "public": {
+        "bytes": 28466,
+        "sha256": "9122a27ebdcf7cbec2459fbace86b02d9a0e040d2b15bdee07c7a724c6b0311b"
+      },
+      "public_path": "archive/launch_once_v1.py.txt",
+      "repository": "jiying2007/kws-pipeline",
+      "transformation": "non-executable archival public projection, NOT executed"
+    },
+    {
+      "detail": [
+        "private sibling lock location replaced; locking gate retained",
+        "actual private contract-proposal hash replaced with explicit nonidentity placeholder; comparison gates retained"
+      ],
+      "original": {
+        "bytes": 33951,
+        "sha256": "9c57d110ee6a4d2b099a9e2fed905ce35aac6313766df85159ef7c20bc11f1b7"
+      },
+      "original_role": "src/launch_once.py",
+      "public": {
+        "bytes": 33935,
+        "sha256": "eed6c9826074a34457a373a69d505e1bbf667e07e5f545d6368ff8f644f3c49a"
+      },
+      "public_path": "archive/launch_once_v2.py.txt",
+      "repository": "jiying2007/kws-pipeline",
+      "transformation": "non-executable archival public projection, NOT executed"
+    },
+    {
+      "detail": "Original invented-logit test cases and mutations unchanged; fixture reads exact input manifest and losslessly decompressed geometry from separately pinned data root.",
+      "original": {
+        "bytes": 6138,
+        "sha256": "b7ae6578f7a376f8ae48b2166718d9cdf4d5109eeffa0f0b0c220b1c88d0d602"
+      },
+      "original_role": "tests/test_score_n0.py",
+      "public": {
+        "bytes": 6294,
+        "sha256": "c4077b772066111f31976e73fa5f99a44c4ce0d7da759166b0ec6123ad16aa04"
+      },
+      "public_path": "tests/test_score_n0.py",
+      "repository": "jiying2007/kws-pipeline",
+      "transformation": "metadata-loading adaptation only"
+    }
+  ],
+  "original_launcher_sha256": "9c57d110ee6a4d2b099a9e2fed905ce35aac6313766df85159ef7c20bc11f1b7",
+  "original_protocol_sha256": "4c98537a997a1451626ceef47d032d0f27257473d971974578002fc5d5aada6f",
+  "original_scientific_manifest_sha256": "3063d60ecb973ab2e6f1c4de7b25c8db5ef5cbc95c268e4fc3511dec0a52919b",
+  "original_scorer_sha256": "48c0fc5bdb94a70e748ce86f2b1a4bb4915594605c9549f0187f0a5f1c425139",
+  "original_v1_freeze_sha256": "87ad861f00a311ed4c05b35a1783cb026816bd3bbf624cd75657ca25c9068eba",
+  "original_v2_freeze_sha256": "8acbb5d05bb99d3f46f6b7c4a0404c6e07bde761e836c1656354f0477f6b824f",
+  "process_ids": "Ephemeral PIDs in exact saved raw and diagnostic endpoint evidence retained; no claim that all PIDs are removed.",
+  "public_projection_was_not_executed": true,
+  "r2_corrections": [
+    "supervisor10.848508173s is run-phase elapsed, not total admission-inclusive elapsed",
+    "RSS bound is sampled guard, not kernel-hard RSS"
+  ],
+  "schema": "n0-public-scientific-provenance-v1",
+  "unmodified_raw_header_references_original_identities": true
+}

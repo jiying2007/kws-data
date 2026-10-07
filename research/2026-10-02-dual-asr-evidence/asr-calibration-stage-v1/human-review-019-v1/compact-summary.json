@@ -1,0 +1,87 @@
+{
+  "frozen-v1": {
+    "human_label_counts": {
+      "positive": 8,
+      "negative": 18,
+      "unknown": 6
+    },
+    "models": [
+      {
+        "model_id": "Qwen/Qwen3-ASR-0.6B",
+        "covered_known_bits": 0,
+        "true_positive": 0,
+        "true_negative": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "unknown_on_positive": 8,
+        "unknown_on_negative": 18,
+        "errors": []
+      },
+      {
+        "model_id": "FunAudioLLM/SenseVoiceSmall",
+        "covered_known_bits": 0,
+        "true_positive": 0,
+        "true_negative": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "unknown_on_positive": 8,
+        "unknown_on_negative": 18,
+        "errors": []
+      }
+    ],
+    "readout_sha256": "a103c097d7b00b77c5f103989a57567b2ca7ac32ae1eba084cfa1ce1af58fe22",
+    "paired": {
+      "both_covered": 0,
+      "joint_errors": 0,
+      "both_unknown": 26,
+      "one_unknown_disagreements": 0
+    }
+  },
+  "posthoc-v2": {
+    "human_label_counts": {
+      "positive": 8,
+      "negative": 18,
+      "unknown": 6
+    },
+    "models": [
+      {
+        "model_id": "Qwen/Qwen3-ASR-0.6B",
+        "covered_known_bits": 14,
+        "true_positive": 0,
+        "true_negative": 13,
+        "false_positive": 0,
+        "false_negative": 1,
+        "unknown_on_positive": 7,
+        "unknown_on_negative": 5,
+        "errors": [
+          {
+            "recording_id": "kws-temporal72-008-serena-kw2_wu_confusable",
+            "wav_sha256": "9d3dbbeea866f6bbdc56eb348461f8d0b0751b0aeebf42064b0e4cc4c632731f",
+            "target_index": 1,
+            "human": "positive",
+            "prediction": "negative",
+            "error_type": "false_negative"
+          }
+        ]
+      },
+      {
+        "model_id": "FunAudioLLM/SenseVoiceSmall",
+        "covered_known_bits": 13,
+        "true_positive": 0,
+        "true_negative": 13,
+        "false_positive": 0,
+        "false_negative": 0,
+        "unknown_on_positive": 8,
+        "unknown_on_negative": 5,
+        "errors": []
+      }
+    ],
+    "readout_sha256": "ddf860a3b6a0fc06963425e962ae4ad1976d455b8b6c8d1fb50533b894f6ac43",
+    "paired": {
+      "both_covered": 12,
+      "joint_errors": 0,
+      "both_unknown": 11,
+      "one_unknown_disagreements": 3
+    }
+  }
+}

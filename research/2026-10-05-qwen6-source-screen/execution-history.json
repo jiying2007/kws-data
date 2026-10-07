@@ -1,0 +1,128 @@
+{
+  "schema": "qwen6-source-screen-execution-history-v1",
+  "source_repository": "jiying2007/kws-pipeline",
+  "source_commit": "16ba0941bd7d7d6705d1ee94bb433dbd4fc6aa51",
+  "source_pr": 482,
+  "runs": [
+    {
+      "run": 37335852099,
+      "source_pr": 480,
+      "head": "cd30ecfb71d26c099055ca9c2f90f5c084f05b93",
+      "execution_status": "FAILED_NO_RETRY",
+      "tts_requests": 0,
+      "asr_requests": 0,
+      "observed_failure": "TTS_ENTRY_OR_STAGE_FAILED",
+      "specific_child_cause": "UNKNOWN_NOT_RETAINED",
+      "controlled_download_bytes": 2933666464
+    },
+    {
+      "run": 37339583157,
+      "source_pr": 481,
+      "head": "480e4f013349917b0cea514633d3f7ae2d98c0b4",
+      "execution_status": "FAILED_NO_RETRY",
+      "tts_requests": 0,
+      "asr_requests": 0,
+      "observed_failure": "import_soundfile/OSError",
+      "failure_before_model_loading": true,
+      "controlled_download_bytes": 2933666464
+    },
+    {
+      "run": 37343458180,
+      "source_pr": 482,
+      "head": "16ba0941bd7d7d6705d1ee94bb433dbd4fc6aa51",
+      "execution_status": "SUCCESS",
+      "tts_requests": 6,
+      "asr_requests": 12,
+      "tts_setup_attempt": 3,
+      "asr_setup_attempt": 1,
+      "same_version_soundfile_native_fix": "Official bundled manylinux SoundFile0.13.1; Python implementation and METADATA unchanged",
+      "both_pre_model_native_preflights": "PASS",
+      "controlled_download_bytes": 6275920806
+    }
+  ],
+  "cumulative_requests": {
+    "tts": 6,
+    "asr": 12,
+    "sohee": 0,
+    "retries": 0
+  },
+  "controlled_downloads": {
+    "TTS_attempt3": 2934954359,
+    "ASR_attempt1": 3340966447,
+    "successful_pipeline_total": 6275920806,
+    "prior_two_TTS_attempts": 5867332928,
+    "all_three_TTS_plus_ASR_total": 12143253734,
+    "scope": "Managed package/model response-body bytes only; other infrastructure and unobserved third-party sockets are not globally accounted"
+  },
+  "asr_resources": {
+    "setup": {
+      "whole_stage_wall_seconds": 149.327706676,
+      "reaped_children_cpu_seconds": 80.26145199999999,
+      "sampled_peak_rss_bytes": 838615040,
+      "actual_sample_count": 175,
+      "nominal_sleep_seconds": 0.25,
+      "actual_max_sample_gap": "UNKNOWN",
+      "affinity_core_limit": 2,
+      "kernel_CPU_limit_per_process_seconds": 2400
+    },
+    "sensevoice": {
+      "whole_stage_wall_seconds": 34.73077571900001,
+      "reaped_children_cpu_seconds": 33.367981,
+      "sampled_peak_rss_bytes": 2471841792,
+      "actual_sample_count": 25,
+      "nominal_sleep_seconds": 0.25,
+      "actual_max_sample_gap": "UNKNOWN",
+      "affinity_core_limit": 1,
+      "kernel_CPU_limit_per_process_seconds": 600
+    },
+    "qwen06": {
+      "whole_stage_wall_seconds": 111.04210573399999,
+      "reaped_children_cpu_seconds": 110.55577399999996,
+      "sampled_peak_rss_bytes": 4028256256,
+      "actual_sample_count": 82,
+      "nominal_sleep_seconds": 0.25,
+      "actual_max_sample_gap": "UNKNOWN",
+      "affinity_core_limit": 1,
+      "kernel_CPU_limit_per_process_seconds": 600
+    }
+  },
+  "tts_resources": {
+    "setup_supervisor_wall_seconds": 92.437469548,
+    "generation_supervisor_wall_seconds": 301.404042281,
+    "tts_total_wall_seconds": 393.860382977,
+    "sampled_generation_peak_rss_bytes": 5265907712,
+    "nominal_sampler_sleep_seconds": 0.25,
+    "actual_generation_sample_count": 189,
+    "maximum_sample_gap_seconds": "UNKNOWN"
+  },
+  "resource_limits": [
+    "0.25s is nominal sleep, not actual sample cadence. Actual timestamps/max sample gaps are unknown.",
+    "RSS and disk maxima are sampled observations, not continuous hard guarantees.",
+    "Per-model stage values include loading and all six decodes, not pure decode or KWS resources.",
+    "Kernel CPU limits are per process; child CPU accounting is not a hard aggregate process-tree limit."
+  ],
+  "independent_saved_audit": {
+    "status": "PASS_EXECUTION_INTEGRITY_FIXED_COMPARISON_AND_INDEPENDENT_RECOUNT",
+    "sha256": "c20f49fdf3e262905390324ab397e0628a84361ad5eeb26e955f82aea3d6d89d",
+    "fixed_comparison_sha256": "132764b252f4e4f6191910d1053828e2d6a72c6a4d321ad2f74d0312a1a644ec",
+    "recount_sha256": "64371faae4a8dcbb845a972f98d38d5b3f8b18c9dbce2438e7df9e1aaa8a2d4f",
+    "result_projection_sha256": "5e1423c1fa10806520d184ae53aa6efaa89371a71df0f17f0f9eb4ecb7088447"
+  },
+  "normal_repo_ci": {
+    "run": 37343567730,
+    "status": "success",
+    "jobs": 6,
+    "scope": "Ordinary pipeline repository checks; separate from research execution and archive restoration/semantic verification"
+  },
+  "scientific_decision": {
+    "panel_keyword_coverage_passed": false,
+    "weak_machine_supported": 1,
+    "quarantine": 5,
+    "actual_positive_established": 0,
+    "human_truth": "UNKNOWN",
+    "acoustic_completeness": "UNKNOWN",
+    "training_admitted": 0,
+    "future24_opened": false,
+    "exposure": "All six are exposed regression evidence"
+  }
+}

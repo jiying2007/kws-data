@@ -1,0 +1,107 @@
+{
+  "asr_result_model_order": [
+    "FunAudioLLM/SenseVoiceSmall",
+    "Qwen/Qwen3-ASR-0.6B"
+  ],
+  "comparison_sha256": "132764b252f4e4f6191910d1053828e2d6a72c6a4d321ad2f74d0312a1a644ec",
+  "frozen_inputs_unchanged": true,
+  "frozen_panel_sources": {
+    "declared-history.json": "3251c0fc2cf67aee04e475ac64e5c7fba66af0d20c84a78489097795a3799985",
+    "panel.py": "6da5cb2918270c0db13dffea280ac800f370ad0bd47805e9b7f28f59c1897aee",
+    "proposed-panel.json": "e05f4ea950a56c7bdb349b6d6d6aece8b706e82a06712115030d58ba041e0e37",
+    "vendor/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "vendor/quality_gates.py": "e9a0a838e134746bbd0fdd60aeff48ca9ad2963b721e3ea45bd0d8b45690b15d"
+  },
+  "gate_exit_code": 1,
+  "generation_freeze_sha256": "ed9ccd99d41ea2f63d57bcd7eb49b603cd280cf10b3cdaa1f028220fc6dcab6c",
+  "generation_receipt_sha256": "d8bef1fa08b7b79de20cec038e2d209e783fa0834a181c183f6b1f1ec59153d2",
+  "human_truth_observations": 0,
+  "mapping": [
+    {
+      "audio_id": "clip-000001",
+      "cell": "K1",
+      "comparison_handling": "quarantine",
+      "panel_id": "screen-ryan-K1",
+      "prospective_role": "train",
+      "quarantine_reasons": [
+        "both_asrs_differ_from_intended_text"
+      ],
+      "source_id": "qwen6-001",
+      "voice_identity": "Qwen3-stock:Ryan",
+      "weak_machine_supported_candidate": false
+    },
+    {
+      "audio_id": "clip-000002",
+      "cell": "K2",
+      "comparison_handling": "quarantine",
+      "panel_id": "screen-ryan-K2",
+      "prospective_role": "train",
+      "quarantine_reasons": [
+        "asr_disagreement"
+      ],
+      "source_id": "qwen6-002",
+      "voice_identity": "Qwen3-stock:Ryan",
+      "weak_machine_supported_candidate": false
+    },
+    {
+      "audio_id": "clip-000003",
+      "cell": "K1",
+      "comparison_handling": "quarantine",
+      "panel_id": "screen-aiden-K1",
+      "prospective_role": "train",
+      "quarantine_reasons": [
+        "both_asrs_differ_from_intended_text"
+      ],
+      "source_id": "qwen6-003",
+      "voice_identity": "Qwen3-stock:Aiden",
+      "weak_machine_supported_candidate": false
+    },
+    {
+      "audio_id": "clip-000004",
+      "cell": "K2",
+      "comparison_handling": "weak_machine_supported_candidate",
+      "panel_id": "screen-aiden-K2",
+      "prospective_role": "train",
+      "quarantine_reasons": [],
+      "source_id": "qwen6-004",
+      "voice_identity": "Qwen3-stock:Aiden",
+      "weak_machine_supported_candidate": true
+    },
+    {
+      "audio_id": "clip-000005",
+      "cell": "K1",
+      "comparison_handling": "quarantine",
+      "panel_id": "screen-ono_anna-K1",
+      "prospective_role": "dev",
+      "quarantine_reasons": [
+        "asr_disagreement"
+      ],
+      "source_id": "qwen6-005",
+      "voice_identity": "Qwen3-stock:Ono_Anna",
+      "weak_machine_supported_candidate": false
+    },
+    {
+      "audio_id": "clip-000006",
+      "cell": "K2",
+      "comparison_handling": "quarantine",
+      "panel_id": "screen-ono_anna-K2",
+      "prospective_role": "dev",
+      "quarantine_reasons": [
+        "asr_disagreement"
+      ],
+      "source_id": "qwen6-006",
+      "voice_identity": "Qwen3-stock:Ono_Anna",
+      "weak_machine_supported_candidate": false
+    }
+  ],
+  "namespace_note": "Qwen3-TTS-CustomVoice and Qwen3-stock name the same pinned preset; development maps to dev. No acoustic identity authentication is inferred.",
+  "new_admission_rules": false,
+  "no_new_human_review": true,
+  "no_new_model_calls": true,
+  "require_data": true,
+  "run_id": 37343458180,
+  "schema": "saved-qwen6-panel-integration-v1",
+  "screen_exposed_observations": 6,
+  "sohee_screen_attempts": 0,
+  "training_rows": 0
+}

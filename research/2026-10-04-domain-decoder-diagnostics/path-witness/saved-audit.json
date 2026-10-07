@@ -1,0 +1,301 @@
+{
+  "record_type": "PUBLIC_PROJECTION_OF_SAVED_EVIDENCE",
+  "original_evidence_sha256": "31fb9f1ab99280f22d5f3498a771a84c8146aa2428659365bb2ad4a1d2c4c2e2",
+  "projection_was_executed_as_experiment": false,
+  "omissions": [
+    "ledger_no_retry_and_release_binding",
+    "saved_archive_library_file_id",
+    "saved_archive_sha256"
+  ],
+  "saved_evidence": {
+    "schema": "a20-path-witness-independent-saved-output-audit-v1",
+    "status": "PASS",
+    "diagnostic_status": "COMPLETE_CLOSED_NO_FURTHER_FIXTURES_OR_NATIVE_EXECUTION",
+    "source_freeze_sha256": "d17585d5e582842b0ef3d0880a837acfa849a7bc76fed34fd313a07af53f4ff3",
+    "raw_sha256": "f256fe8301180fae43c9bca9259a2d59e2d12907c6559d764a0090e5c93e0b38",
+    "raw_bytes": 23574,
+    "archive_crc_and_12_payload_identities": "PASS",
+    "pre_post_frozen_identities_checked": 21,
+    "native_calls_by_reviewer": 0,
+    "author_oracle_imports_by_reviewer": 0,
+    "old_replay_softmax_model_frontend_audio_calls_by_reviewer": 0,
+    "calls": {
+      "type": "end",
+      "init_calls": 6,
+      "public_process_probs_calls": 40,
+      "observer_frame_calls": 40,
+      "observer_detect_calls": 40,
+      "total_frame_calls_including_api": 80,
+      "total_detect_calls_including_api": 80,
+      "snapshots": 40,
+      "events": 5,
+      "softmax_calls": 0,
+      "logits_calls": 0
+    },
+    "resource_record": {
+      "returncode": 0,
+      "stop_reason": null,
+      "wall_seconds": 0.0024036450049607083,
+      "child_user_cpu_seconds": 0.0015829999999999976,
+      "child_system_cpu_seconds": 0.0,
+      "child_ru_maxrss_kib": 9600,
+      "stdout_bytes": 23574,
+      "stderr_bytes": 0,
+      "hard_limits": {
+        "child_cpu_seconds": 3,
+        "wall_seconds": 10,
+        "address_space_bytes": 268435456,
+        "per_file_output_bytes": 524288
+      },
+      "processes_launched": 1,
+      "native_execution_attempts": 1,
+      "identities_unchanged": true,
+      "interpretation": "proportionate host unit-execution guard, not a performance qualification"
+    },
+    "all_91_pb_pnb_exact": true,
+    "reference_method": "Previously independently checked frozen mass reference; own Cartesian/groupby witness enumeration for selected occurrences",
+    "selected_local_source_probabilities_exact": true,
+    "score_tolerance_ulps": 4,
+    "maximum_observed_formula_score_ulps": 0,
+    "sequential_score_history_state_and_unchanged_gates": "PASS",
+    "observations": [
+      {
+        "fixture": "F03_low_rank_positive",
+        "row": 3,
+        "keyword": 1,
+        "rank": 2,
+        "selected_frames": [
+          0,
+          3,
+          6,
+          9
+        ],
+        "prefix_mass_exact": "1/4",
+        "P1": true,
+        "P2": true,
+        "witness": {
+          "raw_segment": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "segment_start_row": 0,
+          "segment_path_weight_exact": "1/4"
+        },
+        "local_product_exact": "1/4",
+        "prior_score_history": 1.0,
+        "score": 0.5,
+        "score_formula_ulps": 0.0,
+        "duration": 9,
+        "cooldown_distance": null,
+        "activation": true
+      },
+      {
+        "fixture": "F04_shared_internal",
+        "row": 3,
+        "keyword": 1,
+        "rank": 4,
+        "selected_frames": [
+          0,
+          3,
+          9,
+          9
+        ],
+        "prefix_mass_exact": "3/32",
+        "P1": true,
+        "P2": false,
+        "witness": null,
+        "local_product_exact": "3/16",
+        "prior_score_history": 1.0,
+        "score": 0.4330127018922193,
+        "score_formula_ulps": 0.0,
+        "duration": 9,
+        "cooldown_distance": null,
+        "activation": true
+      },
+      {
+        "fixture": "F05_shared_start_end_duration",
+        "row": 3,
+        "keyword": 1,
+        "rank": 4,
+        "selected_frames": [
+          6,
+          3,
+          6,
+          9
+        ],
+        "prefix_mass_exact": "75/1024",
+        "P1": true,
+        "P2": false,
+        "witness": null,
+        "local_product_exact": "45/512",
+        "prior_score_history": 1.0,
+        "score": 0.29646353064078557,
+        "score_formula_ulps": 0.0,
+        "duration": 3,
+        "cooldown_distance": null,
+        "activation": false
+      },
+      {
+        "fixture": "F05_shared_start_end_duration",
+        "row": 4,
+        "keyword": 1,
+        "rank": 4,
+        "selected_frames": [
+          6,
+          3,
+          6,
+          12
+        ],
+        "prefix_mass_exact": "775/8192",
+        "P1": true,
+        "P2": false,
+        "witness": null,
+        "local_product_exact": "105/1024",
+        "prior_score_history": 0.29646353064078557,
+        "score": 0.17435335527986312,
+        "score_formula_ulps": 0.0,
+        "duration": 6,
+        "cooldown_distance": null,
+        "activation": true
+      },
+      {
+        "fixture": "F06_cooldown_end_update",
+        "row": 3,
+        "keyword": 1,
+        "rank": 1,
+        "selected_frames": [
+          0,
+          3,
+          6,
+          9
+        ],
+        "prefix_mass_exact": "1",
+        "P1": true,
+        "P2": true,
+        "witness": {
+          "raw_segment": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "segment_start_row": 0,
+          "segment_path_weight_exact": "1"
+        },
+        "local_product_exact": "1",
+        "prior_score_history": 1.0,
+        "score": 1.0,
+        "score_formula_ulps": 0.0,
+        "duration": 9,
+        "cooldown_distance": null,
+        "activation": true
+      },
+      {
+        "fixture": "F06_cooldown_end_update",
+        "row": 19,
+        "keyword": 2,
+        "rank": 1,
+        "selected_frames": [
+          48,
+          51,
+          54,
+          57
+        ],
+        "prefix_mass_exact": "3/4",
+        "P1": true,
+        "P2": true,
+        "witness": {
+          "raw_segment": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            3,
+            4,
+            3,
+            4
+          ],
+          "segment_start_row": 4,
+          "segment_path_weight_exact": "3/4"
+        },
+        "local_product_exact": "3/4",
+        "prior_score_history": 1.0,
+        "score": 0.8660254037844386,
+        "score_formula_ulps": 0.0,
+        "duration": 9,
+        "cooldown_distance": 48,
+        "activation": false
+      },
+      {
+        "fixture": "F06_cooldown_end_update",
+        "row": 20,
+        "keyword": 2,
+        "rank": 1,
+        "selected_frames": [
+          48,
+          51,
+          54,
+          60
+        ],
+        "prefix_mass_exact": "31/32",
+        "P1": true,
+        "P2": true,
+        "witness": {
+          "raw_segment": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            3,
+            4,
+            3,
+            0,
+            4
+          ],
+          "segment_start_row": 4,
+          "segment_path_weight_exact": "7/32"
+        },
+        "local_product_exact": "7/8",
+        "prior_score_history": 0.8660254037844386,
+        "score": 0.8705011363067735,
+        "score_formula_ulps": 0.0,
+        "duration": 12,
+        "cooldown_distance": 51,
+        "activation": true
+      }
+    ],
+    "author_saved_audit_agrees": true,
+    "conclusions": [
+      "All retained mass has legal CTC support in this bounded nonbinding-prune set",
+      "F04 and both F05 matches fail the stronger joint selected-node witness property",
+      "F03 and all F06 matches pass, including the legitimate late end-run peak",
+      "Rejection history is a separate score factor, not raw-path probability or prefix mass",
+      "This establishes a prospective stronger evidence-contract gap, not an original port bug or FAR/FRR gain"
+    ],
+    "noncoverage": [
+      "Native maximum-duration/stale 249/252 trajectories",
+      "New decoder variants",
+      "Chunk-tail qualification",
+      "Acoustic or target-board quality/performance"
+    ],
+    "audit_source_sha256": "032d042a4ed4eaff72507802f0a72451a7456bb1e2e71dda1bbf251ca70fd92b"
+  }
+}

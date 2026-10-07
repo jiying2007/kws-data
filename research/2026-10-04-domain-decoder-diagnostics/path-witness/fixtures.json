@@ -1,0 +1,608 @@
+{
+  "schema": "a20-pure-probability-fixtures-v1",
+  "tokens": [
+    "blank",
+    "ni",
+    "hao",
+    "xiao",
+    "wo",
+    "wu"
+  ],
+  "frame_stride": 3,
+  "fixtures": [
+    {
+      "id": "F01_repeat_blank",
+      "purpose": "Consecutive repeat collapses; blank-separated repeated token survives.",
+      "rows": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "probes": [
+        {
+          "row": 3,
+          "prefix": [
+            1,
+            1
+          ],
+          "mass": "1",
+          "witness_true": [
+            0,
+            9
+          ],
+          "witness_false": [
+            0,
+            3
+          ]
+        }
+      ],
+      "expected_events": []
+    },
+    {
+      "id": "F02_same_prefix_merge",
+      "purpose": "Three alignments merge into prefix 1, independently sum pb and pnb.",
+      "rows": [
+        [
+          "1/4",
+          "3/4",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1/2",
+          "1/2",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "probes": [
+        {
+          "row": 1,
+          "prefix": [
+            1
+          ],
+          "mass": "7/8",
+          "pb": "3/8",
+          "pnb": "1/2",
+          "witness_true": [
+            0
+          ]
+        }
+      ],
+      "expected_events": []
+    },
+    {
+      "id": "F03_low_rank_positive",
+      "purpose": "Protect a legitimate non-top1 keyword: rank 2 is not evidence of a false path.",
+      "rows": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "1",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "1/4",
+          "0",
+          "3/4"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "1",
+          "0"
+        ]
+      ],
+      "probes": [
+        {
+          "row": 3,
+          "prefix": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "mass": "1/4",
+          "witness_true": [
+            0,
+            3,
+            6,
+            9
+          ]
+        }
+      ],
+      "expected_events": [
+        {
+          "row": 3,
+          "keyword": 1,
+          "start": 0,
+          "end": 9,
+          "rank": 2,
+          "same_path_witness": true,
+          "score": "sqrt(1/4)"
+        }
+      ]
+    },
+    {
+      "id": "F04_shared_internal",
+      "purpose": "Legal lower-ranked keyword mass while shared internal peak is moved onto the end-token row.",
+      "rows": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "1",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "3/8",
+          "0",
+          "5/8"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "3/4",
+          "1/4",
+          "0"
+        ]
+      ],
+      "probes": [
+        {
+          "row": 3,
+          "prefix": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "mass": "3/32",
+          "witness_true": [
+            0,
+            3,
+            6,
+            9
+          ],
+          "witness_false": [
+            0,
+            3,
+            9,
+            9
+          ]
+        }
+      ],
+      "expected_events": [
+        {
+          "row": 3,
+          "keyword": 1,
+          "start": 0,
+          "end": 9,
+          "rank": 4,
+          "same_path_witness": false,
+          "selected_frames": [
+            0,
+            3,
+            9,
+            9
+          ],
+          "score": "sqrt(3/16)"
+        }
+      ]
+    },
+    {
+      "id": "F05_shared_start_end_duration",
+      "purpose": "Shared start update causes duration 3 rejection; end update reaches duration 6; rejected score history persists.",
+      "rows": [
+        [
+          "3/8",
+          "5/8",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1/8",
+          "1/4",
+          "5/8",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "3/4",
+          "0",
+          "1/4",
+          "0",
+          "0"
+        ],
+        [
+          "1/4",
+          "0",
+          "0",
+          "0",
+          "3/4",
+          "0"
+        ],
+        [
+          "1/8",
+          "0",
+          "0",
+          "0",
+          "7/8",
+          "0"
+        ]
+      ],
+      "probes": [
+        {
+          "row": 3,
+          "prefix": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "mass": "75/1024",
+          "witness_true": [
+            0,
+            3,
+            6,
+            9
+          ],
+          "witness_false": [
+            6,
+            3,
+            6,
+            9
+          ]
+        },
+        {
+          "row": 4,
+          "prefix": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "mass": "775/8192",
+          "witness_true": [
+            0,
+            3,
+            6,
+            12
+          ],
+          "witness_false": [
+            6,
+            3,
+            6,
+            12
+          ]
+        }
+      ],
+      "expected_rejections": [
+        {
+          "row": 3,
+          "keyword": 1,
+          "start": 6,
+          "end": 9,
+          "duration": 3,
+          "same_path_witness": false,
+          "score": "sqrt(45/512)"
+        }
+      ],
+      "expected_events": [
+        {
+          "row": 4,
+          "keyword": 1,
+          "start": 6,
+          "end": 12,
+          "duration": 6,
+          "same_path_witness": false,
+          "score": "sqrt(sqrt(45/512)*105/1024)"
+        }
+      ]
+    },
+    {
+      "id": "F06_cooldown_end_update",
+      "purpose": "Real first event followed by cooldown boundary 48 rejection then 51 acceptance via legal end-run peak update.",
+      "rows": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "1",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0",
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "1/4",
+          "0",
+          "0",
+          "0",
+          "3/4",
+          "0"
+        ],
+        [
+          "1/8",
+          "0",
+          "0",
+          "0",
+          "7/8",
+          "0"
+        ]
+      ],
+      "probes": [
+        {
+          "row": 19,
+          "segment_start": 4,
+          "prefix": [
+            3,
+            4,
+            3,
+            4
+          ],
+          "mass": "3/4",
+          "witness_true": [
+            48,
+            51,
+            54,
+            57
+          ]
+        },
+        {
+          "row": 20,
+          "segment_start": 4,
+          "prefix": [
+            3,
+            4,
+            3,
+            4
+          ],
+          "mass": "31/32",
+          "witness_true": [
+            48,
+            51,
+            54,
+            60
+          ]
+        }
+      ],
+      "expected_rejections": [
+        {
+          "row": 19,
+          "keyword": 2,
+          "start": 48,
+          "end": 57,
+          "cooldown_distance": 48,
+          "same_path_witness": true,
+          "score": "sqrt(3/4)"
+        }
+      ],
+      "expected_events": [
+        {
+          "row": 3,
+          "keyword": 1,
+          "start": 0,
+          "end": 9,
+          "same_path_witness": true,
+          "score": "1"
+        },
+        {
+          "row": 20,
+          "keyword": 2,
+          "start": 48,
+          "end": 60,
+          "cooldown_distance": 51,
+          "same_path_witness": true,
+          "score": "sqrt(sqrt(3/4)*7/8)"
+        }
+      ]
+    }
+  ]
+}

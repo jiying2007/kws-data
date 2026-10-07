@@ -1,0 +1,180 @@
+{
+  "candidate_runs": 0,
+  "cleanup": {
+    "errors": [],
+    "kill_exit_race": false,
+    "kill_requested": true,
+    "reaped": true,
+    "returncode": -9
+  },
+  "continuous_lifetime_compliance_proven": false,
+  "elapsed_wall_s": 0.1068376140028704,
+  "file_bytes": 65536,
+  "freeze_sha256": "87ad861f00a311ed4c05b35a1783cb026816bd3bbf624cd75657ca25c9068eba",
+  "guard_probe_sha256": "abc83955ddedbb8a72b2d3e34581ec6ca2cbadd0378bd6aa404f6239f7417c8b",
+  "guard_stop_reason": "CRITICAL_MONITORING_UNAVAILABLE",
+  "identity_after_ok": true,
+  "io_final_caveat": "Last recorded I/O observation is not proof of terminal/lifetime totals.",
+  "io_final_observation": {
+    "cancelled_write_bytes": {
+      "status": "AVAILABLE",
+      "value": 0
+    },
+    "rchar": {
+      "status": "AVAILABLE",
+      "value": 1692
+    },
+    "read_bytes": {
+      "status": "AVAILABLE",
+      "value": 0
+    },
+    "syscr": {
+      "status": "AVAILABLE",
+      "value": 5
+    },
+    "syscw": {
+      "status": "AVAILABLE",
+      "value": 0
+    },
+    "wchar": {
+      "status": "AVAILABLE",
+      "value": 0
+    },
+    "write_bytes": {
+      "status": "AVAILABLE",
+      "value": 0
+    }
+  },
+  "io_last_successful_observation": {
+    "cancelled_write_bytes": {
+      "status": "AVAILABLE",
+      "value": 0,
+      "wall_s": 0.028429712998331524
+    },
+    "rchar": {
+      "status": "AVAILABLE",
+      "value": 1692,
+      "wall_s": 0.028429712998331524
+    },
+    "read_bytes": {
+      "status": "AVAILABLE",
+      "value": 0,
+      "wall_s": 0.028429712998331524
+    },
+    "syscr": {
+      "status": "AVAILABLE",
+      "value": 5,
+      "wall_s": 0.028429712998331524
+    },
+    "syscw": {
+      "status": "AVAILABLE",
+      "value": 0,
+      "wall_s": 0.028429712998331524
+    },
+    "wchar": {
+      "status": "AVAILABLE",
+      "value": 0,
+      "wall_s": 0.028429712998331524
+    },
+    "write_bytes": {
+      "status": "AVAILABLE",
+      "value": 0,
+      "wall_s": 0.028429712998331524
+    }
+  },
+  "launcher_sha256": "b6603f1e2f8208f2eba8e31c0fd0d4985609f517c21f511401e94107ecb26496",
+  "limits": {
+    "collector_processes": 1,
+    "collector_threads": 1,
+    "cpu_seconds": 1,
+    "output_bytes": 1048576,
+    "rss_bytes": 268435456,
+    "wall_seconds": 3
+  },
+  "observer_usage": {
+    "after": {
+      "maxrss_bytes_linux": 54038528,
+      "process_cpu_ns": 278904139,
+      "system_cpu_s": 0.071196,
+      "user_cpu_s": 0.207701
+    },
+    "before": {
+      "maxrss_bytes_linux": 13762560,
+      "process_cpu_ns": 33376597,
+      "system_cpu_s": 0.004771,
+      "user_cpu_s": 0.028599
+    },
+    "child_hard_limits_do_not_bound_observer": true,
+    "excludes": "Python startup/imports and final resource record/ledger encoding and persistence",
+    "includes": "admission and final identity hashing, child launch/wait, proc monitoring, earlier metadata writes",
+    "maxrss_is_process_lifetime_high_water_not_delta": true,
+    "process_cpu_ns_delta": 245527542,
+    "scope": "RUN_ENTRY_BEFORE_ADMISSION_THROUGH_BEFORE_FINAL_RECORD_ENCODING",
+    "system_cpu_s_delta": 0.066425,
+    "user_cpu_s_delta": 0.17910199999999998
+  },
+  "owned_live_guard_samples": 0,
+  "probe_processes_attempted": 1,
+  "proc_samples": [
+    {
+      "Threads": 1,
+      "VmHWM": 80,
+      "VmRSS": 80,
+      "VmSize": 27592,
+      "critical_errors": {
+        "children": {
+          "errno": 2,
+          "filename": "/proc/6/task/6/children",
+          "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+          "path": "/proc/6/task/6/children",
+          "type": "FileNotFoundError"
+        }
+      },
+      "critical_monitoring": "FAILED_UNAVAILABLE",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 1692
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        }
+      },
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 0.028429712998331524
+    }
+  ],
+  "projection_status": "HISTORICAL_SAVED_FAILURE_NOT_RETRIED",
+  "protocol_sha256": "a52d077027f14a35dfab007ba7816c5115d36cc8bbdef86383f0231231b5f79e",
+  "python_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+  "retries_allowed": false,
+  "returncode": -9,
+  "sampled_peak_rss_bytes": 81920,
+  "sampling_may_miss_transient_children_threads_or_exit_peak": true,
+  "schema": "a20-n0-strict-probe-public-projection-v1",
+  "scope": "OWNED_NONACOUSTIC_SLEEP_CHILD_ONLY",
+  "status": "FAILED_NO_RETRY"
+}

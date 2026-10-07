@@ -1,0 +1,141 @@
+{
+  "record_type": "PUBLIC_PROJECTION_OF_SAVED_EVIDENCE",
+  "original_evidence_sha256": "59c5ba0cc8a6e6b88601f8af91374563f868f4f37badca41f61ad967e5481dd7",
+  "projection_was_executed_as_experiment": false,
+  "omissions": [
+    "author_report_reviewed",
+    "private_raw_readback_receipt_sha256",
+    "source"
+  ],
+  "saved_evidence": {
+    "schema": "a20-qwen3case-decoder-saved-output-audit-v1",
+    "status": "PASS",
+    "freeze_sha256": "17bacd15f1ef2588f470fcdf0140fd4c36aebeff5925ef1742722bcb35670aac",
+    "protocol_sha256": "ccd5403e0e142e29ef3556b6774843cf74515b0dad7abb8b7e9839574b05c1d1",
+    "raw_sha256": "556a01a6a7d1a1f9ac0262310e24f2aa82608843e2549d93a0f76ac37770f236",
+    "raw_bytes": 166648,
+    "resource_record_sha256": "bdf48e9ebe4417f8664a83d7cb5da1a7b264943b4585ce6f9ffae946d682030e",
+    "all14_callback_non_score_fields_exact": true,
+    "score_gate": {
+      "tolerance_exact": "1/100000",
+      "all14_absolute_errors_exact": "0",
+      "all14_binary64_score_bits_equal": true,
+      "gate_unchanged": true
+    },
+    "geometry": {
+      "clips": 3,
+      "callbacks": 14,
+      "input_rows": 128,
+      "searched_and_normalized_rows": 127,
+      "scalars": 768,
+      "callback_partitions": [
+        [
+          9,
+          10,
+          10,
+          10,
+          10,
+          9
+        ],
+        [
+          9,
+          10,
+          10,
+          10,
+          8
+        ],
+        [
+          9,
+          10,
+          4
+        ]
+      ],
+      "clip_final_clocks": [
+        174,
+        141,
+        69
+      ],
+      "reset_all_calls_source_enforced": 3,
+      "clip_initial_state_effects_consistent": true,
+      "skipped_tail_row": {
+        "clip": "qwen3-repeat-nihao-eric",
+        "frame": 66,
+        "softmax_and_search": "NOT_EXECUTED",
+        "clock_advance": "PRESERVED"
+      }
+    },
+    "trace_record_counts": {
+      "run_start": 1,
+      "top": 127,
+      "candidates": 127,
+      "word_check": 415,
+      "guard": 127,
+      "row_end": 127,
+      "callback_result": 14,
+      "run_end": 1
+    },
+    "state_audit": [
+      "Every captured probability is finite binary32 in [0,1]; exact rational row-sum tolerance holds",
+      "All top3 observations have valid unique token IDs and sorted values; no omitted higher probability",
+      "Candidate scores are ordered; first 20-or-fewer compaction reproduces all observed meaningful node and hypothesis fields and alias IDs exactly",
+      "All 415 ordered word checks and first exact contiguous keyword matches agree with captured paths",
+      "All guard decisions agree with observed word, duration, threshold and cooldown; postcallback state agrees with reset and full-clock behavior",
+      "No historical beam/state capture exists; these are internal consistency checks of the new trace, not historical state bitwise comparisons"
+    ],
+    "pruning_and_ties": {
+      "candidate_maxima": [
+        4,
+        3,
+        8
+      ],
+      "path_beam20_truncations": 0,
+      "top3_excluded_tokens_above_0_05": 0,
+      "largest_probability_outside_top3": 0.0011735883308574557,
+      "path_score_ties": 0,
+      "probability_tie_rows": 14,
+      "probability_ties": "zero-valued tokens only, below0.05 cutoff",
+      "latent_alignment_uniqueness": "NOT_ESTABLISHED; prefix merging and shared nodes remain many-to-one"
+    },
+    "resource_and_identity": {
+      "status": "PASS_BOUNDED_NATIVE_EXECUTION_WITH_LIMITED_CHILDREN_VISIBILITY",
+      "supervisor_returncode": 0,
+      "guard_stop_reason": null,
+      "all61_before_after_current_frozen_identities_equal": true,
+      "all11_closed_archive_payloads_exact": true,
+      "permanent_ledger": "START_RESERVED_NO_RETRY preserved",
+      "separate_terminal": "RAW_COMPLETE_PENDING_PRIVATE_PERSISTENCE_AND_AUDIT",
+      "stderr_bytes": 0,
+      "native_reported_ru_maxrss_kib": 38156,
+      "sampled_peak_rss_kib": 748,
+      "lifetime_child_absence": "NOT_PROVEN",
+      "terminal_lifetime_io": "UNKNOWN",
+      "new_live_probes": 0,
+      "sampling_limit": "RSS/Threads observations are sparse; not a lifetime descendant resource proof or performance benchmark"
+    },
+    "reconstruction_findings": {
+      "qwen3-kw1-serena": "Repeated blank-separated 小 emissions create extra 小 tokens in retained prefixes; no contiguous 你好小窝 candidate occurs. No event guard rejection occurred.",
+      "qwen3-kw2-eric": "The retained 小窝 prefix survives the early competing 屋 branch and later extends to 小窝小 at frame 132. Final searched frames 135 and 138 have no eligible 窝, so no 小窝小窝 candidate occurs. No event guard rejection occurred.",
+      "qwen3-repeat-nihao-eric": "At frame 60, the lower-probability 小 branch survives. At frame 63, rank 7 of 8, 你好小窝, matches and passes the event guards. Shared 小 node metadata moves from frame 60 to 63 before appending 窝 at 63. Representative matched frames 45/54/63/63 and score 0.32259571936320253 exactly reproduce the event. Prefix mass 0.05224408040806392 is a different statistic."
+    },
+    "report_wording_review": "PASS final author REPORT.md after activation-score-threshold/token-pruning distinction and nonbinding top3 cap clarification. No unsupported consequential claims identified.",
+    "reviewer_decoder_softmax_model_audio_runs": 0,
+    "original_qwen20_status": "FAILED_NO_RETRY_UNCHANGED",
+    "original_historical_probabilities_beams_and_bits": "NOT_CAPTURED_UNCHANGED",
+    "interpretation_scope": "New deterministic reconstruction conditional on decimal/source provenance; no fresh FAR/FRR/acoustic generalization/true-word latency/board performance or unique historical alignment claim",
+    "blockers": [],
+    "evidence": {
+      "SAVED-TRACE-AUDIT.json": {
+        "sha256": "2664e6d9da0ed3f5873f72863fb1fd0809ca4b8b74141854150ce43158b4ee18",
+        "bytes": 4414
+      },
+      "SAVED-IDENTITY-RESOURCE-DETAIL.json": {
+        "sha256": "11b4f37bfd62419d5833105bd1ac9122aad330efb90e207d475032e05f0feb65",
+        "bytes": 20240
+      },
+      "audit_saved_trace.py": {
+        "sha256": "8f8bdbf85a7d0eb71612fbb439ddd8d903cb0c3f2bac7b973a2480bf26e10deb",
+        "bytes": 9970
+      }
+    }
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "N1": {
+    "K1_after_source_begins_events": 1,
+    "K1_events": 1,
+    "K1_observed_anywhere": true,
+    "K1_pre_source_availability_events": 0,
+    "K2_events": 0,
+    "duplicate_K1_events": 0,
+    "event_total": 1,
+    "expected_K1_occurrences": 1,
+    "missing_K1": 0,
+    "other_keyword_events": 0,
+    "temporal_matching_claim": false
+  },
+  "PR485": {
+    "context_scope": "Single positive N1 and no negative: CONTEXT_UNVERIFIED is expected. No matched-context qualification. Leading and middle/tail PCM bytes verified separately. Clip-presence counts do not prove temporal word alignment.",
+    "report": {
+      "context": {
+        "differences": [],
+        "manifest_sha256": "47d92e0630c90f22bc5a784cdc58f9866b0962483632ef0086a5c5b0491f31e9",
+        "matched_context": false,
+        "qualification_allowed": false,
+        "recordings": {
+          "N1": {
+            "audio_sha256": "2752dab0ca534795cf29da1726f8abd17fb76a5bc2723f1e11c91a9ddb9c46ae",
+            "policy": {
+              "appended_context_kind": "digital-zero",
+              "appended_context_samples": 4800,
+              "eof_flush": false,
+              "eof_padding": "none",
+              "eof_partial_chunk": "process-retained",
+              "feed_chunk_samples": 4800,
+              "reset_clocks": "per-recording",
+              "reset_decoder": "per-recording",
+              "reset_frontend": "per-recording",
+              "reset_model": "per-recording",
+              "sample_rate_hz": 16000
+            },
+            "role": "positive"
+          }
+        },
+        "scope": "saved declarations and input bindings only; no execution attestation",
+        "status": "CONTEXT_UNVERIFIED",
+        "unknown": [
+          "both positive and negative recordings required"
+        ]
+      },
+      "detections_sha256": "702e2a978cb45cc9ea6ba518a50be8aef19418afa674cec0e8707f2b2ff7eb0f",
+      "event_annotations_available": false,
+      "evidence_class": "saved-clip-presence-diagnostic-v1",
+      "missing_keywords": 0,
+      "negative_clips": 0,
+      "negative_clips_with_events": 0,
+      "negative_events": 0,
+      "positive_clips": 1,
+      "positive_clips_with_target": 1,
+      "qualification_allowed": false,
+      "recordings": [
+        {
+          "detections": [
+            {
+              "confidence": 0.9687314846116618,
+              "keyword_id": 1,
+              "recording": "N1",
+              "time_s": 2.4
+            }
+          ],
+          "expected_keywords": [
+            1
+          ],
+          "missing_keywords": [],
+          "recording": "N1",
+          "repeat_events": 0,
+          "wrong_keyword_events": 0
+        }
+      ],
+      "references_sha256": "ac28e5b360e6cf9997e39c140156ff646d3d6ea9174a35bafd89f99eb2cdbf9f",
+      "repeat_events": 0,
+      "timing_scope": "saved detection coordinates only; acoustic word end unknown",
+      "wrong_keyword_events": 0
+    },
+    "returncode": 0
+  },
+  "all_events_counted_including_artificial_context": true,
+  "causal_effect_claim": false,
+  "events": [
+    {
+      "adjudication": "WORD_LABEL_COMPARISON_ONLY_NO_ACOUSTIC_ALIGNMENT",
+      "availability_region": "original_PCM",
+      "available_audio_s": 2.4,
+      "available_samples": 38400,
+      "call_index": 7,
+      "call_samples": 4800,
+      "callback_entry_cpu_ns_since_run_start": 31163039,
+      "callback_entry_wall_ns_since_run_start": 33884203,
+      "centers": [
+        207,
+        210,
+        213,
+        216,
+        219,
+        222,
+        225,
+        228,
+        231,
+        234
+      ],
+      "decoder_coordinate_semantics": "frame coordinate times 160 minus leading samples; not word boundary or exact trigger time",
+      "decoder_end_coordinate_region": "original_PCM",
+      "decoder_end_source_relative_sample_coordinate": 13440,
+      "decoder_rows_decoded": 10,
+      "decoder_start_coordinate_region": "original_PCM",
+      "decoder_start_source_relative_sample_coordinate": 8160,
+      "decoder_total_frames": 237,
+      "end_frame": 234,
+      "fbank_rows": 30,
+      "feature_count": 4,
+      "is_final_short": 0,
+      "keyword": 1,
+      "kind": "callback",
+      "logits": [
+        [
+          376.010956,
+          -147.792877,
+          -7.64056444,
+          -36.4540024,
+          -9.71969414,
+          9.95796299
+        ],
+        [
+          26.3605785,
+          -4.21886683,
+          19.334671,
+          12.366498,
+          3.93681979,
+          2.02514768
+        ],
+        [
+          24.4930649,
+          -2.38214374,
+          28.1114311,
+          18.2967033,
+          5.1169076,
+          -0.672618091
+        ],
+        [
+          8.95154953,
+          1.60619366,
+          26.4104176,
+          24.4661922,
+          6.7546649,
+          -0.0781075507
+        ],
+        [
+          693.815857,
+          -285.602264,
+          -27.5329628,
+          -57.1647224,
+          -9.1242857,
+          14.9273872
+        ],
+        [
+          13.3519936,
+          -1.78601003,
+          3.88647676,
+          27.7655125,
+          12.3917398,
+          5.83098078
+        ],
+        [
+          15.0357351,
+          0.163875297,
+          -1.445912,
+          22.2165718,
+          11.8055439,
+          6.33262348
+        ],
+        [
+          22.233427,
+          -2.11993432,
+          -1.74666977,
+          12.2396669,
+          12.9794598,
+          3.31628537
+        ],
+        [
+          32.0138626,
+          -9.06364632,
+          -0.825971127,
+          4.27256632,
+          13.749608,
+          2.95149946
+        ],
+        [
+          10.6615944,
+          -0.362829417,
+          -1.8569634,
+          7.34013033,
+          13.993825,
+          6.5405302
+        ]
+      ],
+      "offset": 1,
+      "phase": "feed",
+      "recording": "N1",
+      "score": 0.9687314846116618,
+      "selected_rows": 10,
+      "source_relative_available_s": 0.9,
+      "source_relative_available_samples": 14400,
+      "splice_rows": 30,
+      "start_frame": 201,
+      "state": 1,
+      "valid": 1,
+      "wave_samples": 320,
+      "waveform_samples": 5120
+    }
+  ],
+  "native_model_frontend_decoder_calls": 0,
+  "qualification": false,
+  "status": "SAVED_ONLY_ONE_N1_WHOLE_CLIP_OBSERVATION",
+  "word_end_latency": null,
+  "word_interval_score": false
+}

@@ -1,0 +1,153 @@
+{
+  "record_type": "PUBLIC_PROJECTION_OF_SAVED_EVIDENCE",
+  "original_evidence_sha256": "1897de0b8bb97178f49ca6ca471103408ffec7a38cf8b6f0d501f356ba81e085",
+  "projection_was_executed_as_experiment": false,
+  "omissions": [
+    "Environment-specific absolute dependencies, private release/approval/storage references, machine lock path and orchestration controls; excerpt was never executed"
+  ],
+  "saved_evidence": {
+    "schema": "a20-demand-dliving-baseline-protocol-v1",
+    "status": "FROZEN_PREPARATION_PENDING_REVIEW_READBACK_PARENT_RELEASE",
+    "arithmetic": "unchanged FP32 storage/cache/interfaces; sequential FP64 model accumulation and FFT",
+    "cmvn_values": 800,
+    "decoder_config_sha256": "073f57e82dc346d5c71bf7070e21cb8dfaf593d11e9dbfed263efb93b00b2360",
+    "decoder_search_rows": {
+      "maximum": 9999,
+      "output": "Sum original callback decoder_rows_decoded; no second decoder pass",
+      "pre_run": "UNKNOWN_DATA_DEPENDENT"
+    },
+    "event_adjudication": "UNADJUDICATED",
+    "expected_geometry": {
+      "callbacks": 1001,
+      "clips": 1,
+      "decoder_input_rows": 9999,
+      "fbank_rows": 29998,
+      "feed_calls": 1001,
+      "finish_calls": 1,
+      "frames": 4800064,
+      "full_feeds": 1000,
+      "model_rows": 9999,
+      "tail_feeds": 1
+    },
+    "frontend": {
+      "canonical_feed_samples": 4800,
+      "dither": 0,
+      "energy_floor": 0,
+      "fbank_waveform_gate_samples": 800,
+      "fft_size": 512,
+      "finish": "Exactly one; actual64-sample retained ingress invokes empty callback at waveform384<800; no audio padding/right replication/EOF flush",
+      "frame_zero_extension": "112 zeros within FFT frame, not EOF audio padding",
+      "hop_samples": 160,
+      "input": "PCM16LE unscaled",
+      "log_mel_floor": "FLT_EPSILON before logf, retained independently of energy_floor setting",
+      "mel_bins": 80,
+      "preemphasis": 0.97,
+      "remove_dc_offset": true,
+      "required_floating_environment": "FE_TONEAREST, no FTZ/DAZ, IEEE32/64; entry rejects mismatches",
+      "sample_rate": 16000,
+      "short_tail": "actual nonempty retained ingress only; preserve separate retained waveform gate",
+      "skip": 3,
+      "snip_edges": true,
+      "splice_left_right": [
+        2,
+        2
+      ],
+      "table_sha256": "269c14d6aacbe189e9672ee58f207915f9fbb09e9db988340b1f2f494ac7ae0b",
+      "window": "Hamming",
+      "window_samples": 400
+    },
+    "input_count": 1,
+    "input_duration_s": 300.004,
+    "input_order": [
+      "DEMAND-DLIVING-ch01"
+    ],
+    "input_pcm_samples": 4800064,
+    "input_processing_mode": {
+      "continuous_input_state_seconds_per_stream": 300.004,
+      "mode": "OFFLINE_AS_FAST_AS_POSSIBLE",
+      "not_a_wall_time_soak": true,
+      "not_capture_io_afe_or_board_qualification": true,
+      "streams": 1,
+      "total_input_seconds": 300.004
+    },
+    "interpretation": {
+      "allowed": "Original-waveform unadjudicated event counts, state/geometry and separate limited resource observations",
+      "amplitude_tuning": false,
+      "expected_zero_gate": false,
+      "forbidden": [
+        "FAR",
+        "Poisson_upper_bound",
+        "verified_negative_exposure",
+        "word_tail_latency",
+        "real_world_soak",
+        "board_performance",
+        "new_numerical_qualification",
+        "lifetime_child_absence_proof",
+        "process_tree_resource_guarantee"
+      ]
+    },
+    "label": "UNKNOWN",
+    "library_sha256": "68457311f93540405dfa0bf5fdc1cd74421fea22b44d5920fec465be5de4d912",
+    "limits": {
+      "collector_processes": 1,
+      "collector_threads": 1,
+      "cpu_seconds": 60,
+      "output_bytes": 16777216,
+      "rss_bytes": 268435456,
+      "wall_seconds": 120
+    },
+    "manifest_sha256": "ce5db865e4801aeaabe6fc19b1fe10f588d551b5be7a74bb52e10bd804c0a4a4",
+    "model_bytes": 1565280,
+    "model_sha256": "a80b233d3c958d25f49085f487ef5cde839bd69f803ed057b59bbd20adc6e43d",
+    "numerical_qualification": false,
+    "passes": 1,
+    "performance_benchmark": false,
+    "raw_output": {
+      "additional_diagnostic_forward_or_replay": false,
+      "all_callbacks": true,
+      "all_events_including_repeats_and_both_ids": true,
+      "all_original_decoder_results": true,
+      "all_six_logits_every_selected_row": true,
+      "beam_trace": "NOT_CAPTURED",
+      "callback_time": "available_samples/16000 input availability coordinate, never word end",
+      "complete_feed_finish_state_boundaries": true,
+      "decoder_frames": "Original10ms grid",
+      "empty_finish_tail_callback": true,
+      "event_adjudication": "UNADJUDICATED",
+      "probabilities": "NOT_CAPTURED",
+      "schema": "a20-demand-dliving-raw-v1",
+      "service_time": "Includes callback serialization/output, descriptive only"
+    },
+    "retries": 0,
+    "source_scope": {
+      "amplitude": "ORIGINAL_UNSCALED",
+      "channel": "ch01",
+      "description_not_target_absence_evidence": true,
+      "label": "UNKNOWN",
+      "representativeness": "Single original low-level recording; limited",
+      "rms_dbfs": -56.44120505758021,
+      "selected_channels": 1,
+      "session": "DEMAND.v1.DLIVING",
+      "sessions": 1,
+      "source_family": "DEMAND",
+      "synchronous_release_channels": 16,
+      "transcript_or_full_adjudication": "NOT_AVAILABLE_IN_ADMITTED_EVIDENCE",
+      "transformations": "No gain/normalization/resampling/sweep/loop/trim/mix",
+      "verified_negative_hours": 0
+    },
+    "state_policy": "One explicit stream reset, one continuous full waveform, one finish; no per-block reset",
+    "stop_rules": [
+      "Identity drift",
+      "Missing critical monitoring or guard crossed",
+      "Nonfinite/malformed or geometry drift callback",
+      "Runtime failure",
+      "Incomplete evidence",
+      "Once ledger forbids retry regardless of reason"
+    ],
+    "threshold_sweeps": 0,
+    "trainable_parameters": 390520,
+    "training": false,
+    "verified_negative_hours": 0,
+    "warmups": 0
+  }
+}

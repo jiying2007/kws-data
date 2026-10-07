@@ -1,0 +1,33 @@
+{
+  "schema": "asr-pcm-verification-v1",
+  "status": "PASS",
+  "input_count": 16,
+  "source_manifest_sha256": "8a162581ed88bb933663f27aafe0cc1721d9119222d05ac46ec12f435e839f87",
+  "source_manifest_bytes": 3082,
+  "wav_total_bytes": 2010304,
+  "total_frames": 1004800,
+  "sample_rate_hz": 16000,
+  "total_seconds_exact_decimal": "62.8",
+  "pcm16_total_bytes": 2009600,
+  "float32_total_bytes": 4019200,
+  "decoder_manifest_canonical_sha256": "1ca6c3521d59aff3105f3f89d599dd0d202cf390166ac0c978022ce9b913074e",
+  "decoder_manifest_file_sha256": "49e7b6b3a1bdbf9e48de698ea3eb6053fc7c13cb2be800b95f8e1e7a86fd8729",
+  "verified": [
+    "predeclared_file_sha256_and_size",
+    "exact_canonical_header",
+    "16000_hz_mono_pcm16",
+    "predeclared_frame_counts",
+    "full_sample_order",
+    "exact_float32_conversion_all_samples",
+    "raw_and_float_descriptor_hashes",
+    "immutable_return_bytes",
+    "no_labels_in_decoder_manifest"
+  ],
+  "not_run": [
+    "numpy_array_adapter_in_actual_ASR_environment",
+    "ASR_runtime_imports",
+    "model_downloads",
+    "inference",
+    "calibration"
+  ]
+}

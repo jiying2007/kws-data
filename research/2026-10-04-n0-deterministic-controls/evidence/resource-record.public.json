@@ -1,0 +1,5872 @@
+{
+  "artifact_bytes_before_resource_record_write": 4640377,
+  "board_performance_qualification": false,
+  "candidate_launch_attempted": true,
+  "candidate_processes_attempted": 1,
+  "capture_io_afe_qualification": false,
+  "children_observation": "NOT_AVAILABLE",
+  "cleanup": {
+    "errors": [],
+    "kill_exit_race": false,
+    "kill_requested": false,
+    "reaped": true,
+    "returncode": 0
+  },
+  "cleanup_does_not_prove_empty_or_inescapable_descendant_tree": true,
+  "cleanup_proves_only_owned_group_signal_and_direct_child_wait_facts": true,
+  "continuous_lifetime_compliance_proven": false,
+  "elapsed_wall_s": 10.84850817300321,
+  "elapsed_wall_scope": "Run phase after attempt reservation until before final resource/ledger encoding; excludes admission and pre-reservation hashing.",
+  "exact_child_rusage_in_raw_run_end_if_complete": true,
+  "execution_mode": "OFFLINE_AS_FAST_AS_POSSIBLE",
+  "freeze_sha256": "8acbb5d05bb99d3f46f6b7c4a0404c6e07bde761e836c1656354f0477f6b824f",
+  "guard_probe_sha256": "936e1a7039624ddc9305304a1a0d6620f28ffc9b49900ff2f8c853581e5b93a6",
+  "guard_stop_reason": null,
+  "identity_after_ok": true,
+  "input_duration_is_not_wall_clock_soak": true,
+  "io_final_observation": {
+    "cancelled_write_bytes": {
+      "reason": "process already exited; no post-exit read attempted",
+      "status": "UNKNOWN",
+      "value": null
+    },
+    "rchar": {
+      "reason": "process already exited; no post-exit read attempted",
+      "status": "UNKNOWN",
+      "value": null
+    },
+    "read_bytes": {
+      "reason": "process already exited; no post-exit read attempted",
+      "status": "UNKNOWN",
+      "value": null
+    },
+    "syscr": {
+      "reason": "process already exited; no post-exit read attempted",
+      "status": "UNKNOWN",
+      "value": null
+    },
+    "syscw": {
+      "reason": "process already exited; no post-exit read attempted",
+      "status": "UNKNOWN",
+      "value": null
+    },
+    "wchar": {
+      "reason": "process already exited; no post-exit read attempted",
+      "status": "UNKNOWN",
+      "value": null
+    },
+    "write_bytes": {
+      "reason": "process already exited; no post-exit read attempted",
+      "status": "UNKNOWN",
+      "value": null
+    }
+  },
+  "io_final_observation_semantics": "LAST_RECORDED_OBSERVATION_NOT_GUARANTEED_TERMINAL",
+  "io_last_successful_observation": {
+    "cancelled_write_bytes": {
+      "status": "AVAILABLE",
+      "value": 0,
+      "wall_s": 10.665866466006264
+    },
+    "rchar": {
+      "status": "AVAILABLE",
+      "value": 30355732,
+      "wall_s": 10.665866466006264
+    },
+    "read_bytes": {
+      "status": "AVAILABLE",
+      "value": 0,
+      "wall_s": 10.665866466006264
+    },
+    "syscr": {
+      "status": "AVAILABLE",
+      "value": 5918,
+      "wall_s": 10.665866466006264
+    },
+    "syscw": {
+      "status": "AVAILABLE",
+      "value": 6000,
+      "wall_s": 10.665866466006264
+    },
+    "wchar": {
+      "status": "AVAILABLE",
+      "value": 4611699,
+      "wall_s": 10.665866466006264
+    },
+    "write_bytes": {
+      "status": "AVAILABLE",
+      "value": 4612096,
+      "wall_s": 10.665866466006264
+    }
+  },
+  "launcher_sha256": "9c57d110ee6a4d2b099a9e2fed905ce35aac6313766df85159ef7c20bc11f1b7",
+  "lifetime_child_absence": "NOT_PROVEN",
+  "mandatory_live_monitoring_scope": "RSS_THREADS_ONLY",
+  "new_numerical_qualification": false,
+  "new_probe_authorized": false,
+  "observer_usage": {
+    "after": {
+      "maxrss_bytes_linux": 53669888,
+      "process_cpu_ns": 333991124,
+      "system_cpu_s": 0.08193099999999999,
+      "user_cpu_s": 0.25205099999999997
+    },
+    "before": {
+      "maxrss_bytes_linux": 12976128,
+      "process_cpu_ns": 32678973,
+      "system_cpu_s": 0.00399,
+      "user_cpu_s": 0.028683999999999998
+    },
+    "child_hard_limits_do_not_bound_observer": true,
+    "excludes": "Python startup/imports and final resource record/ledger encoding and persistence",
+    "includes": "admission and final identity hashing, child launch/wait, proc monitoring, earlier metadata writes",
+    "maxrss_is_process_lifetime_high_water_not_delta": true,
+    "process_cpu_ns_delta": 301312151,
+    "scope": "RUN_ENTRY_BEFORE_ADMISSION_THROUGH_BEFORE_FINAL_RECORD_ENCODING",
+    "system_cpu_s_delta": 0.077941,
+    "user_cpu_s_delta": 0.22336699999999998
+  },
+  "original_probe_status": "FAILED_NO_RETRY_UNCHANGED",
+  "original_record_status": "RAW_COMPLETE_PENDING_AUDIT",
+  "owned_live_rss_threads_samples": 107,
+  "probe_processes_attempted": 0,
+  "proc_samples": [
+    {
+      "Threads": 1,
+      "VmHWM": 80,
+      "VmRSS": 80,
+      "VmSize": 412,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 2468
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 6
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 0.0023142680001910776
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 1784084
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 57
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 44
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 32598
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 32768
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 0.10285134600417223
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 2005268
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 102
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 90
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 67624
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 69632
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 0.20337973099958617
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 2226452
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 147
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 136
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 102761
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 106496
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 0.30388278800819535
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 2435348
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 191
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 180
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 136344
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 139264
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 0.4044719640078256
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 2656532
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 236
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 226
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 171539
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 172032
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 0.504985828010831
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 2890004
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 283
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 274
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 208318
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 208896
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 0.6055273630045122
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 3098900
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 327
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 318
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 242002
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 245760
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 0.706068988001789
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 3397908
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 388
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 380
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 289439
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 290816
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 0.806628410005942
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 3692820
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 449
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 442
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 336846
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 339968
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 0.9071999700099695
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 3991828
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 510
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 504
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 384371
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 385024
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 1.0077005180064589
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 4290836
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 571
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 566
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 431919
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 434176
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 1.1082423640036723
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 4577556
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 630
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 626
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 477991
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 479232
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 1.2087609090085607
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 4864276
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 689
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 686
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 524053
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 524288
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 1.3093287240044447
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 5155092
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 748
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 746
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 570382
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 573440
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 1.4098642489989288
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 5441812
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 807
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 806
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 616773
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 618496
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 1.510410351009341
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 5728532
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 866
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 866
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 663202
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 663552
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 1.6109417410043534
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 6019348
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 925
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 926
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 709535
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 712704
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 1.7115035510068992
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 6277396
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 978
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 980
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 751224
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 753664
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 1.8126225440064445
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 6535444
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1031
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1034
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 792924
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 794624
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 1.9132309690030525
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 6826260
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1090
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1094
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 839352
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 839680
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 2.013757560009253
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 7084308
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1144
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1148
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 881111
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 884736
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 2.1144632100040326
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 7342356
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1197
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1202
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 922769
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 925696
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 2.2150020000117365
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 7641364
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1258
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1264
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 970694
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 970752
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 2.315533127009985
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 7928084
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1317
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1324
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1016978
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1019904
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 2.416052518005017
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 8206612
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1374
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1382
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1061771
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1064960
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 2.516666270006681
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 8493332
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1433
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1442
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1108083
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1110016
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 2.617198218998965
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 8784148
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1492
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1502
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1154435
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1155072
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 2.7177167080080835
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 9070868
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1551
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1562
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1200802
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1204224
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 2.818282388005173
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 9312532
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1600
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1612
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1239497
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1241088
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 2.919008479002514
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 9591060
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1657
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1670
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1284302
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1286144
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 3.0195693120040232
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 9865492
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1714
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1728
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1329225
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1331200
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 3.120121972009656
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 10115348
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1766
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1780
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1369440
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1372160
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 3.2210202120040776
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 10393876
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1823
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1838
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1414275
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1417216
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 3.3216698270116467
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 10692884
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1884
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1900
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1462187
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1462272
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 3.4223700700094923
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 10979604
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1943
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 1960
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1508555
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1511424
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 3.5229004460124997
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 11240724
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 1997
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2016
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1550699
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1552384
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 3.6234355800115736
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 11519252
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2054
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2074
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1594434
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1597440
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 3.724066358001437
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 11805972
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2113
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2134
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1640006
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1642496
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 3.8246410810097586
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 12084500
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2171
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2192
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1683952
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1687552
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 3.925223536003614
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 12354836
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2226
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2248
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1726549
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1728512
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 4.025749757012818
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 12621076
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2281
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2304
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1769110
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1769472
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 4.1263169390003895
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 12899604
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2338
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2362
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1813129
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1814528
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 4.226861237009871
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 13161748
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2391
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2416
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1854129
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1855488
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 4.327414687999408
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 13419796
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2444
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2470
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1895187
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1896448
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 4.4279765719984425
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 13677844
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2497
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2524
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1936214
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1937408
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 4.528494981001131
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 13956372
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2554
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2582
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 1980355
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 1982464
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 4.629341233012383
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 14214420
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2608
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2636
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2021477
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2023424
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 4.729937093012268
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 14484756
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2663
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2692
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2064180
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2064384
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 4.830492838009377
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 14742804
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2716
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2746
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2105605
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2109440
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 4.931112529011443
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 15013140
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2771
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2802
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2148428
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2150400
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 5.031644278002204
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 15254804
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2820
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2852
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2186765
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2187264
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 5.132387304009171
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 15492372
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2869
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2902
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2225082
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2228224
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 5.232952632999513
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 15770900
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2927
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 2960
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2269553
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2273280
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 5.333467827003915
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 16028948
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 2980
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3014
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2310876
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2314240
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 5.4339976430055685
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 16319764
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3039
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3074
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2356867
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2359296
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 5.534582011008752
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 16549140
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3086
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3122
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2393695
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2396160
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 5.63517554300779
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 16827668
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3143
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3180
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2438067
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2441216
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 5.7357060850044945
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 17069332
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3192
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3230
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2476369
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2478080
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 5.836325495998608
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 17356052
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3251
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3290
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2522294
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2523136
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 5.936912117002066
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 17634580
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3308
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3348
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2566691
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2568192
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 6.037460025007022
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 17892628
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3362
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3402
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2608135
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2609152
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 6.1389788369997405
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 18171156
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3419
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3460
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2652432
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2654208
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 6.239577812011703
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 18429204
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3472
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3514
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2693855
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2695168
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 6.340187949012034
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 18691348
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3525
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3568
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2735176
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2736128
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 6.44078995801101
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 18949396
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3578
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3622
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2776505
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2777088
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 6.541445613009273
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 19248404
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3639
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3684
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2823937
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2826240
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 6.641983485998935
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 19543316
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3700
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3746
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2871323
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2875392
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 6.742592406008043
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 19842324
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3761
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3808
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2918800
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2920448
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 6.843153879002784
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 20141332
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3822
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3870
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 2966240
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 2969600
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 6.9436758939991705
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 20428052
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3881
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3930
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3012202
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3014656
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 7.044226591009647
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 20727060
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 3942
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 3992
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3059725
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3063808
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 7.14493166700413
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 21012756
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4003
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4054
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3106086
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3108864
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 7.245483603008324
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 21311764
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4064
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4116
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3153587
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3153920
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 7.346016784009407
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 21598484
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4123
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4176
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3199672
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3203072
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 7.446582750999369
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 21877012
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4180
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4234
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3244273
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3248128
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 7.5471459530090215
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 22155540
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4237
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4292
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3288888
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3289088
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 7.647682490001898
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 22442260
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4296
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4352
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3335035
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3338240
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 7.748249112002668
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 22733076
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4355
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4412
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3381142
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3383296
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 7.8489231310086325
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 23019796
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4414
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4472
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3427260
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3428352
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 7.949493970008916
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 23277844
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4467
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4526
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3468928
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3469312
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 8.050040617003106
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 23535892
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4520
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4580
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3510512
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3514368
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 8.150643033004599
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 23826708
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4580
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4640
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3556602
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3559424
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 8.251260026008822
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 24121620
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4641
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4702
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3604538
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3608576
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 8.352155368003878
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 24412436
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4700
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4762
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3651037
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3653632
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 8.45273974200245
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 24650004
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4749
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4812
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3689780
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3690496
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 8.553477135006688
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 24928532
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4806
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4870
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3734750
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3735552
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 8.654215982009191
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 25162004
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4853
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4918
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3771938
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3772416
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 8.755006213003071
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 25428244
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4908
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 4974
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3815373
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3817472
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 8.855619510999531
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 25706772
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 4965
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5032
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3860364
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3862528
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 8.956274051000946
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 25964820
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5019
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5086
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3902232
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3903488
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 9.056802671999321
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 26226964
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5072
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5140
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3944036
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3944448
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 9.157365532999393
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 26493204
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5127
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5196
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 3987521
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 3989504
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 9.258021365007153
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 26763540
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5182
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5252
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4030984
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4034560
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 9.358577952007181
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 27042068
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5239
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5310
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4075949
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4079616
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 9.459152441006154
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 27328788
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5298
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5370
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4122541
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4124672
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 9.559677726007067
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 27607316
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5355
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5428
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4167600
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4169728
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 9.660240828001406
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 27857172
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5406
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5480
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4208004
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4210688
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 9.76079682999989
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 28057876
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5448
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5522
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4240570
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4243456
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 9.86138869500428
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 28348692
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5507
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5582
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4287131
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4288512
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 9.961903620001976
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 28614932
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5562
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5638
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4330584
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4333568
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 10.062519269005861
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 28913940
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5623
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5700
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4378773
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4382720
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 10.163057593003032
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 29192468
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5680
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5758
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4423785
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4427776
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 10.263619411009131
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 29491476
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5741
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5820
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4471929
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4472832
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 10.36419124501117
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 29778196
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5800
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5880
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4518546
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4521984
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 10.46475152100902
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 30064916
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5859
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 5940
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4565142
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4567040
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 10.56533665501047
+    },
+    {
+      "Threads": 1,
+      "VmHWM": 2844,
+      "VmRSS": 2844,
+      "VmSize": 5432,
+      "children": null,
+      "children_count": null,
+      "children_error": {
+        "errno": 2,
+        "filename": "/proc/6/task/6/children",
+        "message": "[Errno 2] No such file or directory: '/proc/6/task/6/children'",
+        "path": "/proc/6/task/6/children",
+        "type": "FileNotFoundError"
+      },
+      "children_observation": "NOT_AVAILABLE",
+      "critical_errors": {},
+      "critical_monitoring": "OBSERVED_RSS_THREADS_ONLY",
+      "io": {
+        "cancelled_write_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "rchar": {
+          "status": "AVAILABLE",
+          "value": 30355732
+        },
+        "read_bytes": {
+          "status": "AVAILABLE",
+          "value": 0
+        },
+        "syscr": {
+          "status": "AVAILABLE",
+          "value": 5918
+        },
+        "syscw": {
+          "status": "AVAILABLE",
+          "value": 6000
+        },
+        "wchar": {
+          "status": "AVAILABLE",
+          "value": 4611699
+        },
+        "write_bytes": {
+          "status": "AVAILABLE",
+          "value": 4612096
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "LIVE",
+      "optional_status_errors": {},
+      "returncode": null,
+      "wall_s": 10.665866466006264
+    },
+    {
+      "children": null,
+      "children_count": null,
+      "children_observation": "UNKNOWN_NOT_SAMPLED_AFTER_EXIT",
+      "critical_errors": {},
+      "critical_monitoring": "UNKNOWN_NOT_SAMPLED_AFTER_EXIT",
+      "io": {
+        "cancelled_write_bytes": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "rchar": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "read_bytes": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "syscr": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "syscw": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "wchar": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        },
+        "write_bytes": {
+          "reason": "process already exited; no post-exit read attempted",
+          "status": "UNKNOWN",
+          "value": null
+        }
+      },
+      "lifetime_child_absence": "NOT_PROVEN",
+      "observation": "EXITED_BEFORE_READ",
+      "returncode": 0,
+      "wall_s": 10.76623277401086
+    }
+  ],
+  "projection_status": "SAVED_RECORD_PROJECTION_NOT_A_NEW_RUN",
+  "protocol_sha256": "4c98537a997a1451626ceef47d032d0f27257473d971974578002fc5d5aada6f",
+  "raw_sha256": "ac881e0407496a92dbcbe5ed54adc2f2367bd36478240ed093f1433c4c6be998",
+  "real_world_far_qualification": false,
+  "result_scope": "DESCRIPTIVE_CONSTRUCTED_DOMAIN_RUN_UNDER_REVISED_GUARDS",
+  "retries_allowed": false,
+  "returncode": 0,
+  "rss_limit_kind": "SAMPLED_RSS_GUARD_NOT_KERNEL_HARD_RSS_LIMIT",
+  "sampled_peak_rss_bytes": 2912256,
+  "sampling_interval_s": 0.1,
+  "sampling_may_miss_exit_peak": true,
+  "sampling_may_miss_transient_children_threads_or_exit_peak": true,
+  "scheduled_input_duration_s": 900,
+  "schema": "a20-n0-resource-record-public-projection-v1",
+  "static_single_process_design_is_not_os_sandbox": true,
+  "status": "RAW_COMPLETE_PENDING_AUDIT",
+  "terminal_lifetime_io": "UNKNOWN",
+  "wall_clock_soak_qualification": false
+}

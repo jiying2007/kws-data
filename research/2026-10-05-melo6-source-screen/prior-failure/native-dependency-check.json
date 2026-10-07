@@ -1,0 +1,172 @@
+{
+  "status": "PASS_STATIC_NATIVE_DEPENDENCIES",
+  "elf_count": 3,
+  "files": [
+    {
+      "elf": "libonnxruntime.so.1.30.0",
+      "needed": [
+        "libdl.so.2",
+        "librt.so.1",
+        "libpthread.so.0",
+        "libstdc++.so.6",
+        "libm.so.6",
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "required_versions": {
+        "libgcc_s.so.1": [
+          "GCC_3.3.1",
+          "GCC_3.4",
+          "GCC_3.0",
+          "GCC_4.0.0",
+          "GCC_4.3.0"
+        ],
+        "ld-linux-x86-64.so.2": [
+          "GLIBC_2.3"
+        ],
+        "libpthread.so.0": [
+          "GLIBC_2.3.4",
+          "GLIBC_2.3.2",
+          "GLIBC_2.2.5"
+        ],
+        "libm.so.6": [
+          "GLIBC_2.27",
+          "GLIBC_2.2.5"
+        ],
+        "libc.so.6": [
+          "GLIBC_2.7",
+          "GLIBC_2.25",
+          "GLIBC_2.16",
+          "GLIBC_2.3",
+          "GLIBC_2.26",
+          "GLIBC_2.17",
+          "GLIBC_2.6",
+          "GLIBC_2.3.4",
+          "GLIBC_2.4",
+          "GLIBC_2.28",
+          "GLIBC_2.3.3",
+          "GLIBC_2.14",
+          "GLIBC_2.2.5"
+        ],
+        "libdl.so.2": [
+          "GLIBC_2.2.5"
+        ],
+        "libstdc++.so.6": [
+          "GLIBCXX_3.4.17",
+          "CXXABI_1.3.8",
+          "GLIBCXX_3.4.14",
+          "GLIBCXX_3.4.19",
+          "CXXABI_1.3.5",
+          "GLIBCXX_3.4.22",
+          "GLIBCXX_3.4.9",
+          "CXXABI_1.3.3",
+          "CXXABI_1.3.7",
+          "GLIBCXX_3.4.15",
+          "GLIBCXX_3.4.18",
+          "CXXABI_1.3.11",
+          "GLIBCXX_3.4.11",
+          "CXXABI_1.3",
+          "GLIBCXX_3.4.20",
+          "CXXABI_1.3.2",
+          "GLIBCXX_3.4.21",
+          "GLIBCXX_3.4",
+          "CXXABI_1.3.9"
+        ]
+      },
+      "all_libraries_and_versions_resolve": true
+    },
+    {
+      "elf": "libonnxruntime_providers_shared.so",
+      "needed": [
+        "libstdc++.so.6",
+        "libm.so.6",
+        "libgcc_s.so.1",
+        "libc.so.6"
+      ],
+      "required_versions": {
+        "libc.so.6": [
+          "GLIBC_2.2.5"
+        ]
+      },
+      "all_libraries_and_versions_resolve": true
+    },
+    {
+      "elf": "onnxruntime_pybind11_state.cpython-312-x86_64-linux-gnu.so",
+      "needed": [
+        "libdl.so.2",
+        "librt.so.1",
+        "libpthread.so.0",
+        "libstdc++.so.6",
+        "libm.so.6",
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "required_versions": {
+        "libgcc_s.so.1": [
+          "GCC_3.3.1",
+          "GCC_3.4",
+          "GCC_3.0",
+          "GCC_4.0.0",
+          "GCC_4.3.0"
+        ],
+        "ld-linux-x86-64.so.2": [
+          "GLIBC_2.3"
+        ],
+        "libpthread.so.0": [
+          "GLIBC_2.3.4",
+          "GLIBC_2.3.2",
+          "GLIBC_2.2.5"
+        ],
+        "libm.so.6": [
+          "GLIBC_2.27",
+          "GLIBC_2.2.5"
+        ],
+        "libc.so.6": [
+          "GLIBC_2.7",
+          "GLIBC_2.25",
+          "GLIBC_2.16",
+          "GLIBC_2.3",
+          "GLIBC_2.26",
+          "GLIBC_2.17",
+          "GLIBC_2.6",
+          "GLIBC_2.3.4",
+          "GLIBC_2.4",
+          "GLIBC_2.28",
+          "GLIBC_2.3.3",
+          "GLIBC_2.14",
+          "GLIBC_2.2.5"
+        ],
+        "libdl.so.2": [
+          "GLIBC_2.2.5"
+        ],
+        "libstdc++.so.6": [
+          "GLIBCXX_3.4.17",
+          "CXXABI_1.3.8",
+          "GLIBCXX_3.4.14",
+          "GLIBCXX_3.4.19",
+          "CXXABI_1.3.5",
+          "GLIBCXX_3.4.22",
+          "GLIBCXX_3.4.9",
+          "CXXABI_1.3.7",
+          "CXXABI_1.3.3",
+          "GLIBCXX_3.4.15",
+          "GLIBCXX_3.4.18",
+          "CXXABI_1.3.11",
+          "GLIBCXX_3.4.11",
+          "CXXABI_1.3",
+          "GLIBCXX_3.4.20",
+          "CXXABI_1.3.2",
+          "GLIBCXX_3.4.21",
+          "GLIBCXX_3.4",
+          "CXXABI_1.3.9"
+        ]
+      },
+      "all_libraries_and_versions_resolve": true
+    }
+  ],
+  "runtime_imports": 0,
+  "sessions": 0,
+  "model_calls": 0
+}

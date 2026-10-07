@@ -1,0 +1,254 @@
+{
+  "schema": "melo6-actual-asr-independent-audit-v1",
+  "audit_status": "PASS_SAVED_EVIDENCE_CONSISTENCY_AND_PUBLICATION_CONTENT_REVIEW",
+  "scientific_result": "FAIL_STRICT_ALL_SIX_GATE_RETAIN_ALL_QUARANTINE",
+  "scope": "Independent stdlib-only saved-byte and source inspection; no model imports, execution, playback, downloads, remote writes, new protocol, or input changes",
+  "verified_check_count": 1020,
+  "input_archive": {
+    "filename": "melo6-asr-run37414956708-original.zip",
+    "bytes": 274118,
+    "sha256": "373bae98f5ca858fc3f931403981c336e9f8fa009f5a5fdff762a3197ff1e299"
+  },
+  "source_head": "dd859c5b9feeaeedcff937cf94ac0858a9793ad1",
+  "release_sha256": "7601dcd9d10ae3d776565bdb2104c7a05b8969746c1310335206f6fb95ea1661",
+  "source_readback_assurance": "Recomputed all saved recursive Git tree hashes and all 81 restored source blob hashes; head association uses retained successful remote API readback, with no new network request",
+  "freeze_assurance": "Original ZIP/extracted/capture/Library bytes equal; exact memberships and every artifact/raw/model freeze hash verified before the independent audit script reads plan content. Preserved prior before-join declarations and code order checked.",
+  "freeze_timing_limit": "Saved records/source order support sequencing; local hashes alone are not an independent timestamp service",
+  "started_completed_per_recognizer": {
+    "sensevoice": {
+      "started": 6,
+      "completed": 6,
+      "success": 6,
+      "retries": 0
+    },
+    "qwen06": {
+      "started": 6,
+      "completed": 6,
+      "success": 6,
+      "retries": 0
+    }
+  },
+  "saved_loaded_tensor_records_checked": {
+    "sensevoice": 917,
+    "qwen06": 612
+  },
+  "all_12_raw_rows_match_outcome_receipt_decoder_and_comparison": true,
+  "control_and_hint_review": "Original six fixed controls and WAV/PCM16/float32 identities retained. Opaque job contains audio identities only. Qwen saved prompt_context is empty, force_language null, no repair; pinned source calls empty context and auto-language. SenseVoice direct full-input inference has no hint, VAD or ITN; lexical extraction preserves source characters. This is saved evidence/source consistency, not independent observation of historical execution.",
+  "rows": [
+    {
+      "audio_id": "clip-000001",
+      "intended_text": "你好小窝",
+      "sensevoice_raw_text": "你好小沃",
+      "qwen06_raw_text": "你好，小窝。",
+      "intent_match": {
+        "sensevoice": false,
+        "qwen06": true
+      },
+      "category": "recognizer_disagreement"
+    },
+    {
+      "audio_id": "clip-000002",
+      "intended_text": "小窝小窝",
+      "sensevoice_raw_text": "小窝小窝",
+      "qwen06_raw_text": "叫我小我。",
+      "intent_match": {
+        "sensevoice": true,
+        "qwen06": false
+      },
+      "category": "recognizer_disagreement"
+    },
+    {
+      "audio_id": "clip-000003",
+      "intended_text": "你好小屋",
+      "sensevoice_raw_text": "你好小屋",
+      "qwen06_raw_text": "你好，小屋。",
+      "intent_match": {
+        "sensevoice": true,
+        "qwen06": true
+      },
+      "category": "both_match_intent"
+    },
+    {
+      "audio_id": "clip-000004",
+      "intended_text": "小屋小屋",
+      "sensevoice_raw_text": "老屋小屋",
+      "qwen06_raw_text": "小屋，小屋。",
+      "intent_match": {
+        "sensevoice": false,
+        "qwen06": true
+      },
+      "category": "recognizer_disagreement"
+    },
+    {
+      "audio_id": "clip-000005",
+      "intended_text": "你好你好",
+      "sensevoice_raw_text": "你好你好",
+      "qwen06_raw_text": "你好，你好。",
+      "intent_match": {
+        "sensevoice": true,
+        "qwen06": true
+      },
+      "category": "both_match_intent"
+    },
+    {
+      "audio_id": "clip-000006",
+      "intended_text": "今天天气很好",
+      "sensevoice_raw_text": "明天天气很好",
+      "qwen06_raw_text": "明天天气很好。",
+      "intent_match": {
+        "sensevoice": false,
+        "qwen06": false
+      },
+      "category": "consensus_off_plan"
+    }
+  ],
+  "category_counts": {
+    "recognizer_disagreement": 3,
+    "both_match_intent": 2,
+    "consensus_off_plan": 1
+  },
+  "both_match_intent": 2,
+  "required_all_six": 6,
+  "all_six_gate_passed": false,
+  "training_admitted": 0,
+  "human_review": "UNKNOWN",
+  "acoustic_completeness": "UNKNOWN",
+  "human_pronunciation": "UNKNOWN",
+  "gold_labels": 0,
+  "ctc_targets": 0,
+  "kws_improvement_measured": false,
+  "resources": {
+    "runner_wall_seconds": 492.9114473430001,
+    "controlled_download_bytes": 3340966447,
+    "stage_measurements": {
+      "setup": {
+        "affinity_core_limit": 2,
+        "cpu_limit_seconds_per_process": 2400,
+        "cpu_mode": "kernel_RLIMIT_CPU_per_process_not_aggregate_tree_limit",
+        "max_sampled": {
+          "buildtmp_bytes": 114855604,
+          "installed_bytes": 1757241507,
+          "live_cpu_seconds": 63.56999999999999,
+          "rss_bytes": 837476352,
+          "workspace_bytes": 5119420604
+        },
+        "reaped_children_cpu_seconds": 118.04583,
+        "returncode": 0,
+        "rss_mode": "sampled_process_group_threshold_not_continuous_hard_limit",
+        "rss_threshold_bytes": 2147483648,
+        "sample_count": 209,
+        "sample_interval_seconds": 0.25,
+        "setup": true,
+        "termination_reason": "normal_exit",
+        "wall_limit_seconds": 1200,
+        "wall_seconds": 241.73457765199998
+      },
+      "sensevoice": {
+        "affinity_core_limit": 1,
+        "cpu_limit_seconds_per_process": 600,
+        "cpu_mode": "kernel_RLIMIT_CPU_per_process_not_aggregate_tree_limit",
+        "max_sampled": {
+          "buildtmp_bytes": 0,
+          "installed_bytes": 1757241507,
+          "live_cpu_seconds": 42.77,
+          "rss_bytes": 2472341504,
+          "workspace_bytes": 5120458756
+        },
+        "reaped_children_cpu_seconds": 43.59316699999998,
+        "returncode": 0,
+        "rss_mode": "sampled_process_group_threshold_not_continuous_hard_limit",
+        "rss_threshold_bytes": 10737418240,
+        "sample_count": 25,
+        "sample_interval_seconds": 0.25,
+        "setup": false,
+        "termination_reason": "normal_exit",
+        "wall_limit_seconds": 600,
+        "wall_seconds": 44.77035748899999
+      },
+      "qwen06": {
+        "affinity_core_limit": 1,
+        "cpu_limit_seconds_per_process": 600,
+        "cpu_mode": "kernel_RLIMIT_CPU_per_process_not_aggregate_tree_limit",
+        "max_sampled": {
+          "buildtmp_bytes": 0,
+          "installed_bytes": 1757241507,
+          "live_cpu_seconds": 203.78,
+          "rss_bytes": 4024041472,
+          "workspace_bytes": 5121137225
+        },
+        "reaped_children_cpu_seconds": 204.22279699999999,
+        "returncode": 0,
+        "rss_mode": "sampled_process_group_threshold_not_continuous_hard_limit",
+        "rss_threshold_bytes": 10737418240,
+        "sample_count": 108,
+        "sample_interval_seconds": 0.25,
+        "setup": false,
+        "termination_reason": "normal_exit",
+        "wall_limit_seconds": 600,
+        "wall_seconds": 205.68114131799996
+      }
+    },
+    "saved_clip_adapter_call_wall_seconds": {
+      "sensevoice": [
+        1.4679808870000102,
+        1.6832660779999742,
+        1.4713891819999958,
+        1.4747833060000062,
+        1.7997315519999688,
+        1.977014209999993
+      ],
+      "qwen06": [
+        6.729039851000039,
+        6.6716354039999715,
+        6.751797628000077,
+        7.002518122999959,
+        6.452042177000067,
+        6.798624394000058
+      ]
+    },
+    "limits": [
+      "RSS/disk maxima are sampled observations and thresholds, not continuous peaks or hard caps.",
+      "Nominal sample sleep is 0.25 seconds; actual timestamp gaps are not retained and maximum gap is UNKNOWN.",
+      "CPU affinity caps allocated cores; RLIMIT_CPU is per process, not aggregate process-tree CPU enforcement.",
+      "Setup and model-stage wall/CPU times include install/import/load and checks; per-clip adapter times include weight verification, preprocessing and extraction, not pure decoding.",
+      "No target A20/KWS latency, KWS accuracy, acoustic correctness or speaker-isolated evidence is established.",
+      "Controlled downloaded bytes cover recorded package/model paths, not all network sockets; offline flags are not kernel network isolation.",
+      "Started/completed counts derive from saved records and single-pass source; not a system-wide census."
+    ]
+  },
+  "publication": {
+    "original_member_count": 75,
+    "original_uncompressed_bytes": 1303996,
+    "all_original_members_allowed_under_supplied_authorization": true,
+    "excluded_original_members": [],
+    "allowlist_filename": "publication-allowlist.json",
+    "allowlist_sha256": "ad1000977f86e4673d3b2eb8da644332dde19237dd617bdd433f7f210b29f7d5",
+    "full_payload_review_string_and_key_count": 49502,
+    "secret_or_private_metadata_candidates": [],
+    "basis": "User-approved exact research outputs plus full payload/metadata review; public runner origin was not used as permission",
+    "comparison_and_capture_publication_review": {
+      "status": "PASS",
+      "files": [
+        {
+          "path": "comparison-result.json",
+          "bytes": 24485,
+          "sha256": "7af81332103cf8174d8cbda9deda00e988027493e84f4643518993f20cdf280e"
+        },
+        {
+          "path": "capture-before-intent-join.json",
+          "bytes": 12943,
+          "sha256": "c2a553bd2ebc31e2368ef7169f523ff93a72c8f860327b43907400c2b7199522"
+        }
+      ],
+      "credential_or_private_metadata_candidates": []
+    }
+  },
+  "report_inputs": {
+    "comparison_result_sha256": "7af81332103cf8174d8cbda9deda00e988027493e84f4643518993f20cdf280e",
+    "capture_receipt_sha256": "c2a553bd2ebc31e2368ef7169f523ff93a72c8f860327b43907400c2b7199522",
+    "source_readback_receipt_sha256": "12df35e751d2eda9902298990087afa2ee8fd5b15230b18980c2c903b0c39459",
+    "independent_tts_audit_sha256": "076cee1e6d89228570a9c30e98d384a3957c04cb1eee53a6514f616883494a0c",
+    "comparison_source_sha256": "427ffce6fd334461d9c2c79662a96d7dbdd54624256ef11272e63e70720114de",
+    "audit_script_sha256": "17be7575d675b26701020a4f22c2573442e08e0f766792c11cdd237e0643f96b"
+  }
+}

@@ -243,7 +243,11 @@ class IntegrityTests(unittest.TestCase):
         from unittest.mock import patch
         commit = 'a' * 40
         tracked = {p.relative_to(self.root).as_posix() for p in self.root.rglob('*') if p.is_file()}
-        tracked.remove(next(p for p in tracked if p.endswith('.wav')))
+        # Research WAVs outside the catalog are not consumer assets.
+        manifest_path = self.root / 'datasets/qwen3-reviewed-v1/manifest.json'
+        manifest = json.loads(manifest_path.read_text())
+        audio = manifest_path.parent / manifest['recordings'][0]['path']
+        tracked.remove(audio.relative_to(self.root).as_posix())
         with patch.object(archive, 'git_identity', return_value=(commit, '')), \
                 patch.object(archive, 'git_tracked_paths', return_value=tracked):
             with self.assertRaisesRegex(ValueError, 'absent from pinned Git tree'):
