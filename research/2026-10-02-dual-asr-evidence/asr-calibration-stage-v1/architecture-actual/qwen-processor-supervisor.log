@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/workspace/scratch/6c2ef8b5a46e/asr-calibration-stage-v1/probe_tensor_inputs.py", line 47, in <module>
-    wrapper=Qwen3ASRModel(backend='transformers',model=None,processor=processor,
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/workspace/scratch/6c2ef8b5a46e/cloud-asr-dependency-probe/venv/lib/python3.12/site-packages/qwen_asr/inference/qwen3_asr.py", line 167, in __init__
-    self.device = next(model.parameters()).device
-                       ^^^^^^^^^^^^^^^^
-AttributeError: 'NoneType' object has no attribute 'parameters'

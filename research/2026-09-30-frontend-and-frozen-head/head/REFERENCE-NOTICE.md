@@ -1,7 +1,0 @@
-# Input/reference boundary
-
-This archive includes experiment source, pinned upstream Python reference source and upstream licenses, initialized-state hashes, saved trained heads and normalization, pooled vectors, all42 Qwen readouts, step curves, identity manifests and guard/review receipts. It contains no WAV/raw audio, donor checkpoint or complete donor parameter tensor payload. Dataset/checkpoint paths and SHA256 values are references to separately controlled inputs, not embedded inputs. Original source-provided FLEURS admitted_for_training=false labels are preserved in the experiment manifest with the narrow recipe-specific authorization.
-
-The saved-head verification works from the cached pooled vectors without donor weights or audio. Full acoustic replay requires the separately pinned external inputs and a fresh explicitly approved execution; the one-shot original journal must not be removed to rerun. The archived experiment's strict8/8 criterion failed in both arms. Do not treat this artifact as a deployable streaming model. No upload, push, publish, pull request or integration with any active publishing package was performed.
-
-Pinned WeKws and torchaudio source/license identities remain available in reference-source-index.json and spec.json. The published donor's original source/license provenance remains referenced by the baseline package and is not rewritten as self-authored work.
