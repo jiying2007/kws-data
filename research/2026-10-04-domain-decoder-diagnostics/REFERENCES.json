@@ -1,0 +1,51 @@
+{
+  "schema": "a20-domain-references-v1",
+  "read_only_verified_utc": "2026-10-04",
+  "references": {
+    "source_base": {
+      "repository": "jiying2007/kws-pipeline",
+      "commit": "804553286fd9caa294769cc4d44cc0c43dc66e88",
+      "url": "https://github.com/jiying2007/kws-pipeline/pull/463"
+    },
+    "source_qwen20": {
+      "commit": "09ec823d16fc149463bb898f6408221b05471e64",
+      "url": "https://github.com/jiying2007/kws-pipeline/pull/466"
+    },
+    "source_n0": {
+      "commit": "6d06a04403a93c5b7138870deb900baf5a8fefc4",
+      "url": "https://github.com/jiying2007/kws-pipeline/pull/467"
+    },
+    "data_qwen20": {
+      "repository": "jiying2007/kws-data",
+      "commit": "617b66bb30148a675805be2f17c61703d31e6e79",
+      "url": "https://github.com/jiying2007/kws-data/pull/11"
+    },
+    "data_base_n0": {
+      "repository": "jiying2007/kws-data",
+      "commit": "06cb1dffda0da624a16bce707d7729393d9bf2a8",
+      "url": "https://github.com/jiying2007/kws-data/pull/12"
+    }
+  },
+  "existing_refs_changed": false,
+  "new_data_catalog_or_training_admission": false,
+  "additive_paths_only": true,
+  "inherited_failures": {
+    "original_qwen20": "FAILED_NO_RETRY",
+    "original_n0_strict_v1": "FAILED_NO_RETRY"
+  },
+  "reused_decoder": {
+    "source_url": "https://github.com/jiying2007/kws-pipeline/blob/804553286fd9caa294769cc4d44cc0c43dc66e88/research/native_a20/baseline/decoder/a20_decoder.c",
+    "sha256": "6a89f56f9d4a15f774c5f4fe13e9e6b86f574797879c0eda91ed3f49444d4937",
+    "bytes": 12402,
+    "changes_in_this_record": 0
+  },
+  "reused_model": {
+    "sha256": "a80b233d3c958d25f49085f487ef5cde839bd69f803ed057b59bbd20adc6e43d",
+    "bytes": 1565280,
+    "included": false
+  },
+  "reused_runtime": {
+    "sha256": "68457311f93540405dfa0bf5fdc1cd74421fea22b44d5920fec465be5de4d912",
+    "included": false
+  }
+}

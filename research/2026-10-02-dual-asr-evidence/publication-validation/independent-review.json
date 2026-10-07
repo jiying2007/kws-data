@@ -1,0 +1,389 @@
+{
+  "schema": "asr-publication-independent-review-v1",
+  "completed_at_utc": "2026-10-02T01:19:40.587470+00:00",
+  "status": "pass",
+  "scope": "Independent local publication-projection, disclosure, immutable-source, preserved-input and synthetic-test checks. No model imports or forwards; no external publication.",
+  "original_stage_comparison": {
+    "byte_identical_files": 369,
+    "additional_fixture_files": [
+      "scoring/scorer/tests/fixtures/characters.json",
+      "scoring/scorer/tests/fixtures/hashes.json",
+      "scoring/scorer/tests/fixtures/manifest.json",
+      "scoring/scorer/tests/fixtures/model_a.json",
+      "scoring/scorer/tests/fixtures/model_b.json",
+      "scoring/scorer/tests/fixtures/phrases.json",
+      "scoring/scorer/tests/fixtures/rules.json",
+      "scoring/scorer/tests/test_calibrate.py",
+      "vendor/tests/test_exact_apply.py"
+    ],
+    "additional_fixture_scope": "Dependency-free fake-model checkpoint-guard tests and byte-identical scorer tests/fixtures from the source checkout; no real models.",
+    "support_provenance_and_historical_notice_changed_files": [
+      "asr-calibration-stage-v1/README.md",
+      "asr-calibration-stage-v1/scoring/clock-verification.json",
+      "asr-calibration-stage-v1/scoring/freeze_lexicons.py",
+      "asr-calibration-stage-v1/scoring/frozen/freeze.json",
+      "asr-calibration-stage-v1/scoring/posthoc-v2/README.md",
+      "asr-calibration-stage-v1/scoring/posthoc-v2/evaluate_reused_outputs.py",
+      "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/evaluation-provenance.json"
+    ],
+    "change_review": "Seven exact declared files only: privacy identifiers removed, descriptive workflow wording generalized, archive-use directions adapted, and historical-label notices added. All scientific source algorithms, lexical data, timestamps, original human labels and historical result bytes remain unchanged."
+  },
+  "source_archives": {
+    "whole_archive_sha256_verified": {
+      "asr-dual-calibration-frozen-v1-20261002.zip": "b629479217934db38792a7d6ddcb349f91a98f9a8924c8f073ec4905f03bc194",
+      "asr-dual-calibration-posthoc-v2-20261002.zip": "b5dec8fd50c53e0eac3bbddddc7a562a5a40c634279e10002ff3b4f0ce5cffba"
+    },
+    "source_and_published_member_hashes_verified": 364
+  },
+  "protected_directories": [
+    {
+      "directory": "asr-calibration-stage-v1/primary-runs-v2",
+      "files": 151,
+      "all_paths_and_bytes_equal_original": true
+    },
+    {
+      "directory": "asr-calibration-stage-v1/calibration-result-v1",
+      "files": 13,
+      "all_paths_and_bytes_equal_original": true
+    },
+    {
+      "directory": "asr-calibration-stage-v1/scoring/frozen",
+      "files": 4,
+      "excluded_metadata_file": "freeze.json",
+      "all_lexical_data_and_rules_equal_original": true
+    }
+  ],
+  "raw_decodes": {
+    "count": 32,
+    "by_model": {
+      "qwen06": 16,
+      "sensevoice": 16
+    },
+    "all_bytes_equal_original": true,
+    "files": [
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0001.decoder.json",
+        "sha256": "1d05a208a990b0967e7bffe187874117f1c84fc678063a8c9eca2b992dcf9351"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0002.decoder.json",
+        "sha256": "923f734d15096467b18eb1fa8eb4682af51df66d52c1320504a93ef3166209f4"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0003.decoder.json",
+        "sha256": "fcc9b3a3869f4b353cd434eeed2714dd093d11b1b27fc0385b3b834446ca8681"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0004.decoder.json",
+        "sha256": "65e18545b6770456b448420f94b5dfabeb391163778fd794323c7d4a47022c43"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0005.decoder.json",
+        "sha256": "d0b2f7a4dfdd7b21159c09e12c204dba4f77272e9a25e3716103277ddc4c0484"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0006.decoder.json",
+        "sha256": "0023cc02761c79e40ddc01dcf0f4b940f973c810353ca1847d3c2d8eecdeb5bf"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0007.decoder.json",
+        "sha256": "704e2c64418346af95d87b4c41a87190d04e42677673289225dab6cfbe62dc97"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0008.decoder.json",
+        "sha256": "9701c1488b958fdb1ed371ad0de59e20c1a9b1df723e862b31bf6d1f9d80cf7b"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0009.decoder.json",
+        "sha256": "fc035c1721b86e91fa53d522fbf55976b2f9d7c1f45fc3a1692d94c36a854e5a"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0010.decoder.json",
+        "sha256": "99cd7b3188b89d217d420d04c24a78583006e4a6f3a56f07111ddb5aea45d8b4"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0011.decoder.json",
+        "sha256": "080b93243a7353f6032ff50682e82661ed51db48b63a5cf59f2325d01de66d5d"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0012.decoder.json",
+        "sha256": "b04f2d858abe5d83fb467c4a5a57152ed5966838a9b34830d5114389a095c8a9"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0013.decoder.json",
+        "sha256": "525365394b07287bf84415d1fa66755929cfd16339394a1e0e1daee356d6e636"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0014.decoder.json",
+        "sha256": "a016dddc2f83db1cbb57a22fc0ffcf9f3a90e73da91a8c64376ef8d6c35ca9ad"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0015.decoder.json",
+        "sha256": "4e90a69056eb68ea4c77a64fbd8399cc658296b0d52a573a0e844869ae226668"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/qwen06/clip-0016.decoder.json",
+        "sha256": "8fab6adce05aefdaee8ac84e5b03742feafee9115f486af41966072ca00912fc"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0001.decoder.json",
+        "sha256": "4f209121a3c1834d7b7ab757d828211637e5ab4d163feba5036159031aeca7f7"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0002.decoder.json",
+        "sha256": "f116a469987c38770bac8c71bb34d2a7d209c3eac649dd6c49b3d3e25238fd37"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0003.decoder.json",
+        "sha256": "1a836a6fe6ac01411a3168f15260a713a7526003c6517412d1dbd4cc98e695fc"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0004.decoder.json",
+        "sha256": "131f8ba52b3d3930746e9a49b1794c8f06b02bf60da95b4d80fe5fba107ab576"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0005.decoder.json",
+        "sha256": "67f1e39d14313d139a08e5ac58b5aba0dc78d8e2b7ef64eb9ec67d0eb565490c"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0006.decoder.json",
+        "sha256": "c96244ada0dbdd6599f977ec1b061b7b1845b3e4afb3ac4d86315705b7492507"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0007.decoder.json",
+        "sha256": "fd5b953ef8c1a728125a1e6790bd9d91d02e33158cd8922025c0a1d2d8c7b821"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0008.decoder.json",
+        "sha256": "21c0b997372c5c0173092e58d175394acf1635f9c9fc129b4124484154dd05d7"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0009.decoder.json",
+        "sha256": "f895a790a2ac751c50400d65d606f1e8b133f8aea9b08537473f0e3e8d796cfa"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0010.decoder.json",
+        "sha256": "ab87d3f56918c57ff2d37ef3198eea45a107ae0896162073473f7960dbe7f65b"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0011.decoder.json",
+        "sha256": "bfa85f3800fd3c540a2daa449b52cea6cabbb7ed968b813f702a45cb02f30d0d"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0012.decoder.json",
+        "sha256": "da38ed8d42ff359750f0b1b5bfbd7a196c5bdb5a60f73a36c28df6e383dcb9c8"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0013.decoder.json",
+        "sha256": "e90068707399a14069e7f3773bc6069f7cf957bf22b72964cf5c96034a5011ad"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0014.decoder.json",
+        "sha256": "96498691fa60e95ba19c8912348f9e50a775e1ceb0a0d3d1be5a6a03a4a9ba6c"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0015.decoder.json",
+        "sha256": "aa516579ac186c6b9ae9709ea6655bf53c59547669e5b762ecb9af1421fef08f"
+      },
+      {
+        "path": "asr-calibration-stage-v1/primary-runs-v2/sensevoice/clip-0016.decoder.json",
+        "sha256": "a91be398b4a0dbfffa13dec5ecddf9112f3d352c6a82239edb4bd75c1ce791b9"
+      }
+    ]
+  },
+  "readouts": [
+    {
+      "path": "asr-calibration-stage-v1/calibration-result-v1/readout.json",
+      "sha256": "c332fd6390de1ccf5f3b21f3f6a38724721deb45e28f44d74993c2195b43bac3"
+    },
+    {
+      "path": "asr-calibration-stage-v1/scoring/posthoc-v2/evaluation-v1/readout.json",
+      "sha256": "c95d26e8e8edf9e53ef5ea5862b6049d8c3e54a995cdf4240101ef5de2053743"
+    }
+  ],
+  "input_audio": {
+    "files": 16,
+    "preserved_commit": "c8c1a92f428bf515737bcaa5c4933de0fba50f7b",
+    "all_reference_urls_bind_commit": true,
+    "all_sha256_and_lengths_match_git_blobs": true,
+    "all_current_worktree_bytes_match_git_blobs": true
+  },
+  "disclosure": {
+    "scanned_publication_files_before_this_receipt": 454,
+    "scanned_source_archive_regular_members": 102,
+    "suspected_credentials_private_identifiers_or_internal_note_paths_found": 0,
+    "symlinks": 0,
+    "neural_weight_files": 0,
+    "audio_bodies_in_new_publication": 0,
+    "limits": "Pattern-based scan and file inventory inspection, not a formal guarantee against every possible secret encoding. Public upstream copyright contacts, technical paths, model token IDs, source revisions and test receipts are retained."
+  },
+  "model_assets": {
+    "qwen_public_non_neural_files_verified_against_original_asset_lock": 7,
+    "sensevoice_non_neural_bodies_omitted": 4,
+    "sensevoice_official_immutable_urls_and_hashes_retained": true,
+    "omission_reason": "Conservative response to model-license scope ambiguity for config/tokenizer/CMVN; no assertion that redistribution is prohibited.",
+    "model_license_reference_sha256": "7dba975a2069691db4992b0592d70828b330d2f8a30a71450f4e152a554e84f8",
+    "model_license_reference_git_blob_verified": true,
+    "notice": "public-model-assets/NOTICE"
+  },
+  "provenance_and_limits_review": {
+    "posthoc_v2_explicit": true,
+    "v1_preserved": true,
+    "no_general_accuracy_cer_wer_far_training_admission_or_release_claim": true,
+    "dither_network_and_sampled_resource_limits_disclosed": true,
+    "historical_absolute_path_nonportability_disclosed": true,
+    "pypinyin_unicode_and_source_package_notices_retained": true
+  },
+  "independent_synthetic_replays": [
+    {
+      "name": "target-local-generic",
+      "command": [
+        "python3",
+        "-B",
+        "-I",
+        "-S",
+        "scoring/posthoc-v2/tests/test_target_local_v2.py"
+      ],
+      "working_directory": "asr-calibration-stage-v1",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "test_all_readings_preserved_even_matching_variant_is_last (__main__.TargetLocalTests.test_all_readings_preserved_even_matching_variant_is_last) ... ok\ntest_boundary_separated_literal_never_becomes_positive (__main__.TargetLocalTests.test_boundary_separated_literal_never_becomes_positive) ... ok\ntest_exact_literal_with_far_ambiguity_stays_positive (__main__.TargetLocalTests.test_exact_literal_with_far_ambiguity_stays_positive) ... ok\ntest_execution_quality_markers_override_literal (__main__.TargetLocalTests.test_execution_quality_markers_override_literal) ... ok\ntest_genuine_homophone_and_one_edit_candidates_preserved (__main__.TargetLocalTests.test_genuine_homophone_and_one_edit_candidates_preserved) ... ok\ntest_independent_target_decisions (__main__.TargetLocalTests.test_independent_target_decisions) ... ok\ntest_irrelevant_heteronym_is_diagnostic_not_blocker (__main__.TargetLocalTests.test_irrelevant_heteronym_is_diagnostic_not_blocker) ... ok\ntest_irrelevant_oov_is_diagnostic_not_blocker (__main__.TargetLocalTests.test_irrelevant_oov_is_diagnostic_not_blocker) ... ok\ntest_join_declares_posthoc_scope_and_preserves_unknown_gold (__main__.TargetLocalTests.test_join_declares_posthoc_scope_and_preserves_unknown_gold) ... ok\ntest_minimum_set_distance_preserves_threshold (__main__.TargetLocalTests.test_minimum_set_distance_preserves_threshold) ... ok\ntest_no_lexical_evidence_is_unknown_even_short_oov (__main__.TargetLocalTests.test_no_lexical_evidence_is_unknown_even_short_oov) ... ok\ntest_rule_version_is_explicitly_posthoc (__main__.TargetLocalTests.test_rule_version_is_explicitly_posthoc) ... ok\ntest_short_partial_and_inserted_syllable_are_unknown_only (__main__.TargetLocalTests.test_short_partial_and_inserted_syllable_are_unknown_only) ... ok\ntest_split_homophones_preserve_soft_and_hard_boundaries (__main__.TargetLocalTests.test_split_homophones_preserve_soft_and_hard_boundaries) ... ok\ntest_target_lexicon_still_requires_unambiguous_readings (__main__.TargetLocalTests.test_target_lexicon_still_requires_unambiguous_readings) ... ok\ntest_target_near_oov_is_unknown_not_negative (__main__.TargetLocalTests.test_target_near_oov_is_unknown_not_negative) ... ok\ntest_unambiguous_far_and_ambiguous_far_stay_negative_across_boundary (__main__.TargetLocalTests.test_unambiguous_far_and_ambiguous_far_stay_negative_across_boundary) ... ok\ntest_v1_candidate_fields_retained (__main__.TargetLocalTests.test_v1_candidate_fields_retained) ... ok\ntest_wildcard_never_becomes_dictionary_tone_measurement (__main__.TargetLocalTests.test_wildcard_never_becomes_dictionary_tone_measurement) ... ok\n\n----------------------------------------------------------------------\nRan 19 tests in 0.025s\n\nOK\n"
+    },
+    {
+      "name": "independent-distance-oracle",
+      "command": [
+        "python3",
+        "-B",
+        "-I",
+        "-S",
+        "scoring/posthoc-v2/review/test_phonetic_distance_oracle.py"
+      ],
+      "working_directory": "asr-calibration-stage-v1",
+      "returncode": 0,
+      "stdout": "{\n  \"case_stream_sha256\": \"9bb013b24b91784cee0223dd5c18fc87849c055ecbdd1426b95eac3546c2cef5\",\n  \"cases\": 450,\n  \"cases_per_target_length\": 150,\n  \"expanded_concrete_realizations\": 4320,\n  \"limitations\": [\n    \"Invented phonetic symbols only; not a validation of model accuracy or acoustic evidence.\",\n    \"This replay validates the minimum-distance helper; the separate generic suite covers decision and contract behavior.\",\n    \"The target-local v2 scorer remains a post-hoc diagnostic, not untouched-holdout qualification.\"\n  ],\n  \"oracle\": \"Enumerate every token reading and OOV realization; minimize an independent full-table Levenshtein distance\",\n  \"python_version\": \"3.12.14\",\n  \"result\": \"pass\",\n  \"schema_version\": \"target-local-v2-generic-oracle-review-v1\",\n  \"scope\": {\n    \"actual_evaluation_data_accessed\": false,\n    \"actual_human_labels_accessed\": false,\n    \"actual_model_outputs_accessed\": false,\n    \"audio_accessed\": false,\n    \"model_runtime_or_weights_loaded\": false,\n    \"scorer_or_existing_tests_modified\": false\n  },\n  \"scorer_relative_path\": \"../calibrate.py\",\n  \"scorer_sha256\": \"1bccdd66bca3cd67109df1eff63770b5d7e9ba3a9a10b578a665b7bbcc9575b4\",\n  \"seed\": 8834,\n  \"symbol_pool\": [\n    \"a\",\n    \"b\",\n    \"c\"\n  ],\n  \"target_lengths\": [\n    2,\n    3,\n    4\n  ],\n  \"test_source_sha256\": \"f46bdbf76990d45a6c11ea71bd9888049da89ec651956c3ac33d4070b45c1b20\",\n  \"validated_at_utc\": \"2026-10-02T01:19:38.755657+00:00\",\n  \"validation_kind\": \"generic_fixture_replay_of_independent_review\",\n  \"window_lengths\": \"0 through target length + 1, inclusive\"\n}\n",
+      "stderr": ""
+    }
+  ],
+  "human_019_correction_review": {
+    "recording_id": "kws-temporal72-019-eric-kw2_wu_confusable",
+    "target_index": 1,
+    "human_label_change": "positive to negative",
+    "other_human_bits_unchanged": 31,
+    "human_label_counts": {
+      "positive": 8,
+      "negative": 18,
+      "unknown": 6
+    },
+    "review_files_equal_source_copy": 20,
+    "summary": {
+      "frozen-v1": {
+        "human_label_counts": {
+          "positive": 8,
+          "negative": 18,
+          "unknown": 6
+        },
+        "models": [
+          {
+            "model_id": "Qwen/Qwen3-ASR-0.6B",
+            "covered_known_bits": 0,
+            "true_positive": 0,
+            "true_negative": 0,
+            "false_positive": 0,
+            "false_negative": 0,
+            "unknown_on_positive": 8,
+            "unknown_on_negative": 18,
+            "errors": []
+          },
+          {
+            "model_id": "FunAudioLLM/SenseVoiceSmall",
+            "covered_known_bits": 0,
+            "true_positive": 0,
+            "true_negative": 0,
+            "false_positive": 0,
+            "false_negative": 0,
+            "unknown_on_positive": 8,
+            "unknown_on_negative": 18,
+            "errors": []
+          }
+        ],
+        "readout_sha256": "a103c097d7b00b77c5f103989a57567b2ca7ac32ae1eba084cfa1ce1af58fe22",
+        "paired": {
+          "both_covered": 0,
+          "joint_errors": 0,
+          "both_unknown": 26,
+          "one_unknown_disagreements": 0
+        }
+      },
+      "posthoc-v2": {
+        "human_label_counts": {
+          "positive": 8,
+          "negative": 18,
+          "unknown": 6
+        },
+        "models": [
+          {
+            "model_id": "Qwen/Qwen3-ASR-0.6B",
+            "covered_known_bits": 14,
+            "true_positive": 0,
+            "true_negative": 13,
+            "false_positive": 0,
+            "false_negative": 1,
+            "unknown_on_positive": 7,
+            "unknown_on_negative": 5,
+            "errors": [
+              {
+                "recording_id": "kws-temporal72-008-serena-kw2_wu_confusable",
+                "wav_sha256": "9d3dbbeea866f6bbdc56eb348461f8d0b0751b0aeebf42064b0e4cc4c632731f",
+                "target_index": 1,
+                "human": "positive",
+                "prediction": "negative",
+                "error_type": "false_negative"
+              }
+            ]
+          },
+          {
+            "model_id": "FunAudioLLM/SenseVoiceSmall",
+            "covered_known_bits": 13,
+            "true_positive": 0,
+            "true_negative": 13,
+            "false_positive": 0,
+            "false_negative": 0,
+            "unknown_on_positive": 8,
+            "unknown_on_negative": 5,
+            "errors": []
+          }
+        ],
+        "readout_sha256": "ddf860a3b6a0fc06963425e962ae4ad1976d455b8b6c8d1fb50533b894f6ac43",
+        "paired": {
+          "both_covered": 12,
+          "joint_errors": 0,
+          "both_unknown": 11,
+          "one_unknown_disagreements": 3
+        }
+      }
+    },
+    "independent_publication_copy_scorer_only_replays": [
+      {
+        "variant": "frozen-v1",
+        "returncode": 0,
+        "readout_sha256": "a103c097d7b00b77c5f103989a57567b2ca7ac32ae1eba084cfa1ce1af58fe22",
+        "recomputed_bytes_equal_published": true,
+        "unchanged_model_evidence_rows": 32,
+        "other_recordings_entirely_unchanged": 15
+      },
+      {
+        "variant": "posthoc-v2",
+        "returncode": 0,
+        "readout_sha256": "ddf860a3b6a0fc06963425e962ae4ad1976d455b8b6c8d1fb50533b894f6ac43",
+        "recomputed_bytes_equal_published": true,
+        "unchanged_model_evidence_rows": 32,
+        "other_recordings_entirely_unchanged": 15
+      }
+    ],
+    "original_audio_labels_and_both_historical_readouts_retained": true,
+    "new_model_forwards": 0,
+    "latest_overview_checked": true
+  },
+  "new_model_forward_calls": 0,
+  "acceptance_of_new_license_terms_performed": false
+}

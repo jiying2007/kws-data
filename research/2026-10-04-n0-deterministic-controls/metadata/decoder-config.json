@@ -1,0 +1,82 @@
+{
+  "activation": "stop at first activation within callback; at most one event per canonical callback; reset hypotheses only, preserve clock and cooldown",
+  "classes": [
+    {
+      "id": 0,
+      "token": "blank"
+    },
+    {
+      "id": 1,
+      "token": "你"
+    },
+    {
+      "id": 2,
+      "token": "好"
+    },
+    {
+      "id": 3,
+      "token": "小"
+    },
+    {
+      "id": 4,
+      "token": "窝"
+    },
+    {
+      "id": 5,
+      "token": "屋"
+    }
+  ],
+  "clock": "advance total_frames by all selected_rows*3 even after activation skips remaining search",
+  "cooldown_end_frame_delta": 50,
+  "downsample": 3,
+  "empty": "selected_rows0 returns all-zero result; decoder state and clock unchanged",
+  "finish": "one call per clip; process nonempty actual ingress tail once; no empty callback, padding, repetition or EOF flush",
+  "frame_seconds": 0.01,
+  "hit_score_persists_after_rejected_match": true,
+  "hit_score_reset": 1.0,
+  "inactive_nonempty": "valid1,state0,keyword0,start/end_frame -1,score0",
+  "keywords": {
+    "1": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "2": [
+      3,
+      4,
+      3,
+      4
+    ]
+  },
+  "live_nodes_capacity": 2560,
+  "logit_softmax": "FP64 exp(logit-max), sequential FP64 sum, probabilities rounded FP32; all6 competing tokens retained",
+  "maximum_duration_frames": 250,
+  "minimum_duration_frames": 5,
+  "next_capacity": 120,
+  "node_capacity": 2680,
+  "path_beam": 20,
+  "path_tie": "stable insertion order at equal pb+pnb",
+  "prefix_capacity": 128,
+  "repeated_token_branch_epsilon": 1e-06,
+  "reset_per_clip": "a20fft64s_reset resets frontend, splice, ingress, model cache, all decoder clocks/cooldown/hypotheses",
+  "schema": "a20-exact-decoder-contract-v1",
+  "score": "sqrt(persistent_hit_score * product_of_4_matched_token_probabilities)",
+  "score_beam": 3,
+  "score_threshold": {
+    "comparison": "greater_than_or_equal",
+    "value": 0.0
+  },
+  "search_order": "hypothesis score order then keyword1 then keyword2",
+  "shared_node_alias_updates": true,
+  "source_c_sha256": "6a89f56f9d4a15f774c5f4fe13e9e6b86f574797879c0eda91ed3f49444d4937",
+  "source_h_sha256": "8fff95d8b4bbac1e37d88d4e093e4f81a07467e397ead258d54f4a9edae6d2e4",
+  "stale_reset": "if leading hypothesis first_node older than250 after whole callback clock advance, reset hypotheses",
+  "stored_outputs": "original callback logits only; no extra probability recomputation",
+  "subsequence_scan": "inclusive final start <= prefix_length-4, first match per path",
+  "token_pruning": {
+    "comparison": "strictly_greater_than",
+    "value": 0.05
+  },
+  "topk_tie": "pinned libstdc++ nth_element(nth2)+sort first2; strict probability comparator no token-id tie break"
+}

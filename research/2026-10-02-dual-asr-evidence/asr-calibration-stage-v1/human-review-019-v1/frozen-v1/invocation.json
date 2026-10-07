@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-I",
+    "-S",
+    "/workspace/scratch/6c2ef8b5a46e/asr-calibration-stage-v1/scoring/scorer/calibrate.py",
+    "--manifest",
+    "/workspace/scratch/6c2ef8b5a46e/asr-calibration-stage-v1/human-review-019-v1/scientific-manifest.corrected.json",
+    "--manifest-sha256",
+    "bd924c153153921a8c6c6b9f23db0f73462c84bde8da7e389719d6e94513d249",
+    "--rules",
+    "/workspace/scratch/6c2ef8b5a46e/asr-calibration-stage-v1/scoring/frozen/rules.json",
+    "--rules-sha256",
+    "1495ae540c56a20de1ba78074d10f488f741acca82be9e358d2a2b4c68828f8b",
+    "--characters",
+    "/workspace/scratch/6c2ef8b5a46e/asr-calibration-stage-v1/scoring/frozen/characters.json",
+    "--phrases",
+    "/workspace/scratch/6c2ef8b5a46e/asr-calibration-stage-v1/scoring/frozen/phrases.json",
+    "--model-a",
+    "/workspace/scratch/6c2ef8b5a46e/asr-calibration-stage-v1/human-review-019-v1/frozen-v1/qwen06-envelope.json",
+    "--model-b",
+    "/workspace/scratch/6c2ef8b5a46e/asr-calibration-stage-v1/human-review-019-v1/frozen-v1/sensevoice-envelope.json",
+    "--output",
+    "/workspace/scratch/6c2ef8b5a46e/asr-calibration-stage-v1/human-review-019-v1/frozen-v1/readout.json"
+  ],
+  "returncode": 0
+}

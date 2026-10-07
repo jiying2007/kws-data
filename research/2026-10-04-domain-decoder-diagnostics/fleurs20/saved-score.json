@@ -1,0 +1,1123 @@
+{
+  "record_type": "PUBLIC_PROJECTION_OF_SAVED_EVIDENCE",
+  "original_evidence_sha256": "7662d4fedcee31c3ee857e3b53803ba409b0e999123869d45593f9735dbc5271",
+  "projection_was_executed_as_experiment": false,
+  "omissions": [
+    "No fields omitted from this saved numeric scorer result; wrapper marks projection and binds original identity"
+  ],
+  "saved_evidence": {
+    "schema": "a20-fleurs20-descriptive-score-v1",
+    "status": "complete_reviewed_lossy_pcm16_unadjudicated_counts_only",
+    "source_hashes": {
+      "protocol_sha256": "d1cd31582eba198d6b62783269a1f0a6402c7f9b278038f5a2099628257c820b",
+      "model_sha256": "a80b233d3c958d25f49085f487ef5cde839bd69f803ed057b59bbd20adc6e43d",
+      "library_sha256": "68457311f93540405dfa0bf5fdc1cd74421fea22b44d5920fec465be5de4d912",
+      "manifest_sha256": "ffe9589affc243964bb131caa1be964ce6a3b17a3e0cee9c1b5f0ae8044ebe92",
+      "geometry_sha256": "89e44994e43b7054eb51ae90eb3a10e7dc1cac7c098a0dc8849caa7b1cf106bc",
+      "decoder_config_sha256": "073f57e82dc346d5c71bf7070e21cb8dfaf593d11e9dbfed263efb93b00b2360",
+      "raw_sha256": "a3abea95149320e48f0b2a8063f7d8b5f73791fc92fd4496da5f3f9fc00ca3db"
+    },
+    "scope": "exactly twenty independently reset natural human read-speech streams, using reviewed lossy RNE PCM16 derivatives, 247.56 total input seconds offline; nineteen sentence groups, not speaker IDs; transcript-only target absence, audio/alignment unaudited; zero verified-negative hours; no FAR/FAh/FRR/recall/Poisson/holdout/board/soak/word-tail qualification",
+    "event_time_semantics": "available_audio_s = available_samples / 16000; available input time, not a word endpoint",
+    "decoder_frame_semantics": "raw start/end frame IDs on original 10ms grid; no true word endpoints",
+    "probabilities": "NOT_CAPTURED",
+    "aggregate": {
+      "streams": 20,
+      "duration_s": 247.56,
+      "activation_events": 2,
+      "event_adjudication": "UNADJUDICATED",
+      "verified_negative_hours": 0,
+      "by_keyword": {
+        "1": 1,
+        "2": 1
+      }
+    },
+    "verified_negative_hours": 0,
+    "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+    "event_adjudication": "UNADJUDICATED",
+    "probability_and_beam_trace": "NOT_CAPTURED",
+    "far_and_poisson_bound": "NOT_APPLICABLE_NO_VERIFIED_NEGATIVE_EXPOSURE",
+    "representativeness": "Twenty fixed original validation rows; nineteen sentence groups; no speaker IDs, pretraining overlap unknown; lossy reviewed PCM16 only; no gain normalization, sweep, or expected-zero gate",
+    "native_run_end": {
+      "kind": "run_end",
+      "complete": true,
+      "clips": 20,
+      "frames": 3960960,
+      "feed_calls": 835,
+      "finish_calls": 20,
+      "callbacks": 835,
+      "fbank_rows": 24716,
+      "model_rows": 8232,
+      "decoder_rows_decoded": 8226,
+      "event_count": 2,
+      "wall_ns": 2827741858,
+      "process_cpu_ns": 2826286342,
+      "maxrss_kib": 39520,
+      "minor_faults": 1072,
+      "major_faults": 0,
+      "block_input_ops": 0,
+      "block_output_ops": 2488
+    },
+    "resource_and_identity_admission": "SEPARATE_SUPERVISOR_AND_INDEPENDENT_AUDIT_REQUIRED; this scorer alone cannot PASS them",
+    "observed_totals": {
+      "frames": 3960960,
+      "feed_calls": 835,
+      "callbacks": 835,
+      "fbank_rows": 24716,
+      "model_rows": 8232,
+      "clips": 20,
+      "decoder_rows_decoded": 8226
+    },
+    "model_load_record": {
+      "kind": "model_loaded",
+      "wall_ns_since_run_start": 6025581,
+      "cpu_ns_since_run_start": 3994796,
+      "state_bytes": 333704,
+      "weights_bytes": 1565280
+    },
+    "streams": [
+      {
+        "recording": "FLEURS-cmn20-row00",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 294080,
+        "wav_sha256": "6935dd5d8522dedb62e7bf0f6255804fd07a05ffd25160f3abda37b5bfc80f44",
+        "pcm_sha256": "e079b89dda2782d074b12f8fb830fa7fd68f8d9c3acb779ede642302e6f6ef83",
+        "source_row_index": 0,
+        "sentence_id": 1579,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1579",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 62,
+        "fbank_rows": 1836,
+        "model_rows": 612,
+        "decoder_rows_decoded": 612,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 18.38,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row01",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 119040,
+        "wav_sha256": "1c5f3713cd43a9c23e178499d3165c56dfb5184a49a947388d2f55e578a7119e",
+        "pcm_sha256": "37eac09ed89a9b1541a7ca6e70c907a1ef2711ac51e4e52d110bd430c7e09661",
+        "source_row_index": 1,
+        "sentence_id": 1605,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1605",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 25,
+        "fbank_rows": 742,
+        "model_rows": 247,
+        "decoder_rows_decoded": 247,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 7.44,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row02",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 120960,
+        "wav_sha256": "9e27717706ae3ede47f59899ee76a7316433c070e8ec45f8c1568a72b4fbc90b",
+        "pcm_sha256": "e7a6c5052c2a438d6c825d7f27632da71fc8fb675af423602f8e29c926ebfb94",
+        "source_row_index": 2,
+        "sentence_id": 1581,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1581",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 26,
+        "fbank_rows": 754,
+        "model_rows": 251,
+        "decoder_rows_decoded": 251,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 7.56,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row03",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 154560,
+        "wav_sha256": "a81ebce7ad2ffff70f4992c213229a0942c5422458a476569d5ec256756f4764",
+        "pcm_sha256": "5269e85218070a7c319e6c1480f2a7f9bd935512ba3177eddb23b58d09730be7",
+        "source_row_index": 3,
+        "sentence_id": 1648,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1648",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 33,
+        "fbank_rows": 964,
+        "model_rows": 321,
+        "decoder_rows_decoded": 321,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 9.66,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row04",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 247360,
+        "wav_sha256": "98981812e17e17a4ff3acadc6d6948b0127b4611355c85ad8c7b27f0fb83c50c",
+        "pcm_sha256": "84a9989537cd5ed673f09c9c074e883d0b8a2eee4ee35b9bff723073779d4c0b",
+        "source_row_index": 4,
+        "sentence_id": 1588,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1588",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 52,
+        "fbank_rows": 1544,
+        "model_rows": 514,
+        "decoder_rows_decoded": 514,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 15.46,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row05",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 195520,
+        "wav_sha256": "176285e1a7f53434f7eb9394552b0e1effd7a6c05da712ba588305906f7ce57d",
+        "pcm_sha256": "6950a816c271aaa146d45afd3bb45d6df822ba33cb76c4875e122391149c5c19",
+        "source_row_index": 5,
+        "sentence_id": 1638,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1638",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 41,
+        "fbank_rows": 1220,
+        "model_rows": 406,
+        "decoder_rows_decoded": 406,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 12.22,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row06",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 228480,
+        "wav_sha256": "9b00a2790d7e491c7ca6c566b3fc161a1b707e6aa49a1ac4672b5078416c54b7",
+        "pcm_sha256": "6420b6c0a284bfb5429cb2acea6bba06b8b09af28ac222613a3375cc63780ce8",
+        "source_row_index": 6,
+        "sentence_id": 1559,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1559",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 48,
+        "fbank_rows": 1426,
+        "model_rows": 475,
+        "decoder_rows_decoded": 475,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 14.28,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row07",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 246080,
+        "wav_sha256": "c2fefd74339b0f69f36bc6c2955f658a2e9796595967f981bb991afa20bdc7a2",
+        "pcm_sha256": "50ce55cd5d8ffd45388b8430c52fc5df29571bc7c616e0d6b40f8e7da032d4fb",
+        "source_row_index": 7,
+        "sentence_id": 1519,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1519",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 52,
+        "fbank_rows": 1536,
+        "model_rows": 512,
+        "decoder_rows_decoded": 512,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 15.38,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row08",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 183360,
+        "wav_sha256": "65a0a97b6c3f6e5cd607b5124967b0960157bb6c81bcbe505c9dfa446dde74ab",
+        "pcm_sha256": "927fd15ce74e0003867b9b597f98196a7f3cedbb141f20502a50c7595cc09a1e",
+        "source_row_index": 8,
+        "sentence_id": 1523,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1523",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 39,
+        "fbank_rows": 1144,
+        "model_rows": 381,
+        "decoder_rows_decoded": 381,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 11.46,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row09",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 145920,
+        "wav_sha256": "f48a4c7ddf3cd873d289242130114143ec1fd6b609af55f62c6f849c3f13b6bf",
+        "pcm_sha256": "bfa80368e5b05738fcf046dcdc28b09c01eda6505081c64db8151e43dd9072af",
+        "source_row_index": 9,
+        "sentence_id": 1593,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1593",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 31,
+        "fbank_rows": 910,
+        "model_rows": 303,
+        "decoder_rows_decoded": 303,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 9.12,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row10",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 222720,
+        "wav_sha256": "866f4c277380acd6d9977e9603c27cdd64f307c63468ed98da6d6d09a22480e5",
+        "pcm_sha256": "6f7d011e54a98f94c4036be5882c06493d49da9424089e7e3a3d94dd9faba95d",
+        "source_row_index": 10,
+        "sentence_id": 1640,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1640",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 47,
+        "fbank_rows": 1390,
+        "model_rows": 463,
+        "decoder_rows_decoded": 463,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 13.92,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row11",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 89280,
+        "wav_sha256": "95b6f8b13808375c2d16640686fdcd3e39ddf762741a87ef2e4b2c14e85da7a7",
+        "pcm_sha256": "8b91cf2fc2ccdfdbf81dc8ddcee437d4f0a65482164e5a551c4266a88da0ddc0",
+        "source_row_index": 11,
+        "sentence_id": 1554,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1554",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 19,
+        "fbank_rows": 556,
+        "model_rows": 185,
+        "decoder_rows_decoded": 185,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 5.58,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row12",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 162240,
+        "wav_sha256": "30c1f74d7ce6025b6e2f79c6305a3267d6042e5ac6c9d2a858bf8aeea4be66dc",
+        "pcm_sha256": "52e418c4242391c6c905f34139da84c0e92886b9b7958051af731f3581e9c3b0",
+        "source_row_index": 12,
+        "sentence_id": 1577,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1577",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 34,
+        "fbank_rows": 1012,
+        "model_rows": 337,
+        "decoder_rows_decoded": 337,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 10.14,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row13",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 268160,
+        "wav_sha256": "c0e0f130ad6f4add4568c5409b1d09907c56107fc672f749dd85760adc4f402a",
+        "pcm_sha256": "a3239b9fa7a585f8d4c123d57f5eea02c477f07de3433d3901bbab710025a2b4",
+        "source_row_index": 13,
+        "sentence_id": 1574,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1574",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 56,
+        "fbank_rows": 1674,
+        "model_rows": 558,
+        "decoder_rows_decoded": 558,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 16.76,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row14",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 271680,
+        "wav_sha256": "6265c5035bcfed192ef3f5319a60279660eaef0955170f24da29874f9350d09a",
+        "pcm_sha256": "8caba75d9526670cc634d25209975c0e75be597a953477e04e8d8f0651a21e46",
+        "source_row_index": 14,
+        "sentence_id": 1591,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1591",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 57,
+        "fbank_rows": 1696,
+        "model_rows": 565,
+        "decoder_rows_decoded": 565,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 16.98,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row15",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 196800,
+        "wav_sha256": "2436ec8a0ba426d25c180c74cd0bb73f60430b2f874d5fa4a3100d4fcda8d483",
+        "pcm_sha256": "ab4150197b4e18b25b44f143d00dc95339288f6f31bd75c7f34f2e7f332cd4f2",
+        "source_row_index": 15,
+        "sentence_id": 1606,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1606",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 41,
+        "fbank_rows": 1228,
+        "model_rows": 409,
+        "decoder_rows_decoded": 409,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 12.3,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row16",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 365440,
+        "wav_sha256": "bb06693cfc19fca74eee67060e83a87439fc2411200f8d76a0c93c530da9f29d",
+        "pcm_sha256": "c17be73a3835ebb316989ed56b3759e66de5dd215958114cb493c8155a85a4fa",
+        "source_row_index": 16,
+        "sentence_id": 1525,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1525",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 77,
+        "fbank_rows": 2282,
+        "model_rows": 760,
+        "decoder_rows_decoded": 757,
+        "events": [
+          {
+            "kind": "callback",
+            "recording": "FLEURS-cmn20-row16",
+            "phase": "feed",
+            "call_index": 50,
+            "available_samples": 244800,
+            "call_samples": 4800,
+            "waveform_samples": 5120,
+            "fbank_rows": 30,
+            "splice_rows": 30,
+            "selected_rows": 10,
+            "is_final_short": 0,
+            "wave_samples": 320,
+            "feature_count": 4,
+            "offset": 1,
+            "centers": [
+              1497,
+              1500,
+              1503,
+              1506,
+              1509,
+              1512,
+              1515,
+              1518,
+              1521,
+              1524
+            ],
+            "valid": 1,
+            "state": 1,
+            "keyword": 1,
+            "start_frame": 1437,
+            "end_frame": 1515,
+            "score": 0.12134267955397253,
+            "decoder_rows_decoded": 7,
+            "decoder_total_frames": 1527,
+            "callback_entry_wall_ns_since_run_start": 2437839279,
+            "callback_entry_cpu_ns_since_run_start": 2434219415,
+            "logits": [
+              [
+                22.6317654,
+                -2.29276037,
+                -1.89780104,
+                10.275198,
+                -1.55475926,
+                3.52404165
+              ],
+              [
+                20.7309227,
+                1.22359014,
+                -2.69586539,
+                7.0396328,
+                3.09566116,
+                2.61402273
+              ],
+              [
+                29.2946224,
+                3.14407754,
+                -0.594973266,
+                8.43782234,
+                9.85936928,
+                -3.04574227
+              ],
+              [
+                6.47796774,
+                5.9818449,
+                -1.37604117,
+                15.8631659,
+                8.0777092,
+                0.374928981
+              ],
+              [
+                1313.56702,
+                -544.75708,
+                -84.2965546,
+                -146.612869,
+                -31.3016567,
+                26.4647942
+              ],
+              [
+                19.5730667,
+                -4.9212718,
+                5.44187498,
+                10.8676138,
+                12.4761438,
+                5.99094677
+              ],
+              [
+                15.6086369,
+                -0.0324598774,
+                0.373080075,
+                8.9429512,
+                14.9481869,
+                8.19027138
+              ],
+              [
+                17.1067047,
+                6.34677458,
+                2.75934935,
+                3.60804296,
+                12.7158737,
+                6.94154549
+              ],
+              [
+                6.31732702,
+                7.84639978,
+                4.19858789,
+                2.53048062,
+                4.89149904,
+                4.52321482
+              ],
+              [
+                348.638367,
+                -135.52179,
+                -19.7916374,
+                -40.1735458,
+                -5.92609262,
+                10.5434904
+              ]
+            ],
+            "available_audio_s": 15.3,
+            "adjudication": "UNADJUDICATED"
+          }
+        ],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 22.84,
+        "event_count": 1,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row17",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 195840,
+        "wav_sha256": "e70922938eb52725ab4ef2dbb4c5e03bd735c376b5c7e6325e563d7ba5a660ee",
+        "pcm_sha256": "8dd24f513a6403506025cc43ad21dc3422b62ec933f5f40d1cef947d4b25f6fd",
+        "source_row_index": 17,
+        "sentence_id": 1519,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1519",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 41,
+        "fbank_rows": 1222,
+        "model_rows": 407,
+        "decoder_rows_decoded": 404,
+        "events": [
+          {
+            "kind": "callback",
+            "recording": "FLEURS-cmn20-row17",
+            "phase": "feed",
+            "call_index": 20,
+            "available_samples": 100800,
+            "call_samples": 4800,
+            "waveform_samples": 5120,
+            "fbank_rows": 30,
+            "splice_rows": 30,
+            "selected_rows": 10,
+            "is_final_short": 0,
+            "wave_samples": 320,
+            "feature_count": 4,
+            "offset": 1,
+            "centers": [
+              597,
+              600,
+              603,
+              606,
+              609,
+              612,
+              615,
+              618,
+              621,
+              624
+            ],
+            "valid": 1,
+            "state": 1,
+            "keyword": 2,
+            "start_frame": 471,
+            "end_frame": 615,
+            "score": 0.14145915542700957,
+            "decoder_rows_decoded": 7,
+            "decoder_total_frames": 627,
+            "callback_entry_wall_ns_since_run_start": 2588771084,
+            "callback_entry_cpu_ns_since_run_start": 2585855322,
+            "logits": [
+              [
+                111.779938,
+                -37.6099586,
+                -7.43863821,
+                0.651686549,
+                2.20586681,
+                1.5598824
+              ],
+              [
+                345.350677,
+                -133.085632,
+                -17.3644829,
+                -28.2286453,
+                -5.90658092,
+                6.84386873
+              ],
+              [
+                20.6517906,
+                1.50169957,
+                -0.981881678,
+                13.9418268,
+                7.2559638,
+                1.63567531
+              ],
+              [
+                17.2821274,
+                2.40321088,
+                -2.67866898,
+                8.69306755,
+                9.37664795,
+                6.80147409
+              ],
+              [
+                15.3300714,
+                2.94142127,
+                -0.840012729,
+                3.07678556,
+                5.66652679,
+                7.39097595
+              ],
+              [
+                33.180378,
+                0.0463440605,
+                -7.39955854,
+                -7.79127741,
+                16.6290283,
+                6.6165204
+              ],
+              [
+                10.5697002,
+                6.05490685,
+                -6.82444048,
+                -3.48769403,
+                13.7049694,
+                8.31671143
+              ],
+              [
+                1243.95984,
+                -510.516357,
+                -86.9554749,
+                -152.775558,
+                -24.9807739,
+                29.7372932
+              ],
+              [
+                23.2836208,
+                4.65982008,
+                4.13527346,
+                2.36916256,
+                5.77799892,
+                7.67868567
+              ],
+              [
+                23.7237568,
+                3.4033258,
+                -0.142358765,
+                2.3574059,
+                3.80826759,
+                8.45263481
+              ]
+            ],
+            "available_audio_s": 6.3,
+            "adjudication": "UNADJUDICATED"
+          }
+        ],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 12.24,
+        "event_count": 1,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row18",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 122880,
+        "wav_sha256": "20f79e84868944944a81e2554224e2a0d8ee32392352efc2d9f4fc4daba8d003",
+        "pcm_sha256": "8e08bc8cb0db1a7a5584486b1c3a8d104e8e02ac2d709ce5992f4c9bf65b8eb4",
+        "source_row_index": 18,
+        "sentence_id": 1631,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1631",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 26,
+        "fbank_rows": 766,
+        "model_rows": 255,
+        "decoder_rows_decoded": 255,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 7.68,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      },
+      {
+        "recording": "FLEURS-cmn20-row19",
+        "kind": "human_read_speech_lossy_pcm16_unadjudicated",
+        "domain": "google/fleurs:cmn_hans_cn:validation",
+        "label": "TEXT_TARGET_ABSENT_AUDIO_UNAUDITED",
+        "verified_negative_hours": 0,
+        "frames": 130560,
+        "wav_sha256": "a0cafa8d5c9f3744e54b7a295c89d02b687d9a1fd023dcf617d7d0b070a9b1e1",
+        "pcm_sha256": "45ac88d6d9dea3aacf9951b367671a8a438c4fd72ba5e6e03f6a109ae0ebe58e",
+        "source_row_index": 19,
+        "sentence_id": 1572,
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1572",
+        "source_split": "validation",
+        "speaker_id": null,
+        "callbacks": 28,
+        "fbank_rows": 814,
+        "model_rows": 271,
+        "decoder_rows_decoded": 271,
+        "events": [],
+        "complete": true,
+        "feed_finish_records_validated": true,
+        "duration_s": 8.16,
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "beam_trace": "NOT_CAPTURED",
+        "probabilities": "NOT_CAPTURED"
+      }
+    ],
+    "sentence_groups": [
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1579",
+        "sentence_id": 1579,
+        "source_rows": [
+          0
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row00"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1605",
+        "sentence_id": 1605,
+        "source_rows": [
+          1
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row01"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1581",
+        "sentence_id": 1581,
+        "source_rows": [
+          2
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row02"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1648",
+        "sentence_id": 1648,
+        "source_rows": [
+          3
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row03"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1588",
+        "sentence_id": 1588,
+        "source_rows": [
+          4
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row04"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1638",
+        "sentence_id": 1638,
+        "source_rows": [
+          5
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row05"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1559",
+        "sentence_id": 1559,
+        "source_rows": [
+          6
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row06"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1519",
+        "sentence_id": 1519,
+        "source_rows": [
+          7,
+          17
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row07",
+          "FLEURS-cmn20-row17"
+        ],
+        "event_count": 1,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1523",
+        "sentence_id": 1523,
+        "source_rows": [
+          8
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row08"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1593",
+        "sentence_id": 1593,
+        "source_rows": [
+          9
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row09"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1640",
+        "sentence_id": 1640,
+        "source_rows": [
+          10
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row10"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1554",
+        "sentence_id": 1554,
+        "source_rows": [
+          11
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row11"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1577",
+        "sentence_id": 1577,
+        "source_rows": [
+          12
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row12"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1574",
+        "sentence_id": 1574,
+        "source_rows": [
+          13
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row13"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1591",
+        "sentence_id": 1591,
+        "source_rows": [
+          14
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row14"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1606",
+        "sentence_id": 1606,
+        "source_rows": [
+          15
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row15"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1525",
+        "sentence_id": 1525,
+        "source_rows": [
+          16
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row16"
+        ],
+        "event_count": 1,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1631",
+        "sentence_id": 1631,
+        "source_rows": [
+          18
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row18"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      },
+      {
+        "sentence_group": "google/fleurs:cmn_hans_cn:validation:sentence:1572",
+        "sentence_id": 1572,
+        "source_rows": [
+          19
+        ],
+        "recordings": [
+          "FLEURS-cmn20-row19"
+        ],
+        "event_count": 0,
+        "event_adjudication": "UNADJUDICATED",
+        "speaker_group": false
+      }
+    ],
+    "group_count": 19,
+    "speaker_count": "UNKNOWN_NO_SPEAKER_IDS",
+    "continuous_247_56_second_stream": false,
+    "positive_recall_frr": "NOT_APPLICABLE_NO_ADJUDICATED_POSITIVES",
+    "event_classification": "Never classify transcript-only target-absent events as false alarms"
+  }
+}

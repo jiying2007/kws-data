@@ -1,0 +1,15 @@
+# Whole-N1 original-A20 observation
+
+The single complete N1 stream produced one K1 event, zero duplicate K1 events, zero K2 events, and zero other keyword events. The event was available at source-relative sample 14,400 (0.900 s), or stream sample 38,400 (2.400 s), while original PCM was being consumed. Its decoder score was 0.9687314846116618. This is input availability, not word-end latency or an exact acoustic trigger time.
+
+N1's human-confirmed words are “你好小窝，屋里有人”: expected K1 once, no K2. All 23,778 original 16 kHz PCM16 samples were preserved, preceded by the already specified 24,000 digital-zero samples and followed by 4,800 zeros. No crop, resynthesis, additional EOF padding, flush, warmup, sweep, training or retry occurred. This one cold stream used 52,578 samples, 11 feeds/callbacks, one finish, 327 fbank rows, 109 model rows and 109 actually searched decoder rows. The final short chunk contained 4,578 samples.
+
+All events, including any in artificial context, are retained in the raw trace. The one event has decoder frame coordinates 201–234; multiplying frames by 160 and subtracting the lead gives source-relative coordinates 8,160–13,440. These are decoder coordinates, not word boundaries. There is no event-to-word interval match, causal-effect conclusion, terminal-窝/屋 attribution, or word-end latency claim.
+
+The unchanged PR485 scorer reports CONTEXT_UNVERIFIED: one positive clip and no negative. It makes no matched-panel or quality qualification. This exposed synthetic clip is not a FRR/FAR estimate, held-speaker validation, continuous-field evaluation, or embedded-board result. Original human review and generation records remain immutable in `research/2026-10-07-single-k1-followed-wu` at commit `3856a7f07ad6fd571260103ce27469aabb6f4ea5`; native and PCM16 WAVs are not reuploaded.
+
+`plan.json` is the pre-execution snapshot: its preparation/no-execution fields describe that earlier stage. `report.json`, `observations.json` and raw run_end describe the completed run. `source-preservation.json` binds the original and derived WAV/PCM identities and recipe; the derived WAV is not uploaded. `model-binding.json` identifies the unchanged external original A20 payload rather than distributing it.
+
+`resources.json` preserves one local process's observations. Lifetime peak RSS was 12,180 KiB and may include inherited Python memory before exec; sampled native RSS/HWM peaked at 2,872 KiB and sampled VmSize at 5,436 KiB. Samples may miss transients. Supervisor memory/CPU are excluded; continuous-lifetime thread compliance and absence of children are not proven. This is no resource or performance qualification.
+
+The matching pipeline appendix `research/n1-wholeclip-leading-v1` supplies a saved-only verifier, unchanged acquisition source, and exact original/public projection hashes. Only the first raw record's PID, absolute host monotonic clocks, internal release inventory and report's host-absolute command were projected away. Every raw scientific/timing value and every other raw byte is retained. The complete original raw evidence is preserved separately. No new rights or training admission are granted.

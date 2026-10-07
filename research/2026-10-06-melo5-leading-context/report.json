@@ -1,0 +1,891 @@
+{
+  "all_events_counted_including_leading_silence": true,
+  "audit": {
+    "counts": {
+      "callbacks": 46,
+      "decoder_rows_searched": 427,
+      "events": 3,
+      "events_available_during_leading_prefix": 0,
+      "fbank_rows": 1290,
+      "finish_calls": 5,
+      "model_rows": 428,
+      "samples": 208090,
+      "streams": 5
+    },
+    "frozen_files_rechecked": 115,
+    "limitations": [
+      "One complete five-stream trace is consistent with the exclusive once-only ledger and unchanged reviewed collector. Source includes exactly five per-clip reset calls; first callback clocks/centers restart per clip. Raw trace does not independently expose model cache reset contents.",
+      "The new condition observes both positive targets and retains the M3 K1 false activation; M4 and M5 stay quiet. Saved tail300 controls remain one positive target plus the same M3 false activation.",
+      "All three new activations are reported at absolute availability38400, or original-source-relative14400 samples (0.900s). M2 is1396 samples/87.25ms after the original file EOF; acoustic word-end latency is not established.",
+      "All245 pure-leading-prefix model rows (49 per clip) have no activation. No event filtering or logit equality assertion was used.",
+      "The 427 decoder searched rows arise from one skipped search row following M1 activation; all428 model rows were computed and recorded.",
+      "The unchanged PR485 CLI reproduces all three saved-condition summaries exactly. Its matched context status is a saved appended-policy/binding check; separate byte validation covers the leading prefix.",
+      "Available resource measurements satisfy configured bounds; sampled RSS/threads do not prove continuous behavior or absence of child processes. Native/child high-water RSS12424KiB differs from sampled RSS2880KiB and may include fork/preexec history; the cause is not established here.",
+      "No model-only causal claim, real-speech generalization, FRR/FAR, held-speaker qualification, embedded performance claim, parameter sweep, or replay follows from these descriptive exposed-clip results."
+    ],
+    "sha256": "f96c8a8588a631d2f620d2cd86d72cc19fb90aeb156d40b96c3e1687deaba348",
+    "status": "PASS_SAVED_TRACE_IDENTITY_GEOMETRY_AND_DESCRIPTIVE_SCORING"
+  },
+  "conditions": [
+    {
+      "condition": "original_eof",
+      "context_scope": "PR485 eval-context-v1 checks appended-context and reset/EOF declarations plus reference/detection/audio bindings only. It does not define or verify leading context.",
+      "report": {
+        "context": {
+          "differences": [],
+          "manifest_sha256": "4fad5a8d90d7c5bc1f33147d366a24f8ad885da7a4073cc402598e30dc2176c0",
+          "matched_context": true,
+          "qualification_allowed": false,
+          "recordings": {
+            "M1": {
+              "audio_sha256": "c5cf2886eed0929f611cc6cad3135c56cf55620a2be2cc26b030845207d8e46a",
+              "policy": {
+                "appended_context_kind": "none",
+                "appended_context_samples": 0,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "positive"
+            },
+            "M2": {
+              "audio_sha256": "306e17a73d4970534c7a2e85d203924cb8b3b2baf23d7d8ebafd8da89fb3f9fb",
+              "policy": {
+                "appended_context_kind": "none",
+                "appended_context_samples": 0,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "positive"
+            },
+            "M3": {
+              "audio_sha256": "82d3ce86355a9475a2057099c75e41d87fbf096b621a9bb20eed80c7976f51c7",
+              "policy": {
+                "appended_context_kind": "none",
+                "appended_context_samples": 0,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "negative"
+            },
+            "M4": {
+              "audio_sha256": "b70bc3effb0fca66e3efdb4f762dc2b2830311cb956ffe216aad569342071f97",
+              "policy": {
+                "appended_context_kind": "none",
+                "appended_context_samples": 0,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "negative"
+            },
+            "M5": {
+              "audio_sha256": "5dc8b44de88d747de8ef890f89937a9d91d2ca9e432f624646a959304d86f027",
+              "policy": {
+                "appended_context_kind": "none",
+                "appended_context_samples": 0,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "negative"
+            }
+          },
+          "scope": "saved declarations and input bindings only; no execution attestation",
+          "status": "MATCHED_DECLARED_CONTEXT",
+          "unknown": []
+        },
+        "detections_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "event_annotations_available": false,
+        "evidence_class": "saved-clip-presence-diagnostic-v1",
+        "missing_keywords": 2,
+        "negative_clips": 3,
+        "negative_clips_with_events": 0,
+        "negative_events": 0,
+        "positive_clips": 2,
+        "positive_clips_with_target": 0,
+        "qualification_allowed": false,
+        "recordings": [
+          {
+            "detections": [],
+            "expected_keywords": [
+              1
+            ],
+            "missing_keywords": [
+              1
+            ],
+            "recording": "M1",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          },
+          {
+            "detections": [],
+            "expected_keywords": [
+              2
+            ],
+            "missing_keywords": [
+              2
+            ],
+            "recording": "M2",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          },
+          {
+            "detections": [],
+            "expected_keywords": [],
+            "missing_keywords": [],
+            "recording": "M3",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          },
+          {
+            "detections": [],
+            "expected_keywords": [],
+            "missing_keywords": [],
+            "recording": "M4",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          },
+          {
+            "detections": [],
+            "expected_keywords": [],
+            "missing_keywords": [],
+            "recording": "M5",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          }
+        ],
+        "references_sha256": "c507a1997064bb05d45255220a20e2e4b561b7afc6d4197262bd1b3b4f6ed6ed",
+        "repeat_events": 0,
+        "timing_scope": "saved detection coordinates only; acoustic word end unknown",
+        "wrong_keyword_events": 0
+      },
+      "returncode": 0
+    },
+    {
+      "condition": "tail300",
+      "context_scope": "PR485 eval-context-v1 checks appended-context and reset/EOF declarations plus reference/detection/audio bindings only. It does not define or verify leading context.",
+      "report": {
+        "context": {
+          "differences": [],
+          "manifest_sha256": "5efd7f9a55e7d9cd64b91e7956b9866cab51d92636e0a7d5169d66bae45c3149",
+          "matched_context": true,
+          "qualification_allowed": false,
+          "recordings": {
+            "M1": {
+              "audio_sha256": "f4fd514d2e492e1126453b933dd107a62ead80590229f9dce380be2b1f9f64b5",
+              "policy": {
+                "appended_context_kind": "digital-zero",
+                "appended_context_samples": 4800,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "positive"
+            },
+            "M2": {
+              "audio_sha256": "cf6dd4f436eb1003947d53fbb71c2200f1604bdd856ceef3bdca339ba8698ce9",
+              "policy": {
+                "appended_context_kind": "digital-zero",
+                "appended_context_samples": 4800,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "positive"
+            },
+            "M3": {
+              "audio_sha256": "8291e8ff90ad764d0ba3703d098786e500b6da8086863ea0b7a7b606aa3e8128",
+              "policy": {
+                "appended_context_kind": "digital-zero",
+                "appended_context_samples": 4800,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "negative"
+            },
+            "M4": {
+              "audio_sha256": "73b2aa90e2ca521f820a9208b1a184e50efbc27fe26e0f2b7fa842b0c2e2e5ec",
+              "policy": {
+                "appended_context_kind": "digital-zero",
+                "appended_context_samples": 4800,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "negative"
+            },
+            "M5": {
+              "audio_sha256": "cbb15601711179d6486a1fa387f8a0ac322949675af099c796455a0e5f6d8275",
+              "policy": {
+                "appended_context_kind": "digital-zero",
+                "appended_context_samples": 4800,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "negative"
+            }
+          },
+          "scope": "saved declarations and input bindings only; no execution attestation",
+          "status": "MATCHED_DECLARED_CONTEXT",
+          "unknown": []
+        },
+        "detections_sha256": "59e80a2199999b535ad275253f31c78d11c64c0159f8a8b4d759766d7fb347d0",
+        "event_annotations_available": false,
+        "evidence_class": "saved-clip-presence-diagnostic-v1",
+        "missing_keywords": 1,
+        "negative_clips": 3,
+        "negative_clips_with_events": 1,
+        "negative_events": 1,
+        "positive_clips": 2,
+        "positive_clips_with_target": 1,
+        "qualification_allowed": false,
+        "recordings": [
+          {
+            "detections": [
+              {
+                "confidence": 0.9106670757615438,
+                "keyword_id": 1,
+                "recording": "M1",
+                "time_s": 0.9
+              }
+            ],
+            "expected_keywords": [
+              1
+            ],
+            "missing_keywords": [],
+            "recording": "M1",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          },
+          {
+            "detections": [],
+            "expected_keywords": [
+              2
+            ],
+            "missing_keywords": [
+              2
+            ],
+            "recording": "M2",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          },
+          {
+            "detections": [
+              {
+                "confidence": 0.8743068007994056,
+                "keyword_id": 1,
+                "recording": "M3",
+                "time_s": 0.9
+              }
+            ],
+            "expected_keywords": [],
+            "missing_keywords": [],
+            "recording": "M3",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          },
+          {
+            "detections": [],
+            "expected_keywords": [],
+            "missing_keywords": [],
+            "recording": "M4",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          },
+          {
+            "detections": [],
+            "expected_keywords": [],
+            "missing_keywords": [],
+            "recording": "M5",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          }
+        ],
+        "references_sha256": "110ea6411c776071fad4139eca50dc2fa1bc114c50bba0cbc4f980e9c0655ae7",
+        "repeat_events": 0,
+        "timing_scope": "saved detection coordinates only; acoustic word end unknown",
+        "wrong_keyword_events": 0
+      },
+      "returncode": 0
+    },
+    {
+      "condition": "leading1500_tail300",
+      "context_scope": "PR485 eval-context-v1 checks appended-context and reset/EOF declarations plus reference/detection/audio bindings only. It does not define or verify leading context.",
+      "report": {
+        "context": {
+          "differences": [],
+          "manifest_sha256": "2280f53ed6028c479896d36d9f9da21b76dd6d3a314e4325f9363a1f1085d1dd",
+          "matched_context": true,
+          "qualification_allowed": false,
+          "recordings": {
+            "M1": {
+              "audio_sha256": "f96880821ba871a4a8d9af80d3284ea2a87107c35f6164a84de6a4587db33164",
+              "policy": {
+                "appended_context_kind": "digital-zero",
+                "appended_context_samples": 4800,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "positive"
+            },
+            "M2": {
+              "audio_sha256": "c166d8a1c0677103a23a244e1a7098337ce40e16ecfbdb3605ce0f138a5586eb",
+              "policy": {
+                "appended_context_kind": "digital-zero",
+                "appended_context_samples": 4800,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "positive"
+            },
+            "M3": {
+              "audio_sha256": "84a01ef20c05cf77bc8b53fbeab952cdb46ed3e3bdf7c462e51f67eb357b502c",
+              "policy": {
+                "appended_context_kind": "digital-zero",
+                "appended_context_samples": 4800,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "negative"
+            },
+            "M4": {
+              "audio_sha256": "fbe11fdc2574ce210045a5d6326068874d6c37690b9a7b2977832f71a9b7f7e0",
+              "policy": {
+                "appended_context_kind": "digital-zero",
+                "appended_context_samples": 4800,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "negative"
+            },
+            "M5": {
+              "audio_sha256": "7723ba73a85e04edafbc1a13d0b3e28638b72878378033f2b4aea61cb81c9d96",
+              "policy": {
+                "appended_context_kind": "digital-zero",
+                "appended_context_samples": 4800,
+                "eof_flush": false,
+                "eof_padding": "none",
+                "eof_partial_chunk": "process-retained",
+                "feed_chunk_samples": 4800,
+                "reset_clocks": "per-recording",
+                "reset_decoder": "per-recording",
+                "reset_frontend": "per-recording",
+                "reset_model": "per-recording",
+                "sample_rate_hz": 16000
+              },
+              "role": "negative"
+            }
+          },
+          "scope": "saved declarations and input bindings only; no execution attestation",
+          "status": "MATCHED_DECLARED_CONTEXT",
+          "unknown": []
+        },
+        "detections_sha256": "7937516763ef3a926618f22da98498c73ed0665db29cd5f3547dca2e9055b670",
+        "event_annotations_available": false,
+        "evidence_class": "saved-clip-presence-diagnostic-v1",
+        "missing_keywords": 0,
+        "negative_clips": 3,
+        "negative_clips_with_events": 1,
+        "negative_events": 1,
+        "positive_clips": 2,
+        "positive_clips_with_target": 2,
+        "qualification_allowed": false,
+        "recordings": [
+          {
+            "detections": [
+              {
+                "confidence": 0.9020349616759333,
+                "keyword_id": 1,
+                "recording": "M1",
+                "time_s": 2.4
+              }
+            ],
+            "expected_keywords": [
+              1
+            ],
+            "missing_keywords": [],
+            "recording": "M1",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          },
+          {
+            "detections": [
+              {
+                "confidence": 0.219211423605427,
+                "keyword_id": 2,
+                "recording": "M2",
+                "time_s": 2.4
+              }
+            ],
+            "expected_keywords": [
+              2
+            ],
+            "missing_keywords": [],
+            "recording": "M2",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          },
+          {
+            "detections": [
+              {
+                "confidence": 0.8362519881482239,
+                "keyword_id": 1,
+                "recording": "M3",
+                "time_s": 2.4
+              }
+            ],
+            "expected_keywords": [],
+            "missing_keywords": [],
+            "recording": "M3",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          },
+          {
+            "detections": [],
+            "expected_keywords": [],
+            "missing_keywords": [],
+            "recording": "M4",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          },
+          {
+            "detections": [],
+            "expected_keywords": [],
+            "missing_keywords": [],
+            "recording": "M5",
+            "repeat_events": 0,
+            "wrong_keyword_events": 0
+          }
+        ],
+        "references_sha256": "e4445a93e6eb3a026c49248b47f54220409fda5a2ba4d23481932b319577280d",
+        "repeat_events": 0,
+        "timing_scope": "saved detection coordinates only; acoustic word end unknown",
+        "wrong_keyword_events": 0
+      },
+      "returncode": 0
+    }
+  ],
+  "derived_input_binding": {
+    "decoder_calls": 0,
+    "frontend_calls": 0,
+    "model_calls": 0,
+    "scope": "Actual derived WAV bytes, all five fixed leading contexts, entire original PCM and same postroll. Independent supplement to PR485; its eval-context-v1 policy does not define leading context.",
+    "status": "VERIFIED_FIXED_LEADING_AND_POSTROLL_BYTES",
+    "streams": [
+      {
+        "appended_samples": 4800,
+        "derived_wav_sha256": "f96880821ba871a4a8d9af80d3284ea2a87107c35f6164a84de6a4587db33164",
+        "leading_samples": 24000,
+        "original_middle_preserved": true,
+        "original_wav_sha256": "c5cf2886eed0929f611cc6cad3135c56cf55620a2be2cc26b030845207d8e46a",
+        "recording": "M1",
+        "saved_tail300_pcm_preserved": true
+      },
+      {
+        "appended_samples": 4800,
+        "derived_wav_sha256": "c166d8a1c0677103a23a244e1a7098337ce40e16ecfbdb3605ce0f138a5586eb",
+        "leading_samples": 24000,
+        "original_middle_preserved": true,
+        "original_wav_sha256": "306e17a73d4970534c7a2e85d203924cb8b3b2baf23d7d8ebafd8da89fb3f9fb",
+        "recording": "M2",
+        "saved_tail300_pcm_preserved": true
+      },
+      {
+        "appended_samples": 4800,
+        "derived_wav_sha256": "84a01ef20c05cf77bc8b53fbeab952cdb46ed3e3bdf7c462e51f67eb357b502c",
+        "leading_samples": 24000,
+        "original_middle_preserved": true,
+        "original_wav_sha256": "82d3ce86355a9475a2057099c75e41d87fbf096b621a9bb20eed80c7976f51c7",
+        "recording": "M3",
+        "saved_tail300_pcm_preserved": true
+      },
+      {
+        "appended_samples": 4800,
+        "derived_wav_sha256": "fbe11fdc2574ce210045a5d6326068874d6c37690b9a7b2977832f71a9b7f7e0",
+        "leading_samples": 24000,
+        "original_middle_preserved": true,
+        "original_wav_sha256": "b70bc3effb0fca66e3efdb4f762dc2b2830311cb956ffe216aad569342071f97",
+        "recording": "M4",
+        "saved_tail300_pcm_preserved": true
+      },
+      {
+        "appended_samples": 4800,
+        "derived_wav_sha256": "7723ba73a85e04edafbc1a13d0b3e28638b72878378033f2b4aea61cb81c9d96",
+        "leading_samples": 24000,
+        "original_middle_preserved": true,
+        "original_wav_sha256": "5dc8b44de88d747de8ef890f89937a9d91d2ca9e432f624646a959304d86f027",
+        "recording": "M5",
+        "saved_tail300_pcm_preserved": true
+      }
+    ]
+  },
+  "native_model_frontend_decoder_calls": 0,
+  "paired": {
+    "all_events_counted": true,
+    "derived_input_binding": {
+      "decoder_calls": 0,
+      "frontend_calls": 0,
+      "model_calls": 0,
+      "scope": "Actual derived WAV bytes, all five fixed leading contexts, entire original PCM and same postroll. Independent supplement to PR485; its eval-context-v1 policy does not define leading context.",
+      "status": "VERIFIED_FIXED_LEADING_AND_POSTROLL_BYTES",
+      "streams": [
+        {
+          "appended_samples": 4800,
+          "derived_wav_sha256": "f96880821ba871a4a8d9af80d3284ea2a87107c35f6164a84de6a4587db33164",
+          "leading_samples": 24000,
+          "original_middle_preserved": true,
+          "original_wav_sha256": "c5cf2886eed0929f611cc6cad3135c56cf55620a2be2cc26b030845207d8e46a",
+          "recording": "M1",
+          "saved_tail300_pcm_preserved": true
+        },
+        {
+          "appended_samples": 4800,
+          "derived_wav_sha256": "c166d8a1c0677103a23a244e1a7098337ce40e16ecfbdb3605ce0f138a5586eb",
+          "leading_samples": 24000,
+          "original_middle_preserved": true,
+          "original_wav_sha256": "306e17a73d4970534c7a2e85d203924cb8b3b2baf23d7d8ebafd8da89fb3f9fb",
+          "recording": "M2",
+          "saved_tail300_pcm_preserved": true
+        },
+        {
+          "appended_samples": 4800,
+          "derived_wav_sha256": "84a01ef20c05cf77bc8b53fbeab952cdb46ed3e3bdf7c462e51f67eb357b502c",
+          "leading_samples": 24000,
+          "original_middle_preserved": true,
+          "original_wav_sha256": "82d3ce86355a9475a2057099c75e41d87fbf096b621a9bb20eed80c7976f51c7",
+          "recording": "M3",
+          "saved_tail300_pcm_preserved": true
+        },
+        {
+          "appended_samples": 4800,
+          "derived_wav_sha256": "fbe11fdc2574ce210045a5d6326068874d6c37690b9a7b2977832f71a9b7f7e0",
+          "leading_samples": 24000,
+          "original_middle_preserved": true,
+          "original_wav_sha256": "b70bc3effb0fca66e3efdb4f762dc2b2830311cb956ffe216aad569342071f97",
+          "recording": "M4",
+          "saved_tail300_pcm_preserved": true
+        },
+        {
+          "appended_samples": 4800,
+          "derived_wav_sha256": "7723ba73a85e04edafbc1a13d0b3e28638b72878378033f2b4aea61cb81c9d96",
+          "leading_samples": 24000,
+          "original_middle_preserved": true,
+          "original_wav_sha256": "5dc8b44de88d747de8ef890f89937a9d91d2ca9e432f624646a959304d86f027",
+          "recording": "M5",
+          "saved_tail300_pcm_preserved": true
+        }
+      ]
+    },
+    "event_time_scope": "Subtract 24000 only from new input availability to express source-relative availability, preserving negative values; not acoustic word-end latency. Decoder frames and centers retain each stream original absolute coordinates.",
+    "logit_equality_expected": false,
+    "qualification": false,
+    "reason": "Leading context changes frontend history, model caches and decoder history; center/absolute coordinates can shift.",
+    "status": "DESCRIPTIVE_PAIRED_CONTEXT_OBSERVATIONS",
+    "streams": [
+      {
+        "expected_keyword": 1,
+        "human_text": "你好小窝",
+        "leading1500_tail300_events": [
+          {
+            "availability_minus_original_eof_samples": 2325,
+            "available_samples": 38400,
+            "available_seconds": 2.4,
+            "call_index": 7,
+            "centers": [
+              207,
+              210,
+              213,
+              216,
+              219,
+              222,
+              225,
+              228,
+              231,
+              234
+            ],
+            "end_frame": 231,
+            "event_available_during_leading_silence": false,
+            "keyword": 1,
+            "phase": "feed",
+            "score": 0.9020349616759333,
+            "source_relative_available_samples": 14400,
+            "source_relative_available_seconds": 0.9,
+            "start_frame": 201,
+            "word_end_latency": null
+          }
+        ],
+        "original_eof_events": [],
+        "original_frames": 12075,
+        "recording": "M1",
+        "saved_tail300_events": [
+          {
+            "availability_minus_original_eof_samples": 2325,
+            "available_samples": 14400,
+            "available_seconds": 0.9,
+            "call_index": 2,
+            "centers": [
+              57,
+              60,
+              63,
+              66,
+              69,
+              72,
+              75,
+              78,
+              81,
+              84
+            ],
+            "end_frame": 81,
+            "event_available_during_leading_silence": false,
+            "keyword": 1,
+            "phase": "feed",
+            "score": 0.9106670757615438,
+            "source_relative_available_samples": 14400,
+            "source_relative_available_seconds": 0.9,
+            "start_frame": 51,
+            "word_end_latency": null
+          }
+        ]
+      },
+      {
+        "expected_keyword": 2,
+        "human_text": "小窝小窝",
+        "leading1500_tail300_events": [
+          {
+            "availability_minus_original_eof_samples": 1396,
+            "available_samples": 38400,
+            "available_seconds": 2.4,
+            "call_index": 7,
+            "centers": [
+              207,
+              210,
+              213,
+              216,
+              219,
+              222,
+              225,
+              228,
+              231,
+              234
+            ],
+            "end_frame": 234,
+            "event_available_during_leading_silence": false,
+            "keyword": 2,
+            "phase": "feed",
+            "score": 0.219211423605427,
+            "source_relative_available_samples": 14400,
+            "source_relative_available_seconds": 0.9,
+            "start_frame": 201,
+            "word_end_latency": null
+          }
+        ],
+        "original_eof_events": [],
+        "original_frames": 13004,
+        "recording": "M2",
+        "saved_tail300_events": []
+      },
+      {
+        "expected_keyword": 0,
+        "human_text": "你好小屋",
+        "leading1500_tail300_events": [
+          {
+            "availability_minus_original_eof_samples": 1954,
+            "available_samples": 38400,
+            "available_seconds": 2.4,
+            "call_index": 7,
+            "centers": [
+              207,
+              210,
+              213,
+              216,
+              219,
+              222,
+              225,
+              228,
+              231,
+              234
+            ],
+            "end_frame": 234,
+            "event_available_during_leading_silence": false,
+            "keyword": 1,
+            "phase": "feed",
+            "score": 0.8362519881482239,
+            "source_relative_available_samples": 14400,
+            "source_relative_available_seconds": 0.9,
+            "start_frame": 201,
+            "word_end_latency": null
+          }
+        ],
+        "original_eof_events": [],
+        "original_frames": 12446,
+        "recording": "M3",
+        "saved_tail300_events": [
+          {
+            "availability_minus_original_eof_samples": 1954,
+            "available_samples": 14400,
+            "available_seconds": 0.9,
+            "call_index": 2,
+            "centers": [
+              57,
+              60,
+              63,
+              66,
+              69,
+              72,
+              75,
+              78,
+              81,
+              84
+            ],
+            "end_frame": 84,
+            "event_available_during_leading_silence": false,
+            "keyword": 1,
+            "phase": "feed",
+            "score": 0.8743068007994056,
+            "source_relative_available_samples": 14400,
+            "source_relative_available_seconds": 0.9,
+            "start_frame": 51,
+            "word_end_latency": null
+          }
+        ]
+      },
+      {
+        "expected_keyword": 0,
+        "human_text": "小屋小屋",
+        "leading1500_tail300_events": [],
+        "original_eof_events": [],
+        "original_frames": 15047,
+        "recording": "M4",
+        "saved_tail300_events": []
+      },
+      {
+        "expected_keyword": 0,
+        "human_text": "你好你好",
+        "leading1500_tail300_events": [],
+        "original_eof_events": [],
+        "original_frames": 11518,
+        "recording": "M5",
+        "saved_tail300_events": []
+      }
+    ]
+  },
+  "qualification": false,
+  "scientific_limits": [
+    "Exposed synthetic modifications of five clips from one voice, not an independent dataset or real-speech generalization.",
+    "Original machine text gate remains FAIL: 2/6 both-ASR plan matches; human word adjudication is an additional layer. M6 excluded. Native 44.1 kHz clips were heard; the frozen 16 kHz derivatives and modifications were not independently heard.",
+    "Training admission, voice rights, independent speaker validation, continuous-field FAR, embedded qualification and deployment remain unestablished.",
+    "Leading silence changes frontend, model and decoder history together; this does not identify a model-cache-only cause. No fitting, duration sweep, threshold sweep, new TTS/ASR or training.",
+    "Recorded M2 K2 score is below recorded M3 false K1 score. A common post-filter on these already emitted event scores cannot retain M2 while removing M3; no new threshold was selected or replayed."
+  ],
+  "scorer_provenance": {
+    "commit": "6f2461ff11cddf0a1264f5e2a04282c40b5dc4ce",
+    "files": {
+      "eval/context_policy.py": {
+        "bytes": 5269,
+        "sha256": "134e16d2312bf0488099556d6e95e6972a02f8daf6a3d3e680ec0d5b0380748e"
+      },
+      "eval/score_events.py": {
+        "bytes": 26740,
+        "sha256": "04f2f03590259a1bd716c942e7945e3f33526efeace1991d0a04e2faaa947f8c"
+      }
+    },
+    "repository": "jiying2007/kws-pipeline",
+    "scope": "Exact actual PR485 entrypoint. eval-context-v1 checks appended-context/reset/EOF declarations and input bindings, not leading context. Separate WAV-byte validation verifies the leading recipe."
+  },
+  "source_relative_availability": "New absolute available_samples minus 24000; negative values retained. No decoder-frame or logit coordinate normalization is assumed.",
+  "status": "SAVED_ONLY_DESCRIPTIVE_ANALYSIS",
+  "word_end_latency": null
+}

@@ -1,0 +1,337 @@
+{
+  "adapted_diagnostic_source": {
+    "original_sha256": "ee03fe33ff09783a1a1b27dcbec4632de36fe97220173a422ecec72c076aa2d1",
+    "public_path": "src/derive_saved.py",
+    "public_sha256": "1c50f619840f0bffc77bb9da65c6dfed072a0129e8229194d6ae2a14fc5ba4fa",
+    "repository": "jiying2007/kws-pipeline",
+    "transformation": "Extract original scalar derivation into a pure function taking saved records, geometry and descriptive score; omit filesystem/workflow inputs, report writing and proposed future plan. Numeric algorithm unchanged."
+  },
+  "excluded_categories": [
+    "Actual execution-release and approval records",
+    "Private delivery/archive identifiers, links and receipts",
+    "Private working plans and preparation notes",
+    "Duplicated native sources, model payload, all WAV/PCM payloads and compiled collector/library",
+    "Any unexecuted subsequent control experiment"
+  ],
+  "mapping": [
+    {
+      "original": {
+        "bytes": 31812,
+        "sha256": "f77aac80b91cd5d4c8baf43cca2929e7fac2a66630ca28c365397021602055cb"
+      },
+      "public": {
+        "bytes": 31812,
+        "sha256": "f77aac80b91cd5d4c8baf43cca2929e7fac2a66630ca28c365397021602055cb"
+      },
+      "public_path": "src/score_descriptive.py",
+      "repository": "jiying2007/kws-pipeline",
+      "source_role": "src/score_descriptive.py",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 21952,
+        "sha256": "fc0c09a5f38d9616534b31d59e407a99562c7c0be63dc7f763dddae0e2227396"
+      },
+      "public": {
+        "bytes": 21952,
+        "sha256": "fc0c09a5f38d9616534b31d59e407a99562c7c0be63dc7f763dddae0e2227396"
+      },
+      "public_path": "tests/test_score_descriptive.py",
+      "repository": "jiying2007/kws-pipeline",
+      "source_role": "tests/test_score_descriptive.py",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 8893,
+        "sha256": "a75bd918e57d93c1b974002645340d212b3e23c43ff04450ae59f920761ad38d"
+      },
+      "public": {
+        "bytes": 8893,
+        "sha256": "a75bd918e57d93c1b974002645340d212b3e23c43ff04450ae59f920761ad38d"
+      },
+      "public_path": "src/collector.c",
+      "repository": "jiying2007/kws-pipeline",
+      "source_role": "src/collector.c",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 4250,
+        "sha256": "009c7cc593c4c1d42aaf76ff03fe5290d1c533e16ca995d897f84a7041e210c4"
+      },
+      "public": {
+        "bytes": 4250,
+        "sha256": "009c7cc593c4c1d42aaf76ff03fe5290d1c533e16ca995d897f84a7041e210c4"
+      },
+      "public_path": "src/inputs.h",
+      "repository": "jiying2007/kws-pipeline",
+      "source_role": "src/inputs.h",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 279,
+        "sha256": "e0f7349b34c81d160c0bfd37530d62940fd2788cc717c0796bd3cb7dd7433dbf"
+      },
+      "public": {
+        "bytes": 279,
+        "sha256": "e0f7349b34c81d160c0bfd37530d62940fd2788cc717c0796bd3cb7dd7433dbf"
+      },
+      "public_path": "archive/build_collector.sh.txt",
+      "repository": "jiying2007/kws-pipeline",
+      "source_role": "src/build_collector.sh",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 7731,
+        "sha256": "4df6a697ddc19a061c9495ff992f93918b4c4c11d9f563eb3de95afb5229bc88"
+      },
+      "public": {
+        "bytes": 7731,
+        "sha256": "4df6a697ddc19a061c9495ff992f93918b4c4c11d9f563eb3de95afb5229bc88"
+      },
+      "public_path": "archive/launch_once.py.txt",
+      "repository": "jiying2007/kws-pipeline",
+      "source_role": "src/launch_once.py",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 85418,
+        "sha256": "ba93af87ed851cba9e99ced4cc68e8d9e42fe7946a1e2cf75cf6437119100378"
+      },
+      "public": {
+        "bytes": 85418,
+        "sha256": "ba93af87ed851cba9e99ced4cc68e8d9e42fe7946a1e2cf75cf6437119100378"
+      },
+      "public_path": "metadata/geometry.json",
+      "repository": "jiying2007/kws-data",
+      "source_role": "metadata/geometry.json",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 2709,
+        "sha256": "073f57e82dc346d5c71bf7070e21cb8dfaf593d11e9dbfed263efb93b00b2360"
+      },
+      "public": {
+        "bytes": 2709,
+        "sha256": "073f57e82dc346d5c71bf7070e21cb8dfaf593d11e9dbfed263efb93b00b2360"
+      },
+      "public_path": "metadata/decoder-config.json",
+      "repository": "jiying2007/kws-data",
+      "source_role": "metadata/decoder-config.json",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 62019,
+        "sha256": "ef172e8636b2dcdc064a9b09427340919bbcbe87407f84a208e40d6b9a55e3fa"
+      },
+      "public": {
+        "bytes": 62019,
+        "sha256": "ef172e8636b2dcdc064a9b09427340919bbcbe87407f84a208e40d6b9a55e3fa"
+      },
+      "public_path": "evidence/descriptive-score.json",
+      "repository": "jiying2007/kws-data",
+      "source_role": "analysis-after-run/descriptive-score.json",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 2482,
+        "sha256": "23206c8c1ce4e7b4e176cb7a24193443e22dcf02de44ba7a3ce66186e300e906"
+      },
+      "public": {
+        "bytes": 2482,
+        "sha256": "23206c8c1ce4e7b4e176cb7a24193443e22dcf02de44ba7a3ce66186e300e906"
+      },
+      "public_path": "evidence/resource-record.json",
+      "repository": "jiying2007/kws-data",
+      "source_role": "run-once/resource-record.json",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 15013,
+        "sha256": "78b1675a55218d1243af01eb6c02e3f6ce19453683bc9451871c33835a593fb9"
+      },
+      "public": {
+        "bytes": 15013,
+        "sha256": "78b1675a55218d1243af01eb6c02e3f6ce19453683bc9451871c33835a593fb9"
+      },
+      "public_path": "future/src/launch_once.py",
+      "repository": "jiying2007/kws-pipeline",
+      "source_role": "v2-future/src/launch_once.py",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 18407,
+        "sha256": "8b1fdc9ef1695fde266afe88e6d9a6eef4c4cb0fe3aa654854433c7d9c5fa65a"
+      },
+      "public": {
+        "bytes": 18407,
+        "sha256": "8b1fdc9ef1695fde266afe88e6d9a6eef4c4cb0fe3aa654854433c7d9c5fa65a"
+      },
+      "public_path": "future/tests/test_future_supervisor.py",
+      "repository": "jiying2007/kws-pipeline",
+      "source_role": "v2-future/tests/test_future_supervisor.py",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 7027,
+        "sha256": "f6892f50259c05867bb618783048d52b0af09707fa960833783ff6bae3cd6e7b"
+      },
+      "public": {
+        "bytes": 7027,
+        "sha256": "f6892f50259c05867bb618783048d52b0af09707fa960833783ff6bae3cd6e7b"
+      },
+      "public_path": "future/review/test_independent_boundaries.py",
+      "repository": "jiying2007/kws-pipeline",
+      "source_role": "v2-future/review/test_independent_boundaries.py",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 16039,
+        "sha256": "60d8b11651c5cf8954976ae45711492df957a7b3d7a823109f1fa7c33b753cbd"
+      },
+      "public": {
+        "bytes": 16039,
+        "sha256": "60d8b11651c5cf8954976ae45711492df957a7b3d7a823109f1fa7c33b753cbd"
+      },
+      "public_path": "future/SUPERVISOR-FUTURE.patch",
+      "repository": "jiying2007/kws-pipeline",
+      "source_role": "v2-future/SUPERVISOR-FUTURE.patch",
+      "transformation": "byte-identical"
+    },
+    {
+      "original": {
+        "bytes": 197933,
+        "sha256": "0ae1cf74a15ba2d14f8d8994ac4cf972f76153973cddb9666043757f18e11c86"
+      },
+      "public": {
+        "bytes": 51915,
+        "sha256": "31d7aeb40d690f2f9181bbc594ee55421102e67ec89e16ef9aceab735f272d3f"
+      },
+      "public_path": "evidence/raw.jsonl.gz",
+      "repository": "jiying2007/kws-data",
+      "source_role": "run-once/raw.jsonl",
+      "transformation": "Deterministic gzip, mtime=0, empty filename, level=9. Decompressed bytes are exact original; no raw record altered or omitted."
+    },
+    {
+      "original": {
+        "bytes": 40782,
+        "sha256": "75b322f33857152bc59d4700cba9b85dd818a36408d0e10a4fe837926b78ed58"
+      },
+      "public": {
+        "bytes": 37887,
+        "sha256": "ba87a7f62baf5a33032815e025851195078b9d7cc8caf9c30ff6ea3219fe1bc3"
+      },
+      "public_path": "metadata/inputs.public.json",
+      "repository": "jiying2007/kws-data",
+      "source_role": "metadata/verified-inputs.json",
+      "transformation": "Every rows[].review_receipt object is replaced by annotation_reference to already-public immutable technical annotation and exact file/line hashes. All other fields and every scientific input identity/label/split are retained. No reviewer identifier or human quote copied."
+    },
+    {
+      "original": {
+        "bytes": 6969,
+        "sha256": "0724e87b6e6d9128fa2bd1ef7d3af8e3425c6d29fa495adba59d9a65fc46e116"
+      },
+      "public": {
+        "bytes": 6776,
+        "sha256": "6f5725d6fc661e337c64a65086cb702e43420167781f6cf5eebd1cf901da0448"
+      },
+      "public_path": "metadata/protocol.public.json",
+      "repository": "jiying2007/kws-data",
+      "source_role": "PROTOCOL.json",
+      "transformation": "Remove private execution-release/persistence workflow fields; replace original pending-review status with projection-only status; replace parallel-work description by technical context; reduce absolute system executable paths to component basenames. All scientific identities, gates, geometry, stop rules, run counts and limits retained. Original protocol hash is a reference, not the hash of this projection."
+    },
+    {
+      "original": {
+        "bytes": 2264,
+        "sha256": "4f811905aa2a15f9444702745d251aae47ea3e3c9d91eaddc9e0d39d20ddccaf"
+      },
+      "public": {
+        "bytes": 2234,
+        "sha256": "4c384becbbecdd59c500c711843802bc3e621da91a7d58cb7d5d1a4b3ba60eba"
+      },
+      "public_path": "evidence/resource-context.public.json",
+      "repository": "jiying2007/kws-data",
+      "source_role": "run-once/resource-context.json",
+      "transformation": "Remove machine nodename and replace workflow-specific parallel context with technical description. Retain processor, kernel, affinity, clock, load and limits."
+    },
+    {
+      "original": {
+        "bytes": 18543,
+        "sha256": "c6c0f93c9d58f21ebc88fddc92a98ec3c4e264a2114d98104e029c1c9f871ecb"
+      },
+      "public": {
+        "bytes": 18069,
+        "sha256": "8d096838ea7c59288b72e48ea696abd68a03a4091d1a87b29e78d15c68aebb9d"
+      },
+      "public_path": "evidence/saved-audit.public.json",
+      "repository": "jiying2007/kws-data",
+      "source_role": "review/INDEPENDENT-SAVED-OUTPUT-AUDIT.json",
+      "transformation": "Technical audit projection excludes private archive/readback identifiers, release/persistence workflow checks and audit-script location. Complete numerical totals, every clip/event, resource observations, failure classification and scientific limitations retained."
+    },
+    {
+      "original": {
+        "bytes": 383,
+        "sha256": "6202746b293535cb012a460340562b43129d66dc9659cce72b6bbb573f98de9b"
+      },
+      "public": {
+        "bytes": 931,
+        "sha256": "3f4e61e55be977d42757833a8dfdbe1b848e247e56ee4ad072ad5f2a0386d399"
+      },
+      "public_path": "evidence/execution-summary.json",
+      "repository": "jiying2007/kws-data",
+      "source_role": "EXECUTION-LEDGER.json",
+      "transformation": "New truthful technical execution summary; original ledger retained separately and only its identity referenced. Actual release/approval/persistence records excluded."
+    },
+    {
+      "original": {
+        "bytes": 84595,
+        "sha256": "e2572c4b365da7e87270d1c74e15ca437e8e9fedcd7297fd582e1b2f5ce4ac22"
+      },
+      "public": {
+        "bytes": 165254,
+        "sha256": "368b2fac35f519d500291403d37bcbf464e3843258a43c24fbcd88aa2cdf216e"
+      },
+      "public_path": "evidence/diagnostic.public.json",
+      "repository": "jiying2007/kws-data",
+      "source_role": "diagnostic-saved-only-v1/DIAGNOSTIC.json",
+      "transformation": "Retain complete all20/focus3 scalar diagnostics, geometry/gate observations and score rankings. Exclude private input inventory/workflow language and proposed future execution plan. Original report/data hashes retained. No original numerical arrays changed."
+    },
+    {
+      "original": {
+        "bytes": 9088,
+        "sha256": "cf41161c7256cb78a721b0080c6ce759cde4683b084ea2fb202c7b75aef2c912"
+      },
+      "public": {
+        "bytes": 1295,
+        "sha256": "64645b8663821a666b65a8b2977a676574b82bb41e23f74f53b67c6c18b6eaf0"
+      },
+      "public_path": "future/REVIEW-SUMMARY.json",
+      "repository": "jiying2007/kws-pipeline",
+      "source_role": "v2-future/review/INDEPENDENT-FUTURE-SUPERVISOR-REVIEW.json",
+      "transformation": "Technical future-only summary with exact original review/candidate hashes; omit reviewer/workflow records; preserve scope, test counts, disabled entry and known integration limitations."
+    }
+  ],
+  "new_files_scope": "Public technical documentation, projection integrity validator, saved-only scalar diagnostic derivation and invented validation tests. No acoustic execution.",
+  "original_freeze_sha256": "4ad052cd8f8bcffa09727addade6feec5e9cc5989b702226f99171f20f69a4ca",
+  "original_frozen_files": 109,
+  "original_ledger_sha256": "6202746b293535cb012a460340562b43129d66dc9659cce72b6bbb573f98de9b",
+  "original_manifest_sha256": "75b322f33857152bc59d4700cba9b85dd818a36408d0e10a4fe837926b78ed58",
+  "original_protocol_sha256": "0724e87b6e6d9128fa2bd1ef7d3af8e3425c6d29fa495adba59d9a65fc46e116",
+  "public_layout": {
+    "jiying2007/kws-data": "research/2026-10-04-qwen20-descriptive",
+    "jiying2007/kws-pipeline": "research/native_a20_qwen20"
+  },
+  "schema": "qwen20-public-projection-map-v1"
+}

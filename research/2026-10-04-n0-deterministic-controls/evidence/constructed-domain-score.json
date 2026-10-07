@@ -1,0 +1,108 @@
+{
+  "schema": "a20-n0-deterministic-negative-score-v1",
+  "status": "complete_constructed_domain_counts_only",
+  "source_hashes": {
+    "protocol_sha256": "4c98537a997a1451626ceef47d032d0f27257473d971974578002fc5d5aada6f",
+    "model_sha256": "a80b233d3c958d25f49085f487ef5cde839bd69f803ed057b59bbd20adc6e43d",
+    "library_sha256": "68457311f93540405dfa0bf5fdc1cd74421fea22b44d5920fec465be5de4d912",
+    "manifest_sha256": "3063d60ecb973ab2e6f1c4de7b25c8db5ef5cbc95c268e4fc3511dec0a52919b",
+    "geometry_sha256": "46c2a74c276a472167b4f80e04aa7950efa3c64e4805633f9643c9ead04e5c75",
+    "decoder_config_sha256": "073f57e82dc346d5c71bf7070e21cb8dfaf593d11e9dbfed263efb93b00b2360",
+    "raw_sha256": "ac881e0407496a92dbcbe5ed54adc2f2367bd36478240ed093f1433c4c6be998"
+  },
+  "scope": "exactly three deterministic constructed-nonspeech streams; one pass each, 900 seconds total; no real-world FAR/product/board qualification",
+  "event_time_semantics": "available_audio_s = available_samples / 16000; available input time, not a word endpoint",
+  "decoder_frame_semantics": "raw start/end frame IDs on original 10ms grid; no true word endpoints",
+  "probabilities": "NOT_CAPTURED",
+  "aggregate": {
+    "streams": 3,
+    "duration_s": 900.0,
+    "activation_events": 0,
+    "event_rate_per_constructed_hour": 0.0,
+    "by_keyword": {
+      "1": 0,
+      "2": 0
+    }
+  },
+  "conditional_zero_count_poisson95_upper_per_hour": 11.982929094215962,
+  "poisson_caveat": "If and only if zero events, 11.9829/h is a conditional arithmetic upper bound assuming qualifying negative exposure and independent stationary Poisson counts. Deterministic constructed domains do not establish these assumptions or product low FAR; no independence of real-world sessions claimed.",
+  "resource_and_identity_admission": "SEPARATE_SUPERVISOR_AND_INDEPENDENT_AUDIT_REQUIRED; this scorer alone cannot PASS them",
+  "observed_totals": {
+    "frames": 14400000,
+    "feed_calls": 3000,
+    "callbacks": 3000,
+    "fbank_rows": 89994,
+    "model_rows": 29997,
+    "clips": 3,
+    "decoder_rows_decoded": 29997
+  },
+  "model_load_record": {
+    "kind": "model_loaded",
+    "wall_ns_since_run_start": 5807478,
+    "cpu_ns_since_run_start": 3261759,
+    "state_bytes": 333704,
+    "weights_bytes": 1565280
+  },
+  "streams": [
+    {
+      "recording": "n0-low-triangular",
+      "kind": "constructed_nonspeech_negative_control",
+      "domain": "a20-n0-v1/low",
+      "seed_hex": "151413bdedcdefa635af25f5593b301b8eb017b48919457a3cca47f474b93d37",
+      "frames": 4800000,
+      "wav_sha256": "3d41adac31062b1a3176120ed1df8662da1d2395463a60d2f20373d49d5e47cc",
+      "pcm_sha256": "18e16a761a2a9b2cf638854c5a8af939d10e6d036273eebb8aa9661795850a07",
+      "callbacks": 1000,
+      "fbank_rows": 29998,
+      "model_rows": 9999,
+      "decoder_rows_decoded": 9999,
+      "events": [],
+      "complete": true,
+      "feed_finish_records_validated": true,
+      "duration_s": 300.0,
+      "event_count": 0,
+      "event_rate_per_constructed_hour": 0.0,
+      "probabilities": "NOT_CAPTURED"
+    },
+    {
+      "recording": "n0-colored-ma32",
+      "kind": "constructed_nonspeech_negative_control",
+      "domain": "a20-n0-v1/colored",
+      "seed_hex": "9a2d4450b33e2c51f3a70aecf7c14cbd97f78a1a1b7ad6bfe442f1fe7e1df5ea",
+      "frames": 4800000,
+      "wav_sha256": "35fff1350de000becd105ab57800e1f4f78c9a8bcd926167bdd54a3878b6f025",
+      "pcm_sha256": "d3810ff259d1da943b520b520b8a27ff227f6563ba687713ef53333c61f1e22e",
+      "callbacks": 1000,
+      "fbank_rows": 29998,
+      "model_rows": 9999,
+      "decoder_rows_decoded": 9999,
+      "events": [],
+      "complete": true,
+      "feed_finish_records_validated": true,
+      "duration_s": 300.0,
+      "event_count": 0,
+      "event_rate_per_constructed_hour": 0.0,
+      "probabilities": "NOT_CAPTURED"
+    },
+    {
+      "recording": "n0-sparse-transients",
+      "kind": "constructed_nonspeech_negative_control",
+      "domain": "a20-n0-v1/transient-base",
+      "seed_hex": "58615863d1a920889797079fd988bf0ba876b68ef7af952557dbc402680db01d",
+      "frames": 4800000,
+      "wav_sha256": "b91fcff6324f1239267de24ff50e75414155c04af0e1b9f9cffe1e898ce3f9b2",
+      "pcm_sha256": "f8d5a2e5d7c55ee58c5a6fb868342518ad3c759c986afd667591506a0af986c6",
+      "callbacks": 1000,
+      "fbank_rows": 29998,
+      "model_rows": 9999,
+      "decoder_rows_decoded": 9999,
+      "events": [],
+      "complete": true,
+      "feed_finish_records_validated": true,
+      "duration_s": 300.0,
+      "event_count": 0,
+      "event_rate_per_constructed_hour": 0.0,
+      "probabilities": "NOT_CAPTURED"
+    }
+  ]
+}

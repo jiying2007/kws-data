@@ -1,0 +1,139 @@
+{
+  "audit_status": "PASS_RECEIPTS_VALID_CANDIDATE_GATE_FAIL",
+  "candidate_status": "STOP_CANDIDATE_NO_TUNING",
+  "results_sha256": "76e35a4f16a004f6e3724b282c00775c350e3d02a7d833c4e8e5856bf68fc54a",
+  "results_bytes": 11283,
+  "recovery_ledger_sha256": "e772664b181d69de66192669ea94ae2c652453db39768b4f6aeffdf4bede9d33",
+  "recovery_release_sha256": "6415d4eebedd1900f3e953f7de8e042cccff83adc09568a412580989cea3608d",
+  "original_failed_ledger_sha256": "cf9c92a0e8db14cd187d8bbbd606a4dc0739fc62781e0f5dae69404c0313dbc2",
+  "original_failure_preserved": true,
+  "receipt_only_no_dp_replay": true,
+  "saved_raw_files_read_by_auditor": false,
+  "source_pins_verified": [
+    {
+      "role": "recovery/manifest.json",
+      "sha256": "07970965185e45d6383bbe33f96ebc7740875dcc9ad68523b124a6ba4aa24578"
+    },
+    {
+      "role": "recovery/protocol.md",
+      "sha256": "fd8af968a7e5880a055a6be5968915b9c1b050194e930d82ad9b133e58698abc"
+    },
+    {
+      "role": "recovery/runner.py",
+      "sha256": "65ffdd0cad06747bea90f0e6297918300d4866993a4e55a3a257038cfcfb106b"
+    },
+    {
+      "role": "recovery/test_runner.py",
+      "sha256": "894f9fd16d87cb811ab225bb6853f1bac50ed14f2e0a080c6618322280a7a43e"
+    },
+    {
+      "role": "recovery/causal-note.md",
+      "sha256": "da52eda7147ae488e823974054aff102935d98ae642c9afee2f5ea8cb06e9a96"
+    },
+    {
+      "role": "implementation/k1_prefix_marginal.py",
+      "sha256": "e9edc93ffde5569cf7d931342b959738e3a40085957d3d6e1b275664d6729963"
+    }
+  ],
+  "observations": [
+    {
+      "id": "M1",
+      "rows": 84,
+      "callbacks": 9,
+      "A": 0.9980094357009468,
+      "B": 0.0001679960555988054,
+      "R": 0.0018225682434543462,
+      "certificate_status": "CERTIFIED_ACCEPT",
+      "exact_half_comparison_verified": true,
+      "exact_A_vs_B_plus_R_comparison_verified": true,
+      "gate_pass": true
+    },
+    {
+      "id": "M2",
+      "rows": 86,
+      "callbacks": 9,
+      "A": 4.996303452138876e-10,
+      "B": 4.869067715401677e-12,
+      "R": 0.9999999994955006,
+      "certificate_status": "CERTIFIED_REJECT",
+      "exact_half_comparison_verified": true,
+      "exact_A_vs_B_plus_R_comparison_verified": true,
+      "gate_pass": true
+    },
+    {
+      "id": "M3",
+      "rows": 85,
+      "callbacks": 9,
+      "A": 0.7411511568874126,
+      "B": 0.19759056685088203,
+      "R": 0.06125827626170545,
+      "certificate_status": "CERTIFIED_ACCEPT",
+      "exact_half_comparison_verified": true,
+      "exact_A_vs_B_plus_R_comparison_verified": true,
+      "gate_pass": false
+    },
+    {
+      "id": "M4",
+      "rows": 90,
+      "callbacks": 10,
+      "A": 4.235591324033869e-19,
+      "B": 1.7810281275233624e-12,
+      "R": 0.9999999999982189,
+      "certificate_status": "CERTIFIED_REJECT",
+      "exact_half_comparison_verified": true,
+      "exact_A_vs_B_plus_R_comparison_verified": true,
+      "gate_pass": true
+    },
+    {
+      "id": "M5",
+      "rows": 83,
+      "callbacks": 9,
+      "A": 2.8051710085160566e-06,
+      "B": 9.798238866397997e-06,
+      "R": 0.9999873965901249,
+      "certificate_status": "CERTIFIED_REJECT",
+      "exact_half_comparison_verified": true,
+      "exact_A_vs_B_plus_R_comparison_verified": true,
+      "gate_pass": true
+    },
+    {
+      "id": "N1",
+      "rows": 109,
+      "callbacks": 11,
+      "A": 0.872928816141001,
+      "B": 0.0004885542462854726,
+      "R": 0.12658262961271352,
+      "certificate_status": "CERTIFIED_ACCEPT",
+      "exact_half_comparison_verified": true,
+      "exact_A_vs_B_plus_R_comparison_verified": true,
+      "gate_pass": true
+    }
+  ],
+  "totals": {
+    "callbacks": 57,
+    "dp_instances": 6,
+    "rows": 537
+  },
+  "certificate_unresolved_count": 0,
+  "underflow_totals": {
+    "division_only_zeros": 0,
+    "exponential_zeros": 81,
+    "rows_converted": 537,
+    "rows_with_zero_weight": 19
+  },
+  "cumulative_attempts": 2,
+  "cumulative_softmax_row_attempts": 606,
+  "cumulative_computed_dp_rows": 605,
+  "cumulative_committed_dp_rows": 596,
+  "cumulative_eof_events": 6,
+  "exposure_basis": "First-attempt counts are reconstructed from source order and coordinator-reported failure location; second-attempt counts are completed receipt totals. All 537 rows were loaded before each attempt.",
+  "resource_receipts": {
+    "cpu_seconds": 0.038824465,
+    "wall_seconds": 0.042778524999448564,
+    "output_bytes": 22776,
+    "configured_address_space_bytes": 67108864,
+    "peak_memory_observation": "not measured in receipt; configured limit is source-reviewed"
+  },
+  "tail_bound": "Ideal omitted-tail TV <= 6*T*2^-512 per observation; does not certify other floating-point rounding.",
+  "audit_limit": "Exact receipt inequalities and frozen source identities were verified. Source posterior hashes remain pinned by the unchanged manifest; the auditor did not reopen those inputs or reproduce DP values."
+}

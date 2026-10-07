@@ -1,0 +1,94 @@
+{
+  "baseline_only": "original_A20",
+  "causal_effect_claim": false,
+  "condition": "N1_EXACT_24000_ZERO_LEADING_AND_4800_ZERO_APPENDED",
+  "counts": {
+    "actual_decoder_searched_rows": "RESULT_DEPENDENT",
+    "callbacks": 11,
+    "clips": 1,
+    "cold_resets": 1,
+    "decoder_input_rows": 109,
+    "decoder_process_calls": 11,
+    "fbank_rows": 327,
+    "feed_calls": 11,
+    "finish_calls": 1,
+    "frames": 52578,
+    "model_rows": 109,
+    "native_model_steps": 109
+  },
+  "event_coordinate_scope": "Absolute callback availability retained. Source-relative availability is new available_samples minus 24000; preserve negative values. Decoder frames/centers remain stream absolute coordinates. Not acoustic word-end latency.",
+  "excluded": [
+    "all other recordings"
+  ],
+  "frontend": {
+    "dither": 0,
+    "energy_floor": 0,
+    "feature_gate_samples": 800,
+    "feed_bytes": 9600,
+    "hop_samples": 160,
+    "mel_bins": 80,
+    "pcm": "16000 Hz mono little-endian PCM16, unscaled",
+    "preemphasis": 0.97,
+    "reset": "frontend, model cache, decoder beams and clocks before every clip",
+    "short_tail": "actual retained samples, no padding or EOF flush",
+    "skip_frames": 3,
+    "snip_edges": true,
+    "splice_context": [
+      -2,
+      -1,
+      0,
+      1,
+      2
+    ],
+    "window": "Hamming 400 samples"
+  },
+  "leading_context": {
+    "interpretation": "Changes frontend, model and decoder history. First speech-containing selected splice can be center147 with support23200..24239, including 240 original samples; no model-only intervention or acoustic onset claim.",
+    "kind": "digital-zero",
+    "pre_source_selected_rows": 49,
+    "samples": 24000,
+    "selection": "Architecture-only: max model causal lag 44 selected rows; four complete feeds give 39 selected rows, five give 49. Smallest whole 4800-sample feed count covering the lag. No output-based choice or duration sweep."
+  },
+  "limits": {
+    "address_space_and_rss_bytes": 134217728,
+    "collector_processes": 1,
+    "collector_threads": 1,
+    "cpu_seconds": 10,
+    "raw_output_bytes": 1048576,
+    "stderr_bytes": 65536,
+    "wall_seconds": 30
+  },
+  "logit_equality_expected": false,
+  "model_execution_performed": false,
+  "native_timing_scope": "Post-GO after dynamic loading through before final record; includes payload initialization and earlier trace output. Feed/finish times include callbacks. Unpaced audio.",
+  "new_asr_calls": 0,
+  "new_tts_calls": 0,
+  "order": [
+    "N1"
+  ],
+  "qualification_claims": false,
+  "repeats": 0,
+  "resource_estimate": {
+    "caller_arena_plus_weights_bytes": 1898984,
+    "collector_bytes": 25760,
+    "library_bytes": 52200
+  },
+  "resource_scope": "Local one-process CPU/RSS observations; no embedded-board qualification or continuous-lifetime/child-absence proof",
+  "saved_analysis": {
+    "clip_scorer": "scorer/score_events.py",
+    "context_policy": "scorer/context_policy.py",
+    "count_all_events_including_leading_silence": true,
+    "entrypoint": "src/analyze_saved.py",
+    "single_clip_context_result": "CONTEXT_UNVERIFIED: both positive and negative recordings required; no matched-context or panel qualification asserted",
+    "source": "exact retained PR485 scorer bytes"
+  },
+  "schema": "n1-wholeclip-leading-a20-plan-v1",
+  "source_scope": "One complete human-confirmed N1 source, 你好小窝，屋里有人; expected K1 once, no K2. Human punctuation is not acoustic alignment. Whole raw source PCM preserved.",
+  "status": "PREPARED_NO_MODEL_EXECUTION",
+  "threshold_sweeps": 0,
+  "total_audio_seconds": 3.286125,
+  "training_steps": 0,
+  "warmups": 0,
+  "word_end_latency_claim": false,
+  "word_interval_score": false
+}

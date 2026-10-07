@@ -1,0 +1,16 @@
+{
+  "schema_version": "lexicon-freeze-clock-check-v1",
+  "freeze_timestamp_utc": "2026-10-01T23:50:59Z",
+  "freeze_clock_source": "Python datetime.now(timezone.utc), captured by freeze_lexicons.py at construction of freeze record",
+  "authoritative_tool_check": {
+    "authoritative_utc_reference": "2026-10-01T23:55:33Z"
+  },
+  "subsequent_host_clock_check": {
+    "date_-u": "2026-10-01T23:55:48.303468963Z",
+    "date_local": "2026-10-02T07:55:48.304423243+0800",
+    "datetime.now(timezone.utc)": "2026-10-01T23:55:48.313682+00:00"
+  },
+  "finding": "Host UTC agrees with runtime clock; filesystem listings use local UTC+08:00 display. No eight-hour UTC clock drift observed.",
+  "actual_transcripts_collected_at_check": false,
+  "transcript_status_source": "Contemporaneous execution-status record, 2026-10-01T23:55Z; no actual transcript acquisition at that check"
+}
