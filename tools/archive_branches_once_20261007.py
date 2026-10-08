@@ -4,6 +4,7 @@ Only tag create/no-op and frozen branch deletions can reach the mutation transpo
 """
 from __future__ import annotations
 import base64
+import copy
 import hashlib
 import json
 import os
@@ -105,6 +106,42 @@ def validate_plan(p):
             'bytes':827058,'sha256':'c5b466d8091f06fcdf6579770d9962b8fc44449287b9608ceb59de8f7c688e02',
             'must_be_reachable_from_archive':True}, 'pointer identity or reachability requirement changed')
 
+UNAVAILABLE_BYPASS_ACTORS = {'observation': 'UNAVAILABLE'}
+
+
+def validate_protection_observation(repo, actual, operation):
+    """Omitted private actor details are unknown, never an observed empty list."""
+    expected = repo['protection_snapshot']
+    require(isinstance(actual,dict) and set(actual)==set(expected), 'protection observation shape')
+    require(isinstance(actual['rulesets'],list) and
+            len(actual['rulesets'])==len(expected['rulesets']), 'ruleset inventory changed')
+    unavailable = []
+    for observed, frozen in zip(actual['rulesets'], expected['rulesets']):
+        require(isinstance(observed,dict) and set(observed)==set(frozen), 'ruleset observation shape')
+        row = dict(observed)
+        if row['bypass_actors'] == UNAVAILABLE_BYPASS_ACTORS:
+            require(operation=='archive' and repo['full_name']=='jiying2007/kws-pipeline' and
+                    row['id']==22507875 and row['target']=='branch' and
+                    row['source_type']=='Repository' and row['source']==repo['full_name'] and
+                    row['conditions']=={'ref_name':{'include':['~DEFAULT_BRANCH'],'exclude':[]}} and
+                    repo['default_branch']=='main', 'unavailable protection field blocks this phase/scope')
+            require(all(x['name']!='refs/heads/main' for x in frozen_rows(repo)),
+                    'default main may not be a mutation target')
+            unavailable.append({'ruleset_id':row['id'],'field':'bypass_actors','observation':'UNAVAILABLE'})
+            # Compare the observable projection only. This is not evidence of the
+            # actual bypass list; the explicit receipt preserves that distinction.
+            del row['bypass_actors']
+            frozen = {key:value for key,value in frozen.items() if key!='bypass_actors'}
+        else:
+            require(isinstance(row['bypass_actors'],list), 'invalid observed bypass actor list')
+        require(row==frozen,'protection/rules changed')
+    require(all(actual[key]==expected[key] for key in expected if key!='rulesets'),
+            'branch protection observation changed')
+    return {'status':'PARTIAL_RUNTIME_VISIBILITY' if unavailable else 'COMPLETE_RUNTIME_VISIBILITY',
+            'unavailable_fields':unavailable,
+            'visible_policy_matches':True,
+            'hidden_actor_list_observed':not bool(unavailable)}
+
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self,*args,**kwargs): raise Stop('HTTP redirect refused')
 
@@ -113,6 +150,7 @@ class GitHub:
     def __init__(self, repository, token):
         require(repository in ['jiying2007/'+x for x in REPOS] and bool(token), 'transport identity')
         self.repository, self.__token = repository, token
+        self.__immutable_reads = {}
         self.__opener=urllib.request.build_opener(NoRedirect())
     def request(self, method, path, payload=None, authenticated=True):
         require(path.startswith('/') and not path.startswith('//') and '\\' not in path,
@@ -139,7 +177,15 @@ class GitHub:
         return data
     def read(self, repository, suffix=''):
         require(repository in ['jiying2007/'+x for x in REPOS], 'read repository allowlist')
-        return self.request('GET','/repos/'+repository+suffix,authenticated=(repository==self.repository))
+        # Git object identities are immutable. Reuse only exact-OID public
+        # object responses; every ref, policy, source, CI and inventory stays fresh.
+        key=(repository,suffix)
+        immutable=bool(re.fullmatch(r'/git/(?:commits|trees|blobs)/[0-9a-f]{40}',suffix))
+        if immutable and key in self.__immutable_reads:
+            return copy.deepcopy(self.__immutable_reads[key])
+        value=self.request('GET','/repos/'+repository+suffix,authenticated=(repository==self.repository))
+        if immutable:self.__immutable_reads[key]=copy.deepcopy(value)
+        return value
     def pages(self, repository, path):
         rows=[]
         for page in range(1,101):
@@ -156,16 +202,25 @@ class GitHub:
     def public(self, repository, suffix):
         require(repository in ['jiying2007/'+x for x in REPOS], 'public repository allowlist')
         return self.request('GET','/repos/'+repository+suffix,authenticated=False)
-    def protection_snapshot(self, repository):
+    def protection_snapshot(self, repository, main_branch=None):
         rows=self.pages(repository,'/rulesets?includes_parents=true')
         details=[]
         for row in sorted(rows,key=lambda x:x['id']):
             value=self.read(repository,'/rulesets/'+str(row['id']))
             details.append({k:value[k] for k in ('id','name','target','source_type','source','enforcement',
-                                               'conditions','rules','bypass_actors')})
-        branch=self.read(repository,'/branches/main')
+                                               'conditions','rules')})
+            if 'bypass_actors' in value:
+                require(isinstance(value['bypass_actors'],list), 'invalid API bypass actor list')
+                details[-1]['bypass_actors']=value['bypass_actors']
+            else:
+                details[-1]['bypass_actors']=dict(UNAVAILABLE_BYPASS_ACTORS)
+        branch=main_branch if main_branch is not None else self.read(repository,'/branches/main')
         return {'rulesets':details,'branch_protected':branch['protected'],
                 'legacy_protection_summary':branch['protection']}
+    def unauthenticated_rate_budget(self, minimum):
+        value=self.request('GET','/rate_limit',authenticated=False)['resources']['core']
+        require(isinstance(value['remaining'],int) and value['remaining']>=minimum, 'insufficient public API read budget; no write permitted')
+        return {key:value[key] for key in ('remaining','limit','reset')}
     def assert_successful_workflows(self, repository, sha, required_paths, current_run_id):
         results=[]
         for page in range(1,101):
@@ -212,13 +267,13 @@ def guard_context(plan, ctx, own):
             ctx['repository_owner_id']=='33591504' and ctx['actor_id']=='33591504' and
             ctx['actor']=='jiying2007' and ctx['triggering_actor']=='jiying2007', 'run identity')
     require(ctx['event_name']=='workflow_dispatch' and ctx['ref']=='refs/heads/main' and
-            ctx['run_attempt']=='1' and ctx['operation'] in ('archive','diagnose','prune'), 'event/phase/rerun')
+            ctx['run_attempt']=='1' and ctx['operation'] in ('archive','diagnose','prune','git-prune'), 'event/phase/rerun')
     require(valid_oid(ctx['reviewed_source_sha']) and ctx['sha']==ctx['workflow_sha']==ctx['reviewed_source_sha'],
             'reviewed execution source mismatch')
     digest=ctx['reviewed_cas_signature_sha256']
-    require((ctx['operation'] in ('archive','diagnose') and digest=='') or
+    require((ctx['operation'] in ('archive','diagnose','git-prune') and digest=='') or
             (ctx['operation']=='prune' and re.fullmatch(r'[0-9a-f]{64}',digest) and digest!='0'*64),
-            'archive/diagnose require empty CAS pin; prune requires reviewed signature SHA-256')
+            'archive/diagnose/git-prune require empty CAS pin; GraphQL prune requires reviewed signature SHA-256')
     expected=r['full_name']+'/'+plan['source_identity']['workflow_path']+'@refs/heads/main'
     require(ctx['workflow_ref']==expected,'workflow source path')
 
@@ -270,8 +325,12 @@ class Coordinator:
         require(branch['commit']['sha']==self.ctx['reviewed_source_sha'] and
                 branch['protected'] is r['main_protected_expected'],'live main source/protection changed')
         # Explicit injected read uses GraphQL/public rules, not a permission escalation.
-        require(self.api.protection_snapshot(r['full_name'])==r['protection_snapshot'],
-                'protection/rules changed')
+        if self.ctx['operation']=='git-prune':
+            from git_atomic_prune_20261008 import validate_git_protection
+            self.protection_observation=validate_git_protection(r,self.api.protection_snapshot(r['full_name']))
+        else:
+            self.protection_observation=validate_protection_observation(
+                r,self.api.protection_snapshot(r['full_name']),self.ctx['operation'])
         self.api.assert_successful_workflows(r['full_name'],self.ctx['reviewed_source_sha'],
                                             r['required_success_workflows'],self.ctx['run_id'])
         self.node_id=meta['node_id']
@@ -339,6 +398,7 @@ class Coordinator:
         else:raise Stop('server ignored mismatched beforeOid; deletion blocked')
         require(self.tag(self.repo)==A,'tag changed during guard test')
     def run(self):
+        require(self.ctx['operation']!='git-prune','Git-prune requires dedicated transport entrypoint')
         self.check_source();before=self.branches(self.repo);self.check_original_heads(before)
         if self.ctx['operation']=='archive':
             require(self.tag(self.repo) is None,'archive phase already consumed; existing tag stops')
@@ -347,12 +407,19 @@ class Coordinator:
             self.write('archive',[ref_entry(TAG,ZERO,self.repo['archive_commit_oid'])])
             require(self.tag(self.repo)==self.repo['archive_commit_oid'],'archive tag readback failed')
             proof=self.restore(self.repo,self.plan)
-            require(proof['status']=='PASS','archive restoration failed')
+            require(proof['status']=='PASS' and proof['archive_oid']==self.repo['archive_commit_oid']
+                    and proof['restored_heads']==self.repo['original_count']
+                    and proof['full_object_identity'] is True and proof['restored_trees'] is True
+                    and proof['tag_only_fetch'] is True and proof['external_payload_gap'] is False,
+                    'incomplete archive restoration proof')
+            if self.repo['full_name']==self.plan['pointer_zip']['repository']:
+                require(proof['pointer_zip'] is True,'pointer ZIP proof missing')
             require(self.branches(self.repo)==before,'branch changed during archive; reconcile read-only')
             require(proof['wrong_before_is_strict_ancestor'] is True,'probe before OID is not a strict archive ancestor')
-            self.archive_probe_ancestor_verified=True
-            diagnostic=self.verify_noop_guard(diagnostic_only=True)
-            return {'phase':'archive','proof':proof,'deletions':0,'tag_guard_diagnostic':diagnostic}
+            diagnostic={'status':'NOT_RUN','prune_status':'BLOCKED_CAS_UNPROVEN',
+                        'explicit_expected_oid_evidence':False}
+            return {'phase':'archive','proof':proof,'deletions':0,'tag_guard_diagnostic':diagnostic,
+                    'protection_observation':self.protection_observation}
         if self.ctx['operation']=='diagnose':
             require(self.tag(self.repo)==self.repo['archive_commit_oid'],'diagnose requires existing exact archive tag')
             self.verify_server_archive(self.repo)
@@ -398,7 +465,7 @@ class GitRestorer:
             return self._restore(Path(directory),repo,plan)
     def _restore(self, root, repo, plan):
         limits=plan['resource_limits'];bare=root/'archive.git';home=root/'home';home.mkdir()
-        env={'PATH':os.environ.get('PATH','/usr/bin:/bin'),'HOME':str(home),
+        env={'PATH':'/usr/bin:/bin','HOME':str(home),
              'LANG':'C','LC_ALL':'C','GIT_CONFIG_NOSYSTEM':'1','GIT_CONFIG_GLOBAL':'/dev/null',
              'GIT_TERMINAL_PROMPT':'0','GIT_NO_REPLACE_OBJECTS':'1','GIT_LFS_SKIP_SMUDGE':'1'}
         prefix=['git','-c','core.hooksPath=/dev/null','-c','credential.helper=',
@@ -540,10 +607,18 @@ def main():
           'event_name','ref','run_attempt','operation','reviewed_source_sha','reviewed_cas_signature_sha256','sha','workflow_sha','workflow_ref','run_id')
     context={key:os.environ['ARCHIVE_CTX_'+key.upper()] for key in keys}
     token=os.environ.pop('GH_TOKEN','')
-    # Never inherit the job token into Git subprocesses or save it to any file.
+    # Read-only restoration never receives the job token. The separate reviewed
+    # Git-prune path hands it only to its pinned own-repository push/askpass.
     api=GitHub(context['repository'],token)
-    coordinator=Coordinator(decode(raw),context,api,GitRestorer(context['reviewed_source_sha']))
-    result=coordinator.run()
+    if context['operation']=='git-prune':
+        from git_atomic_prune_20261008 import RetainedGitRestorer, run_git_prune
+        with tempfile.TemporaryDirectory(prefix='kws-atomic-restoration-') as directory:
+            restore=RetainedGitRestorer(directory,context['reviewed_source_sha'])
+            coordinator=Coordinator(decode(raw),context,api,restore)
+            result=run_git_prune(coordinator,token,Path(__file__).parent)
+    else:
+        coordinator=Coordinator(decode(raw),context,api,GitRestorer(context['reviewed_source_sha']))
+        result=coordinator.run()
     print(json.dumps(result,sort_keys=True))
     if os.environ.get('GITHUB_STEP_SUMMARY'):
         with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:
@@ -551,7 +626,7 @@ def main():
 
 if __name__=='__main__':
     try:main()
-    except (Stop,KeyError,ValueError,TypeError,subprocess.SubprocessError) as error:
+    except (RuntimeError,KeyError,ValueError,TypeError,subprocess.SubprocessError) as error:
         print('STOP: '+str(error)+'; no automatic retry. Reconcile server state read-only.')
         raise SystemExit(1)
 
