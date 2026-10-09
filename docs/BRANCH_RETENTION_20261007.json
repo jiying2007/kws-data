@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1685,
-  "expected_retained_files": 1677,
+  "expected_tracked_files": 1687,
+  "expected_retained_files": 1679,
   "new_retained_paths": 1211,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -3533,6 +3533,16 @@
       "bytes": 2643,
       "git_blob_sha1": "81d70458b33253000cf2837ac7fa71eefb3ae29b",
       "source_commit": "d9a1f3171bceae45908bc8ac84045d3bca23f43f"
+    },
+    {
+      "path": ".github/workflows/host-research-publication.yml",
+      "mode": "100644",
+      "bytes": 700,
+      "git_blob_sha1": "fa622a42239b053e767639fd9344024b7ce9418a",
+      "source_commit": "b7cc1dba279af896ebcbb642c2fe1018fc870092",
+      "source_branches": [
+        "research/publish-host-20261009"
+      ]
     },
     {
       "path": ".github/workflows/n0-saved-integrity.yml",
@@ -18545,55 +18555,6 @@
       ]
     },
     {
-      "path": "tests/test_dataset_integrity.py",
-      "mode": "100644",
-      "bytes": 15494,
-      "git_blob_sha1": "94382ae6906cf3436e7a70c462dc7a2137951652",
-      "source_commit": "dc90c3aa325700fdf17da449452437c90373818e",
-      "source_branches": [
-        "research/melo6-results-archive-v1",
-        "research/single-k1-followed-wu-v1"
-      ]
-    },
-    {
-      "path": "tests/test_host_resource_profiles.py",
-      "mode": "100644",
-      "bytes": 4463,
-      "git_blob_sha1": "e020faf4eefdb03aa387851243efd1b9baee8d33",
-      "source_commit": "d9a1f3171bceae45908bc8ac84045d3bca23f43f"
-    },
-    {
-      "path": "tools/codex_assets/__init__.py",
-      "mode": "100644",
-      "bytes": 40,
-      "git_blob_sha1": "8aee8291764ac8b758167ca2ec994d6192a4d341",
-      "source_commit": "d9a1f3171bceae45908bc8ac84045d3bca23f43f"
-    },
-    {
-      "path": "tools/codex_assets/__main__.py",
-      "mode": "100644",
-      "bytes": 19896,
-      "git_blob_sha1": "43f933e7505bf65285c364508528aef9a289fcb8",
-      "source_commit": "d9a1f3171bceae45908bc8ac84045d3bca23f43f"
-    },
-    {
-      "path": "tools/verify_host_resource_profiles.py",
-      "mode": "100644",
-      "bytes": 12283,
-      "git_blob_sha1": "0c707896da8911d544d841764f8901fe23b3b202",
-      "source_commit": "d9a1f3171bceae45908bc8ac84045d3bca23f43f"
-    },
-    {
-      "path": ".github/workflows/host-research-publication.yml",
-      "mode": "100644",
-      "bytes": 700,
-      "git_blob_sha1": "fa622a42239b053e767639fd9344024b7ce9418a",
-      "source_commit": "b7cc1dba279af896ebcbb642c2fe1018fc870092",
-      "source_branches": [
-        "research/publish-host-20261009"
-      ]
-    },
-    {
       "path": "research/2026-10-08-d20-d90-host-research/ARCHIVE.json",
       "mode": "100644",
       "bytes": 1566,
@@ -18892,6 +18853,59 @@
       "source_branches": [
         "research/publish-host-20261009"
       ]
+    },
+    {
+      "path": "research/2026-10-09-saved-numerical-diagnostics/README.md",
+      "mode": "100644",
+      "bytes": 628,
+      "git_blob_sha1": "f6faebc40120eb4ce454128db48f43ac7b272c37",
+      "source_commit": "4b10cf76ca42386e0e932de719e6424fa6f2ed57"
+    },
+    {
+      "path": "research/2026-10-09-saved-numerical-diagnostics/saved-diagnostics-bitexact-v2.json",
+      "mode": "100644",
+      "bytes": 39423,
+      "git_blob_sha1": "48773261225cab09addc3072c147ba7254f2e680",
+      "source_commit": "4b10cf76ca42386e0e932de719e6424fa6f2ed57"
+    },
+    {
+      "path": "tests/test_dataset_integrity.py",
+      "mode": "100644",
+      "bytes": 15494,
+      "git_blob_sha1": "94382ae6906cf3436e7a70c462dc7a2137951652",
+      "source_commit": "dc90c3aa325700fdf17da449452437c90373818e",
+      "source_branches": [
+        "research/melo6-results-archive-v1",
+        "research/single-k1-followed-wu-v1"
+      ]
+    },
+    {
+      "path": "tests/test_host_resource_profiles.py",
+      "mode": "100644",
+      "bytes": 4463,
+      "git_blob_sha1": "e020faf4eefdb03aa387851243efd1b9baee8d33",
+      "source_commit": "d9a1f3171bceae45908bc8ac84045d3bca23f43f"
+    },
+    {
+      "path": "tools/codex_assets/__init__.py",
+      "mode": "100644",
+      "bytes": 40,
+      "git_blob_sha1": "8aee8291764ac8b758167ca2ec994d6192a4d341",
+      "source_commit": "d9a1f3171bceae45908bc8ac84045d3bca23f43f"
+    },
+    {
+      "path": "tools/codex_assets/__main__.py",
+      "mode": "100644",
+      "bytes": 19896,
+      "git_blob_sha1": "43f933e7505bf65285c364508528aef9a289fcb8",
+      "source_commit": "d9a1f3171bceae45908bc8ac84045d3bca23f43f"
+    },
+    {
+      "path": "tools/verify_host_resource_profiles.py",
+      "mode": "100644",
+      "bytes": 12283,
+      "git_blob_sha1": "0c707896da8911d544d841764f8901fe23b3b202",
+      "source_commit": "d9a1f3171bceae45908bc8ac84045d3bca23f43f"
     }
   ]
 }
