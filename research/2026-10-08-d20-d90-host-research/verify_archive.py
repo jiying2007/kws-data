@@ -6,6 +6,7 @@ import os
 from pathlib import Path, PurePosixPath
 import re
 import stat
+import struct
 import tempfile
 import unicodedata
 import zipfile
@@ -14,6 +15,7 @@ CHUNK = 1024 * 1024
 MAX_ARCHIVE_BYTES = 256 * CHUNK
 MAX_OBJECT_BYTES = 128 * CHUNK
 MAX_PUBLISHED_BYTES = 1024 * CHUNK
+MAX_CENTRAL_DIRECTORY_BYTES = 4 * CHUNK
 MAX_MEMBERS = 10000
 MAX_PARTS = 128
 MAX_JSON_BYTES = 16 * CHUNK
@@ -31,9 +33,14 @@ def require(condition, message):
 
 
 def checked_path(text):
-    require(type(text) is str and text and len(text) <= 4096, 'Unsafe member path')
+    require(type(text) is str and text, 'Unsafe member path')
+    try:
+        encoded = text.encode('utf-8')
+    except UnicodeEncodeError as exc:
+        raise ValueError('Unsafe member path encoding') from exc
+    require(len(encoded) <= 4096, 'Unsafe member path')
     parts = text.split('/')
-    require(all(p not in ('', '.', '..') and len(p) <= 255 and
+    require(all(p not in ('', '.', '..') and len(p.encode('utf-8')) <= 255 and
                 not p.endswith((' ', '.')) and not DEVICE.match(p) and
                 not any(ord(c) < 32 or c in '\\:<>"|?*' for c in p)
                 for p in parts), 'Unsafe member path')
@@ -93,6 +100,58 @@ def stream_identity(stream, limit, output=None):
         if output is not None:
             output.write(chunk)
     return count, h.hexdigest()
+
+
+def preflight_zip(stream, archive_size, expected):
+    """Bound ZIP metadata before ZipFile constructs any ZipInfo objects.
+
+    This fixed-size publication format does not need split archives or ZIP64
+    central directories. Local ZIP64 size fields remain supported by ZipFile.
+    Walk every central record, rather than trusting an attacker-supplied count.
+    """
+    tail_size = min(archive_size, 22 + 65535)
+    stream.seek(archive_size - tail_size)
+    tail = stream.read(tail_size)
+    end = tail.rfind(b'PK\x05\x06')
+    require(end >= 0 and end + 22 <= len(tail), 'Invalid ZIP end record')
+    fields = struct.unpack_from('<4s4H2IH', tail, end)
+    _, disk, directory_disk, disk_count, count, directory_size, offset, comment = fields
+    require(end + 22 + comment == len(tail), 'Invalid ZIP end record length')
+    end_offset = archive_size - tail_size + end
+    require(disk == directory_disk == 0 and disk_count == count and
+            count == len(expected) and 0 < count <= MAX_MEMBERS,
+            'Invalid ZIP central directory count or disks')
+    require(0 < directory_size <= MAX_CENTRAL_DIRECTORY_BYTES and
+            offset + directory_size == end_offset,
+            'Invalid or excessive ZIP central directory size')
+    stream.seek(offset)
+    consumed = 0
+    names = set()
+    while consumed < directory_size:
+        require(len(names) < count and directory_size - consumed >= 46,
+                'Invalid ZIP central directory record count')
+        header = stream.read(46)
+        require(len(header) == 46 and header[:4] == b'PK\x01\x02',
+                'Invalid ZIP central directory record')
+        compressed, expanded = struct.unpack_from('<II', header, 20)
+        name_size, extra_size, comment_size, start_disk = struct.unpack_from('<4H', header, 28)
+        local_offset = struct.unpack_from('<I', header, 42)[0]
+        record_size = 46 + name_size + extra_size + comment_size
+        require(record_size <= directory_size - consumed and
+                0 < name_size <= 512 and start_disk == 0 and
+                compressed <= archive_size and expanded <= MAX_OBJECT_BYTES and
+                local_offset < offset,
+                'Invalid ZIP central directory member bounds')
+        name = stream.read(name_size)
+        require(name not in names and name in expected,
+                'Archive object inventory mismatch')
+        names.add(name)
+        require(expanded == expected[name][0], 'Object size mismatch')
+        stream.seek(extra_size + comment_size, os.SEEK_CUR)
+        consumed += record_size
+    require(consumed == directory_size and len(names) == count,
+            'Invalid ZIP central directory record count')
+    stream.seek(0)
 
 
 def restore(z, rows, output):
@@ -177,7 +236,8 @@ def verify(root, output=None):
         assembled.seek(0)
         require(stream_identity(assembled, archive_size) ==
                 (archive_size, archive['archive_sha256']), 'Archive identity mismatch')
-        assembled.seek(0)
+        preflight_zip(assembled, archive_size,
+                      {name.encode('ascii'): identity for name, identity in expected.items()})
         with zipfile.ZipFile(assembled) as z:
             infos = z.infolist()
             require(len(infos) == len(expected) and {i.filename for i in infos} == set(expected),
