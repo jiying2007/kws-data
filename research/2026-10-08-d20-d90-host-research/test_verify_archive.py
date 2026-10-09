@@ -207,5 +207,92 @@ class TestArchiveHardening(unittest.TestCase):
             verify(root, root / 'restored')
             self.assertEqual((root / 'restored/other.bin').read_bytes(), b'synthetic fixture, no model')
 
+
+
+class TestMetadataAllocationBoundaries(unittest.TestCase):
+    fixture = TestArchive.fixture
+    rewrite = TestArchiveHardening.rewrite
+    replace_zip = TestArchiveHardening.replace_zip
+    def mutate_zip(self, root, edit):
+        raw = bytearray((root / 'part').read_bytes())
+        edit(raw)
+        blob = bytes(raw)
+        (root / 'part').write_bytes(blob)
+        def rehash(a):
+            a['parts'][0].update(bytes=len(blob), sha256=digest(blob))
+            a.update(archive_bytes=len(blob), archive_sha256=digest(blob))
+        self.rewrite(root, 'ARCHIVE.json', rehash)
+
+    def reject_before_zipfile(self, edit):
+        with tempfile.TemporaryDirectory() as t:
+            root = Path(t); self.fixture(root)
+            self.mutate_zip(root, edit)
+            with mock.patch('verify_archive.zipfile.ZipFile') as constructor:
+                with self.assertRaises(ValueError): verify(root, root / 'restored')
+                constructor.assert_not_called()
+            self.assertFalse((root / 'restored').exists())
+
+    def test_advertised_count_rejected_before_allocation(self):
+        import struct
+        self.reject_before_zipfile(lambda b: struct.pack_into('<HH', b, len(b) - 14, 65535, 65535))
+
+    def test_central_directory_size_rejected_before_allocation(self):
+        import struct
+        self.reject_before_zipfile(lambda b: struct.pack_into('<I', b, len(b) - 10, 0xffffffff))
+
+    def test_disk_and_zip64_directory_rejected_before_allocation(self):
+        import struct
+        self.reject_before_zipfile(lambda b: struct.pack_into('<H', b, len(b) - 18, 1))
+        self.reject_before_zipfile(lambda b: struct.pack_into('<I', b, len(b) - 6, 0xffffffff))
+
+    def test_record_bounds_rejected_before_allocation(self):
+        import struct
+        self.reject_before_zipfile(lambda b: struct.pack_into('<H', b, b.index(b'PK\x01\x02') + 30, 65535))
+
+    def test_record_signature_rejected_before_allocation(self):
+        def edit(b): b[b.index(b'PK\x01\x02')] = 0
+        self.reject_before_zipfile(edit)
+
+    def test_forged_small_count_cannot_hide_extra_records(self):
+        import struct
+        with tempfile.TemporaryDirectory() as t:
+            root = Path(t); row = self.fixture(root)
+            def writer(z):
+                z.writestr(row['object'], b'synthetic fixture, no model')
+                z.writestr('objects/' + '0' * 64, b'extra')
+            self.replace_zip(root, writer)
+            self.mutate_zip(root, lambda b: struct.pack_into('<HH', b, len(b) - 14, 1, 1))
+            with mock.patch('verify_archive.zipfile.ZipFile') as constructor:
+                with self.assertRaises(ValueError): verify(root)
+                constructor.assert_not_called()
+
+    def test_local_zip64_headers_remain_supported(self):
+        for compression in (zipfile.ZIP_STORED, zipfile.ZIP_DEFLATED):
+            with self.subTest(compression=compression), tempfile.TemporaryDirectory() as t:
+                root = Path(t); row = self.fixture(root)
+                def writer(z):
+                    z.compression = compression
+                    with z.open(row['object'], 'w', force_zip64=True) as member:
+                        member.write(b'synthetic fixture, no model')
+                self.replace_zip(root, writer)
+                self.assertEqual(verify(root, root / 'restored')['members'], 1)
+                self.assertEqual((root / 'restored/evidence/data.bin').read_bytes(),
+                                 b'synthetic fixture, no model')
+
+    def test_utf8_segment_limits_and_invalid_surrogates(self):
+        self.assertEqual(str(checked_path('中' * 85)), '中' * 85)
+        self.assertEqual(str(checked_path('é' * 127 + 'x')), 'é' * 127 + 'x')
+        for name in ('中' * 86, 'é' * 128, 'a/\ud800', 'a/\udcff',
+                     '/'.join(['中' * 85] * 17)):
+            with self.subTest(name=repr(name)), self.assertRaises(ValueError):
+                checked_path(name)
+
+    def test_oversized_utf8_path_rejected_before_restore(self):
+        with tempfile.TemporaryDirectory() as t:
+            root = Path(t); self.fixture(root, '中' * 86)
+            with self.assertRaises(ValueError): verify(root, root / 'restored')
+            self.assertFalse((root / 'restored').exists())
+
+
 if __name__ == '__main__':
     unittest.main()
