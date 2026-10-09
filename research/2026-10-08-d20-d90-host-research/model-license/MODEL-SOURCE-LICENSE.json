@@ -1,0 +1,67 @@
+{
+  "status": "OFFICIAL_MODEL_CARD_APACHE_2_0_AND_EXACT_DONOR_HASH_VERIFIED",
+  "checked_at_utc": "2026-10-09T00:04:49Z",
+  "model": "iic/speech_charctc_kws_phone-xiaoyun",
+  "exact_donor": {
+    "CommitMessage": "[Feat] add resources for training, and update configuration file",
+    "CommittedDate": 1671621507,
+    "CommitterName": "speech_asr",
+    "InCheck": false,
+    "IsLFS": true,
+    "Mode": "33188",
+    "Name": "base.pt",
+    "Path": "train/base.pt",
+    "Revision": "68e1625545621d1dfb921866c4bc6b6a811b2685",
+    "Sha256": "d02b09c34f4a8bbb06f0dd1bf5eb58db3395eb7f1fd15c3625fe09d3a2492233",
+    "Size": 3038219,
+    "Type": "blob"
+  },
+  "model_card_license_original_revision": "Apache License 2.0",
+  "model_card_license_current_pinned_revision": "Apache License 2.0",
+  "original_revision": "68e1625545621d1dfb921866c4bc6b6a811b2685",
+  "current_pinned_revision": "7b61475f2b7d6b0348f624f0853303a3a374f7bc",
+  "license_scope_evidence": "Official model repository README frontmatter, including commit that introduced exact train/base.pt. Not inferred from WeKWS code license.",
+  "api_top_level_license_fields": "Empty despite explicit README license metadata; preserve discrepancy.",
+  "separate_license_or_notice_in_current_tree": false,
+  "conditions": [
+    "Retain Apache-2.0 license text.",
+    "Identify official source model and exact donor file SHA256.",
+    "Identify modifications: selected-head six-output initialization, D20/D90 fine-tuning, export conversions.",
+    "Retain applicable original attribution notices and any upstream NOTICE if discovered.",
+    "Do not claim this grants redistribution rights in undisclosed upstream training audio or unrelated TTS datasets."
+  ],
+  "noncommercial_or_sharealike_restriction_found_in_model_license": false,
+  "legal_guarantee": false,
+  "downloaded_model_weights": false,
+  "evidence": [
+    {
+      "path": "model.txt",
+      "url": "https://modelscope.cn/api/v1/models/iic/speech_charctc_kws_phone-xiaoyun",
+      "bytes": 18427,
+      "sha256": "816327c9b51eac209b56a1b5aa74cefeb7e97867d7f35830459e936df6778653"
+    },
+    {
+      "path": "files-pinned.txt",
+      "url": "https://modelscope.cn/api/v1/models/iic/speech_charctc_kws_phone-xiaoyun/repo/files?Revision=7b61475f2b7d6b0348f624f0853303a3a374f7bc&Recursive=true",
+      "bytes": 83225,
+      "sha256": "9494da99cd96407f6ddf6005c12d15987fd91f7686c9cac0691c1c6038370b70"
+    },
+    {
+      "path": "readme-pinned.txt",
+      "url": "https://modelscope.cn/api/v1/models/iic/speech_charctc_kws_phone-xiaoyun/repo?Revision=7b61475f2b7d6b0348f624f0853303a3a374f7bc&FilePath=README.md",
+      "bytes": 13636,
+      "sha256": "8488305cd82bfa76faa1af65770b314a549b4b6afbe82b41582e7c2cb228ee6c"
+    },
+    {
+      "path": "readme-origin.txt",
+      "url": "https://modelscope.cn/api/v1/models/iic/speech_charctc_kws_phone-xiaoyun/repo?Revision=68e1625545621d1dfb921866c4bc6b6a811b2685&FilePath=README.md",
+      "bytes": 4214,
+      "sha256": "c3f839a300c821d8db6e5a859700334ec134dc25d76cf0dd9277f87d72557139"
+    }
+  ],
+  "derived_artifacts": {
+    "initial.pt": "Original donor backbone and immutable CMVN, with six selected original output-head rows. No independent random-head claim.",
+    "D20 and D90 fixed1200 checkpoints": "Separate full-encoder fine-tuning from the same selected donor initialization.",
+    "exported tensors and C arrays": "Representation conversions of the corresponding donor-derived checkpoint; provenance and license notices remain applicable."
+  }
+}

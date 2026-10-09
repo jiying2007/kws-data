@@ -1,0 +1,9 @@
+# Donor model provenance and modifications
+
+The research model artifacts derive from the official Alibaba / Institute for Intelligent Computing (iic) ModelScope model `iic/speech_charctc_kws_phone-xiaoyun`, specifically `train/base.pt` (3,038,219 bytes; SHA-256 `d02b09c34f4a8bbb06f0dd1bf5eb58db3395eb7f1fd15c3625fe09d3a2492233`).
+
+The official model README declares `license: Apache License 2.0` at the commit introducing this weight file, `68e1625545621d1dfb921866c4bc6b6a811b2685`, and at the independently retrieved later model-card revision `7b61475f2b7d6b0348f624f0853303a3a374f7bc`. See MODEL-SOURCE-LICENSE.json for exact primary-source URLs and SHA-256 evidence. This attribution is based on the official model repository's explicit license metadata, separately from the WeKWS source-code license. No separate LICENSE or NOTICE file was listed in the later pinned model tree.
+
+Modifications: `initial.pt` retains the donor backbone and immutable CMVN, with six selected original output-head rows from the 2,599-output donor. D20 and D90 checkpoints are separate full-encoder fine-tuning derivatives using their respective training sets and the fixed 1,200-update protocol. Exported tensor payloads and generated C arrays are representation conversions of their corresponding derived checkpoints. Consult each artifact's manifest for exact identity and research status. Do not describe the initialized selected head as independently/randomly generated.
+
+Include a full Apache License 2.0 copy with redistributed model artifacts and retain applicable source attribution and modification notices. Research-only status is an experimental-readiness statement and does not replace the upstream license or create a new noncommercial restriction. This evidence does not establish rights to redistribute unknown original pretraining audio or unrelated training and evaluation assets. It is a provenance verification, not a legal guarantee.

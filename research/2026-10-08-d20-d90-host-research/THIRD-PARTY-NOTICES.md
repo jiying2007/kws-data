@@ -1,0 +1,11 @@
+# Third-party scope and provenance
+
+- Existing kws-pipeline C sources and adaptations retain Apache-2.0 and author notices. Exact public matches in SOURCE-PROVENANCE.json are pinned to 22ae0a1cbd9e4a062a7bf6f51abf8d73cf18b958. The local donor_fft64.c adaptation identifies src/frontend.c as its skeleton.
+- WeKWS Python/FSMN behavior and retained upstream sources originate from wenet-e2e/wekws commit 6a45aeb994dd81c0969ff877a5a7c46d60ed0c86, Apache-2.0. The included Apache text and original copyright headers remain applicable.
+- Torchaudio Kaldi-compatible frontend source is BSD-2-Clause. The exact retained kaldi.py SHA-256 is 5cbea1a584ddea748f6f68a621d794e13334e88d9faa1d40986f7af32f196d29, already public at https://github.com/jiying2007/kws-data/blob/67d0a6c6313c3979403469198b5ce2b1bb885f1d/research/2026-09-30-frontend-and-frozen-head/head/reference-source/upstream/torchaudio/kaldi.py. This immutable source identity, not a guessed package version, is authoritative; BSD text is included.
+- PySox 1.5.0 import-overlay source and modifications are historical ASR-environment recovery evidence. Its BSD-3-Clause license is retained in the fixed50 source package's bound/PYSOX-LICENSE.txt.
+- Melo model/source license evidence is retained with exact fixed source/model identities and MIT license text. Code/model licenses alone do not establish commercial rights in generated audio or voices.
+- ASR outputs are weak observations only. No SenseVoice, FunASR, Qwen-ASR or TTS model weights, wheels or virtual environment bodies are added here.
+- LICENSES/WeKWS-NOTICE.md is a preserved older source-only inventory notice. Its statement that its old inventory excluded weights and corpus audio applies to that older inventory, not this new authorized data archive. This archive includes synthetic research audio and donor-derived initialization/D20/D90 artifacts; their model-specific source/license record is in [model-license/NOTICE.md](model-license/NOTICE.md), supported by exact official model-card and donor-file metadata.
+
+New study tooling is distributed under the repository Apache-2.0 license; upstream licenses and copyright notices take precedence for their respective retained code. This publication conveys no original pretraining corpus or commercial voice/output-rights grant.
