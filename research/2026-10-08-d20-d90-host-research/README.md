@@ -16,7 +16,7 @@ This publication preserves completed research, including negative and inconclusi
 | `source-admission-ledger` | 4 | Source, exposure and weak-research admission records; no commercial-output rights or product training claim |
 | `fixed50-blind-listening` | 4 | Offline single-rater observation tool, not gold labels. Actual browser playback/storage validation was not completed. Publicly browsing other evidence can expose answers and invalidate a later claim of blind independent observation |
 
-All 1,886 restored members are covered by `CATALOG.json`. Source/report copies are directly browsable in the pipeline repository; complete data and evidence are stored once per distinct public byte sequence in the data repository. Multiple historical paths with identical bytes share an object. The original 11 delivery archives are not redundantly copied or published as-is.
+All 1,886 restored members are covered by `CATALOG.json`. The complete public archive in this data repository is available for verified recovery, including source/report members. The pipeline repository currently provides an index; the expanded source/report tree and its verify_sources.py helper have not been published there. Catalog planned_pipeline_path entries describe proposed destinations, not live links. Complete data and evidence are stored once per distinct public byte sequence in the data repository. Multiple historical paths with identical bytes share an object. The original 11 delivery archives are not redundantly copied or published as-is.
 
 ## Publication transformations and integrity
 
@@ -35,12 +35,8 @@ python3 -B verify_archive.py
 python3 -B verify_archive.py --restore /path/to/new-empty-destination
 ```
 
-The verifier checks ordered part sizes/hashes, reconstructed ZIP SHA-256, exact object inventory, unique member paths, every public object/member hash and declared transformations. Restoration refuses an existing destination, rejects traversal and writes regular files only. Restoring does not execute code or model forward. The publication copy has new package aliases; historical relative references may require deliberate mapping and dependencies before any independently authorized future experiment.
+The verifier checks ordered part sizes/hashes, reconstructed ZIP SHA-256, exact object inventory, canonical portable member paths, every public object/member identity and declared transformations. It rejects path aliases, case-folded directory collisions, file/directory conflicts, Windows device names and drive/stream syntax, symlink/special ZIP objects and duplicate JSON keys. Verification reconstructs the ZIP in a temporary disk file and streams each unique object once. Limits are 256 MiB compressed archive, 128 MiB per object, 1 GiB restored bytes, 10,000 members, 128 parts and 16 MiB per metadata file. Restoration requires POSIX directory descriptors and an existing trusted parent directory; it creates a new private destination, refuses existing destinations, uses no-follow descriptor-relative traversal and exclusively creates regular files. On an I/O failure a partial destination may remain for inspection; retries must use a new destination. Verification alone does not require POSIX. Restoring does not execute code or model forward. The publication copy has new package aliases; historical relative references may require deliberate mapping and dependencies before any independently authorized future experiment.
 
-Pipeline source-copy verification:
-
-```sh
-python3 -B research/host-research-2026-10-08/verify_sources.py
-```
+There is no runnable pipeline source-copy verification command in the current publication. Use verify_archive.py above to validate and recover the public source/report bytes. Any future expanded pipeline publication must supply its own verified immutable commit and helper before being described as browsable.
 
 Publication CI checks bytes and pure synthetic safety helpers only. It is neither a new numerical run nor acoustic/product acceptance. Existing unrelated main/nightly model results remain separate.
