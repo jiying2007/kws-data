@@ -1,7 +1,8 @@
 """Offline host/workflow integration: synthetic receipts, never setup/inference.
 
-The release stub exists only inside individual tests. The actual release files
-stay disabled. Local CLI probes execute only their real disabled first gate.
+Release fixtures live only inside individual tests. The actual source release
+may be disabled or activated. Real CLI probes use invalid execution context and
+stop before any checkout, network, runtime creation or model operation.
 Fixtures reuse the stdlib semantic suite's WAV/claim builder, not model output.
 """
 from contextlib import ExitStack
@@ -205,6 +206,15 @@ class HostTests(unittest.TestCase):
             stack.enter_context(mock.patch.object(host, "read_json", side_effect=lambda path, **kwargs:
                 deepcopy(self.source_freeze) if Path(path) == HERE / "tts-source-freeze.json"
                 else gate.read_json(path, **kwargs)))
+        else:
+            disabled_root = self.root / "disabled-source"
+            folder = disabled_root / "research/k1-punctuation6-v1"
+            folder.mkdir(parents=True)
+            release = gate.read_json(HERE / "tts-release.json")
+            release["enabled"] = False
+            common.write_once(folder / "tts-release.json", release)
+            stack.enter_context(mock.patch.object(host, "verify_release",
+                side_effect=lambda: gate.verify_release(disabled_root)))
         self.checkout = stack.enter_context(mock.patch.object(host, "verify_clean_checkout",
             return_value={"tree": "c" * 40, "commit": "a" * 40}))
         self.get = mock.Mock(side_effect=AssertionError("only mocked preflight permitted"))
@@ -245,6 +255,19 @@ class HostTests(unittest.TestCase):
                 host.execute(self.env)
         self.checkout.assert_not_called()
         self.reader.assert_not_called()
+        self.assertFalse(self.runtime.exists())
+
+    def test_actual_activated_release_rejects_nonexecution_before_all_side_effects(self):
+        if gate.read_json(HERE / "tts-release.json")["enabled"] is not True:
+            self.skipTest("this source snapshot is deliberately disabled")
+        with self.harness(), mock.patch.object(host, "verify_release", side_effect=gate.verify_release):
+            self.env["GITHUB_REF"] = "refs/heads/codex/nonexecution-review"
+            with self.assertRaisesRegex(ValueError, "fixed standard hosted context"):
+                host.execute(self.env)
+        self.checkout.assert_not_called()
+        self.reader.assert_not_called()
+        self.preflight.assert_not_called()
+        self.supervise.assert_not_called()
         self.assertFalse(self.runtime.exists())
 
     def test_dirty_checkout_and_wrong_platform_stop_before_public_preflight(self):
@@ -451,7 +474,7 @@ class HostTests(unittest.TestCase):
 
 
 class WorkflowTests(unittest.TestCase):
-    def test_exact_workflow_host_cli_reaches_disabled_gate_in_isolated_python(self):
+    def test_exact_workflow_host_cli_rejects_nonexecution_context_in_isolated_python(self):
         workflow = (ROOT / gate.WORKFLOW).read_text(encoding="utf-8")
         commands = [line.strip()[5:] for line in workflow.splitlines()
                     if line.strip().startswith("run: ") and line.strip().endswith("/tts_host.py")]
@@ -459,13 +482,16 @@ class WorkflowTests(unittest.TestCase):
         command = shlex.split(commands[0])
         self.assertEqual(command[:4], ["python", "-I", "-B", "-c"])
         self.assertEqual(command[-1], "research/k1-punctuation6-v1/tts_host.py")
-        self.assertIs(gate.read_json(HERE / "tts-release.json")["enabled"], False)
-        with self.assertRaisesRegex(ValueError, "new TTS execution is disabled"):
+        # The real source can be activated; invalid context must still stop it.
+        if gate.read_json(HERE / "tts-release.json")["enabled"] is True:
             gate.verify_release()
         with tempfile.TemporaryDirectory(prefix="k1-workflow-offline-") as directory:
+            event = Path(directory) / "event.json"
+            event.write_text("{}", encoding="utf-8")
             env = {"PATH": "/usr/bin:/bin", "HOME": directory, "RUNNER_TEMP": directory,
                    "LANG": "C.UTF-8", "GITHUB_TOKEN": SECRET, "GH_TOKEN": SECRET,
-                   "KWS_DATA_TOKEN": SECRET, "ACTIONS_RUNTIME_TOKEN": SECRET}
+                   "KWS_DATA_TOKEN": SECRET, "ACTIONS_RUNTIME_TOKEN": SECRET,
+                   "GITHUB_EVENT_PATH": str(event)}
             result = subprocess.run([sys.executable, *command[1:]], cwd=ROOT, env=env,
                 capture_output=True, text=True, timeout=20, check=False)
             self.assertEqual(result.returncode, 1)
@@ -474,7 +500,8 @@ class WorkflowTests(unittest.TestCase):
             self.assertNotIn("ImportError", result.stderr)
             self.assertNotIn("ModuleNotFoundError", result.stderr)
             self.assertNotIn(SECRET, result.stderr)
-            self.assertEqual(list(Path(directory).iterdir()), [])
+            self.assertEqual(list(Path(directory).iterdir()), [event])
+            self.assertEqual(event.read_text(encoding="utf-8"), "{}")
 
     def test_workflow_keeps_pinned_actions_separate_token_steps_and_fixed_limits(self):
         workflow = (ROOT / gate.WORKFLOW).read_text(encoding="utf-8")

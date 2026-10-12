@@ -764,7 +764,8 @@ class GateTests(TempCase):
 
     def test_disabled_release_blocks_before_source_verification(self):
         release = json.loads(Path(__file__).with_name("tts-release.json").read_bytes())
-        self.assertIs(release["enabled"],False)
+        # This negative fixture is independent of the reviewed repository activation.
+        release["enabled"] = False
         folder = self.root / "research/k1-punctuation6-v1"
         folder.mkdir(parents=True)
         (folder / "tts-release.json").write_bytes(contract.canonical(release))
