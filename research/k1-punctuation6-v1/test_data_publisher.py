@@ -133,6 +133,34 @@ class OfflineTests(unittest.TestCase):
         self.assertEqual(sorted(x["path"] for x in self.api.result_rows), sorted([x["path"] for x in self.source] + self.api.raw_calls))
         self.assertEqual(t.decode((self.root / "publication.receipt.json").read_bytes()), result)
 
+    def test_single_final_lf_presentation_at_mock_post_and_get(self):
+        for presentation_methods in ({"POST"}, {"GET"}, {"POST", "GET"}):
+            class PresentedAPI(MockAPI):
+                def __call__(self, method, route, body=None, expected=200):
+                    value = super().__call__(method, route, body, expected)
+                    if method in presentation_methods and (
+                        route == p.BASE + "/git/commits" or route.startswith(p.BASE + "/git/commits/")
+                        and route != self.paths["source"]
+                    ):
+                        value = copy.deepcopy(value)
+                        if not value["message"].endswith("\n"):
+                            raise AssertionError("mock must preserve the original commit message")
+                        value["message"] = value["message"][:-1]
+                    return value
+
+            with self.subTest(presentation_methods=sorted(presentation_methods)):
+                api = PresentedAPI(self.env, self.event, self.release, self.source)
+                result = p.publish(self.env, self.event, self.release, self.payload, api, api.raw_factory)
+                self.assertEqual(result["status"], "same_identity_readback_verified")
+                self.assertEqual(result["raw_gets"], 2)
+                self.assertEqual(result["result_commit"], api.expected_commit)
+                self.assertEqual(api.ref["object"]["sha"], api.expected_commit)
+                self.assertTrue(api.commit["message"].endswith("\n"))
+                posts = [c for c in api.calls if c[0] == "POST"]
+                self.assertEqual(len(posts), 5)
+                self.assertEqual(posts[-1][1], p.BASE + "/git/refs")
+                self.assertFalse(any(c[0] in ("PATCH", "PUT", "DELETE") for c in api.calls))
+
     def test_fixture_exact_small_and_fixed_json(self):
         self.assertLess(len(self.payload), 3072); self.assertGreater(len(self.payload), 1024)
         self.assertEqual(t.fixture_archive(self.identity, self.release["source_closure_sha256"]), self.payload)
@@ -159,6 +187,16 @@ class OfflineTests(unittest.TestCase):
             with self.assertRaises(ValueError): p.context(env, event, self.release)
         for purpose in ("native", "synthetic", "synthetic12m", "retry", "anything"):
             with self.assertRaises(ValueError): t.policy(purpose)
+
+    def test_consumed_fixture_v1_ref_rejected_by_current_fixture_context(self):
+        consumed_ref = "refs/heads/research/k1-punctuation6-writer-fixture-v1"
+        self.assertEqual(self.env["GITHUB_REF"], "refs/heads/" + t.policy("fixture")["source_branch"])
+        self.assertNotEqual(self.env["GITHUB_REF"], consumed_ref)
+        self.assertEqual(p.context(self.env, self.event, self.release), self.identity)
+        env, event = copy.deepcopy(self.env), copy.deepcopy(self.event)
+        env["GITHUB_REF"] = event["ref"] = consumed_ref
+        with self.assertRaises(ValueError): p.context(env, event, self.release)
+        self.assertFalse(self.api.calls)
 
     def test_run_job_repository_and_history_mutations_stop_before_posts(self):
         mutations = [("run", "event", "create"), ("run", "path", ".github/workflows/other.yml"),
@@ -351,6 +389,99 @@ class OfflineTests(unittest.TestCase):
 
     def test_cli_unconditionally_disabled(self):
         with self.assertRaises(SystemExit): p.main()
+
+
+class CommitPresentationTests(unittest.TestCase):
+    # Minimal public fields from an observed GitHub GET /git/commits response.
+    # This is immutable regression data, not a release or permission to retry.
+    OBSERVED_GET = {
+        "sha": "2d6f5bbbd744003a8ccf76eb571a20b460994dc0",
+        "message": "Retain bounded K1 fixture data",
+        "tree": {"sha": "be177d44f683ea53ce24280cf79719a503eb4103"},
+        "parents": [{"sha": "72b41772eda8e56b99d526f03170d70ceda6d0d3"}],
+        "author": {"name": "K1 bounded publisher", "email": "noreply@github.com", "date": "2026-10-12T01:59:07Z"},
+        "committer": {"name": "K1 bounded publisher", "email": "noreply@github.com", "date": "2026-10-12T01:59:07Z"},
+    }
+
+    def setUp(self):
+        guard = patch("http.client.HTTPSConnection", side_effect=AssertionError("live network prohibited"))
+        guard.start(); self.addCleanup(guard.stop)
+        release = {"purpose": "fixture", "source_sha": self.OBSERVED_GET["parents"][0]["sha"],
+                   "commit_timestamp": self.OBSERVED_GET["author"]["date"]}
+        self.body, self.expected_sha = p.commit_body(self.OBSERVED_GET["tree"]["sha"], release)
+
+    def test_observed_get_omits_only_the_fixed_final_lf(self):
+        self.assertEqual(self.expected_sha, self.OBSERVED_GET["sha"])
+        self.assertEqual(self.body["message"], self.OBSERVED_GET["message"] + "\n")
+        self.assertEqual(self.body["message"].count("\n"), 1)
+        p.verify_commit(copy.deepcopy(self.OBSERVED_GET), self.expected_sha, self.body)
+
+    def test_original_message_is_also_accepted_without_rewriting(self):
+        value = copy.deepcopy(self.OBSERVED_GET); value["message"] = self.body["message"]
+        before = copy.deepcopy(value)
+        p.verify_commit(value, self.expected_sha, self.body)
+        self.assertEqual(value, before)
+
+    def test_message_changes_are_not_whitespace_normalized(self):
+        exact = self.body["message"]; presented = exact[:-1]
+        messages = {
+            "different_words": exact.replace("Retain", "Preserve"),
+            "double_internal_space": exact.replace("bounded K1", "bounded  K1"),
+            "internal_tab": exact.replace("bounded K1", "bounded\tK1"),
+            "internal_lf": exact.replace("bounded K1", "bounded\nK1"),
+            "leading_space": " " + exact,
+            "extra_final_lf": exact + "\n",
+            "final_space": presented + " ",
+            "space_before_lf": presented + " \n",
+            "space_after_lf": exact + " ",
+            "crlf": presented + "\r\n",
+            "final_cr": presented + "\r",
+            "internal_cr": exact.replace("bounded K1", "bounded\rK1"),
+            "empty": "", "null": None, "bytes": exact.encode("utf-8"),
+            "list": [presented],
+        }
+        for label, message in messages.items():
+            value = copy.deepcopy(self.OBSERVED_GET); value["message"] = message
+            with self.subTest(label=label), self.assertRaises(ValueError):
+                p.verify_commit(value, self.expected_sha, self.body)
+
+    def test_presented_message_still_requires_exact_git_identity(self):
+        for message in (self.body["message"], self.body["message"][:-1]):
+            value = copy.deepcopy(self.OBSERVED_GET); value["message"] = message
+            mutations = {
+                "sha": lambda v: v.update(sha="e" * 40),
+                "tree": lambda v: v["tree"].update(sha="e" * 40),
+                "parent": lambda v: v["parents"][0].update(sha="e" * 40),
+                "no_parent": lambda v: v.update(parents=[]),
+                "extra_parent": lambda v: v["parents"].append(copy.deepcopy(v["parents"][0])),
+                "wrong_parent_type": lambda v: v.update(parents=tuple(v["parents"])),
+            }
+            for label, mutate in mutations.items():
+                bad = copy.deepcopy(value); mutate(bad)
+                with self.subTest(message=message, label=label), self.assertRaises(ValueError):
+                    p.verify_commit(bad, self.expected_sha, self.body)
+
+    def test_presented_message_still_requires_exact_author_and_committer(self):
+        for message in (self.body["message"], self.body["message"][:-1]):
+            for person in ("author", "committer"):
+                for field, changed in (("name", "Other publisher"), ("email", "other@example.invalid"),
+                                       ("date", "2026-10-12T01:59:08Z"),
+                                       ("date", "2026-10-12T01:59:07+00:00")):
+                    value = copy.deepcopy(self.OBSERVED_GET); value["message"] = message
+                    value[person][field] = changed
+                    with self.subTest(message=message, person=person, field=field, changed=changed), self.assertRaises(ValueError):
+                        p.verify_commit(value, self.expected_sha, self.body)
+
+    def test_git_sha_is_not_recomputed_from_the_presented_message(self):
+        # The absent API LF changes Git bytes; only the original fixed bytes are authoritative.
+        person = "K1 bounded publisher <noreply@github.com> 1791770347 +0000"
+        raw = ("tree " + self.body["tree"] + "\nparent " + self.body["parents"][0]
+               + "\nauthor " + person + "\ncommitter " + person + "\n\n" + self.body["message"]).encode("utf-8")
+        self.assertEqual(t.git_sha(raw, "commit"), self.expected_sha)
+        presented_sha = t.git_sha(raw[:-1], "commit")
+        self.assertNotEqual(presented_sha, self.expected_sha)
+        value = copy.deepcopy(self.OBSERVED_GET); value["sha"] = presented_sha
+        with self.assertRaises(ValueError): p.verify_commit(value, self.expected_sha, self.body)
 
 
 class Response:

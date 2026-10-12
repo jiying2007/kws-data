@@ -118,7 +118,7 @@ class WrapperTests(unittest.TestCase):
         self.assertEqual(result["raw_gets"], 2)
         self.assertEqual(env.reads[-1], "KWS_DATA_TOKEN")
         self.assertEqual(env.reads.count("KWS_DATA_TOKEN"), 1)
-        self.assertTrue((self.runner / "k1-punctuation6-writer-fixture-v1/publication.receipt.json").is_file())
+        self.assertTrue((self.runner / "k1-punctuation6-writer-fixture-r1/publication.receipt.json").is_file())
         self.assertNotIn("tts_worker", w.execute.__code__.co_names)
 
     def test_fixture_never_imports_semantics_or_worker(self):
@@ -220,7 +220,7 @@ class WrapperTests(unittest.TestCase):
         p.GitHubAPI.side_effect = failing
         with self.assertRaises(p.PublicationError) as caught: w.execute("fixture", env)
         self.assertFalse(caught.exception.publication_receipt["new_generation_authorized"])
-        self.assertTrue((self.runner / "k1-punctuation6-writer-fixture-v1/publication.receipt.json").exists())
+        self.assertTrue((self.runner / "k1-punctuation6-writer-fixture-r1/publication.receipt.json").exists())
         with self.assertRaises(FileExistsError): w.execute("fixture", env)
 
     def test_real_main_mock_failure_emits_preserved_safe_terminal(self):

@@ -256,7 +256,13 @@ def commit_body(tree_sha, release):
 
 
 def verify_commit(value, expected_sha, expected_body):
-    _equal(value, {"sha": expected_sha, "message": expected_body["message"]}, "true commit identity/message")
+    _equal(value, {"sha": expected_sha}, "true precomputed commit identity")
+    message = expected_body["message"]
+    # GitHub's API GET may omit this fixed single terminal LF in its presentation.
+    # The exact precomputed Git object SHA still binds the original commit bytes.
+    t.require(type(message) is str and message.endswith("\n") and not message.endswith("\n\n"),
+              "fixed commit message terminal LF")
+    t.require(value.get("message") in (message, message[:-1]), "exact commit message API presentation")
     _equal(value.get("tree"), {"sha": expected_body["tree"]}, "commit tree")
     t.require(type(value.get("parents")) is list and len(value["parents"]) == 1, "single source parent")
     _equal(value["parents"][0], {"sha": expected_body["parents"][0]}, "source commit parent")

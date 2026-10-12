@@ -2,7 +2,7 @@ name: K1 punctuation six bounded TTS
 on:
   push:
     branches:
-      - research/k1-punctuation6-writer-fixture-v1
+      - research/k1-punctuation6-writer-fixture-r1
       - research/k1-punctuation6-tts-v1
   pull_request:
     paths:
@@ -39,7 +39,7 @@ jobs:
           done
   writer-fixture:
     needs: contracts
-    if: github.repository == 'jiying2007/kws-data' && github.ref == 'refs/heads/research/k1-punctuation6-writer-fixture-v1' && github.event_name == 'push' && github.event.created == true && github.event.deleted == false && github.event.repository.private == false && github.run_attempt == 1
+    if: github.repository == 'jiying2007/kws-data' && github.ref == 'refs/heads/research/k1-punctuation6-writer-fixture-r1' && github.event_name == 'push' && github.event.created == true && github.event.deleted == false && github.event.repository.private == false && github.run_attempt == 1
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
