@@ -20,9 +20,9 @@ MAX_BODY = 16 * 1024 * 1024
 SHA = re.compile(r"[0-9a-f]{64}\Z")
 HEAD = re.compile(r"[0-9a-f]{40}\Z")
 POLICIES = {"fixture": {
-    "source_branch": "research/k1-punctuation6-writer-fixture-v1",
-    "result_branch": "data/k1-punctuation6-writer-fixture-v1",
-    "directory": "datasets/k1-punctuation6-v1/writer-fixture-v1",
+    "source_branch": "research/k1-punctuation6-writer-fixture-r1",
+    "result_branch": "data/k1-punctuation6-writer-fixture-r1",
+    "directory": "datasets/k1-punctuation6-v1/writer-fixture-r1",
     "workflow": ".github/workflows/k1-punctuation6-tts-v1.yml",
     "job_key": "writer-fixture",
 }, "tts": {

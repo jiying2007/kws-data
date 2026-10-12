@@ -235,7 +235,7 @@ def execute(purpose, environment=None, progress=None):
     source_tree = clean_checkout(identity)
     release = {**provisional, "source_tree": source_tree}
     publisher.validate_release(release)
-    runtime = Path(env["RUNNER_TEMP"]) / ("k1-punctuation6-writer-fixture-v1" if purpose == "fixture" else "k1-punctuation6-tts-v1")
+    runtime = Path(env["RUNNER_TEMP"]) / ("k1-punctuation6-writer-fixture-r1" if purpose == "fixture" else "k1-punctuation6-tts-v1")
     require(runtime.is_absolute() and str(runtime) == os.path.abspath(runtime), "fixed canonical runtime")
     semantic_validator = None
     if purpose == "fixture":
