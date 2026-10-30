@@ -1,0 +1,79 @@
+name: Qwen16 source-bound blind label inputs
+on:
+  push:
+    branches: [main, research/qwen16-label-inputs-20261030-v1]
+    paths:
+      - 'research/qwen16-label-inputs-20261030-v1/**'
+      - 'research/qwen16-archive-20261030-v1/**'
+      - '.github/workflows/qwen16-label-inputs-20261030-v1.yml'
+  pull_request:
+    paths:
+      - 'research/qwen16-label-inputs-20261030-v1/**'
+      - 'research/qwen16-archive-20261030-v1/**'
+      - '.github/workflows/qwen16-label-inputs-20261030-v1.yml'
+permissions:
+  contents: read
+concurrency:
+  group: qwen16-label-inputs-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  blind-input-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Original archive and three-mode source contracts
+        run: |
+          set -euo pipefail
+          python3 -B research/qwen16-archive-20261030-v1/verify_archive.py \
+            --archive research/qwen16-archive-20261030-v1/evidence/run-41008894901/original.zip
+          for mode in '' -O -OO; do
+            python3 $mode -B research/qwen16-label-inputs-20261030-v1/test_prepare.py
+          done
+      - name: Prepare and independently rederive exact blind handoff
+        run: |
+          set -euo pipefail
+          python3 -B research/qwen16-label-inputs-20261030-v1/prepare.py --output "$RUNNER_TEMP/qwen16-label-inputs"
+          python3 -B research/qwen16-label-inputs-20261030-v1/prepare.py --verify "$RUNNER_TEMP/qwen16-label-inputs"
+          git diff --check
+          test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: qwen16-blind-label-inputs-${{ github.run_id }}
+          path: ${{ runner.temp }}/qwen16-label-inputs/
+          retention-days: 30
+          if-no-files-found: error
+  register-source:
+    needs: blind-input-contracts
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/research/qwen16-label-inputs-20261030-v1' &&
+      github.run_attempt == 1 && github.run_number == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Register exact source commit without changing old evidence
+        run: |
+          set -euo pipefail
+          branch=research/qwen16-label-inputs-20261030-v1
+          test "$(git ls-remote origin "refs/heads/$branch" | cut -f1)" = "$GITHUB_SHA"
+          git switch -C "$branch" "$GITHUB_SHA"
+          python3 -B research/qwen16-label-inputs-20261030-v1/prepare.py --register
+          test "$(git diff --name-only)" = 'docs/BRANCH_RETENTION_20261007.json'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- docs/BRANCH_RETENTION_20261007.json
+          git diff --cached --check
+          git commit -m 'chore: register exact blind-label input source without admitting labels'
+          test -z "$(git status --porcelain)"
+          git push origin "HEAD:refs/heads/$branch"
