@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1739,
-  "expected_retained_files": 1731,
+  "expected_tracked_files": 1749,
+  "expected_retained_files": 1741,
   "new_retained_paths": 1211,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -19453,6 +19453,96 @@
       "bytes": 2774,
       "git_blob_sha1": "1ae6f1de3be27be3bfa862d60407ef6cf727fec1",
       "source_commit": "109d22db971c69d98818d7b656f88e27abd8dac6"
+    },
+    {
+      "path": ".github/workflows/qwen16-intake-20261030-v1.yml",
+      "mode": "100644",
+      "git_blob_sha1": "5884dc186207f3e016082990e74a6e325d84d3bd",
+      "bytes": 2307,
+      "source_commit": "996b33ca1414e38a31d7cfd07e2d2f3a0d5fb133"
+    },
+    {
+      "path": ".github/workflows/qwen16-intake-contracts.yml",
+      "mode": "100644",
+      "git_blob_sha1": "652866d4fb8dbc48fbebc68bb0d0884ded12ece7",
+      "bytes": 2386,
+      "source_commit": "996b33ca1414e38a31d7cfd07e2d2f3a0d5fb133"
+    },
+    {
+      "path": "research/qwen16-intake-20261030-v1/README.md",
+      "mode": "100644",
+      "git_blob_sha1": "2c85110d858c854dd0aeacd1a6bdf0722aeafdbd",
+      "bytes": 4433,
+      "source_commit": "996b33ca1414e38a31d7cfd07e2d2f3a0d5fb133"
+    },
+    {
+      "path": "research/qwen16-intake-20261030-v1/intake_contract.py",
+      "mode": "100644",
+      "git_blob_sha1": "0e1a71d5721cb863f522904314d4e3ebf7c20c10",
+      "bytes": 14843,
+      "source_commit": "996b33ca1414e38a31d7cfd07e2d2f3a0d5fb133"
+    },
+    {
+      "path": "research/qwen16-intake-20261030-v1/plan.json",
+      "mode": "100644",
+      "git_blob_sha1": "481cc304c060e1b5830fc986726a8deeca99625c",
+      "bytes": 6667,
+      "source_commit": "996b33ca1414e38a31d7cfd07e2d2f3a0d5fb133"
+    },
+    {
+      "path": "research/qwen16-intake-20261030-v1/register_retention.py",
+      "mode": "100644",
+      "git_blob_sha1": "461260423d7564e581eb5c1df2f4b69efd10a810",
+      "bytes": 5496,
+      "source_commit": "996b33ca1414e38a31d7cfd07e2d2f3a0d5fb133"
+    },
+    {
+      "path": "research/qwen16-intake-20261030-v1/run.py",
+      "mode": "100644",
+      "git_blob_sha1": "c02d4c09645045f5b2e1860d596446464420dbb5",
+      "bytes": 11846,
+      "source_commit": "996b33ca1414e38a31d7cfd07e2d2f3a0d5fb133"
+    },
+    {
+      "path": "research/qwen16-intake-20261030-v1/source-freeze.json",
+      "mode": "100644",
+      "git_blob_sha1": "9fea293909fdae02dc1ba08950b62db5d0c5a00e",
+      "bytes": 706,
+      "source_commit": "996b33ca1414e38a31d7cfd07e2d2f3a0d5fb133"
+    },
+    {
+      "path": "research/qwen16-intake-20261030-v1/test_contract.py",
+      "mode": "100644",
+      "git_blob_sha1": "875b62aac6032758389e100f8168bc1fe5b54dcf",
+      "bytes": 20744,
+      "source_commit": "996b33ca1414e38a31d7cfd07e2d2f3a0d5fb133"
+    },
+    {
+      "path": "research/qwen16-intake-20261030-v1/worker.py",
+      "mode": "100644",
+      "git_blob_sha1": "2c0022917db346c3f341e753f3b0c13c3a63bc31",
+      "bytes": 9804,
+      "source_commit": "996b33ca1414e38a31d7cfd07e2d2f3a0d5fb133"
+    }
+  ],
+  "source_registration_history": [
+    {
+      "campaign": "qwen16-intake-20261030-v1",
+      "source_commit": "996b33ca1414e38a31d7cfd07e2d2f3a0d5fb133",
+      "paths": [
+        ".github/workflows/qwen16-intake-20261030-v1.yml",
+        ".github/workflows/qwen16-intake-contracts.yml",
+        "research/qwen16-intake-20261030-v1/README.md",
+        "research/qwen16-intake-20261030-v1/intake_contract.py",
+        "research/qwen16-intake-20261030-v1/plan.json",
+        "research/qwen16-intake-20261030-v1/register_retention.py",
+        "research/qwen16-intake-20261030-v1/run.py",
+        "research/qwen16-intake-20261030-v1/source-freeze.json",
+        "research/qwen16-intake-20261030-v1/test_contract.py",
+        "research/qwen16-intake-20261030-v1/worker.py"
+      ],
+      "previous_manifest_sha256": "d40ce46aec3f1e7634dafb358d21dd757c547dcc4f8a48f6b55a7265d2613f48",
+      "scope": "new execution source only; zero generated or admitted recordings"
     }
   ]
 }
