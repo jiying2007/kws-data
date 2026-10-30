@@ -1,0 +1,96 @@
+name: Qwen16 exact original archive
+on:
+  push:
+    branches: [main, research/archive-qwen16-41008894901]
+    paths:
+      - 'research/qwen16-archive-20261030-v1/**'
+      - '.github/workflows/qwen16-archive-20261030-v1.yml'
+  pull_request:
+    paths:
+      - 'research/qwen16-archive-20261030-v1/**'
+      - '.github/workflows/qwen16-archive-20261030-v1.yml'
+permissions:
+  contents: read
+concurrency:
+  group: qwen16-exact-archive-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  archive-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Offline source and retained artifact contracts
+        env:
+          REQUIRE_ARCHIVE: ${{ github.event_name == 'pull_request' && '1' || '0' }}
+        run: |
+          set -euo pipefail
+          for mode in '' -O -OO; do
+            python3 $mode -B research/qwen16-archive-20261030-v1/test_archive.py -v
+          done
+          git diff --check
+          test -z "$(git status --porcelain)"
+  archive-original:
+    needs: archive-contracts
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/research/archive-qwen16-41008894901' &&
+      github.event.created == true &&
+      github.run_attempt == 1 && github.run_number == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+      - name: Read the exact completed run and archive identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$GITHUB_RUN_NUMBER" = 1
+          gh api repos/jiying2007/kws-data/actions/runs/41008894901 \
+            --jq '.status == "completed" and .conclusion == "success" and .run_attempt == 1 and .head_sha == "1398f5e3c6a608ab865cd20fcad9d1b9e622c30a"' | grep -Fx true
+          gh api repos/jiying2007/kws-data/actions/artifacts/12956997278 \
+            --jq '.expired == false and .size_in_bytes == 4602393 and .workflow_run.id == 41008894901 and .digest == "sha256:78f8b8736db1ab1dafc15a3bdddbbab64799ee0c975b6f3dab647604d633a8d1"' | grep -Fx true
+          curl --fail --location --silent --show-error --max-time 120 --max-filesize 5000000 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/12956997278/zip \
+            -o "$RUNNER_TEMP/qwen16-original.zip"
+      - name: Verify every original file, audio, claim and split before archival
+        env:
+          QWEN16_ARCHIVE: ${{ runner.temp }}/qwen16-original.zip
+          REQUIRE_ARCHIVE: '1'
+        run: |
+          set -euo pipefail
+          for mode in '' -O -OO; do
+            python3 $mode -B research/qwen16-archive-20261030-v1/test_archive.py -v
+          done
+          python3 -B research/qwen16-archive-20261030-v1/verify_archive.py \
+            --archive "$QWEN16_ARCHIVE" \
+            --output research/qwen16-archive-20261030-v1/evidence/run-41008894901
+      - name: Commit exact original evidence and register real source identities
+        run: |
+          set -euo pipefail
+          branch=research/archive-qwen16-41008894901
+          test "$(git ls-remote origin "refs/heads/$branch" | cut -f1)" = "$GITHUB_SHA"
+          git switch -C "$branch" "$GITHUB_SHA"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- research/qwen16-archive-20261030-v1/evidence/run-41008894901
+          git add -f -- research/qwen16-archive-20261030-v1/evidence/run-41008894901/original.zip
+          git diff --cached --check
+          git commit -m 'data: retain exact Qwen16 run 41008894901 without admitting labels'
+          python3 -B research/qwen16-archive-20261030-v1/verify_archive.py --register
+          git add -- docs/BRANCH_RETENTION_20261007.json
+          git diff --cached --check
+          git commit -m 'chore: bind archive additions to their actual source commit'
+          test -z "$(git status --porcelain)"
+          git push origin "HEAD:refs/heads/$branch"
