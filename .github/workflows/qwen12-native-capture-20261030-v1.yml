@@ -42,6 +42,8 @@ jobs:
           output=pathlib.Path(os.environ['RUNNER_TEMP'])/'capture-source'
           output.mkdir()
           selected=('research/qwen12-native-admission-v1','research/source-screen32-v1','research/source-screen32-whisper-v1','research/qwen6_asr','research/qwen6_tts','research/k1-punctuation6-asr18-v1','tools')
+          freeze=json.loads(pathlib.Path('pipeline/research/qwen12-native-admission-v1/execution-freeze.json').read_bytes())
+          dependencies=set().union(*(set(freeze[k]) for k in ('host_code','setup_code','inference_code')))
           rows=[]; total=0
           with zipfile.ZipFile(output/'public-source.zip','w',zipfile.ZIP_DEFLATED) as archive:
               for repository,root in [('kws-pipeline',pathlib.Path('pipeline')),('kws-data',pathlib.Path('data'))]:
@@ -52,8 +54,9 @@ jobs:
                       metadata,name=entry.split(b'\t',1); name=name.decode('utf-8')
                       mode,blob,stage=metadata.decode().split()
                       path=pathlib.PurePosixPath(name)
-                      allowed=(path.parent.as_posix() in selected or name in ('CONTRIBUTING.md','docs/REPOSITORY_GOVERNANCE.md','docs/SPEECH_BASE_ADMISSION.md')) if repository=='kws-pipeline' else (path.parent.as_posix() in ('research/qwen16-label-inputs-20261030-v1','research/qwen16-archive-20261030-v1','research/fresh-qwen16-20261030-v1','tools') or name in ('docs/BRANCH_RETENTION_20261007.json','.github/workflows/assets.yml','.github/workflows/research-retention.yml','.github/workflows/host-research-publication.yml'))
-                      if not allowed or path.suffix not in ('.py','.json','.md','.yml','.txt','.lock'): continue
+                      exact_dependency=repository=='kws-pipeline' and name in dependencies
+                      allowed=(exact_dependency or path.parent.as_posix() in selected or name in ('CONTRIBUTING.md','docs/REPOSITORY_GOVERNANCE.md','docs/SPEECH_BASE_ADMISSION.md')) if repository=='kws-pipeline' else (path.parent.as_posix() in ('research/qwen16-label-inputs-20261030-v1','research/qwen16-archive-20261030-v1','research/fresh-qwen16-20261030-v1','tools') or name in ('docs/BRANCH_RETENTION_20261007.json','.github/workflows/assets.yml','.github/workflows/research-retention.yml','.github/workflows/host-research-publication.yml'))
+                      if not allowed or (not exact_dependency and path.suffix not in ('.py','.json','.md','.yml','.txt','.lock')): continue
                       if mode not in ('100644','100755') or stage!='0': raise ValueError('nonregular source')
                       source=root/name
                       if source.is_symlink() or source.stat().st_size>2*1024**2: raise ValueError('source size/type')
@@ -63,6 +66,7 @@ jobs:
                       if total>32*1024**2: raise ValueError('aggregate source cap')
                       member=repository+'/'+name; archive.writestr(member,content)
                       rows.append({'repository':repository,'commit':commit,'path':name,'mode':mode,'git_blob':blob,'bytes':len(content),'sha256':hashlib.sha256(content).hexdigest()})
+              if not dependencies <= {r['path'] for r in rows if r['repository']=='kws-pipeline'}: raise ValueError('missing transitive dependency')
               archive.writestr('source-manifest.json',json.dumps({'schema':'qwen12-public-source-snapshot-v1','files':rows,'model_calls':0,'runtime_installs':0,'training_admitted':False},sort_keys=True,indent=2)+'\n')
           print(json.dumps({'source_files':len(rows),'source_bytes':total,'archive_sha256':hashlib.sha256((output/'public-source.zip').read_bytes()).hexdigest(),'model_calls':0}))
           PY
