@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1816,
-  "expected_retained_files": 1808,
+  "expected_tracked_files": 1820,
+  "expected_retained_files": 1812,
   "new_retained_paths": 1211,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -19992,6 +19992,34 @@
       "git_blob_sha1": "ad8f5a8e25389e66e47bb6105e7da18faac68efc",
       "bytes": 16485,
       "source_commit": "54445ca48e6598dbf94a4e352ad298a51c188759"
+    },
+    {
+      "path": ".github/workflows/qwen16-label-inputs-20261030-v1.yml",
+      "mode": "100644",
+      "git_blob_sha1": "c09041f0538c18fa696ab54c4dca4178a3eb8659",
+      "bytes": 3418,
+      "source_commit": "657c08f74cec711fbd6323ad45616aaec86dae9f"
+    },
+    {
+      "path": "research/qwen16-label-inputs-20261030-v1/README.md",
+      "mode": "100644",
+      "git_blob_sha1": "10363caa1c5038f31d8d3d03d8e165f324e3bfb9",
+      "bytes": 3799,
+      "source_commit": "657c08f74cec711fbd6323ad45616aaec86dae9f"
+    },
+    {
+      "path": "research/qwen16-label-inputs-20261030-v1/prepare.py",
+      "mode": "100644",
+      "git_blob_sha1": "7d35d738cd9183fefe86fbfc65e0e979233454d1",
+      "bytes": 14459,
+      "source_commit": "657c08f74cec711fbd6323ad45616aaec86dae9f"
+    },
+    {
+      "path": "research/qwen16-label-inputs-20261030-v1/test_prepare.py",
+      "mode": "100644",
+      "git_blob_sha1": "ee6ff40fccc7e12f9f0a06d7c486133a26514ac6",
+      "bytes": 12546,
+      "source_commit": "657c08f74cec711fbd6323ad45616aaec86dae9f"
     }
   ],
   "source_registration_history": [
@@ -20087,6 +20115,18 @@
       ],
       "previous_manifest_sha256": "0017959368b53a4c97bd25d7582d6184367776babc6109cbb21a86c725489695",
       "scope": "exact original TTS evidence; labels pending; no new inference/training"
+    },
+    {
+      "campaign": "qwen16-blind-label-inputs-20261030",
+      "source_commit": "657c08f74cec711fbd6323ad45616aaec86dae9f",
+      "paths": [
+        ".github/workflows/qwen16-label-inputs-20261030-v1.yml",
+        "research/qwen16-label-inputs-20261030-v1/README.md",
+        "research/qwen16-label-inputs-20261030-v1/prepare.py",
+        "research/qwen16-label-inputs-20261030-v1/test_prepare.py"
+      ],
+      "previous_manifest_sha256": "bf3cccb9c05a3a466058fc6f281765f415ddf83019c83f443dc0cb03ec5cd7e9",
+      "scope": "blind input preparation only; no ASR, labels, training or new generation"
     }
   ]
 }
