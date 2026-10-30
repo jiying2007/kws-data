@@ -1,0 +1,56 @@
+name: Qwen16 intake source contracts
+on:
+  push:
+    branches: [main, research/qwen16-intake-20261030-v1]
+    paths:
+      - 'research/qwen16-intake-20261030-v1/**'
+      - '.github/workflows/qwen16-intake-contracts.yml'
+      - '.github/workflows/qwen16-intake-20261030-v1.yml'
+  pull_request:
+    paths:
+      - 'research/qwen16-intake-20261030-v1/**'
+      - '.github/workflows/qwen16-intake-contracts.yml'
+      - '.github/workflows/qwen16-intake-20261030-v1.yml'
+permissions:
+  contents: read
+jobs:
+  qwen16-intake-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Normal and optimized offline contracts
+        run: |
+          set -euo pipefail
+          python3 -I -B -m unittest discover -s research/qwen16-intake-20261030-v1 -p 'test_*.py' -v
+          python3 -I -B -O -m unittest discover -s research/qwen16-intake-20261030-v1 -p 'test_*.py' -v
+          python3 -I -B -OO -m unittest discover -s research/qwen16-intake-20261030-v1 -p 'test_*.py' -v
+          git diff --exit-code
+  register-reviewed-source:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/research/qwen16-intake-20261030-v1' && github.repository == 'jiying2007/kws-data'
+    needs: qwen16-intake-contracts
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Register only this source set without altering historical rows
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          branch='research/qwen16-intake-20261030-v1'
+          latest="$(gh api "repos/jiying2007/kws-data/git/ref/heads/$branch" --jq '.object.sha')"
+          test "$latest" = "$GITHUB_SHA"
+          payload="$RUNNER_TEMP/qwen16-retention-request.json"
+          python3 -I -B research/qwen16-intake-20261030-v1/register_retention.py --payload "$payload"
+          if test -f "$payload"; then
+            gh api --method PUT repos/jiying2007/kws-data/contents/docs/BRANCH_RETENTION_20261007.json \
+              --input "$payload" --jq '{commit: .commit.sha, path: .content.path}'
+          fi

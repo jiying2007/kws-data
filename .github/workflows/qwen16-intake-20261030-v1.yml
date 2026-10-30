@@ -1,0 +1,59 @@
+name: New Qwen16 unadmitted corpus 20261030 v1
+on:
+  push:
+    branches: [research/run-qwen16-intake-20261030-v1]
+  workflow_dispatch:
+    inputs:
+      expected_source_sha:
+        description: 'Exact reviewed main commit; one dispatch only, no retries'
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: qwen16-intake-20261030-v1
+  cancel-in-progress: false
+jobs:
+  generate:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: source
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Offline campaign contracts
+        working-directory: source
+        run: |
+          set -euo pipefail
+          python3 -I -B -m unittest discover -s research/qwen16-intake-20261030-v1 -p 'test_*.py' -v
+          python3 -I -B -O -m unittest discover -s research/qwen16-intake-20261030-v1 -p 'test_*.py' -v
+          python3 -I -B -OO -m unittest discover -s research/qwen16-intake-20261030-v1 -p 'test_*.py' -v
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 983e8082f712bd5099feb32bfb099e9f6df22d3a
+          path: retained-donor
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Generate bounded new batch, never admit labels
+        id: batch
+        working-directory: source
+        env:
+          EXPECTED_SOURCE_SHA: ${{ inputs.expected_source_sha || github.sha }}
+        run: |
+          set -euo pipefail
+          python3 -I -B research/qwen16-intake-20261030-v1/run.py \
+            --donor "$GITHUB_WORKSPACE/retained-donor" \
+            --expected-source-sha "$EXPECTED_SOURCE_SHA"
+      - name: Retain allowlisted audio and evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: qwen16-intake-20261030-v1-${{ github.run_id }}
+          path: ${{ runner.temp }}/qwen16-intake-20261030-v1/artifact/
+          retention-days: 30
+          if-no-files-found: error
