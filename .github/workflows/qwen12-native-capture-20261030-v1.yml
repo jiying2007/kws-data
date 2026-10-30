@@ -1,0 +1,76 @@
+name: Qwen12 native capture source preparation
+on:
+  push:
+    branches: [research/qwen12-native-capture-20261030-v1]
+    paths: ['.github/workflows/qwen12-native-capture-20261030-v1.yml', 'research/qwen12-native-capture-20261030-v1/**']
+  pull_request:
+    paths: ['.github/workflows/qwen12-native-capture-20261030-v1.yml', 'research/qwen12-native-capture-20261030-v1/**']
+permissions:
+  contents: read
+concurrency:
+  group: qwen12-native-source-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  source-preparation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          path: data
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 702583717af435d99a2aa5810aa504355a4ab8c7
+          persist-credentials: false
+          path: pipeline
+      - name: Prepare and independently rederive the existing twelve train inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd data
+          python3 -B research/qwen16-label-inputs-20261030-v1/prepare.py --output "$RUNNER_TEMP/qwen12-blind"
+          python3 -B research/qwen16-label-inputs-20261030-v1/prepare.py --verify "$RUNNER_TEMP/qwen12-blind"
+          test -z "$(git status --porcelain)"
+      - name: Freeze public source bytes only; no runtime installation or model calls
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, subprocess, zipfile
+          output=pathlib.Path(os.environ['RUNNER_TEMP'])/'capture-source'
+          output.mkdir()
+          selected=('research/qwen12-native-admission-v1','research/source-screen32-v1','research/source-screen32-whisper-v1','research/qwen6_asr','research/qwen6_tts','research/k1-punctuation6-asr18-v1','tools')
+          rows=[]; total=0
+          with zipfile.ZipFile(output/'public-source.zip','w',zipfile.ZIP_DEFLATED) as archive:
+              for repository,root in [('kws-pipeline',pathlib.Path('pipeline')),('kws-data',pathlib.Path('data'))]:
+                  commit=subprocess.check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip()
+                  raw=subprocess.check_output(['git','-C',str(root),'ls-files','--stage','-z'])
+                  for entry in raw.split(b'\0'):
+                      if not entry: continue
+                      metadata,name=entry.split(b'\t',1); name=name.decode('utf-8')
+                      mode,blob,stage=metadata.decode().split()
+                      path=pathlib.PurePosixPath(name)
+                      allowed=(path.parent.as_posix() in selected or name in ('CONTRIBUTING.md','docs/REPOSITORY_GOVERNANCE.md','docs/SPEECH_BASE_ADMISSION.md')) if repository=='kws-pipeline' else (path.parent.as_posix() in ('research/qwen16-label-inputs-20261030-v1','research/qwen16-archive-20261030-v1','research/fresh-qwen16-20261030-v1','tools') or name in ('docs/BRANCH_RETENTION_20261007.json','.github/workflows/assets.yml','.github/workflows/research-retention.yml','.github/workflows/host-research-publication.yml'))
+                      if not allowed or path.suffix not in ('.py','.json','.md','.yml','.txt','.lock'): continue
+                      if mode not in ('100644','100755') or stage!='0': raise ValueError('nonregular source')
+                      source=root/name
+                      if source.is_symlink() or source.stat().st_size>2*1024**2: raise ValueError('source size/type')
+                      content=source.read_bytes(); content.decode('utf-8')
+                      if hashlib.sha1(b'blob '+str(len(content)).encode()+b'\0'+content).hexdigest()!=blob: raise ValueError('source blob mismatch')
+                      total+=len(content)
+                      if total>32*1024**2: raise ValueError('aggregate source cap')
+                      member=repository+'/'+name; archive.writestr(member,content)
+                      rows.append({'repository':repository,'commit':commit,'path':name,'mode':mode,'git_blob':blob,'bytes':len(content),'sha256':hashlib.sha256(content).hexdigest()})
+              archive.writestr('source-manifest.json',json.dumps({'schema':'qwen12-public-source-snapshot-v1','files':rows,'model_calls':0,'runtime_installs':0,'training_admitted':False},sort_keys=True,indent=2)+'\n')
+          print(json.dumps({'source_files':len(rows),'source_bytes':total,'archive_sha256':hashlib.sha256((output/'public-source.zip').read_bytes()).hexdigest(),'model_calls':0}))
+          PY
+          test -z "$(git -C pipeline status --porcelain)"
+          test -z "$(git -C data status --porcelain)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: qwen12-native-source-${{ github.run_id }}
+          path: ${{ runner.temp }}/capture-source/
+          retention-days: 7
+          if-no-files-found: error
