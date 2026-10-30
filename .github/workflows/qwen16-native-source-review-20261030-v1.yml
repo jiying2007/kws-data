@@ -1,0 +1,53 @@
+name: Qwen16 native capture source review only
+on:
+  push:
+    branches: [research/qwen16-native-capture-20261030-v1]
+    paths: ['.github/workflows/qwen16-native-source-review-20261030-v1.yml']
+permissions:
+  contents: read
+jobs:
+  source-snapshot:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_number == 1 && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 426acdc9a045488e124db50a2454a7daa0f11f91
+          path: donor
+          persist-credentials: false
+      - name: Package only pinned public source and lock files, zero models
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -B - <<'PY'
+          import hashlib,json,os,pathlib,subprocess,zipfile
+          root=pathlib.Path('donor')
+          expected='426acdc9a045488e124db50a2454a7daa0f11f91'
+          if subprocess.check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip()!=expected: raise ValueError('donor head')
+          prefixes=('tools/','research/source-screen32-v1/','research/qwen6_asr/','research/qwen6_tts/','research/source-screen32-whisper-v1/','research/qwen12-native-admission-v1/')
+          blocked={'evidence','history','runtime','results','__pycache__'}
+          rows={};total=0
+          destination=pathlib.Path(os.environ['RUNNER_TEMP'])/'qwen16-native-source-review';destination.mkdir()
+          with zipfile.ZipFile(destination/'source.zip','w',zipfile.ZIP_DEFLATED) as archive:
+            for line in subprocess.check_output(['git','-C',str(root),'ls-tree','-r','-z','HEAD']).split(b'\0'):
+              if not line: continue
+              meta,rawname=line.split(b'\t',1);mode,kind,blob=meta.decode().split();name=rawname.decode();p=pathlib.PurePosixPath(name)
+              if not name.startswith(prefixes) or blocked.intersection(p.parts) or p.suffix not in ('.py','.json'): continue
+              if mode!='100644' or kind!='blob': raise ValueError('source mode')
+              raw=(root/name).read_bytes();total+=len(raw)
+              if len(raw)>8*1024**2 or total>32*1024**2: raise ValueError('bounded public source snapshot')
+              if hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()!=blob: raise ValueError('Git blob identity')
+              rows[name]={'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest(),'git_blob_sha1':blob}
+              archive.writestr(name,raw)
+          receipt={'schema':'qwen16-public-asr-source-review-v1','donor_commit':expected,'files':rows,'total_bytes':total,'model_loads':0,'inference_calls':0,'training_runs':0}
+          (destination/'source-manifest.json').write_text(json.dumps(receipt,sort_keys=True,indent=2)+'\n')
+          print(json.dumps({'public_files':len(rows),'bytes':total,'model_calls':0}))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: qwen16-native-source-review-${{ github.run_id }}
+          path: ${{ runner.temp }}/qwen16-native-source-review/
+          retention-days: 14
+          if-no-files-found: error
