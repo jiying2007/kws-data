@@ -1,0 +1,211 @@
+name: Qwen12 native capture and source contracts
+on:
+  push:
+    branches: [main, research/qwen12-native-capture-20261030-v1, research/qwen12-native-capture-once-20261031-v1]
+    paths: ['.github/workflows/qwen12-native-capture-20261030-v1.yml', 'research/qwen12-native-capture-20261030-v1/**', 'docs/BRANCH_RETENTION_20261007.json']
+  pull_request:
+    paths: ['.github/workflows/qwen12-native-capture-20261030-v1.yml', 'research/qwen12-native-capture-20261030-v1/**', 'docs/BRANCH_RETENTION_20261007.json']
+permissions:
+  contents: read
+concurrency:
+  group: qwen12-native-source-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  source-preparation:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+          path: data
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 702583717af435d99a2aa5810aa504355a4ab8c7
+          persist-credentials: false
+          path: pipeline
+      - name: Prepare and independently rederive the existing twelve train inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/capture-source"
+          cd data
+          python3 -B research/qwen16-label-inputs-20261030-v1/prepare.py --output "$RUNNER_TEMP/qwen12-blind" 2>&1 | tee "$RUNNER_TEMP/capture-source/input-prepare.log"
+          python3 -B research/qwen16-label-inputs-20261030-v1/prepare.py --verify "$RUNNER_TEMP/qwen12-blind" 2>&1 | tee "$RUNNER_TEMP/capture-source/input-verify.log"
+          test -z "$(git status --porcelain)"
+      - name: Test fresh36 input and prospective adapter offline only
+        env:
+          KWS_FRESH_BLIND_DIR: ${{ runner.temp }}/qwen12-blind/blind
+          KWS_PINNED_PIPELINE: ${{ github.workspace }}/pipeline
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd data
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            for suite in test_fresh_contract test_capture_entry test_publication; do
+              python3 -B "${args[@]}" "research/qwen12-native-capture-20261030-v1/${suite}.py" -v 2>&1 | tee "$RUNNER_TEMP/capture-source/${suite}-${mode}.log"
+            done
+          done
+          python3 -B - <<'PY' 2>&1 | tee "$RUNNER_TEMP/capture-source/registration-tests.log"
+          import copy, importlib.util, pathlib
+          path=pathlib.Path('research/qwen12-native-capture-20261030-v1/register_sources.py')
+          spec=importlib.util.spec_from_file_location('register_source_tests',path)
+          m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+          old={'schema':'kws-public-branch-retention-v1','repository':m.REPO,
+            'retained_files':[{'path':'original','mode':'100644','git_blob_sha1':'a'*40,'bytes':1,'source_commit':'b'*40}],
+            'integration_files':[m.MANIFEST],'expected_retained_files':1,'expected_tracked_files':2}
+          tree={'original':('100644','a'*40,1),m.MANIFEST:('100644','b'*40,2),
+            **{p:('100644','c'*40,3) for p in m.PATHS}}
+          value=m.proposed_manifest(old,tree,'d'*40,b'original manifest')
+          if value['retained_files'][0]!=old['retained_files'][0] or value['expected_retained_files']!=len(m.PATHS)+1:raise ValueError('lost original evidence')
+          if m.proposed_manifest(value,tree,'e'*40,b'next') is not None:raise ValueError('not idempotent')
+          for mutation in ('unrelated','removed','changed','mode','size'):
+            bad=copy.deepcopy(tree)
+            if mutation=='unrelated':bad['unexpected']=('100644','f'*40,1)
+            elif mutation=='removed':del bad['original']
+            elif mutation=='changed':bad['original']=('100644','f'*40,1)
+            else:bad[next(iter(m.PATHS))]=('120000','c'*40,3) if mutation=='mode' else ('100644','c'*40,65537)
+            try:m.proposed_manifest(old,bad,'d'*40,b'original manifest')
+            except ValueError:pass
+            else:raise ValueError('unsafe registration accepted: '+mutation)
+          if old['expected_retained_files']!=1:raise ValueError('input mutated')
+          print('source registration: 8 artificial checks PASS; no Git writes in tests')
+          PY
+          test -z "$(git status --porcelain)"
+      - name: Freeze public source bytes only; no runtime installation or model calls
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import ast, hashlib, json, os, pathlib, subprocess, zipfile
+          output=pathlib.Path(os.environ['RUNNER_TEMP'])/'capture-source'
+          output.mkdir(exist_ok=True)
+          selected=('research/qwen12-native-admission-v1','research/source-screen32-v1','research/source-screen32-whisper-v1','research/qwen6_asr','research/qwen6_tts','research/k1-punctuation6-asr18-v1','tools')
+          freeze=json.loads(pathlib.Path('pipeline/research/qwen12-native-admission-v1/execution-freeze.json').read_bytes())
+          dependencies=set().union(*(set(freeze[k]) for k in ('host_code','setup_code','inference_code')))
+          syntax=ast.parse(pathlib.Path('data/research/qwen12-native-capture-20261030-v1/run_capture.py').read_bytes())
+          archives=[ast.literal_eval(n.value) for n in syntax.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='SOURCE_ARCHIVES' for t in n.targets)]
+          if len(archives)!=1 or len(archives[0])!=5:raise ValueError('explicit source selection required')
+          dependencies.update(archives[0].values())
+          rows=[]; total=0
+          with zipfile.ZipFile(output/'public-source.zip','w',zipfile.ZIP_DEFLATED) as archive:
+              for repository,root in [('kws-pipeline',pathlib.Path('pipeline')),('kws-data',pathlib.Path('data'))]:
+                  commit=subprocess.check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip()
+                  raw=subprocess.check_output(['git','-C',str(root),'ls-files','--stage','-z'])
+                  for entry in raw.split(b'\0'):
+                      if not entry: continue
+                      metadata,name=entry.split(b'\t',1); name=name.decode('utf-8')
+                      mode,blob,stage=metadata.decode().split()
+                      path=pathlib.PurePosixPath(name)
+                      exact_dependency=repository=='kws-pipeline' and name in dependencies
+                      allowed=(exact_dependency or path.parent.as_posix() in selected or name in ('CONTRIBUTING.md','docs/REPOSITORY_GOVERNANCE.md','docs/SPEECH_BASE_ADMISSION.md')) if repository=='kws-pipeline' else (path.parent.as_posix() in ('research/qwen12-native-capture-20261030-v1','research/qwen16-label-inputs-20261030-v1','research/qwen16-archive-20261030-v1','research/fresh-qwen16-20261030-v1','tools') or name in ('docs/BRANCH_RETENTION_20261007.json','.github/workflows/qwen12-native-capture-20261030-v1.yml','.github/workflows/assets.yml','.github/workflows/research-retention.yml','.github/workflows/host-research-publication.yml'))
+                      if not allowed or (not exact_dependency and path.suffix not in ('.py','.json','.md','.yml','.txt','.lock')): continue
+                      if mode not in ('100644','100755') or stage!='0': raise ValueError('nonregular source')
+                      source=root/name
+                      if source.is_symlink() or source.stat().st_size>2*1024**2: raise ValueError('source size/type')
+                      content=source.read_bytes(); content.decode('utf-8')
+                      if hashlib.sha1(b'blob '+str(len(content)).encode()+b'\0'+content).hexdigest()!=blob: raise ValueError('source blob mismatch')
+                      total+=len(content)
+                      if total>32*1024**2: raise ValueError('aggregate source cap')
+                      member=repository+'/'+name; archive.writestr(member,content)
+                      rows.append({'repository':repository,'commit':commit,'path':name,'mode':mode,'git_blob':blob,'bytes':len(content),'sha256':hashlib.sha256(content).hexdigest()})
+              if not dependencies <= {r['path'] for r in rows if r['repository']=='kws-pipeline'}: raise ValueError('missing transitive dependency')
+              archive.writestr('source-manifest.json',json.dumps({'schema':'qwen12-public-source-snapshot-v1','files':rows,'model_calls':0,'runtime_installs':0,'training_admitted':False},sort_keys=True,indent=2)+'\n')
+          print(json.dumps({'source_files':len(rows),'source_bytes':total,'archive_sha256':hashlib.sha256((output/'public-source.zip').read_bytes()).hexdigest(),'model_calls':0}))
+          PY
+          test -z "$(git -C pipeline status --porcelain)"
+          test -z "$(git -C data status --porcelain)"
+      - name: Propose exact manifest-only commit without updating any branch
+        if: github.event_name == 'pull_request' && github.event.number == 36
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd data
+          python3 -B research/qwen12-native-capture-20261030-v1/register_sources.py --output "$RUNNER_TEMP/capture-source"
+          test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: qwen12-native-source-${{ github.run_id }}
+          path: ${{ runner.temp }}/capture-source/
+          retention-days: 7
+          if-no-files-found: error
+
+  capture:
+    needs: source-preparation
+    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/research/qwen12-native-capture-once-20261031-v1' && github.event.created == true && github.event.deleted == false && github.event.repository.private == false && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          path: data
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 702583717af435d99a2aa5810aa504355a4ab8c7
+          persist-credentials: false
+          path: pipeline
+      - name: Claim the one reviewed main-head execution without replacing any ref
+        id: claim
+        timeout-minutes: 1
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          current_main="$(gh api repos/jiying2007/kws-data/git/ref/heads/main --jq '.object.sha')"
+          test "$current_main" = "$GITHUB_SHA"
+          gh api --method POST repos/jiying2007/kws-data/git/refs \
+            -f ref='refs/tags/qwen12-native-capture-once-20261031-v1-consumed' \
+            -f sha="$GITHUB_SHA" > "$RUNNER_TEMP/qwen12-execution-claim.json"
+          echo 'claimed=true' >> "$GITHUB_OUTPUT"
+      - name: Run the single native three-family capture
+        id: native
+        timeout-minutes: 63
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B data/research/qwen12-native-capture-20261030-v1/run_capture.py \
+            --pipeline "$GITHUB_WORKSPACE/pipeline" \
+            --claim "$RUNNER_TEMP/qwen12-execution-claim.json"
+      - name: Retain successful or failed bounded native observations in a new Git ref
+        if: always() && steps.claim.outputs.claimed == 'true'
+        timeout-minutes: 4
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CAPTURE_EVIDENCE_ROOT: ${{ steps.native.outputs.evidence_root }}
+          CAPTURE_STEP_OUTCOME: ${{ steps.native.outcome }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B - <<'PY'
+          import json, os, pathlib, sys
+          sys.path.insert(0,'data/research/qwen12-native-capture-20261030-v1')
+          from fresh_contract import canonical, CAMPAIGN
+          expected=pathlib.Path(os.environ['RUNNER_TEMP'])/(CAMPAIGN+'-'+os.environ['GITHUB_RUN_ID'])/'artifact'
+          supplied=os.environ.get('CAPTURE_EVIDENCE_ROOT','')
+          if supplied and pathlib.Path(supplied)!=expected:raise ValueError('unexpected evidence path')
+          if not expected.exists():
+              expected.mkdir(parents=True)
+              (expected/'publication-failure.json').write_bytes(canonical({'status':'PUBLICATION_FAILED',
+                  'error_type':'EarlyCaptureFailure','training_admitted':False,
+                  'model_outcome':'UNKNOWN','step_outcome':os.environ['CAPTURE_STEP_OUTCOME']}))
+          PY
+          python3 -B data/research/qwen12-native-capture-20261030-v1/publish_capture.py \
+            --claim "$RUNNER_TEMP/qwen12-execution-claim.json" \
+            --evidence "$RUNNER_TEMP/qwen12-native-capture-20261030-v1-$GITHUB_RUN_ID/artifact"
