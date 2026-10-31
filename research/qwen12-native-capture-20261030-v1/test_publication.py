@@ -59,7 +59,8 @@ class PublicationProtocol(unittest.TestCase):
                 if path=='/git/blobs':
                     raw=base64.b64decode(body['content']);return {'sha':hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()}
                 if path=='/git/trees':
-                    self.assertEqual(set(body),{'tree'});self.assertEqual(len(body['tree']),2);return {'sha':'c'*40}
+                    self.assertEqual(set(body),{'base_tree','tree'});self.assertEqual(body['base_tree'],'b'*40)
+                    self.assertEqual(len(body['tree']),2);return {'sha':'c'*40}
                 if path=='/git/commits':
                     self.assertEqual(body['parents'],['a'*40]);return {'sha':'d'*40}
                 if path=='/git/refs':return {'ref':pub.EVIDENCE_REF,'object':{'sha':'d'*40}}

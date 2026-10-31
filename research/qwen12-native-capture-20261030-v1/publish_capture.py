@@ -86,7 +86,7 @@ def publish(env,event,claim,root,api):
         blob=api('POST','/git/blobs',{'content':base64.b64encode(body).decode(),'encoding':'base64'})
         fresh.require(blob.get('sha')==hashlib.sha1(b'blob '+str(len(body)).encode()+b'\0'+body).hexdigest(),'created blob readback')
         entries.append({'path':'research/'+fresh.CAMPAIGN+'/evidence/'+name,'mode':'100644','type':'blob','sha':blob['sha']})
-    tree=api('POST','/git/trees',{'tree':entries})
+    tree=api('POST','/git/trees',{'base_tree':source['tree']['sha'],'tree':entries})
     fresh.require(re.fullmatch('[0-9a-f]{40}',tree.get('sha','')),'created tree identity')
     commit=api('POST','/git/commits',{'message':'evidence: retain single fresh Qwen12 native run '+run,
         'tree':tree['sha'],'parents':[head]})
