@@ -24,8 +24,8 @@ def load(name,path):
     return module
 
 
-def verify_completed(directory,job,family):
-    """Exact completed roster and raw receipts, never inferred from exit code."""
+def verify_completed(directory,job,family,*,expected_run=None,expected_head=None):
+    """Exact saved roster/byte binding, NOT acoustic quality or admission."""
     import json
     directory=Path(directory);rows=fresh.remaining_plan(job,family)
     fresh.require({p.name for p in directory.glob('clip-*')}=={r['audio_id'] for r in rows},'complete fresh family roster')
@@ -37,6 +37,9 @@ def verify_completed(directory,job,family):
         fresh.validate_start_slot(job,family,audio_id=row['audio_id'],
             measured={k:start[k] for k in ('file_sha256','pcm_sha256','audio_frames')},
             source_id=start['source_id'],request_id=start['request_id'],run_id=start['run_id'])
+        fresh.require(start['recognizer_id']==family,'current recognizer required')
+        if expected_run is not None:fresh.require(start['run_id']==expected_run,'current run required')
+        if expected_head is not None:fresh.require(start['executed_head_sha']==expected_head,'current source head required')
         fresh.require(start['schema']=='retained-asr-started-v1' and end['schema']=='retained-asr-completed-v1' and
             end['status']=='success' and end['decoder_completed'] is True and type(end['processed_start_frame']) is int and
             end['processed_start_frame']==0 and type(end['processed_end_frame']) is int and end['processed_end_frame']==row['audio_frames'],
@@ -91,7 +94,8 @@ def main(argv=None):
         if mode=='prepare':
             fresh.require(not list(output.glob('clip-*')),'prepare performed a recognition attempt')
             result={'calls':0,'completed':0,'audio_ids':[],'status':'prepared_no_recognition'}
-        else:result={**verify_completed(output,job,family),'status':'all12_fresh_native_complete'}
+        else:result={**verify_completed(output,job,family,expected_run=os.environ['KWS_RUN_ID'],
+                expected_head=os.environ['KWS_EXECUTED_HEAD_SHA']),'status':'all12_fresh_native_complete'}
         fresh.write_once(output/'worker-complete.json',{**result,**fresh.BOUNDARY})
     except BaseException as error:
         native.write_failure(error,output)
