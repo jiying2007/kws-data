@@ -1,8 +1,8 @@
-name: Qwen12 native capture source preparation
+name: Qwen12 native capture and source contracts
 on:
   push:
-    branches: [research/qwen12-native-capture-20261030-v1]
-    paths: ['.github/workflows/qwen12-native-capture-20261030-v1.yml', 'research/qwen12-native-capture-20261030-v1/**']
+    branches: [main, research/qwen12-native-capture-20261030-v1, research/qwen12-native-capture-once-20261031-v1]
+    paths: ['.github/workflows/qwen12-native-capture-20261030-v1.yml', 'research/qwen12-native-capture-20261030-v1/**', 'docs/BRANCH_RETENTION_20261007.json']
   pull_request:
     paths: ['.github/workflows/qwen12-native-capture-20261030-v1.yml', 'research/qwen12-native-capture-20261030-v1/**', 'docs/BRANCH_RETENTION_20261007.json']
 permissions:
@@ -49,7 +49,7 @@ jobs:
           for mode in normal optimized stripped; do
             args=()
             case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
-            for suite in test_fresh_contract test_capture_entry; do
+            for suite in test_fresh_contract test_capture_entry test_publication; do
               python3 -B "${args[@]}" "research/qwen12-native-capture-20261030-v1/${suite}.py" -v 2>&1 | tee "$RUNNER_TEMP/capture-source/${suite}-${mode}.log"
             done
           done
@@ -84,12 +84,16 @@ jobs:
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import hashlib, json, os, pathlib, subprocess, zipfile
+          import ast, hashlib, json, os, pathlib, subprocess, zipfile
           output=pathlib.Path(os.environ['RUNNER_TEMP'])/'capture-source'
           output.mkdir(exist_ok=True)
           selected=('research/qwen12-native-admission-v1','research/source-screen32-v1','research/source-screen32-whisper-v1','research/qwen6_asr','research/qwen6_tts','research/k1-punctuation6-asr18-v1','tools')
           freeze=json.loads(pathlib.Path('pipeline/research/qwen12-native-admission-v1/execution-freeze.json').read_bytes())
           dependencies=set().union(*(set(freeze[k]) for k in ('host_code','setup_code','inference_code')))
+          syntax=ast.parse(pathlib.Path('data/research/qwen12-native-capture-20261030-v1/run_capture.py').read_bytes())
+          archives=[ast.literal_eval(n.value) for n in syntax.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='SOURCE_ARCHIVES' for t in n.targets)]
+          if len(archives)!=1 or len(archives[0])!=5:raise ValueError('explicit source selection required')
+          dependencies.update(archives[0].values())
           rows=[]; total=0
           with zipfile.ZipFile(output/'public-source.zip','w',zipfile.ZIP_DEFLATED) as archive:
               for repository,root in [('kws-pipeline',pathlib.Path('pipeline')),('kws-data',pathlib.Path('data'))]:
@@ -135,3 +139,73 @@ jobs:
           path: ${{ runner.temp }}/capture-source/
           retention-days: 7
           if-no-files-found: error
+
+  capture:
+    needs: source-preparation
+    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/research/qwen12-native-capture-once-20261031-v1' && github.event.created == true && github.event.deleted == false && github.event.repository.private == false && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          path: data
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 702583717af435d99a2aa5810aa504355a4ab8c7
+          persist-credentials: false
+          path: pipeline
+      - name: Claim the one reviewed main-head execution without replacing any ref
+        id: claim
+        timeout-minutes: 1
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          current_main="$(gh api repos/jiying2007/kws-data/git/ref/heads/main --jq '.object.sha')"
+          test "$current_main" = "$GITHUB_SHA"
+          gh api --method POST repos/jiying2007/kws-data/git/refs \
+            -f ref='refs/tags/qwen12-native-capture-once-20261031-v1-consumed' \
+            -f sha="$GITHUB_SHA" > "$RUNNER_TEMP/qwen12-execution-claim.json"
+          echo 'claimed=true' >> "$GITHUB_OUTPUT"
+      - name: Run the single native three-family capture
+        id: native
+        timeout-minutes: 63
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B data/research/qwen12-native-capture-20261030-v1/run_capture.py \
+            --pipeline "$GITHUB_WORKSPACE/pipeline" \
+            --claim "$RUNNER_TEMP/qwen12-execution-claim.json"
+      - name: Retain successful or failed bounded native observations in a new Git ref
+        if: always() && steps.claim.outputs.claimed == 'true'
+        timeout-minutes: 4
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CAPTURE_EVIDENCE_ROOT: ${{ steps.native.outputs.evidence_root }}
+          CAPTURE_STEP_OUTCOME: ${{ steps.native.outcome }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B - <<'PY'
+          import json, os, pathlib, sys
+          sys.path.insert(0,'data/research/qwen12-native-capture-20261030-v1')
+          from fresh_contract import canonical, CAMPAIGN
+          expected=pathlib.Path(os.environ['RUNNER_TEMP'])/(CAMPAIGN+'-'+os.environ['GITHUB_RUN_ID'])/'artifact'
+          supplied=os.environ.get('CAPTURE_EVIDENCE_ROOT','')
+          if supplied and pathlib.Path(supplied)!=expected:raise ValueError('unexpected evidence path')
+          if not expected.exists():
+              expected.mkdir(parents=True)
+              (expected/'publication-failure.json').write_bytes(canonical({'status':'PUBLICATION_FAILED',
+                  'error_type':'EarlyCaptureFailure','training_admitted':False,
+                  'model_outcome':'UNKNOWN','step_outcome':os.environ['CAPTURE_STEP_OUTCOME']}))
+          PY
+          python3 -B data/research/qwen12-native-capture-20261030-v1/publish_capture.py \
+            --claim "$RUNNER_TEMP/qwen12-execution-claim.json" \
+            --evidence "$RUNNER_TEMP/qwen12-native-capture-20261030-v1-$GITHUB_RUN_ID/artifact"

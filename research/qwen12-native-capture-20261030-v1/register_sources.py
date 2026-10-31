@@ -1,6 +1,6 @@
 """Propose a manifest-only Git commit after source tests; never move a ref.
 
-Only the exact seven capture files are mutable here. Original retained evidence,
+Only the exact nine capture files are mutable here. Original retained evidence,
 verification policy and main remain untouched. The operator reads back the
 proposal and updates the existing PR branch with an expected-head lease.
 """
@@ -18,7 +18,7 @@ CAMPAIGN='qwen12-native-capture-20261030-v1'
 BRANCH='research/'+CAMPAIGN
 MANIFEST='docs/BRANCH_RETENTION_20261007.json'
 PATHS={'.github/workflows/'+CAMPAIGN+'.yml',*[BRANCH+'/'+name for name in
-    ('fresh_contract.py','test_fresh_contract.py','register_sources.py','worker.py','run_capture.py','test_capture_entry.py')]}
+    ('fresh_contract.py','test_fresh_contract.py','register_sources.py','worker.py','run_capture.py','test_capture_entry.py','publish_capture.py','test_publication.py')]}
 
 
 def require(value,message):
