@@ -122,7 +122,7 @@ jobs:
           test -z "$(git -C pipeline status --porcelain)"
           test -z "$(git -C data status --porcelain)"
       - name: Propose exact manifest-only commit without updating any branch
-        if: github.event_name == 'pull_request' && (github.head_ref == 'research/qwen12-native-capture-20261030-v1' || github.head_ref == 'fix/qwen12-once-activation-20261031')
+        if: github.event_name == 'pull_request' && (github.head_ref == 'research/qwen12-native-capture-20261030-v1' || github.head_ref == 'fix/qwen12-once-activation-20261031' || github.head_ref == 'fix/qwen12-native-terminal-20261031')
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash

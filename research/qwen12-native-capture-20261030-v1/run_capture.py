@@ -127,7 +127,7 @@ def retain(root,public,receipt):
                 if source.exists() or source.is_symlink():
                     fresh.require(source.is_file() and not source.is_symlink(),'regular host receipt required')
                     paths.append(source)
-            for name in ('prepare','decode','policy','whisper-setup'):
+            for name in ('frozen','output','policy','whisper-setup'):
                 directory=root/name
                 if directory.exists() or directory.is_symlink():
                     fresh.require(directory.is_dir() and not directory.is_symlink(),'regular output directory required')
@@ -139,7 +139,6 @@ def retain(root,public,receipt):
                 body=fresh.bounded_read(source,32*MIB);total+=len(body)
                 fresh.require(total<=256*MIB,'public raw evidence cap')
                 name=source.relative_to(root).as_posix()
-                if name.startswith('decode/'):name='output/'+name[len('decode/'):]
                 fresh.require(name not in members,'duplicate native member')
                 target=staged/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(body)
                 fresh.require(target.read_bytes()==body,'copied member changed')
@@ -168,6 +167,44 @@ def supervise_shared_setup(host,original,docker,code,runtime,inputs,output,deadl
         host.EXPERIMENT=previous
 
 
+
+def capture_layout(root):
+    """Use the retained monitor's exact writable and frozen directory contract."""
+    return root/'output', root/'frozen', root/'policy'
+
+
+def preflight_layout(docker, root, limit):
+    """Exercise the real filesystem sampler before any image/runtime acquisition."""
+    output, frozen, policy = capture_layout(root)
+    for directory, scope in ((output, 'public_output'), (frozen, 'public_frozen'),
+                             (policy, 'public_policy')):
+        fresh.require(directory.is_dir() and not directory.is_symlink() and
+                      not any(directory.iterdir()), 'empty fresh phase directory required')
+        docker.sample_bytes(directory, scope, limit)
+    for family in fresh.FAMILIES:
+        path = output/family
+        path.mkdir()
+        try:
+            docker.sample_bytes(path, 'phase_output', limit)
+        finally:
+            # Remove only the empty directory this preflight just created.
+            path.rmdir()
+
+
+def freeze_prepared(output, frozen):
+    """Move all three completed preparation snapshots; decode gets new outputs."""
+    fresh.require(output.is_dir() and not output.is_symlink() and
+                  frozen.is_dir() and not frozen.is_symlink() and
+                  not any(frozen.iterdir()), 'new frozen destination required')
+    fresh.require({p.name for p in output.iterdir()} == set(fresh.FAMILIES),
+                  'complete three-family preparation roster required')
+    for family in fresh.FAMILIES:
+        fresh.require((output/family).is_dir() and not (output/family).is_symlink(),
+                      'regular prepared family required')
+    for family in fresh.FAMILIES:
+        (output/family).rename(frozen/family)
+
+
 def execute(pipeline,claim_path):
     env=os.environ;event=json.loads(Path(env['GITHUB_EVENT_PATH']).read_bytes())
     head,run=validate_execution(env,event,json.loads(claim_path.read_bytes()))
@@ -176,7 +213,7 @@ def execute(pipeline,claim_path):
     fresh.require(git(pipeline,'rev-parse','HEAD')==PIPELINE_SHA and not git(pipeline,'status','--porcelain'),'clean pinned pipeline')
     root=Path(env['RUNNER_TEMP'])/(fresh.CAMPAIGN+'-'+run);root.mkdir()
     with open(env['GITHUB_OUTPUT'],'a') as output:output.write('evidence_root='+str(root/'artifact')+'\n')
-    inputs=root/'input';prepared=root/'prepare';decoded=root/'decode';policy=root/'policy'
+    inputs=root/'input';decoded,prepared,policy=capture_layout(root)
     for p in (prepared,decoded,policy):p.mkdir()
     old=pipeline/'research/qwen12-native-admission-v1';sys.path.insert(0,str(old))
     host=load('fresh_capture_host_primitives',old/'hosted_run.py')
@@ -195,6 +232,9 @@ def execute(pipeline,claim_path):
     signal.signal(signal.SIGALRM,interrupted);signal.signal(signal.SIGTERM,interrupted);signal.signal(signal.SIGINT,interrupted)
     signal.setitimer(signal.ITIMER_REAL,3600);save()
     try:
+        stage='layout_preflight'
+        preflight_layout(docker,root,host.LIMITS['output_bytes'])
+        stage='input'
         helper=load('fresh_archived_input',data/'research/qwen16-label-inputs-20261030-v1/prepare.py')
         helper.materialize(data/helper.ARCHIVE_PATH,root/'handoff')
         shutil.copytree(root/'handoff/blind',inputs);fresh.validate_blind(inputs)
@@ -222,7 +262,7 @@ def execute(pipeline,claim_path):
         runtimes={'qwen06':asr,'sensevoice':asr,'whisper':whisper}
         def prepare(family,seconds):
             nonlocal stage
-            stage=family+'_prepare';out=prepared/family;out.mkdir();docker.stage='setup';receipt['stages'][stage]='started';save()
+            stage=family+'_prepare';out=decoded/family;out.mkdir();docker.stage='setup';receipt['stages'][stage]='started';save()
             host.supervise(original,docker,code,runtimes[family],inputs,out,family,min(docker.deadline,time.monotonic()+seconds),mode='prepare')
             result=host.read_json(out/'worker-complete.json')
             fresh.require(result['calls']==0 and type(result['calls']) is int and not list(out.glob('clip-*')),'prepare must not recognize audio')
@@ -233,9 +273,10 @@ def execute(pipeline,claim_path):
             # build_policy consumes only the already-observed three native configs.
             sys.path.insert(0,str(old))
             receipts=load('fresh_host_native_policy',old/'worker_receipts.py')
-            value=receipts.build_policy({f:prepared/f for f in fresh.FAMILIES})
+            value=receipts.build_policy({f:decoded/f for f in fresh.FAMILIES})
             host.write_once(policy/'policy.json',value)
             receipt['policy_sha256']=hashlib.sha256((policy/'policy.json').read_bytes()).hexdigest()
+            freeze_prepared(decoded,prepared)
             receipt['all_three_prepared_before_decode']=True;save()
         def decode(family,seconds):
             nonlocal stage

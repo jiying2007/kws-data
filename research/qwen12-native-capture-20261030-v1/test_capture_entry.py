@@ -209,8 +209,8 @@ class SavedCompletion(unittest.TestCase):
 
     def test_export_failure_is_explicit(self):
         with tempfile.TemporaryDirectory() as tmp:
-            root=Path(tmp);(root/'decode').mkdir();(root/'secret').write_bytes(b'not public')
-            (root/'decode/alias').symlink_to(root/'secret')
+            root=Path(tmp);(root/'output').mkdir();(root/'secret').write_bytes(b'not public')
+            (root/'output/alias').symlink_to(root/'secret')
             with self.assertRaises(ValueError):host.retain(root,root/'artifact',{'status':'STOPPED_NO_RETRY'})
             self.assertEqual({p.name for p in (root/'artifact').iterdir()},{'publication-failure.json'})
 
@@ -218,7 +218,7 @@ class SavedCompletion(unittest.TestCase):
 class PublicationAndSetup(unittest.TestCase):
     def test_native_output_paths_and_bytes_are_preserved(self):
         with tempfile.TemporaryDirectory() as tmp:
-            root=Path(tmp);source=root/'decode/qwen06/clip-000001/raw-native-output.json'
+            root=Path(tmp);source=root/'output/qwen06/clip-000001/raw-native-output.json'
             source.parent.mkdir(parents=True);body=b'{"fixture":true}';source.write_bytes(body)
             host.retain(root,root/'artifact',{'status':'STOPPED_NO_RETRY'})
             target=root/'artifact/output/qwen06/clip-000001/raw-native-output.json'
@@ -233,7 +233,7 @@ class PublicationAndSetup(unittest.TestCase):
     def test_directory_alias_leaves_only_failure_receipt(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);(root/'private').mkdir();(root/'private/do-not-copy').write_bytes(b'fixture')
-            (root/'decode').symlink_to(root/'private',target_is_directory=True)
+            (root/'output').symlink_to(root/'private',target_is_directory=True)
             with self.assertRaises(ValueError):host.retain(root,root/'artifact',{'status':'STOPPED_NO_RETRY'})
             self.assertEqual({p.name for p in (root/'artifact').iterdir()},{'publication-failure.json'})
             self.assertEqual((root/'private/do-not-copy').read_bytes(),b'fixture')
@@ -291,6 +291,108 @@ class PublicationAndSetup(unittest.TestCase):
             with patch.dict(os.environ,env,clear=True),patch.object(host,'git',side_effect=['a'*40,'',host.PIPELINE_SHA,'']),patch.object(host,'load',side_effect=RuntimeError('fixture before imports')):
                 with self.assertRaises(RuntimeError):host.execute(root/'pipeline',claim)
             self.assertEqual(output.read_text(),'evidence_root='+str(root/(fresh.CAMPAIGN+'-123')/'artifact')+'\n')
+
+
+
+class MonitorLayout(unittest.TestCase):
+    """Real retained sampler + real temporary files; no Docker or model calls."""
+    @classmethod
+    def setUpClass(cls):
+        pipeline=Path(os.environ['KWS_PINNED_PIPELINE'])
+        cls.monitor=host.load('fresh_layout_monitor_tests',pipeline/'research/qwen12-native-admission-v1/hosted_run.py')
+
+    def monitor_for(self, root):
+        return self.monitor.MeteredDocker(root,self.monitor.time.monotonic()+30)
+
+    def make_layout(self, root):
+        paths=host.capture_layout(root)
+        self.assertEqual(paths,(root/'output',root/'frozen',root/'policy'))
+        for path in paths:path.mkdir()
+        return paths
+
+    def test_original_prepare_and_decode_paths_reproduce_failure(self):
+        for old in ('prepare','decode'):
+            with self.subTest(old=old),tempfile.TemporaryDirectory() as tmp:
+                root=Path(tmp);path=root/old/'qwen06';path.mkdir(parents=True)
+                monitor=self.monitor_for(root)
+                with self.assertRaisesRegex(ValueError,'fixed family sampling child'):
+                    monitor.sample_bytes(path,'phase_output',1024)
+                self.assertEqual(monitor.names,{})
+
+    def test_preflight_calls_real_monitor_and_leaves_outputs_empty(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);output,frozen,policy=self.make_layout(root);monitor=self.monitor_for(root)
+            with patch.object(self.monitor.subprocess,'run',side_effect=AssertionError('no processes allowed')):
+                host.preflight_layout(monitor,root,self.monitor.LIMITS['output_bytes'])
+            self.assertEqual(list(output.iterdir()),[])
+            self.assertEqual(list(frozen.iterdir()),[])
+            self.assertEqual(monitor.filesystem_sampling['scopes']['phase_output']['checks'],3)
+            self.assertEqual(monitor.names,{})
+            self.assertFalse(any(n in sys.modules for n in ('torch','transformers','funasr','whisper','qwen_asr')))
+
+    def test_prepare_freeze_decode_are_monitored_and_published_without_relabeling(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);output,frozen,policy=self.make_layout(root);monitor=self.monitor_for(root)
+            for family in fresh.FAMILIES:
+                path=output/family;path.mkdir();(path/'native-config.json').write_bytes(b'{"fixture":true}')
+                self.assertEqual(monitor.sample_bytes(path,'phase_output',1024),16)
+            host.freeze_prepared(output,frozen)
+            self.assertEqual(list(output.iterdir()),[])
+            self.assertEqual(monitor.sample_bytes(frozen,'public_frozen',1024),48)
+            for family in fresh.FAMILIES:
+                path=output/family;path.mkdir();(path/'raw-native-output.json').write_bytes(b'{"fixture":false}')
+                self.assertEqual(monitor.sample_bytes(path,'phase_output',1024),17)
+                self.assertEqual((frozen/family/'native-config.json').read_bytes(),b'{"fixture":true}')
+            host.retain(root,root/'artifact',{'status':'OFFLINE_FIXTURE_NOT_A_CAPTURE'})
+            manifest=json.loads((root/'artifact/artifact-freeze.json').read_bytes())
+            expected={p+'/'+f+'/'+name for f in fresh.FAMILIES for p,name in
+                      [('frozen','native-config.json'),('output','raw-native-output.json')]}
+            self.assertEqual(set(manifest['files']),expected)
+            self.assertFalse(manifest['training_admitted'])
+            self.assertFalse(manifest['qualification_allowed'])
+
+    def test_all_layout_bytes_still_count_toward_existing_cap(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);output,frozen,policy=self.make_layout(root);monitor=self.monitor_for(root)
+            path=output/'qwen06';path.mkdir();(path/'fixture').write_bytes(b'12345678')
+            with self.assertRaises(ValueError):monitor.sample_bytes(path,'phase_output',7)
+            self.assertEqual((path/'fixture').read_bytes(),b'12345678')
+
+    def test_freeze_rejects_incomplete_roster_without_moving_existing_family(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);output,frozen,policy=self.make_layout(root)
+            (output/'qwen06').mkdir();(output/'qwen06/keep').write_bytes(b'original')
+            with self.assertRaises(ValueError):host.freeze_prepared(output,frozen)
+            self.assertEqual((output/'qwen06/keep').read_bytes(),b'original')
+            self.assertEqual(list(frozen.iterdir()),[])
+
+    def test_freeze_and_preflight_preserve_existing_destinations(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);output,frozen,policy=self.make_layout(root);monitor=self.monitor_for(root)
+            for family in fresh.FAMILIES:(output/family).mkdir()
+            (frozen/'keep').write_bytes(b'original')
+            with self.assertRaises(ValueError):host.freeze_prepared(output,frozen)
+            with self.assertRaises(ValueError):host.preflight_layout(monitor,root,1024)
+            self.assertEqual((frozen/'keep').read_bytes(),b'original')
+            self.assertEqual({p.name for p in output.iterdir()},set(fresh.FAMILIES))
+
+    def test_monitor_rejects_family_alias_without_weakening_boundary(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);output,frozen,policy=self.make_layout(root);monitor=self.monitor_for(root)
+            (root/'other').mkdir();(root/'other/keep').write_bytes(b'original')
+            (output/'qwen06').symlink_to(root/'other',target_is_directory=True)
+            with self.assertRaises((OSError,ValueError)):monitor.sample_bytes(output/'qwen06','phase_output',1024)
+            self.assertEqual((root/'other/keep').read_bytes(),b'original')
+
+    def test_layout_preflight_occurs_before_acquisition(self):
+        import ast
+        tree=ast.parse((HERE/'run_capture.py').read_text())
+        execute=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='execute')
+        calls=[n for n in ast.walk(execute) if isinstance(n,ast.Call)]
+        preflight=[n.lineno for n in calls if isinstance(n.func,ast.Name) and n.func.id=='preflight_layout']
+        pull=[n.lineno for n in calls if isinstance(n.func,ast.Attribute) and n.func.attr=='pull_image']
+        self.assertEqual(len(preflight),1);self.assertEqual(len(pull),1)
+        self.assertLess(preflight[0],pull[0])
 
 
 if __name__=='__main__':unittest.main()
