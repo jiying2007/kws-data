@@ -16,6 +16,7 @@ import subprocess
 REPO='jiying2007/kws-data'
 CAMPAIGN='qwen12-native-capture-20261030-v1'
 BRANCH='research/'+CAMPAIGN
+SOURCE_BRANCHES={BRANCH,'fix/qwen12-once-activation-20261031'}
 MANIFEST='docs/BRANCH_RETENTION_20261007.json'
 PATHS={'.github/workflows/'+CAMPAIGN+'.yml',*[BRANCH+'/'+name for name in
     ('fresh_contract.py','test_fresh_contract.py','register_sources.py','worker.py','run_capture.py','test_capture_entry.py','publish_capture.py','test_publication.py')]}
@@ -78,9 +79,11 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args()
     require(os.environ.get('GITHUB_REPOSITORY')==REPO and os.environ.get('GITHUB_EVENT_NAME')=='pull_request' and
-        os.environ.get('GITHUB_HEAD_REF')==BRANCH,'fixed same-repository PR context')
+        os.environ.get('GITHUB_HEAD_REF') in SOURCE_BRANCHES,'fixed same-repository PR context')
     event=json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_bytes())
-    require(event.get('number')==36 and event['pull_request']['head']['repo']['full_name']==REPO,'fixed PR36')
+    require(type(event.get('number')) is int and event['number']>0 and
+        event['pull_request']['head']['repo']['full_name']==REPO and
+        event['pull_request']['head']['ref']==os.environ['GITHUB_HEAD_REF'],'fixed same-repository source branch')
     head=git('rev-parse','HEAD').decode().strip()
     require(head==event['pull_request']['head']['sha'] and not git('status','--porcelain'),'clean exact PR head')
     output=args.output.resolve();root=Path.cwd().resolve()
