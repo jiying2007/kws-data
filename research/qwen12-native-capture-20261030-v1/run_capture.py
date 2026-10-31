@@ -7,6 +7,7 @@ limits are reused, not weakened. Failed slots are consumed; no retry/resume path
 """
 from pathlib import Path
 import argparse
+import ast
 import hashlib
 import importlib.util
 import json
@@ -27,6 +28,21 @@ EXECUTION_BRANCH='research/qwen12-native-capture-once-20261031-v1'
 CLAIM_REF='refs/tags/qwen12-native-capture-once-20261031-v1-consumed'
 REPO='jiying2007/kws-data'
 MIB=1024**2
+FROZEN_SOURCE_SHA256='b2e6101faf3653960c40047e5c5e20f7bc851eac61cc56ef2e9c27ea19590342'
+# Explicit original bytes retained at PIPELINE_SHA. Never rewrite the historical
+# freeze, replace a current checkout file, or revive a historical execution.
+SOURCE_ARCHIVES={
+    'research/qwen6_asr/core/asr_stage/adapters.py':
+        'research/consolidation/archive/source-revisions/sense-runtime-binding-20261017/research/qwen6_asr/core/asr_stage/adapters.py',
+    'research/qwen6_asr/core/asr_stage/execution.py':
+        'research/consolidation/archive/source-revisions/sense-runtime-binding-20261017/research/qwen6_asr/core/asr_stage/execution.py',
+    'research/qwen6_asr/core/sense_binding.py':
+        'research/consolidation/archive/source-revisions/sense-runtime-binding-20261017/research/qwen6_asr/core/sense_binding.py',
+    'research/qwen6_asr/core/vendor/qwen_loading_gate_v2.py':
+        'research/consolidation/archive/source-revisions/prepare-r1-hotpath-20261012/qwen_loading_gate_v2.py',
+    'research/source-screen32-v1/asr_worker.py':
+        'research/consolidation/archive/source-revisions/prepare-r1-hotpath-20261012/asr_worker.py',
+}
 
 
 def load(name,path):
@@ -50,15 +66,38 @@ def validate_execution(env,event,claim):
     return head,run
 
 
-def stage_sources(pipeline,freeze,profile,destination):
-    destination.mkdir()
-    rows=freeze[profile]
-    for name,identity in rows.items():
+def source_members(pipeline,freeze,profile):
+    """Read exact dependency bytes; no import, execution or checkout mutation."""
+    fresh.require(profile in ('setup_code','inference_code'),'fixed source profile')
+    raw=fresh.bounded_read(pipeline/'research/qwen12-native-admission-v1/execution-freeze.json',MIB)
+    fresh.require(hashlib.sha256(raw).hexdigest()==FROZEN_SOURCE_SHA256 and
+        fresh.canonical(freeze)==fresh.canonical(json.loads(raw)),'original source freeze required')
+    members={}
+    for name,identity in freeze[profile].items():
         path=Path(name)
         fresh.require(not path.is_absolute() and '..' not in path.parts,'fixed source path')
-        body=fresh.bounded_read(pipeline/path,8*MIB)
+        body=fresh.bounded_read(pipeline/SOURCE_ARCHIVES.get(name,name),8*MIB)
         fresh.require(len(body)==identity['bytes'] and hashlib.sha256(body).hexdigest()==identity['sha256'],'upstream source drift')
-        target=destination/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(body)
+        members[name]=body
+    # The outer freeze and the worker's internal dependency map must agree.
+    # Inspect literals with AST, never import historical recognition code here.
+    tree=ast.parse(members['research/source-screen32-v1/asr_worker.py'])
+    assignments=[n for n in tree.body if isinstance(n,ast.Assign) and
+        any(isinstance(t,ast.Name) and t.id=='RETAINED_PINS' for t in n.targets)]
+    fresh.require(len(assignments)==1,'one retained dependency map required')
+    pins=ast.literal_eval(assignments[0].value)
+    fresh.require(type(pins) is dict and bool(pins),'nonempty retained dependency map')
+    for name,digest in pins.items():
+        full='research/qwen6_asr/'+name
+        fresh.require(full in members and hashlib.sha256(members[full]).hexdigest()==digest,'embedded dependency pin mismatch')
+    return members
+
+
+def stage_sources(pipeline,freeze,profile,destination):
+    members=source_members(pipeline,freeze,profile)
+    destination.mkdir()
+    for name,body in members.items():
+        target=destination/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(body)
     new=destination/'research'/fresh.CAMPAIGN;new.mkdir(parents=True)
     # Copies are explicit staged aliases, not edits to retained repository bytes.
     aliases={'native_worker.py':HERE/'worker.py','fresh_contract.py':HERE/'fresh_contract.py'}
@@ -137,7 +176,8 @@ def execute(pipeline,claim_path):
         code=root/'code';setup_code=root/'setup-code'
         binding={'inference':stage_sources(pipeline,freeze,'inference_code',code),
                  'setup':stage_sources(pipeline,freeze,'setup_code',setup_code)}
-        host.write_once(root/'staged-source.json',{'pipeline_sha':PIPELINE_SHA,'data_head':head,'aliases':binding})
+        host.write_once(root/'staged-source.json',{'pipeline_sha':PIPELINE_SHA,'data_head':head,'aliases':binding,
+            'source_selection':{'freeze_sha256':FROZEN_SOURCE_SHA256,'original_archive_paths':SOURCE_ARCHIVES}})
         receipt['capacity']=original.host_capacity()
         fresh.require(shutil.disk_usage(root).free>=12*1024**3,'12GiB initial free disk')
         stage='image';original.pull_image(json.loads((previous/'container-lock.json').read_bytes()),root/'image-transfer.json')
