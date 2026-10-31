@@ -1,0 +1,84 @@
+name: Qwen12 saved native evidence review
+on:
+  push:
+    branches: [fix/qwen12-native-terminal-20261031]
+  pull_request:
+    paths: ['.github/workflows/qwen12-native-evidence-review.yml', 'research/qwen12-native-capture-20261030-v1/**', 'docs/BRANCH_RETENTION_20261007.json']
+permissions:
+  contents: read
+concurrency:
+  group: qwen12-saved-evidence-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  native-evidence-readback:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          path: source
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-data
+          ref: 6182c02cbc70b299a4d90807468314a23fb4de7f
+          persist-credentials: false
+          path: saved
+      - name: Read and retain exact failed capture bytes without model execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B - <<'PY'
+          import hashlib, io, json, os, pathlib, shutil, stat, subprocess, zipfile
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'qwen12-saved-review';out.mkdir()
+          source=pathlib.Path('saved/research/qwen12-native-capture-20261030-v1/evidence')
+          raw=(source/'native-evidence.zip').read_bytes()
+          if len(raw)!=1895854 or hashlib.sha256(raw).hexdigest()!='4fd21804bc9523d37689703ec1b766723ca813fa2e50218b38afee5fdd5d6307':raise ValueError('exact published ZIP required')
+          publication=json.loads((source/'publication.json').read_bytes())
+          if publication['source_commit']!='3dbef76123456ffd8656890cf75c0c2010f52705' or publication['run_id']!=41210479158:raise ValueError('original run identity')
+          def unique(pairs):
+              result={}
+              for k,v in pairs:
+                  if k in result:raise ValueError('duplicate JSON field')
+                  result[k]=v
+              return result
+          def parse(body):
+              return json.loads(body,object_pairs_hook=unique,parse_constant=lambda x:(_ for _ in ()).throw(ValueError('nonfinite JSON')))
+          with zipfile.ZipFile(io.BytesIO(raw)) as z:
+              infos=z.infolist();names=[i.filename for i in infos]
+              if len(names)!=263 or len(set(names))!=263:raise ValueError('published member count')
+              if sum(i.file_size for i in infos)>256*1024**2:raise ValueError('aggregate read cap')
+              for i in infos:
+                  p=pathlib.PurePosixPath(i.filename)
+                  if p.is_absolute() or '..' in p.parts or str(p)!=i.filename or '\\' in i.filename or i.is_dir() or i.file_size>32*1024**2:raise ValueError('member bound')
+                  if stat.S_ISLNK(i.external_attr>>16):raise ValueError('member alias')
+              freeze=parse(z.read('artifact-freeze.json'))
+              if set(freeze['files'])!=set(names)-{'artifact-freeze.json'}:raise ValueError('exact evidence inventory')
+              for name,row in freeze['files'].items():
+                  body=z.read(name)
+                  if type(row) is not dict or type(row.get('bytes')) is not int or len(body)!=row['bytes'] or hashlib.sha256(body).hexdigest()!=row['sha256']:raise ValueError('member identity mismatch')
+              facts={}
+              for name in names:
+                  if name in ('host-receipt.json','terminal-outcomes.json','cpu-receipt.json','supervision-receipt.json','cleanup-receipt.json','asr-setup-public.json') or name.endswith(('/worker-failure.json','/worker-complete.json','/progress.json')):
+                      facts[name]=parse(z.read(name))
+              result={'schema':'saved-qwen12-readback-v1','evidence_commit':'6182c02cbc70b299a4d90807468314a23fb4de7f','publication':publication,'member_count':len(names),'member_inventory_verified':True,'facts':facts,'new_model_calls':0,'training_admitted':False,'qualification_allowed':False}
+              (out/'readback.json').write_text(json.dumps(result,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
+              (out/'member-names.json').write_text(json.dumps(names,indent=2)+'\n')
+          shutil.copyfile(source/'native-evidence.zip',out/'native-evidence.zip')
+          shutil.copyfile(source/'publication.json',out/'publication.json')
+          src=out/'source';src.mkdir()
+          for path in pathlib.Path('source/research/qwen12-native-capture-20261030-v1').glob('*.py'):
+              if path.is_symlink() or path.stat().st_size>128*1024:raise ValueError('bounded source')
+              shutil.copyfile(path,src/path.name)
+          shutil.copyfile('source/docs/BRANCH_RETENTION_20261007.json',out/'retention-manifest.json')
+          for name in ('qwen12-native-capture-20261030-v1.yml','qwen12-native-evidence-review.yml'):
+              shutil.copyfile('source/.github/workflows/'+name,src/name)
+          (out/'source-head.txt').write_text(subprocess.check_output(['git','-C','source','rev-parse','HEAD'],text=True))
+          print(json.dumps({'member_count':len(names),'archive_verified':True,'new_model_calls':0,'training_admitted':False}))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: qwen12-saved-review-${{ github.run_id }}
+          path: ${{ runner.temp }}/qwen12-saved-review/
+          retention-days: 7
+          if-no-files-found: error
