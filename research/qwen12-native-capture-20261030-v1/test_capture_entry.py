@@ -9,7 +9,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE))
@@ -208,6 +208,85 @@ class SavedCompletion(unittest.TestCase):
             root=Path(tmp);(root/'decode').mkdir();(root/'secret').write_bytes(b'not public')
             (root/'decode/alias').symlink_to(root/'secret')
             with self.assertRaises(ValueError):host.retain(root,root/'artifact',{'status':'STOPPED_NO_RETRY'})
+            self.assertEqual({p.name for p in (root/'artifact').iterdir()},{'publication-failure.json'})
+
+
+class PublicationAndSetup(unittest.TestCase):
+    def test_native_output_paths_and_bytes_are_preserved(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);source=root/'decode/qwen06/clip-000001/raw-native-output.json'
+            source.parent.mkdir(parents=True);body=b'{"fixture":true}';source.write_bytes(body)
+            host.retain(root,root/'artifact',{'status':'STOPPED_NO_RETRY'})
+            target=root/'artifact/output/qwen06/clip-000001/raw-native-output.json'
+            self.assertEqual(target.read_bytes(),body)
+            self.assertFalse((root/'artifact/decode').exists())
+            manifest=json.loads((root/'artifact/artifact-freeze.json').read_bytes())
+            self.assertEqual(manifest['files']['output/qwen06/clip-000001/raw-native-output.json'],
+                {'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()})
+            self.assertFalse(manifest['training_admitted'])
+            self.assertEqual(list(root.glob('.capture-public-*')),[])
+
+    def test_directory_alias_leaves_only_failure_receipt(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);(root/'private').mkdir();(root/'private/do-not-copy').write_bytes(b'fixture')
+            (root/'decode').symlink_to(root/'private',target_is_directory=True)
+            with self.assertRaises(ValueError):host.retain(root,root/'artifact',{'status':'STOPPED_NO_RETRY'})
+            self.assertEqual({p.name for p in (root/'artifact').iterdir()},{'publication-failure.json'})
+            self.assertEqual((root/'private/do-not-copy').read_bytes(),b'fixture')
+            self.assertEqual(list(root.glob('.capture-public-*')),[])
+
+    def test_existing_artifact_is_preserved(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);public=root/'artifact';public.mkdir();(public/'keep').write_bytes(b'original')
+            with self.assertRaises(ValueError):host.retain(root,public,{'status':'STOPPED_NO_RETRY'})
+            self.assertEqual({p.name for p in public.iterdir()},{'keep'})
+            self.assertEqual((public/'keep').read_bytes(),b'original')
+
+    def test_copy_error_and_copy_drift_do_not_publish_partial_evidence(self):
+        write=Path.write_bytes
+        for kind in ('error','drift'):
+            with self.subTest(kind=kind),tempfile.TemporaryDirectory() as tmp:
+                root=Path(tmp);(root/'host-receipt.json').write_bytes(b'{}')
+                def damaged(path,body):
+                    if path.name=='host-receipt.json' and path.parent.name=='artifact':
+                        if kind=='error':raise OSError('fixture write error')
+                        return write(path,body+b' ')
+                    return write(path,body)
+                with patch.object(Path,'write_bytes',damaged),self.assertRaises((OSError,ValueError)):
+                    host.retain(root,root/'artifact',{'status':'STOPPED_NO_RETRY'})
+                self.assertEqual({p.name for p in (root/'artifact').iterdir()},{'publication-failure.json'})
+                self.assertEqual((root/'host-receipt.json').read_bytes(),b'{}')
+                self.assertEqual(list(root.glob('.capture-public-*')),[])
+
+    def test_shared_setup_uses_intact_package_and_restores_fresh_scope(self):
+        for fails in (False,True):
+            with self.subTest(fails=fails):
+                library=Mock();library.EXPERIMENT=fresh.CAMPAIGN
+                arguments=[object() for _ in range(7)]
+                def supervise(*args):
+                    self.assertEqual(library.EXPERIMENT,'qwen12-native-admission-v1')
+                    self.assertEqual(args,(*arguments[:-1],'setup',arguments[-1]))
+                    if fails:raise RuntimeError('fixture setup failure')
+                    return 1.25
+                library.supervise=supervise
+                if fails:
+                    with self.assertRaises(RuntimeError):host.supervise_shared_setup(library,*arguments)
+                else:self.assertEqual(host.supervise_shared_setup(library,*arguments),1.25)
+                self.assertEqual(library.EXPERIMENT,fresh.CAMPAIGN)
+
+    def test_output_location_precedes_host_library_import(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);event=root/'event.json';claim=root/'claim.json';output=root/'job-output'
+            event.write_text(json.dumps({'created':True,'deleted':False,'after':'a'*40,
+                'repository':{'full_name':host.REPO,'private':False}}))
+            claim.write_text(json.dumps({'ref':host.CLAIM_REF,'object':{'sha':'a'*40,'type':'commit'}}))
+            env={'GITHUB_REPOSITORY':host.REPO,'GITHUB_EVENT_NAME':'push',
+                'GITHUB_REF':'refs/heads/'+host.EXECUTION_BRANCH,'GITHUB_RUN_ATTEMPT':'1',
+                'GITHUB_SHA':'a'*40,'GITHUB_RUN_ID':'123','GITHUB_EVENT_PATH':str(event),
+                'RUNNER_TEMP':str(root),'GITHUB_OUTPUT':str(output)}
+            with patch.dict(os.environ,env,clear=True),patch.object(host,'git',side_effect=['a'*40,'',host.PIPELINE_SHA,'']),patch.object(host,'load',side_effect=RuntimeError('fixture before imports')):
+                with self.assertRaises(RuntimeError):host.execute(root/'pipeline',claim)
+            self.assertEqual(output.read_text(),'evidence_root='+str(root/(fresh.CAMPAIGN+'-123')/'artifact')+'\n')
 
 
 if __name__=='__main__':unittest.main()
