@@ -18,7 +18,7 @@ import signal
 import subprocess
 import sys
 import time
-import zipfile
+import tempfile
 
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE))
@@ -114,33 +114,58 @@ def stage_sources(pipeline,freeze,profile,destination):
 
 
 def retain(root,public,receipt):
-    """Only native public outputs and bounded host receipts; never runtimes."""
-    public.mkdir(exist_ok=False)
+    """Publish a verified snapshot, preserving native output/<family> references."""
+    fresh.require(not public.exists() and not public.is_symlink(),'new artifact destination required')
     names=('host-receipt.json','terminal-outcomes.json','image-transfer.json','cpu-receipt.json',
         'cleanup-receipt.json','supervision-receipt.json','asr-setup-public.json','staged-source.json')
-    paths=[root/n for n in names if (root/n).is_file()]
-    for name in ('prepare','decode','policy','whisper-setup'):
-        directory=root/name
-        if directory.exists():
-            for p in sorted(directory.rglob('*')):
-                fresh.require(not p.is_symlink(),'output alias')
-                if p.is_file():paths.append(p)
-    total=0;members={}
     try:
-        for p in paths:
-            body=fresh.bounded_read(p,32*MIB);total+=len(body)
-            fresh.require(total<=256*MIB,'public raw evidence cap')
-            name=p.relative_to(root).as_posix();target=public/name;target.parent.mkdir(parents=True,exist_ok=True)
-            target.write_bytes(body);members[name]={'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()}
-        manifest={'schema':'fresh-qwen12-native-artifact-v1','files':members,'training_admitted':False,
-            'qualification_allowed':False,'raw_bytes':total,'status':receipt['status']}
-        (public/'artifact-freeze.json').write_bytes(fresh.canonical(manifest))
+        with tempfile.TemporaryDirectory(prefix='.capture-public-',dir=public.parent) as temp:
+            staged=Path(temp)/'artifact';staged.mkdir()
+            paths=[]
+            for name in names:
+                source=root/name
+                if source.exists() or source.is_symlink():
+                    fresh.require(source.is_file() and not source.is_symlink(),'regular host receipt required')
+                    paths.append(source)
+            for name in ('prepare','decode','policy','whisper-setup'):
+                directory=root/name
+                if directory.exists() or directory.is_symlink():
+                    fresh.require(directory.is_dir() and not directory.is_symlink(),'regular output directory required')
+                    for path in sorted(directory.rglob('*')):
+                        fresh.require(not path.is_symlink() and (path.is_dir() or path.is_file()),'regular evidence member required')
+                        if path.is_file():paths.append(path)
+            total=0;members={}
+            for source in paths:
+                body=fresh.bounded_read(source,32*MIB);total+=len(body)
+                fresh.require(total<=256*MIB,'public raw evidence cap')
+                name=source.relative_to(root).as_posix()
+                if name.startswith('decode/'):name='output/'+name[len('decode/'):]
+                fresh.require(name not in members,'duplicate native member')
+                target=staged/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(body)
+                fresh.require(target.read_bytes()==body,'copied member changed')
+                members[name]={'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()}
+            manifest={'schema':'fresh-qwen12-native-artifact-v1','files':members,'training_admitted':False,
+                'qualification_allowed':False,'raw_bytes':total,'status':receipt['status']}
+            (staged/'artifact-freeze.json').write_bytes(fresh.canonical(manifest))
+            staged.rename(public)
     except BaseException as error:
-        # Keep the original workspace for Actions diagnostics; expose no partial package as success.
-        shutil.rmtree(public);public.mkdir()
-        (public/'publication-failure.json').write_bytes(fresh.canonical({'status':'PUBLICATION_FAILED',
-            'error_type':type(error).__name__,'training_admitted':False,'model_outcome':receipt.get('status')}))
+        # No partial archive is promoted. Do not remove or overwrite a destination
+        # created by another caller; only a new directory receives this failure.
+        if not public.exists() and not public.is_symlink():
+            public.mkdir()
+            (public/'publication-failure.json').write_bytes(fresh.canonical({'status':'PUBLICATION_FAILED',
+                'error_type':type(error).__name__,'training_admitted':False,'model_outcome':receipt.get('status')}))
         raise
+
+
+def supervise_shared_setup(host,original,docker,code,runtime,inputs,output,deadline):
+    """Use the intact shared setup package, never its historical capture entry."""
+    previous=host.EXPERIMENT
+    host.EXPERIMENT='qwen12-native-admission-v1'
+    try:
+        return host.supervise(original,docker,code,runtime,inputs,output,'setup',deadline)
+    finally:
+        host.EXPERIMENT=previous
 
 
 def execute(pipeline,claim_path):
@@ -150,6 +175,7 @@ def execute(pipeline,claim_path):
     fresh.require(git(data,'rev-parse','HEAD')==head and not git(data,'status','--porcelain'),'clean reviewed data head')
     fresh.require(git(pipeline,'rev-parse','HEAD')==PIPELINE_SHA and not git(pipeline,'status','--porcelain'),'clean pinned pipeline')
     root=Path(env['RUNNER_TEMP'])/(fresh.CAMPAIGN+'-'+run);root.mkdir()
+    with open(env['GITHUB_OUTPUT'],'a') as output:output.write('evidence_root='+str(root/'artifact')+'\n')
     inputs=root/'input';prepared=root/'prepare';decoded=root/'decode';policy=root/'policy'
     for p in (prepared,decoded,policy):p.mkdir()
     old=pipeline/'research/qwen12-native-admission-v1';sys.path.insert(0,str(old))
@@ -183,7 +209,7 @@ def execute(pipeline,claim_path):
         stage='image';original.pull_image(json.loads((previous/'container-lock.json').read_bytes()),root/'image-transfer.json')
         asr=root/'asr-runtime';asr.mkdir();out=root/'asr-setup';out.mkdir()
         stage='asr_setup';before=time.monotonic();receipt['stages'][stage]='started';save()
-        host.supervise(original,docker,setup_code,asr,inputs,out,'setup',min(docker.deadline,before+1800))
+        supervise_shared_setup(host,original,docker,setup_code,asr,inputs,out,min(docker.deadline,before+1800))
         setup_seconds=time.monotonic()-before;receipt['stages'][stage]='complete'
         host.asr_setup_projection(asr,root/'asr-setup-public.json')
         third=pipeline/'research/source-screen32-whisper-v1/attempt-3';sys.path.insert(0,str(third))
@@ -217,7 +243,7 @@ def execute(pipeline,claim_path):
             host.supervise(original,docker,code,runtimes[family],inputs,out,family,min(docker.deadline,time.monotonic()+seconds),
                 mode='decode',frozen=prepared/family,policy=policy)
             worker=load('fresh_host_result_verifier',HERE/'worker.py')
-            worker.verify_completed(out,job,family);receipt['stages'][stage]='complete'
+            worker.verify_completed(out,job,family,expected_run=run,expected_head=head);receipt['stages'][stage]='complete'
         host.recognition_stages(prepare,freeze_policy,decode,setup_seconds=setup_seconds,record=receipt)
         receipt['status']='36_NATIVE_CAPTURES_COMPLETE_LABEL_ADMISSION_PENDING'
     except BaseException as error:
@@ -237,7 +263,6 @@ def execute(pipeline,claim_path):
         receipt.update(wall_seconds=time.monotonic()-started,supervision=docker.supervisions,cleanup=docker.cleanup)
         save();signal.setitimer(signal.ITIMER_REAL,0)
         retain(root,root/'artifact',receipt)
-        with open(env['GITHUB_OUTPUT'],'a') as output:output.write('evidence_root='+str(root/'artifact')+'\n')
     return 1 if failed else 0
 
 
