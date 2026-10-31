@@ -4,7 +4,7 @@ on:
     branches: [research/qwen12-native-capture-20261030-v1]
     paths: ['.github/workflows/qwen12-native-capture-20261030-v1.yml', 'research/qwen12-native-capture-20261030-v1/**']
   pull_request:
-    paths: ['.github/workflows/qwen12-native-capture-20261030-v1.yml', 'research/qwen12-native-capture-20261030-v1/**']
+    paths: ['.github/workflows/qwen12-native-capture-20261030-v1.yml', 'research/qwen12-native-capture-20261030-v1/**', 'docs/BRANCH_RETENTION_20261007.json']
 permissions:
   contents: read
 concurrency:
@@ -12,11 +12,15 @@ concurrency:
   cancel-in-progress: false
 jobs:
   source-preparation:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-24.04
     timeout-minutes: 5
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
           path: data
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -32,6 +36,45 @@ jobs:
           cd data
           python3 -B research/qwen16-label-inputs-20261030-v1/prepare.py --output "$RUNNER_TEMP/qwen12-blind"
           python3 -B research/qwen16-label-inputs-20261030-v1/prepare.py --verify "$RUNNER_TEMP/qwen12-blind"
+          test -z "$(git status --porcelain)"
+      - name: Test fresh36 native input and receipt binding without model imports
+        env:
+          KWS_FRESH_BLIND_DIR: ${{ runner.temp }}/qwen12-blind/blind
+          KWS_PINNED_PIPELINE: ${{ github.workspace }}/pipeline
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd data
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -B "${args[@]}" research/qwen12-native-capture-20261030-v1/test_fresh_contract.py -v
+          done
+          python3 -B - <<'PY'
+          import copy, importlib.util, pathlib
+          path=pathlib.Path('research/qwen12-native-capture-20261030-v1/register_sources.py')
+          spec=importlib.util.spec_from_file_location('register_source_tests',path)
+          m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+          old={'schema':'kws-public-branch-retention-v1','repository':m.REPO,
+            'retained_files':[{'path':'original','mode':'100644','git_blob_sha1':'a'*40,'bytes':1,'source_commit':'b'*40}],
+            'integration_files':[m.MANIFEST],'expected_retained_files':1,'expected_tracked_files':2}
+          tree={'original':('100644','a'*40,1),m.MANIFEST:('100644','b'*40,2),
+            **{p:('100644','c'*40,3) for p in m.PATHS}}
+          value=m.proposed_manifest(old,tree,'d'*40,b'original manifest')
+          if value['retained_files'][0]!=old['retained_files'][0] or value['expected_retained_files']!=5:raise ValueError('lost original evidence')
+          if m.proposed_manifest(value,tree,'e'*40,b'next') is not None:raise ValueError('not idempotent')
+          for mutation in ('unrelated','removed','changed','mode','size'):
+            bad=copy.deepcopy(tree)
+            if mutation=='unrelated':bad['unexpected']=('100644','f'*40,1)
+            elif mutation=='removed':del bad['original']
+            elif mutation=='changed':bad['original']=('100644','f'*40,1)
+            else:bad[next(iter(m.PATHS))]=('120000','c'*40,3) if mutation=='mode' else ('100644','c'*40,65537)
+            try:m.proposed_manifest(old,bad,'d'*40,b'original manifest')
+            except ValueError:pass
+            else:raise ValueError('unsafe registration accepted: '+mutation)
+          if old['expected_retained_files']!=1:raise ValueError('input mutated')
+          print('source registration: 8 artificial checks PASS; no Git writes in tests')
+          PY
           test -z "$(git status --porcelain)"
       - name: Freeze public source bytes only; no runtime installation or model calls
         shell: bash
@@ -55,7 +98,7 @@ jobs:
                       mode,blob,stage=metadata.decode().split()
                       path=pathlib.PurePosixPath(name)
                       exact_dependency=repository=='kws-pipeline' and name in dependencies
-                      allowed=(exact_dependency or path.parent.as_posix() in selected or name in ('CONTRIBUTING.md','docs/REPOSITORY_GOVERNANCE.md','docs/SPEECH_BASE_ADMISSION.md')) if repository=='kws-pipeline' else (path.parent.as_posix() in ('research/qwen16-label-inputs-20261030-v1','research/qwen16-archive-20261030-v1','research/fresh-qwen16-20261030-v1','tools') or name in ('docs/BRANCH_RETENTION_20261007.json','.github/workflows/assets.yml','.github/workflows/research-retention.yml','.github/workflows/host-research-publication.yml'))
+                      allowed=(exact_dependency or path.parent.as_posix() in selected or name in ('CONTRIBUTING.md','docs/REPOSITORY_GOVERNANCE.md','docs/SPEECH_BASE_ADMISSION.md')) if repository=='kws-pipeline' else (path.parent.as_posix() in ('research/qwen12-native-capture-20261030-v1','research/qwen16-label-inputs-20261030-v1','research/qwen16-archive-20261030-v1','research/fresh-qwen16-20261030-v1','tools') or name in ('docs/BRANCH_RETENTION_20261007.json','.github/workflows/assets.yml','.github/workflows/research-retention.yml','.github/workflows/host-research-publication.yml'))
                       if not allowed or (not exact_dependency and path.suffix not in ('.py','.json','.md','.yml','.txt','.lock')): continue
                       if mode not in ('100644','100755') or stage!='0': raise ValueError('nonregular source')
                       source=root/name
@@ -72,7 +115,18 @@ jobs:
           PY
           test -z "$(git -C pipeline status --porcelain)"
           test -z "$(git -C data status --porcelain)"
+      - name: Propose exact manifest-only commit without updating any branch
+        if: github.event_name == 'pull_request' && github.event.number == 36
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd data
+          python3 -B research/qwen12-native-capture-20261030-v1/register_sources.py --output "$RUNNER_TEMP/capture-source"
+          test -z "$(git status --porcelain)"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
         with:
           name: qwen12-native-source-${{ github.run_id }}
           path: ${{ runner.temp }}/capture-source/
