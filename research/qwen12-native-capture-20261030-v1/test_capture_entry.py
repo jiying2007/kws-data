@@ -9,6 +9,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE))
@@ -70,6 +71,60 @@ class SourceStaging(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp,self.assertRaises(ValueError):
             host.stage_sources(self.pipeline,freeze,'inference_code',Path(tmp)/'code')
 
+    def test_five_original_archives_bind_both_profiles(self):
+        self.assertEqual(len(host.SOURCE_ARCHIVES),5)
+        for profile,expected_count in (('setup_code',52),('inference_code',47)):
+            members=host.source_members(self.pipeline,self.freeze,profile)
+            self.assertEqual(len(members),expected_count)
+            self.assertEqual(set(members),set(self.freeze[profile]))
+            for name,archive in host.SOURCE_ARCHIVES.items():
+                with self.subTest(profile=profile,name=name):
+                    self.assertEqual(members[name],(self.pipeline/archive).read_bytes())
+                    self.assertNotEqual(members[name],(self.pipeline/name).read_bytes())
+
+    def test_archive_not_replaced_by_live_bytes_or_missing_file(self):
+        read=fresh.bounded_read
+        for name,archive in host.SOURCE_ARCHIVES.items():
+            for kind in ('live','modified','missing'):
+                def changed(path,maximum,archive=archive,name=name,kind=kind):
+                    if path==self.pipeline/archive:
+                        if kind=='missing':raise FileNotFoundError(archive)
+                        return read(self.pipeline/name,maximum) if kind=='live' else read(path,maximum)+b' '
+                    return read(path,maximum)
+                with self.subTest(name=name,kind=kind),tempfile.TemporaryDirectory() as tmp:
+                    destination=Path(tmp)/'code'
+                    with patch.object(fresh,'bounded_read',changed),self.assertRaises((OSError,ValueError)):
+                        host.stage_sources(self.pipeline,self.freeze,'inference_code',destination)
+                    self.assertFalse(destination.exists())
+
+    def test_source_freeze_bytes_are_not_replaced(self):
+        read=fresh.bounded_read
+        target=self.pipeline/'research/qwen12-native-admission-v1/execution-freeze.json'
+        def changed(path,maximum):
+            raw=read(path,maximum)
+            return raw+b' ' if path==target else raw
+        with patch.object(fresh,'bounded_read',changed),self.assertRaisesRegex(ValueError,'original source freeze'):
+            host.source_members(self.pipeline,self.freeze,'inference_code')
+
+    def test_only_two_source_profiles(self):
+        for profile in ('host_code','other','',None):
+            with self.subTest(profile=profile),self.assertRaisesRegex(ValueError,'fixed source profile'):
+                host.source_members(self.pipeline,self.freeze,profile)
+
+    def test_embedded_dependency_map_is_independently_checked(self):
+        for pins in ({},[],{'core/sense_binding.py':'0'*64},{'missing.py':'0'*64}):
+            with self.subTest(pins=pins),patch.object(host.ast,'literal_eval',return_value=pins),self.assertRaises(ValueError):
+                host.source_members(self.pipeline,self.freeze,'inference_code')
+
+    def test_staging_preserves_live_and_archived_checkout_bytes(self):
+        names=set(self.freeze['setup_code'])|set(host.SOURCE_ARCHIVES.values())
+        names.add('research/qwen12-native-admission-v1/execution-freeze.json')
+        before={name:hashlib.sha256((self.pipeline/name).read_bytes()).hexdigest() for name in names}
+        with tempfile.TemporaryDirectory() as tmp:
+            host.stage_sources(self.pipeline,self.freeze,'setup_code',Path(tmp)/'code')
+        after={name:hashlib.sha256((self.pipeline/name).read_bytes()).hexdigest() for name in names}
+        self.assertEqual(before,after)
+
     def test_fresh_worker_import_binds_all_12_without_importing_runtime(self):
         with tempfile.TemporaryDirectory() as tmp:
             code=Path(tmp)/'code';host.stage_sources(self.pipeline,self.freeze,'inference_code',code)
@@ -111,6 +166,14 @@ class SavedCompletion(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);self.fixture(root)
             self.assertEqual(worker.verify_completed(root,fresh.original_job(),'qwen06')['completed'],12)
+
+    def test_reject_wrong_expected_run_or_head(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);self.fixture(root)
+            self.assertEqual(worker.verify_completed(root,fresh.original_job(),'qwen06',expected_run='123',expected_head='a'*40)['completed'],12)
+            for kwargs in ({'expected_run':'124'},{'expected_head':'b'*40}):
+                with self.subTest(kwargs=kwargs),self.assertRaises(ValueError):
+                    worker.verify_completed(root,fresh.original_job(),'qwen06',**kwargs)
 
     def test_reject_missing_or_changed_raw_receipt(self):
         for name in ('started.json','completed.json','raw-transcript.json','raw-native-output.json'):
