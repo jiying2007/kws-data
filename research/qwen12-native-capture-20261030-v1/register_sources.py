@@ -1,8 +1,8 @@
 """Propose a manifest-only Git commit after source tests; never move a ref.
 
-Run only in this PR's source-preparation job. The connected operator must read
-back the proposal and use an expected-head lease. This cannot alter main,
-weaken the verifier, run inference, or register unrelated files.
+Only the exact seven capture files are mutable here. Original retained evidence,
+verification policy and main remain untouched. The operator reads back the
+proposal and updates the existing PR branch with an expected-head lease.
 """
 import argparse
 import copy
@@ -18,7 +18,7 @@ CAMPAIGN='qwen12-native-capture-20261030-v1'
 BRANCH='research/'+CAMPAIGN
 MANIFEST='docs/BRANCH_RETENTION_20261007.json'
 PATHS={'.github/workflows/'+CAMPAIGN+'.yml',*[BRANCH+'/'+name for name in
-       ('fresh_contract.py','test_fresh_contract.py','register_sources.py')]}
+    ('fresh_contract.py','test_fresh_contract.py','register_sources.py','worker.py','run_capture.py','test_capture_entry.py')]}
 
 
 def require(value,message):
@@ -50,7 +50,7 @@ def proposed_manifest(old,tree,head,old_raw):
     require(len(rows)==len(old['retained_files'])==old['expected_retained_files'] and
         len(integration)==len(old['integration_files']) and not rows.keys()&integration and
         len(rows)+len(integration)==old['expected_tracked_files'],'existing inventory shape')
-    require(PATHS<=set(tree) and set(tree)==set(rows)|integration|PATHS,'only four exact source paths may be registered')
+    require(PATHS<=set(tree) and set(tree)==set(rows)|integration|PATHS,'only exact capture source paths may be registered')
     for name,row in rows.items():
         if name not in PATHS:
             require(tree[name]==(row['mode'],row['git_blob_sha1'],row['bytes']),'retained evidence changed: '+name)
@@ -70,7 +70,7 @@ def proposed_manifest(old,tree,head,old_raw):
         'campaign':CAMPAIGN,'source_commit':head,'paths':changed,
         'previous_manifest_sha256':hashlib.sha256(old_raw).hexdigest(),
         'previous_campaign_rows':[copy.deepcopy(rows[n]) for n in changed if n in rows],
-        'scope':'fresh input/36-slot software contracts only; no ASR, training or qualification'})
+        'scope':'prospective fresh36 capture source; source tests do not execute ASR, training or qualification'})
     return result
 
 
