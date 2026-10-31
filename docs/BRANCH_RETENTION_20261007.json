@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1829,
-  "expected_retained_files": 1821,
+  "expected_tracked_files": 1830,
+  "expected_retained_files": 1822,
   "new_retained_paths": 1211,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -20024,9 +20024,9 @@
     {
       "path": ".github/workflows/qwen12-native-capture-20261030-v1.yml",
       "mode": "100644",
-      "git_blob_sha1": "41b1c06f6df084ddec7d8c8cc1591314525d53a2",
-      "bytes": 13267,
-      "source_commit": "60a9e59c4939e2bd638e4f0115fcbbd79ad3a593"
+      "git_blob_sha1": "0a79e38871aa8684a708821aa6e75edcde453c0a",
+      "bytes": 13327,
+      "source_commit": "f66f402687f2e847801d0012094931ae8ce7f69c"
     },
     {
       "path": "research/qwen12-native-capture-20261030-v1/fresh_contract.py",
@@ -20038,9 +20038,9 @@
     {
       "path": "research/qwen12-native-capture-20261030-v1/register_sources.py",
       "mode": "100644",
-      "git_blob_sha1": "28344ceb176c916c113049a3670cdd8efe23ed93",
-      "bytes": 6479,
-      "source_commit": "60a9e59c4939e2bd638e4f0115fcbbd79ad3a593"
+      "git_blob_sha1": "e5aeb9f2bb1e5ce90701110faed12b937507ed69",
+      "bytes": 6576,
+      "source_commit": "f66f402687f2e847801d0012094931ae8ce7f69c"
     },
     {
       "path": "research/qwen12-native-capture-20261030-v1/test_fresh_contract.py",
@@ -20059,16 +20059,16 @@
     {
       "path": "research/qwen12-native-capture-20261030-v1/run_capture.py",
       "mode": "100644",
-      "git_blob_sha1": "d4e1b476f93ecc68957d0c1079a56eb3a7dc3361",
-      "bytes": 17480,
-      "source_commit": "60a9e59c4939e2bd638e4f0115fcbbd79ad3a593"
+      "git_blob_sha1": "09b7bbca58ef825f6f647c4a155e68d577ddaa0f",
+      "bytes": 19261,
+      "source_commit": "f66f402687f2e847801d0012094931ae8ce7f69c"
     },
     {
       "path": "research/qwen12-native-capture-20261030-v1/test_capture_entry.py",
       "mode": "100644",
-      "git_blob_sha1": "23f5cb1028466aaec29a4a96648ef62c6ecd782e",
-      "bytes": 18695,
-      "source_commit": "60a9e59c4939e2bd638e4f0115fcbbd79ad3a593"
+      "git_blob_sha1": "2b13a7cb9737ee92e32435fffbd22c7ddc9cd3dd",
+      "bytes": 25106,
+      "source_commit": "f66f402687f2e847801d0012094931ae8ce7f69c"
     },
     {
       "path": "research/qwen12-native-capture-20261030-v1/test_publication.py",
@@ -20083,6 +20083,13 @@
       "git_blob_sha1": "c0fe2ae0d51d60c8e0442ce4c16e3bee0deab588",
       "bytes": 6361,
       "source_commit": "46fbdec50e6685903b471c76d9e5888b4df214bc"
+    },
+    {
+      "path": ".github/workflows/qwen12-native-evidence-review.yml",
+      "mode": "100644",
+      "git_blob_sha1": "e6b3bb74232fd152ac11bc7fc1509374eb7dce1b",
+      "bytes": 5376,
+      "source_commit": "f66f402687f2e847801d0012094931ae8ce7f69c"
     }
   ],
   "source_registration_history": [
@@ -20306,6 +20313,49 @@
           "mode": "100644",
           "git_blob_sha1": "be925fbfdf5cb7c911333d7681e061f57f45a1a8",
           "bytes": 6441,
+          "source_commit": "60a9e59c4939e2bd638e4f0115fcbbd79ad3a593"
+        }
+      ],
+      "scope": "prospective fresh36 capture source; source tests do not execute ASR, training or qualification"
+    },
+    {
+      "campaign": "qwen12-native-capture-20261030-v1",
+      "source_commit": "f66f402687f2e847801d0012094931ae8ce7f69c",
+      "paths": [
+        ".github/workflows/qwen12-native-capture-20261030-v1.yml",
+        ".github/workflows/qwen12-native-evidence-review.yml",
+        "research/qwen12-native-capture-20261030-v1/register_sources.py",
+        "research/qwen12-native-capture-20261030-v1/run_capture.py",
+        "research/qwen12-native-capture-20261030-v1/test_capture_entry.py"
+      ],
+      "previous_manifest_sha256": "6e8ec7c09802acedcd548891eb3f5437f8db0a98e1f3323f548bd121e2e874ed",
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/qwen12-native-capture-20261030-v1.yml",
+          "mode": "100644",
+          "git_blob_sha1": "41b1c06f6df084ddec7d8c8cc1591314525d53a2",
+          "bytes": 13267,
+          "source_commit": "60a9e59c4939e2bd638e4f0115fcbbd79ad3a593"
+        },
+        {
+          "path": "research/qwen12-native-capture-20261030-v1/register_sources.py",
+          "mode": "100644",
+          "git_blob_sha1": "28344ceb176c916c113049a3670cdd8efe23ed93",
+          "bytes": 6479,
+          "source_commit": "60a9e59c4939e2bd638e4f0115fcbbd79ad3a593"
+        },
+        {
+          "path": "research/qwen12-native-capture-20261030-v1/run_capture.py",
+          "mode": "100644",
+          "git_blob_sha1": "d4e1b476f93ecc68957d0c1079a56eb3a7dc3361",
+          "bytes": 17480,
+          "source_commit": "60a9e59c4939e2bd638e4f0115fcbbd79ad3a593"
+        },
+        {
+          "path": "research/qwen12-native-capture-20261030-v1/test_capture_entry.py",
+          "mode": "100644",
+          "git_blob_sha1": "23f5cb1028466aaec29a4a96648ef62c6ecd782e",
+          "bytes": 18695,
           "source_commit": "60a9e59c4939e2bd638e4f0115fcbbd79ad3a593"
         }
       ],
