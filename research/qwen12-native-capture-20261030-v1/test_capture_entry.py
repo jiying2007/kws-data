@@ -29,6 +29,10 @@ class ExecutionAdmission(unittest.TestCase):
     def test_fixed_admission(self):
         self.assertEqual(host.validate_execution(self.env,self.event,self.claim),('a'*40,'123'))
 
+    def test_existing_unclaimed_branch_activation(self):
+        self.event['created']=False
+        self.assertEqual(host.validate_execution(self.env,self.event,self.claim),('a'*40,'123'))
+
     def test_reject_replay_or_foreign_context(self):
         for key,value in [('GITHUB_RUN_ATTEMPT','2'),('GITHUB_EVENT_NAME','pull_request'),
             ('GITHUB_REF','refs/heads/main'),('GITHUB_REPOSITORY','other/repo'),('GITHUB_SHA','bad'),('GITHUB_RUN_ID','0')]:
@@ -36,7 +40,7 @@ class ExecutionAdmission(unittest.TestCase):
             with self.subTest(key=key),self.assertRaises(ValueError):host.validate_execution(env,self.event,self.claim)
 
     def test_reject_existing_or_private_branch(self):
-        for key,value in [('created',False),('created',1),('deleted',True),('after','b'*40)]:
+        for key,value in [('created',1),('created',None),('deleted',True),('after','b'*40)]:
             event=copy.deepcopy(self.event);event[key]=value
             with self.subTest(key=key,value=value),self.assertRaises(ValueError):host.validate_execution(self.env,event,self.claim)
         event=copy.deepcopy(self.event);event['repository']['private']=True

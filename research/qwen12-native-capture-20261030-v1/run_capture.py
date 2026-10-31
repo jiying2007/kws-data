@@ -1,7 +1,7 @@
 """One prospective public Qwen12 capture; no TTS, training or old execute/main.
 
-Only an exact first-push event with a separately created permanent tag claim may
-enter. Source-only PR checks never call execute. All three native configurations
+Only the fixed reviewed branch with a newly created permanent tag claim may
+enter, including its first activation by fast-forward after source-only preparation. Source-only PR checks never call execute. All three native configurations
 are observed and frozen before any audio forward. Existing CPU/kernel/acquisition
 limits are reused, not weakened. Failed slots are consumed; no retry/resume path.
 """
@@ -56,11 +56,11 @@ def git(root,*args):
 
 def validate_execution(env,event,claim):
     fresh.require(env.get('GITHUB_REPOSITORY')==REPO and env.get('GITHUB_EVENT_NAME')=='push' and
-        env.get('GITHUB_REF')=='refs/heads/'+EXECUTION_BRANCH and env.get('GITHUB_RUN_ATTEMPT')=='1', 'unique first-push scope')
+        env.get('GITHUB_REF')=='refs/heads/'+EXECUTION_BRANCH and env.get('GITHUB_RUN_ATTEMPT')=='1', 'fixed single-claim push scope')
     head=env.get('GITHUB_SHA','');run=env.get('GITHUB_RUN_ID','')
     fresh.require(re.fullmatch('[0-9a-f]{40}',head) and re.fullmatch('[1-9][0-9]{0,19}',run),'actual source/run identity')
-    fresh.require(event.get('created') is True and event.get('deleted') is False and event.get('after')==head and
-        event.get('repository',{}).get('full_name')==REPO and event.get('repository',{}).get('private') is False,'new public branch event')
+    fresh.require(type(event.get('created')) is bool and event.get('deleted') is False and event.get('after')==head and
+        event.get('repository',{}).get('full_name')==REPO and event.get('repository',{}).get('private') is False,'public branch push event')
     fresh.require(claim.get('ref')==CLAIM_REF and claim.get('object',{}).get('sha')==head and
         claim['object'].get('type')=='commit','separate permanent tag creation required')
     return head,run

@@ -94,9 +94,13 @@ class PublicationProtocol(unittest.TestCase):
         self.assertIn('  capture:\n',raw)
         capture=raw.split('  capture:\n',1)[1]
         for expected in ('needs: source-preparation',"github.event_name == 'push'",host.EXECUTION_BRANCH,
-                         'github.event.created == true','github.event.deleted == false','github.run_attempt == 1',
+                         'github.event.deleted == false','github.run_attempt == 1',
                          'github.event.repository.private == false','timeout-minutes: 70','runs-on: ubuntu-24.04',host.CLAIM_REF):
             self.assertIn(expected,capture)
+        self.assertNotIn('github.event.created == true',capture)
+        push=raw.split('  push:',1)[1].split('  pull_request:',1)[0]
+        self.assertNotIn('paths:',push)
+        self.assertNotIn('paths-ignore:',push)
         self.assertNotIn('actions/upload-artifact',capture)
         self.assertNotIn('continue-on-error',capture)
         inference=capture.split('      - name: Run the single native three-family capture',1)[1].split('      - name:',1)[0]
