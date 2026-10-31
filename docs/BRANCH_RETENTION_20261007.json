@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1820,
-  "expected_retained_files": 1812,
+  "expected_tracked_files": 1824,
+  "expected_retained_files": 1816,
   "new_retained_paths": 1211,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -20020,6 +20020,34 @@
       "git_blob_sha1": "ee6ff40fccc7e12f9f0a06d7c486133a26514ac6",
       "bytes": 12546,
       "source_commit": "657c08f74cec711fbd6323ad45616aaec86dae9f"
+    },
+    {
+      "path": ".github/workflows/qwen12-native-capture-20261030-v1.yml",
+      "mode": "100644",
+      "git_blob_sha1": "0e12f7e5415656d2376178b42ed8b10a7857c544",
+      "bytes": 8883,
+      "source_commit": "0eb7f4fb8cc10698fa8bc6c3c6dda7f371bafc03"
+    },
+    {
+      "path": "research/qwen12-native-capture-20261030-v1/fresh_contract.py",
+      "mode": "100644",
+      "git_blob_sha1": "ac5025e09ae7ce739c2f5d5fc1c2286aad7ccc8a",
+      "bytes": 6814,
+      "source_commit": "0eb7f4fb8cc10698fa8bc6c3c6dda7f371bafc03"
+    },
+    {
+      "path": "research/qwen12-native-capture-20261030-v1/register_sources.py",
+      "mode": "100644",
+      "git_blob_sha1": "e507e00ef9c6739676f96f7a158534bdaff5cd74",
+      "bytes": 6139,
+      "source_commit": "0eb7f4fb8cc10698fa8bc6c3c6dda7f371bafc03"
+    },
+    {
+      "path": "research/qwen12-native-capture-20261030-v1/test_fresh_contract.py",
+      "mode": "100644",
+      "git_blob_sha1": "977b6e26363ba1a641148dfc6024aac1fee66c02",
+      "bytes": 8251,
+      "source_commit": "0eb7f4fb8cc10698fa8bc6c3c6dda7f371bafc03"
     }
   ],
   "source_registration_history": [
@@ -20127,6 +20155,19 @@
       ],
       "previous_manifest_sha256": "bf3cccb9c05a3a466058fc6f281765f415ddf83019c83f443dc0cb03ec5cd7e9",
       "scope": "blind input preparation only; no ASR, labels, training or new generation"
+    },
+    {
+      "campaign": "qwen12-native-capture-20261030-v1",
+      "source_commit": "0eb7f4fb8cc10698fa8bc6c3c6dda7f371bafc03",
+      "paths": [
+        ".github/workflows/qwen12-native-capture-20261030-v1.yml",
+        "research/qwen12-native-capture-20261030-v1/fresh_contract.py",
+        "research/qwen12-native-capture-20261030-v1/register_sources.py",
+        "research/qwen12-native-capture-20261030-v1/test_fresh_contract.py"
+      ],
+      "previous_manifest_sha256": "fa19f4f34344e652fe27941df4fc948a06a8e0b78577c5b22403c99bf7122dc5",
+      "previous_campaign_rows": [],
+      "scope": "fresh input/36-slot software contracts only; no ASR, training or qualification"
     }
   ]
 }
