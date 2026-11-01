@@ -16,7 +16,7 @@ import subprocess
 REPO='jiying2007/kws-data'
 CAMPAIGN='qwen12-native-capture-20261030-v1'
 BRANCH='research/'+CAMPAIGN
-SOURCE_BRANCHES={BRANCH,'fix/qwen12-once-activation-20261031','fix/qwen12-native-terminal-20261031'}
+SOURCE_BRANCHES={BRANCH,'fix/qwen12-once-activation-20261031','fix/qwen12-native-terminal-20261031','fix/qwen12-native-v2-execution-20261101'}
 MANIFEST='docs/BRANCH_RETENTION_20261007.json'
 PATHS={'.github/workflows/'+CAMPAIGN+'.yml','.github/workflows/qwen12-native-evidence-review.yml',*[BRANCH+'/'+name for name in
     ('fresh_contract.py','test_fresh_contract.py','register_sources.py','worker.py','run_capture.py','test_capture_entry.py','publish_capture.py','test_publication.py')]}

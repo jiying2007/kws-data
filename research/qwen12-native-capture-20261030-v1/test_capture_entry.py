@@ -52,6 +52,35 @@ class ExecutionAdmission(unittest.TestCase):
             with self.subTest(claim=claim),self.assertRaises(ValueError):host.validate_execution(self.env,self.event,claim)
 
 
+    def test_v2_identity_is_separate_and_explicit(self):
+        script=r'''
+import pathlib,sys
+sys.path.insert(0,str(pathlib.Path(sys.argv[1])))
+import run_capture as host
+print(host.EXECUTION_VARIANT)
+print(host.EXECUTION_BRANCH)
+print(host.CLAIM_REF)
+'''
+        env=dict(os.environ);env['KWS_CAPTURE_EXECUTION_VARIANT']='v2'
+        result=subprocess.run([sys.executable,'-I','-B','-c',script,str(HERE)],
+            env=env,capture_output=True,text=True,timeout=30)
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+        self.assertEqual(result.stdout.splitlines(),[
+            'v2','research/qwen12-native-capture-once-20261101-v2',
+            'refs/tags/qwen12-native-capture-once-20261101-v2-consumed'])
+
+    def test_unknown_execution_variant_is_fail_closed(self):
+        script=r'''
+import pathlib,sys
+sys.path.insert(0,str(pathlib.Path(sys.argv[1])))
+import run_capture
+'''
+        env=dict(os.environ);env['KWS_CAPTURE_EXECUTION_VARIANT']='unexpected'
+        result=subprocess.run([sys.executable,'-I','-B','-c',script,str(HERE)],
+            env=env,capture_output=True,text=True,timeout=30)
+        self.assertNotEqual(result.returncode,0)
+
+
 class SourceStaging(unittest.TestCase):
     def setUp(self):
         self.pipeline=Path(os.environ['KWS_PINNED_PIPELINE'])
