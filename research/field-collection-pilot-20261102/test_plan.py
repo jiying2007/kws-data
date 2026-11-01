@@ -211,6 +211,62 @@ class ParsersAndOutput(unittest.TestCase):
                 with self.subTest(sample=sample),self.assertRaises(ValueError):
                     field._json_file(path)
 
+    def test_oversized_manifest_is_rejected_before_unbounded_read(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/"input.json"
+            path.write_bytes(b"x"*(field.MAX_MANIFEST+1))
+            with self.assertRaises(ValueError):
+                field._json_file(path)
+
+    def test_manifest_aliases_and_hardlinks_are_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            original=root/"original.json"
+            original.write_text(json.dumps(fixture()))
+            alias=root/"alias.json";alias.symlink_to(original)
+            hard=root/"hard.json";os.link(original,hard)
+            for name in (alias,hard):
+                with self.subTest(name=name.name),self.assertRaises(ValueError):
+                    field._json_file(name)
+
+    def test_manifest_nonregular_file_fails_closed(self):
+        if not hasattr(os,"mkfifo"):
+            self.skipTest("POSIX required")
+        with tempfile.TemporaryDirectory() as tmp:
+            fifo=Path(tmp)/"fifo"
+            os.mkfifo(fifo)
+            with self.assertRaises(ValueError):
+                field._json_file(fifo)
+
+    def test_registered_source_update_preserves_original_history(self):
+        import importlib.util
+        file=Path(__file__).with_name("register_sources.py")
+        spec=importlib.util.spec_from_file_location("field_regression_register",file)
+        registrar=importlib.util.module_from_spec(spec);spec.loader.exec_module(registrar)
+        old={"schema":"kws-public-branch-retention-v1","repository":registrar.REPO,
+             "retained_files":[{"path":"historical","mode":"100644",
+                 "git_blob_sha1":"a"*40,"bytes":12,"source_commit":"b"*40}],
+             "integration_files":[registrar.BASE],"expected_retained_files":1,
+             "expected_tracked_files":2,"source_registration_history":[{"original":"immutable"}]}
+        tree={"historical":("100644","a"*40,12),registrar.BASE:("100644","b"*40,4),
+              **{p:("100644","c"*40,100) for p in registrar.PATHS}}
+        proposed=registrar.propose(old,tree,"d"*40,b"original")
+        self.assertEqual(len(proposed["retained_files"]),1+len(registrar.PATHS))
+        changed=copy.deepcopy(tree)
+        source=next(p for p in registrar.PATHS if p.endswith("plan.py"))
+        changed[source]=("100644","f"*40,101)
+        updated=registrar.propose(proposed,changed,"e"*40,b"proposed")
+        self.assertEqual(updated["retained_files"][0],old["retained_files"][0])
+        self.assertEqual(updated["source_registration_history"][0],old["source_registration_history"][0])
+        self.assertEqual(updated["source_registration_history"][-1]["paths"],[source])
+        self.assertEqual(updated["source_registration_history"][-1]["previous_campaign_rows"][0]["git_blob_sha1"],"c"*40)
+        self.assertEqual(updated["expected_retained_files"],proposed["expected_retained_files"])
+        self.assertIsNone(registrar.propose(updated,changed,"f"*40,b"same"))
+        tamper=copy.deepcopy(changed)
+        tamper["historical"]=("100644","0"*40,12)
+        with self.assertRaises(ValueError):
+            registrar.propose(proposed,tamper,"e"*40,b"tamper")
+
     def test_output_create_only_no_overwrite(self):
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp)/"audit.json"
