@@ -61,19 +61,25 @@ def propose(old,tree,head,old_body):
     require(set(tree)==set(rows)|integrated|PATHS and PATHS<=set(tree),
             "UNRELATED_FILE_CHANGED_OR_MISSING")
     for name,record in rows.items():
-        require(tree[name]==(record["mode"],record["git_blob_sha1"],record["bytes"]),
-                "HISTORICAL_SOURCE_CHANGED")
-    changed=sorted(PATHS-set(rows))
-    require(len(changed)==len(PATHS) or len(changed)==0,"PARTIAL_SOURCE_REGISTRATION")
+        if name not in PATHS:
+            require(tree[name]==(record["mode"],record["git_blob_sha1"],record["bytes"]),
+                    "HISTORICAL_SOURCE_CHANGED")
+    changed=sorted(name for name in PATHS if name not in rows or
+        tree[name]!=(rows[name]["mode"],rows[name]["git_blob_sha1"],rows[name]["bytes"]))
     if not changed:
         return None
     new=copy.deepcopy(old)
+    updated={x["path"]:x for x in new["retained_files"]}
     for name in changed:
         mode,sha,size=tree[name]
         require(mode=="100644" and type(size) is int and 0<size<=65536,
                 "BOUNDED_TEXT_SOURCE_REQUIRED")
-        new["retained_files"].append({"path":name,"mode":mode,
-            "git_blob_sha1":sha,"bytes":size,"source_commit":head})
+        value={"path":name,"mode":mode,
+            "git_blob_sha1":sha,"bytes":size,"source_commit":head}
+        if name in updated:
+            updated[name].update(value)
+        else:
+            new["retained_files"].append(value)
     new["expected_retained_files"]=len(new["retained_files"])
     new["expected_tracked_files"]=len(tree)
     new.setdefault("source_registration_history",[]).append({
@@ -81,7 +87,7 @@ def propose(old,tree,head,old_body):
         "source_commit":head,
         "paths":changed,
         "previous_manifest_sha256":hashlib.sha256(old_body).hexdigest(),
-        "previous_campaign_rows":[],
+        "previous_campaign_rows":[copy.deepcopy(rows[n]) for n in changed if n in rows],
         "scope":"private field recording planning and structural audit only; "
                 "no rights, label, real audio, model or release admission"})
     return new
