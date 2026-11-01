@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1833,
-  "expected_retained_files": 1825,
+  "expected_tracked_files": 1838,
+  "expected_retained_files": 1830,
   "new_retained_paths": 1211,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -20111,6 +20111,41 @@
       "git_blob_sha1": "7aaacba99d3fe413b232e6edec3d9c5fc84dd39f",
       "bytes": 8988,
       "source_commit": "1b717fee8885b9664a43f0f6302bc6219d4c4cd9"
+    },
+    {
+      "path": ".github/workflows/field-collection-pilot-20261102.yml",
+      "mode": "100644",
+      "git_blob_sha1": "362fa305368d4580c611a677e8b4a53315a06c96",
+      "bytes": 4188,
+      "source_commit": "80120eac1d916ed82603567f45c457f76c0a76da"
+    },
+    {
+      "path": "research/field-collection-pilot-20261102/README.md",
+      "mode": "100644",
+      "git_blob_sha1": "b82f41dd2d208087fa6192a4984ab65916a873f3",
+      "bytes": 5383,
+      "source_commit": "80120eac1d916ed82603567f45c457f76c0a76da"
+    },
+    {
+      "path": "research/field-collection-pilot-20261102/plan.py",
+      "mode": "100644",
+      "git_blob_sha1": "740a77343d0f25c1831f36efd469354c62dad359",
+      "bytes": 14930,
+      "source_commit": "2c1d72fc886d94761f771c0e55b5d6b6e85ef1de"
+    },
+    {
+      "path": "research/field-collection-pilot-20261102/register_sources.py",
+      "mode": "100644",
+      "git_blob_sha1": "141fd7a01fe50f24f1c7bfdae3fc55fef3f796e6",
+      "bytes": 6739,
+      "source_commit": "2c1d72fc886d94761f771c0e55b5d6b6e85ef1de"
+    },
+    {
+      "path": "research/field-collection-pilot-20261102/test_plan.py",
+      "mode": "100644",
+      "git_blob_sha1": "dd6fde205c5c2465eeb9788fe48ce4828b52d063",
+      "bytes": 14322,
+      "source_commit": "2c1d72fc886d94761f771c0e55b5d6b6e85ef1de"
     }
   ],
   "source_registration_history": [
@@ -20604,6 +20639,54 @@
         }
       ],
       "scope": "prospective fresh36 capture source; source tests do not execute ASR, training or qualification"
+    },
+    {
+      "campaign": "field-collection-pilot-20261102",
+      "source_commit": "80120eac1d916ed82603567f45c457f76c0a76da",
+      "paths": [
+        ".github/workflows/field-collection-pilot-20261102.yml",
+        "research/field-collection-pilot-20261102/README.md",
+        "research/field-collection-pilot-20261102/plan.py",
+        "research/field-collection-pilot-20261102/register_sources.py",
+        "research/field-collection-pilot-20261102/test_plan.py"
+      ],
+      "previous_manifest_sha256": "1d0470fb5e4e282058a0b27495343fcb6fec3a60cd661d9aa8ba66163a7e2bb1",
+      "previous_campaign_rows": [],
+      "scope": "private field recording planning and structural audit only; no rights, label, real audio, model or release admission"
+    },
+    {
+      "campaign": "field-collection-pilot-20261102",
+      "source_commit": "2c1d72fc886d94761f771c0e55b5d6b6e85ef1de",
+      "paths": [
+        "research/field-collection-pilot-20261102/plan.py",
+        "research/field-collection-pilot-20261102/register_sources.py",
+        "research/field-collection-pilot-20261102/test_plan.py"
+      ],
+      "previous_manifest_sha256": "0b358da9eec91b27175a60b76359f048afe1632c95d536f3ce4d6ab524888721",
+      "previous_campaign_rows": [
+        {
+          "path": "research/field-collection-pilot-20261102/plan.py",
+          "mode": "100644",
+          "git_blob_sha1": "2a4cfdedceb3b50817f8f6a8da35850e5ac13b44",
+          "bytes": 13971,
+          "source_commit": "80120eac1d916ed82603567f45c457f76c0a76da"
+        },
+        {
+          "path": "research/field-collection-pilot-20261102/register_sources.py",
+          "mode": "100644",
+          "git_blob_sha1": "a78a9a163b1c0430db71a46e9ad2b60c07e1a883",
+          "bytes": 6454,
+          "source_commit": "80120eac1d916ed82603567f45c457f76c0a76da"
+        },
+        {
+          "path": "research/field-collection-pilot-20261102/test_plan.py",
+          "mode": "100644",
+          "git_blob_sha1": "04c0367a002468f8377c33d2f52246a462a26358",
+          "bytes": 11114,
+          "source_commit": "80120eac1d916ed82603567f45c457f76c0a76da"
+        }
+      ],
+      "scope": "private field recording planning and structural audit only; no rights, label, real audio, model or release admission"
     }
   ]
 }

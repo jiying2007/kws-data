@@ -1,0 +1,82 @@
+name: KWS field capture pilot - source only
+on:
+  pull_request:
+    paths:
+      - .github/workflows/field-collection-pilot-20261102.yml
+      - research/field-collection-pilot-20261102/**
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main, research/field-collection-pilot-20261102]
+    paths:
+      - .github/workflows/field-collection-pilot-20261102.yml
+      - research/field-collection-pilot-20261102/**
+      - docs/BRANCH_RETENTION_20261007.json
+permissions:
+  contents: read
+concurrency:
+  group: field-kws-source-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  field-pilot-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Run isolated byte/role/permission regressions in three Python modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/field-pilot"
+          python3 -B research/field-collection-pilot-20261102/test_plan.py -v 2>&1 | tee "$RUNNER_TEMP/field-pilot/normal.log"
+          python3 -B -O research/field-collection-pilot-20261102/test_plan.py -v 2>&1 | tee "$RUNNER_TEMP/field-pilot/optimized.log"
+          python3 -B -OO research/field-collection-pilot-20261102/test_plan.py -v 2>&1 | tee "$RUNNER_TEMP/field-pilot/stripped.log"
+          python3 -B - <<'PY'
+          import copy,importlib.util,pathlib
+          source=pathlib.Path('research/field-collection-pilot-20261102/register_sources.py')
+          spec=importlib.util.spec_from_file_location('source_reg',source)
+          m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+          old={'schema':'kws-public-branch-retention-v1','repository':m.REPO,
+            'retained_files':[{'path':'old','mode':'100644','git_blob_sha1':'a'*40,'bytes':1}],
+            'integration_files':[m.BASE],'expected_retained_files':1,'expected_tracked_files':2}
+          tree={'old':('100644','a'*40,1),m.BASE:('100644','b'*40,2),
+            **{p:('100644','c'*40,5) for p in m.PATHS}}
+          new=m.propose(old,tree,'d'*40,b'old')
+          if new['expected_retained_files']!=len(m.PATHS)+1 or new['retained_files'][0]!=old['retained_files'][0]:
+            raise ValueError('original provenance altered')
+          if m.propose(new,tree,'e'*40,b'new') is not None:raise ValueError('not idempotent')
+          for kind in ('new','removed','tamper','symlink','oversize'):
+            changed=copy.deepcopy(tree)
+            path=next(iter(m.PATHS))
+            if kind=='new':changed['unreviewed']=('100644','f'*40,4)
+            elif kind=='removed':del changed['old']
+            elif kind=='tamper':changed['old']=('100644','f'*40,1)
+            elif kind=='symlink':changed[path]=('120000','c'*40,5)
+            else:changed[path]=('100644','c'*40,65537)
+            try:m.propose(old,changed,'d'*40,b'old')
+            except ValueError:pass
+            else:raise ValueError('unsafe inventory mutation accepted '+kind)
+          print('registration fixture and five negatives PASS')
+          PY
+          test -z "$(git status --porcelain)"
+      - name: Propose exact manifest-only Git commit object, no ref update
+        if: github.event_name == 'pull_request' && github.head_ref == 'research/field-collection-pilot-20261102'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B research/field-collection-pilot-20261102/register_sources.py --output "$RUNNER_TEMP/field-pilot"
+          test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: field-pilot-source-${{ github.run_id }}
+          path: ${{ runner.temp }}/field-pilot/
+          retention-days: 7
+          if-no-files-found: error
