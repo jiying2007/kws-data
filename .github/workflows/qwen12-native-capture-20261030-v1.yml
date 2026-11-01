@@ -48,7 +48,7 @@ jobs:
           for mode in normal optimized stripped; do
             args=()
             case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
-            for suite in test_fresh_contract test_capture_entry test_publication; do
+            for suite in test_fresh_contract test_capture_entry test_publication test_review_intake; do
               python3 -B "${args[@]}" "research/qwen12-native-capture-20261030-v1/${suite}.py" -v 2>&1 | tee "$RUNNER_TEMP/capture-source/${suite}-${mode}.log"
             done
           done
@@ -122,7 +122,7 @@ jobs:
           test -z "$(git -C pipeline status --porcelain)"
           test -z "$(git -C data status --porcelain)"
       - name: Propose exact manifest-only commit without updating any branch
-        if: github.event_name == 'pull_request' && (github.head_ref == 'research/qwen12-native-capture-20261030-v1' || github.head_ref == 'fix/qwen12-once-activation-20261031' || github.head_ref == 'fix/qwen12-native-terminal-20261031' || github.head_ref == 'fix/qwen12-native-v2-execution-20261101' || github.head_ref == 'review/qwen12-v2-evidence-20261101' || github.head_ref == 'research/qwen12-remaining24-20261101' || github.head_ref == 'review/qwen12-v3-evidence-20261101')
+        if: github.event_name == 'pull_request' && (github.head_ref == 'research/qwen12-native-capture-20261030-v1' || github.head_ref == 'fix/qwen12-once-activation-20261031' || github.head_ref == 'fix/qwen12-native-terminal-20261031' || github.head_ref == 'fix/qwen12-native-v2-execution-20261101' || github.head_ref == 'review/qwen12-v2-evidence-20261101' || github.head_ref == 'research/qwen12-remaining24-20261101' || github.head_ref == 'review/qwen12-v3-evidence-20261101' || github.head_ref == 'research/qwen12-human-review-import-20261101')
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
