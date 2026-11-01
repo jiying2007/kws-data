@@ -20,7 +20,7 @@ HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE))
 import fresh_contract as fresh
 from run_capture import REPO,EXECUTION_BRANCH,CLAIM_REF,validate_execution
-EVIDENCE_REF='refs/heads/evidence/qwen12-native-capture-once-20261031-v1'
+EVIDENCE_REF='refs/heads/evidence/'+EXECUTION_BRANCH.removeprefix('research/')
 WORKFLOW='.github/workflows/qwen12-native-capture-20261030-v1.yml'
 MIB=1024**2
 
