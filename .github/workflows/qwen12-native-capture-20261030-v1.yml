@@ -1,7 +1,7 @@
 name: Qwen12 native capture and source contracts
 on:
   push:
-    branches: [main, research/qwen12-native-capture-20261030-v1, research/qwen12-native-capture-once-20261031-v1, research/qwen12-native-capture-once-20261101-v2]
+    branches: [main, research/qwen12-native-capture-20261030-v1, research/qwen12-native-capture-once-20261031-v1, research/qwen12-native-capture-once-20261101-v2, research/qwen12-native-capture-once-20261101-v3-remaining24]
   pull_request:
     paths: ['.github/workflows/qwen12-native-capture-20261030-v1.yml', 'research/qwen12-native-capture-20261030-v1/**', 'docs/BRANCH_RETENTION_20261007.json']
 permissions:
@@ -122,7 +122,7 @@ jobs:
           test -z "$(git -C pipeline status --porcelain)"
           test -z "$(git -C data status --porcelain)"
       - name: Propose exact manifest-only commit without updating any branch
-        if: github.event_name == 'pull_request' && (github.head_ref == 'research/qwen12-native-capture-20261030-v1' || github.head_ref == 'fix/qwen12-once-activation-20261031' || github.head_ref == 'fix/qwen12-native-terminal-20261031' || github.head_ref == 'fix/qwen12-native-v2-execution-20261101' || github.head_ref == 'review/qwen12-v2-evidence-20261101')
+        if: github.event_name == 'pull_request' && (github.head_ref == 'research/qwen12-native-capture-20261030-v1' || github.head_ref == 'fix/qwen12-once-activation-20261031' || github.head_ref == 'fix/qwen12-native-terminal-20261031' || github.head_ref == 'fix/qwen12-native-v2-execution-20261101' || github.head_ref == 'review/qwen12-v2-evidence-20261101' || github.head_ref == 'research/qwen12-remaining24-20261101')
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
@@ -141,14 +141,14 @@ jobs:
 
   capture:
     needs: source-preparation
-    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && (github.ref == 'refs/heads/research/qwen12-native-capture-once-20261031-v1' || github.ref == 'refs/heads/research/qwen12-native-capture-once-20261101-v2') && github.event.deleted == false && github.event.repository.private == false && github.run_attempt == 1
+    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && (github.ref == 'refs/heads/research/qwen12-native-capture-once-20261031-v1' || github.ref == 'refs/heads/research/qwen12-native-capture-once-20261101-v2' || github.ref == 'refs/heads/research/qwen12-native-capture-once-20261101-v3-remaining24') && github.event.deleted == false && github.event.repository.private == false && github.run_attempt == 1
     runs-on: ubuntu-24.04
     timeout-minutes: 70
     permissions:
       contents: write
       actions: read
     env:
-      KWS_CAPTURE_EXECUTION_VARIANT: ${{ github.ref == 'refs/heads/research/qwen12-native-capture-once-20261101-v2' && 'v2' || 'v1' }}
+      KWS_CAPTURE_EXECUTION_VARIANT: ${{ github.ref == 'refs/heads/research/qwen12-native-capture-once-20261101-v3-remaining24' && 'v3' || github.ref == 'refs/heads/research/qwen12-native-capture-once-20261101-v2' && 'v2' || 'v1' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -182,6 +182,15 @@ jobs:
               test "$prior_claim" = '3dbef76123456ffd8656890cf75c0c2010f52705'
               test "$prior_evidence" = '6182c02cbc70b299a4d90807468314a23fb4de7f'
               ;;
+            v3)
+              claim_ref='refs/tags/qwen12-native-capture-once-20261101-v3-remaining24-consumed'
+              prior_v1="$(gh api repos/jiying2007/kws-data/git/ref/tags/qwen12-native-capture-once-20261031-v1-consumed --jq '.object.sha')"
+              prior_v2="$(gh api repos/jiying2007/kws-data/git/ref/tags/qwen12-native-capture-once-20261101-v2-consumed --jq '.object.sha')"
+              v2_evidence="$(gh api repos/jiying2007/kws-data/git/ref/heads/evidence/qwen12-native-capture-once-20261101-v2 --jq '.object.sha')"
+              test "$prior_v1" = '3dbef76123456ffd8656890cf75c0c2010f52705'
+              test "$prior_v2" = '576a546e9ff515e30e5cca30767752a0a52cffdb'
+              test "$v2_evidence" = '24d9090b4ef1969196b65b73a46c7e690b682eaf'
+              ;;
             *)
               exit 2
               ;;
@@ -190,7 +199,7 @@ jobs:
             -f ref="$claim_ref" \
             -f sha="$GITHUB_SHA" > "$RUNNER_TEMP/qwen12-execution-claim.json"
           echo 'claimed=true' >> "$GITHUB_OUTPUT"
-      - name: Run the single native three-family capture
+      - name: Run the single native capture (v3 excludes completed Qwen decodes)
         id: native
         timeout-minutes: 63
         shell: bash
