@@ -24,8 +24,13 @@ HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE))
 import fresh_contract as fresh
 PIPELINE_SHA='702583717af435d99a2aa5810aa504355a4ab8c7'
-EXECUTION_BRANCH='research/qwen12-native-capture-once-20261031-v1'
-CLAIM_REF='refs/tags/qwen12-native-capture-once-20261031-v1-consumed'
+_EXECUTION_VARIANTS={
+    'v1':('research/qwen12-native-capture-once-20261031-v1','refs/tags/qwen12-native-capture-once-20261031-v1-consumed'),
+    'v2':('research/qwen12-native-capture-once-20261101-v2','refs/tags/qwen12-native-capture-once-20261101-v2-consumed'),
+}
+EXECUTION_VARIANT=os.environ.get('KWS_CAPTURE_EXECUTION_VARIANT','v1')
+fresh.require(EXECUTION_VARIANT in _EXECUTION_VARIANTS,'fixed execution variant')
+EXECUTION_BRANCH,CLAIM_REF=_EXECUTION_VARIANTS[EXECUTION_VARIANT]
 REPO='jiying2007/kws-data'
 MIB=1024**2
 FROZEN_SOURCE_SHA256='b2e6101faf3653960c40047e5c5e20f7bc851eac61cc56ef2e9c27ea19590342'
