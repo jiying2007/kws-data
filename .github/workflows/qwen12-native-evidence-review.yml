@@ -194,7 +194,7 @@ jobs:
               return json.loads(body,object_pairs_hook=unique,parse_constant=lambda x:(_ for _ in ()).throw(ValueError('nonfinite JSON')))
           with zipfile.ZipFile(io.BytesIO(raw)) as z:
               infos=z.infolist();names=[i.filename for i in infos]
-              if len(names)!=903 or len(set(names))!=671:raise ValueError('v3 published member count')
+              if len(names)!=903 or len(set(names))!=903:raise ValueError('v3 published member count')
               if sum(i.file_size for i in infos)>256*1024**2:raise ValueError('aggregate read cap')
               for i in infos:
                   p=pathlib.PurePosixPath(i.filename)
