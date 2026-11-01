@@ -28,7 +28,10 @@ def verify_completed(directory,job,family,*,expected_run=None,expected_head=None
     """Exact saved roster/byte binding, NOT acoustic quality or admission."""
     import json
     directory=Path(directory);rows=fresh.remaining_plan(job,family)
-    fresh.require({p.name for p in directory.glob('clip-*')}=={r['audio_id'] for r in rows},'complete fresh family roster')
+    # Native decoders also create clip-*.native-*.json files beside clip directories.
+    # These diagnostic files are not new audio attempts; reject aliases and extra directories.
+    fresh.require({p.name for p in directory.glob('clip-*') if p.is_dir() and not p.is_symlink()}==
+                  {r['audio_id'] for r in rows},'complete fresh family roster')
     ids=[]
     for row in rows:
         root=directory/row['audio_id'];bodies={name:fresh.bounded_read(root/name,8*1024**2) for name in
