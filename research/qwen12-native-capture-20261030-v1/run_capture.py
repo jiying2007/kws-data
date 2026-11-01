@@ -27,10 +27,34 @@ PIPELINE_SHA='702583717af435d99a2aa5810aa504355a4ab8c7'
 _EXECUTION_VARIANTS={
     'v1':('research/qwen12-native-capture-once-20261031-v1','refs/tags/qwen12-native-capture-once-20261031-v1-consumed'),
     'v2':('research/qwen12-native-capture-once-20261101-v2','refs/tags/qwen12-native-capture-once-20261101-v2-consumed'),
+    'v3':('research/qwen12-native-capture-once-20261101-v3-remaining24','refs/tags/qwen12-native-capture-once-20261101-v3-remaining24-consumed'),
 }
 EXECUTION_VARIANT=os.environ.get('KWS_CAPTURE_EXECUTION_VARIANT','v1')
 fresh.require(EXECUTION_VARIANT in _EXECUTION_VARIANTS,'fixed execution variant')
 EXECUTION_BRANCH,CLAIM_REF=_EXECUTION_VARIANTS[EXECUTION_VARIANT]
+# The v2 source and original evidence are immutable. The v3 host never dispatches
+# qwen06 decode again: all twelve prior Qwen native returns already exist.
+_V2_QWEN12={'run_id':41260766218,'source_commit':'576a546e9ff515e30e5cca30767752a0a52cffdb',
+    'evidence_commit':'24d9090b4ef1969196b65b73a46c7e690b682eaf',
+    'archive_sha256':'7b5229d1259077093436f07e0b9e9afc4e62f890e50350ee714e8b01b44e5fca',
+    'completed_qwen06':12}
+
+
+def permitted_decode_families():
+    return ('sensevoice','whisper') if EXECUTION_VARIANT=='v3' else fresh.FAMILIES
+
+
+def terminal_slot_state(family, *, started, completed):
+    fresh.require(family in fresh.FAMILIES,'fixed family required')
+    fresh.require(type(started) is bool and type(completed) is bool,'real boolean record-state required')
+    if EXECUTION_VARIANT=='v3' and family=='qwen06':
+        fresh.require(not started and not completed,'v3 must not create Qwen06 decode records')
+        return 'PRIOR_V2_QWEN12_EXCLUDED_FROM_V3'
+    if completed:return 'COMPLETION_RECORDED_PENDING_INDEPENDENT_RECHECK'
+    if started:return 'STARTED_FAILED_OR_INCOMPLETE'
+    return 'NOT_RUN'
+
+
 REPO='jiying2007/kws-data'
 MIB=1024**2
 FROZEN_SOURCE_SHA256='b2e6101faf3653960c40047e5c5e20f7bc851eac61cc56ef2e9c27ea19590342'
@@ -229,7 +253,10 @@ def execute(pipeline,claim_path):
     original=load('fresh_scope_constructors',previous/'hosted_run.py')
     started=time.monotonic();docker=host.MeteredDocker(root,started+3600)
     receipt={'schema':'fresh-qwen12-native-host-v1','status':'started','head_sha':head,'run_id':run,
-        'pipeline_sha':PIPELINE_SHA,'campaign':fresh.CAMPAIGN,'maximum_calls':36,'maximum_retries':0,
+        'pipeline_sha':PIPELINE_SHA,'campaign':fresh.CAMPAIGN,
+        'execution_variant':EXECUTION_VARIANT,
+        'maximum_calls':24 if EXECUTION_VARIANT=='v3' else 36,'maximum_retries':0,
+        'prior_qwen06_evidence':_V2_QWEN12 if EXECUTION_VARIANT=='v3' else None,
         'training_admitted':False,'qualification_allowed':False,'new_tts_calls':0,'stages':{}}
     failed=False;job=fresh.original_job();stage='input'
     def save():host.atomic(root/'host-receipt.json',receipt)
@@ -285,13 +312,19 @@ def execute(pipeline,claim_path):
             receipt['all_three_prepared_before_decode']=True;save()
         def decode(family,seconds):
             nonlocal stage
-            stage=family+'_decode';out=decoded/family;out.mkdir();docker.stage=family;receipt['stages'][stage]='started';save()
+            stage=family+'_decode'
+            if family not in permitted_decode_families():
+                fresh.require(EXECUTION_VARIANT=='v3' and family=='qwen06','unexpected decoder skip')
+                receipt['stages'][stage]='SKIPPED_PRIOR_V2_COMPLETED_NO_QWEN06_DECODE';save()
+                return
+            out=decoded/family;out.mkdir();docker.stage=family;receipt['stages'][stage]='started';save()
             host.supervise(original,docker,code,runtimes[family],inputs,out,family,min(docker.deadline,time.monotonic()+seconds),
                 mode='decode',frozen=prepared/family,policy=policy)
             worker=load('fresh_host_result_verifier',HERE/'worker.py')
             worker.verify_completed(out,job,family,expected_run=run,expected_head=head);receipt['stages'][stage]='complete'
         host.recognition_stages(prepare,freeze_policy,decode,setup_seconds=setup_seconds,record=receipt)
-        receipt['status']='36_NATIVE_CAPTURES_COMPLETE_LABEL_ADMISSION_PENDING'
+        receipt['status']=('24_NATIVE_CAPTURES_COMPLETE_LABEL_ADMISSION_PENDING' if EXECUTION_VARIANT=='v3'
+            else '36_NATIVE_CAPTURES_COMPLETE_LABEL_ADMISSION_PENDING')
     except BaseException as error:
         failed=True;receipt.update(status='STOPPED_NO_RETRY',failure_stage=stage,error_type=type(error).__name__)
         if docker.supervision_failure is not None:receipt['supervision_failure']=docker.supervision_failure[1]
@@ -301,9 +334,8 @@ def execute(pipeline,claim_path):
         outcomes=[]
         for row in fresh.remaining_plan(job):
             slot=decoded/row['family']/row['audio_id']
-            state='NOT_RUN'
-            if (slot/'started.json').exists():state='STARTED_FAILED_OR_INCOMPLETE'
-            if (slot/'completed.json').exists():state='COMPLETION_RECORDED_PENDING_INDEPENDENT_RECHECK'
+            state=terminal_slot_state(row['family'],started=(slot/'started.json').exists(),
+                completed=(slot/'completed.json').exists())
             outcomes.append({**row,'status':state})
         host.write_once(root/'terminal-outcomes.json',outcomes)
         receipt.update(wall_seconds=time.monotonic()-started,supervision=docker.supervisions,cleanup=docker.cleanup)
