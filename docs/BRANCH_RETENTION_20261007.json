@@ -20066,9 +20066,9 @@
     {
       "path": "research/qwen12-native-capture-20261030-v1/test_capture_entry.py",
       "mode": "100644",
-      "git_blob_sha1": "0cc52ce2c45a581b2e737a9f0bdd7617e2fa1363",
-      "bytes": 26293,
-      "source_commit": "48e76a422258e299b25cf7d1c27c466d28463195"
+      "git_blob_sha1": "e56c838ec17529c11e0edf3d743fde8752472522",
+      "bytes": 28051,
+      "source_commit": "195108171764fc6bdb7ee3502805d81b1d3804d6"
     },
     {
       "path": "research/qwen12-native-capture-20261030-v1/test_publication.py",
@@ -20080,9 +20080,9 @@
     {
       "path": "research/qwen12-native-capture-20261030-v1/worker.py",
       "mode": "100644",
-      "git_blob_sha1": "c0fe2ae0d51d60c8e0442ce4c16e3bee0deab588",
-      "bytes": 6361,
-      "source_commit": "46fbdec50e6685903b471c76d9e5888b4df214bc"
+      "git_blob_sha1": "2cea75576b3677a9102406e3bc7a7941c0424dbe",
+      "bytes": 6598,
+      "source_commit": "195108171764fc6bdb7ee3502805d81b1d3804d6"
     },
     {
       "path": ".github/workflows/qwen12-native-evidence-review.yml",
@@ -20444,6 +20444,32 @@
         }
       ],
       "scope": "prospective fresh36 capture source; source tests do not execute ASR, training or qualification"
+    },
+    {
+      "campaign": "qwen12-native-capture-20261030-v1",
+      "source_commit": "195108171764fc6bdb7ee3502805d81b1d3804d6",
+      "paths": [
+        "research/qwen12-native-capture-20261030-v1/test_capture_entry.py",
+        "research/qwen12-native-capture-20261030-v1/worker.py"
+      ],
+      "previous_manifest_sha256": "bec45857347fada8729cf5b302aa160de93216f319d9f3610d86758b856d846d",
+      "previous_campaign_rows": [
+        {
+          "path": "research/qwen12-native-capture-20261030-v1/worker.py",
+          "mode": "100644",
+          "git_blob_sha1": "c0fe2ae0d51d60c8e0442ce4c16e3bee0deab588",
+          "bytes": 6361,
+          "source_commit": "46fbdec50e6685903b471c76d9e5888b4df214bc"
+        },
+        {
+          "path": "research/qwen12-native-capture-20261030-v1/test_capture_entry.py",
+          "mode": "100644",
+          "git_blob_sha1": "0cc52ce2c45a581b2e737a9f0bdd7617e2fa1363",
+          "bytes": 26293,
+          "source_commit": "48e76a422258e299b25cf7d1c27c466d28463195"
+        }
+      ],
+      "scope": "native clip-directory roster correction and no-model regressions only; v1/v2 historical captures remain consumed; no label/training/qualification promotion"
     }
   ]
 }
