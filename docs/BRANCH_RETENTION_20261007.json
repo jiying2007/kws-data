@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1830,
-  "expected_retained_files": 1822,
+  "expected_tracked_files": 1833,
+  "expected_retained_files": 1825,
   "new_retained_paths": 1211,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -20024,9 +20024,9 @@
     {
       "path": ".github/workflows/qwen12-native-capture-20261030-v1.yml",
       "mode": "100644",
-      "git_blob_sha1": "ba5bead087cd217dc90a4ff2e7354f215428c419",
-      "bytes": 15662,
-      "source_commit": "c100e5d8ef550a12bfb65f95caa214740f267139"
+      "git_blob_sha1": "90a8998ceb0195ee03e7bef309190ae86e666f0f",
+      "bytes": 15750,
+      "source_commit": "1b717fee8885b9664a43f0f6302bc6219d4c4cd9"
     },
     {
       "path": "research/qwen12-native-capture-20261030-v1/fresh_contract.py",
@@ -20038,9 +20038,9 @@
     {
       "path": "research/qwen12-native-capture-20261030-v1/register_sources.py",
       "mode": "100644",
-      "git_blob_sha1": "8ac68aaed4711f9489eb66d6f33d184b5775e233",
-      "bytes": 6731,
-      "source_commit": "c100e5d8ef550a12bfb65f95caa214740f267139"
+      "git_blob_sha1": "e87cd09c2bba210c337de97447ef26aad7bdda9c",
+      "bytes": 6840,
+      "source_commit": "1b717fee8885b9664a43f0f6302bc6219d4c4cd9"
     },
     {
       "path": "research/qwen12-native-capture-20261030-v1/test_fresh_contract.py",
@@ -20090,6 +20090,27 @@
       "git_blob_sha1": "b406fad8b6fb40611dfb29d553b8551456b4ff18",
       "bytes": 19626,
       "source_commit": "c100e5d8ef550a12bfb65f95caa214740f267139"
+    },
+    {
+      "path": "research/qwen12-native-capture-20261030-v1/REVIEW_INTAKE.md",
+      "mode": "100644",
+      "git_blob_sha1": "e74b141eec191acd9d67032cd50c9cb315980cf4",
+      "bytes": 3557,
+      "source_commit": "1b717fee8885b9664a43f0f6302bc6219d4c4cd9"
+    },
+    {
+      "path": "research/qwen12-native-capture-20261030-v1/review_intake.py",
+      "mode": "100644",
+      "git_blob_sha1": "0274bfdb93e7323ee4a7769c0915b555123b50c9",
+      "bytes": 9761,
+      "source_commit": "1b717fee8885b9664a43f0f6302bc6219d4c4cd9"
+    },
+    {
+      "path": "research/qwen12-native-capture-20261030-v1/test_review_intake.py",
+      "mode": "100644",
+      "git_blob_sha1": "7aaacba99d3fe413b232e6edec3d9c5fc84dd39f",
+      "bytes": 8988,
+      "source_commit": "1b717fee8885b9664a43f0f6302bc6219d4c4cd9"
     }
   ],
   "source_registration_history": [
@@ -20551,6 +20572,35 @@
           "git_blob_sha1": "3f6f06e0fd93722e008ab5df8ba4ad9eb4b3ef69",
           "bytes": 6694,
           "source_commit": "53d1e249204ba09f7acbb3ec05083a86e315b404"
+        }
+      ],
+      "scope": "prospective fresh36 capture source; source tests do not execute ASR, training or qualification"
+    },
+    {
+      "campaign": "qwen12-native-capture-20261030-v1",
+      "source_commit": "1b717fee8885b9664a43f0f6302bc6219d4c4cd9",
+      "paths": [
+        ".github/workflows/qwen12-native-capture-20261030-v1.yml",
+        "research/qwen12-native-capture-20261030-v1/REVIEW_INTAKE.md",
+        "research/qwen12-native-capture-20261030-v1/register_sources.py",
+        "research/qwen12-native-capture-20261030-v1/review_intake.py",
+        "research/qwen12-native-capture-20261030-v1/test_review_intake.py"
+      ],
+      "previous_manifest_sha256": "d2e56984d1ab498edd400bd8ed804d8530724f0e29b67502096c0b8bceb948bc",
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/qwen12-native-capture-20261030-v1.yml",
+          "mode": "100644",
+          "git_blob_sha1": "ba5bead087cd217dc90a4ff2e7354f215428c419",
+          "bytes": 15662,
+          "source_commit": "c100e5d8ef550a12bfb65f95caa214740f267139"
+        },
+        {
+          "path": "research/qwen12-native-capture-20261030-v1/register_sources.py",
+          "mode": "100644",
+          "git_blob_sha1": "8ac68aaed4711f9489eb66d6f33d184b5775e233",
+          "bytes": 6731,
+          "source_commit": "c100e5d8ef550a12bfb65f95caa214740f267139"
         }
       ],
       "scope": "prospective fresh36 capture source; source tests do not execute ASR, training or qualification"
