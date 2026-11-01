@@ -48,8 +48,28 @@ def _number(value):
 
 
 def _json_file(path):
-    raw = Path(path).read_bytes()
-    require(len(raw) <= MAX_MANIFEST, "MANIFEST_TOO_LARGE")
+    source=Path(path).absolute()
+    require(hasattr(os,"O_NOFOLLOW") and
+            not any(p.is_symlink() for p in (source,*source.parents)),
+            "MANIFEST_ALIAS")
+    handle=None
+    try:
+        handle=os.open(source,os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+        before=os.fstat(handle)
+        require(stat.S_ISREG(before.st_mode) and before.st_nlink==1 and
+                0<before.st_size<=MAX_MANIFEST,"MANIFEST_FILE_BOUNDS")
+        with os.fdopen(handle,"rb") as stream:
+            handle=None
+            raw=stream.read(MAX_MANIFEST+1)
+            after=os.fstat(stream.fileno())
+        require(len(raw)==before.st_size and len(raw)<=MAX_MANIFEST,
+                "MANIFEST_CHANGED_OR_OVERSIZED")
+        for key in ("st_dev","st_ino","st_size","st_mtime_ns","st_ctime_ns","st_nlink"):
+            require(getattr(before,key)==getattr(after,key),"MANIFEST_MUTATED_DURING_READ")
+    except OSError as exc:
+        raise ValueError("MANIFEST_UNSAFE_FILE") from exc
+    finally:
+        if handle is not None:os.close(handle)
     try:
         return json.loads(raw.decode("utf-8"), object_pairs_hook=_pairs,
                           parse_constant=lambda _: (_ for _ in ()).throw(ValueError("NONFINITE_JSON")),
