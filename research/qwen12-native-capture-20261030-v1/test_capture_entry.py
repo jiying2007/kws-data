@@ -81,6 +81,84 @@ import run_capture
         self.assertNotEqual(result.returncode,0)
 
 
+class Remaining24NoReplay(unittest.TestCase):
+    """Checks the third execution variant without installing/loading a model."""
+
+    def test_v3_separate_tag_and_branch(self):
+        script=r'''
+import pathlib,sys
+sys.path.insert(0,str(pathlib.Path(sys.argv[1])))
+import run_capture as host
+print(host.EXECUTION_VARIANT)
+print(host.EXECUTION_BRANCH)
+print(host.CLAIM_REF)
+print(','.join(host.permitted_decode_families()))
+'''
+        env=dict(os.environ);env['KWS_CAPTURE_EXECUTION_VARIANT']='v3'
+        result=subprocess.run([sys.executable,'-I','-B','-c',script,str(HERE)],
+            env=env,capture_output=True,text=True,timeout=30)
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+        self.assertEqual(result.stdout.splitlines(),[
+            'v3','research/qwen12-native-capture-once-20261101-v3-remaining24',
+            'refs/tags/qwen12-native-capture-once-20261101-v3-remaining24-consumed',
+            'sensevoice,whisper'])
+
+    def test_v3_rejects_other_claim_branches(self):
+        with patch.object(host,'EXECUTION_VARIANT','v3'),patch.object(host,'EXECUTION_BRANCH',
+                'research/qwen12-native-capture-once-20261101-v3-remaining24'),patch.object(
+                host,'CLAIM_REF','refs/tags/qwen12-native-capture-once-20261101-v3-remaining24-consumed'):
+            env={'GITHUB_REPOSITORY':host.REPO,'GITHUB_EVENT_NAME':'push',
+                'GITHUB_REF':'refs/heads/'+host.EXECUTION_BRANCH,'GITHUB_RUN_ATTEMPT':'1',
+                'GITHUB_SHA':'a'*40,'GITHUB_RUN_ID':'123'}
+            event={'created':False,'deleted':False,'after':'a'*40,
+                   'repository':{'full_name':host.REPO,'private':False}}
+            claim={'ref':host.CLAIM_REF,'object':{'type':'commit','sha':'a'*40}}
+            self.assertEqual(host.validate_execution(env,event,claim),('a'*40,'123'))
+            for field,mutation in (('GITHUB_REF','refs/heads/research/qwen12-native-capture-once-20261101-v2'),
+                                   ('GITHUB_RUN_ATTEMPT','2')):
+                bad=dict(env);bad[field]=mutation
+                with self.subTest(field=field),self.assertRaises(ValueError):
+                    host.validate_execution(bad,event,claim)
+            bad=dict(claim);bad['ref']='refs/tags/qwen12-native-capture-once-20261101-v2-consumed'
+            with self.assertRaises(ValueError):host.validate_execution(env,event,bad)
+
+    def test_no_qwen_decode_in_continuation(self):
+        with patch.object(host,'EXECUTION_VARIANT','v3'):
+            permitted=host.permitted_decode_families()
+            self.assertEqual(permitted,('sensevoice','whisper'))
+            self.assertEqual(len(permitted)*len(fresh.SOURCES),24)
+            self.assertNotIn('qwen06',permitted)
+        for previous in ('v1','v2'):
+            with self.subTest(previous=previous),patch.object(host,'EXECUTION_VARIANT',previous):
+                self.assertEqual(host.permitted_decode_families(),fresh.FAMILIES)
+
+    def test_qwen_receipts_never_reclassified_as_new_decodes(self):
+        with patch.object(host,'EXECUTION_VARIANT','v3'):
+            self.assertEqual(host.terminal_slot_state('qwen06',started=False,completed=False),
+                'PRIOR_V2_QWEN12_EXCLUDED_FROM_V3')
+            for started,completed in ((True,False),(False,True),(True,True)):
+                with self.subTest(started=started,completed=completed),self.assertRaises(ValueError):
+                    host.terminal_slot_state('qwen06',started=started,completed=completed)
+            self.assertEqual(host.terminal_slot_state('sensevoice',started=True,completed=False),
+                'STARTED_FAILED_OR_INCOMPLETE')
+            self.assertEqual(host.terminal_slot_state('whisper',started=True,completed=True),
+                'COMPLETION_RECORDED_PENDING_INDEPENDENT_RECHECK')
+            self.assertEqual(host.terminal_slot_state('whisper',started=False,completed=False),'NOT_RUN')
+            with self.assertRaises(ValueError):
+                host.terminal_slot_state('qwen06',started=1,completed=False)
+            with self.assertRaises(ValueError):
+                host.terminal_slot_state('unknown',started=False,completed=False)
+
+    def test_prior_real_qwen_evidence_stays_immutable(self):
+        self.assertEqual(host._V2_QWEN12, {
+            'run_id':41260766218,
+            'source_commit':'576a546e9ff515e30e5cca30767752a0a52cffdb',
+            'evidence_commit':'24d9090b4ef1969196b65b73a46c7e690b682eaf',
+            'archive_sha256':'7b5229d1259077093436f07e0b9e9afc4e62f890e50350ee714e8b01b44e5fca',
+            'completed_qwen06':12})
+
+
+
 class SourceStaging(unittest.TestCase):
     def setUp(self):
         self.pipeline=Path(os.environ['KWS_PINNED_PIPELINE'])
