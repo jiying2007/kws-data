@@ -195,6 +195,8 @@ def _read_wav(root, relative, expected_size=MAX_WAV):
                 require(getattr(before,f) == getattr(after,f), "WAV_MUTATED_DURING_READ")
         return {"wav_sha256":original.hexdigest(),"pcm_sha256":pcm.hexdigest(),
                 "frames":pcm_bytes//2,"bytes":before.st_size}
+    except OSError as exc:
+        raise ValueError("UNSAFE_WAV_FILE") from exc
     finally:
         if handle is not None:os.close(handle)
         os.close(directory)
