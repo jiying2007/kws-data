@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -42,11 +43,18 @@ def _unique(pairs):
     return obj
 
 
+def _finite_float(token):
+    value = float(token)
+    require(math.isfinite(value), "NONFINITE_JSON")
+    return value
+
+
 def read_json(path, limit):
     data = fresh.bounded_read(path, limit)
     try:
         return json.loads(data.decode("utf-8"), object_pairs_hook=_unique,
-                          parse_constant=lambda _: (_ for _ in ()).throw(ValueError("NONFINITE_JSON")))
+                          parse_constant=lambda _: (_ for _ in ()).throw(ValueError("NONFINITE_JSON")),
+                          parse_float=_finite_float)
     except (UnicodeDecodeError, json.JSONDecodeError) as err:
         raise ValueError("INVALID_JSON") from err
 
