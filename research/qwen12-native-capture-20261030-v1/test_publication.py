@@ -104,8 +104,11 @@ class PublicationProtocol(unittest.TestCase):
         self.assertNotIn('paths-ignore:',push)
         self.assertNotIn('actions/upload-artifact',capture)
         self.assertNotIn('continue-on-error',capture)
-        inference=capture.split('      - name: Run the single native three-family capture',1)[1].split('      - name:',1)[0]
+        inference=capture.split('      - name: Run the single native capture',1)[1].split('      - name:',1)[0]
         self.assertNotIn('GH_TOKEN',inference);self.assertNotIn('github.token',inference)
+        self.assertIn('qwen12-native-capture-once-20261101-v3-remaining24',capture)
+        self.assertIn('qwen12-native-capture-once-20261101-v2-consumed',capture)
+        self.assertIn('24', (HERE/'run_capture.py').read_text())
 
 
 if __name__=='__main__':unittest.main()
