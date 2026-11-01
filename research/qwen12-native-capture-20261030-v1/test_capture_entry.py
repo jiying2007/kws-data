@@ -224,6 +224,36 @@ class SavedCompletion(unittest.TestCase):
                 row=json.loads(p.read_bytes());row[field]=value;p.write_bytes(fresh.canonical(row))
                 with self.assertRaises(ValueError):worker.verify_completed(root,fresh.original_job(),'qwen06')
 
+    def test_native_sidecars_are_not_counted_as_extra_audio_attempts(self):
+        # Reproduces the exact twelve completed qwen06 calls in run 41260766218:
+        # native sidecars are siblings of the twelve clip directories.
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);self.fixture(root)
+            for row in fresh.remaining_plan(fresh.original_job(),'qwen06'):
+                for suffix in ('.native-generation-return.json',
+                               '.native-observation.json',
+                               '.native-returned-raw.json'):
+                    (root/(row['audio_id']+suffix)).write_bytes(b'{}')
+            self.assertEqual(worker.verify_completed(root,fresh.original_job(),'qwen06',
+                expected_run='123',expected_head='a'*40)['completed'],12)
+            self.assertEqual(len(list(root.glob('clip-*'))),48)
+
+    def test_native_sidecars_do_not_hide_an_extra_clip_directory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);self.fixture(root)
+            (root/'clip-000001.native-observation.json').write_bytes(b'{}')
+            (root/'clip-000013').mkdir()
+            with self.assertRaisesRegex(ValueError,'complete fresh family roster'):
+                worker.verify_completed(root,fresh.original_job(),'qwen06')
+
+    def test_clip_directory_symlink_is_not_an_accepted_attempt(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);self.fixture(root)
+            victim=root/'clip-000012';new=root/'saved'
+            victim.rename(new);victim.symlink_to(new,target_is_directory=True)
+            with self.assertRaises(ValueError):
+                worker.verify_completed(root,fresh.original_job(),'qwen06')
+
     def test_reject_extra_slot(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);self.fixture(root);(root/'clip-000013').mkdir()
