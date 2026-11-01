@@ -158,4 +158,106 @@ jobs:
           path: ${{ runner.temp }}/qwen12-saved-v2-review/
           retention-days: 7
           if-no-files-found: error
+  native-evidence-v3-readback:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          path: source
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-data
+          ref: 9e407aef22d22316d73bbd9fe9d3b23d976ff7d9
+          persist-credentials: false
+          path: saved
+      - name: Read exact v2 capture bytes and summarize real slot outcomes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B - <<'PY'
+          import collections, hashlib, io, json, os, pathlib, shutil, stat, subprocess, zipfile
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'qwen12-saved-v3-review';out.mkdir()
+          source=pathlib.Path('saved/research/qwen12-native-capture-20261030-v1/evidence')
+          raw=(source/'native-evidence.zip').read_bytes()
+          if len(raw)!=4966978 or hashlib.sha256(raw).hexdigest()!='981a1cf6c35093263f95b75880d4676528b28fca46e708c8d9264eb538ec5cb3':raise ValueError('exact v3 published ZIP required')
+          publication=json.loads((source/'publication.json').read_bytes())
+          if publication['source_commit']!='52a8b408788c7fa0c554ea76aafa2889c5b0b60c' or publication['run_id']!=41269199398 or publication['evidence_ref']!='refs/heads/evidence/qwen12-native-capture-once-20261101-v3-remaining24':raise ValueError('v2 run identity')
+          def unique(pairs):
+              result={}
+              for k,v in pairs:
+                  if k in result:raise ValueError('duplicate JSON field')
+                  result[k]=v
+              return result
+          def parse(body):
+              return json.loads(body,object_pairs_hook=unique,parse_constant=lambda x:(_ for _ in ()).throw(ValueError('nonfinite JSON')))
+          with zipfile.ZipFile(io.BytesIO(raw)) as z:
+              infos=z.infolist();names=[i.filename for i in infos]
+              if len(names)!=903 or len(set(names))!=671:raise ValueError('v3 published member count')
+              if sum(i.file_size for i in infos)>256*1024**2:raise ValueError('aggregate read cap')
+              for i in infos:
+                  p=pathlib.PurePosixPath(i.filename)
+                  if p.is_absolute() or '..' in p.parts or str(p)!=i.filename or '\\' in i.filename or i.is_dir() or i.file_size>32*1024**2:raise ValueError('member bound')
+                  if stat.S_ISLNK(i.external_attr>>16):raise ValueError('member alias')
+              freeze=parse(z.read('artifact-freeze.json'))
+              if set(freeze['files'])!=set(names)-{'artifact-freeze.json'}:raise ValueError('exact v3 evidence inventory')
+              for name,row in freeze['files'].items():
+                  body=z.read(name)
+                  if type(row) is not dict or type(row.get('bytes')) is not int or len(body)!=row['bytes'] or hashlib.sha256(body).hexdigest()!=row['sha256']:raise ValueError('member identity mismatch')
+              facts={}
+              selected=('host-receipt.json','terminal-outcomes.json','cpu-receipt.json','supervision-receipt.json','cleanup-receipt.json','asr-setup-public.json','image-transfer.json','staged-source.json','policy/policy.json')
+              for name in names:
+                  if name in selected or name.endswith(('/worker-failure.json','/worker-complete.json','/progress.json','/started.json','/completed.json','/raw-transcript.json','/raw-native-output.json')):
+                      facts[name]=parse(z.read(name))
+              terminal=facts.get('terminal-outcomes.json',[])
+              statuses=collections.Counter(row.get('status') for row in terminal if isinstance(row,dict))
+              per_family={}
+              transcripts=[]
+              for family in ('qwen06','sensevoice','whisper'):
+                  prefix='output/'+family+'/'
+                  starts=sorted(n for n in names if n.startswith(prefix) and n.endswith('/started.json'))
+                  completed=sorted(n for n in names if n.startswith(prefix) and n.endswith('/completed.json'))
+                  raw_text=sorted(n for n in names if n.startswith(prefix) and n.endswith('/raw-transcript.json'))
+                  per_family[family]={'started':len(starts),'completed':len(completed),'raw_transcripts':len(raw_text)}
+                  for name in raw_text:
+                      transcripts.append({'family':family,'member':name,'value':facts[name]})
+              expected_statuses={'PRIOR_V2_QWEN12_EXCLUDED_FROM_V3':12,'COMPLETION_RECORDED_PENDING_INDEPENDENT_RECHECK':24}
+              if dict(statuses)!=expected_statuses:raise ValueError('unexpected terminal roster; not all remaining24 completed')
+              if per_family!={'qwen06':{'started':0,'completed':0,'raw_transcripts':0},
+                  'sensevoice':{'started':12,'completed':12,'raw_transcripts':12},
+                  'whisper':{'started':12,'completed':12,'raw_transcripts':12}}:
+                  raise ValueError('v3 must contain exactly24 native completions and no Qwen replay')
+              host=facts.get('host-receipt.json')
+              if type(host) is not dict or host.get('status')!='24_NATIVE_CAPTURES_COMPLETE_LABEL_ADMISSION_PENDING' or host.get('run_id')!='41269199398' or host.get('head_sha')!='52a8b408788c7fa0c554ea76aafa2889c5b0b60c' or host.get('maximum_calls')!=24:
+                  raise ValueError('bounded successful v3 host identity required')
+              for family in ('sensevoice','whisper'):
+                  for index in range(1,13):
+                      prefix=f'output/{family}/clip-{index:06d}/'
+                      start_bytes=z.read(prefix+'started.json')
+                      end=parse(z.read(prefix+'completed.json'));start=parse(start_bytes)
+                      raw_bytes=z.read(prefix+'raw-transcript.json')
+                      native_bytes=z.read(prefix+'raw-native-output.json')
+                      if start.get('recognizer_id')!=family or start.get('run_id')!='41269199398' or start.get('executed_head_sha')!='52a8b408788c7fa0c554ea76aafa2889c5b0b60c':
+                          raise ValueError('native receipt source/run identity mismatch')
+                      if end.get('status')!='success' or end.get('decoder_completed') is not True or type(end.get('processed_start_frame')) is not int or end['processed_start_frame']!=0 or type(end.get('processed_end_frame')) is not int or end['processed_end_frame']!=start.get('audio_frames'):
+                          raise ValueError('incomplete native audio coverage')
+                      for key,value in start.items():
+                          if key!='schema' and end.get(key)!=value:raise ValueError('native start/end identity mismatch')
+                      for key,body in (('started_sha256',start_bytes),('raw_output_sha256',raw_bytes),('raw_native_output_sha256',native_bytes)):
+                          if end.get(key)!=hashlib.sha256(body).hexdigest():raise ValueError('native receipt content digest mismatch')
+              result={'schema':'saved-qwen12-readback-v3','evidence_commit':'9e407aef22d22316d73bbd9fe9d3b23d976ff7d9','publication':publication,'member_count':len(names),'member_inventory_verified':True,'terminal_status_counts':dict(statuses),'per_family':per_family,'facts':facts,'transcripts':transcripts,'new_model_calls':0,'training_admitted':False,'qualification_allowed':False}
+              (out/'readback.json').write_text(json.dumps(result,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
+              (out/'member-names.json').write_text(json.dumps(names,indent=2)+'\n')
+          shutil.copyfile(source/'native-evidence.zip',out/'native-evidence.zip')
+          shutil.copyfile(source/'publication.json',out/'publication.json')
+          (out/'source-head.txt').write_text(subprocess.check_output(['git','-C','source','rev-parse','HEAD'],text=True))
+          print(json.dumps({'member_count':903,'archive_verified':True,'terminal_status_counts':dict(statuses),'per_family':per_family,'new_model_calls':0,'training_admitted':False},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: qwen12-saved-v3-review-${{ github.run_id }}
+          path: ${{ runner.temp }}/qwen12-saved-v3-review/
+          retention-days: 7
+          if-no-files-found: error
 
