@@ -1,0 +1,92 @@
+name: Bulk reviewed multi-speaker KWS voice-clone source checks
+on:
+  pull_request:
+    paths:
+      - .github/workflows/bulk-licensed-clone-20261102.yml
+      - research/auto-tts-voice-clone-20261102/bulk_pool.py
+      - research/auto-tts-voice-clone-20261102/bulk_runner.py
+      - research/auto-tts-voice-clone-20261102/bulk_ingest.py
+      - research/auto-tts-voice-clone-20261102/bulk_asr.py
+      - research/auto-tts-voice-clone-20261102/test_bulk.py
+      - research/auto-tts-voice-clone-20261102/register_bulk_sources.py
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/bulk-licensed-clone-20261102.yml
+      - research/auto-tts-voice-clone-20261102/bulk_pool.py
+      - research/auto-tts-voice-clone-20261102/bulk_runner.py
+      - research/auto-tts-voice-clone-20261102/bulk_ingest.py
+      - research/auto-tts-voice-clone-20261102/bulk_asr.py
+      - research/auto-tts-voice-clone-20261102/test_bulk.py
+      - docs/BRANCH_RETENTION_20261007.json
+permissions:
+  contents: read
+concurrency:
+  group: bulk-clone-source-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  bulk-source-only:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Source-only permission, model-prompt-cache and ASR tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/bulk-clone-source"
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -B "${args[@]}" research/auto-tts-voice-clone-20261102/test_bulk.py -v 2>&1 | tee "$RUNNER_TEMP/bulk-clone-source/test-${mode}.log"
+          done
+          python3 -B - <<'PY' 2>&1 | tee "$RUNNER_TEMP/bulk-clone-source/registration-tests.log"
+          import copy,importlib.util,pathlib
+          file=pathlib.Path('research/auto-tts-voice-clone-20261102/register_bulk_sources.py')
+          spec=importlib.util.spec_from_file_location('bulk_source_registration',file)
+          reg=importlib.util.module_from_spec(spec);spec.loader.exec_module(reg)
+          old={'schema':'kws-public-branch-retention-v1','repository':reg.REPO,
+            'retained_files':[{'path':'original','mode':'100644','git_blob_sha1':'a'*40,'bytes':1,'source_commit':'b'*40}],
+            'integration_files':[reg.BASE],'expected_retained_files':1,'expected_tracked_files':2}
+          tree={'original':('100644','a'*40,1),reg.BASE:('100644','b'*40,2),
+            **{p:('100644','c'*40,3) for p in reg.PATHS}}
+          value=reg.propose(old,tree,'d'*40,b'original')
+          if value['expected_retained_files']!=len(reg.PATHS)+1:raise ValueError('source count')
+          if value['retained_files'][0]!=old['retained_files'][0]:raise ValueError('old history changed')
+          if reg.propose(value,tree,'e'*40,b'after') is not None:raise ValueError('non-idempotent')
+          for kind in ('extra','missing','mutation','alias','oversized'):
+            broken=copy.deepcopy(tree);p=next(iter(reg.PATHS))
+            if kind=='extra':broken['new-unreviewed']=('100644','f'*40,1)
+            elif kind=='missing':del broken['original']
+            elif kind=='mutation':broken['original']=('100644','f'*40,1)
+            elif kind=='alias':broken[p]=('120000','c'*40,3)
+            else:broken[p]=('100644','c'*40,65537)
+            try:reg.propose(old,broken,'d'*40,b'original')
+            except ValueError:pass
+            else:raise ValueError('unsafe inventory mutation accepted: '+kind)
+          print('source registration with 5 mutation failures PASS')
+          PY
+          test -z "$(git status --porcelain)"
+      - name: Propose exact manifest-only Git commit object, never move branch
+        if: github.event_name == 'pull_request' && github.head_ref == 'research/bulk-licensed-clone-20261102'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B research/auto-tts-voice-clone-20261102/register_bulk_sources.py --output "$RUNNER_TEMP/bulk-clone-source"
+          test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: bulk-clone-source-${{ github.run_id }}
+          path: ${{ runner.temp }}/bulk-clone-source/
+          retention-days: 7
+          if-no-files-found: error
