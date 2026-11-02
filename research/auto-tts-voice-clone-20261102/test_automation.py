@@ -140,7 +140,7 @@ class CampaignTests(unittest.TestCase):
              "source_kind":"synthesized_and_machine_screened",
              "screening_sha256":"c"*64,
              "rights_basis":"synthetic_model_output_research_only",
-             "real_person_identity":None}
+             "real_person_identity":None,"training_admitted":False}
         voice={"voice_id":"ryan-clone","mode":"clone","preset":None,
           "description":None,"reference":ref,
           "source_family_id":ref["source_family_id"],
