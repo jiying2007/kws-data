@@ -124,7 +124,7 @@ def validate_voices(voices):
                     type(ref) is dict and set(ref)=={"audio_id","wav_sha256",
                       "pcm_sha256","frames","sample_rate_hz","reference_text",
                       "source_family_id","source_kind","screening_sha256",
-                      "rights_basis","real_person_identity"},
+                      "rights_basis","real_person_identity","training_admitted"},
                     "SYNTHETIC_REFERENCE_FIELDS")
             _ident(ref["audio_id"],"REFERENCE_ID")
             _sha(ref["wav_sha256"],"REFERENCE_WAV_ID")
@@ -139,6 +139,7 @@ def validate_voices(voices):
                     ref["source_kind"]=="synthesized_and_machine_screened" and
                     ref["rights_basis"]=="synthetic_model_output_research_only" and
                     ref["real_person_identity"] is None and
+                    ref["training_admitted"] is False and
                     ref["source_family_id"]==family,
                     "NON_SYNTHETIC_OR_UNSCREENED_REFERENCE")
         result.append(voice)
