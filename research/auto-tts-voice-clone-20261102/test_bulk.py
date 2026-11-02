@@ -427,5 +427,38 @@ class BulkRuntimeTests(Fixture):
         self.assertEqual(len(calls),1)
 
 
+
+    def test_batch_asr_rejects_different_generator_plan_even_if_audio_exists(self):
+        self.gen(1)
+        changed=p.plan(self.sources,self.root,repetitions=2,
+                       batch_id="another-batch",revision="b"*40)
+        with self.assertRaises(ValueError):
+            a.screen_results(changed,self.tts,self.asr)
+        with patch.dict(os.environ,{"HF_HUB_OFFLINE":"1","TRANSFORMERS_OFFLINE":"1"}):
+            with self.assertRaises(ValueError):
+                a.dispatch(changed,self.tts,self.asr,self.adapters,
+                           max_new_calls=0,execute=True,executor=self.simulate_asr)
+
+    def test_saved_native_transcript_cannot_be_changed_after_asr(self):
+        self.gen(1)
+        with patch.dict(os.environ,{"HF_HUB_OFFLINE":"1","TRANSFORMERS_OFFLINE":"1"}):
+            a.dispatch(self.plan,self.tts,self.asr,self.adapters,
+                       max_new_calls=3,execute=True,executor=self.simulate_asr)
+        clip=self.plan["cells"][0]
+        first=self.asr/"clips"/clip["cell_id"]/"qwen06"/"completed.json"
+        body=p.read_json(first)
+        body["observation"]["actual_text"]="你好小屋"
+        first.write_bytes(p.canonical(body))
+        with self.assertRaises(ValueError):
+            a.screen_results(self.plan,self.tts,self.asr)
+
+    def test_all_empty_asr_progress_is_a_hold_not_training(self):
+        self.gen(1)
+        report=a.screen_results(self.plan,self.tts,self.asr)
+        self.assertFalse(report["training_admitted"])
+        self.assertFalse(report["qualification_allowed"])
+        self.assertEqual(report["counts"].get("MACHINE_POSITIVE_CANDIDATE",0),0)
+        self.assertEqual(report["counts"].get("MACHINE_NEGATIVE_CANDIDATE",0),0)
+
 if __name__=="__main__":
     unittest.main()
