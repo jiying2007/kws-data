@@ -208,3 +208,37 @@ def example_voices():
         "role":role,"model_id":MODEL_FAMILIES["preset"],
         "model_revision":PRESET_REVISION,"model_license":"Apache-2.0"}
         for name,role in roles.items()]
+
+
+def main(argv=None):
+    """Offline plan entry; no model, network, reviewer, or authority calls."""
+    import argparse
+    import os
+    import sys
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output",type=Path,required=True)
+    parser.add_argument("--voices",type=Path)
+    parser.add_argument("--batch-id",default="default01")
+    parser.add_argument("--round",dest="round_id",type=int,choices=(0,1),default=0)
+    args=parser.parse_args(argv)
+    try:
+        voices=read_json(args.voices) if args.voices else example_voices()
+        plan=build_plan(voices,round_id=args.round_id,batch_id=args.batch_id)
+        require(args.output.parent.is_dir() and
+                not args.output.exists() and not args.output.is_symlink(),
+                "PLAN_OUTPUT_MUST_BE_NEW")
+        fd=os.open(args.output,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
+        with os.fdopen(fd,"wb") as stream:
+            stream.write(canonical(plan)+b"\n")
+            stream.flush();os.fsync(stream.fileno())
+    except (OSError,ValueError) as error:
+        print("SYNTHETIC_PLAN_NOT_CREATED: "+type(error).__name__,file=sys.stderr)
+        return 2
+    print(json.dumps({"plan_sha256":hashlib.sha256(canonical(plan)).hexdigest(),
+        "planned_tts_calls":len(plan["cells"]),"training_admitted":False},
+        sort_keys=True))
+    return 0
+
+
+if __name__=="__main__":
+    raise SystemExit(main())
