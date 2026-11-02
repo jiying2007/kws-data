@@ -40,6 +40,17 @@ def _audio_for(plan, generated, cell):
     return folder/"audio-16k.wav",measured
 
 
+def _verify_generation_plan(plan, generated_root):
+    source=Path(generated_root)/"plan-lock.json"
+    original=p.read_json(source,65536)
+    p.require(type(original) is dict and
+              original.get("schema")=="kws-bulk-clone-execution-lock-v1" and
+              original.get("plan_sha256")==hashlib.sha256(p.canonical(plan)).hexdigest()
+              and original.get("training_admitted") is False
+              and original.get("model_id")==p.MODEL,
+              "GENERATED_AUDIO_PLAN_LOCK_DRIFT")
+
+
 def dispatch(plan, generated_root, output, adapters, *, max_new_calls,
              executor=subprocess.run, execute=False):
     p.verify_plan(plan)
@@ -49,6 +60,7 @@ def dispatch(plan, generated_root, output, adapters, *, max_new_calls,
     if not execute:
         return {"status":"DRY_RUN", "max_new_calls":max_new_calls,
                 "actual_calls":0, "training_admitted":False}
+    _verify_generation_plan(plan,generated_root)
     p.require(os.environ.get("HF_HUB_OFFLINE")=="1" and
               os.environ.get("TRANSFORMERS_OFFLINE")=="1",
               "OFFLINE_NATIVE_ASR_REQUIRED")
@@ -156,6 +168,7 @@ def dispatch(plan, generated_root, output, adapters, *, max_new_calls,
 
 def screen_results(plan,gen_root,asr_root):
     p.verify_plan(plan)
+    _verify_generation_plan(plan,gen_root)
     states=[]
     for cell in plan["cells"]:
         src=_audio_for(plan,gen_root,cell)
@@ -170,6 +183,8 @@ def screen_results(plan,gen_root,asr_root):
             if not receipt.exists():continue
             result=p.read_json(receipt,65536)
             o=result["observation"]
+            screen.validate_native_observation(o,cell,meta)
+            p.require(o["engine"]==engine,"ASR_ENGINE_SIDECAR_DRIFT")
             p.require(result.get("schema")=="kws-bulk-asr-complete-v1" and
                       result.get("training_admitted") is False and
                       result.get("qualification_allowed") is False and
@@ -183,6 +198,17 @@ def screen_results(plan,gen_root,asr_root):
             native=Path(asr_root)/"clips"/cell["cell_id"]/engine/"native.json"
             _,sha=runner._safe_file(native,limit=8*1024*1024)
             p.require(sha==o["raw_native_sha256"],"ASR_NATIVE_CHANGED")
+            native_fields=p.read_json(native,8*1024*1024)
+            p.require(type(native_fields) is dict and
+                      native_fields.get("audio_id")==cell["cell_id"] and
+                      native_fields.get("engine")==engine and
+                      native_fields.get("model_id")==o["model_id"] and
+                      native_fields.get("model_revision")==o["model_revision"] and
+                      native_fields.get("actual_text")==o["actual_text"] and
+                      native_fields.get("decoder_completed") is True and
+                      native_fields.get("processed_start_frame")==0 and
+                      native_fields.get("processed_end_frame")==meta["audio_frames"],
+                      "NATIVE_TRANSCRIPT_AND_COMPLETION_DRIFT")
             observed.append(c.normalize(o["actual_text"]))
         expected=c.normalize(cell["prompt"])
         if len(observed)<3:
