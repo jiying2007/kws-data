@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1838,
-  "expected_retained_files": 1830,
+  "expected_tracked_files": 1848,
+  "expected_retained_files": 1840,
   "new_retained_paths": 1211,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -20146,6 +20146,76 @@
       "git_blob_sha1": "dd6fde205c5c2465eeb9788fe48ce4828b52d063",
       "bytes": 14322,
       "source_commit": "2c1d72fc886d94761f771c0e55b5d6b6e85ef1de"
+    },
+    {
+      "path": ".github/workflows/auto-tts-voice-clone-20261102.yml",
+      "mode": "100644",
+      "git_blob_sha1": "1fdcad4a082a7c5664891d40c3aad08b3fedb26e",
+      "bytes": 2410,
+      "source_commit": "f1dc0223a3143d3c941506e98d71425963bc7218"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/README.md",
+      "mode": "100644",
+      "git_blob_sha1": "027181c33742502c24c23964655f8398352dd094",
+      "bytes": 7146,
+      "source_commit": "f1dc0223a3143d3c941506e98d71425963bc7218"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/asr_dispatch.py",
+      "mode": "100644",
+      "git_blob_sha1": "b24c0eb758524e00e1ca1063b2cbee6ee216045e",
+      "bytes": 10624,
+      "source_commit": "f1dc0223a3143d3c941506e98d71425963bc7218"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/autopilot.py",
+      "mode": "100644",
+      "git_blob_sha1": "401489fc8a8247571a723f4a7c15c8420bdbbb2d",
+      "bytes": 8656,
+      "source_commit": "f1dc0223a3143d3c941506e98d71425963bc7218"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/campaign.py",
+      "mode": "100644",
+      "git_blob_sha1": "45de56770176cbb4f5c504c51c18ac245c3ab33f",
+      "bytes": 11171,
+      "source_commit": "f1dc0223a3143d3c941506e98d71425963bc7218"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/prepare_models.py",
+      "mode": "100644",
+      "git_blob_sha1": "e640cf529ef2677464868ee9c9507b57f9e6a95b",
+      "bytes": 5680,
+      "source_commit": "f1dc0223a3143d3c941506e98d71425963bc7218"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/register_sources.py",
+      "mode": "100644",
+      "git_blob_sha1": "fb6431989f972bc2683d98da9333ca8f5a81c592",
+      "bytes": 6873,
+      "source_commit": "f1dc0223a3143d3c941506e98d71425963bc7218"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/runner.py",
+      "mode": "100644",
+      "git_blob_sha1": "6d6f02adf5f1e3dece1c92f3d0a710267d16aaf1",
+      "bytes": 16312,
+      "source_commit": "f1dc0223a3143d3c941506e98d71425963bc7218"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/screen.py",
+      "mode": "100644",
+      "git_blob_sha1": "3e95be8976da2947939a10c1a70a23328de1ce4e",
+      "bytes": 11312,
+      "source_commit": "f1dc0223a3143d3c941506e98d71425963bc7218"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/test_automation.py",
+      "mode": "100644",
+      "git_blob_sha1": "ea94268781732a5021a22458714d0d55efa68716",
+      "bytes": 29363,
+      "source_commit": "f1dc0223a3143d3c941506e98d71425963bc7218"
     }
   ],
   "source_registration_history": [
@@ -20687,6 +20757,25 @@
         }
       ],
       "scope": "private field recording planning and structural audit only; no rights, label, real audio, model or release admission"
+    },
+    {
+      "campaign": "auto-tts-voice-clone-20261102",
+      "source_commit": "f1dc0223a3143d3c941506e98d71425963bc7218",
+      "paths": [
+        ".github/workflows/auto-tts-voice-clone-20261102.yml",
+        "research/auto-tts-voice-clone-20261102/README.md",
+        "research/auto-tts-voice-clone-20261102/asr_dispatch.py",
+        "research/auto-tts-voice-clone-20261102/autopilot.py",
+        "research/auto-tts-voice-clone-20261102/campaign.py",
+        "research/auto-tts-voice-clone-20261102/prepare_models.py",
+        "research/auto-tts-voice-clone-20261102/register_sources.py",
+        "research/auto-tts-voice-clone-20261102/runner.py",
+        "research/auto-tts-voice-clone-20261102/screen.py",
+        "research/auto-tts-voice-clone-20261102/test_automation.py"
+      ],
+      "previous_manifest_sha256": "10080f89232cca852eb09a3b979219f5427896eec488fb0a2784769477e46e56",
+      "previous_campaign_rows": [],
+      "scope": "autonomous synthetic TTS/voice-clone planning, execution source, and machine screening only; no rights, label, real audio, model or release admission"
     }
   ]
 }
