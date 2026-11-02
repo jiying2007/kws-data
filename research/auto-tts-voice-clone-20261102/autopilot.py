@@ -15,6 +15,7 @@ import campaign as c
 import runner
 import screen
 import asr_dispatch
+import receipt_contract as receipts
 
 
 def _subset_lock(lock,plan):
@@ -46,6 +47,7 @@ def execute(plan,workspace,model_lock,model_root,adapter_lock,*,max_tts,
             max_asr,rounds,clone_revision=None,device="cpu",tts_backend_factory=None,
             asr_executor=None,writer=None):
     c.validate_plan(plan)
+    adapter_binding=receipts.binding(plan,adapter_lock)
     c.require(type(max_tts) is int and 0<=max_tts<=64 and
               type(max_asr) is int and 0<=max_asr<=192 and
               type(rounds) is int and rounds in (1,2),"EXPLICIT_BOUNDED_BUDGET")
@@ -58,7 +60,7 @@ def execute(plan,workspace,model_lock,model_root,adapter_lock,*,max_tts,
     c.require(root.is_dir() and not root.is_symlink(),"WORKSPACE_REQUIRED")
     _record_once(root/"campaign-lock.json",{
         "schema":"kws-autonomous-tts-asr-controller-v1",
-        "plan_sha256":runner._hash(c.canonical(plan)),
+        **adapter_binding,
         "max_tts":max_tts,"max_asr":max_asr,"rounds":rounds,
         "clone_revision":clone_revision,
         "training_admitted":False,"shipping_approved":False})
@@ -74,6 +76,8 @@ def execute(plan,workspace,model_lock,model_root,adapter_lock,*,max_tts,
     def one_stage(stage,subplan):
         c.validate_plan(subplan)
         work=root/stage
+        receipts.verify_root(work/"asr",receipts.binding(subplan,adapter_lock),
+                             "asr-autonomous-lock-v1")
         work.mkdir(exist_ok=True)
         _record_once(work/"plan.json",subplan)
         already_tts=_started_count(root,"tts")
@@ -96,7 +100,7 @@ def execute(plan,workspace,model_lock,model_root,adapter_lock,*,max_tts,
             if asr_executor is not None:
                 kwargs["executor"]=asr_executor
             asr_dispatch.dispatch(subplan,work/"tts",work/"asr",adapter_lock,**kwargs)
-        report=screen.screen_campaign(subplan,work/"tts",work/"asr")
+        report=screen.screen_campaign(subplan,work/"tts",work/"asr",adapter_lock)
         _record_once(work/"screen.json",report)
         return report
 

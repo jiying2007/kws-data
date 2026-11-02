@@ -389,7 +389,7 @@ class BulkRuntimeTests(Fixture):
         self.assertEqual(first["actual_calls"],3)
         self.assertEqual(second["actual_calls"],0)
         self.assertEqual(len(seen),3)
-        screened=a.screen_results(self.plan,self.tts,self.asr)
+        screened=a.screen_results(self.plan,self.tts,self.asr,self.adapters)
         self.assertFalse(screened["training_admitted"])
         self.assertFalse(screened["human_gold"])
         candidates=[x for x in screened["rows"] if x["status"].startswith("MACHINE_")]
@@ -433,7 +433,7 @@ class BulkRuntimeTests(Fixture):
         changed=p.plan(self.sources,self.root,repetitions=2,
                        batch_id="another-batch",revision="b"*40)
         with self.assertRaises(ValueError):
-            a.screen_results(changed,self.tts,self.asr)
+            a.screen_results(changed,self.tts,self.asr,self.adapters)
         with patch.dict(os.environ,{"HF_HUB_OFFLINE":"1","TRANSFORMERS_OFFLINE":"1"}):
             with self.assertRaises(ValueError):
                 a.dispatch(changed,self.tts,self.asr,self.adapters,
@@ -450,15 +450,57 @@ class BulkRuntimeTests(Fixture):
         body["observation"]["actual_text"]="你好小屋"
         first.write_bytes(p.canonical(body))
         with self.assertRaises(ValueError):
-            a.screen_results(self.plan,self.tts,self.asr)
+            a.screen_results(self.plan,self.tts,self.asr,self.adapters)
 
     def test_all_empty_asr_progress_is_a_hold_not_training(self):
         self.gen(1)
-        report=a.screen_results(self.plan,self.tts,self.asr)
+        report=a.screen_results(self.plan,self.tts,self.asr,self.adapters)
         self.assertFalse(report["training_admitted"])
         self.assertFalse(report["qualification_allowed"])
         self.assertEqual(report["counts"].get("MACHINE_POSITIVE_CANDIDATE",0),0)
         self.assertEqual(report["counts"].get("MACHINE_NEGATIVE_CANDIDATE",0),0)
+
+
+    def test_two_completed_cells_keep_binding_separate_from_expected_text(self):
+        self.gen(2)
+        with patch.dict(os.environ,{"HF_HUB_OFFLINE":"1","TRANSFORMERS_OFFLINE":"1"}):
+            result=a.dispatch(self.plan,self.tts,self.asr,self.adapters,
+                max_new_calls=6,execute=True,executor=self.simulate_asr)
+        self.assertEqual(result["actual_calls"],6)
+        report=a.screen_results(self.plan,self.tts,self.asr,self.adapters)
+        self.assertEqual(sum(row["status"].startswith("MACHINE_") for row in report["rows"]),2)
+        self.assertEqual(report["adapter_lock_sha256"],hash_bytes(p.canonical(self.adapters)))
+
+    def test_adapter_drift_rejected_on_resume_and_report_without_calls(self):
+        self.gen(1)
+        with patch.dict(os.environ,{"HF_HUB_OFFLINE":"1","TRANSFORMERS_OFFLINE":"1"}):
+            a.dispatch(self.plan,self.tts,self.asr,self.adapters,
+                max_new_calls=3,execute=True,executor=self.simulate_asr)
+            for key,value in {"model_revision":"b"*40,"model_assets_sha256":"c"*64,
+                              "timeout_seconds":6,"argv":["--in","{audio}","--out","{output}"]}.items():
+                lock=copy.deepcopy(self.adapters);lock["adapters"][0][key]=value
+                def forbidden(*args,**kwargs):
+                    raise AssertionError("executor must never be reached")
+                with self.subTest(key=key),self.assertRaises(ValueError):
+                    a.dispatch(self.plan,self.tts,self.asr,lock,
+                        max_new_calls=0,execute=True,executor=forbidden)
+                with self.subTest(report=key),self.assertRaises(ValueError):
+                    a.screen_results(self.plan,self.tts,self.asr,lock)
+
+    def test_report_only_cli_reads_adapter_lock(self):
+        self.gen(1)
+        with patch.dict(os.environ,{"HF_HUB_OFFLINE":"1","TRANSFORMERS_OFFLINE":"1"}):
+            a.dispatch(self.plan,self.tts,self.asr,self.adapters,
+                max_new_calls=3,execute=True,executor=self.simulate_asr)
+        plan_file=self.root/"report-plan.json";plan_file.write_bytes(p.canonical(self.plan))
+        lock=copy.deepcopy(self.adapters);lock["adapters"][0]["timeout_seconds"]=6
+        lock_file=self.root/"report-lock.json";lock_file.write_bytes(p.canonical(lock))
+        report=self.root/"must-not-exist.json"
+        result=a.main(["--plan",str(plan_file),"--generated",str(self.tts),
+            "--asr-output",str(self.asr),"--adapter-lock",str(lock_file),"--report",str(report)])
+        self.assertEqual(result,2)
+        self.assertFalse(report.exists())
+
 
 if __name__=="__main__":
     unittest.main()

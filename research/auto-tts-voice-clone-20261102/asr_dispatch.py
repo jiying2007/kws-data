@@ -17,48 +17,12 @@ import sys
 import campaign as c
 import runner
 import screen
+import receipt_contract as receipts
 
-LOCK_SCHEMA="offline-kws-native-asr-adapters-v1"
-ALLOWED_TOKENS={"{audio}","{output}"}
+LOCK_SCHEMA=receipts.LOCK_SCHEMA
+check_adapters=receipts.check_adapters
 MAX_ASR_CALLS=3*c.MAX_CELLS
 
-
-def check_adapters(value):
-    c.require(type(value) is dict and set(value)=={"schema","adapters"} and
-              value["schema"]==LOCK_SCHEMA,"ASR_ADAPTER_LOCK_SCHEMA")
-    entries=value["adapters"]
-    c.require(type(entries) is list and len(entries)==3,"ALL_THREE_ASR_REQUIRED")
-    found={}
-    for row in entries:
-        c.require(type(row) is dict and
-                  set(row)=={"engine","model_id","model_revision",
-                    "model_assets_sha256","executable","executable_sha256",
-                    "argv","timeout_seconds"},"ASR_ADAPTER_FIELDS")
-        engine=row["engine"]
-        c.require(engine in c.ENGINES and engine not in found and
-                  row["model_id"]==screen.MODEL_IDS[engine] and
-                  type(row["model_revision"]) is str and
-                  c._REV.fullmatch(row["model_revision"]),"ASR_ENGINE_ID")
-        for field in ("model_assets_sha256","executable_sha256"):
-            c.require(type(row[field]) is str and c._SHA.fullmatch(row[field]),
-                      "ASR_PIN_REQUIRED")
-        path=Path(row["executable"])
-        c.require(path.is_absolute(),"ASR_EXECUTABLE_ABSOLUTE")
-        argc=row["argv"]
-        c.require(type(argc) is list and 2<=len(argc)<=20 and
-                  all(type(a) is str and 1<=len(a)<=128 for a in argc)
-                  and set(ALLOWED_TOKENS)<=set(argc),"OPAQUE_AUDIO_AND_OUTPUT_REQUIRED")
-        c.require(all("{" not in a and "}" not in a for a in argc if a not in ALLOWED_TOKENS),
-                  "UNSUPPORTED_ASR_TEMPLATE")
-        # No extra flags that can accidentally insert an expected keyword.
-        for arg in argc:
-            if arg not in ALLOWED_TOKENS:
-                c.require(all(w not in arg for w in c.TARGETS),"TARGET_LEAKAGE_IN_ASR_CMD")
-        c.require(type(row["timeout_seconds"]) is int and
-                  5<=row["timeout_seconds"]<=300,"BOUNDED_ASR_TIMEOUT")
-        found[engine]=row
-    c.require(set(found)==set(c.ENGINES),"MISSING_ASR_ENGINE")
-    return found
 
 
 def dispatch(plan,generation_root,asr_root,adapters,*,max_calls,execute=False,
@@ -79,16 +43,15 @@ def dispatch(plan,generation_root,asr_root,adapters,*,max_calls,execute=False,
     for row in by_engine.values():
         _,sha=runner._safe_file(row["executable"],limit=1024*1024*8)
         c.require(sha==row["executable_sha256"],"ASR_ADAPTER_BYTES_DRIFT")
-    expected_plan_sha=runner._hash(c.canonical(plan))
+    expected_binding=receipts.binding(plan,adapters)
+    expected_plan_sha=expected_binding["plan_sha256"]
     if not root.exists():
         root.mkdir(parents=True)
         runner._once(root/"plan-lock.json",{"schema":"asr-autonomous-lock-v1",
-            "plan_sha256":expected_plan_sha,"model_calls_authorized":False,
+            **expected_binding,"model_calls_authorized":False,
             "training_admitted":False})
     else:
-        lock=c.read_json(root/"plan-lock.json")
-        c.require(lock.get("plan_sha256")==expected_plan_sha and
-                  lock.get("training_admitted") is False,"ASR_RESUME_PLAN_DRIFT")
+        receipts.verify_root(root,expected_binding,"asr-autonomous-lock-v1")
     attempts=0
     for cell in plan["cells"]:
         done=Path(generation_root)/"cells"/cell["cell_id"]/"completed.json"
@@ -117,7 +80,9 @@ def dispatch(plan,generation_root,asr_root,adapters,*,max_calls,execute=False,
             runner._once(started,{"schema":"asr-native-started-v1",
                 "audio_id":cell["cell_id"],"engine":engine,
                 "wav_sha256":measured["wav_sha256"],
-                "plan_sha256":expected_plan_sha,
+                "pcm_sha256":measured["pcm_sha256"],
+                "audio_frames":measured["audio_frames"],
+                **expected_binding,
                 "model_id":row["model_id"],
                 "model_revision":row["model_revision"],
                 "model_assets_sha256":row["model_assets_sha256"],
@@ -174,7 +139,8 @@ def dispatch(plan,generation_root,asr_root,adapters,*,max_calls,execute=False,
                     "raw_native_sha256":digest,"attempts":1}
                 screen.validate_native_observation(consolidated,cell,measured)
                 runner._once(root/cell["cell_id"]/(engine+".json"),consolidated)
-                runner._once(directory/"completed.json",{"status":"NATIVE_ASR_COMPLETE_UNADMITTED",
+                runner._once(directory/"completed.json",{**expected_binding,
+                    "status":"NATIVE_ASR_COMPLETE_UNADMITTED",
                     "native_bytes":size,"native_sha256":digest,
                     "observation_sha256":runner._hash(c.canonical(consolidated)),
                     "training_admitted":False})

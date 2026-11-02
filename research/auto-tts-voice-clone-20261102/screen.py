@@ -13,6 +13,7 @@ import shutil
 import wave
 
 import campaign as c
+import receipt_contract as receipts
 from runner import _safe_file, _once, _hash, validate_reference
 
 
@@ -67,7 +68,11 @@ def validate_native_observation(obs,cell,generated):
     return obs
 
 
-def screen_cell(plan_cell,output_root,asr_root):
+def screen_cell(plan_cell,output_root,asr_root,*,adapters,expected_plan_sha256):
+    models=receipts.check_adapters(adapters)
+    expected={"plan_sha256":expected_plan_sha256,
+              "adapter_lock_sha256":_hash(c.canonical(adapters))}
+    receipts.verify_root(asr_root,expected,"asr-autonomous-lock-v1")
     root=Path(output_root)/"cells"/plan_cell["cell_id"]
     done=root/"completed.json"
     if not done.exists():
@@ -79,7 +84,8 @@ def screen_cell(plan_cell,output_root,asr_root):
               complete.get("schema")=="tts-generated-cell-completed-v1" and
               complete.get("status")=="GENERATED_UNADMITTED" and
               complete.get("training_admitted") is False and
-              complete.get("qualification_allowed") is False,"TTS_RECEIPT_INVALID")
+              complete.get("qualification_allowed") is False and
+              complete.get("plan_sha256")==expected_plan_sha256,"TTS_RECEIPT_INVALID")
     generated=complete["audio"]
     measured=_audio_metadata(root/"audio-16k.wav")
     c.require(all(generated.get(k)==measured.get(k) for k in
@@ -91,6 +97,9 @@ def screen_cell(plan_cell,output_root,asr_root):
         if not path.exists():
             continue
         obs=validate_native_observation(c.read_json(path,65536),plan_cell,measured)
+        c.require(obs["engine"]==engine,"ASR_ENGINE_SIDECAR_DRIFT")
+        receipts.verify_native(Path(asr_root)/plan_cell["cell_id"]/engine,
+            obs,models[engine],expected,started_schema="asr-native-started-v1")
         observations[engine]=obs
     result={"cell_id":plan_cell["cell_id"],"source_family_id":plan_cell["source_family_id"],
             "role":plan_cell["role"],"mode":plan_cell["mode"],
@@ -121,14 +130,19 @@ def screen_cell(plan_cell,output_root,asr_root):
     return result
 
 
-def screen_campaign(plan,generated_root,asr_root):
+def screen_campaign(plan,generated_root,asr_root,adapters):
     c.validate_plan(plan)
-    outputs=[screen_cell(cell,generated_root,asr_root) for cell in plan["cells"]]
+    expected=receipts.binding(plan,adapters)
+    receipts.verify_root(asr_root,expected,"asr-autonomous-lock-v1")
+    outputs=[screen_cell(cell,generated_root,asr_root,adapters=adapters,
+             expected_plan_sha256=expected["plan_sha256"]) for cell in plan["cells"]]
     assert len(outputs)==len(plan["cells"])
     counts={status:sum(x["status"]==status for x in outputs)
             for status in sorted({x["status"] for x in outputs})}
     return {"schema":"autonomous-synthetic-kws-screen-v1",
-        "plan_sha256":_hash(c.canonical(plan)),"rows":outputs,"counts":counts,
+        "plan_sha256":expected["plan_sha256"],
+        "adapter_lock_sha256":expected["adapter_lock_sha256"],
+        "rows":outputs,"counts":counts,
         "human_gold":False,"training_admitted":False,
         "qualification_allowed":False,"shipping_approved":False,
         "real_human_qualification":False,
@@ -216,12 +230,14 @@ def main(argv=None):
     p.add_argument("--plan",required=True)
     p.add_argument("--generated-root",required=True)
     p.add_argument("--asr-root",required=True)
+    p.add_argument("--adapter-lock",required=True)
     p.add_argument("--report",required=True)
     p.add_argument("--refinement")
     args=p.parse_args(argv)
     try:
         plan=c.validate_plan(c.read_json(args.plan))
-        result=screen_campaign(plan,args.generated_root,args.asr_root)
+        result=screen_campaign(plan,args.generated_root,args.asr_root,
+                               c.read_json(args.adapter_lock))
         _once(Path(args.report),result)
         if args.refinement:
             next_plan=plan_refinement(plan,result)
