@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1848,
-  "expected_retained_files": 1840,
+  "expected_tracked_files": 1856,
+  "expected_retained_files": 1848,
   "new_retained_paths": 1211,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -20216,6 +20216,62 @@
       "git_blob_sha1": "ea94268781732a5021a22458714d0d55efa68716",
       "bytes": 29363,
       "source_commit": "f1dc0223a3143d3c941506e98d71425963bc7218"
+    },
+    {
+      "path": ".github/workflows/bulk-licensed-clone-20261102.yml",
+      "mode": "100644",
+      "git_blob_sha1": "96b1af0765285bb9343fa22e4b2c0265741c5a18",
+      "bytes": 4840,
+      "source_commit": "6797b82916c5b2cf0d1bed953188a39404150e5e"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/BULK_CLONE.md",
+      "mode": "100644",
+      "git_blob_sha1": "4e114303c86d5bf6a7c716ef48bc05f44305fbb8",
+      "bytes": 8140,
+      "source_commit": "6797b82916c5b2cf0d1bed953188a39404150e5e"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/bulk_asr.py",
+      "mode": "100644",
+      "git_blob_sha1": "81b739f6c19a797ad383a6cdca2987e2e719f5d3",
+      "bytes": 13110,
+      "source_commit": "6797b82916c5b2cf0d1bed953188a39404150e5e"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/bulk_ingest.py",
+      "mode": "100644",
+      "git_blob_sha1": "5d6a557e444c5cf2f10208f3c815c150fc43fcf6",
+      "bytes": 10068,
+      "source_commit": "6797b82916c5b2cf0d1bed953188a39404150e5e"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/bulk_pool.py",
+      "mode": "100644",
+      "git_blob_sha1": "596292ab37807d9c0c224a66c7f868f1967750b9",
+      "bytes": 17668,
+      "source_commit": "6797b82916c5b2cf0d1bed953188a39404150e5e"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/bulk_runner.py",
+      "mode": "100644",
+      "git_blob_sha1": "acd385230080aaa6147dc850a164b6c63e94c3b4",
+      "bytes": 12326,
+      "source_commit": "6797b82916c5b2cf0d1bed953188a39404150e5e"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/register_bulk_sources.py",
+      "mode": "100644",
+      "git_blob_sha1": "c2fb802c0bdbccbf8d5c96411d9fe081f711796f",
+      "bytes": 6819,
+      "source_commit": "6797b82916c5b2cf0d1bed953188a39404150e5e"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/test_bulk.py",
+      "mode": "100644",
+      "git_blob_sha1": "9e4415614a4f7bd3771ef4d3318e4d4938186ed9",
+      "bytes": 21550,
+      "source_commit": "6797b82916c5b2cf0d1bed953188a39404150e5e"
     }
   ],
   "source_registration_history": [
@@ -20776,6 +20832,23 @@
       "previous_manifest_sha256": "10080f89232cca852eb09a3b979219f5427896eec488fb0a2784769477e46e56",
       "previous_campaign_rows": [],
       "scope": "autonomous synthetic TTS/voice-clone planning, execution source, and machine screening only; no rights, label, real audio, model or release admission"
+    },
+    {
+      "campaign": "bulk-licensed-clone-20261102",
+      "source_commit": "6797b82916c5b2cf0d1bed953188a39404150e5e",
+      "paths": [
+        ".github/workflows/bulk-licensed-clone-20261102.yml",
+        "research/auto-tts-voice-clone-20261102/BULK_CLONE.md",
+        "research/auto-tts-voice-clone-20261102/bulk_asr.py",
+        "research/auto-tts-voice-clone-20261102/bulk_ingest.py",
+        "research/auto-tts-voice-clone-20261102/bulk_pool.py",
+        "research/auto-tts-voice-clone-20261102/bulk_runner.py",
+        "research/auto-tts-voice-clone-20261102/register_bulk_sources.py",
+        "research/auto-tts-voice-clone-20261102/test_bulk.py"
+      ],
+      "previous_manifest_sha256": "2ed21b868a766c5734a047d531865f54988b5ef250f68f08f7810a90a0a38f99",
+      "previous_campaign_rows": [],
+      "scope": "licensed bulk voice clone corpus source and machine-only screening; no rights, label, real audio, model or release admission"
     }
   ]
 }
