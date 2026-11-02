@@ -81,7 +81,8 @@ def validate_models(plan,lock,asset_root):
                       set(item)=={"path","bytes","sha256"},"MODEL_FILE_ROW")
             name=item["path"]
             c.require(type(name) is str and
-                      re.fullmatch(r"[a-zA-Z0-9][a-zA-Z0-9_./-]{0,180}",name) and
+                      re.fullmatch(r"[a-zA-Z0-9_.-][a-zA-Z0-9_./-]{0,180}",name) and
+                      name not in (".","..") and not name.startswith(".cache/") and
                       ".." not in Path(name).parts and name not in names,
                       "MODEL_FILE_PATH")
             names.add(name)
