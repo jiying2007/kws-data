@@ -80,17 +80,19 @@ def execute(plan,workspace,model_lock,model_root,adapter_lock,*,max_tts,
         remaining_tts=max_tts-already_tts
         c.require(remaining_tts>=0,"TTS_BUDGET_ALREADY_EXCEEDED")
         if remaining_tts>0:
+            stage_limit=min(remaining_tts,len(subplan["cells"]))
             if writer is None:
                 runner.run_batch(subplan,work/"tts",model_for(subplan),
-                                 max_calls=remaining_tts)
+                                 max_calls=stage_limit)
             else:
                 runner.run_batch(subplan,work/"tts",model_for(subplan),
-                                 max_calls=remaining_tts,writer=writer)
+                                 max_calls=stage_limit,writer=writer)
         already_asr=_started_count(root,"asr")
         remaining_asr=max_asr-already_asr
         c.require(remaining_asr>=0,"ASR_BUDGET_ALREADY_EXCEEDED")
         if remaining_asr>0:
-            kwargs={"max_calls":remaining_asr,"execute":True}
+            kwargs={"max_calls":min(remaining_asr,3*len(subplan["cells"])),
+                    "execute":True}
             if asr_executor is not None:
                 kwargs["executor"]=asr_executor
             asr_dispatch.dispatch(subplan,work/"tts",work/"asr",adapter_lock,**kwargs)
