@@ -111,7 +111,8 @@ def validate_reference(ref,root):
     c.require(type(ref) is dict and
               ref["source_kind"]=="synthesized_and_machine_screened" and
               ref["rights_basis"]=="synthetic_model_output_research_only" and
-              ref["real_person_identity"] is None,
+              ref["real_person_identity"] is None and
+              ref["training_admitted"] is False,
               "HUMAN_REFERENCE_NOT_ALLOWED")
     root=Path(root)
     audio=root/(ref["audio_id"]+".wav")
