@@ -448,5 +448,142 @@ class ASRDispatchTests(unittest.TestCase):
         self.assertTrue((root/self.cell["cell_id"]/"qwen06"/"failed.json").exists())
 
 
+
+class ControllerTests(unittest.TestCase):
+    """Real orchestration functions, mock generation/recognition only."""
+
+    def setUp(self):
+        import autopilot
+        import prepare_models
+        self.autopilot=autopilot
+        self.prepare_models=prepare_models
+        self.tmp=tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root=Path(self.tmp.name)
+        voice=c.example_voices()[0]
+        self.plan=c.build_plan([voice],batch_id="ci-autopilot")
+        self.lock={"schema":runner.MODEL_LOCK_SCHEMA,"models":[]}
+        self.asset_root=self.root/"models"
+        self.asset_root.mkdir()
+        for kind,mid in (("preset",c.MODEL_FAMILIES["preset"]),
+                         ("clone",c.MODEL_FAMILIES["clone"])):
+            rev=c.PRESET_REVISION if kind=="preset" else "b"*40
+            folder=self.asset_root/(kind+"-model")
+            folder.mkdir()
+            blob=(kind+"-fixture").encode()
+            (folder/"model.safetensors").write_bytes(blob)
+            self.lock["models"].append({"model_id":mid,"revision":rev,
+                "relative_dir":kind+"-model",
+                "files":[{"path":"model.safetensors","bytes":len(blob),"sha256":sha(blob)}]})
+        self.adapter_exe=self.root/"fake-asr-executable"
+        self.adapter_exe.write_bytes(b"#!/bin/sh\n# test fixture only\n")
+        self.adapter_exe.chmod(0o700)
+        self.adapters={"schema":dispatch.LOCK_SCHEMA,"adapters":[{
+            "engine":name,"model_id":screen.MODEL_IDS[name],"model_revision":"b"*40,
+            "model_assets_sha256":"c"*64,
+            "executable":str(self.adapter_exe),
+            "executable_sha256":sha(self.adapter_exe.read_bytes()),
+            "argv":["--input","{audio}","--output","{output}"],
+            "timeout_seconds":30} for name in c.ENGINES]}
+        self.tts_backend=FakeTTS()
+        self.asr_calls=[]
+
+    def fake_executor(self,cmd,**kwargs):
+        self.assertFalse(any(text in " ".join(cmd) for text in c.TARGETS))
+        self.asr_calls.append(cmd)
+        audio=Path(cmd[-3])
+        path=Path(cmd[-1])
+        engine=path.parent.name
+        cell_id=path.parent.parent.name
+        entry=next(r for r in self.adapters["adapters"] if r["engine"]==engine)
+        with wave.open(str(audio),"rb") as stream:
+            frames=stream.getnframes()
+        raw={"actual_text":"你好小窝","decoder_completed":True,
+            "processed_start_frame":0,"processed_end_frame":frames,
+            "audio_id":cell_id,"engine":engine,
+            "model_id":entry["model_id"],"model_revision":entry["model_revision"]}
+        path.write_bytes(c.canonical(raw))
+        return SimpleNamespace(returncode=0)
+
+    def launch(self,*,tts,asr,clone_revision=None):
+        with patch.dict(os.environ,{"HF_HUB_OFFLINE":"1","TRANSFORMERS_OFFLINE":"1"}):
+            return self.autopilot.execute(self.plan,self.root/"workspace",
+                self.lock,self.asset_root,self.adapters,
+                max_tts=tts,max_asr=asr,rounds=1,
+                clone_revision=clone_revision,
+                tts_backend_factory=lambda plan:self.tts_backend,
+                asr_executor=self.fake_executor,writer=wave_writer)
+
+    def test_single_command_uses_three_blinded_asr_and_never_approves_training(self):
+        first=self.launch(tts=1,asr=3)
+        self.assertEqual(first["ttl_tts_started"],1)
+        self.assertEqual(first["ttl_asr_started"],3)
+        self.assertEqual(len(self.tts_backend.calls),1)
+        self.assertEqual(len(self.asr_calls),3)
+        for k in ("training_admitted","qualification_allowed","shipping_approved"):
+            self.assertIs(first[k],False)
+        repeated=self.launch(tts=1,asr=3)
+        self.assertEqual(repeated,first)
+        self.assertEqual(len(self.tts_backend.calls),1)
+        self.assertEqual(len(self.asr_calls),3)
+
+    def test_single_command_auto_clones_only_screened_synthetic_reference(self):
+        result=self.launch(tts=7,asr=21,clone_revision="b"*40)
+        self.assertEqual(result["ttl_tts_started"],7)
+        self.assertEqual(result["ttl_asr_started"],21)
+        self.assertIn("clone",result["stages"])
+        references=list((self.root/"workspace/references").glob("*.reference.json"))
+        self.assertEqual(len(references),1)
+        ref=c.read_json(references[0])
+        self.assertEqual(ref["source_family_id"],self.plan["voices"][0]["source_family_id"])
+        self.assertIsNone(ref["real_person_identity"])
+        self.assertTrue(all(not x["training_admitted"] for x in
+             (ref,)))
+        repeated=self.launch(tts=7,asr=21,clone_revision="b"*40)
+        self.assertEqual(repeated,result)
+        self.assertEqual(len(self.tts_backend.calls),7)
+        self.assertEqual(len(self.asr_calls),21)
+
+    def test_controller_does_not_accept_changed_budget_or_source_plan_on_resume(self):
+        self.launch(tts=1,asr=3)
+        with self.assertRaises(ValueError):
+            self.launch(tts=2,asr=3)
+        original=self.plan
+        self.plan=copy.deepcopy(original)
+        self.plan["batch_id"]="different"
+        with self.assertRaises(ValueError):
+            self.launch(tts=1,asr=3)
+
+    def test_offline_public_model_asset_manifest_is_generated_from_real_bytes(self):
+        source=self.root/"locked"
+        source.mkdir()
+        name=self.prepare_models.destination_name(c.MODEL_FAMILIES["preset"],c.PRESET_REVISION)
+        folder=source/name
+        folder.mkdir()
+        data=b"actually hashed fixture not a neural model"
+        (folder/"model.safetensors").write_bytes(data)
+        lock=self.prepare_models.lock_existing(self.plan,source)
+        self.assertEqual(lock["models"][0]["files"][0]["sha256"],sha(data))
+        self.assertEqual(len(runner.validate_models(self.plan,lock,source)),1)
+        (folder/"extra").write_bytes(b"something")
+        with self.assertRaises(ValueError):
+            runner.validate_models(self.plan,lock,source)
+
+    def test_no_models_on_automatic_dry_run(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            planfile=Path(tmp)/"plan.json"
+            assetfile=Path(tmp)/"asset.json"
+            adapterfile=Path(tmp)/"adapter.json"
+            planfile.write_bytes(c.canonical(self.plan))
+            assetfile.write_bytes(c.canonical(self.lock))
+            adapterfile.write_bytes(c.canonical(self.adapters))
+            result=self.autopilot.main(["--plan",str(planfile),
+                "--workspace",str(Path(tmp)/"nothing"),
+                "--model-lock",str(assetfile),"--model-root",str(self.asset_root),
+                "--adapter-lock",str(adapterfile)])
+            self.assertEqual(result,0)
+            self.assertFalse((Path(tmp)/"nothing").exists())
+
+
 if __name__=="__main__":
     unittest.main()
