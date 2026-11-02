@@ -218,6 +218,7 @@ class QwenOfflineBackend:
         if self.model is not None:
             del self.model
             self.model=None
+            self.prompts.clear()  # prompt embeddings belong to a particular model revision
             gc.collect()
         import torch
         from qwen_tts import Qwen3TTSModel
