@@ -119,8 +119,17 @@ def execute(plan,workspace,model_lock,model_root,adapter_lock,*,max_tts,
                 continue
             families.add(cell["source_family_id"])
             source=byvoice[cell["voice_id"]]
-            reference=screen.create_clone_reference(cell,row,
-                root/"r0/tts",root/"references")
+            existing=root/"references"/(cell["cell_id"]+".reference.json")
+            if existing.exists():
+                reference=c.read_json(existing)
+                pcm,_=runner.validate_reference(reference,root/"references")
+                c.require(reference["audio_id"]==cell["cell_id"] and
+                          reference["source_family_id"]==cell["source_family_id"] and
+                          reference["reference_text"]==cell["target_normalized"],
+                          "RESUMED_REFERENCE_IDENTITY_DRIFT")
+            else:
+                reference=screen.create_clone_reference(cell,row,
+                    root/"r0/tts",root/"references")
             selected.append({"voice_id":"clone-"+source["voice_id"],
                 "mode":"clone","preset":None,"description":None,
                 "reference":reference,
