@@ -95,6 +95,10 @@ class QwenBulkClone:
         # WAV must be decoded from the same SHA-bound reference checked above.
         import numpy as np
         raw_path = Path(audio_root)/ref["audio_path"]
+        current = p.measure_reference(audio_root,ref["audio_path"])
+        p.require(all(current[k]==ref[k] for k in
+                  ("wav_sha256","pcm_sha256","frames","sample_rate_hz")),
+                  "REFERENCE_CHANGED_BEFORE_PROMPT")
         with wave.open(str(raw_path), "rb") as w:
             frames = w.getnframes()
             rate = w.getframerate()
