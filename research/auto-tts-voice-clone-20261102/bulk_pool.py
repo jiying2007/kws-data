@@ -317,3 +317,41 @@ def verify_plan(value):
                 and x.get("qualification_allowed") is False for x in cells),
             "CELL_AUTHORITY")
     return value
+
+
+def main(argv=None):
+    import argparse
+    import sys
+    cli=argparse.ArgumentParser(description=__doc__)
+    cli.add_argument("--sources",type=Path,required=True)
+    cli.add_argument("--audio-root",type=Path,required=True)
+    cli.add_argument("--model-revision",required=True)
+    cli.add_argument("--batch-id",default="pilot01")
+    cli.add_argument("--repetitions",type=int,default=2)
+    cli.add_argument("--max-total-calls",type=int)
+    cli.add_argument("--output",type=Path,required=True)
+    args=cli.parse_args(argv)
+    try:
+        m=read_json(args.sources)
+        result=plan(m,args.audio_root,repetitions=args.repetitions,
+                    batch_id=args.batch_id,revision=args.model_revision,
+                    max_calls=args.max_total_calls)
+        require(args.output.parent.is_dir() and not args.output.exists()
+                and not args.output.is_symlink(),"PLAN_OUTPUT_MUST_BE_NEW")
+        body=canonical(result)+b"\n"
+        fd=os.open(args.output,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
+        with os.fdopen(fd,"wb") as stream:
+            stream.write(body)
+            stream.flush();os.fsync(stream.fileno())
+    except (ValueError,OSError) as err:
+        print("BULK_SPEAKER_PLAN_NOT_ADMITTED: "+type(err).__name__,file=sys.stderr)
+        return 2
+    print(json.dumps({"references":len(result["references"]),
+        "planned_clips":len(result["cells"]),
+        "max_total_model_calls":result["budgets"]["max_total_calls"],
+        "training_admitted":False},sort_keys=True))
+    return 0
+
+
+if __name__=="__main__":
+    raise SystemExit(main())
