@@ -179,9 +179,12 @@ def create_clone_reference(cell,screened,generated_root,destination):
     source=Path(generated_root)/"cells"/cell["cell_id"]/"audio-16k.wav"
     metadata=_audio_metadata(source)
     dst=Path(destination)
-    c.require(not dst.exists(),"REFERENCE_DESTINATION_MUST_BE_NEW")
-    dst.mkdir(parents=True)
+    c.require(not dst.is_symlink() and
+              not any(p.is_symlink() for p in dst.parents),
+              "REFERENCE_DIRECTORY_ALIAS")
+    dst.mkdir(parents=True,exist_ok=True)
     target=dst/(cell["cell_id"]+".wav")
+    c.require(not target.exists(),"REFERENCE_AUDIO_ALREADY_EXISTS")
     with source.open("rb") as src,target.open("xb") as out:
         for block in iter(lambda:src.read(1024*1024),b""):
             out.write(block)
@@ -203,7 +206,7 @@ def create_clone_reference(cell,screened,generated_root,destination):
             limit=65536)[1],
         "rights_basis":"synthetic_model_output_research_only",
         "real_person_identity":None}
-    _once(dst/"clone-reference.json",receipt)
+    _once(dst/(cell["cell_id"]+".reference.json"),receipt)
     # The permitted clone remains same ancestry, cannot populate a new split.
     return receipt
 
