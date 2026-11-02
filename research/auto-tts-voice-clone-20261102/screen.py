@@ -153,10 +153,10 @@ def plan_refinement(plan,report):
     selected=set()
     for row in report["rows"]:
         cell=all_cells[row["cell_id"]]
-        if cell["keyword_id"]==1 and row["status"] in (
-            "REJECT_TTS_PRONUNCIATION_OR_ASR_DISAGREEMENT",
-            "DISAGREEMENT_REVIEW_OR_NEW_GENERATION") and
-                cell["role"]=="train-candidate":
+        if (cell["keyword_id"]==1 and row["status"] in (
+                "REJECT_TTS_PRONUNCIATION_OR_ASR_DISAGREEMENT",
+                "DISAGREEMENT_REVIEW_OR_NEW_GENERATION") and
+                cell["role"]=="train-candidate"):
             selected.add(cell["voice_id"])
     if not selected:return None
     return build_adaptive([voices[n] for n in sorted(selected)],plan["batch_id"])
