@@ -66,11 +66,40 @@ def native_obs(cell,metadata,engine,text):
        "actual_text":text,"raw_native_sha256":"a"*64,"attempts":1}
 
 
+def fake_adapters():
+    return {"schema":dispatch.LOCK_SCHEMA,"adapters":[{
+        "engine":engine,"model_id":screen.MODEL_IDS[engine],"model_revision":"a"*40,
+        "model_assets_sha256":"a"*64,"executable":"/fixture/asr",
+        "executable_sha256":"b"*64,"argv":["--audio","{audio}","--output","{output}"],
+        "timeout_seconds":5} for engine in c.ENGINES]}
+
+
 def add_asr(asr_root,cell,metadata,texts):
+    adapters=fake_adapters()
+    expected={"plan_sha256":sha(c.canonical(example_plan())),
+              "adapter_lock_sha256":sha(c.canonical(adapters))}
     directory=asr_root/cell["cell_id"];directory.mkdir(parents=True,exist_ok=True)
+    (asr_root/"plan-lock.json").write_bytes(c.canonical({
+        "schema":"asr-autonomous-lock-v1",**expected,"training_admitted":False}))
     for engine,text in zip(c.ENGINES,texts):
-        (directory/(engine+".json")).write_bytes(
-            c.canonical(native_obs(cell,metadata,engine,text)))
+        folder=directory/engine;folder.mkdir(exist_ok=True)
+        observation=native_obs(cell,metadata,engine,text)
+        native={key:observation[key] for key in ("actual_text","decoder_completed",
+            "processed_start_frame","processed_end_frame","audio_id",
+            "model_id","model_revision","engine")}
+        raw=c.canonical(native);(folder/"native.json").write_bytes(raw)
+        observation["raw_native_sha256"]=sha(raw)
+        (directory/(engine+".json")).write_bytes(c.canonical(observation))
+        (folder/"started.json").write_bytes(c.canonical({
+            "schema":"asr-native-started-v1",**expected,"engine":engine,
+            "model_id":screen.MODEL_IDS[engine],"model_revision":"a"*40,
+            "model_assets_sha256":"a"*64,"audio_id":cell["cell_id"],
+            "wav_sha256":metadata["wav_sha256"],"pcm_sha256":metadata["pcm_sha256"],
+            "audio_frames":metadata["audio_frames"],"attempts":1,"training_admitted":False}))
+        (folder/"completed.json").write_bytes(c.canonical({
+            **expected,"status":"NATIVE_ASR_COMPLETE_UNADMITTED",
+            "native_bytes":len(raw),"native_sha256":sha(raw),
+            "observation_sha256":sha(c.canonical(observation)),"training_admitted":False}))
 
 
 class CampaignTests(unittest.TestCase):
@@ -280,10 +309,12 @@ class ScreenTests(unittest.TestCase):
         self.media=screen._audio_metadata(
             self.generation/"cells"/self.cell["cell_id"]/"audio-16k.wav")
         self.asr=self.root/"asr"
+        self.config=fake_adapters()
 
     def test_strict_three_engine_target_match_candidate_only(self):
         add_asr(self.asr,self.cell,self.media,[self.cell["text"]]*3)
-        row=screen.screen_cell(self.cell,self.generation,self.asr)
+        row=screen.screen_cell(self.cell,self.generation,self.asr,adapters=self.config,
+            expected_plan_sha256=sha(c.canonical(self.plan)))
         expected=("MACHINE_SCREENED_POSITIVE_CANDIDATE" if
                   self.cell["kind"]=="wake" else "MACHINE_SCREENED_CONFUSABLE_CANDIDATE")
         self.assertEqual(row["status"],expected)
@@ -291,23 +322,24 @@ class ScreenTests(unittest.TestCase):
         self.assertIs(row["automated_label_is_human_gold"],False)
 
     def test_asr_missing_engine_never_passes(self):
-        directory=self.asr/self.cell["cell_id"];directory.mkdir(parents=True)
-        obs=native_obs(self.cell,self.media,"qwen06",self.cell["text"])
-        (directory/"qwen06.json").write_bytes(c.canonical(obs))
-        row=screen.screen_cell(self.cell,self.generation,self.asr)
+        add_asr(self.asr,self.cell,self.media,[self.cell["text"]])
+        row=screen.screen_cell(self.cell,self.generation,self.asr,adapters=self.config,
+            expected_plan_sha256=sha(c.canonical(self.plan)))
         self.assertEqual(row["status"],"INCOMPLETE_ASR_HOLD")
         self.assertFalse(row["training_admitted"])
 
     def test_two_of_three_does_not_auto_label(self):
         add_asr(self.asr,self.cell,self.media,[self.cell["text"],self.cell["text"],"你好小屋"])
-        result=screen.screen_cell(self.cell,self.generation,self.asr)
+        result=screen.screen_cell(self.cell,self.generation,self.asr,adapters=self.config,
+            expected_plan_sha256=sha(c.canonical(self.plan)))
         self.assertTrue(result["review_required"])
         self.assertEqual(result["status"],"DISAGREEMENT_REVIEW_OR_NEW_GENERATION")
         self.assertFalse(result["qualification_allowed"])
 
     def test_wrong_homophones_are_rejected_without_automatic_substitutions(self):
         add_asr(self.asr,self.cell,self.media,["你好小屋","你好小吴","你好小沃"])
-        x=screen.screen_cell(self.cell,self.generation,self.asr)
+        x=screen.screen_cell(self.cell,self.generation,self.asr,adapters=self.config,
+            expected_plan_sha256=sha(c.canonical(self.plan)))
         self.assertEqual(x["status"],"REJECT_TTS_PRONUNCIATION_OR_ASR_DISAGREEMENT")
 
     def test_bad_full_frame_or_fake_asr_model_rejected(self):
@@ -323,7 +355,8 @@ class ScreenTests(unittest.TestCase):
         p=self.generation/"cells"/self.cell["cell_id"]/"audio-16k.wav"
         raw=p.read_bytes();p.write_bytes(raw[:-1]+bytes([raw[-1]^1]))
         with self.assertRaises(ValueError):
-            screen.screen_cell(self.cell,self.generation,self.asr)
+            screen.screen_cell(self.cell,self.generation,self.asr,adapters=self.config,
+            expected_plan_sha256=sha(c.canonical(self.plan)))
 
     def test_one_bounded_refinement_only_for_failed_k1_train(self):
         rows=[]
@@ -352,7 +385,8 @@ class ScreenTests(unittest.TestCase):
             self.cell=cell
             self.media=screen._audio_metadata(self.generation/"cells"/cell["cell_id"]/"audio-16k.wav")
         add_asr(self.asr,self.cell,self.media,[self.cell["text"]]*3)
-        result=screen.screen_cell(self.cell,self.generation,self.asr)
+        result=screen.screen_cell(self.cell,self.generation,self.asr,adapters=self.config,
+            expected_plan_sha256=sha(c.canonical(self.plan)))
         self.assertEqual(result["status"],"MACHINE_SCREENED_POSITIVE_CANDIDATE")
         out=self.root/"reference"
         receipt=screen.create_clone_reference(self.cell,result,self.generation,out)
@@ -370,6 +404,92 @@ class ScreenTests(unittest.TestCase):
         (out/(receipt["audio_id"]+".screen.json")).write_bytes(b"{}")
         with self.assertRaises(ValueError):
             runner.validate_reference(receipt,out)
+
+
+
+    def _screen_bound(self, adapters=None):
+        return screen.screen_cell(self.cell,self.generation,self.asr,
+            adapters=self.config if adapters is None else adapters,
+            expected_plan_sha256=sha(c.canonical(self.plan)))
+
+    def test_native_receipt_chain_mutations_are_rejected(self):
+        add_asr(self.asr,self.cell,self.media,[self.cell["text"]]*3)
+        folder=self.asr/self.cell["cell_id"]/"qwen06"
+        cases=[
+            (self.asr/self.cell["cell_id"]/"qwen06.json","actual_text","different"),
+            (folder/"native.json","actual_text","different"),
+            (folder/"completed.json","native_bytes",1),
+            (folder/"completed.json","observation_sha256","0"*64),
+            (folder/"started.json","audio_id","wrong"),
+            (folder/"started.json","wav_sha256","0"*64),
+            (folder/"started.json","pcm_sha256","0"*64),
+            (folder/"started.json","audio_frames",1),
+            (folder/"started.json","attempts",True),
+            (folder/"started.json","adapter_lock_sha256","0"*64),
+            (folder/"completed.json","plan_sha256","0"*64)]
+        for path,key,value in cases:
+            raw=path.read_bytes()
+            try:
+                body=c.read_json(path);body[key]=value;path.write_bytes(c.canonical(body))
+                with self.subTest(key=key),self.assertRaises(ValueError):
+                    self._screen_bound()
+            finally:path.write_bytes(raw)
+        for path in (folder/"started.json",folder/"native.json",folder/"completed.json",
+                     self.asr/"plan-lock.json"):
+            raw=path.read_bytes();path.unlink()
+            try:
+                with self.subTest(missing=path.name),self.assertRaises((ValueError,OSError)):
+                    self._screen_bound()
+            finally:path.write_bytes(raw)
+
+    def test_receipt_json_files_reject_links_and_nonregular_paths(self):
+        add_asr(self.asr,self.cell,self.media,[self.cell["text"]]*3)
+        folder=self.asr/self.cell["cell_id"]/"qwen06"
+        for path in (self.asr/"plan-lock.json",folder/"started.json",
+                     folder/"completed.json"):
+            for kind in ("symlink","hardlink","directory"):
+                raw=path.read_bytes()
+                backup=path.with_name(path.name+".original")
+                path.rename(backup)
+                try:
+                    if kind=="symlink":
+                        path.symlink_to(backup)
+                    elif kind=="hardlink":
+                        os.link(backup,path)
+                    else:
+                        path.mkdir()
+                    with self.subTest(receipt=path.name,kind=kind),self.assertRaises((ValueError,OSError)):
+                        self._screen_bound()
+                    self.assertEqual(backup.read_bytes(),raw)
+                finally:
+                    if path.is_dir() and not path.is_symlink():
+                        path.rmdir()
+                    else:
+                        path.unlink()
+                    backup.rename(path)
+        self.assertEqual(self._screen_bound()["observed_engines"],3)
+
+    def test_all_adapter_identity_fields_bound_for_report(self):
+        add_asr(self.asr,self.cell,self.media,[self.cell["text"]]*3)
+        changes={"model_revision":"b"*40,"model_assets_sha256":"b"*64,
+                 "executable":"/different/asr","executable_sha256":"c"*64,
+                 "argv":["--wav","{audio}","--native","{output}"],"timeout_seconds":6}
+        for key,value in changes.items():
+            lock=copy.deepcopy(self.config);lock["adapters"][0][key]=value
+            with self.subTest(key=key),self.assertRaises(ValueError):
+                self._screen_bound(lock)
+
+    def test_generator_plan_and_missing_root_lock_fail_closed(self):
+        add_asr(self.asr,self.cell,self.media,[self.cell["text"]]*3)
+        path=self.generation/"cells"/self.cell["cell_id"]/"completed.json"
+        original=path.read_bytes();body=c.read_json(path);body["plan_sha256"]="0"*64
+        path.write_bytes(c.canonical(body))
+        try:
+            with self.assertRaises(ValueError):self._screen_bound()
+        finally:path.write_bytes(original)
+        lock=self.asr/"plan-lock.json";body=c.read_json(lock)
+        del body["adapter_lock_sha256"];lock.write_bytes(c.canonical(body))
+        with self.assertRaises(ValueError):self._screen_bound()
 
 
 class ASRDispatchTests(unittest.TestCase):
@@ -431,7 +551,8 @@ class ASRDispatchTests(unittest.TestCase):
         self.assertEqual(r["actual_calls"],3)
         self.assertEqual(r2["actual_calls"],0)
         self.assertEqual(len(calls),3)
-        screened=screen.screen_cell(self.cell,self.generation,root)
+        screened=screen.screen_cell(self.cell,self.generation,root,adapters=self.config,
+            expected_plan_sha256=sha(c.canonical(self.plan)))
         self.assertEqual(screened["observed_engines"],3)
         self.assertFalse(screened["training_admitted"])
 
@@ -543,6 +664,15 @@ class ControllerTests(unittest.TestCase):
         self.assertEqual(repeated,result)
         self.assertEqual(len(self.tts_backend.calls),7)
         self.assertEqual(len(self.asr_calls),21)
+
+    def test_exhausted_controller_budget_still_rejects_adapter_drift(self):
+        self.launch(tts=1,asr=3)
+        before=(len(self.tts_backend.calls),len(self.asr_calls))
+        self.adapters=copy.deepcopy(self.adapters)
+        self.adapters["adapters"][0]["timeout_seconds"]=31
+        with self.assertRaises(ValueError):
+            self.launch(tts=1,asr=3)
+        self.assertEqual((len(self.tts_backend.calls),len(self.asr_calls)),before)
 
     def test_controller_does_not_accept_changed_budget_or_source_plan_on_resume(self):
         self.launch(tts=1,asr=3)

@@ -96,6 +96,10 @@ class PrivateAudioAudit(unittest.TestCase):
         self.root=Path(self.tmp.name)
         self.plan=field.build_plan(fixture())
 
+    def audit(self,plan,recordings,root):
+        return field.audit_recordings(plan,recordings,root,participant_data=fixture(),
+            expected_plan_sha256=field.plan_sha256(field.build_plan(fixture())))
+
     def clip(self,filename="one.wav",pcm=None):
         if pcm is None:pcm=struct.pack("<h",128)*320
         data=wav(pcm)
@@ -116,7 +120,7 @@ class PrivateAudioAudit(unittest.TestCase):
 
     def test_real_wav_hashes_are_checked_but_not_admitted(self):
         row=self.clip()
-        summary=field.audit_recordings(self.plan,self.records([row]),self.root)
+        summary=self.audit(self.plan,self.records([row]),self.root)
         self.assertEqual(summary["verified_recording_bytes"],1)
         self.assertFalse(summary["all_slots_present"])
         self.assertEqual(sum(v for role in summary["count_by_role_and_declared_intent"].values() for v in role.values()),1)
@@ -126,7 +130,7 @@ class PrivateAudioAudit(unittest.TestCase):
             self.assertIs(summary[k],False)
 
     def test_empty_recordings_not_ready(self):
-        x=field.audit_recordings(self.plan,self.records([]),self.root)
+        x=self.audit(self.plan,self.records([]),self.root)
         self.assertEqual(x["verified_recording_bytes"],0)
         self.assertFalse(x["all_slots_present"])
         self.assertFalse(x["training_admitted"])
@@ -135,7 +139,7 @@ class PrivateAudioAudit(unittest.TestCase):
         for key,wrong in (("wav_sha256","0"*64),("pcm_sha256","f"*64),("frames",321),("frames",True)):
             row=self.clip();row[key]=wrong
             with self.subTest(key=key),self.assertRaises(ValueError):
-                field.audit_recordings(self.plan,self.records([row]),self.root)
+                self.audit(self.plan,self.records([row]),self.root)
 
     def test_empty_or_broken_wav_rejected(self):
         for data in (b"",b"garbage",wav(b"\0\0")[:-1],wav(b"\0\0")+b"!",
@@ -144,20 +148,20 @@ class PrivateAudioAudit(unittest.TestCase):
             row=self.clip("good.wav")
             row.update(path="bad.wav",wav_sha256=hashlib.sha256(data).hexdigest())
             with self.subTest(size=len(data)),self.assertRaises(ValueError):
-                field.audit_recordings(self.plan,self.records([row]),self.root)
+                self.audit(self.plan,self.records([row]),self.root)
 
     def test_reject_symlink_to_file(self):
         row=self.clip()
         (self.root/"alias.wav").symlink_to(self.root/"one.wav")
         row["path"]="alias.wav"
         with self.assertRaises(ValueError):
-            field.audit_recordings(self.plan,self.records([row]),self.root)
+            self.audit(self.plan,self.records([row]),self.root)
 
     def test_reject_hardlink_to_file(self):
         row=self.clip()
         os.link(self.root/"one.wav",self.root/"two.wav")
         with self.assertRaises(ValueError):
-            field.audit_recordings(self.plan,self.records([row]),self.root)
+            self.audit(self.plan,self.records([row]),self.root)
 
     def test_reject_audio_root_alias(self):
         row=self.clip()
@@ -165,7 +169,7 @@ class PrivateAudioAudit(unittest.TestCase):
         alias.symlink_to(self.root,target_is_directory=True)
         self.addCleanup(lambda:alias.unlink(missing_ok=True))
         with self.assertRaises(ValueError):
-            field.audit_recordings(self.plan,self.records([row]),alias)
+            self.audit(self.plan,self.records([row]),alias)
 
     def test_unsafe_paths_are_rejected(self):
         row=self.clip()
@@ -173,20 +177,20 @@ class PrivateAudioAudit(unittest.TestCase):
                       "dir\\one.wav","one.mp3","./one.wav","one%2fwav.wav"):
             x=dict(row,path=value)
             with self.subTest(value=value),self.assertRaises(ValueError):
-                field.audit_recordings(self.plan,self.records([x]),self.root)
+                self.audit(self.plan,self.records([x]),self.root)
 
     def test_duplicate_recording_and_foreign_slot_rejected(self):
         row=self.clip()
         for collection in ([row,row],[dict(row,slot_id="s-"+"0"*24)]):
             with self.assertRaises(ValueError):
-                field.audit_recordings(self.plan,self.records(collection),self.root)
+                self.audit(self.plan,self.records(collection),self.root)
 
     def test_reused_audio_payload_is_rejected(self):
         a=self.clip("one.wav")
         b=self.clip("two.wav")
         b["slot_id"]=self.plan["slots"][1]["slot_id"]
         with self.assertRaises(ValueError):
-            field.audit_recordings(self.plan,self.records([a,b]),self.root)
+            self.audit(self.plan,self.records([a,b]),self.root)
 
     def test_false_rights_review_or_training_admission_rejected(self):
         for key in ("human_verbatim_reviewed","rights_approved","training_admitted"):
@@ -194,12 +198,78 @@ class PrivateAudioAudit(unittest.TestCase):
                 row=self.clip()
                 row[key]=value
                 with self.subTest(key=key,value=value),self.assertRaises(ValueError):
-                    field.audit_recordings(self.plan,self.records([row]),self.root)
+                    self.audit(self.plan,self.records([row]),self.root)
 
     def test_recording_extra_metadata_rejected(self):
         row=self.clip();row["actual_text"]="你好小窝"
         with self.assertRaises(ValueError):
-            field.audit_recordings(self.plan,self.records([row]),self.root)
+            self.audit(self.plan,self.records([row]),self.root)
+
+
+class FrozenPlanBinding(unittest.TestCase):
+    def test_declared_plan_mutations_fail_before_audio_access(self):
+        participants=fixture()
+        original=field.build_plan(participants)
+        digest=field.plan_sha256(original)
+        mutations=[]
+        for key,value in (("role","development"),("intent_kind","confusable-intent"),
+                          ("afe_profile_sha256","f"*64),("room_id","different-room")):
+            altered=copy.deepcopy(original)
+            first=altered["slots"][0]
+            if first[key]==value:value="sealed-evaluation"
+            first[key]=value
+            mutations.append((key,altered,participants))
+        altered=copy.deepcopy(original)
+        for row in altered["slots"]:
+            if row["role"]=="development":row["role"]="sealed-evaluation"
+        mutations.append(("whole-role",altered,participants))
+        changed_participants=copy.deepcopy(participants)
+        changed_participants["participants"][1]["role"]="sealed-evaluation"
+        mutations.append(("plan-and-participants",field.build_plan(changed_participants),changed_participants))
+        altered=copy.deepcopy(original);altered["slots"].pop()
+        mutations.append(("removed-slot",altered,participants))
+        altered=copy.deepcopy(original);altered["slots"].append(copy.deepcopy(altered["slots"][0]))
+        mutations.append(("added-slot",altered,participants))
+        roster={"schema":field.RECORDINGS_SCHEMA,"recordings":[{
+            "slot_id":original["slots"][0]["slot_id"],"path":"one.wav",
+            "wav_sha256":"a"*64,"pcm_sha256":"b"*64,"frames":1,
+            "human_verbatim_reviewed":False,"rights_approved":False,
+            "training_admitted":False}]}
+        with tempfile.TemporaryDirectory() as root:
+            for name,plan,people in mutations:
+                expected=("FROZEN_PLAN_IDENTITY_DRIFT" if name=="plan-and-participants"
+                          else "PLAN_PARTICIPANT_BINDING_DRIFT")
+                with self.subTest(name=name),patch.object(field,"_read_wav",side_effect=AssertionError("must not read WAV")) as reader:
+                    with self.assertRaisesRegex(ValueError,expected):
+                        field.audit_recordings(plan,roster,root,participant_data=people,
+                            expected_plan_sha256=digest)
+                    reader.assert_not_called()
+
+    def test_missing_or_wrong_frozen_identity_is_rejected(self):
+        people=fixture();plan=field.build_plan(people)
+        roster={"schema":field.RECORDINGS_SCHEMA,"recordings":[{
+            "slot_id":plan["slots"][0]["slot_id"],"path":"one.wav",
+            "wav_sha256":"a"*64,"pcm_sha256":"b"*64,"frames":1,
+            "human_verbatim_reviewed":False,"rights_approved":False,
+            "training_admitted":False}]}
+        with tempfile.TemporaryDirectory() as root:
+            for digest,reason in ((None,"INVALID_SHA256"),("","INVALID_SHA256"),
+                                  ("0"*64,"FROZEN_PLAN_IDENTITY_DRIFT")):
+                with self.subTest(digest=digest),patch.object(field,"_read_wav",side_effect=AssertionError("must not read WAV")) as reader:
+                    with self.assertRaisesRegex(ValueError,reason):
+                        field.audit_recordings(plan,roster,root,participant_data=people,
+                                               expected_plan_sha256=digest)
+                    reader.assert_not_called()
+            with self.assertRaises(TypeError):
+                field.audit_recordings(plan,roster,root)
+
+    def test_matching_plan_and_frozen_identity_keep_nonadmission(self):
+        people=fixture();plan=field.build_plan(people)
+        with tempfile.TemporaryDirectory() as tmp:
+            result=field.audit_recordings(plan,{"schema":field.RECORDINGS_SCHEMA,"recordings":[]},
+                tmp,participant_data=people,expected_plan_sha256=field.plan_sha256(plan))
+        self.assertEqual(result["plan_sha256"],field.plan_sha256(plan))
+        self.assertIs(result["training_admitted"],False)
 
 
 class ParsersAndOutput(unittest.TestCase):
@@ -290,8 +360,11 @@ class ParsersAndOutput(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);plan=field.build_plan(fixture())
             (root/"plan.json").write_text(json.dumps(plan))
+            (root/"participants.json").write_text(json.dumps(fixture()))
             (root/"items.json").write_text(json.dumps({"schema":field.RECORDINGS_SCHEMA,"recordings":[]}))
             self.assertEqual(field.main(["verify","--plan",str(root/"plan.json"),
+                "--participants",str(root/"participants.json"),
+                "--expected-plan-sha256",field.plan_sha256(plan),
                 "--recordings",str(root/"items.json"),"--audio-root",str(root),
                 "--output",str(root/"audit.json")]),0)
             self.assertFalse(json.loads((root/"audit.json").read_bytes())["training_admitted"])

@@ -19,6 +19,7 @@ import bulk_runner as tts
 import campaign as c
 import runner
 import screen
+import receipt_contract as receipts
 
 
 def _audio_for(plan, generated, cell):
@@ -68,16 +69,15 @@ def dispatch(plan, generated_root, output, adapters, *, max_new_calls,
         _,sha=runner._safe_file(item["executable"],limit=8*1024*1024)
         p.require(sha==item["executable_sha256"],"ASR_BINARY_CHANGED")
     root=Path(output)
-    digest=hashlib.sha256(p.canonical(plan)).hexdigest()
+    expected_binding=receipts.binding(plan,adapters)
+    digest=expected_binding["plan_sha256"]
     if not root.exists():
         root.mkdir(parents=True)
         runner._once(root/"plan-lock.json",{
-            "schema":"kws-bulk-asr-lock-v1","plan_sha256":digest,
+            "schema":"kws-bulk-asr-lock-v1",**expected_binding,
             "training_admitted":False})
     else:
-        old=p.read_json(root/"plan-lock.json")
-        p.require(old.get("plan_sha256")==digest and
-                  old.get("training_admitted") is False,"ASR_PLAN_CHANGED")
+        receipts.verify_root(root,expected_binding,"kws-bulk-asr-lock-v1")
     started=sum((root/"clips"/cell["cell_id"]/engine/"started.json").exists()
                 for cell in plan["cells"] for engine in c.ENGINES)
     p.require(started<=3*plan["budgets"]["max_total_calls"],"ASR_TOTAL_BUDGET")
@@ -99,6 +99,9 @@ def dispatch(plan, generated_root, output, adapters, *, max_new_calls,
             model=sources[engine]
             runner._once(folder/"started.json",{
                 "schema":"kws-bulk-asr-start-v1","cell_id":cell["cell_id"],
+                "audio_id":cell["cell_id"],
+                **expected_binding,"model_id":model["model_id"],
+                "model_assets_sha256":model["model_assets_sha256"],
                 "wav_sha256":meta["wav_sha256"],
                 "pcm_sha256":meta["pcm_sha256"],
                 "audio_frames":meta["audio_frames"],
@@ -120,7 +123,7 @@ def dispatch(plan, generated_root, output, adapters, *, max_new_calls,
                                    close_fds=True,stdout=subprocess.DEVNULL,
                                    stderr=subprocess.DEVNULL,check=False)
                 p.require(completed.returncode==0,"ASR_EXECUTE_FAILED")
-                _,raw_sha=runner._safe_file(raw,limit=8*1024*1024)
+                raw_size,raw_sha=runner._safe_file(raw,limit=8*1024*1024)
                 observed=p.read_json(raw,8*1024*1024)
                 p.require(type(observed) is dict and set(observed)=={
                     "audio_id","model_id","model_revision","engine",
@@ -152,7 +155,9 @@ def dispatch(plan, generated_root, output, adapters, *, max_new_calls,
                     "raw_native_sha256":raw_sha,"attempts":1}
                 # Source/geometry and native output identities only.
                 runner._once(folder/"completed.json",{
-                    "schema":"kws-bulk-asr-complete-v1",
+                    "schema":"kws-bulk-asr-complete-v1",**expected_binding,
+                    "native_bytes":raw_size,"native_sha256":raw_sha,
+                    "observation_sha256":runner._hash(c.canonical(receipt)),
                     "observation":receipt,
                     "training_admitted":False,"qualification_allowed":False})
             except Exception as err:
@@ -166,9 +171,12 @@ def dispatch(plan, generated_root, output, adapters, *, max_new_calls,
             "training_admitted":False}
 
 
-def screen_results(plan,gen_root,asr_root):
+def screen_results(plan,gen_root,asr_root,adapters):
     p.verify_plan(plan)
     _verify_generation_plan(plan,gen_root)
+    sources=receipts.check_adapters(adapters)
+    expected_binding=receipts.binding(plan,adapters)
+    receipts.verify_root(asr_root,expected_binding,"kws-bulk-asr-lock-v1")
     states=[]
     for cell in plan["cells"]:
         src=_audio_for(plan,gen_root,cell)
@@ -195,25 +203,14 @@ def screen_results(plan,gen_root,asr_root):
                       o["status"]=="success" and
                       o["decoder_completed"] is True,
                       "ASR_RESULT_IDENTITY_DRIFT")
-            native=Path(asr_root)/"clips"/cell["cell_id"]/engine/"native.json"
-            _,sha=runner._safe_file(native,limit=8*1024*1024)
-            p.require(sha==o["raw_native_sha256"],"ASR_NATIVE_CHANGED")
-            native_fields=p.read_json(native,8*1024*1024)
-            p.require(type(native_fields) is dict and
-                      native_fields.get("audio_id")==cell["cell_id"] and
-                      native_fields.get("engine")==engine and
-                      native_fields.get("model_id")==o["model_id"] and
-                      native_fields.get("model_revision")==o["model_revision"] and
-                      native_fields.get("actual_text")==o["actual_text"] and
-                      native_fields.get("decoder_completed") is True and
-                      native_fields.get("processed_start_frame")==0 and
-                      native_fields.get("processed_end_frame")==meta["audio_frames"],
-                      "NATIVE_TRANSCRIPT_AND_COMPLETION_DRIFT")
+            receipts.verify_native(receipt.parent,o,sources[engine],expected_binding,
+                started_schema="kws-bulk-asr-start-v1",
+                completed_schema="kws-bulk-asr-complete-v1")
             observed.append(c.normalize(o["actual_text"]))
-        expected=c.normalize(cell["prompt"])
+        expected_text=c.normalize(cell["prompt"])
         if len(observed)<3:
             status="ASR_INCOMPLETE_HOLD"
-        elif all(x==expected for x in observed):
+        elif all(x==expected_text for x in observed):
             status=("MACHINE_POSITIVE_CANDIDATE" if
                     cell["intended_kind"]=="positive-intent" else
                     "MACHINE_NEGATIVE_CANDIDATE")
@@ -230,7 +227,7 @@ def screen_results(plan,gen_root,asr_root):
             "asr_completed":len(observed),
             "status":status,"training_admitted":False})
     counts=dict(Counter(x["status"] for x in states))
-    return {"schema":"kws-bulk-clone-machine-screen-v1",
+    return {"schema":"kws-bulk-clone-machine-screen-v1",**expected_binding,
             "rows":states,"counts":counts,
             "human_gold":False,"rights_authenticated":False,
             "training_admitted":False,"qualification_allowed":False,
@@ -250,14 +247,15 @@ def main(argv=None):
     try:
         plan=p.read_json(args.plan,8*1024*1024)
         p.verify_plan(plan)
+        adapters=p.read_json(args.adapter_lock)
+        receipts.check_adapters(adapters)
         if args.execute:
-            adapters=p.read_json(args.adapter_lock)
             result=dispatch(plan,args.generated,args.asr_output,adapters,
                             max_new_calls=args.max_new_calls,execute=True)
         else:
             result={"status":"NO_NEW_MODEL_CALL","actual_calls":0}
         if args.report:
-            report=screen_results(plan,args.generated,args.asr_output)
+            report=screen_results(plan,args.generated,args.asr_output,adapters)
             runner._once(Path(args.report),report)
     except (OSError,ValueError) as err:
         print("BULK_ASR_NOT_ADMITTED: "+type(err).__name__,file=sys.stderr)

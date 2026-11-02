@@ -64,6 +64,13 @@ python3 -B research/field-collection-pilot-20261102/plan.py plan \
   --output /restricted/field-plan.json
 ~~~
 
+The planning command prints `plan_sha256`, the canonical complete-plan digest.
+Freeze that digest independently in the restricted review record at planning time,
+alongside the original participant manifest. Do not recompute the expected digest
+from an edited plan during verification: a digest supplied by the same mutable
+input is not an independent commitment. This binding does not authenticate human
+identity, consent or the truth of participant declarations.
+
 Each participant receives 37 deterministic, hash-shuffled tasks:
 24 positive-intent tasks (both wake phrases, 1/3/5 m, front/back, two repeats);
 12 confusable tasks (including 屋/沃/吴/王 phonemes, 3/5 m);
@@ -105,10 +112,18 @@ duplicate audio payloads and source-slot IDs.
 ~~~sh
 python3 -B research/field-collection-pilot-20261102/plan.py verify \
   --plan /restricted/field-plan.json \
+  --participants /restricted/participants.json \
+  --expected-plan-sha256 REPLACE_WITH_INDEPENDENTLY_FROZEN_PLAN_SHA256 \
   --recordings /restricted/recordings.json \
   --audio-root /restricted/field-audio \
   --output /restricted/new-structure-audit.json
 ~~~
+
+Verification requires both the original participant manifest and the independently
+frozen digest. It rebuilds the full plan and rejects any drift in declared role,
+intent, AFE identity, room or slot inventory before opening WAV data. Updating
+both plan and participants cannot bypass an unchanged frozen digest. Legacy
+invocations missing either binding are rejected rather than silently accepted.
 
 This output is create-only and aggregates counts by planned role and intent
 without copying raw audio, transcript or personal IDs. Partial recordings

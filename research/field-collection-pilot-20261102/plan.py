@@ -222,7 +222,23 @@ def _read_wav(root, relative, expected_size=MAX_WAV):
         os.close(directory)
 
 
-def audit_recordings(plan, recordings, audio_root):
+def canonical_plan_bytes(plan):
+    return json.dumps(plan,ensure_ascii=False,sort_keys=True,
+                      separators=(",",":"),allow_nan=False).encode("utf-8")
+
+
+def plan_sha256(plan):
+    return hashlib.sha256(canonical_plan_bytes(plan)).hexdigest()
+
+
+def audit_recordings(plan, recordings, audio_root, *, participant_data,
+                     expected_plan_sha256):
+    # Freeze externally at planning time; never infer participants from edited slots.
+    expected=build_plan(participant_data)
+    _sha(expected_plan_sha256)
+    require(canonical_plan_bytes(plan)==canonical_plan_bytes(expected),
+            "PLAN_PARTICIPANT_BINDING_DRIFT")
+    require(plan_sha256(plan)==expected_plan_sha256,"FROZEN_PLAN_IDENTITY_DRIFT")
     require(type(plan) is dict and plan.get("schema") == SCHEMA and
             plan.get("training_admitted") is False and plan.get("qualification_allowed") is False,
             "IMMUTABLE_NONADMITTING_PLAN_REQUIRED")
@@ -266,6 +282,7 @@ def audit_recordings(plan, recordings, audio_root):
     return {"schema":"xiaowo-field-recording-structure-audit-v1",
         "source_type":"human-field-recording-candidate",
         "planned_slots":len(slots),
+        "plan_sha256":expected_plan_sha256,
         "verified_recording_bytes":len(seen_ids),
         "all_slots_present":len(seen_ids)==len(slots),
         "count_by_role_and_declared_intent":counts,
@@ -301,18 +318,23 @@ def main(argv=None):
     verify=cmd.add_parser("verify");verify.add_argument("--plan",required=True)
     verify.add_argument("--recordings",required=True);verify.add_argument("--audio-root",required=True)
     verify.add_argument("--output",required=True)
+    verify.add_argument("--participants",required=True)
+    verify.add_argument("--expected-plan-sha256",required=True)
     args=cli.parse_args(argv)
     try:
         if args.command=="plan":
             result=build_plan(_json_file(args.participants))
         else:
-            result=audit_recordings(_json_file(args.plan),_json_file(args.recordings),args.audio_root)
+            result=audit_recordings(_json_file(args.plan),_json_file(args.recordings),args.audio_root,
+                participant_data=_json_file(args.participants),
+                expected_plan_sha256=args.expected_plan_sha256)
         _publish(args.output,result)
     except (ValueError,OSError) as error:
         print("FIELD_CORPUS_NOT_ADMITTED: "+type(error).__name__,file=sys.stderr)
         return 2
     print(json.dumps({"status":result.get("status","PLANNED_NOT_RECORDED"),
-        "training_admitted":False,"model_calls":0}))
+        "training_admitted":False,"model_calls":0,
+        "plan_sha256":plan_sha256(result) if args.command=="plan" else result["plan_sha256"]}))
     return 0
 
 
