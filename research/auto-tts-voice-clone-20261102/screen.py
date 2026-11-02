@@ -205,7 +205,7 @@ def create_clone_reference(cell,screened,generated_root,destination):
         "screening_sha256":_safe_file(dst/(cell["cell_id"]+".screen.json"),
             limit=65536)[1],
         "rights_basis":"synthetic_model_output_research_only",
-        "real_person_identity":None}
+        "real_person_identity":None,"training_admitted":False}
     _once(dst/(cell["cell_id"]+".reference.json"),receipt)
     # The permitted clone remains same ancestry, cannot populate a new split.
     return receipt
