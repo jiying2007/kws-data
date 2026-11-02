@@ -238,12 +238,8 @@ def validate_sources(manifest, audio_root):
     return rows
 
 
-def plan(manifest, audio_root, *, repetitions=2, batch_id="pilot01",
-         revision=None, max_calls=None):
-    refs = validate_sources(manifest, audio_root)
-    _id(batch_id, "BATCH_ID")
-    require(type(repetitions) is int and 1 <= repetitions <= 8, "REPETITIONS")
-    require(type(revision) is str and bool(_HEX40.fullmatch(revision)), "PINNED_BASE_REVISION")
+
+def _cells(refs, repetitions, batch_id):
     cells = []
     for ref in refs:
         for repetition in range(repetitions):
@@ -266,6 +262,17 @@ def plan(manifest, audio_root, *, repetitions=2, batch_id="pilot01",
                     "synthetic": True,
                     "training_admitted": False, "qualification_allowed": False
                 })
+    cells.sort(key=lambda x:(x["reference_id"],x["cell_id"]))
+    return cells
+
+
+def plan(manifest, audio_root, *, repetitions=2, batch_id="pilot01",
+         revision=None, max_calls=None):
+    refs = validate_sources(manifest, audio_root)
+    _id(batch_id, "BATCH_ID")
+    require(type(repetitions) is int and 1 <= repetitions <= 8, "REPETITIONS")
+    require(type(revision) is str and bool(_HEX40.fullmatch(revision)), "PINNED_BASE_REVISION")
+    cells = _cells(refs, repetitions, batch_id)
     require(len(cells) <= MAX_CELLS, "PLANNED_SAMPLES_EXCEED_LIMIT")
     cells.sort(key=lambda x:(x["reference_id"], x["cell_id"]))
     ceiling = len(cells) if max_calls is None else max_calls
@@ -287,7 +294,13 @@ def plan(manifest, audio_root, *, repetitions=2, batch_id="pilot01",
 
 
 def verify_plan(value):
-    require(type(value) is dict and value.get("schema") == PLAN_SCHEMA, "PLAN_SCHEMA")
+    require(type(value) is dict and set(value) == {
+        "schema","batch_id","model_id","model_revision",
+        "source_manifest_sha256","references","cells","budgets",
+        "repetitions","model_calls","source_rights_authenticated",
+        "actual_spoken_labels_verified","training_admitted",
+        "qualification_allowed","shipping_approved"
+    } and value.get("schema") == PLAN_SCHEMA, "PLAN_SCHEMA")
     # No source WAV at this stage; prove immutable plan identity by checking
     # the original private source during run with a separate rehash.
     require(value.get("training_admitted") is False and
@@ -310,6 +323,15 @@ def verify_plan(value):
             1 <= budgets["max_calls_per_invocation"] <= 64 and
             type(budgets.get("max_total_calls")) is int and
             1 <= budgets["max_total_calls"] <= len(cells), "PLAN_BUDGET")
+    require(type(value.get("repetitions")) is int and
+            1<=value["repetitions"]<=8 and
+            type(value.get("batch_id")) is str and
+            bool(_ID.fullmatch(value["batch_id"])) and
+            type(value.get("source_manifest_sha256")) is str and
+            bool(_SHA.fullmatch(value["source_manifest_sha256"])) and
+            value.get("model_calls") == 0, "PLAN_METADATA")
+    require(canonical(cells)==canonical(_cells(refs,value["repetitions"],
+            value["batch_id"])),"CELL_PLAN_CHANGED")
     require(len({row["cell_id"] for row in cells}) == len(cells) and
             len({row["reference_id"] for row in refs}) == len(refs), "PLAN_DUPLICATE")
     require(all(type(x) is dict and x.get("training_admitted") is False
