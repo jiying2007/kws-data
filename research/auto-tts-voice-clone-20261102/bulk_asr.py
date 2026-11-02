@@ -191,8 +191,8 @@ def screen_results(plan,gen_root,asr_root):
             status=("MACHINE_POSITIVE_CANDIDATE" if
                     cell["intended_kind"]=="positive-intent" else
                     "MACHINE_NEGATIVE_CANDIDATE")
-        elif cell["intended_kind"]!="positive-intent" and
-                any(x in ("你好小窝","小窝小窝") for x in observed):
+        elif (cell["intended_kind"]!="positive-intent" and
+                any(x in ("你好小窝","小窝小窝") for x in observed)):
             status="NEGATIVE_SPOKE_WAKE_OR_ASR_CONFLICT"
         else:
             status="ASR_DISAGREEMENT_OR_TTS_MISPRONUNCIATION"
