@@ -24,10 +24,11 @@ is MIT but **official model weights** use a separate FunASR Model Open
 Source License Agreement: inspect the actual pinned revision and required
 attribution/model-name terms. Similarly, sherpa/WeKWS **code** licenses
 do not automatically license any separate model artifact, and each Piper
-voice has its own license. Official F5-TTS pretrained weights are non-
-commercial; bundled openWakeWord pretrained models are CC BY-NC-SA,
-even though the respective frameworks have permissive code licenses.
-Their exact release-specific weight permissions must be recorded before any use.
+voice has its own license. Official F5-TTS pretrained weights have research-limited non-commercial terms;
+bundled openWakeWord pretrained models are CC BY-NC-SA, even when framework
+code has a permissive license. These are research candidates, not automatically
+approved for use: verify exact model-weight terms and original-speaker
+permissions before executing any model.
 
 Source verification:
 - https://github.com/QwenLM/Qwen3-TTS
@@ -51,8 +52,8 @@ with:
 - \`locale=zh-CN\`: exactly **你好小窝** / **小窝小窝**, both complete,
   one independent positive request per keyword. \`小窝\` alone is negative.
   No implicit Mandarin experiment config or frozen model change.
-- \`locale=en-US\`: **actual user-defined, multiword English wake phrase**.
-  The repo has no authorized product English phrase; do **not** invent one.
+- \`locale=en-US\`: **researcher-defined, multiword English wake phrase**.
+  No fixed English phrase has been adopted; do **not** invent one.
   English tests use an explicitly fabricated phrase as a protocol fixture.
 - Positive / phonetic near-miss / ordinary-negative classes, plus a
   requested \`challenge\` subtype. Requested words never certify what
@@ -72,7 +73,7 @@ with:
 All generated IDs, TTS provider revisions, declared source and split,
 original requests, catalog digest, planned 3-ASR count are deterministic.
 All reports keep \`human_gold=false\`, \`training_admitted=false\`,
-\`qualification_allowed=false\`, \`shipping_approved=false\`,
+\`independent_acceptance_evidence=false\`,
 \`model_calls_executed=0\` and \`next_campaign_authorized=false\`.
 Three different ASR family strings and self-supplied hashes are **not**
 proof of real engine/model/source execution or true transcript correctness.
