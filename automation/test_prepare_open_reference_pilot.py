@@ -176,6 +176,7 @@ class LocalOfficialCorpusPrepTests(unittest.TestCase):
     def test_output_catalog_never_uses_public_voice_as_gold(self):
         result = self.build(execute=True)
         self.assertFalse(result["qualification_allowed"])
+        self.assertNotIn("shipping_approved", result)
         self.assertEqual(result["model_calls"], 0)
         self.assertFalse((self.out / "permit.json").exists())
 
