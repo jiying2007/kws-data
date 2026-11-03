@@ -49,6 +49,10 @@ HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python3 -B tools/supervise_bulk_autopilo
 
 `--hard-seconds` 达到后返回 124，终止同进程组模型/子进程；已经开始但未完成的任务保留为未知消耗，**不会自动重试**。这是进程级硬上限（包含模型加载），不是单样本性能上限，也不证明训练准入/发布资格。CI 只用假子进程做正常、异常退出和超时测试，不运行真实模型。
 
+### 小批量语音实验执行前检查（2026-11-03）
+
+新增 [源/模型资产/语音类别小批量预检](docs/BOUNDED_PILOT_READINESS.md)（仅只读、不开模型）：会按当前执行器实际的前 N 条任务检查两完整唤醒词、近音负例、普通负例、不同声源家庭的覆盖，重验来源 WAV/权利文件、Qwen 模型文件与三 ASR 模型权重及执行器 SHA。检查失败不得因有限预算误以为模型学习失败或生成够量；成功也只证明技术源一致，仍需真实声源授权、ASR 执行和独立审定。
+
 ## 历史研究入口（2026-10-07 整理）
 
 - [完整研究索引与当前结论](docs/RESEARCH_INDEX.md)：覆盖 ASR 校准、A20、N0、Cosy49、Qwen6、Melo6、N1 与失败 first-prefix 候选；标明 PASS / FAIL / REJECTED / 待资格验证的实际范围
