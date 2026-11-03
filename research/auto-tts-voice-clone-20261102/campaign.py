@@ -182,8 +182,7 @@ def build_plan(voices, *, round_id=0, batch_id="batch01"):
             "max_automatic_rounds":2,"max_retries_per_cell":0,"max_paid_usd":0},
         "source_scope":"synthetic_technical_development_only",
         "blind_asr_targets_prohibited":True,"training_admitted":False,
-        "qualification_allowed":False,"real_human_qualification":False,
-        "shipping_approved":False}
+        "qualification_allowed":False,"real_human_qualification":False}
     return result
 
 
@@ -191,7 +190,7 @@ def validate_plan(plan):
     require(type(plan) is dict and set(plan)=={
         "schema","batch_id","round_id","voices","cells","budget","source_scope",
         "blind_asr_targets_prohibited","training_admitted","qualification_allowed",
-        "real_human_qualification","shipping_approved"} and
+        "real_human_qualification"} and
         plan["schema"]==CAMPAIGN,"PLAN_SCHEMA")
     expected=build_plan(plan["voices"],round_id=plan["round_id"],batch_id=plan["batch_id"])
     require(canonical(plan)==canonical(expected),"PLAN_BYTES_OR_POLICY_DRIFT")

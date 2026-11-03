@@ -86,7 +86,7 @@ class HardDeadlineSupervisorTests(unittest.TestCase):
         self.assertEqual(result["status"], "CHILD_SUCCESS")
         self.assertEqual(marker.read_text(), "1")
         self.assertFalse(result["training_admitted"])
-        self.assertFalse(result["shipping_approved"])
+        self.assertNotIn("shipping_approved", result)
 
     def test_nonzero_fake_child_preserved_without_auto_restart(self):
         marker = self.root / "invocations"

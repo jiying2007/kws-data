@@ -215,7 +215,7 @@ def run(plan, source_manifest, audio_root, output, backend, *,
                 "source_family_id":cell["source_family_id"],
                 "intended_kind":cell["intended_kind"],
                 "actual_text":None, "training_admitted":False,
-                "qualification_allowed":False, "shipping_approved":False})
+                "qualification_allowed":False})
         except Exception as error:
             media._once(folder/"failed.json", {
                 "schema":"kws-bulk-clone-failure-v1", "cell_id":cell["cell_id"],
@@ -229,7 +229,6 @@ def run(plan, source_manifest, audio_root, output, backend, *,
                                for x in plan["cells"]),
         "model_calls_requested":invoked,
         "qualification_allowed":False, "training_admitted":False,
-        "shipping_approved":False,
         "status":"BULK_SYNTHETIC_UNADMITTED"
     }
 

@@ -25,11 +25,11 @@ import campaign
 import receipt_contract as receipts
 import runner
 
-PIPELINE_COMMIT = "b02edb7c1cc26c65a6e291f1e7661f44724133fd"
+PIPELINE_COMMIT = "8b7d62b355b714f27aae177f676fc80aedbf6cf4"
 PIPELINE_BLOBS = {
     "corpus_identity": "5744097a6c244197410fbd75112d65e8180fdb57",
-    "kws_data_bulk_effect_boundary": "23bdd7fe8cc3e01fc25c6aae916f7ff8e9bb987f",
-    "prioritize_kws_data_feedback": "01a02b849fe4cdf2c6bfe68188f4522348e512d3",
+    "kws_data_bulk_effect_boundary": "26652a5f3d0aaf58d6be809ad8b954af14204ad9",
+    "prioritize_kws_data_feedback": "eae711270a9ac5ee59589d0ef17e535891c759eb",
 }
 DATA_COMMIT = "143eb4e8c0c3baeb41ebbfac36774968c7ba8f6d"
 SCHEMA = "bounded-bulk-autopilot-v1"
@@ -277,8 +277,7 @@ def execute(plan, sources, audio_root, workspace, adapters, *,
                   "new_tts_calls": final["tts_started"] - before["tts_started"],
                   "new_asr_calls": final["asr_started"] - before["asr_started"],
                   "checkpoint_sha256": digest(latest) if latest is not None else None,
-                  "training_admitted": False, "qualification_allowed": False,
-                  "shipping_approved": False}
+                  "training_admitted": False, "qualification_allowed": False}
         return result
 
 def main(argv=None):

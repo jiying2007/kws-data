@@ -641,8 +641,9 @@ class ControllerTests(unittest.TestCase):
         self.assertEqual(first["ttl_asr_started"],3)
         self.assertEqual(len(self.tts_backend.calls),1)
         self.assertEqual(len(self.asr_calls),3)
-        for k in ("training_admitted","qualification_allowed","shipping_approved"):
+        for k in ("training_admitted","qualification_allowed"):
             self.assertIs(first[k],False)
+        self.assertNotIn("shipping_approved", first)
         repeated=self.launch(tts=1,asr=3)
         self.assertEqual(repeated,first)
         self.assertEqual(len(self.tts_backend.calls),1)

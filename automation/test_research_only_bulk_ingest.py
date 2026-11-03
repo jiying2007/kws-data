@@ -112,7 +112,7 @@ class ResearchOnlySourceTests(unittest.TestCase):
         self.assertEqual(plan["budgets"]["max_paid_usd"], 0)
         self.assertFalse(plan["source_rights_authenticated"])
         self.assertFalse(plan["training_admitted"])
-        self.assertFalse(plan["shipping_approved"])
+        self.assertNotIn("shipping_approved", plan)
         with self.assertRaises(ValueError):
             research.publish_private(manifest, rights, self.audio, out)
 

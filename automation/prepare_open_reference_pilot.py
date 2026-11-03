@@ -174,7 +174,7 @@ def build(selection, original_root, license_file, output_root, *,
                 "resample_required": sum(info["rate"] not in (16000, 24000)
                                          for _, (_, _, info) in chosen),
                 "model_calls": 0, "rights_authenticated": False,
-                "training_admitted": False, "shipping_approved": False}
+                "training_admitted": False}
     root = Path(output_root).absolute()
     require(root != ROOT and ROOT not in root.parents and
             root.parent.is_dir() and
@@ -231,8 +231,7 @@ def build(selection, original_root, license_file, output_root, *,
     return {"status": "PRIVATE_CANDIDATES_PREPARED_ONLY",
             "selected": len(index_rows), "model_calls": 0,
             "rights_authenticated": False, "voice_cloning_authorized": False,
-            "training_admitted": False, "qualification_allowed": False,
-            "shipping_approved": False}
+            "training_admitted": False, "qualification_allowed": False}
 
 
 def main(argv=None):

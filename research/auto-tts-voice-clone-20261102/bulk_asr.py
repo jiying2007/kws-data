@@ -230,8 +230,7 @@ def screen_results(plan,gen_root,asr_root,adapters):
     return {"schema":"kws-bulk-clone-machine-screen-v1",**expected_binding,
             "rows":states,"counts":counts,
             "human_gold":False,"rights_authenticated":False,
-            "training_admitted":False,"qualification_allowed":False,
-            "shipping_approved":False}
+            "training_admitted":False,"qualification_allowed":False}
 
 
 def main(argv=None):

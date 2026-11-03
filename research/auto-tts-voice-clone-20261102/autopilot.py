@@ -63,7 +63,7 @@ def execute(plan,workspace,model_lock,model_root,adapter_lock,*,max_tts,
         **adapter_binding,
         "max_tts":max_tts,"max_asr":max_asr,"rounds":rounds,
         "clone_revision":clone_revision,
-        "training_admitted":False,"shipping_approved":False})
+        "training_admitted":False})
     runner_assets={}
     def model_for(subplan):
         key=tuple(sorted({(v["model_id"],v["model_revision"]) for v in subplan["voices"]}))
@@ -155,7 +155,6 @@ def execute(plan,workspace,model_lock,model_root,adapter_lock,*,max_tts,
         "max_tts":max_tts,"max_asr":max_asr,
         "real_human_labels":0,"new_product_training_runs":0,
         "training_admitted":False,"qualification_allowed":False,
-        "shipping_approved":False,
         "status":"SYNTHETIC_RND_AUTOMATED_NOT_PRODUCT_RELEASE"}
 
 
