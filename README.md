@@ -3,7 +3,38 @@
 [中英文 KWS 音频数据源与模型许可研究入口](automation/README.md)：仅无模型的离线任务规划；不改变当前训练/发布准入。
 
 
-## 当前入口（2026-10-07 整理）
+## 2026-11-03 数据准备现状与唯一闭环入口
+
+> **数据集准备状态：PARTIAL / BLOCKED_EXTERNAL_SOURCE。** 软件源码、批次计划、保存的合成音频、原始标签、筛选收据和产品资格证据不能相互替代。不能以 CI 成功、声音数量、ASR 多数投票或“holdout”目录名宣称数据集/模型已经具备量产资格。这里记录当前主线可验证的事实；历史研究结论见下节。
+
+| 资产或环节 | 当前可核验范围 | 用途及剩余关口 |
+| --- | --- | --- |
+| [正式 catalog](catalog.json) + [唯一验证/导出器](tools/codex_assets/__main__.py) | 3 批、42 条历史 Qwen3 合成音频（20 条人工审核开发、18 条 ASR 训练开发、4 条已观察回读） | **仅 observed development**；不允许把原数据改名后充当未暴露封存测试。训练消费须固定 data commit + catalog SHA-256，原始标签和 speaker split 不得重写 |
+| [Qwen16 原始证据](research/qwen16-archive-20261030-v1/README.md) + [盲标输入](research/qwen16-label-inputs-20261030-v1/README.md) | 16 条已经生成并归档的原始目标语音（43.2 秒）；12 条 train 候选、4 条 development_a；12 条已准备匿名音频的三 ASR **请求** | **尚无独立审定的实际标签或训练准入**。只有冻结原 WAV、真实三 ASR 完整收据、抽查/争议复核及每条权利检查通过后才可能入库；不能重跑已消耗的 Qwen16 生成 |
+| [批量 TTS/克隆/ASR](research/auto-tts-voice-clone-20261102/BULK_AUTOPILOT.md) | 单机有界任务、缓存模型/参考声线、不可变开始/完成收据、独立 pipeline 消费与模拟后端回归测试 | **实现可测，不等于真实音频可用**。仍需合法参考音频、具体声音使用权、模型资产、真实生成/ASR 回执与声线分组的有效正负例率；失败/未知尝试不静默重放 |
+| [中英文 Provider 与请求规划](automation/README.md) | 有界、离线、source-first 的模型/许可候选与三家族 ASR 规划；不调用模型 | **仅 planning**。中文词固定为“你好小窝”“小窝小窝”；英文正式唤醒词尚未授权指定，不根据研究示例发明产品配置 |
+| [真人采集计划](research/field-collection-pilot-20261102/README.md) | 私有采集请求、身份与证据检查的源码及无模型测试 | **并无经证明的真实物理采集和封存验收**。真实录音/同意/房间/设备元数据应保留在受控存储，不公开上传个人声音 |
+| [产品数据闭环跟踪](https://github.com/jiying2007/kws-pipeline/issues/691) | 数据效果/训练准入/比较器/资格门禁在 `kws-pipeline` 跟踪 | 仍缺可证明的训练语音、独立长时负流、真实 FRR/FAR 和最终 AFE/SSC305 证据，禁止自动标记 shipping PASS |
+
+### 唯一可信执行链
+
+1. **合法来源**：精确的来源、模型与参考声音身份及使用权；无独立许可的真人/公开录音禁止声音克隆。原始证据在私有位置按 hash 绑定。
+2. **不可变音频**：先保存原始 waveform、PCM hash、采样格式、真实声源 family / session；衍生 RIR、噪声、远场和变声保留父源谱系，不以新 seed/新名字制造独立说话人。
+3. **自动筛查**：按中文/英文的准确目标词、近音、残缺前缀、跨句残留、普通谈话、媒体/音乐及真实环境负例分类；盲态三 ASR 的一致只产生 *machine-screened candidate*，分歧/不完整/疑似负例中有唤醒词均 HOLD。
+4. **审核与分割**：对争议、同音/不完整词、许可、真实音频进行独立核验。按 speaker + 原始 source + clone/augmentation ancestry + session 防跨 train/development/calibration/test 泄漏；已观察历史音频不得伪造封存资格。
+5. **训练准入**：`kws-pipeline` 的既有 `speech_like_corpus_plan` → `training_admission` 是唯一实际授权链。**仅当真实验证的行数大于 0** 才启动有界、一次只改一变量的训练/模型对照；source-only 计划不授予训练权。
+6. **产品验收**：独立真人最终 AFE 最低 40 人×2 session、≥1200 正例、≥24 小时有效连续负例；同时验收两完整词的 FRR/FAR（含 95% 单侧置信上界）、触发延迟，再完成物理 SSC305 的 CPU/I/O/RSS/功耗/连续运行，最后冻结完整发布元组。参见 [kws-pipeline #691](https://github.com/jiying2007/kws-pipeline/issues/691) 与 [外部产品资格 #2](https://github.com/jiying2007/kws-pipeline/issues/2)。
+
+### 去兼容、去冗余的可执行边界
+
+- 正式数据目录与导出：**`catalog.json` / `tools.codex_assets` 唯一权威**。研究中的请求计划、来源/ASR 收据和模型排行榜**不是**第二个生产 catalog。
+- 历史 research 分支收据、已发表音频/失败证据是不可变审计资产，不纳入默认训练，不对消费链提供历史格式兼容回退。先明确实际消费者并迁移，再删可证明未使用的重复运行器；不得通过改旧 hash、删除固定 evidence 或关闭门禁制造“清理完成”。
+- 新的真实数据批次**发布新不可变 dataset ID、manifest / review / split / rights hash**，不得覆盖已消费的 Qwen42/Qwen16 身份。大文件按不可变对象的内容地址和实际字节验证，私有数据与公共索引严格隔离。
+- 优先运行现有的原生 batch / 三 ASR / pipeline consumer；**不再新造平行的 TTS/ASR runner、虚假的 English shipping phrase、模拟真实 speaker count 或自动批准资格**。
+
+开发数据的现有验证命令：`python3 -m tools.codex_assets verify`。所有未来训练必须使用经批准且 commit/hash 锁定的源，不能从最新版 `main` 隐式接受新数据。
+
+## 历史研究入口（2026-10-07 整理）
 
 - [完整研究索引与当前结论](docs/RESEARCH_INDEX.md)：覆盖 ASR 校准、A20、N0、Cosy49、Qwen6、Melo6、N1 与失败 first-prefix 候选；标明 PASS / FAIL / REJECTED / 待资格验证的实际范围
 - [逐文件来源与保留清单](docs/BRANCH_RETENTION_20261007.json)：23 个远端分支的固定提交、1,180 个新增保留文件、原主线逐文件身份；归档保留不等于模型采用或训练准入
