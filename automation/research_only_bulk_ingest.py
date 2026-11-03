@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Single noncommercial KWS research source importer (no parallel legacy lane).
+"""Single KWS technical-research source importer (no parallel release lane).
 
 Preserves strict original/normalized WAV and source-family evidence, opaque
 speaker IDs, private create-only receipts, and reviewed research-use scope.
@@ -21,9 +21,9 @@ sys.path.insert(0, str(ROOT / "research" / "auto-tts-voice-clone-20261102"))
 import bulk_pool as pool  # noqa: E402
 import open_reference_sources as open_source  # noqa: E402
 
-SCHEMA = "kws-dataset-research-tts-scope-v1"
+SCHEMA = "kws-dataset-research-tts-scope-v2"
 LIMIT = 16
-ALLOWED_PURPOSE = "noncommercial-offline-kws-tts-research"
+ALLOWED_PURPOSE = "offline-kws-tts-research"
 ALLOWED_SOURCE_LICENSE = frozenset(("Apache-2.0", "CC-BY-4.0", "CC0-1.0"))
 CATALOG_SCHEMA = open_source.CATALOG_SCHEMA
 MAX_CATALOG_ENTRIES = 10000
@@ -96,12 +96,12 @@ def publish_private(manifest, rights, audio_root, out):
 
 
 def validate_research_scope(scope, index, research_evidence, license_snapshot):
-    """Validate explicit release-specific research use; no commercial check."""
+    """Validate explicit release-specific offline research scope."""
     require(type(scope) is dict and set(scope) == {
         "schema", "dataset_id", "dataset_release", "source_type",
         "source_license", "source_terms_sha256", "research_review_sha256",
         "intended_use", "research_tts_references_permitted",
-        "commercial_use_permitted", "public_voice_export_permitted",
+        "public_voice_export_permitted",
         "forbidden_uses", "review_status"
     } and scope["schema"] == SCHEMA, "RESEARCH_SCOPE_SCHEMA")
     allowed = open_source.registry()
@@ -124,7 +124,6 @@ def validate_research_scope(scope, index, research_evidence, license_snapshot):
             scope["research_review_sha256"], "RESEARCH_REVIEW_EVIDENCE_DRIFT")
     require(scope["intended_use"] == ALLOWED_PURPOSE and
             scope["research_tts_references_permitted"] is True and
-            scope["commercial_use_permitted"] is False and
             scope["public_voice_export_permitted"] is False and
             scope["forbidden_uses"] == [] and
             scope["review_status"] == "independently-reviewed",
@@ -236,7 +235,7 @@ def main(argv=None):
         "status": "RESEARCH_PRIVATE_SOURCE_ONLY" if args.execute
                   else "RESEARCH_SOURCE_PREVIEW_ONLY",
         "references": len(manifest["references"]),
-        "scope": ALLOWED_PURPOSE, "commercial_use_permitted": False,
+        "scope": ALLOWED_PURPOSE,
         "training_admitted": False, "qualification_allowed": False,
         "shipping_approved": False, "actual_legal_authority_authenticated": False,
         "new_tts_calls": 0, "new_asr_calls": 0
@@ -248,6 +247,6 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except (OSError, ValueError) as exc:
-        print("NONCOMMERCIAL_RESEARCH_INTAKE_HOLD: " + str(exc),
+        print("RESEARCH_SOURCE_INTAKE_HOLD: " + str(exc),
               file=sys.stderr)
         raise SystemExit(2)

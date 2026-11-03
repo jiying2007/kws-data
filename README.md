@@ -5,7 +5,7 @@
 
 ## 2026-11-03 研发目标更新：非商业技术研究
 
-**KWS 当前是 noncommercial technical research，目标是技术效果达到或超过优秀商用方案，不是发布/商用授权。** 按[研究专用数据/模型用途与声源导入说明](automation/RESEARCH_ONLY_REFERENCE_SCOPE.md)，允许在具体开源发布版条款范围内使用 AISHELL-3 等非商业研究语料，以及 F5-TTS 等非商用模型权重作为研究候选；不再要求先证明商业声线克隆许可。`automation/research_only_bulk_ingest.py` 已成为唯一参考声源导入器，直接执行原始 WAV、PCM、匿名身份及研究用途验证。平行商用导入器和兼容层已退役；独立数据审查、目标板性能测试等实验验收要求仍保留。许可快照、研究用途审核和原始声源仍需私有保存；源码验证和人工合成测试不能声称真实语音效果。
+**KWS 当前只有技术研究目标：在独立音频上的唤醒效果、稳定性、实时性和 SSC305 资源表现达到优秀水平。** 按[研究声源与用途规范](automation/RESEARCH_ONLY_REFERENCE_SCOPE.md)，使用实际出版方允许的 AISHELL-3 等研究语料和开源模型；保留版本许可及声源溯源，不把研究流程绑定到非研究用途的审批。`automation/research_only_bulk_ingest.py` 已成为唯一参考声源导入器，直接执行原始 WAV、PCM、匿名身份及研究用途验证。平行商用导入器和兼容层已退役；独立数据审查、目标板性能测试等实验验收要求仍保留。许可快照、研究用途审核和原始声源仍需私有保存；源码验证和人工合成测试不能声称真实语音效果。
 
 ## 2026-11-03 数据准备现状与唯一闭环入口
 
@@ -18,7 +18,7 @@
 | [批量 TTS/克隆/ASR](research/auto-tts-voice-clone-20261102/BULK_AUTOPILOT.md) | 单机有界任务、缓存模型/参考声线、不可变开始/完成收据、独立 pipeline 消费与模拟后端回归测试 | **实现可测，不等于真实音频可用**。仍需合法参考音频、具体声音使用权、模型资产、真实生成/ASR 回执与声线分组的有效正负例率；失败/未知尝试不静默重放 |
 | [中英文 Provider 与请求规划](automation/README.md) | 有界、离线、source-first 的模型/许可候选与三家族 ASR 规划；不调用模型 | **仅 planning**。中文词固定为“你好小窝”“小窝小窝”；英文正式唤醒词尚未授权指定，不根据研究示例发明产品配置 |
 | [真人采集计划](research/field-collection-pilot-20261102/README.md) | 私有采集请求、身份与证据检查的源码及无模型测试 | **并无经证明的真实物理采集和封存验收**。真实录音/同意/房间/设备元数据应保留在受控存储，不公开上传个人声音 |
-| [产品数据闭环跟踪](https://github.com/jiying2007/kws-pipeline/issues/691) | 数据效果/训练准入/比较器/资格门禁在 `kws-pipeline` 跟踪 | 仍缺可证明的训练语音、独立长时负流、真实 FRR/FAR 和最终 AFE/SSC305 证据，禁止自动标记 shipping PASS |
+| [产品数据闭环跟踪](https://github.com/jiying2007/kws-pipeline/issues/691) | 数据效果/训练准入/比较器/资格门禁在 `kws-pipeline` 跟踪 | 仍缺可证明的训练语音、独立长时负流、真实 FRR/FAR 和最终 AFE/SSC305 证据，禁止自动标记效果合格 |
 
 ### 唯一可信执行链
 
@@ -31,10 +31,10 @@
 
 ### 去兼容、去冗余的可执行边界
 
-- 正式数据目录与导出：**`catalog.json` / `tools.codex_assets` 唯一权威**。研究中的请求计划、来源/ASR 收据和模型排行榜**不是**第二个生产 catalog。
+- 正式数据目录与导出：**`catalog.json` / `tools.codex_assets` 唯一权威**。研究中的请求计划、来源/ASR 收据和模型排行榜**不是**第二个研究 catalog。
 - 历史 research 分支收据、已发表音频/失败证据是不可变审计资产，不纳入默认训练，不对消费链提供历史格式兼容回退。先明确实际消费者并迁移，再删可证明未使用的重复运行器；不得通过改旧 hash、删除固定 evidence 或关闭门禁制造“清理完成”。
 - 新的真实数据批次**发布新不可变 dataset ID、manifest / review / split / rights hash**，不得覆盖已消费的 Qwen42/Qwen16 身份。大文件按不可变对象的内容地址和实际字节验证，私有数据与公共索引严格隔离。
-- 优先运行现有的原生 batch / 三 ASR / pipeline consumer；**不再新造平行的 TTS/ASR runner、虚假的 English shipping phrase、模拟真实 speaker count 或自动批准资格**。
+- 优先运行现有的原生 batch / 三 ASR / pipeline consumer；**不再新造平行的 TTS/ASR runner、未经审核的 English keyword、模拟真实 speaker count 或自动批准资格**。
 
 开发数据的现有验证命令：`python3 -m tools.codex_assets verify`。所有未来训练必须使用经批准且 commit/hash 锁定的源，不能从最新版 `main` 隐式接受新数据。
 
@@ -63,14 +63,14 @@ HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python3 -B tools/supervise_bulk_autopilo
 
 ### 公开语料小批量 WAV 自动准备（2026-11-03）
 
-[原始 WAV → 规范 16/24k PCM16 → 哈希及私有转换收据](automation/BOUNDED_CORPUS_PREP.md) 现可离线自动完成每个来源说话人最接近 5 秒参考片段的选择、固定本地 ffmpeg 文件 SHA、拒绝更改源文件和软链接，并直接产生现有开源声源候选导入器接受的私有 source index。不会下载未经许可的音频、执行 TTS/ASR 或自动发放商业声音克隆权限。AISHELL-3 等真实人声须先核实实际版本的商用和声音使用范围；原创合成声线仍可并行研发。
+[原始 WAV → 规范 16/24k PCM16 → 哈希及私有转换收据](automation/BOUNDED_CORPUS_PREP.md) 现可离线自动完成每个来源说话人最接近 5 秒参考片段的选择、固定本地 ffmpeg 文件 SHA、拒绝更改源文件和软链接，并直接产生现有开源声源候选导入器接受的私有 source index。不会下载未经许可的音频、执行 TTS/ASR 或自动伪造声音使用权限。AISHELL-3 等真实人声须先核实实际版本的商用和声音使用范围；原创合成声线仍可并行研发。
 
 ## 历史研究入口（2026-10-07 整理）
 
 - [完整研究索引与当前结论](docs/RESEARCH_INDEX.md)：覆盖 ASR 校准、A20、N0、Cosy49、Qwen6、Melo6、N1 与失败 first-prefix 候选；标明 PASS / FAIL / REJECTED / 待资格验证的实际范围
 - [逐文件来源与保留清单](docs/BRANCH_RETENTION_20261007.json)：23 个远端分支的固定提交、1,180 个新增保留文件、原主线逐文件身份；归档保留不等于模型采用或训练准入
 - 当前判断：原 A20 仍只是**不足的研究基线**；fixed300、Cosy49 和 first-prefix 候选均已停止。Melo 的上下文结果恢复了部分命中，但“小屋”误触发仍在。真人泛化、连续 FAR/FRR、声学词尾延迟和目标板资格均未建立
-- 原 42 条 catalog、split、生产导出逻辑保持原身份。已有公开合成数据与研究权重只保留原权利/用途边界；没有新增私人自然语音、特征或权重，没有启动新采集、训练或推理
+- 原 42 条 catalog、split、冻结导出逻辑保持原身份。已有公开合成数据与研究权重只保留原权利/用途边界；没有新增私人自然语音、特征或权重，没有启动新采集、训练或推理
 
 以下保留原有数据使用说明；历史报告中的阶段性描述请结合上方当前索引阅读。
 
