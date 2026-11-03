@@ -1,4 +1,4 @@
-name: Bulk reviewed multi-speaker KWS voice-clone source checks
+name: Bulk research KWS voice-source and ASR contracts
 on:
   pull_request:
     paths:
@@ -8,7 +8,8 @@ on:
       - research/auto-tts-voice-clone-20261102/BULK_AUTOPILOT.md
       - research/auto-tts-voice-clone-20261102/bulk_pool.py
       - research/auto-tts-voice-clone-20261102/bulk_runner.py
-      - research/auto-tts-voice-clone-20261102/bulk_ingest.py
+      - automation/research_only_bulk_ingest.py
+      - automation/test_research_only_bulk_ingest.py
       - research/auto-tts-voice-clone-20261102/bulk_asr.py
       - research/auto-tts-voice-clone-20261102/test_bulk.py
       - research/auto-tts-voice-clone-20261102/register_bulk_sources.py
@@ -22,7 +23,8 @@ on:
       - research/auto-tts-voice-clone-20261102/BULK_AUTOPILOT.md
       - research/auto-tts-voice-clone-20261102/bulk_pool.py
       - research/auto-tts-voice-clone-20261102/bulk_runner.py
-      - research/auto-tts-voice-clone-20261102/bulk_ingest.py
+      - automation/research_only_bulk_ingest.py
+      - automation/test_research_only_bulk_ingest.py
       - research/auto-tts-voice-clone-20261102/bulk_asr.py
       - research/auto-tts-voice-clone-20261102/test_bulk.py
       - docs/BRANCH_RETENTION_20261007.json
