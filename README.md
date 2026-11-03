@@ -57,6 +57,10 @@ HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python3 -B tools/supervise_bulk_autopilo
 
 已增加 [AISHELL-3、THCHS-30、LibriTTS、Hi-Fi TTS、VCTK 等公开来源候选与本地导入](automation/OPEN_SOURCE_REFERENCES.md)：只从官方许可渠道获得音频，私有机器导入原始/规范 WAV 与不可变转换收据，选择每说话人一条约 5 秒参考并生成原生 `bulk_ingest.py` 兼容的私有候选 catalog。WenetSpeech 等具有非商用/第三方版权风险的来源不进入声音克隆候选。源码和许可标识不等于声音克隆授权；只有独立确认具体条款、声源使用权并通过原生 permit 检查后，才允许下一步 Qwen 声音克隆和严格训练准入。此更新没有下载真实音频或生成新语音。
 
+### 公开语料小批量 WAV 自动准备（2026-11-03）
+
+[原始 WAV → 规范 16/24k PCM16 → 哈希及私有转换收据](automation/BOUNDED_CORPUS_PREP.md) 现可离线自动完成每个来源说话人最接近 5 秒参考片段的选择、固定本地 ffmpeg 文件 SHA、拒绝更改源文件和软链接，并直接产生现有开源声源候选导入器接受的私有 source index。不会下载未经许可的音频、执行 TTS/ASR 或自动发放商业声音克隆权限。AISHELL-3 等真实人声须先核实实际版本的商用和声音使用范围；原创合成声线仍可并行研发。
+
 ## 历史研究入口（2026-10-07 整理）
 
 - [完整研究索引与当前结论](docs/RESEARCH_INDEX.md)：覆盖 ASR 校准、A20、N0、Cosy49、Qwen6、Melo6、N1 与失败 first-prefix 候选；标明 PASS / FAIL / REJECTED / 待资格验证的实际范围

@@ -232,9 +232,9 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1877,
-  "expected_retained_files": 1869,
-  "new_retained_paths": 1223,
+  "expected_tracked_files": 1881,
+  "expected_retained_files": 1873,
+  "new_retained_paths": 1227,
   "integration_files": [
     ".github/workflows/research-retention.yml",
     "README.md",
@@ -20419,6 +20419,34 @@
       "git_blob_sha1": "57e11157b679daec1b0d9f9e6f051af48f6eb662",
       "bytes": 1518,
       "source_commit": "89e403e8bb20a18db909470a0d011510e32bbd0e"
+    },
+    {
+      "path": "automation/prepare_open_reference_pilot.py",
+      "mode": "100644",
+      "git_blob_sha1": "4105990e169504ecf65d4f19b514934a05fe168b",
+      "bytes": 12981,
+      "source_commit": "b033556d85f2aff184b3fb2e0a51568b992864b0"
+    },
+    {
+      "path": "automation/test_prepare_open_reference_pilot.py",
+      "mode": "100644",
+      "git_blob_sha1": "7605927b6c4d40f66a59540f0e39c5b5ab31f206",
+      "bytes": 8256,
+      "source_commit": "b033556d85f2aff184b3fb2e0a51568b992864b0"
+    },
+    {
+      "path": ".github/workflows/bounded-open-corpus-prep.yml",
+      "mode": "100644",
+      "git_blob_sha1": "37d8244dd35b6e14f547691b1347d4a7af7a5abc",
+      "bytes": 1809,
+      "source_commit": "b033556d85f2aff184b3fb2e0a51568b992864b0"
+    },
+    {
+      "path": "automation/BOUNDED_CORPUS_PREP.md",
+      "mode": "100644",
+      "git_blob_sha1": "8bc5640a55ab6d2cc04786b83c519ee8fef72b19",
+      "bytes": 3982,
+      "source_commit": "b033556d85f2aff184b3fb2e0a51568b992864b0"
     }
   ],
   "source_registration_history": [
@@ -21195,6 +21223,31 @@
         ],
         "clone_permissions_auto_granted": 0,
         "private_audio_uploaded": 0,
+        "model_calls": 0,
+        "training_admitted": false,
+        "qualification_allowed": false,
+        "shipping_approved": false
+      }
+    },
+    {
+      "campaign": "source-pinned-official-wav-normalization-20261103",
+      "source_commit": "b033556d85f2aff184b3fb2e0a51568b992864b0",
+      "paths": [
+        "automation/prepare_open_reference_pilot.py",
+        "automation/test_prepare_open_reference_pilot.py",
+        ".github/workflows/bounded-open-corpus-prep.yml",
+        "automation/BOUNDED_CORPUS_PREP.md"
+      ],
+      "previous_campaign_rows": [],
+      "previous_manifest_git_blob_sha1": "59ade2cc9ae434480b358ef841ac382515f87c11",
+      "scope": "No-model 8-speaker official-corpus WAV normalization with pinned local ffmpeg and revalidation by existing open reference candidate importer; no real corpus download, cloning permission, training or production qualification",
+      "validation": {
+        "modes": [
+          "normal",
+          "-O",
+          "-OO"
+        ],
+        "synthesized_pcm_fixtures_only": true,
         "model_calls": 0,
         "training_admitted": false,
         "qualification_allowed": false,
