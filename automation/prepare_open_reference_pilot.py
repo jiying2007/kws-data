@@ -160,6 +160,15 @@ def build(selection, original_root, license_file, output_root, *,
     if need_convert:
         require(converter is not None and converter_sha is not None,
                 "PINNED_FFMPEG_REQUIRED")
+        # Verify the expensive conversion prerequisite BEFORE allocating any
+        # private output. A bad executable/digest must not strand a partial run.
+        program = Path(converter)
+        require(program.is_absolute() and
+                not any(x.is_symlink() for x in (program, *program.parents)),
+                "FFMPEG_PATH_ALIAS")
+        require(type(converter_sha) is str and SHA.fullmatch(converter_sha) and
+                reference.sha_file(program, MAX_EXECUTABLE_BYTES) == converter_sha,
+                "FFMPEG_EXECUTABLE_DRIFT")
     if not execute:
         return {"status": "SOURCE_PREVIEW_ONLY", "selected": len(chosen),
                 "resample_required": sum(info["rate"] not in (16000, 24000)
