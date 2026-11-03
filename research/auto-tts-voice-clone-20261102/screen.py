@@ -144,7 +144,7 @@ def screen_campaign(plan,generated_root,asr_root,adapters):
         "adapter_lock_sha256":expected["adapter_lock_sha256"],
         "rows":outputs,"counts":counts,
         "human_gold":False,"training_admitted":False,
-        "qualification_allowed":False,"shipping_approved":False,
+        "qualification_allowed":False,
         "real_human_qualification":False,
         "status":"MACHINE_SCREENING_DEVELOPMENT_ONLY"}
 

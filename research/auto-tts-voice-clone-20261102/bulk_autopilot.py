@@ -277,8 +277,7 @@ def execute(plan, sources, audio_root, workspace, adapters, *,
                   "new_tts_calls": final["tts_started"] - before["tts_started"],
                   "new_asr_calls": final["asr_started"] - before["asr_started"],
                   "checkpoint_sha256": digest(latest) if latest is not None else None,
-                  "training_admitted": False, "qualification_allowed": False,
-                  "shipping_approved": False}
+                  "training_admitted": False, "qualification_allowed": False}
         return result
 
 def main(argv=None):

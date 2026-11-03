@@ -288,8 +288,7 @@ def plan(manifest, audio_root, *, repetitions=2, batch_id="pilot01",
         "repetitions": repetitions, "model_calls": 0,
         "source_rights_authenticated": False,
         "actual_spoken_labels_verified": False,
-        "training_admitted": False, "qualification_allowed": False,
-        "shipping_approved": False
+        "training_admitted": False, "qualification_allowed": False
     }
 
 
@@ -299,15 +298,14 @@ def verify_plan(value):
         "source_manifest_sha256","references","cells","budgets",
         "repetitions","model_calls","source_rights_authenticated",
         "actual_spoken_labels_verified","training_admitted",
-        "qualification_allowed","shipping_approved"
+        "qualification_allowed"
     } and value.get("schema") == PLAN_SCHEMA, "PLAN_SCHEMA")
     # No source WAV at this stage; prove immutable plan identity by checking
     # the original private source during run with a separate rehash.
     require(value.get("training_admitted") is False and
             value.get("qualification_allowed") is False and
             value.get("source_rights_authenticated") is False and
-            value.get("actual_spoken_labels_verified") is False and
-            value.get("shipping_approved") is False, "UNTRUSTED_PLAN_AUTHORITY")
+            value.get("actual_spoken_labels_verified") is False, "UNTRUSTED_PLAN_AUTHORITY")
     refs = value.get("references")
     cells = value.get("cells")
     require(type(refs) is list and 1 <= len(refs) <= MAX_REFERENCES and
