@@ -24,10 +24,10 @@ is MIT but **official model weights** use a separate FunASR Model Open
 Source License Agreement: inspect the actual pinned revision and required
 attribution/model-name terms. Similarly, sherpa/WeKWS **code** licenses
 do not automatically license any separate model artifact, and each Piper
-voice has its own license. Official F5-TTS pretrained weights are non-
-commercial; bundled openWakeWord pretrained models are CC BY-NC-SA,
-even though the respective frameworks have permissive code licenses.
-Their exact release-specific weight permissions must be recorded before any use.
+voice has its own license. Official F5-TTS pretrained weights are CC BY-NC-4.0 and bundled
+openWakeWord pretrained weights are CC BY-NC-SA. Both may be evaluated
+as pinned offline technical research candidates under their exact source terms;
+they do not have runnable adapters here. This planning code never calls a model.
 
 Source verification:
 - https://github.com/QwenLM/Qwen3-TTS
@@ -57,9 +57,10 @@ with:
 - Positive / phonetic near-miss / ordinary-negative classes, plus a
   requested \`challenge\` subtype. Requested words never certify what
   the WAV actually contains; samples remain machine-screen candidates.
-- Version/asset hash and model-license review hash for each selected
-  provider, exactly three distinct ASR family IDs and weight identities,
-  all pretrained weights require release-specific provenance and appropriate research permissions.
+- Version/asset hash and source-specific license-review hash for each selected
+  provider, exactly three distinct ASR family IDs and weight identities.
+  Study-only checkpoints are accepted as pinned candidates when their actual
+  source terms permit the research; model execution remains separately gated.
 - Original source-family, split and reference PCM/rights evidence binding
   for cloning. Public dataset license alone does NOT establish permission
   to clone someone's recognizable voice. A local JSON declaration of
