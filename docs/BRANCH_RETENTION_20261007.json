@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1857,
-  "expected_retained_files": 1849,
+  "expected_tracked_files": 1865,
+  "expected_retained_files": 1857,
   "new_retained_paths": 1211,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -20220,9 +20220,9 @@
     {
       "path": ".github/workflows/bulk-licensed-clone-20261102.yml",
       "mode": "100644",
-      "git_blob_sha1": "96b1af0765285bb9343fa22e4b2c0265741c5a18",
-      "bytes": 4840,
-      "source_commit": "6797b82916c5b2cf0d1bed953188a39404150e5e"
+      "git_blob_sha1": "dde352722096e9764fddb807ef7638e4e63708ff",
+      "bytes": 6335,
+      "source_commit": "3ca9db99d3574812745c3fbea5cc91e1ffab95b7"
     },
     {
       "path": "research/auto-tts-voice-clone-20261102/BULK_CLONE.md",
@@ -20279,6 +20279,62 @@
       "git_blob_sha1": "a139331011dbcf4a356c848d79eb2c95f8c3365c",
       "bytes": 6268,
       "source_commit": "d0aa25b70681698a187a7820403775356b1dcfc6"
+    },
+    {
+      "path": ".github/workflows/bilingual-kws-provider-contracts.yml",
+      "mode": "100644",
+      "git_blob_sha1": "538015261ad5e85206e6e32712f8e285d1ab3dfe",
+      "bytes": 1602,
+      "source_commit": "6cf785ebb76fcf4a1678cfcedac1f401c73a4c28"
+    },
+    {
+      "path": "automation/README.md",
+      "mode": "100644",
+      "git_blob_sha1": "818977a62fcbf0ac9f170ee596993e90d1646591",
+      "bytes": 7558,
+      "source_commit": "6cf785ebb76fcf4a1678cfcedac1f401c73a4c28"
+    },
+    {
+      "path": "automation/multilingual_campaign.py",
+      "mode": "100644",
+      "git_blob_sha1": "11a7c8a14c86ff48df37b6f5ff2b1f8daba65a26",
+      "bytes": 15860,
+      "source_commit": "6cf785ebb76fcf4a1678cfcedac1f401c73a4c28"
+    },
+    {
+      "path": "automation/providers.v1.json",
+      "mode": "100644",
+      "git_blob_sha1": "4d190f2e673de5a5897d894d5dec85868647dc97",
+      "bytes": 7478,
+      "source_commit": "6cf785ebb76fcf4a1678cfcedac1f401c73a4c28"
+    },
+    {
+      "path": "automation/test_multilingual_campaign.py",
+      "mode": "100644",
+      "git_blob_sha1": "db52c9d075b09d3cac45df0e6688003f026dc328",
+      "bytes": 10158,
+      "source_commit": "6cf785ebb76fcf4a1678cfcedac1f401c73a4c28"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/bulk_autopilot.py",
+      "mode": "100644",
+      "git_blob_sha1": "189172c5a10a9b4d9224d4f55e4a3d6734d34148",
+      "bytes": 16547,
+      "source_commit": "3ca9db99d3574812745c3fbea5cc91e1ffab95b7"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/test_bulk_autopilot.py",
+      "mode": "100644",
+      "git_blob_sha1": "52d4c011fb870b5db13c22e917cf3bd655b539dc",
+      "bytes": 12188,
+      "source_commit": "3ca9db99d3574812745c3fbea5cc91e1ffab95b7"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/BULK_AUTOPILOT.md",
+      "mode": "100644",
+      "git_blob_sha1": "f7641d118425e9a6e9755e60ed6e0cd2a91a219d",
+      "bytes": 1867,
+      "source_commit": "3ca9db99d3574812745c3fbea5cc91e1ffab95b7"
     }
   ],
   "source_registration_history": [
@@ -20944,6 +21000,48 @@
         "field_binding": "31 tests each normal/O/OO;93 synthetic test executions independently checked",
         "prior_test_draft": "field v1 weak counterexamples rejected in static review;v2 exact errors and WAV-read sentinel retained"
       }
+    },
+    {
+      "campaign": "multilingual-source-first-kws-provider-policy-20261103",
+      "source_commit": "6cf785ebb76fcf4a1678cfcedac1f401c73a4c28",
+      "paths": [
+        ".github/workflows/bilingual-kws-provider-contracts.yml",
+        "automation/README.md",
+        "automation/multilingual_campaign.py",
+        "automation/providers.v1.json",
+        "automation/test_multilingual_campaign.py"
+      ],
+      "previous_manifest_git_blob_sha1": "27eb94c0305d5780b1332da6f48b60aab70081a5",
+      "previous_campaign_rows": [],
+      "scope": "source-only bilingual Mandarin/English provider-license selection, pinned reference/prompt campaign planning and three-ASR independent-family contracts; no TTS/ASR model execution, training, human review or shipping authority"
+    },
+    {
+      "campaign": "bounded-bulk-autopilot-20261103",
+      "source_commit": "3ca9db99d3574812745c3fbea5cc91e1ffab95b7",
+      "paths": [
+        ".github/workflows/bulk-licensed-clone-20261102.yml",
+        "research/auto-tts-voice-clone-20261102/BULK_AUTOPILOT.md",
+        "research/auto-tts-voice-clone-20261102/bulk_autopilot.py",
+        "research/auto-tts-voice-clone-20261102/test_bulk_autopilot.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/bulk-licensed-clone-20261102.yml",
+          "mode": "100644",
+          "git_blob_sha1": "96b1af0765285bb9343fa22e4b2c0265741c5a18",
+          "bytes": 4840,
+          "source_commit": "6797b82916c5b2cf0d1bed953188a39404150e5e"
+        }
+      ],
+      "scope": "public bounded bulk automation and pinned offline consumer; fake backend validation only; no new model execution, training admission or product qualification",
+      "validation": {
+        "normal_tests": 19,
+        "explicit_pipeline_env_tests": 19,
+        "real_model_calls": 0,
+        "wall_budget_semantics": "launch cutoff; no per-call TTS preemption"
+      },
+      "integration_base_commit": "753522786632702129585d29127d46ece64cdc52",
+      "previous_manifest_git_blob_sha1": "c303bf93c3a29cc2941fcc0dd3b0c7624f9239ee"
     }
   ]
 }

@@ -1,0 +1,46 @@
+name: Bilingual KWS provider source contracts - no models
+on:
+  pull_request:
+    paths:
+      - 'automation/**'
+      - '.github/workflows/bilingual-kws-provider-contracts.yml'
+      - 'docs/BRANCH_RETENTION_20261007.json'
+  push:
+    branches: [main]
+    paths:
+      - 'automation/**'
+      - '.github/workflows/bilingual-kws-provider-contracts.yml'
+      - 'docs/BRANCH_RETENTION_20261007.json'
+permissions:
+  contents: read
+concurrency:
+  group: bilingual-provider-contracts-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  contract-only:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned SHA
+        with:
+          persist-credentials: false
+      - name: Bilingual provider policy and synthetic-only regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in
+              optimized) args=(-O);;
+              stripped) args=(-OO);;
+            esac
+            python3 -I -S -B "${args[@]}" automation/test_multilingual_campaign.py -v
+          done
+          test -z "$(git status --porcelain)"
+      - name: Verify closed retained-source inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
