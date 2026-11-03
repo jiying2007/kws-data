@@ -232,9 +232,9 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1865,
-  "expected_retained_files": 1857,
-  "new_retained_paths": 1211,
+  "expected_tracked_files": 1868,
+  "expected_retained_files": 1860,
+  "new_retained_paths": 1214,
   "integration_files": [
     ".github/workflows/research-retention.yml",
     "README.md",
@@ -20335,6 +20335,27 @@
       "git_blob_sha1": "f7641d118425e9a6e9755e60ed6e0cd2a91a219d",
       "bytes": 1867,
       "source_commit": "3ca9db99d3574812745c3fbea5cc91e1ffab95b7"
+    },
+    {
+      "path": "tools/supervise_bulk_autopilot.py",
+      "mode": "100644",
+      "git_blob_sha1": "c4dbc79da1d7d76c18c6754605deb9303e3dfbe8",
+      "bytes": 7899,
+      "source_commit": "2513f8f6eb1fee0e7f35af43e0bb6d73030bbb1e"
+    },
+    {
+      "path": "tests/test_supervise_bulk_autopilot.py",
+      "mode": "100644",
+      "git_blob_sha1": "a934a62026ff1d530e2c7878f4bec28abaab1376",
+      "bytes": 6343,
+      "source_commit": "2513f8f6eb1fee0e7f35af43e0bb6d73030bbb1e"
+    },
+    {
+      "path": ".github/workflows/supervise-bulk-autopilot.yml",
+      "mode": "100644",
+      "git_blob_sha1": "f98217afe9c4e6ece461c331fedd5b4c08c8320d",
+      "bytes": 1264,
+      "source_commit": "2513f8f6eb1fee0e7f35af43e0bb6d73030bbb1e"
     }
   ],
   "source_registration_history": [
@@ -21042,6 +21063,29 @@
       },
       "integration_base_commit": "753522786632702129585d29127d46ece64cdc52",
       "previous_manifest_git_blob_sha1": "c303bf93c3a29cc2941fcc0dd3b0c7624f9239ee"
+    },
+    {
+      "campaign": "qwen-bulk-supervised-hard-deadline-20261103",
+      "source_commit": "2513f8f6eb1fee0e7f35af43e0bb6d73030bbb1e",
+      "paths": [
+        "tools/supervise_bulk_autopilot.py",
+        "tests/test_supervise_bulk_autopilot.py",
+        ".github/workflows/supervise-bulk-autopilot.yml"
+      ],
+      "previous_campaign_rows": [],
+      "previous_manifest_git_blob_sha1": "df7cc0beb650a2cb3a3c34a7aa60636dd4fc3e8b",
+      "scope": "new bounded Linux process-group supervisor around the original resident Qwen autopilot; fake subprocess contract tests only; no TTS/ASR inference, retries, rights, training or qualification authority",
+      "validation": {
+        "source_only_modes": [
+          "normal",
+          "-O",
+          "-OO"
+        ],
+        "model_calls": 0,
+        "training_admitted": false,
+        "qualification_allowed": false,
+        "shipping_approved": false
+      }
     }
   ]
 }
