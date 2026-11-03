@@ -163,11 +163,23 @@ class OpenSourceCandidateTests(unittest.TestCase):
         self.assertEqual(cat["rows"][-1]["reference_text_status"], "unknown")
 
     def test_duplicate_pcm_and_same_original_cross_speaker_rejected(self):
-        self.add_clip("speaker-three", "three-5", 5, 2000)
+        self.add_clip("speaker-three", "three-5", 5, 4000, converted=True)
+        third = self.index["rows"][-1]
+        wav = self.normalized / third["normalized_path"]
+        wav.write_bytes((self.normalized / "two-5.wav").read_bytes())
+        third["normalized_sha256"] = hexdigest(wav.read_bytes())
+        receipt = self.evidence / third["conversion_receipt_path"]
+        value = json.loads(receipt.read_text())
+        value["normalized_sha256"] = third["normalized_sha256"]
+        receipt.write_bytes(pool.canonical(value))
         with self.assertRaisesRegex(ValueError, "CROSS_SPEAKER_DUPLICATE_NORMALIZED_PCM"):
             self.run_catalog()
-        self.index["rows"][-1]["original_sha256"] = self.index["rows"][1]["original_sha256"]
-        with self.assertRaisesRegex(ValueError, "ORIGINAL_DATASET_AUDIO_CHANGED"):
+        # A raw original clip cannot be relabelled as a new source speaker.
+        self.index["rows"][-1]["original_path"] = "two-5.wav"
+        self.index["rows"][-1]["original_sha256"] = self.index["rows"][2]["original_sha256"]
+        value["original_sha256"] = self.index["rows"][-1]["original_sha256"]
+        receipt.write_bytes(pool.canonical(value))
+        with self.assertRaisesRegex(ValueError, "CROSS_SPEAKER_SAME_SOURCE_AUDIO"):
             self.run_catalog()
 
     def test_output_create_once_0600_and_stdout_has_no_speaker_identity(self):
