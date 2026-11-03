@@ -74,7 +74,6 @@ class ResearchOnlySourceTests(unittest.TestCase):
                       "research_review_sha256": sha(self.review),
                       "intended_use": research.ALLOWED_PURPOSE,
                       "research_tts_references_permitted": True,
-                      "commercial_use_permitted": False,
                       "public_voice_export_permitted": False,
                       "forbidden_uses": [],
                       "review_status": "independently-reviewed"}
@@ -86,7 +85,7 @@ class ResearchOnlySourceTests(unittest.TestCase):
                                 self.terms, self.scope, self.review, self.key,
                                 **values)
 
-    def test_research_scope_works_without_commercial_permission(self):
+    def test_research_scope_has_no_release_permission_field(self):
         manifest, rights = self.prepare()
         self.assertEqual(len(manifest["references"]), 2)
         self.assertEqual(len(rights), 2)
@@ -95,8 +94,8 @@ class ResearchOnlySourceTests(unittest.TestCase):
         self.assertTrue(all(row["reference_text_status"] == "unknown"
                             for row in manifest["references"]))
         self.assertEqual(len({x["source_family_id"] for x in manifest["references"]}), 2)
-        altered = dict(self.scope, commercial_use_permitted=True)
-        with self.assertRaisesRegex(ValueError, "RESEARCH_TTS_SCOPE_NOT_REVIEWED"):
+        altered = dict(self.scope, obsolete_release_flag=True)
+        with self.assertRaisesRegex(ValueError, "RESEARCH_SCOPE_SCHEMA"):
             research.validate_research_scope(
                 altered, self.index, self.review, self.terms.read_bytes())
         self.assertFalse(
@@ -121,10 +120,10 @@ class ResearchOnlySourceTests(unittest.TestCase):
         for patch in (
             {"research_tts_references_permitted": False},
             {"review_status": "not-reviewed"},
-            {"commercial_use_permitted": True},
+            {"obsolete_release_flag": True},
             {"public_voice_export_permitted": True},
             {"forbidden_uses": ["cloning"]},
-            {"intended_use": "production-release"},
+            {"intended_use": "unrelated-execution-mode"},
             {"research_review_sha256": "0" * 64},
         ):
             with self.subTest(patch=patch):
@@ -145,7 +144,7 @@ class ResearchOnlySourceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "ORIGINAL_DATASET_AUDIO_CHANGED"):
             self.prepare()
 
-    def test_source_registry_rejects_noncommercial_media_clone_lane(self):
+    def test_source_registry_rejects_unreviewed_media_clone_lane(self):
         self.index["dataset_id"] = "wenetspeech-slr121"
         self.scope["dataset_id"] = "wenetspeech-slr121"
         with self.assertRaisesRegex(ValueError, "DATASET_NOT_ELIGIBLE_FOR_RESEARCH_TTS_REFERENCE"):

@@ -53,9 +53,9 @@ python3 -B automation/prepare_open_reference_pilot.py \
 
 私有目录仅创建一次（0700），包含 source-index.json、normalized/*.wav、conversions/*.json；索引及转换收据为 0600。所有输出只代表未许可/未训练的 candidate。转换执行有 30 秒硬超时、无 shell、不传递任何用户 token；失败可能留下不完整目录，不允许自动覆盖、假定成功或重放未知状态。
 
-继续复用原生 open_reference_sources.py 做源 WAV/规范 WAV/转换收据二次验证。只有具体来源版本与非商业研究 TTS 用途已得到独立审阅后，才能使用唯一的 research_only_bulk_ingest.py 读取研究 scope、审阅证据与 HMAC 去标识并继续 KWS 数据审查；研究权限不授予商用或公开声线分发权限。公开数据许可证并不自动代表商用声音克隆许可。
+继续复用原生 open_reference_sources.py 做源 WAV/规范 WAV/转换收据二次验证。只有实际版本的来源条款及离线 TTS 研究用途得到审阅后，才可使用唯一的 research_only_bulk_ingest.py 核对研究 scope、审阅证据、HMAC 私有匿名化并继续 KWS 数据审查。公开数据许可证不自动赋予可识别真人声音的所有使用或公开传播权限。
 
-本工具不会创建真实 TTS、ASR、CTC 训练数据、human gold、FRR/FAR 或 SSC305 生产资格。即使预检 PASS，也必须在私有实际模型和人工/机器审核证据上继续完成训练准入。
+本工具不会创建真实 TTS、ASR、CTC 训练数据、human gold、FRR/FAR 或 SSC305 实测结果。即使预检 PASS，也必须在私有实际模型和人工/机器审核证据上继续完成训练准入。
 
 ## 测试
 

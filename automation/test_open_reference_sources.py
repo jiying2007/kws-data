@@ -122,7 +122,6 @@ class OpenSourceCandidateTests(unittest.TestCase):
                  "research_review_sha256": hexdigest(b"not-reviewed"),
                  "intended_use": importer.ALLOWED_PURPOSE,
                  "research_tts_references_permitted": False,
-                 "commercial_use_permitted": False,
                  "public_voice_export_permitted": False,
                  "forbidden_uses": [], "review_status": "unreviewed"}
         with self.assertRaisesRegex(ValueError, "RESEARCH_TTS_SCOPE_NOT_REVIEWED"):

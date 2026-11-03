@@ -1,8 +1,8 @@
 # Source-first bilingual KWS provider contract (zh-CN / en-US)
 
 **Status: research planning and offline source-only CI; no pretrained weight
-is downloaded or executed, no human sample is imported or cloned, no training
-root is admitted and no model is shipping-approved.**
+is downloaded or executed, no human sample is imported or cloned, and no
+training root or new evaluation result is established.**
 
 This is an additive **v1 research protocol**, not a replacement for existing
 \`research/auto-tts-voice-clone-20261102\` and
@@ -27,7 +27,7 @@ do not automatically license any separate model artifact, and each Piper
 voice has its own license. Official F5-TTS pretrained weights are non-
 commercial; bundled openWakeWord pretrained models are CC BY-NC-SA,
 even though the respective frameworks have permissive code licenses.
-Neither is admitted as a commercial data/model weight by this plan.
+Their exact release-specific weight permissions must be recorded before any use.
 
 Source verification:
 - https://github.com/QwenLM/Qwen3-TTS
@@ -50,7 +50,7 @@ not a caller-supplied URL. Its checked-in SHA is included in each plan.
 with:
 - \`locale=zh-CN\`: exactly **你好小窝** / **小窝小窝**, both complete,
   one independent positive request per keyword. \`小窝\` alone is negative.
-  No implicit Mandarin shipping config or frozen model change.
+  No implicit Mandarin experiment config or frozen model change.
 - \`locale=en-US\`: **actual user-defined, multiword English wake phrase**.
   The repo has no authorized product English phrase; do **not** invent one.
   English tests use an explicitly fabricated phrase as a protocol fixture.
@@ -59,7 +59,7 @@ with:
   the WAV actually contains; samples remain machine-screen candidates.
 - Version/asset hash and model-license review hash for each selected
   provider, exactly three distinct ASR family IDs and weight identities,
-  no noncommercial pretrained weight selected.
+  all pretrained weights require release-specific provenance and appropriate research permissions.
 - Original source-family, split and reference PCM/rights evidence binding
   for cloning. Public dataset license alone does NOT establish permission
   to clone someone's recognizable voice. A local JSON declaration of
@@ -129,7 +129,7 @@ requests, duplicated PCM/source ancestry, and truncated words. Never
 promote a machine-screen-only record to independent FRR/FAR acceptance.
 Use only verified reviewed train sources for model optimization, source-
 disjoint development for data/model comparisons, and sealed new real-human
-final-AFE/SSC305 tests before shipping.
+final-AFE/SSC305 tests before drawing any independent model-quality conclusion.
 
 Next path: \`kws-data\` candidate source → private actual TTS/ASR and
 authenticated label source → \`kws-pipeline\` real training admission
