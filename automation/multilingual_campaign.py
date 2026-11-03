@@ -39,7 +39,7 @@ CANONICAL_CHINESE = ("你好小窝", "小窝小窝")
 PLANNING_ONLY = {
     "human_gold": False, "source_rights_authenticated": False,
     "asr_source_authenticated": False, "training_admitted": False,
-    "qualification_allowed": False, "shipping_approved": False,
+    "independent_acceptance_evidence": False,
     "model_calls_executed": 0, "next_campaign_authorized": False,
 }
 
@@ -123,7 +123,7 @@ def catalog() -> dict[str, dict]:
              all(locale in LANGUAGES for locale in row["languages"]) and
              len(set(row["languages"])) == len(row["languages"]) and
              row["license_status"] in
-             ("candidate-permissive", "source-review-required", "blocked-noncommercial") and
+             ("candidate-permissive", "source-review-required", "research-terms-review-required") and
              type(row["family"]) is str and row["family"] and
              type(row["upstream_model"]) is str and row["upstream_model"] and
              type(row["checkpoint_license"]) is str and row["checkpoint_license"],
@@ -145,8 +145,6 @@ def choose(value: object, role: str, locale: str, providers: dict) -> list[dict]
         source = providers[key]
         need(source["role"] == role and locale in source["languages"],
              "PROVIDER_LANGUAGE_OR_ROLE_UNSUPPORTED")
-        need(source["license_status"] != "blocked-noncommercial",
-             "NONCOMMERCIAL_MODEL_NOT_PERMITTED")
         need(key not in ids and source["family"] not in families,
              "MODEL_FAMILY_NOT_INDEPENDENT")
         revision = hex_sha(row["revision_sha"], 40, "MODEL_REVISION_NOT_PINNED")
@@ -186,7 +184,7 @@ def plan(request: dict) -> dict:
          "DUPLICATE_OR_EMPTY_WAKE")
     if locale == "zh-CN":
         need(tuple(normalized) == CANONICAL_CHINESE,
-             "CHINESE_PRODUCT_WAKE_LIST_MUST_REMAIN_FROZEN")
+             "CHINESE_RESEARCH_WAKE_LIST_MUST_REMAIN_FROZEN")
     else:
         need(all(len(w.split()) >= 2 for w in normalized),
              "ENGLISH_WAKE_MUST_BE_EXPLICIT_MULTIWORD")
@@ -285,8 +283,7 @@ def plan(request: dict) -> dict:
                                  "text_requested": entry["text_requested"],
                                  "source_origin_kind": voice["origin_kind"],
                                  "synthetic": True, "actual_text_verified": False,
-                                 "training_admitted": False,
-                                 "qualification_allowed": False})
+                                 "training_admitted": False})
     rows.sort(key=lambda x: x["cell_id"])
     need(len({x["cell_id"] for x in rows}) == len(rows), "DUPLICATE_CAMPAIGN_CELL")
     return {

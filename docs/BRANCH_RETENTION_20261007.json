@@ -20283,30 +20283,30 @@
     {
       "path": "automation/README.md",
       "mode": "100644",
-      "git_blob_sha1": "b7c6b14508b4bab6c3bedc731b0a167e9a4354cc",
-      "bytes": 7663,
-      "source_commit": "a0ed1ccc11672e6738b882ca528c19a3767e348a"
+      "git_blob_sha1": "0e8e4e4d9097c654f060bde75984b6afc3b55b67",
+      "bytes": 7718,
+      "source_commit": "81495d90863efb6e1ce97952ebf0baca8c8ae466"
     },
     {
       "path": "automation/multilingual_campaign.py",
       "mode": "100644",
-      "git_blob_sha1": "11a7c8a14c86ff48df37b6f5ff2b1f8daba65a26",
-      "bytes": 15860,
-      "source_commit": "6cf785ebb76fcf4a1678cfcedac1f401c73a4c28"
+      "git_blob_sha1": "64bf3632777f49bb530c3268fbab389f616de8f3",
+      "bytes": 15671,
+      "source_commit": "0da8c36acc5e83193665544014d03cb74fe8a1be"
     },
     {
       "path": "automation/providers.v1.json",
       "mode": "100644",
-      "git_blob_sha1": "4d190f2e673de5a5897d894d5dec85868647dc97",
-      "bytes": 7478,
-      "source_commit": "6cf785ebb76fcf4a1678cfcedac1f401c73a4c28"
+      "git_blob_sha1": "4a358e78b83f3621d67af029f396a332c33de7de",
+      "bytes": 7475,
+      "source_commit": "71331ca6259651b87535c946c449efc2e9b8db91"
     },
     {
       "path": "automation/test_multilingual_campaign.py",
       "mode": "100644",
-      "git_blob_sha1": "db52c9d075b09d3cac45df0e6688003f026dc328",
-      "bytes": 10158,
-      "source_commit": "6cf785ebb76fcf4a1678cfcedac1f401c73a4c28"
+      "git_blob_sha1": "3c224d936ef48d9a77751f49f0a0e0bbfcb897f6",
+      "bytes": 11136,
+      "source_commit": "f8f997fa61a5539579bb0a65e9dae500d6a22f5e"
     },
     {
       "path": "research/auto-tts-voice-clone-20261102/bulk_autopilot.py",
@@ -21488,6 +21488,55 @@
         "model_calls": 0,
         "new_training_claims": 0,
         "scope_v2_only": true
+      }
+    },
+    {
+      "campaign": "research-only-multilingual-planner-boundary-20261103",
+      "source_commit": "81495d90863efb6e1ce97952ebf0baca8c8ae466",
+      "paths": [
+        "automation/multilingual_campaign.py",
+        "automation/providers.v1.json",
+        "automation/test_multilingual_campaign.py",
+        "automation/README.md"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/multilingual_campaign.py",
+          "mode": "100644",
+          "git_blob_sha1": "11a7c8a14c86ff48df37b6f5ff2b1f8daba65a26",
+          "bytes": 15860,
+          "source_commit": "6cf785ebb76fcf4a1678cfcedac1f401c73a4c28"
+        },
+        {
+          "path": "automation/providers.v1.json",
+          "mode": "100644",
+          "git_blob_sha1": "4d190f2e673de5a5897d894d5dec85868647dc97",
+          "bytes": 7478,
+          "source_commit": "6cf785ebb76fcf4a1678cfcedac1f401c73a4c28"
+        },
+        {
+          "path": "automation/test_multilingual_campaign.py",
+          "mode": "100644",
+          "git_blob_sha1": "db52c9d075b09d3cac45df0e6688003f026dc328",
+          "bytes": 10158,
+          "source_commit": "6cf785ebb76fcf4a1678cfcedac1f401c73a4c28"
+        },
+        {
+          "path": "automation/README.md",
+          "mode": "100644",
+          "git_blob_sha1": "b7c6b14508b4bab6c3bedc731b0a167e9a4354cc",
+          "bytes": 7663,
+          "source_commit": "a0ed1ccc11672e6738b882ca528c19a3767e348a"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "a0002973c9d372b5770f99f4c70fe581b99f6763",
+      "scope": "Remove active shipping and commercial approval fields from research-only data plans, preserve pinned license terms and voice-use evidence, allow research-limited catalog entries as nonexecutable candidates, and retain immutable historical records without training admission.",
+      "validation": {
+        "model_calls": 0,
+        "network_calls": 0,
+        "real_dataset_downloads": 0,
+        "new_training_claims": 0,
+        "python38_kept": true
       }
     }
   ]
