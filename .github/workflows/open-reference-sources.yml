@@ -1,0 +1,44 @@
+name: Open-source KWS reference candidate contracts (no voice model)
+
+on:
+  pull_request:
+    paths:
+      - automation/open_reference_datasets.v1.json
+      - automation/open_reference_sources.py
+      - automation/test_open_reference_sources.py
+      - automation/OPEN_SOURCE_REFERENCES.md
+      - .github/workflows/open-reference-sources.yml
+      - docs/BRANCH_RETENTION_20261007.json
+      - README.md
+  push:
+    branches: [main]
+    paths:
+      - automation/open_reference_datasets.v1.json
+      - automation/open_reference_sources.py
+      - automation/test_open_reference_sources.py
+      - automation/OPEN_SOURCE_REFERENCES.md
+      - .github/workflows/open-reference-sources.yml
+      - docs/BRANCH_RETENTION_20261007.json
+      - README.md
+
+permissions:
+  contents: read
+
+jobs:
+  source-only-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Fake PCM only, no public audio download or voice cloning
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/test_open_reference_sources.py -v
+          python3 -I -S -B -O automation/test_open_reference_sources.py -v
+          python3 -I -S -B -OO automation/test_open_reference_sources.py -v
+      - name: Source worktree must remain unchanged
+        run: |
+          git diff --exit-code HEAD --
+          test -z "$(git status --porcelain --untracked-files=no)"
