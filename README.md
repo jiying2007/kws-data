@@ -53,6 +53,10 @@ HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python3 -B tools/supervise_bulk_autopilo
 
 新增 [源/模型资产/语音类别小批量预检](docs/BOUNDED_PILOT_READINESS.md)（仅只读、不开模型）：会按当前执行器实际的前 N 条任务检查两完整唤醒词、近音负例、普通负例、不同声源家庭的覆盖，重验来源 WAV/权利文件、Qwen 模型文件与三 ASR 模型权重及执行器 SHA。检查失败不得因有限预算误以为模型学习失败或生成够量；成功也只证明技术源一致，仍需真实声源授权、ASR 执行和独立审定。
 
+### 开源语音数据集参考声源候选（2026-11-03）
+
+已增加 [AISHELL-3、THCHS-30、LibriTTS、Hi-Fi TTS、VCTK 等公开来源候选与本地导入](automation/OPEN_SOURCE_REFERENCES.md)：只从官方许可渠道获得音频，私有机器导入原始/规范 WAV 与不可变转换收据，选择每说话人一条约 5 秒参考并生成原生 `bulk_ingest.py` 兼容的私有候选 catalog。WenetSpeech 等具有非商用/第三方版权风险的来源不进入声音克隆候选。源码和许可标识不等于声音克隆授权；只有独立确认具体条款、声源使用权并通过原生 permit 检查后，才允许下一步 Qwen 声音克隆和严格训练准入。此更新没有下载真实音频或生成新语音。
+
 ## 历史研究入口（2026-10-07 整理）
 
 - [完整研究索引与当前结论](docs/RESEARCH_INDEX.md)：覆盖 ASR 校准、A20、N0、Cosy49、Qwen6、Melo6、N1 与失败 first-prefix 候选；标明 PASS / FAIL / REJECTED / 待资格验证的实际范围
