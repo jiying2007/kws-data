@@ -1,6 +1,6 @@
 # 有界开源语料 WAV 准备：仅本地，不运行模型
 
-本工具 automation/prepare_open_reference_pilot.py 复用现有 open_reference_sources.py 和 bulk_ingest.py。它仅从已合法取得的官方语音包中选择少量原始 WAV，为现有 reference-candidate 入口生成规范 WAV 和转换收据，不负责下载原语料、执行语音克隆、训练或自动批准许可。
+本工具 automation/prepare_open_reference_pilot.py 复用现有 open_reference_sources.py 和 research_only_bulk_ingest.py。它仅从已合法取得的官方语音包中选择少量原始 WAV，为现有 reference-candidate 入口生成规范 WAV 和转换收据，不负责下载原语料、执行语音克隆、训练或自动批准许可。
 
 AISHELL-3 的 OpenSLR Apache-2.0 发布标识与 AISHELL 发布者开放数据页面的学术研究限制需要依据具体语料版本复核。THCHS-30 也强调学术用途。商业使用、可识别人物声音的克隆及公开再分发必须另行审核。代码核验哈希或官方许可文字并不会自动建立声源权利。
 
@@ -53,7 +53,7 @@ python3 -B automation/prepare_open_reference_pilot.py \
 
 私有目录仅创建一次（0700），包含 source-index.json、normalized/*.wav、conversions/*.json；索引及转换收据为 0600。所有输出只代表未许可/未训练的 candidate。转换执行有 30 秒硬超时、无 shell、不传递任何用户 token；失败可能留下不完整目录，不允许自动覆盖、假定成功或重放未知状态。
 
-继续复用原生 open_reference_sources.py 做源 WAV/规范 WAV/转换收据二次验证。只有在独立批准具体来源/说话人/克隆商业范围后，才能使用已有 bulk_ingest.py 的真实私有 permit、rights evidence、HMAC 去标识及后续 KWS 数据审查。公开数据许可证并不自动代表商用声音克隆许可。
+继续复用原生 open_reference_sources.py 做源 WAV/规范 WAV/转换收据二次验证。只有具体来源版本与非商业研究 TTS 用途已得到独立审阅后，才能使用唯一的 research_only_bulk_ingest.py 读取研究 scope、审阅证据与 HMAC 去标识并继续 KWS 数据审查；研究权限不授予商用或公开声线分发权限。公开数据许可证并不自动代表商用声音克隆许可。
 
 本工具不会创建真实 TTS、ASR、CTC 训练数据、human gold、FRR/FAR 或 SSC305 生产资格。即使预检 PASS，也必须在私有实际模型和人工/机器审核证据上继续完成训练准入。
 
