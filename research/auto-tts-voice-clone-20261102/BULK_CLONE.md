@@ -1,69 +1,22 @@
-# Bulk multi-speaker cloning for Xiaowo KWS (private local corpus)
+# Bulk multi-speaker research KWS voice sources (private only)
 
-## Purpose and hard boundaries
+## 1. Single noncommercial research source intake
 
-The previous source-only #47 Qwen TTS/VoiceDesign/synthetic-clone implementation
-supports a few synthetic voice references. This extension allows many **distinct
-source speaker groups**, each producing dozens of positive wake and negative
-utterances, using the Qwen3-TTS Base model with one **cached prompt per
-reference**. It handles legitimate open audio when dataset-specific voice-clone
-rights are independently reviewed, plus separately consented human speech and
-authorized synthetic references.
+The supported source importer is
+[automation/research_only_bulk_ingest.py](../../automation/research_only_bulk_ingest.py).
+It uses source-bound original/normalized WAVs, release-specific reviewed
+**noncommercial research TTS** scope, HMAC pseudonyms and create-only private
+receipts. There is **no commercial source importer** or backward-compatibility
+alias on the current branch. Git history retains the old implementation for
+historical audit without exposing a runnable production path.
 
-**No private reference audio, original dataset, speaker re-identification key,
-consent files or trained model weights are ever uploaded by CI.** These tools
-operate on a controlled local corpus and only store non-authoritative generated
-synthetic candidates. Human voice identity cannot be inferred from a name or
-speaker key. One voice with multiple clips/seeds/clones remains one source
-family and cannot cross the train/development split.
-
-Open audio is not automatically approved for cloning. Mozilla Data Collective
-requires dataset-specific consumer terms and some derivative Common Voice
-dataset pages expressly forbid voice-cloning even with CC0 metadata. Review:
-https://commonvoice.mozilla.org/terms/en.html
-https://mozilladatacollective.com/terms/consumers
-https://mozilladatacollective.com/datasets/cmryvrc6i014vo90786kriix5
-
-An operator must preserve actual source/voice rights and use-specific approval.
-The utility checks local rights-review record SHA256 per reference and rejects
-nonempty prohibited uses, absent commercial/synthetic scope and audio/terms
-mismatch. A user-authored review JSON still **cannot authenticate consent**.
-
-## 1. Import a locally prepared approved audio catalog
-
-Create a private catalog of 16/24 kHz mono PCM16 WAV references (1–15 sec),
-containing a private source speaker key, relative audio path, original/source
-audio SHA256, exact WAV SHA256 and optional genuinely verified transcript.
-The importer uses a separate 32+ byte **private HMAC key file** to create stable
-opaque speaker/source-family IDs, one representative ~5-second clip per speaker.
-No name, original speaker key or person ID appears in output.
-
-For each approved dataset, supply a private permit: schema
-kws-external-voice-clone-permit-v1, dataset/source kind, source license and
-terms SHA, independently reviewed evidence file SHA, explicit flags
-voice_cloning_explicitly_allowed=true and
-commercial_synthetic_kws_allowed=true, prohibited_uses=[], and
-review_status=independently-reviewed. These are declarations whose human/legal
-origin remains outside the tool; the importer does **not** automatically
-authorize human voice cloning from a CC0 license alone. Any specific ban wins.
-
-Import command (the directory contains only already authorized local data):
-
-~~~sh
-python3 -B bulk_ingest.py \
-  --catalog /restricted/catalog.json \
-  --permit /restricted/permit.json \
-  --rights-evidence /restricted/rights-review-record.json \
-  --audio-root /restricted/references \
-  --pseudonym-key-file /restricted/secret-pseudonym-key.bin \
-  --max-refs 100 --output /restricted/reference-pool.json --execute
-~~~
-
-Without --execute this command is a no-write dry run. The executed path creates
-private exact per-reference rights metadata and the catalog with create-only
-semantics, never downloads audio. Respect official provider access and
-distribution controls; original MP3 must be lawfully obtained and normalized
-externally with transformation provenance retained.
+See [research scope and invocation instructions](../../automation/RESEARCH_ONLY_REFERENCE_SCOPE.md)
+and [open-source preparation](../../automation/OPEN_SOURCE_REFERENCES.md).
+No generated or cloned voice establishes a new independent real-human
+qualification speaker. Keep original audio, consent/review evidence, source
+identities and generated recognizable voices in controlled private storage.
+A publicly downloadable file alone does not grant rights beyond its release
+terms, including distribution or any explicitly prohibited reuse.
 
 ## 2. Generate many positive + negative intents per voice
 
@@ -149,7 +102,7 @@ Words 窝/屋/沃/吴/王 are never auto-substituted. Intended prompts are
 not verified actual acoustics, and these synthetic negative clips do not
 replace long independently recorded real-world negative audio.
 
-## Product qualification
+## Research qualification and optional future product checks
 
 All generated and screened data remains training_admitted=false and
 qualification_allowed=false. This source-only PR neither adds an accepted

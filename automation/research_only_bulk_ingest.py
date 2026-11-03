@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-"""Research-only, noncommercial voice-reference intake, not a shipping grant.
+"""Single noncommercial KWS research source importer (no parallel legacy lane).
 
-Unlike the immutable commercial importer, this adapter never demands
-commercial_synthetic_kws_allowed. It reuses the canonical open-corpus source
-verification, source-family/PCM rules and immutable private publisher.
-A specific dataset/release-level research TTS review is still required.
-No real person is identified, no source is downloaded, no model runs.
+Preserves strict original/normalized WAV and source-family evidence, opaque
+speaker IDs, private create-only receipts, and reviewed research-use scope.
+Does not create model training or deployment authority; never runs a model.
 """
 from __future__ import annotations
 
@@ -16,22 +14,85 @@ import json
 import os
 from pathlib import Path
 import sys
+import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "research" / "auto-tts-voice-clone-20261102"))
 import bulk_pool as pool  # noqa: E402
-import bulk_ingest as canonical  # noqa: E402
 import open_reference_sources as open_source  # noqa: E402
 
 SCHEMA = "kws-dataset-research-tts-scope-v1"
 LIMIT = 16
 ALLOWED_PURPOSE = "noncommercial-offline-kws-tts-research"
 ALLOWED_SOURCE_LICENSE = frozenset(("Apache-2.0", "CC-BY-4.0", "CC0-1.0"))
+CATALOG_SCHEMA = open_source.CATALOG_SCHEMA
+MAX_CATALOG_ENTRIES = 10000
 
 
 def require(ok, code):
     if not ok:
         raise ValueError(code)
+
+
+def _catalog(catalog):
+    pool.require(type(catalog) is dict and set(catalog) == {"schema", "rows"} and
+              catalog["schema"] == CATALOG_SCHEMA, "CATALOG_SCHEMA")
+    rows = catalog["rows"]
+    pool.require(type(rows) is list and
+              1 <= len(rows) <= MAX_CATALOG_ENTRIES, "CATALOG_COUNT")
+    keys = {"speaker_key", "audio_path", "wav_sha256",
+            "source_original_sha256", "reference_text",
+            "reference_text_status"}
+    seen = set()
+    for row in rows:
+        pool.require(type(row) is dict and set(row) == keys and
+                  type(row["speaker_key"]) is str and
+                  1 <= len(row["speaker_key"]) <= 256,
+                  "CATALOG_ROW")
+        pool._sha(row["wav_sha256"])
+        pool._sha(row["source_original_sha256"])
+        pool.require((row["reference_text_status"] == "unknown" and
+                   row["reference_text"] is None) or
+                  (row["reference_text_status"] == "verified" and
+                   type(row["reference_text"]) is str and
+                   1 <= len(row["reference_text"]) <= 180),
+                  "REFERENCE_TRANSCRIPT_STATUS")
+        pool.require(row["wav_sha256"] not in seen, "DUPLICATE_REFERENCE_CLIP")
+        seen.add(row["wav_sha256"])
+    return rows
+
+
+
+def publish_private(manifest, rights, audio_root, out):
+    root = Path(audio_root).absolute()
+    output = Path(out).absolute()
+    pool.require(root.is_dir() and output.parent.is_dir() and
+              not output.exists() and not output.is_symlink(),
+              "PRIVATE_DESTINATION_MUST_BE_NEW")
+    rights_dir = root / Path(rights[0][0]).parent
+    pool.require(not rights_dir.exists(), "PREEXISTING_RIGHTS_DIRECTORY")
+    with tempfile.TemporaryDirectory(prefix=".bulk-rights-", dir=root) as tmp:
+        temp = Path(tmp)
+        for rel, body in rights:
+            path = temp/Path(rel).name
+            pool.require(path.parent == temp and not path.exists(),
+                      "RIGHTS_NAME_COLLISION")
+            fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+            with os.fdopen(fd, "wb") as stream:
+                stream.write(body)
+                stream.flush()
+                os.fsync(stream.fileno())
+        temp.rename(rights_dir)
+    # Re-open the original audio and the newly created right records, including
+    # their content-addressed permission scope, before publishing the manifest.
+    pool.validate_sources(manifest, root)
+    body = pool.canonical(manifest) + b"\n"
+    fd = os.open(output, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+    with os.fdopen(fd, "wb") as stream:
+        stream.write(body)
+        stream.flush()
+        os.fsync(stream.fileno())
+
 
 
 def validate_research_scope(scope, index, research_evidence, license_snapshot):
@@ -88,7 +149,7 @@ def prepare(index, original_root, audio_root, conversion_root, terms_path,
     # Reuse the *existing* source-original WAV/normalized PCM/conversion checks.
     candidates = open_source.candidates(index, original_root, audio_root,
                     conversion_root, terms_path, max_refs)
-    rows = canonical._catalog(candidates)
+    rows = _catalog(candidates)
     ids, selected = {}, {}
     for row in rows:
         measured = pool.measure_reference(audio_root, row["audio_path"])
@@ -170,7 +231,7 @@ def main(argv=None):
         require(dest != ROOT and ROOT not in dest.parents and
                 not any(x.is_symlink() for x in (dest, *dest.parents)),
                 "RESEARCH_MANIFEST_PRIVATE_ONLY")
-        canonical.publish_private(manifest, rights, args.audio_root, dest)
+        publish_private(manifest, rights, args.audio_root, dest)
     print(json.dumps({
         "status": "RESEARCH_PRIVATE_SOURCE_ONLY" if args.execute
                   else "RESEARCH_SOURCE_PREVIEW_ONLY",

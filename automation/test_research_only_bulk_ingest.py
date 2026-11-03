@@ -17,7 +17,6 @@ sys.path.insert(0, str(ROOT / "automation"))
 sys.path.insert(0, str(ROOT / "research" / "auto-tts-voice-clone-20261102"))
 import research_only_bulk_ingest as research
 import open_reference_sources as reference
-import bulk_ingest as commercial
 import bulk_pool as pool
 
 
@@ -96,24 +95,17 @@ class ResearchOnlySourceTests(unittest.TestCase):
         self.assertTrue(all(row["reference_text_status"] == "unknown"
                             for row in manifest["references"]))
         self.assertEqual(len({x["source_family_id"] for x in manifest["references"]}), 2)
-        # The old commercial importer still requires commercial rights.
-        commercial_permit = {
-            "schema": commercial.PERMIT_SCHEMA,
-            "dataset_id": self.scope["dataset_id"],
-            "source_type": "reviewed-open-audio",
-            "source_license": "Apache-2.0",
-            "source_terms_sha256": self.scope["source_terms_sha256"],
-            "rights_review_evidence_sha256": sha(self.review),
-            "voice_cloning_explicitly_allowed": True,
-            "commercial_synthetic_kws_allowed": False,
-            "forbidden_uses": [], "review_status": "independently-reviewed"}
-        with self.assertRaisesRegex(ValueError, "NO_EXPLICIT_DATASET_VOICE_CLONE_SCOPE"):
-            commercial._validate_permit(commercial_permit, sha(self.review))
+        altered = dict(self.scope, commercial_use_permitted=True)
+        with self.assertRaisesRegex(ValueError, "RESEARCH_TTS_SCOPE_NOT_REVIEWED"):
+            research.validate_research_scope(
+                altered, self.index, self.review, self.terms.read_bytes())
+        self.assertFalse(
+            (ROOT / "research/auto-tts-voice-clone-20261102/bulk_ingest.py").exists())
 
     def test_publish_compatible_with_existing_bulk_planner(self):
         manifest, rights = self.prepare()
         out = self.root / "research-source-manifest.json"
-        commercial.publish_private(manifest, rights, self.audio, out)
+        research.publish_private(manifest, rights, self.audio, out)
         self.assertEqual(stat.S_IMODE(out.stat().st_mode), 0o600)
         self.assertEqual(len(pool.validate_sources(pool.read_json(out), self.audio)), 2)
         plan = pool.plan(manifest, self.audio, repetitions=1, batch_id="pilot03",
@@ -123,7 +115,7 @@ class ResearchOnlySourceTests(unittest.TestCase):
         self.assertFalse(plan["training_admitted"])
         self.assertFalse(plan["shipping_approved"])
         with self.assertRaises(ValueError):
-            commercial.publish_private(manifest, rights, self.audio, out)
+            research.publish_private(manifest, rights, self.audio, out)
 
     def test_inadequate_research_review_cannot_generate_source(self):
         for patch in (

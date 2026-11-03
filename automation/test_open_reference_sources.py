@@ -21,7 +21,7 @@ sys.path.insert(0, str(ROOT / "automation"))
 sys.path.insert(0, str(ROOT / "research" / "auto-tts-voice-clone-20261102"))
 import open_reference_sources as sources  # noqa: E402
 import bulk_pool as pool  # noqa: E402
-import bulk_ingest as importer  # noqa: E402
+import research_only_bulk_ingest as importer  # noqa: E402
 
 
 def hexdigest(data):
@@ -111,19 +111,23 @@ class OpenSourceCandidateTests(unittest.TestCase):
             self.assertIsNone(row["reference_text"])
             self.assertEqual(len(row["source_original_sha256"]), 64)
 
-    def test_open_dataset_license_never_creates_clone_permission(self):
+    def test_public_license_does_not_grant_research_scope(self):
         catalog = self.run_catalog()
-        permit = {"schema": importer.PERMIT_SCHEMA,
-                  "dataset_id": "aishell3-slr93", "source_type": "reviewed-open-audio",
-                  "source_license": "Apache-2.0",
-                  "source_terms_sha256": self.index["license_snapshot_sha256"],
-                  "rights_review_evidence_sha256": hexdigest(b"not consent"),
-                  "voice_cloning_explicitly_allowed": False,
-                  "commercial_synthetic_kws_allowed": False,
-                  "forbidden_uses": [], "review_status": "unreviewed"}
-        with self.assertRaisesRegex(ValueError, "NO_EXPLICIT_DATASET_VOICE_CLONE_SCOPE"):
-            importer.prepare(catalog, permit, b"not consent", self.normalized,
-                             b"a" * 32, max_refs=2)
+        self.assertEqual(catalog["schema"], sources.CATALOG_SCHEMA)
+        scope = {"schema": importer.SCHEMA, "dataset_id": "aishell3-slr93",
+                 "dataset_release": self.index["dataset_release"],
+                 "source_type": "reviewed-open-audio",
+                 "source_license": "Apache-2.0",
+                 "source_terms_sha256": self.index["license_snapshot_sha256"],
+                 "research_review_sha256": hexdigest(b"not-reviewed"),
+                 "intended_use": importer.ALLOWED_PURPOSE,
+                 "research_tts_references_permitted": False,
+                 "commercial_use_permitted": False,
+                 "public_voice_export_permitted": False,
+                 "forbidden_uses": [], "review_status": "unreviewed"}
+        with self.assertRaisesRegex(ValueError, "RESEARCH_TTS_SCOPE_NOT_REVIEWED"):
+            importer.validate_research_scope(
+                scope, self.index, b"not-reviewed", self.terms.read_bytes())
 
     def test_noncommercial_third_party_dataset_blocked_even_if_present(self):
         for dataset_id in ("wenetspeech-slr121", "commonvoice-mdc"):

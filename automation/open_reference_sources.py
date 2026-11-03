@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Build a PRIVATE open-corpus reference catalog for the existing bulk importer.
+"""Build a PRIVATE open-corpus reference catalog for the single research importer.
 
 This is an offline, no-model, non-admitting candidate screen. Open recording
 licences NEVER automatically grant permission to clone a recognizable speaker.
-The existing bulk_ingest.py independently requires a source-specific reviewed
-permit and rights evidence before any clone-ready source manifest is published.
+The research-only importer independently requires frozen dataset/release
+research-use scope and source evidence before private publication.
 """
 from __future__ import annotations
 
@@ -20,13 +20,13 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "research" / "auto-tts-voice-clone-20261102"))
-import bulk_ingest as importer  # noqa: E402
 import bulk_pool as pool  # noqa: E402
 
 REGISTRY = ROOT / "automation" / "open_reference_datasets.v1.json"
 REGISTRY_BLOB = "fb1eb8dfc9b06360c8c2c7b4a238a5eb81cfc87e"
 INDEX_SCHEMA = "kws-local-open-reference-index-v1"
 CONVERSION_SCHEMA = "kws-local-reference-conversion-receipt-v1"
+CATALOG_SCHEMA = "kws-local-open-audio-catalog-v1"
 HEX = re.compile(r"[0-9a-f]{64}\Z")
 IDENT = re.compile(r"[a-z][a-z0-9_-]{1,63}\Z")
 MAX_CANDIDATE_ROWS = 256
@@ -208,7 +208,7 @@ def candidates(index, original_root, normalized_root, evidence_root, terms_file,
         })
     require(bool(references), "NO_REFERENCE_CANDIDATES")
     return {
-        "schema": importer.CATALOG_SCHEMA,
+        "schema": CATALOG_SCHEMA,
         "rows": references,
     }
 

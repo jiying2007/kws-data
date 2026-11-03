@@ -17,7 +17,6 @@ from unittest.mock import patch
 import wave
 
 import bulk_pool as p
-import bulk_ingest as ingest
 import bulk_runner as worker
 import bulk_asr as a
 import asr_dispatch
@@ -243,74 +242,6 @@ class BulkPlanTests(Fixture):
         with self.assertRaises(ValueError):
             p.plan(self.sources,self.root,batch_id="pilot-01",
                    revision="b"*40,max_calls=65)
-
-
-class BulkIngestTests(Fixture):
-    def test_bulk_import_anonymizes_and_automatically_creates_proofs(self):
-        self.assertEqual(len(ingest._catalog({"schema":ingest.CATALOG_SCHEMA,
-             "rows":[{"speaker_key":r["speaker_group_id"],"audio_path":r["audio_path"],
-                "wav_sha256":r["wav_sha256"],
-                "source_original_sha256":r["parent_source_sha256"],
-                "reference_text":None,"reference_text_status":"unknown"}
-                for r in self.references]})),2)
-        catalog={"schema":ingest.CATALOG_SCHEMA,"rows":[{
-            "speaker_key":r["speaker_group_id"],"audio_path":r["audio_path"],
-            "wav_sha256":r["wav_sha256"],
-            "source_original_sha256":r["parent_source_sha256"],
-            "reference_text":None,"reference_text_status":"unknown"
-            } for r in self.references]}
-        rights=b"independently reviewed dataset terms fixture"
-        permit={"schema":ingest.PERMIT_SCHEMA,
-                "dataset_id":"synthetic-test-only",
-                "source_type":"reviewed-open-audio",
-                "source_license":"CC0-1.0",
-                "source_terms_sha256":"c"*64,
-                "rights_review_evidence_sha256":hash_bytes(rights),
-                "voice_cloning_explicitly_allowed":True,
-                "commercial_synthetic_kws_allowed":True,
-                "forbidden_uses":[],
-                "review_status":"independently-reviewed"}
-        values,records=ingest.prepare(catalog,permit,rights,self.root,
-                                     b"f"*32,max_refs=2)
-        self.assertEqual(len(values["references"]),2)
-        self.assertFalse(values["training_admitted"])
-        self.assertTrue(all("speaker-000" not in row["speaker_group_id"]
-                            for row in values["references"]))
-        ingested=self.root/"output.json"
-        ingest.publish_private(values,records,self.root,ingested)
-        self.assertEqual(len(p.validate_sources(p.read_json(ingested),self.root)),2)
-        with self.assertRaises(ValueError):
-            ingest.publish_private(values,records,self.root,ingested)
-
-    def test_dataset_ban_overrides_cc0_license(self):
-        permit={"schema":ingest.PERMIT_SCHEMA,"dataset_id":"test-dataset",
-                "source_type":"reviewed-open-audio","source_license":"CC0-1.0",
-                "source_terms_sha256":"c"*64,
-                "rights_review_evidence_sha256":hash_bytes(b"review"),
-                "voice_cloning_explicitly_allowed":True,
-                "commercial_synthetic_kws_allowed":True,
-                "forbidden_uses":["voice-cloning"],
-                "review_status":"independently-reviewed"}
-        with self.assertRaises(ValueError):
-            ingest._validate_permit(permit,hash_bytes(b"review"))
-
-    def test_invalid_rights_and_short_pseudonym_key_rejected(self):
-        with self.assertRaises(ValueError):
-            ingest._validate_permit({"schema":ingest.PERMIT_SCHEMA},hash_bytes(b""))
-        catalog={"schema":ingest.CATALOG_SCHEMA,"rows":[{
-            "speaker_key":"one","audio_path":"ref0.wav",
-            "wav_sha256":self.references[0]["wav_sha256"],
-            "source_original_sha256":"a"*64,"reference_text":None,
-            "reference_text_status":"unknown"}]}
-        permit={"schema":ingest.PERMIT_SCHEMA,"dataset_id":"dataset-test",
-            "source_type":"reviewed-open-audio","source_license":"CC0-1.0",
-            "source_terms_sha256":"c"*64,
-            "rights_review_evidence_sha256":hash_bytes(b"review"),
-            "voice_cloning_explicitly_allowed":True,
-            "commercial_synthetic_kws_allowed":True,
-            "forbidden_uses":[],"review_status":"independently-reviewed"}
-        with self.assertRaises(ValueError):
-            ingest.prepare(catalog,permit,b"review",self.root,b"123",max_refs=2)
 
 
 class BulkRuntimeTests(Fixture):
