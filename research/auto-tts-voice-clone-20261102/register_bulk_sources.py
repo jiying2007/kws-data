@@ -19,7 +19,7 @@ BASE = "docs/BRANCH_RETENTION_20261007.json"
 FOLDER = "research/auto-tts-voice-clone-20261102"
 PATHS = {
     ".github/workflows/bulk-licensed-clone-20261102.yml",
-    *(FOLDER+"/"+n for n in ("bulk_pool.py","bulk_ingest.py","bulk_runner.py","bulk_asr.py",
+    *(FOLDER+"/"+n for n in ("bulk_pool.py","bulk_runner.py","bulk_asr.py",
         "test_bulk.py","BULK_CLONE.md","register_bulk_sources.py"))
 }
 
@@ -89,7 +89,7 @@ def propose(old,tree,head,old_body):
         "paths":changed,
         "previous_manifest_sha256":hashlib.sha256(old_body).hexdigest(),
         "previous_campaign_rows":[copy.deepcopy(rows[n]) for n in changed if n in rows],
-        "scope":"licensed bulk voice clone corpus source and machine-only screening; "
+        "scope":"historical KWS bulk source and machine-only screening; "
                 "no rights, label, real audio, model or release admission"})
     return new
 
