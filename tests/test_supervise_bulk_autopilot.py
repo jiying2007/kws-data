@@ -102,11 +102,12 @@ class HardDeadlineSupervisorTests(unittest.TestCase):
     def test_hard_timeout_kills_process_group_not_just_parent(self):
         started = self.root / "started"
         descendant_written = self.root / "orphan-output"
+        grandchild = ("import time\nfrom pathlib import Path\n"
+                      "time.sleep(2)\n"
+                      "Path(" + repr(str(descendant_written)) + ").write_text('escaped')\n")
         code = ("import subprocess,sys,time\nfrom pathlib import Path\n"
                 "Path(" + repr(str(started)) + ").write_text('once')\n"
-                "subprocess.Popen([sys.executable,'-c',"
-                " 'import time; from pathlib import Path; time.sleep(2);"
-                " Path(" + repr(str(descendant_written)) + ").write_text(\"escaped\")'])\n"
+                "subprocess.Popen([sys.executable, '-c', " + repr(grandchild) + "])\n"
                 "time.sleep(20)\n")
         result = supervisor.supervise(self.child(code), hard_seconds=1,
                                       grace_seconds=1, env=os.environ)
