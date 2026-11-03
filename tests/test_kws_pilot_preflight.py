@@ -101,9 +101,9 @@ class PilotReadinessTests(Fixture):
         with patch.object(tts.QwenBulkClone, "_model",
                           side_effect=AssertionError("must never load a model")):
             self.assertEqual(self.audit()["coverage_gaps"], [])
-            self.assertIs(pilot.tts.asset_lock(self.model_root, self.model_lock,
-                                               self.plan["model_revision"]),
-                          self.model_root)
+            self.assertEqual(pilot.tts.asset_lock(self.model_root, self.model_lock,
+                                                  self.plan["model_revision"]),
+                             self.model_root)
 
     def test_weight_mutation_and_unlisted_file_are_blocked(self):
         root = Path(self.inventory["models"][0]["root"])
