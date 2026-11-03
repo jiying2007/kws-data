@@ -1,0 +1,42 @@
+name: Noncommercial research reference source contracts
+
+on:
+  pull_request:
+    paths:
+      - automation/research_only_bulk_ingest.py
+      - automation/test_research_only_bulk_ingest.py
+      - automation/RESEARCH_ONLY_REFERENCE_SCOPE.md
+      - .github/workflows/research-only-reference-intake.yml
+      - docs/BRANCH_RETENTION_20261007.json
+      - README.md
+  push:
+    branches: [main]
+    paths:
+      - automation/research_only_bulk_ingest.py
+      - automation/test_research_only_bulk_ingest.py
+      - automation/RESEARCH_ONLY_REFERENCE_SCOPE.md
+      - .github/workflows/research-only-reference-intake.yml
+      - docs/BRANCH_RETENTION_20261007.json
+      - README.md
+
+permissions:
+  contents: read
+
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Research scope and source/voice lineage without TTS/ASR calls
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/test_research_only_bulk_ingest.py -v
+          python3 -I -S -B -O automation/test_research_only_bulk_ingest.py -v
+          python3 -I -S -B -OO automation/test_research_only_bulk_ingest.py -v
+      - name: Verify no tracked mutation from source fixtures
+        run: |
+          git diff --exit-code HEAD --
+          test -z "$(git status --porcelain --untracked-files=no)"
