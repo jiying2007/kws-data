@@ -232,9 +232,9 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1868,
-  "expected_retained_files": 1860,
-  "new_retained_paths": 1214,
+  "expected_tracked_files": 1872,
+  "expected_retained_files": 1864,
+  "new_retained_paths": 1218,
   "integration_files": [
     ".github/workflows/research-retention.yml",
     "README.md",
@@ -20356,6 +20356,34 @@
       "git_blob_sha1": "f98217afe9c4e6ece461c331fedd5b4c08c8320d",
       "bytes": 1264,
       "source_commit": "2513f8f6eb1fee0e7f35af43e0bb6d73030bbb1e"
+    },
+    {
+      "path": "tools/kws_pilot_preflight.py",
+      "mode": "100644",
+      "git_blob_sha1": "dc518da21ffe55db7f41f2891ecd4e21659827c4",
+      "bytes": 11732,
+      "source_commit": "22c5f1c567153de71b757c393ffdf3f5064ead26"
+    },
+    {
+      "path": "tests/test_kws_pilot_preflight.py",
+      "mode": "100644",
+      "git_blob_sha1": "49943dc5bda8ac4481849e4f2b24bd959230fa68",
+      "bytes": 9279,
+      "source_commit": "22c5f1c567153de71b757c393ffdf3f5064ead26"
+    },
+    {
+      "path": ".github/workflows/kws-pilot-source-preflight.yml",
+      "mode": "100644",
+      "git_blob_sha1": "fd50628b9ccd9663d27f86faad1edace5bd36ae4",
+      "bytes": 1364,
+      "source_commit": "22c5f1c567153de71b757c393ffdf3f5064ead26"
+    },
+    {
+      "path": "docs/BOUNDED_PILOT_READINESS.md",
+      "mode": "100644",
+      "git_blob_sha1": "21720d6b80ec3902b0cf11776aeb63526d808fea",
+      "bytes": 4287,
+      "source_commit": "22c5f1c567153de71b757c393ffdf3f5064ead26"
     }
   ],
   "source_registration_history": [
@@ -21082,6 +21110,30 @@
           "-OO"
         ],
         "model_calls": 0,
+        "training_admitted": false,
+        "qualification_allowed": false,
+        "shipping_approved": false
+      }
+    },
+    {
+      "campaign": "bounded-kws-pilot-actual-asset-preflight-20261103",
+      "source_commit": "22c5f1c567153de71b757c393ffdf3f5064ead26",
+      "paths": [
+        "tools/kws_pilot_preflight.py",
+        "tests/test_kws_pilot_preflight.py",
+        ".github/workflows/kws-pilot-source-preflight.yml",
+        "docs/BOUNDED_PILOT_READINESS.md"
+      ],
+      "previous_campaign_rows": [],
+      "previous_manifest_git_blob_sha1": "c05aa507f2e2ee180e888525e5e82c24e48e36d3",
+      "scope": "Read-only canonical bulk pilot source/first-N budget coverage and actual local 3-ASR weight/executable SHA verification; fake fixture tests only; no model calls, rights authority, training or release admission",
+      "validation": {
+        "python_modes": [
+          "normal",
+          "-O",
+          "-OO"
+        ],
+        "real_model_calls": 0,
         "training_admitted": false,
         "qualification_allowed": false,
         "shipping_approved": false
