@@ -123,7 +123,7 @@ def catalog() -> dict[str, dict]:
              all(locale in LANGUAGES for locale in row["languages"]) and
              len(set(row["languages"])) == len(row["languages"]) and
              row["license_status"] in
-             ("candidate-permissive", "source-review-required", "blocked-noncommercial") and
+             ("candidate-permissive", "source-review-required", "source-prohibited") and
              type(row["family"]) is str and row["family"] and
              type(row["upstream_model"]) is str and row["upstream_model"] and
              type(row["checkpoint_license"]) is str and row["checkpoint_license"],
@@ -145,8 +145,8 @@ def choose(value: object, role: str, locale: str, providers: dict) -> list[dict]
         source = providers[key]
         need(source["role"] == role and locale in source["languages"],
              "PROVIDER_LANGUAGE_OR_ROLE_UNSUPPORTED")
-        need(source["license_status"] != "blocked-noncommercial",
-             "NONCOMMERCIAL_MODEL_NOT_PERMITTED")
+        need(source["license_status"] != "source-prohibited",
+             "SOURCE_USAGE_PROHIBITED")
         need(key not in ids and source["family"] not in families,
              "MODEL_FAMILY_NOT_INDEPENDENT")
         revision = hex_sha(row["revision_sha"], 40, "MODEL_REVISION_NOT_PINNED")
