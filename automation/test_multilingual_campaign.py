@@ -79,7 +79,6 @@ class SourceFirstLanguageTests(unittest.TestCase):
         self.assertFalse(p["training_admitted"])
         self.assertFalse(p["source_rights_authenticated"])
         self.assertFalse(p["independent_acceptance_evidence"])
-        self.assertNotIn("shipping_approved", p)
         self.assertNotIn("qualification_allowed", p)
         self.assertTrue(all("qualification_allowed" not in c for c in p["cells"]))
         self.assertEqual(p["model_calls_executed"], 0)
@@ -208,7 +207,6 @@ class SourceFirstLanguageTests(unittest.TestCase):
             source.write_text(json.dumps(request(), ensure_ascii=False))
             self.assertEqual(campaign.main(["--request", str(source), "--output", str(output)]), 0)
             self.assertEqual(output.stat().st_mode & 0o777, 0o600)
-            self.assertNotIn("shipping_approved", json.loads(output.read_text()))
             with self.assertRaises(FileExistsError):
                 campaign.main(["--request", str(source), "--output", str(output)])
             source.write_text('{"policy":"a","policy":"b"}')

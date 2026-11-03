@@ -236,8 +236,7 @@ def main(argv=None):
                   else "RESEARCH_SOURCE_PREVIEW_ONLY",
         "references": len(manifest["references"]),
         "scope": ALLOWED_PURPOSE,
-        "training_admitted": False, "qualification_allowed": False,
-        "shipping_approved": False, "actual_legal_authority_authenticated": False,
+        "training_admitted": False, "qualification_allowed": False, "actual_legal_authority_authenticated": False,
         "new_tts_calls": 0, "new_asr_calls": 0
     }, sort_keys=True))
     return 0

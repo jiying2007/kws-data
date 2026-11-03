@@ -23,7 +23,7 @@ sys.path.insert(0, str(ROOT / "research" / "auto-tts-voice-clone-20261102"))
 import bulk_pool as pool  # noqa: E402
 
 REGISTRY = ROOT / "automation" / "open_reference_datasets.v1.json"
-REGISTRY_BLOB = "fb1eb8dfc9b06360c8c2c7b4a238a5eb81cfc87e"
+REGISTRY_BLOB = "0050babfa9b1b48e7013d6847b76d64e3b904324"
 INDEX_SCHEMA = "kws-local-open-reference-index-v1"
 CONVERSION_SCHEMA = "kws-local-reference-conversion-receipt-v1"
 CATALOG_SCHEMA = "kws-local-open-audio-catalog-v1"
@@ -95,7 +95,10 @@ def registry():
             and data.get("rights_authenticated") is False
             and data.get("voice_cloning_authorized") is False
             and data.get("training_admitted") is False
-            and data.get("shipping_approved") is False, "INVALID_PUBLIC_SOURCE_REGISTRY")
+            and set(data) == {"schema", "policy", "verified_review_date",
+                              "dataset_candidates", "rights_authenticated",
+                              "voice_cloning_authorized", "training_admitted"},
+            "INVALID_PUBLIC_SOURCE_REGISTRY")
     entries = data.get("dataset_candidates")
     require(type(entries) is list and len(entries) >= 2, "PUBLIC_SOURCE_CANDIDATE_COUNT")
     ids = set()
@@ -251,8 +254,7 @@ def main(argv=None):
         "conversion_execution_authenticated": False,
         "rights_externally_authenticated": False,
         "voice_cloning_authorized": False,
-        "training_admitted": False, "qualification_allowed": False,
-        "shipping_approved": False, "model_calls": 0,
+        "training_admitted": False, "qualification_allowed": False, "model_calls": 0,
     }, sort_keys=True))
     return 0
 

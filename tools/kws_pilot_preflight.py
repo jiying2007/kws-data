@@ -224,7 +224,6 @@ def audit(plan, sources, audio_root, tts_budget, asr_budget, min_families):
             "asr_runtime_execution_authenticated": False,
             "spoken_labels_authenticated": False,
             "training_admitted": False, "qualification_allowed": False,
-            "shipping_approved": False,
             "new_model_calls": 0}
 
 

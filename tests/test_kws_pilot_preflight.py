@@ -180,7 +180,6 @@ class PilotReadinessTests(Fixture):
         self.assertEqual(report["models_verified"], 3)
         self.assertGreater(report["tts_model_bytes_verified"], 0)
         self.assertFalse(report["spoken_labels_authenticated"])
-        self.assertFalse(report["shipping_approved"])
         self.assertNotIn(str(self.root), out.getvalue())
 
 

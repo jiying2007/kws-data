@@ -99,17 +99,15 @@ def supervise(command, *, hard_seconds, grace_seconds, env):
         terminate_group(process, grace_seconds)
         return {"status": "HARD_TIMEOUT_HOLD_NO_REPLAY", "child_exit_code": process.returncode,
                 "hard_seconds": hard_seconds, "training_admitted": False,
-                "qualification_allowed": False, "shipping_approved": False}
+                "qualification_allowed": False}
     except KeyboardInterrupt:
         terminate_group(process, grace_seconds)
         return {"status": "OPERATOR_INTERRUPT_HOLD_NO_REPLAY",
                 "child_exit_code": process.returncode, "hard_seconds": hard_seconds,
-                "training_admitted": False, "qualification_allowed": False,
-                "shipping_approved": False}
+                "training_admitted": False, "qualification_allowed": False}
     return {"status": "CHILD_SUCCESS" if code == 0 else "CHILD_FAILED_NO_AUTO_RETRY",
             "child_exit_code": code, "hard_seconds": hard_seconds,
-            "training_admitted": False, "qualification_allowed": False,
-            "shipping_approved": False}
+            "training_admitted": False, "qualification_allowed": False}
 
 
 def main(argv=None):
