@@ -5,7 +5,7 @@
 
 ## 2026-11-03 研发目标更新：非商业技术研究
 
-**KWS 当前是 noncommercial technical research，目标是技术效果达到或超过优秀商用方案，不是发布/商用授权。** 按[研究专用数据/模型用途与声源导入说明](automation/RESEARCH_ONLY_REFERENCE_SCOPE.md)，允许在具体开源发布版条款范围内使用 AISHELL-3 等非商业研究语料，以及 F5-TTS 等非商用模型权重作为研究候选；不再要求先证明商业声线克隆许可。新增 `automation/research_only_bulk_ingest.py` 复用原始 WAV、PCM、身份和权限链，专供冻结的研究版声源清单；旧商业导入器及独立真实数据/目标板发布门禁不变。许可快照、研究用途审核和原始声源仍需私有保存；源码验证和人工合成测试不能声称真实语音效果。
+**KWS 当前是 noncommercial technical research，目标是技术效果达到或超过优秀商用方案，不是发布/商用授权。** 按[研究专用数据/模型用途与声源导入说明](automation/RESEARCH_ONLY_REFERENCE_SCOPE.md)，允许在具体开源发布版条款范围内使用 AISHELL-3 等非商业研究语料，以及 F5-TTS 等非商用模型权重作为研究候选；不再要求先证明商业声线克隆许可。`automation/research_only_bulk_ingest.py` 已成为唯一参考声源导入器，直接执行原始 WAV、PCM、匿名身份及研究用途验证。平行商用导入器和兼容层已退役；独立数据审查、目标板性能测试等实验验收要求仍保留。许可快照、研究用途审核和原始声源仍需私有保存；源码验证和人工合成测试不能声称真实语音效果。
 
 ## 2026-11-03 数据准备现状与唯一闭环入口
 
@@ -59,7 +59,7 @@ HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python3 -B tools/supervise_bulk_autopilo
 
 ### 开源语音数据集参考声源候选（2026-11-03）
 
-已增加 [AISHELL-3、THCHS-30、LibriTTS、Hi-Fi TTS、VCTK 等公开来源候选与本地导入](automation/OPEN_SOURCE_REFERENCES.md)：只从官方许可渠道获得音频，私有机器导入原始/规范 WAV 与不可变转换收据，选择每说话人一条约 5 秒参考并生成原生 `bulk_ingest.py` 兼容的私有候选 catalog。WenetSpeech 等具有非商用/第三方版权风险的来源不进入声音克隆候选。源码和许可标识不等于声音克隆授权；只有独立确认具体条款、声源使用权并通过原生 permit 检查后，才允许下一步 Qwen 声音克隆和严格训练准入。此更新没有下载真实音频或生成新语音。
+已增加 [AISHELL-3、THCHS-30、LibriTTS、Hi-Fi TTS、VCTK 等公开来源候选与本地导入](automation/OPEN_SOURCE_REFERENCES.md)：只从官方许可渠道获得音频，私有机器导入原始/规范 WAV 与不可变转换收据，选择每说话人一条约 5 秒参考并生成唯一研究导入器使用的私有候选 catalog。WenetSpeech 等具有第三方来源或特殊许可限制的资源不能自动进入真人克隆候选；在具体版本与非商业研究用途获得审阅后才可继续 Qwen 实验和严格训练准入，不要求或虚构商业许可。此更新没有下载真实音频或生成新语音。
 
 ### 公开语料小批量 WAV 自动准备（2026-11-03）
 
