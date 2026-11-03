@@ -3,6 +3,12 @@
 本索引把已公开分支中的可复用数据、源码记录、失败和修正放在同一主线入口。
 **归档完整性 PASS、科学实验 PASS 和产品资格是不同结论。** 这里没有默认模型替换、catalog 准入、追加训练或新的声学评测。
 
+
+### 2026-11-03 multilingual source-first provider planning (non-admitting)
+
+- [Bilingual source-first provider catalog and planner](../automation/README.md) adds Mandarin/English candidate TTS, voice-clone, independent three-ASR model and KWS choices with separate **code vs pretrained-weight** licensing status. The Python-only runner creates deterministic private intent cells and retains `training_admitted=false` / `shipping_approved=false`; **no audio, model weights, clone inference, downloads or new training** are committed. Existing research archives/source identities remain fixed.
+- English product wake words remain **unspecified**; current production Mandarin `你好小窝 / 小窝小窝` is not changed. Source model permissions, real human speaker/voice rights, actual transcript/authenticated ASR evidence, independent FAR/FRR and SSC305 validation are still missing.
+
 ## 先看当前结论
 
 - **研究基线 / 资格待验证**：原 A20 可复用为固定研究参照，但不能可靠排除“小屋”等近邻，也未证明真人、真实房间、连续 FAR/FRR、声学词尾延迟或嵌入式板端表现

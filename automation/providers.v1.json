@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "policy": "multilingual-kws-provider-research-v1",
+  "status": "research-only-no-product-authority",
+  "providers": [
+    {
+      "id": "qwen3-custom-zh",
+      "role": "tts",
+      "languages": [
+        "zh-CN"
+      ],
+      "family": "qwen3-tts",
+      "upstream_model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+      "code_license": "Apache-2.0",
+      "checkpoint_license": "Apache-2.0",
+      "license_status": "candidate-permissive",
+      "mode": "synthetic-preset",
+      "adapter": "research/auto-tts-voice-clone-20261102/runner.py"
+    },
+    {
+      "id": "qwen3-base-clone-zh",
+      "role": "tts",
+      "languages": [
+        "zh-CN"
+      ],
+      "family": "qwen3-tts",
+      "upstream_model": "Qwen/Qwen3-TTS-12Hz-0.6B-Base",
+      "code_license": "Apache-2.0",
+      "checkpoint_license": "Apache-2.0",
+      "license_status": "candidate-permissive",
+      "mode": "authorized-reference-clone",
+      "adapter": "research/auto-tts-voice-clone-20261102/bulk_runner.py"
+    },
+    {
+      "id": "qwen3-voicedesign-zh",
+      "role": "tts",
+      "languages": [
+        "zh-CN"
+      ],
+      "family": "qwen3-tts",
+      "upstream_model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+      "code_license": "Apache-2.0",
+      "checkpoint_license": "Apache-2.0",
+      "license_status": "candidate-permissive",
+      "mode": "synthetic-voice-design",
+      "adapter": "research/auto-tts-voice-clone-20261102/runner.py"
+    },
+    {
+      "id": "qwen3-custom-en",
+      "role": "tts",
+      "languages": [
+        "en-US"
+      ],
+      "family": "qwen3-tts",
+      "upstream_model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+      "code_license": "Apache-2.0",
+      "checkpoint_license": "Apache-2.0",
+      "license_status": "candidate-permissive",
+      "mode": "synthetic-preset",
+      "adapter": "research/auto-tts-voice-clone-20261102/runner.py"
+    },
+    {
+      "id": "qwen3-base-clone-en",
+      "role": "tts",
+      "languages": [
+        "en-US"
+      ],
+      "family": "qwen3-tts",
+      "upstream_model": "Qwen/Qwen3-TTS-12Hz-0.6B-Base",
+      "code_license": "Apache-2.0",
+      "checkpoint_license": "Apache-2.0",
+      "license_status": "candidate-permissive",
+      "mode": "authorized-reference-clone",
+      "adapter": "research/auto-tts-voice-clone-20261102/bulk_runner.py"
+    },
+    {
+      "id": "kokoro-82m-en",
+      "role": "tts",
+      "languages": [
+        "en-US"
+      ],
+      "family": "kokoro",
+      "upstream_model": "hexgrad/Kokoro-82M",
+      "code_license": "Apache-2.0",
+      "checkpoint_license": "Apache-2.0",
+      "license_status": "candidate-permissive",
+      "mode": "synthetic-preset",
+      "adapter": null
+    },
+    {
+      "id": "openvoice-v2-zh-en",
+      "role": "voice-conversion",
+      "languages": [
+        "zh-CN",
+        "en-US"
+      ],
+      "family": "openvoice-v2",
+      "upstream_model": "myshell-ai/OpenVoice",
+      "code_license": "MIT",
+      "checkpoint_license": "MIT-reported-upstream",
+      "license_status": "source-review-required",
+      "mode": "voice-conversion-after-tts",
+      "adapter": null
+    },
+    {
+      "id": "f5-tts-official-weights",
+      "role": "tts",
+      "languages": [
+        "zh-CN",
+        "en-US"
+      ],
+      "family": "f5-tts",
+      "upstream_model": "SWivid/F5-TTS",
+      "code_license": "MIT",
+      "checkpoint_license": "CC-BY-NC-4.0",
+      "license_status": "blocked-noncommercial",
+      "mode": "authorized-reference-clone",
+      "adapter": null
+    },
+    {
+      "id": "piper-en-voice",
+      "role": "tts",
+      "languages": [
+        "en-US"
+      ],
+      "family": "piper",
+      "upstream_model": "rhasspy/piper",
+      "code_license": "MIT",
+      "checkpoint_license": "per-voice-unknown",
+      "license_status": "source-review-required",
+      "mode": "synthetic-preset",
+      "adapter": null
+    },
+    {
+      "id": "qwen3-asr-zh",
+      "role": "asr",
+      "languages": [
+        "zh-CN"
+      ],
+      "family": "qwen3-asr",
+      "upstream_model": "Qwen/Qwen3-ASR-0.6B",
+      "code_license": "Apache-2.0",
+      "checkpoint_license": "Apache-2.0",
+      "license_status": "candidate-permissive",
+      "mode": "unbiased-asr",
+      "adapter": "research/auto-tts-voice-clone-20261102/asr_dispatch.py"
+    },
+    {
+      "id": "sensevoice-small-zh",
+      "role": "asr",
+      "languages": [
+        "zh-CN"
+      ],
+      "family": "sensevoice",
+      "upstream_model": "FunAudioLLM/SenseVoiceSmall",
+      "code_license": "upstream-review-required",
+      "checkpoint_license": "upstream-review-required",
+      "license_status": "source-review-required",
+      "mode": "unbiased-asr",
+      "adapter": "research/auto-tts-voice-clone-20261102/asr_dispatch.py"
+    },
+    {
+      "id": "whisper-small-zh",
+      "role": "asr",
+      "languages": [
+        "zh-CN"
+      ],
+      "family": "whisper",
+      "upstream_model": "openai/whisper-small",
+      "code_license": "MIT",
+      "checkpoint_license": "MIT",
+      "license_status": "candidate-permissive",
+      "mode": "unbiased-asr",
+      "adapter": "research/auto-tts-voice-clone-20261102/asr_dispatch.py"
+    },
+    {
+      "id": "whisper-small-en",
+      "role": "asr",
+      "languages": [
+        "en-US"
+      ],
+      "family": "whisper",
+      "upstream_model": "openai/whisper-small",
+      "code_license": "MIT",
+      "checkpoint_license": "MIT",
+      "license_status": "candidate-permissive",
+      "mode": "unbiased-asr",
+      "adapter": null
+    },
+    {
+      "id": "qwen3-asr-en",
+      "role": "asr",
+      "languages": [
+        "en-US"
+      ],
+      "family": "qwen3-asr",
+      "upstream_model": "Qwen/Qwen3-ASR-0.6B",
+      "code_license": "Apache-2.0",
+      "checkpoint_license": "Apache-2.0",
+      "license_status": "candidate-permissive",
+      "mode": "unbiased-asr",
+      "adapter": null
+    },
+    {
+      "id": "parakeet-tdt-v3-en",
+      "role": "asr",
+      "languages": [
+        "en-US"
+      ],
+      "family": "nvidia-parakeet",
+      "upstream_model": "nvidia/parakeet-tdt-0.6b-v3",
+      "code_license": "Apache-2.0",
+      "checkpoint_license": "CC-BY-4.0",
+      "license_status": "candidate-permissive",
+      "mode": "unbiased-asr",
+      "adapter": null
+    },
+    {
+      "id": "wekws-fsmn-zh",
+      "role": "kws",
+      "languages": [
+        "zh-CN"
+      ],
+      "family": "wekws",
+      "upstream_model": "wenet-e2e/wekws",
+      "code_license": "Apache-2.0",
+      "checkpoint_license": "train-or-review-separately",
+      "license_status": "source-review-required",
+      "mode": "train-new-kws",
+      "adapter": null
+    },
+    {
+      "id": "sherpa-zipformer-zh-en",
+      "role": "kws",
+      "languages": [
+        "zh-CN",
+        "en-US"
+      ],
+      "family": "sherpa-onnx",
+      "upstream_model": "sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20",
+      "code_license": "Apache-2.0",
+      "checkpoint_license": "model-specific-review-required",
+      "license_status": "source-review-required",
+      "mode": "evaluate-on-ssc305",
+      "adapter": null
+    },
+    {
+      "id": "openwakeword-framework-en",
+      "role": "kws",
+      "languages": [
+        "en-US"
+      ],
+      "family": "openwakeword",
+      "upstream_model": "dscripka/openWakeWord",
+      "code_license": "Apache-2.0",
+      "checkpoint_license": "pretrained-CC-BY-NC-SA-4.0",
+      "license_status": "blocked-noncommercial",
+      "mode": "retrain-own-model-only",
+      "adapter": null
+    }
+  ]
+}

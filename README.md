@@ -1,5 +1,8 @@
 # kws-data：中文唤醒词研究数据
 
+[中英文 KWS 音频数据源与模型许可研究入口](automation/README.md)：仅无模型的离线任务规划；不改变当前训练/发布准入。
+
+
 ## 当前入口（2026-10-07 整理）
 
 - [完整研究索引与当前结论](docs/RESEARCH_INDEX.md)：覆盖 ASR 校准、A20、N0、Cosy49、Qwen6、Melo6、N1 与失败 first-prefix 候选；标明 PASS / FAIL / REJECTED / 待资格验证的实际范围
