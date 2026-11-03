@@ -100,10 +100,22 @@ class SourceFirstLanguageTests(unittest.TestCase):
         self.assertEqual(first["wake_phrases_requested"], ["hello orbit"])
         self.assertFalse(first["next_campaign_authorized"])
 
-    def test_noncommercial_pretrained_tts_rejected(self) -> None:
+    def test_research_f5_weights_require_pinned_source_and_license(self) -> None:
         raw = request()
         raw["tts_providers"] = [pin("f5-tts-official-weights", 46)]
-        with self.assertRaisesRegex(ValueError, "NONCOMMERCIAL_MODEL_NOT_PERMITTED"):
+        with self.assertRaisesRegex(ValueError, "CLONING_REQUIRES_EACH_ORIGINAL_REFERENCE_AND_RIGHTS"):
+            campaign.plan(raw)
+        for idx, voice in enumerate(raw["voices"]):
+            voice["reference_pcm_sha256"] = f"{400 + idx:064x}"
+            voice["rights_evidence_sha256"] = f"{500 + idx:064x}"
+        research = campaign.plan(raw)
+        self.assertEqual(research["tts_pins"][0]["license_status"], "source-review-required")
+        self.assertFalse(research["training_admitted"])
+        self.assertFalse(research["qualification_allowed"])
+        self.assertFalse(research["next_campaign_authorized"])
+        self.assertEqual(research["model_calls_executed"], 0)
+        raw["tts_providers"][0]["license_review_sha256"] = None
+        with self.assertRaisesRegex(ValueError, "MODEL_LICENSE_REVIEW_MISSING"):
             campaign.plan(raw)
 
     def test_requires_three_distinct_asr_families(self) -> None:
@@ -204,7 +216,7 @@ class SourceFirstLanguageTests(unittest.TestCase):
         data = campaign.catalog()
         self.assertIn("f5-tts-official-weights", data)
         self.assertEqual(data["openwakeword-framework-en"]["license_status"],
-                         "blocked-noncommercial")
+                         "source-review-required")
         self.assertEqual(len(data), 18)
         plan = campaign.plan(request())
         self.assertTrue(all(row["synthetic"] for row in plan["cells"]))
