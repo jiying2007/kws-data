@@ -1,0 +1,44 @@
+name: Bounded local open-corpus WAV preparation (no models)
+
+on:
+  pull_request:
+    paths:
+      - automation/prepare_open_reference_pilot.py
+      - automation/test_prepare_open_reference_pilot.py
+      - automation/BOUNDED_CORPUS_PREP.md
+      - .github/workflows/bounded-open-corpus-prep.yml
+      - docs/BRANCH_RETENTION_20261007.json
+      - README.md
+  push:
+    branches: [main]
+    paths:
+      - automation/prepare_open_reference_pilot.py
+      - automation/test_prepare_open_reference_pilot.py
+      - automation/BOUNDED_CORPUS_PREP.md
+      - .github/workflows/bounded-open-corpus-prep.yml
+      - docs/BRANCH_RETENTION_20261007.json
+      - README.md
+
+permissions:
+  contents: read
+
+jobs:
+  fixture-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Verify local offline ffmpeg is available (fake WAV conversion only)
+        run: test -x "$(command -v ffmpeg)"
+      - name: Source identity, 5-second selection and bounded resampling regressions
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/test_prepare_open_reference_pilot.py -v
+          python3 -I -S -B -O automation/test_prepare_open_reference_pilot.py -v
+          python3 -I -S -B -OO automation/test_prepare_open_reference_pilot.py -v
+      - name: Ensure no tracked file was changed
+        run: |
+          git diff --exit-code HEAD --
+          test -z "$(git status --porcelain --untracked-files=no)"
