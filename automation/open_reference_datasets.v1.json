@@ -1,0 +1,88 @@
+{
+  "schema": "kws-public-reference-candidates-v1",
+  "policy": "source-first-rights-not-inferred-v1",
+  "verified_review_date": "2026-11-03",
+  "dataset_candidates": [
+    {
+      "dataset_id": "aishell3-slr93",
+      "locale": "zh-CN",
+      "name": "AISHELL-3",
+      "official_url": "https://www.openslr.org/93/",
+      "publisher_url": "https://www.aishelltech.com/aishell_3",
+      "published_license": "Apache-2.0 claimed by OpenSLR; publisher page also shows CC BY-NC-SA 4.0",
+      "reference_status": "CANDIDATE_REVIEW_REQUIRED",
+      "cloning_risk": "Publisher/license scope and identifiable speaker voice reuse require independent verification",
+      "notes": "218 Mandarin speakers; TTS-oriented; original 44.1 kHz mono PCM requires documented 16/24 kHz conversion"
+    },
+    {
+      "dataset_id": "thchs30-slr18",
+      "locale": "zh-CN",
+      "name": "THCHS-30",
+      "official_url": "https://www.openslr.org/18/",
+      "publisher_url": "https://www.openslr.org/18/",
+      "published_license": "Apache-2.0 claimed by OpenSLR",
+      "reference_status": "CANDIDATE_REVIEW_REQUIRED",
+      "cloning_risk": "Speech corpus use and speaker voice-clone consent must be reviewed separately",
+      "notes": "Mandarin research speech; already 16 kHz in many distributions; confirm each actual waveform"
+    },
+    {
+      "dataset_id": "libritts-slr60",
+      "locale": "en-US",
+      "name": "LibriTTS",
+      "official_url": "https://www.openslr.org/60/",
+      "publisher_url": "https://www.openslr.org/60/",
+      "published_license": "CC BY 4.0 claimed by OpenSLR",
+      "reference_status": "CANDIDATE_REVIEW_REQUIRED",
+      "cloning_risk": "License attribution and original audiobook narrator voice rights require separate clearance",
+      "notes": "English audiobook-derived multi-speaker TTS corpus; native 24 kHz audio may be directly usable after exact WAV inspection"
+    },
+    {
+      "dataset_id": "hifitts-slr109",
+      "locale": "en-US",
+      "name": "Hi-Fi TTS",
+      "official_url": "https://www.openslr.org/109/",
+      "publisher_url": "https://www.openslr.org/109/",
+      "published_license": "CC BY 4.0 claimed by OpenSLR",
+      "reference_status": "CANDIDATE_REVIEW_REQUIRED",
+      "cloning_risk": "Original LibriVox voice/publicity rights, attribution and model-output use require review",
+      "notes": "About 291.6h and 10 audiobook narrators; original 44.1 kHz requires canonical conversion"
+    },
+    {
+      "dataset_id": "vctk-cstr",
+      "locale": "en-US",
+      "name": "CSTR VCTK",
+      "official_url": "https://www.cstr.ed.ac.uk/downloads/",
+      "publisher_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "published_license": "CC BY 4.0 commonly stated for corpus; verify exact acquired release",
+      "reference_status": "CANDIDATE_REVIEW_REQUIRED",
+      "cloning_risk": "Voice Clone Toolkit research purpose does not by itself authenticate commercial voice-replication rights of speakers",
+      "notes": "109 English speakers with accent variation; check original audio file format and attribution"
+    },
+    {
+      "dataset_id": "wenetspeech-slr121",
+      "locale": "zh-CN",
+      "name": "WenetSpeech",
+      "official_url": "https://www.openslr.org/121/",
+      "publisher_url": "https://wenet-e2e.github.io/WenetSpeech/",
+      "published_license": "CC BY 4.0 label; publisher restricts distribution to non-commercial and does not own third-party audio copyright",
+      "reference_status": "BLOCKED_FOR_CLONING",
+      "cloning_risk": "Third-party YouTube/podcast copyrights, noncommercial restriction and speaker voice rights; not a commercial clone seed",
+      "notes": "Research ASR/negative audio only after release-specific rights review; never produce a clone permit from this metadata"
+    },
+    {
+      "dataset_id": "commonvoice-mdc",
+      "locale": "multi",
+      "name": "Mozilla Common Voice",
+      "official_url": "https://mozilladatacollective.com/",
+      "publisher_url": "https://mozilladatacollective.com/terms/consumers",
+      "published_license": "Release-specific CC0 datasets with additional data consumer/use terms",
+      "reference_status": "BLOCKED_FOR_CLONING",
+      "cloning_risk": "Current dataset release-specific restrictions, contributor rights and distribution terms cannot be inferred from CC0 alone",
+      "notes": "Eligible recognition research only under separately checked terms; no blanket reference voice-clone authorization"
+    }
+  ],
+  "training_admitted": false,
+  "rights_authenticated": false,
+  "voice_cloning_authorized": false,
+  "shipping_approved": false
+}
