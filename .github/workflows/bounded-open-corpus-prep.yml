@@ -25,13 +25,19 @@ permissions:
 jobs:
   fixture-only:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Verify local offline ffmpeg is available (fake WAV conversion only)
-        run: test -x "$(command -v ffmpeg)"
+      - name: Install ffmpeg when absent on GitHub-hosted runner
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends ffmpeg
+          fi
+          test -x "$(command -v ffmpeg)"
       - name: Source identity, 5-second selection and bounded resampling regressions
         run: |
           set -euo pipefail
