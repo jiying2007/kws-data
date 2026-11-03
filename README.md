@@ -34,6 +34,21 @@
 
 开发数据的现有验证命令：`python3 -m tools.codex_assets verify`。所有未来训练必须使用经批准且 commit/hash 锁定的源，不能从最新版 `main` 隐式接受新数据。
 
+### 有界常驻 Qwen 数据生成进程监督器（2026-11-03）
+
+现有 `research/auto-tts-voice-clone-20261102/bulk_autopilot.py` 已在单次执行中复用模型和声音提示缓存；其 `--wall-seconds` 只限制**新任务启动**，无法中断已卡住的 TTS。新增 [外层强制超时入口](tools/supervise_bulk_autopilot.py) 复用原控制器、不复制 TTS/ASR 生成链：固定源代码 Git blob、Linux 独立进程组、整次执行硬超时与子进程树终止，保护原有 `started.json` 不自动重放语义。仅在合法来源、模型资产和许可已实际验证的私有离线机器上显式传入 `--execute`：
+
+```sh
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python3 -B tools/supervise_bulk_autopilot.py \
+  --plan /restricted/plan.json --sources /restricted/sources.json \
+  --audio-root /restricted/references --workspace /restricted/autopilot \
+  --adapter-lock /restricted/three-asr.json --pipeline-root /restricted/pinned-pipeline \
+  --model-folder /restricted/qwen-assets --model-lock /restricted/model-lock.json \
+  --max-tts 16 --max-asr 48 --wall-seconds 300 --hard-seconds 600 --execute
+```
+
+`--hard-seconds` 达到后返回 124，终止同进程组模型/子进程；已经开始但未完成的任务保留为未知消耗，**不会自动重试**。这是进程级硬上限（包含模型加载），不是单样本性能上限，也不证明训练准入/发布资格。CI 只用假子进程做正常、异常退出和超时测试，不运行真实模型。
+
 ## 历史研究入口（2026-10-07 整理）
 
 - [完整研究索引与当前结论](docs/RESEARCH_INDEX.md)：覆盖 ASR 校准、A20、N0、Cosy49、Qwen6、Melo6、N1 与失败 first-prefix 候选；标明 PASS / FAIL / REJECTED / 待资格验证的实际范围

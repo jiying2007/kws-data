@@ -1,0 +1,38 @@
+name: Bounded resident Qwen bulk supervisor contracts
+
+on:
+  pull_request:
+    paths:
+      - tools/supervise_bulk_autopilot.py
+      - tests/test_supervise_bulk_autopilot.py
+      - .github/workflows/supervise-bulk-autopilot.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths:
+      - tools/supervise_bulk_autopilot.py
+      - tests/test_supervise_bulk_autopilot.py
+      - .github/workflows/supervise-bulk-autopilot.yml
+      - docs/BRANCH_RETENTION_20261007.json
+
+permissions:
+  contents: read
+
+jobs:
+  source-only-no-model:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Hard deadline and descendant termination with fake processes only
+        run: |
+          set -euo pipefail
+          python3 -I -S -B tests/test_supervise_bulk_autopilot.py -v
+          python3 -I -S -B -O tests/test_supervise_bulk_autopilot.py -v
+          python3 -I -S -B -OO tests/test_supervise_bulk_autopilot.py -v
+      - name: Verify no tracked file modification
+        run: |
+          git diff --exit-code HEAD --
+          test -z "$(git status --porcelain --untracked-files=no)"
