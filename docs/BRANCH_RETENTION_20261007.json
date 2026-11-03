@@ -20220,9 +20220,9 @@
     {
       "path": ".github/workflows/bulk-licensed-clone-20261102.yml",
       "mode": "100644",
-      "git_blob_sha1": "ee655ca2f702d4dbb28f27c11e8b967d9cc354ae",
+      "git_blob_sha1": "c49331c541f01628ea510e0fb7d6cd6050bc7b8b",
       "bytes": 6404,
-      "source_commit": "36647733a0ce8288ad30fe3cb09c087d1bf1646b"
+      "source_commit": "c03465ae9f960657fb15b977a8bf2a486dbfa6b7"
     },
     {
       "path": "research/auto-tts-voice-clone-20261102/BULK_CLONE.md",
@@ -20311,9 +20311,9 @@
     {
       "path": "research/auto-tts-voice-clone-20261102/bulk_autopilot.py",
       "mode": "100644",
-      "git_blob_sha1": "b4d6899443ee83e71ca9184c6283ebdd2f942dbf",
+      "git_blob_sha1": "0a5ed1972c14d1757dad11daee6ec8b1a5d1269c",
       "bytes": 16501,
-      "source_commit": "a65bc10a3ab7fecd95b5bec107760bb2eb82ffb7"
+      "source_commit": "c03465ae9f960657fb15b977a8bf2a486dbfa6b7"
     },
     {
       "path": "research/auto-tts-voice-clone-20261102/test_bulk_autopilot.py",
@@ -20332,9 +20332,9 @@
     {
       "path": "tools/supervise_bulk_autopilot.py",
       "mode": "100644",
-      "git_blob_sha1": "34b72f9cdf07197af0046f56d8c1ba7a068f9b64",
+      "git_blob_sha1": "c4e2c13a3522402c230408a8adc84f359e7dd29c",
       "bytes": 7787,
-      "source_commit": "a65bc10a3ab7fecd95b5bec107760bb2eb82ffb7"
+      "source_commit": "c03465ae9f960657fb15b977a8bf2a486dbfa6b7"
     },
     {
       "path": "tests/test_supervise_bulk_autopilot.py",
@@ -21779,6 +21779,47 @@
         "training_admitted": false,
         "tts_calls": 0,
         "asr_calls": 0
+      }
+    },
+    {
+      "campaign": "research-only-feedback-consumer-exact-main-pinning-20261103",
+      "source_commit": "c03465ae9f960657fb15b977a8bf2a486dbfa6b7",
+      "paths": [
+        ".github/workflows/bulk-licensed-clone-20261102.yml",
+        "research/auto-tts-voice-clone-20261102/bulk_autopilot.py",
+        "tools/supervise_bulk_autopilot.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/bulk-licensed-clone-20261102.yml",
+          "mode": "100644",
+          "git_blob_sha1": "ee655ca2f702d4dbb28f27c11e8b967d9cc354ae",
+          "bytes": 6404,
+          "source_commit": "36647733a0ce8288ad30fe3cb09c087d1bf1646b"
+        },
+        {
+          "path": "research/auto-tts-voice-clone-20261102/bulk_autopilot.py",
+          "mode": "100644",
+          "git_blob_sha1": "b4d6899443ee83e71ca9184c6283ebdd2f942dbf",
+          "bytes": 16501,
+          "source_commit": "a65bc10a3ab7fecd95b5bec107760bb2eb82ffb7"
+        },
+        {
+          "path": "tools/supervise_bulk_autopilot.py",
+          "mode": "100644",
+          "git_blob_sha1": "34b72f9cdf07197af0046f56d8c1ba7a068f9b64",
+          "bytes": 7787,
+          "source_commit": "a65bc10a3ab7fecd95b5bec107760bb2eb82ffb7"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "38a7b76889efc5b73c390f45a46bb7f0585395de",
+      "scope": "Use green, protected kws-pipeline research-only feedback main 8b7d62b355b714f27aae177f676fc80aedbf6cf4 for offline pure research screen and receipt validation. Pin three exact consumer Git blobs and final research controller source without commercial fields; no fallback.",
+      "validation": {
+        "source_only": true,
+        "real_tts_calls": 0,
+        "real_asr_calls": 0,
+        "real_training_calls": 0,
+        "training_admitted": false
       }
     }
   ]
