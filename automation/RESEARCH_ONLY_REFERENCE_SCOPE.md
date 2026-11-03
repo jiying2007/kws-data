@@ -21,7 +21,7 @@ Qwen3-TTS CustomVoice/VoiceDesign 可以并行生成原创研究声线，保留 
 
 现有源准备链：automation/prepare_open_reference_pilot.py → automation/open_reference_sources.py，实际检验原始 WAV、规范 16/24k WAV、转换收据 SHA、相同 speaker 原始声音去重。
 
-之前原生 research/auto-tts-voice-clone-20261102/bulk_ingest.py 要求 commercial_synthetic_kws_allowed=true；这适用于原商业合成导入路径，不适用于本研究。新增 **automation/research_only_bulk_ingest.py**，复用以上来源验证、原生匿名 speaker/source family、bulk_ingest.publish_private() 与 bulk_pool 原生来源清单，改用具体版本的研究 TTS scope。旧代码保持不可变。这个入口只支持研究非商用范围，**不会伪造商业准入或标签、部署批准**。
+**automation/research_only_bulk_ingest.py 是唯一声源导入器。** 它直接实现源 catalog 校验、HMAC 匿名 speaker/source family、私有原子写入及 bulk_pool 源清单，要求具体发布版本已审阅的非商用 TTS 研究 scope。平行商用导入器和兼容层已从当前源码树移除；历史实现仅保留在 Git 提交中供审计。研究入口不伪造标签或后续部署批准。
 
 私有 research scope 示例（必须替换真实 HASH/版本及真实审查记录）：
 
@@ -66,4 +66,4 @@ python3 -B automation/research_only_bulk_ingest.py \
 
 ## CI
 
-只用人工 PCM、虚构研究材料和无模型回归验证 noncommercial 源准入、旧商业 gate 仍关闭、source-family/PCM/源字节身份、独占写入、FAR/FRR/量产资格未升级；正常/-O/-OO 模式不得下载真实数据或调用 TTS/ASR。
+只用人工 PCM、虚构研究材料和无模型回归验证研究源准入唯一入口与商用断言不能通过、source-family/PCM/源字节身份、独占写入、FAR/FRR/量产资格未升级；正常/-O/-OO 模式不得下载真实数据或调用 TTS/ASR。
