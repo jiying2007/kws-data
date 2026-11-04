@@ -4,7 +4,7 @@
 
 The Qwen12 v2/v3 source evidence has 36/36 native ASR completion receipts,
 but only 2/12 samples have strict target three-engine agreement. The corpus
-does not yet meet the current product CTC source-admission requirements.
+does not yet meet independent KWS training source-admission requirements.
 This offline stdlib tool creates a **recording worksheet**, then verifies the
 exact audio bytes collected locally; it never records, synthesizes, transcribes,
 trains, uploads, authenticates a human or approves a release.
@@ -128,11 +128,14 @@ invocations missing either binding are rejected rather than silently accepted.
 This output is create-only and aggregates counts by planned role and intent
 without copying raw audio, transcript or personal IDs. Partial recordings
 remain partial; all completion and licensing claims remain unauthenticated.
-Every output always has training_admitted=false, qualification_allowed=false,
-human_identity_authenticated=false, shipping_approved=false and
-physical_ssc305_qualification=false.
+Every output always has `training_admitted=false`, `qualification_allowed=false`,
+`human_identity_authenticated=false`, `shipping_approved=false` and
+`physical_ssc305_qualification=false`. The `shipping_approved=false` field is
+retained solely as an explicit negative assertion in the frozen cross-repository
+v1 format; it is **not** an active product approval, and this pilot cannot
+create one. Research effects and target measurements are separately reviewed.
 
-## Production prerequisites (outside this pilot)
+## Independent research measurements (outside this pilot)
 
 Independent participant consent and rights; genuinely blind audio listening
 with exact labels (not the intended prompt or ASR alone); verified provenance,
@@ -143,7 +146,7 @@ actual SSC305 CPU/latency/noisy 3–5 m performance and soak.
 
 With zero false alarms and a Poisson 95%-upper FAR goal <=0.40/hour, a simple
 reference exposure is at least ~7.5 hours of independent negative audio.
-That is not a universal certification threshold: dependence, nonzero FAs and
+That is not a universal research acceptance threshold: dependence, nonzero FAs and
 actual final-AFE operating conditions must be accounted for separately.
 
 ## Offline source-only tests
