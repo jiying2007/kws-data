@@ -20444,23 +20444,23 @@
     {
       "path": "automation/research_only_bulk_ingest.py",
       "mode": "100644",
-      "git_blob_sha1": "e11be880e025fd4f16b0fbda6555ea6b3cedb73a",
-      "bytes": 12676,
-      "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+      "git_blob_sha1": "68ff1dca97aeaf66785ef1665cf00568cbdb3030",
+      "bytes": 14089,
+      "source_commit": "e20a400e8b41f5be140f41f17b5df3202697e89f"
     },
     {
       "path": "automation/test_research_only_bulk_ingest.py",
       "mode": "100644",
-      "git_blob_sha1": "4dc702b0dce144c7434354d1eb31d8cd59d85e43",
-      "bytes": 12873,
-      "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+      "git_blob_sha1": "d3f25ebb971137acc44a2c0d117d81594dd6e4ff",
+      "bytes": 17399,
+      "source_commit": "e20a400e8b41f5be140f41f17b5df3202697e89f"
     },
     {
       "path": "automation/RESEARCH_ONLY_REFERENCE_SCOPE.md",
       "mode": "100644",
-      "git_blob_sha1": "4b69072034cdb3b36f8d8e702a291fa73367ec55",
-      "bytes": 8072,
-      "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+      "git_blob_sha1": "73ad818dc03c88dac4c9b66784b8d204af7c7143",
+      "bytes": 8468,
+      "source_commit": "e20a400e8b41f5be140f41f17b5df3202697e89f"
     },
     {
       "path": ".github/workflows/research-only-reference-intake.yml",
@@ -22048,6 +22048,51 @@
         "focused_tests": 99,
         "optimized_source_tests": 65,
         "stripped_source_tests": 65
+      }
+    },
+    {
+      "campaign": "incremental-reference-publication-20261105",
+      "source_commit": "e20a400e8b41f5be140f41f17b5df3202697e89f",
+      "paths": [
+        "automation/RESEARCH_ONLY_REFERENCE_SCOPE.md",
+        "automation/research_only_bulk_ingest.py",
+        "automation/test_research_only_bulk_ingest.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/RESEARCH_ONLY_REFERENCE_SCOPE.md",
+          "mode": "100644",
+          "git_blob_sha1": "4b69072034cdb3b36f8d8e702a291fa73367ec55",
+          "bytes": 8072,
+          "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+        },
+        {
+          "path": "automation/research_only_bulk_ingest.py",
+          "mode": "100644",
+          "git_blob_sha1": "e11be880e025fd4f16b0fbda6555ea6b3cedb73a",
+          "bytes": 12676,
+          "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+        },
+        {
+          "path": "automation/test_research_only_bulk_ingest.py",
+          "mode": "100644",
+          "git_blob_sha1": "4dc702b0dce144c7434354d1eb31d8cd59d85e43",
+          "bytes": 12873,
+          "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "2f14bbe9ce18ee6995af49156a2a6fd555eea94b",
+      "scope": "Create-only incremental source manifest publication with immutable content-addressed rights receipts; preserve prior manifests and receipts during publisher transcript/ASR evidence upgrades, source expansion and source-term snapshot changes. No real speech inference or training.",
+      "validation": {
+        "source_only": true,
+        "actual_human_audio": false,
+        "model_calls": 0,
+        "training_admitted": false,
+        "python": "3.12.16",
+        "focused_tests": 62,
+        "optimized_source_tests": 12,
+        "stripped_source_tests": 12,
+        "concurrent_publications": 16
       }
     }
   ]
