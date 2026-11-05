@@ -263,3 +263,108 @@ negative pool, the fixed-exposure comparison cannot yet be built. The sampler
 reports that missing pool rather than replacing it with extra positives,
 silence, or an OOV-to-blank target. D0 alone has that limitation; D1 is planned
 to supply the separate ordinary and partial pools.
+# Accounted continuation after a consumed call without a return
+
+The explicit source adapter **kws-active-d1-partial-observation-source-v3**
+accepts the separately declared **active-tts-accounted-checkpoint-v2**. It keeps
+the original timed-out queue terminal and the original returned records. New
+returned records require their own completed queue owners. The original
+stage is never described as completed, and no old outcomes document is made.
+
+The current bounded protocol accounts for the original prefix of 176, the
+21 original returns, one consumed invocation with no return, and only the
+58 previously unclaimed cells. The new jobs have 12, 12, 10, 12 and 12 calls.
+The first three jobs pause for an authenticated ASR handoff. The additional
+queue allocation is 29.9 minutes; its actual receipts are added to the
+original 600,186,647,856 ns without rewriting that original allocation.
+These are protocol limits, not a statement that future generation or
+recognition has run.
+
+Every original and new owner is authenticated through its immutable queue
+request, recipe, claim, dependency receipts, terminal, logs and exact output
+roster. Original call records bind the reference audio and PCM, source
+family, reference text status, actual ICL or x-vector mode, prompt, seed and
+generation settings. Returned NPY and native FLOAT WAV values are compared
+without loading a numerical package. Valid native returns retain the
+existing source-map, selective-ASR decision policy and loss masks.
+
+The one **unobservable-consumed** entry has its original claim, call and start
+records. Its missing return and terminal paths are checked explicitly. It
+has no input clip, ASR request, observed text, synthetic PCM or training row.
+It is never reclassified as FAILED_NO_RETRY. A returned but undecodable
+native array is a separate **returned-unrecognizable** exclusion, with the
+original return, failure and owner evidence retained.
+
+Source-map and view creation take this mutually exclusive pair of options:
+
+~~~sh
+python3 -I -S -B automation/active_asr_weak_view.py source-map \
+  --inputs PRIVATE/inputs.json --inputs-sha256 INPUT_SHA \
+  --source-archive PRIVATE/native.zip --output PRIVATE/source-map.json \
+  --d1-checkpoint PRIVATE/checkpoint.json --d1-checkpoint-sha256 CHECKPOINT_SHA
+~~~
+
+The same two checkpoint arguments are accepted by create. The checkpoint
+can authenticate several generation owners in a single archive. A final
+checkpoint excludes all previously returned cells from new recognition
+requests. The archive still contains only the exact eligible input roster;
+unknown or reused cells are rejected at this boundary.
+
+The retained package keeps the full original plan at
+**evidence/source/d1/plan.json**, its checkpoint, and each referenced file under
+a deterministic private evidence name. Original absolute paths inside
+receipts remain unchanged. d1_artifact_roots can explicitly relocate input
+roots at intake; package replay uses retained files and never consults the
+live ledger. New v3 view producers record exactly the seven files in
+ACCOUNTED_SOURCE_PATHS; old v1/v2 producer records keep their original shape.
+
+Two public standard-library verification APIs are available:
+
+~~~python
+verify_accounted_prior(path, expected_sha256, *, expected_count=256)
+verify_accounted_seal(path, expected_sha256, *, expected_count=232)
+~~~
+
+verify_accounted_prior validates d1-accounted-prior-evidence-v2, replays
+every immutable view, checks source-family and role separation, and returns
+kws-d1-accounted-prior-verification-v2. Its normalized fields include the
+full plan, plan hash, accounted prefix, observed IDs in plan order,
+excluded_returned, unobservable_consumed, pending_ids, view pins and
+all replayed evidence_files with absolute path, byte count and SHA-256.
+Both unobservable categories include the original proof, family, role,
+zero ASR calls, null observed text and training_admitted: false.
+accounted_complete means the requested prefix is fully accounted for;
+complete_terminal_coverage remains false when an unknown exists.
+
+verify_accounted_seal additionally authenticates the completed ASR queue,
+each actual request, source map, native call/result matrix, original and
+derived PCM, routing and final audit against the retained views. Exact
+recognition and input file rosters reject extra unretained calls. It checks
+that the fixed control snapshot, the invoked verifier and every new view
+producer have the same seven source hashes. Success returns:
+
+~~~json
+{
+  "schema": "d1-accounted-selective-seal-verification-v3",
+  "status": "verified",
+  "verified": true,
+  "accounted_prefix_count": 232,
+  "full_replay_completed": true,
+  "ml_imports": 0,
+  "new_model_calls": 0
+}
+~~~
+
+The result also contains the verified prior, actual queue state, new observed
+IDs and evidence pins. Any mismatch raises an exception. The generation
+handoff must require these success fields, not merely a dictionary return.
+The sealing operation runs all four existing consumer/split loader calls;
+subsequent verification can do one complete row replay and verify the four
+saved projections from those same fully checked rows.
+
+Tests in test_active_d1_accounted.py use explicitly fictional queue receipts,
+numeric audio and saved ASR outputs. They cover mixed owners, the unknown
+boundary, actual duration arithmetic, all 231 observed rows in a fictional
+accounted prefix of 232, and replay after the original generation roots have
+been removed. They make zero model calls and are not evidence of a real
+continuation run.
