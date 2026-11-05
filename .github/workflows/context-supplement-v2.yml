@@ -1,0 +1,40 @@
+name: Additive context v2 fixed vocabulary contracts
+
+on:
+  pull_request:
+    paths:
+      - 'research/auto-tts-voice-clone-20261102/**'
+      - 'kws_data_contract/**'
+      - automation/active_asr_weak_view.py
+      - automation/test_active_d1_weak_view.py
+      - automation/test_active_d1_outcomes.py
+      - .github/workflows/context-supplement-v2.yml
+  push:
+    branches: [main]
+    paths:
+      - 'research/auto-tts-voice-clone-20261102/**'
+      - 'kws_data_contract/**'
+      - automation/active_asr_weak_view.py
+      - automation/test_active_d1_weak_view.py
+      - automation/test_active_d1_outcomes.py
+      - .github/workflows/context-supplement-v2.yml
+
+permissions:
+  contents: read
+
+jobs:
+  source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Fixed vocabulary, immutable ancestry and bounded native protocol
+        shell: bash
+        run: |
+          set -euo pipefail
+          for context_v2_mode in '' '-O' '-OO'; do
+            python3 -B $context_v2_mode research/auto-tts-voice-clone-20261102/test_context_supplement_v2.py -v
+          done
+          git diff --exit-code
