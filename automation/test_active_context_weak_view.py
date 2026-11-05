@@ -266,6 +266,24 @@ class ContextWeakViewTests(unittest.TestCase):
                 context.build_source_map(self.inputs / "inputs.json", self.input_sha, self.archive, **self.options())
         self.recipe_path.write_bytes(original)
 
+    def test_jointly_changed_native_stage_and_recipe_generation_cannot_override_verified_plan(self):
+        changed_generation = {**context.pool.GENERATION, "temperature": .2}
+        stage = weak.loads(self.stage_path.read_bytes())
+        stage["generation"] = changed_generation
+        self.stage_path.write_bytes(native_fixture.encoded(stage))
+        recipe = weak.loads(self.recipe_path.read_bytes())
+        recipe["generation"] = changed_generation
+        recipe["stage"] = {"path": str(self.stage_path), **self.record(self.stage_path)}
+        self.recipe_path.write_bytes(native_fixture.encoded(recipe))
+        for cell_id in recipe["selected_cells"]:
+            path = self.native / cell_id / "call.json"
+            call = weak.loads(path.read_bytes())
+            call["generation"] = changed_generation
+            path.write_bytes(native_fixture.encoded(call))
+        self.assertNotEqual(changed_generation, self.plan["generation"])
+        with self.assertRaisesRegex(ValueError, "CONTEXT_JOB_OWNER_SCOPE"):
+            context.build_source_map(self.inputs / "inputs.json", self.input_sha, self.archive, **self.options())
+
     def test_native_reference_text_array_and_unknown_terminal_must_authenticate(self):
         native = self.native / self.plan["cells"][0]["cell_id"]
         call = native / "call.json"

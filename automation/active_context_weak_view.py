@@ -90,7 +90,8 @@ def _owner(plan, plan_raw, observed, generation, recipe_raw, expected_recipe_sha
             recipe["job_id"] == f"generate-{recipe['chunk_index'] + 1:03d}" and
             1 <= len(selected) <= 16 and len(set(selected)) == len(selected) and
             len(set(observed)) == len(observed) and set(observed) <= set(selected) and
-            recipe["generation"] == stage["generation"] == generation, "CONTEXT_JOB_OWNER_SCOPE")
+            recipe["generation"] == stage["generation"] == generation == plan["generation"],
+            "CONTEXT_JOB_OWNER_SCOPE")
     return {"job_recipe_sha256": expected_recipe_sha, "stage_sha256": sha(stage_raw),
             "job_id": recipe["job_id"], "selected_cell_ids": selected,
             "observed_cell_ids": observed,
