@@ -232,9 +232,9 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1897,
-  "expected_retained_files": 1889,
-  "new_retained_paths": 1236,
+  "expected_tracked_files": 1901,
+  "expected_retained_files": 1893,
+  "new_retained_paths": 1240,
   "integration_files": [
     ".github/workflows/research-retention.yml",
     "README.md",
@@ -20458,16 +20458,16 @@
     {
       "path": "automation/RESEARCH_ONLY_REFERENCE_SCOPE.md",
       "mode": "100644",
-      "git_blob_sha1": "73ad818dc03c88dac4c9b66784b8d204af7c7143",
-      "bytes": 8468,
-      "source_commit": "e20a400e8b41f5be140f41f17b5df3202697e89f"
+      "git_blob_sha1": "e7dadfcfafd995cb55575c28697ec4ad0d5f61ad",
+      "bytes": 12369,
+      "source_commit": "5a6f7320614db6e1704ef37305c49f49e446887e"
     },
     {
       "path": ".github/workflows/research-only-reference-intake.yml",
       "mode": "100644",
-      "git_blob_sha1": "24dfc66f166c7def43b11ffacc35c5743ec354a8",
-      "bytes": 3016,
-      "source_commit": "02604ffe0b1bbcca0f52d0e0bff6e58fa3718a86"
+      "git_blob_sha1": "628d0b59a0504df47081b825a80944c2c77958d1",
+      "bytes": 3546,
+      "source_commit": "5a6f7320614db6e1704ef37305c49f49e446887e"
     },
     {
       "path": "kws_data_contract/__init__.py",
@@ -20486,9 +20486,9 @@
     {
       "path": "kws_data_contract/reference_text.py",
       "mode": "100644",
-      "git_blob_sha1": "1f7c1901bbe376d9274fd365477ef8549919da14",
-      "bytes": 10260,
-      "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+      "git_blob_sha1": "a909f42b6b005a2219315770ccdf2c4aadc64a4d",
+      "bytes": 11358,
+      "source_commit": "5a6f7320614db6e1704ef37305c49f49e446887e"
     },
     {
       "path": "kws_data_contract/source_registry.py",
@@ -20500,9 +20500,9 @@
     {
       "path": "tests/test_reference_text.py",
       "mode": "100644",
-      "git_blob_sha1": "509e0b9d7a13e7d2f500db117b57771fb3f79999",
-      "bytes": 6964,
-      "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+      "git_blob_sha1": "0e05f3316cb7cc1fbbc94f2c12e9e1513c03c977",
+      "bytes": 10654,
+      "source_commit": "5a6f7320614db6e1704ef37305c49f49e446887e"
     },
     {
       "path": "tests/test_source_identity.py",
@@ -20559,6 +20559,34 @@
       "git_blob_sha1": "dd39b24b305bebdc8ef3f7bf00a68e4aa6ddf775",
       "bytes": 3184,
       "source_commit": "02604ffe0b1bbcca0f52d0e0bff6e58fa3718a86"
+    },
+    {
+      "path": "automation/reference_asr_checks.py",
+      "mode": "100644",
+      "git_blob_sha1": "ac6c4e1eeee3597bc4e1b3fe2abf2c0e3cfebd37",
+      "bytes": 9937,
+      "source_commit": "5a6f7320614db6e1704ef37305c49f49e446887e"
+    },
+    {
+      "path": "automation/reference_asr_inputs.py",
+      "mode": "100644",
+      "git_blob_sha1": "722f1d2e9d7cffe4147a750b8081407184111926",
+      "bytes": 13052,
+      "source_commit": "5a6f7320614db6e1704ef37305c49f49e446887e"
+    },
+    {
+      "path": "automation/test_reference_asr_checks.py",
+      "mode": "100644",
+      "git_blob_sha1": "6ea0901e141cb9d5ca3c5f4f650b20b2e99322a7",
+      "bytes": 3467,
+      "source_commit": "5a6f7320614db6e1704ef37305c49f49e446887e"
+    },
+    {
+      "path": "automation/test_reference_asr_inputs.py",
+      "mode": "100644",
+      "git_blob_sha1": "e82aa9953dd97b4a592a851212d434da8696cf05",
+      "bytes": 5510,
+      "source_commit": "5a6f7320614db6e1704ef37305c49f49e446887e"
     }
   ],
   "source_registration_history": [
@@ -22240,6 +22268,68 @@
         "d0_fsmn_rows": 48,
         "d0_development_rows": 0,
         "d1_actual_generation": "not_yet_executed"
+      }
+    },
+    {
+      "campaign": "audio-only-reference-asr-and-versioned-native-checks-20261105",
+      "source_commit": "5a6f7320614db6e1704ef37305c49f49e446887e",
+      "paths": [
+        ".github/workflows/research-only-reference-intake.yml",
+        "automation/RESEARCH_ONLY_REFERENCE_SCOPE.md",
+        "automation/reference_asr_checks.py",
+        "automation/reference_asr_inputs.py",
+        "automation/test_reference_asr_checks.py",
+        "automation/test_reference_asr_inputs.py",
+        "kws_data_contract/reference_text.py",
+        "tests/test_reference_text.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/research-only-reference-intake.yml",
+          "mode": "100644",
+          "git_blob_sha1": "24dfc66f166c7def43b11ffacc35c5743ec354a8",
+          "bytes": 3016,
+          "source_commit": "02604ffe0b1bbcca0f52d0e0bff6e58fa3718a86"
+        },
+        {
+          "path": "automation/RESEARCH_ONLY_REFERENCE_SCOPE.md",
+          "mode": "100644",
+          "git_blob_sha1": "73ad818dc03c88dac4c9b66784b8d204af7c7143",
+          "bytes": 8468,
+          "source_commit": "e20a400e8b41f5be140f41f17b5df3202697e89f"
+        },
+        {
+          "path": "kws_data_contract/reference_text.py",
+          "mode": "100644",
+          "git_blob_sha1": "1f7c1901bbe376d9274fd365477ef8549919da14",
+          "bytes": 10260,
+          "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+        },
+        {
+          "path": "tests/test_reference_text.py",
+          "mode": "100644",
+          "git_blob_sha1": "509e0b9d7a13e7d2f500db117b57771fb3f79999",
+          "bytes": 6964,
+          "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "813db3b5c673743d12abee7625930208bb68e653",
+      "scope": "Bind canonical reference audio to an audio-only native ASR matrix and preserve all three complete observations; use explicit versioned model-repository and native-checkpoint identities without rewriting v1 evidence or the dataset-provided source manifest.",
+      "validation": {
+        "source_only": true,
+        "new_model_calls_for_source_validation": 0,
+        "reference_text_tests": 10,
+        "reference_input_tests": 3,
+        "reference_check_export_tests": 3,
+        "modes": [
+          "normal",
+          "-O",
+          "-OO"
+        ],
+        "actual_reference_asr_calls_already_preserved": 24,
+        "actual_reference_content_checked": 3,
+        "actual_reference_dataset_provided": 5,
+        "human_gold": false
       }
     }
   ]
