@@ -15,6 +15,8 @@ on:
       - automation/test_reference_asr_checks.py
       - automation/test_active_asr_weak_view.py
       - automation/test_active_d1_weak_view.py
+      - automation/test_active_d1_outcomes.py
+      - automation/test_selective_asr_weak_view.py
       - automation/test_research_weak_sampling.py
       - automation/RESEARCH_WEAK_VIEW.md
       - automation/test_research_only_bulk_ingest.py
@@ -40,6 +42,8 @@ on:
       - automation/test_reference_asr_checks.py
       - automation/test_active_asr_weak_view.py
       - automation/test_active_d1_weak_view.py
+      - automation/test_active_d1_outcomes.py
+      - automation/test_selective_asr_weak_view.py
       - automation/test_research_weak_sampling.py
       - automation/RESEARCH_WEAK_VIEW.md
       - automation/test_research_only_bulk_ingest.py
@@ -73,6 +77,8 @@ jobs:
           for weak_mode in '' '-O' '-OO'; do
             python3 -I -S -B $weak_mode automation/test_active_asr_weak_view.py -v
             python3 -I -S -B $weak_mode automation/test_active_d1_weak_view.py -v
+            python3 -I -S -B $weak_mode automation/test_active_d1_outcomes.py -v
+            python3 -I -S -B $weak_mode automation/test_selective_asr_weak_view.py -v
             python3 -I -S -B $weak_mode automation/test_research_weak_sampling.py -v
             python3 -I -S -B $weak_mode automation/test_reference_asr_inputs.py -v
             python3 -I -S -B $weak_mode automation/test_reference_asr_checks.py -v
