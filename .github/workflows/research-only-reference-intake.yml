@@ -7,6 +7,12 @@ on:
       - 'tests/test_source*.py'
       - tests/test_reference_text.py
       - automation/research_only_bulk_ingest.py
+      - automation/active_asr_weak_view.py
+      - automation/research_weak_sampling.py
+      - automation/test_active_asr_weak_view.py
+      - automation/test_active_d1_weak_view.py
+      - automation/test_research_weak_sampling.py
+      - automation/RESEARCH_WEAK_VIEW.md
       - automation/test_research_only_bulk_ingest.py
       - automation/open_reference_sources.py
       - research/auto-tts-voice-clone-20261102/bulk_pool.py
@@ -22,6 +28,12 @@ on:
       - 'tests/test_source*.py'
       - tests/test_reference_text.py
       - automation/research_only_bulk_ingest.py
+      - automation/active_asr_weak_view.py
+      - automation/research_weak_sampling.py
+      - automation/test_active_asr_weak_view.py
+      - automation/test_active_d1_weak_view.py
+      - automation/test_research_weak_sampling.py
+      - automation/RESEARCH_WEAK_VIEW.md
       - automation/test_research_only_bulk_ingest.py
       - automation/open_reference_sources.py
       - research/auto-tts-voice-clone-20261102/bulk_pool.py
@@ -50,6 +62,11 @@ jobs:
           python3 -I -S -B automation/test_research_only_bulk_ingest.py -v
           python3 -I -S -B -O automation/test_research_only_bulk_ingest.py -v
           python3 -I -S -B -OO automation/test_research_only_bulk_ingest.py -v
+          for weak_mode in '' '-O' '-OO'; do
+            python3 -I -S -B $weak_mode automation/test_active_asr_weak_view.py -v
+            python3 -I -S -B $weak_mode automation/test_active_d1_weak_view.py -v
+            python3 -I -S -B $weak_mode automation/test_research_weak_sampling.py -v
+          done
       - name: Verify no tracked mutation from source fixtures
         run: |
           git diff --exit-code HEAD --

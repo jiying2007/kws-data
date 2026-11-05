@@ -5,6 +5,7 @@ real ASR or production labels are used in these tests.
 """
 from __future__ import annotations
 import copy
+from collections import Counter
 import hashlib
 import json
 import os
@@ -130,6 +131,26 @@ class Fixture(unittest.TestCase):
         return worker.run(self.plan,self.sources,self.root,self.tts,
                           self.backend,max_new_calls=amount,writer=writer)
 
+    def d1_sources(self):
+        result = copy.deepcopy(self.sources)
+        result["references"] = []
+        for index in range(8):
+            ref = copy.deepcopy(self.references[0])
+            ref.update(reference_id=f"d1-ref-{index}", speaker_group_id=f"d1-speaker-{index}",
+                       source_family_id=f"d1-family-{index}",
+                       role="train-candidate" if index < 6 else "development-only",
+                       audio_path=f"d1-ref{index}.wav", rights_record_path=f"d1-rights{index}.json")
+            measured = write_ref(self.root / ref["audio_path"], 6000 + index * 1000)
+            ref.update({key: measured[key] for key in ("wav_sha256", "pcm_sha256", "frames", "sample_rate_hz")})
+            ref["parent_source_sha256"] = measured["wav_sha256"]
+            rights = json.loads((self.root / self.references[0]["rights_record_path"]).read_bytes())
+            rights.update(reference_id=ref["reference_id"], wav_sha256=ref["wav_sha256"])
+            body = p.canonical(rights)
+            (self.root / ref["rights_record_path"]).write_bytes(body)
+            ref["rights_record_sha256"] = hash_bytes(body)
+            result["references"].append(ref)
+        return result
+
     def simulate_asr(self,cmd,**kwargs):
         wav=Path(cmd[-3])
         native=Path(cmd[-1])
@@ -150,6 +171,34 @@ class Fixture(unittest.TestCase):
 
 
 class BulkPlanTests(Fixture):
+    def test_d1_round_robin_preserves_six_two_split_and_per_source_mix(self):
+        sources = self.d1_sources()
+        plan = p.plan(sources, self.root, batch_id="d1-fixture", revision="b" * 40, layout=p.D1_LAYOUT)
+        p.verify_plan(plan)
+        cells = plan["cells"]
+        self.assertEqual(len(cells), 256)
+        self.assertEqual(len({cell["cell_id"] for cell in cells}), 256)
+        self.assertEqual(Counter(cell["role"] for cell in cells),
+                         {"train-candidate": 192, "development-only": 64})
+        for ref in sources["references"]:
+            own = [cell for cell in cells if cell["reference_id"] == ref["reference_id"]]
+            self.assertEqual(Counter(cell["generation_category"] for cell in own),
+                             {"full-positive": 16, "ordinary-negative": 8, "partial-negative": 4, "near-negative": 4})
+        for start in range(0, 256, 8):
+            group = cells[start:start + 8]
+            self.assertEqual(len({cell["source_family_id"] for cell in group}), 8)
+            self.assertEqual(Counter(cell["generation_category"] for cell in group),
+                             {"full-positive": 4, "ordinary-negative": 2, "partial-negative": 1, "near-negative": 1})
+            self.assertEqual(Counter(cell["intended_keyword_id"] for cell in group
+                                     if cell["generation_category"] == "full-positive"), {1: 2, 2: 2})
+        self.assertNotEqual(cells[0]["reference_id"], cells[8]["reference_id"])
+        changed = copy.deepcopy(plan)
+        changed["cells"][0], changed["cells"][1] = changed["cells"][1], changed["cells"][0]
+        with self.assertRaisesRegex(ValueError, "CELL_PLAN_CHANGED"):
+            p.verify_plan(changed)
+        with self.assertRaisesRegex(ValueError, "D1_REQUIRES"):
+            p.plan(self.sources, self.root, revision="b" * 40, layout=p.D1_LAYOUT)
+
     def test_many_speakers_many_positive_negative(self):
         self.assertEqual(len(self.plan["cells"]),64)
         count={kind:sum(x["intended_kind"]==kind for x in self.plan["cells"])
@@ -281,6 +330,15 @@ class BulkPlanTests(Fixture):
 
 
 class BulkRuntimeTests(Fixture):
+    def test_d1_layout_survives_runner_source_rebuild_and_resume(self):
+        sources = self.d1_sources()
+        plan = p.plan(sources, self.root, batch_id="d1-fixture", revision="b" * 40, layout=p.D1_LAYOUT)
+        worker.run(plan, sources, self.root, self.tts, self.backend, max_new_calls=8, writer=writer)
+        self.assertEqual(self.backend.calls, [cell["cell_id"] for cell in plan["cells"][:8]])
+        self.assertEqual(len(self.backend.prepared), 8)
+        worker.run(plan, sources, self.root, self.tts, self.backend, max_new_calls=0, writer=writer)
+        self.assertEqual(len(self.backend.calls), 8)
+
     def test_resume_never_replays_started_generation(self):
         first=self.gen(3)
         self.assertEqual(first["attempts_this_call"],3)

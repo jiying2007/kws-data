@@ -150,7 +150,7 @@ def run(plan, source_manifest, audio_root, output, backend, *,
     expected = p.plan(source_manifest, audio_root,
         repetitions=plan["repetitions"], batch_id=plan["batch_id"],
         revision=plan["model_revision"],
-        max_calls=plan["budgets"]["max_total_calls"])
+        max_calls=plan["budgets"]["max_total_calls"], layout=plan.get("cell_layout"))
     p.require(p.canonical(expected) == p.canonical(plan),
               "SOURCE_OR_PLAN_CHANGED")
     p.require(type(max_new_calls) is int and
