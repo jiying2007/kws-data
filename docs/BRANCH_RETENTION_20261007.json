@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1901,
-  "expected_retained_files": 1893,
+  "expected_tracked_files": 1903,
+  "expected_retained_files": 1895,
   "new_retained_paths": 1240,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -20465,9 +20465,9 @@
     {
       "path": ".github/workflows/research-only-reference-intake.yml",
       "mode": "100644",
-      "git_blob_sha1": "628d0b59a0504df47081b825a80944c2c77958d1",
-      "bytes": 3546,
-      "source_commit": "5a6f7320614db6e1704ef37305c49f49e446887e"
+      "git_blob_sha1": "9c5b557a04f9ed70ceecf10218c30c9eaa63a8bb",
+      "bytes": 3907,
+      "source_commit": "a1ce59045435567c441492d54071991bb75ed5fe"
     },
     {
       "path": "kws_data_contract/__init__.py",
@@ -20521,16 +20521,16 @@
     {
       "path": "automation/RESEARCH_WEAK_VIEW.md",
       "mode": "100644",
-      "git_blob_sha1": "c7f34fc1df56c17d38355883c9842f6cf6a2eff0",
-      "bytes": 10401,
-      "source_commit": "02604ffe0b1bbcca0f52d0e0bff6e58fa3718a86"
+      "git_blob_sha1": "46818c79a5b2394412e88d61501c0ec9fe17c7ca",
+      "bytes": 15547,
+      "source_commit": "a1ce59045435567c441492d54071991bb75ed5fe"
     },
     {
       "path": "automation/active_asr_weak_view.py",
       "mode": "100644",
-      "git_blob_sha1": "291dbfb1602f52dd789a567036659bc6adf7a4b1",
-      "bytes": 46158,
-      "source_commit": "02604ffe0b1bbcca0f52d0e0bff6e58fa3718a86"
+      "git_blob_sha1": "72caf991723377ecc04967757bda84211d3719bc",
+      "bytes": 83482,
+      "source_commit": "a1ce59045435567c441492d54071991bb75ed5fe"
     },
     {
       "path": "automation/research_weak_sampling.py",
@@ -20587,6 +20587,20 @@
       "git_blob_sha1": "e82aa9953dd97b4a592a851212d434da8696cf05",
       "bytes": 5510,
       "source_commit": "5a6f7320614db6e1704ef37305c49f49e446887e"
+    },
+    {
+      "path": "automation/test_active_d1_outcomes.py",
+      "mode": "100644",
+      "git_blob_sha1": "7af1fd4f1481f3f0dd53355e2ede40c73acd15aa",
+      "bytes": 17127,
+      "source_commit": "a1ce59045435567c441492d54071991bb75ed5fe"
+    },
+    {
+      "path": "automation/test_selective_asr_weak_view.py",
+      "mode": "100644",
+      "git_blob_sha1": "c38adde461285564e920c2d8bd7f2ad367f21280",
+      "bytes": 16427,
+      "source_commit": "a1ce59045435567c441492d54071991bb75ed5fe"
     }
   ],
   "source_registration_history": [
@@ -22329,6 +22343,64 @@
         "actual_reference_asr_calls_already_preserved": 24,
         "actual_reference_content_checked": 3,
         "actual_reference_dataset_provided": 5,
+        "human_gold": false
+      }
+    },
+    {
+      "campaign": "d1-native-failures-and-selective-asr-consumption-20261105",
+      "source_commit": "a1ce59045435567c441492d54071991bb75ed5fe",
+      "paths": [
+        ".github/workflows/research-only-reference-intake.yml",
+        "automation/RESEARCH_WEAK_VIEW.md",
+        "automation/active_asr_weak_view.py",
+        "automation/test_active_d1_outcomes.py",
+        "automation/test_selective_asr_weak_view.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/research-only-reference-intake.yml",
+          "mode": "100644",
+          "git_blob_sha1": "628d0b59a0504df47081b825a80944c2c77958d1",
+          "bytes": 3546,
+          "source_commit": "5a6f7320614db6e1704ef37305c49f49e446887e"
+        },
+        {
+          "path": "automation/RESEARCH_WEAK_VIEW.md",
+          "mode": "100644",
+          "git_blob_sha1": "c7f34fc1df56c17d38355883c9842f6cf6a2eff0",
+          "bytes": 10401,
+          "source_commit": "02604ffe0b1bbcca0f52d0e0bff6e58fa3718a86"
+        },
+        {
+          "path": "automation/active_asr_weak_view.py",
+          "mode": "100644",
+          "git_blob_sha1": "291dbfb1602f52dd789a567036659bc6adf7a4b1",
+          "bytes": 46158,
+          "source_commit": "02604ffe0b1bbcca0f52d0e0bff6e58fa3718a86"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "8859a2cea3811eb262a9e8d89287fe63f0231dd7",
+      "scope": "Authenticate frozen D1 outcomes and preserve failed native returns with zero loss masks; replay exact selective ASR routing and explicit unrequested Whisper observations from retained evidence without the original runtime.",
+      "validation": {
+        "source_only": true,
+        "new_model_calls_for_source_validation": 0,
+        "native_outcome_tests": 11,
+        "selective_evidence_tests": 9,
+        "legacy_d1_tests": 8,
+        "legacy_weak_view_tests": 16,
+        "modes": [
+          "normal",
+          "-O",
+          "-OO"
+        ],
+        "cross_repository_official_tokens_replay": {
+          "observed_rows": 16,
+          "train_ctc_rows": 11,
+          "development_rows": 4,
+          "failed_native_zero_loss_rows": 1,
+          "not_requested_observations": 12,
+          "original_roots_removed": true
+        },
         "human_gold": false
       }
     }
