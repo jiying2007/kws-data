@@ -20718,30 +20718,30 @@
     {
       "path": "automation/active_context_v2_weak_view.py",
       "mode": "100644",
-      "bytes": 30908,
-      "git_blob_sha1": "9b193488aa106ed9d6cc974987921aaf6fa0b645",
-      "source_commit": "ca32d13aeb6e130eefeb2ae808eb65db46aa4462"
+      "git_blob_sha1": "eede21b8a3beb04a88d6223c8f9860e81d6ef20a",
+      "bytes": 30942,
+      "source_commit": "b5c209209c995098d0ba4c3d0804c7ef0e70a416"
     },
     {
       "path": "automation/active_context_weak_view.py",
       "mode": "100644",
-      "bytes": 29912,
-      "git_blob_sha1": "c4839da5fea7a07cd962f7a1d247d8b406e3be8b",
-      "source_commit": "ca32d13aeb6e130eefeb2ae808eb65db46aa4462"
+      "git_blob_sha1": "8da521958b78c85e6a709b514f9bde0d38bc7526",
+      "bytes": 29946,
+      "source_commit": "b5c209209c995098d0ba4c3d0804c7ef0e70a416"
     },
     {
       "path": "automation/test_active_context_v2_weak_view.py",
       "mode": "100644",
-      "bytes": 24486,
-      "git_blob_sha1": "dfbb1c1147f22b1b7ad2973edf8f5f567db14bfc",
-      "source_commit": "ca32d13aeb6e130eefeb2ae808eb65db46aa4462"
+      "git_blob_sha1": "e947f0eff287e1571c5a4ba0d915cae56cd67140",
+      "bytes": 25634,
+      "source_commit": "b5c209209c995098d0ba4c3d0804c7ef0e70a416"
     },
     {
       "path": "automation/test_active_context_weak_view.py",
       "mode": "100644",
-      "bytes": 22579,
-      "git_blob_sha1": "b213dc290e5537b53dd79d076b5ca1c7d19b2c2a",
-      "source_commit": "ca32d13aeb6e130eefeb2ae808eb65db46aa4462"
+      "git_blob_sha1": "0fd3c4852e8acd452d2f16c701ca1e1895a5134d",
+      "bytes": 23724,
+      "source_commit": "b5c209209c995098d0ba4c3d0804c7ef0e70a416"
     },
     {
       "path": "research/auto-tts-voice-clone-20261102/CONTEXT_SUPPLEMENT.md",
@@ -22809,6 +22809,54 @@
         "v2_requested_fulltext_preflight": true,
         "human_gold": false,
         "actual_native_and_asr_outcomes_reported_separately": true
+      }
+    },
+    {
+      "campaign": "context-plan-generation-binding-20261105",
+      "source_commit": "b5c209209c995098d0ba4c3d0804c7ef0e70a416",
+      "paths": [
+        "automation/active_context_v2_weak_view.py",
+        "automation/active_context_weak_view.py",
+        "automation/test_active_context_v2_weak_view.py",
+        "automation/test_active_context_weak_view.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/active_context_v2_weak_view.py",
+          "mode": "100644",
+          "bytes": 30908,
+          "git_blob_sha1": "9b193488aa106ed9d6cc974987921aaf6fa0b645",
+          "source_commit": "ca32d13aeb6e130eefeb2ae808eb65db46aa4462"
+        },
+        {
+          "path": "automation/active_context_weak_view.py",
+          "mode": "100644",
+          "bytes": 29912,
+          "git_blob_sha1": "c4839da5fea7a07cd962f7a1d247d8b406e3be8b",
+          "source_commit": "ca32d13aeb6e130eefeb2ae808eb65db46aa4462"
+        },
+        {
+          "path": "automation/test_active_context_v2_weak_view.py",
+          "mode": "100644",
+          "bytes": 24486,
+          "git_blob_sha1": "dfbb1c1147f22b1b7ad2973edf8f5f567db14bfc",
+          "source_commit": "ca32d13aeb6e130eefeb2ae808eb65db46aa4462"
+        },
+        {
+          "path": "automation/test_active_context_weak_view.py",
+          "mode": "100644",
+          "bytes": 22579,
+          "git_blob_sha1": "b213dc290e5537b53dd79d076b5ca1c7d19b2c2a",
+          "source_commit": "ca32d13aeb6e130eefeb2ae808eb65db46aa4462"
+        }
+      ],
+      "previous_manifest_sha256": "e9887b58a3109528eca38bb3152ff40d272aec852c85274fa367b322dc5644f0",
+      "previous_manifest_git_blob_sha1": "857850f746f2609fd60e3113ae40927dd9262533",
+      "scope": "Require recipe, owner stage and native call generation parameters to equal the independently verified context plan. Preserve the previously published execution-source revision and every actual run receipt; current runs are independently audited against the same equality.",
+      "validation": {
+        "new_model_calls_for_source_tests": 0,
+        "synchronized_stage_recipe_native_tampering_rejected": true,
+        "existing_execution_source_unchanged": true
       }
     }
   ]
