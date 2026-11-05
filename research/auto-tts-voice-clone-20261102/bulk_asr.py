@@ -54,7 +54,7 @@ def _verify_generation_plan(plan, generated_root):
 
 def dispatch(plan, generated_root, output, adapters, *, max_new_calls,
              executor=subprocess.run, execute=False):
-    p.verify_plan(plan)
+    tts.verify_plan(plan)
     sources=old_asr.check_adapters(adapters)
     p.require(type(max_new_calls) is int and
               0<=max_new_calls<=64,"ASR_CALL_BUDGET")
@@ -172,7 +172,7 @@ def dispatch(plan, generated_root, output, adapters, *, max_new_calls,
 
 
 def screen_results(plan,gen_root,asr_root,adapters):
-    p.verify_plan(plan)
+    tts.verify_plan(plan)
     _verify_generation_plan(plan,gen_root)
     sources=receipts.check_adapters(adapters)
     expected_binding=receipts.binding(plan,adapters)
@@ -245,7 +245,7 @@ def main(argv=None):
     args=cli.parse_args(argv)
     try:
         plan=p.read_json(args.plan,8*1024*1024)
-        p.verify_plan(plan)
+        tts.verify_plan(plan)
         adapters=p.read_json(args.adapter_lock)
         receipts.check_adapters(adapters)
         if args.execute:

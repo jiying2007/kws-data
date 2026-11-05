@@ -120,6 +120,32 @@ class ResearchOnlySourceTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             research.publish_private(manifest, rights, self.audio, out)
 
+    def test_32_reference_intake_keeps_existing_registry_entries(self):
+        original_entries = copy.deepcopy(self.registry["entries"])
+        for index in range(2, 32):
+            name = "clip" + str(index) + ".wav"
+            wav_file(self.original / name, 5000 + index * 100)
+            raw = (self.original / name).read_bytes()
+            (self.audio / name).write_bytes(raw)
+            digest = sha(raw)
+            receipt_name = "clip" + str(index) + ".json"
+            (self.conv / receipt_name).write_bytes(pool.canonical({
+                "schema": reference.CONVERSION_SCHEMA, "original_sha256": digest,
+                "normalized_sha256": digest, "conversion": "identity", "conversion_recipe_sha256": None}))
+            self.index["rows"].append({"speaker_key": "speaker-" + str(index),
+                "original_path": name, "original_sha256": digest,
+                "normalized_path": name, "normalized_sha256": digest,
+                "conversion_receipt_path": receipt_name})
+        self.registry = source_registry.extend(self.registry, self.index["dataset_id"],
+                                                [row["speaker_key"] for row in self.index["rows"]])
+        manifest, rights = self.prepare(max_refs=32)
+        self.assertEqual(len(manifest["references"]), 32)
+        self.assertEqual(self.registry["entries"][:2], original_entries)
+        research.publish_private(manifest, rights, self.audio, self.root / "d2-sources.json")
+        self.assertEqual(len(pool.validate_sources(manifest, self.audio)), 32)
+        with self.assertRaisesRegex(ValueError, "RESEARCH_SPEAKER_BUDGET"):
+            self.prepare(max_refs=33)
+
     def test_publish_appends_new_references_and_terms_without_changing_old_receipts(self):
         initial, rights = self.prepare(max_refs=1)
         out = self.root / "initial.json"

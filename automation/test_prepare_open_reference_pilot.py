@@ -115,6 +115,16 @@ class LocalOfficialCorpusPrepTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "LICENSE_SNAPSHOT_DRIFT"):
             self.build()
 
+    def test_d2_prepares_32_actual_sources_with_original_checks(self):
+        for index in range(30):
+            self.add_clip("new-speaker-" + str(index), "new-" + str(index) + ".wav",
+                          16000, 1, 6000 + 100 * index)
+        result = self.build(max_speakers=32, execute=True)
+        self.assertEqual(result["selected"], 32)
+        index = pool.read_json(self.out / "source-index.json")
+        self.assertEqual(len({row["speaker_key"] for row in index["rows"]}), 32)
+        self.assertFalse(result["training_admitted"])
+
     def test_same_original_audio_cannot_be_second_speaker(self):
         row = dict(self.selection["clips"][2])
         row["speaker_key"] = "third-speaker"
@@ -137,7 +147,7 @@ class LocalOfficialCorpusPrepTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "SPEAKER_BUDGET"):
             self.build(max_speakers=True)
         with self.assertRaisesRegex(ValueError, "SPEAKER_BUDGET"):
-            self.build(max_speakers=17)
+            self.build(max_speakers=33)
         self.selection["clips"][0]["original_path"] = "../escape.wav"
         with self.assertRaises(ValueError):
             self.build()

@@ -20,6 +20,9 @@ terms, including distribution or any explicitly prohibited reuse.
 
 ## 2. Generate many positive + negative intents per voice
 
+For append-only 32-source expansion after D1, use [D2_EXPANSION.md](D2_EXPANSION.md).
+It retains the 256 original cells and adds two independently runnable increments.
+
 For a new D1 plan, add `--layout d1-interleaved-32-v1 --repetitions 2` and use
 an existing validated pool containing exactly eight distinct source families
 and speaker groups: six `train-candidate`, two `development-only`. It plans

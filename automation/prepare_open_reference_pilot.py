@@ -28,7 +28,7 @@ import open_reference_sources as reference  # noqa: E402
 
 SCHEMA = "kws-private-open-corpus-wav-selection-v1"
 MAX_ROWS = 128
-MAX_SPEAKERS = 16
+MAX_SPEAKERS = 32
 MAX_CLIP_BYTES = 16 * 1024 * 1024
 MAX_EXECUTABLE_BYTES = 32 * 1024 * 1024
 RATES = (16000, 24000, 44100, 48000)

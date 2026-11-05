@@ -144,13 +144,28 @@ class QwenBulkClone:
         return wavs[0], int(sr)
 
 
-def run(plan, source_manifest, audio_root, output, backend, *,
-        max_new_calls, writer=media._write_waves):
-    p.verify_plan(plan)
-    expected = p.plan(source_manifest, audio_root,
+def verify_plan(plan):
+    """Keep the frozen D1 planner intact while supporting independent increments."""
+    if type(plan) is dict and plan.get("schema") == "kws-d2-increment-plan-v1":
+        import d2_pool
+        return d2_pool.verify_plan(plan)
+    return p.verify_plan(plan)
+
+
+def rebuild_plan(plan, source_manifest, audio_root):
+    verify_plan(plan)
+    if plan.get("schema") == "kws-d2-increment-plan-v1":
+        import d2_pool
+        return d2_pool.rebuild(plan, source_manifest, audio_root)
+    return p.plan(source_manifest, audio_root,
         repetitions=plan["repetitions"], batch_id=plan["batch_id"],
         revision=plan["model_revision"],
         max_calls=plan["budgets"]["max_total_calls"], layout=plan.get("cell_layout"))
+
+
+def run(plan, source_manifest, audio_root, output, backend, *,
+        max_new_calls, writer=media._write_waves):
+    expected = rebuild_plan(plan, source_manifest, audio_root)
     p.require(p.canonical(expected) == p.canonical(plan),
               "SOURCE_OR_PLAN_CHANGED")
     p.require(type(max_new_calls) is int and
@@ -249,8 +264,8 @@ def main(argv=None):
     args=cli.parse_args(argv)
     try:
         source=p.read_json(args.sources)
-        plan=p.read_json(args.plan)
-        p.verify_plan(plan)
+        plan=p.read_json(args.plan,8*1024*1024)
+        verify_plan(plan)
         if not args.execute:
             p.require(plan["source_manifest_sha256"] ==
                       hashlib.sha256(p.canonical(source)).hexdigest(),

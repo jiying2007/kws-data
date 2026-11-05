@@ -24,7 +24,7 @@ from kws_data_contract import source_registry  # noqa: E402
 from kws_data_contract import reference_text  # noqa: E402
 
 SCHEMA = "kws-dataset-research-tts-scope-v2"
-LIMIT = 16
+LIMIT = 32
 ALLOWED_PURPOSE = "offline-kws-tts-research"
 ALLOWED_SOURCE_LICENSE = frozenset(("Apache-2.0", "CC-BY-4.0", "CC0-1.0"))
 CATALOG_SCHEMA = open_source.CATALOG_SCHEMA
