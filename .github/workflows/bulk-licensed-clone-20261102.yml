@@ -13,6 +13,9 @@ on:
       - automation/test_research_only_bulk_ingest.py
       - research/auto-tts-voice-clone-20261102/bulk_asr.py
       - research/auto-tts-voice-clone-20261102/test_bulk.py
+      - research/auto-tts-voice-clone-20261102/d2_pool.py
+      - research/auto-tts-voice-clone-20261102/test_d2.py
+      - research/auto-tts-voice-clone-20261102/D2_EXPANSION.md
       - research/auto-tts-voice-clone-20261102/register_bulk_sources.py
       - docs/BRANCH_RETENTION_20261007.json
   push:
@@ -29,6 +32,9 @@ on:
       - automation/test_research_only_bulk_ingest.py
       - research/auto-tts-voice-clone-20261102/bulk_asr.py
       - research/auto-tts-voice-clone-20261102/test_bulk.py
+      - research/auto-tts-voice-clone-20261102/d2_pool.py
+      - research/auto-tts-voice-clone-20261102/test_d2.py
+      - research/auto-tts-voice-clone-20261102/D2_EXPANSION.md
       - docs/BRANCH_RETENTION_20261007.json
 permissions:
   contents: read
@@ -71,6 +77,7 @@ jobs:
             args=()
             case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
             python3 -B "${args[@]}" research/auto-tts-voice-clone-20261102/test_bulk.py -v 2>&1 | tee "$RUNNER_TEMP/bulk-clone-source/test-${mode}.log"
+            python3 -B "${args[@]}" research/auto-tts-voice-clone-20261102/test_d2.py -v 2>&1 | tee "$RUNNER_TEMP/bulk-clone-source/d2-${mode}.log"
           done
           python3 -B - <<'PY' 2>&1 | tee "$RUNNER_TEMP/bulk-clone-source/registration-tests.log"
           import copy,importlib.util,pathlib

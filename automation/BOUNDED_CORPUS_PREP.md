@@ -24,7 +24,7 @@ selection.json 为 kws-private-open-corpus-wav-selection-v1，结构示例：
 }
 ~~~
 
-每条原始 WAV 必须是单声道 PCM16、1–15 秒、16/24/44.1/48 kHz，并且实际字节、相对路径和 SHA 符合 selection。总输入最多 128 条，每个原始 speaker 只选最接近 5 秒的 1 条，输出最多 16 speaker（首批建议 8 speaker）。原始目录和文件拒绝软链接/路径穿越；原文件不被修改。许可证快照按真实 SHA 固定，不得使用示例占位符。
+每条原始 WAV 必须是单声道 PCM16、1–15 秒、16/24/44.1/48 kHz，并且实际字节、相对路径和 SHA 符合 selection。总输入最多 128 条，每个原始 speaker 只选最接近 5 秒的 1 条，输出最多 32 speaker（首批建议 8 speaker）。原始目录和文件拒绝软链接/路径穿越；原文件不被修改。许可证快照按真实 SHA 固定，不得使用示例占位符。
 
 ## 只读预览
 

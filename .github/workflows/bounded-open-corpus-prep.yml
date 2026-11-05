@@ -5,6 +5,9 @@ on:
     paths:
       - automation/prepare_open_reference_pilot.py
       - automation/test_prepare_open_reference_pilot.py
+      - automation/fetch_aishell_subset.py
+      - automation/test_fetch_aishell_subset.py
+      - automation/D2_REFERENCE_INTAKE.md
       - automation/BOUNDED_CORPUS_PREP.md
       - .github/workflows/bounded-open-corpus-prep.yml
       - docs/BRANCH_RETENTION_20261007.json
@@ -14,6 +17,9 @@ on:
     paths:
       - automation/prepare_open_reference_pilot.py
       - automation/test_prepare_open_reference_pilot.py
+      - automation/fetch_aishell_subset.py
+      - automation/test_fetch_aishell_subset.py
+      - automation/D2_REFERENCE_INTAKE.md
       - automation/BOUNDED_CORPUS_PREP.md
       - .github/workflows/bounded-open-corpus-prep.yml
       - docs/BRANCH_RETENTION_20261007.json
@@ -44,6 +50,9 @@ jobs:
           python3 -I -S -B automation/test_prepare_open_reference_pilot.py -v
           python3 -I -S -B -O automation/test_prepare_open_reference_pilot.py -v
           python3 -I -S -B -OO automation/test_prepare_open_reference_pilot.py -v
+          python3 -I -S -B automation/test_fetch_aishell_subset.py -v
+          python3 -I -S -B -O automation/test_fetch_aishell_subset.py -v
+          python3 -I -S -B -OO automation/test_fetch_aishell_subset.py -v
       - name: Ensure no tracked file was changed
         run: |
           git diff --exit-code HEAD --
