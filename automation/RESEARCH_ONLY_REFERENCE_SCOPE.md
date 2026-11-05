@@ -119,7 +119,8 @@ python3 -B automation/research_only_bulk_ingest.py \
 | `dataset-provided`：保留出版方转录，内容尚无一致观察或存在分歧 | x-vector-only；文字和分歧继续保留 |
 | `dataset-provided-content-checked`：独立的 audio-only 识别观察与转录一致 | ICL，传入实际参考转录；仍是机器证据 |
 
-`reference-content-checks.json` 使用 `kws-reference-content-checks-v1`，
+既有 `reference-content-checks.json` 的 `kws-reference-content-checks-v1`
+继续原样兼容，
 `observations` 中每条保存 `engine`、`model_id`、`model_revision`（40 位）、
 `model_assets_sha256`、`wav_sha256`、`pcm_sha256`、`sample_rate_hz`、
 `audio_frames`、`actual_text`、`input_mode="audio-only"` 和
@@ -128,6 +129,20 @@ python3 -B automation/research_only_bulk_ingest.py \
 参考转录检查与最终生成样本的弱标签是两件事；本导入器不会自动产生
 `verified` 或 human-gold，也不会执行 ASR。
 
+新证据可使用 `kws-reference-content-checks-v2`，其中每行显式标为
+`schema="kws-reference-content-observation-v2"`。音频身份、几何、全文匹配、
+audio-only 和完成状态要求完全相同，模型身份区分如下：
+
+| `model_revision_kind` | `model_revision` 的真实含义 |
+| --- | --- |
+| `model-repository-commit` | 模型仓库的 40 位 Git 提交，例如锁定的 Qwen/SenseVoice 权重发行版 |
+| `native-checkpoint-sha256` | 原生检查点的完整 64 位 SHA-256，例如官方 Whisper `small.pt` |
+
+两类都必须保留 `model_assets_sha256`。另一个字段
+`implementation_source_commit` 只保存已知实现的 40 位代码提交；未知时为
+`null`，不编造版本。代码提交不得冒充原生模型检查点身份。v1/v2 容器与
+行版本必须匹配；旧 v1 清单与观察不重标为 v2。
+
 中文比较忽略标点和汉字间空格；英文忽略大小写、常规标点，保留单词
 边界和缩写撇号，避免把不同句子拼成同一字符串。Qwen prompt cache 绑定
 参考 WAV、文字状态、实际文字和溯源；更新内容检查后不会误用旧提示。
@@ -135,6 +150,59 @@ python3 -B automation/research_only_bulk_ingest.py \
 
 本改动已覆盖离线合约和 mock prompt 调用。真实参考音频的识别与
 ICL/x-vector 成对生成仍需实际执行，不能从导入成功推断克隆质量改善。
+
+### 已规范参考音频的原生 ASR 输入
+
+`reference_asr_inputs.py` 把已验证的参考清单、原始索引和转换收据联接到
+现有 `kws-pipeline/tools/active_asr_batch.py` 的输入格式。它保留原始 WAV
+及真实采样率/PCM16 哈希，直接将已经规范的 16 kHz PCM16 样本除以
+32768，编码为 float32；这一步不重采样、不增益、不补静音或裁剪。
+原始 44.1 kHz PCM16 不会被伪装成 D0 的 24 kHz FLOAT WAV。
+
+~~~sh
+python3.12 -I -S -B automation/reference_asr_inputs.py \
+  --sources /private/research-source-pool.json \
+  --sources-sha256 ACTUAL_SOURCE_MANIFEST_BYTE_SHA256 \
+  --index /private/prepared/source-index.json \
+  --original-root /private/official-original \
+  --audio-root /private/prepared/normalized \
+  --conversion-root /private/prepared/conversions \
+  --terms /private/source-terms-snapshot.txt \
+  --output /private/reference-asr-inputs
+~~~
+
+`inputs.json` 只含音频身份和变换说明；出版方文字、角色和说话人信息不传给
+解码器。独立的 `reference-bindings.json` 将 opaque clip ID 连接到原始参考、
+规范 PCM 和既有转换收据。调用 `verify` 可重新计算原始/规范 WAV、PCM、
+float 样本的对应关系。部分官方旧 WAV 的外层 RIFF 长度可能陈旧；只有每个
+实际 chunk 和完整 PCM 均存在时才能读取，原字节和长度不一致事实完整保留，
+不会修写原 WAV 或接受缺失的音频样本。
+
+后续使用已有 ASR worker 的同一 heavy-model lock、create-only 调用 claim
+和原生空文本条件；完成结果与缺失/失败记录都保留。只有真实结果经独立核验
+后才生成新的内容检查文件，并用新的 `--output` 清单路径运行研究导入器；
+不原位改写旧的 dataset-provided 清单。
+
+`reference_asr_checks.py` 在现有 batch auditor 完成后读取原始
+claim/native/result、完整文件哈希审计及参考输入绑定。它要求本批计划的
+三路观察均完整可用，才把三条原文一起导出到 v2 检查收据；任何分歧都保留。
+三路全文经既有正字归一化后全部匹配出版方原文才可启用 ICL。导出不运行
+识别器，不做多数票替换，不把错误或缺失的那一路藏掉。
+
+~~~sh
+python3.12 -I -S -B automation/reference_asr_checks.py \
+  --input-root /private/reference-asr-inputs \
+  --sources /private/research-source-pool.json \
+  --sources-sha256 ACTUAL_SOURCE_MANIFEST_BYTE_SHA256 \
+  --asr-results /private/reference-asr-results \
+  --model-locks /checkout/kws-pipeline/research/qwen6_asr/model-locks.json \
+  --whisper-source-lock /checkout/kws-pipeline/research/source-screen32-whisper-v1/source-lock.json \
+  --output /private/reference-content-review
+~~~
+
+结果包括 `reference-content-checks.json` 和带完整分歧的私有
+`content-review.json`。把新检查文件传给既有研究导入器并指定新的来源清单
+输出路径，原来的来源、角色、出版方文字和历史清单保持原字节。
 
 ## 质量和实验边界
 

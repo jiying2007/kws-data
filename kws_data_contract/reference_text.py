@@ -16,6 +16,8 @@ FORMATS = ("aishell3-content-v1", "path-text-tsv-v1")
 PROVIDED = "dataset-provided"
 CHECKED = "dataset-provided-content-checked"
 CHECK_SCHEMA = "kws-reference-content-checks-v1"
+CHECK_SCHEMA_V2 = "kws-reference-content-checks-v2"
+OBSERVATION_SCHEMA_V2 = "kws-reference-content-observation-v2"
 SHA = re.compile(r"[0-9a-f]{64}\Z")
 REV = re.compile(r"[0-9a-f]{40}\Z")
 
@@ -83,13 +85,27 @@ def document(path=None, expected_sha=None, format_name=None):
 
 
 def validate_observation(row):
-    require(type(row) is dict and set(row) == {
+    common = {
         "engine", "model_id", "model_revision", "model_assets_sha256",
         "wav_sha256", "pcm_sha256", "sample_rate_hz", "audio_frames",
-        "actual_text", "input_mode", "decoder_completed"}, "REFERENCE_CONTENT_FIELDS")
+        "actual_text", "input_mode", "decoder_completed"}
+    require(type(row) is dict, "REFERENCE_CONTENT_FIELDS")
+    if "schema" in row:
+        require(row["schema"] == OBSERVATION_SCHEMA_V2 and set(row) == common |
+                {"schema", "model_revision_kind", "implementation_source_commit"}, "REFERENCE_CONTENT_FIELDS")
+        kind = row["model_revision_kind"]
+        require(kind in ("model-repository-commit", "native-checkpoint-sha256"),
+                "REFERENCE_CONTENT_REVISION_KIND")
+        revision_pattern = REV if kind == "model-repository-commit" else SHA
+        implementation = row["implementation_source_commit"]
+        require(implementation is None or (type(implementation) is str and REV.fullmatch(implementation)),
+                "REFERENCE_CONTENT_IMPLEMENTATION_COMMIT")
+    else:
+        require(set(row) == common, "REFERENCE_CONTENT_FIELDS")
+        revision_pattern = REV
     require(all(type(row[k]) is str and 1 <= len(row[k]) <= 200
                 for k in ("engine", "model_id")) and
-            type(row["model_revision"]) is str and REV.fullmatch(row["model_revision"]),
+            type(row["model_revision"]) is str and revision_pattern.fullmatch(row["model_revision"]),
             "REFERENCE_CONTENT_MODEL")
     for key in ("model_assets_sha256", "wav_sha256", "pcm_sha256"):
         require(type(row[key]) is str and SHA.fullmatch(row[key]), "REFERENCE_CONTENT_SHA")
@@ -105,11 +121,13 @@ def content_checks(path=None):
         return None, {}
     value = read_json(path)
     require(type(value) is dict and set(value) == {"schema", "observations"} and
-            value["schema"] == CHECK_SCHEMA and type(value["observations"]) is list and
+            value["schema"] in (CHECK_SCHEMA, CHECK_SCHEMA_V2) and type(value["observations"]) is list and
             len(value["observations"]) <= 768, "REFERENCE_CONTENT_CHECK_SCHEMA")
     by_wav, seen = {}, set()
     for row in value["observations"]:
         validate_observation(row)
+        require((value["schema"] == CHECK_SCHEMA_V2) == (row.get("schema") == OBSERVATION_SCHEMA_V2),
+                "REFERENCE_CONTENT_VERSION_MISMATCH")
         key = (row["wav_sha256"], row["engine"])
         require(key not in seen, "DUPLICATE_REFERENCE_CONTENT_CHECK")
         seen.add(key)

@@ -9,6 +9,10 @@ on:
       - automation/research_only_bulk_ingest.py
       - automation/active_asr_weak_view.py
       - automation/research_weak_sampling.py
+      - automation/reference_asr_inputs.py
+      - automation/test_reference_asr_inputs.py
+      - automation/reference_asr_checks.py
+      - automation/test_reference_asr_checks.py
       - automation/test_active_asr_weak_view.py
       - automation/test_active_d1_weak_view.py
       - automation/test_research_weak_sampling.py
@@ -30,6 +34,10 @@ on:
       - automation/research_only_bulk_ingest.py
       - automation/active_asr_weak_view.py
       - automation/research_weak_sampling.py
+      - automation/reference_asr_inputs.py
+      - automation/test_reference_asr_inputs.py
+      - automation/reference_asr_checks.py
+      - automation/test_reference_asr_checks.py
       - automation/test_active_asr_weak_view.py
       - automation/test_active_d1_weak_view.py
       - automation/test_research_weak_sampling.py
@@ -66,6 +74,8 @@ jobs:
             python3 -I -S -B $weak_mode automation/test_active_asr_weak_view.py -v
             python3 -I -S -B $weak_mode automation/test_active_d1_weak_view.py -v
             python3 -I -S -B $weak_mode automation/test_research_weak_sampling.py -v
+            python3 -I -S -B $weak_mode automation/test_reference_asr_inputs.py -v
+            python3 -I -S -B $weak_mode automation/test_reference_asr_checks.py -v
           done
       - name: Verify no tracked mutation from source fixtures
         run: |
