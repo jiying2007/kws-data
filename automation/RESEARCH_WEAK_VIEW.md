@@ -67,6 +67,94 @@ in cross-split checks. Development labels remain machine weak and do not become
 independent human test evidence. The default D0 package format and its zero
 development scope remain unchanged.
 
+### Extension outcomes, failed raw audio and pre-ASR source maps
+
+`kws-active-d1-frozen-plan-source-v2` consumes an immutable per-job
+`active-tts-stage-outcomes-v1` document. It verifies the caller-supplied outcomes
+SHA, the retained stage/job byte hashes, full-plan canonical/file hashes, exact
+new/reused roster, per-cell claim owner, reference/mode/text/seed binding, native
+numeric NPY values, FLOAT WAV identity and original success or failure receipt.
+It does not read the mutable global generation ledger. The package retains the
+original absolute paths as evidence while replaying only its own copied files.
+
+Use these options instead of `--d1-generation-root` for a version 2 intake:
+
+~~~sh
+  --d1-plan /private/prepared/plan.json \
+  --d1-plan-sha256 CANONICAL_PLAN_SHA256 \
+  --d1-stage /private/extension/stage.json \
+  --d1-job-recipe /private/extension/jobs/chunk-001.json \
+  --d1-outcomes /private/extension/queue/jobs/chunk-001/outputs/outcomes.json \
+  --d1-outcomes-sha256 ACTUAL_OUTCOMES_FILE_SHA256
+~~~
+
+The native-only ZIP is an exact subset of that job's **new** calls. Original
+reused cells never become new ASR requests. The extension export lists native
+returns with no decodable bounded finite WAV separately; they remain original
+outcomes, have no observations, and are not inserted into a ZIP. A finite WAV
+that failed the generator's quality gate can be recognized at its original
+volume. Its view source is explicitly `generation_outcome="failed-native"`;
+`original_generation_row` is the real `FAILED_NO_RETRY` receipt, not a fabricated
+completion. Even unanimous ASR text leaves the selected full text null, keyword
+targets null, both keyword masks false, CTC mask false, and every loss weight
+zero. The raw transcripts remain in the report. Legal short failed audio can
+retain its PCM audit representation without becoming a training example.
+
+Before running any sparse ASR, invoke `source-map` with `--inputs`,
+`--inputs-sha256`, `--source-archive`, `--output` and the same D1 source options.
+The public `build_d1_source_map` function uses the same validation. The resulting
+`active-asr-source-map-v2` contains only input/archive/plan hashes and per-clip
+global cell identity, original/derived audio hashes and measured source quality
+flags. It contains no target or reference text. Quality-failed sources carry
+`original_generator_signal_invalid`; all-zero or saturated PCM adds its own
+measured flag. The selective controller can therefore freeze routing without
+guessing identity from filenames or seeing intended text.
+
+For relocated artifacts, `--d1-artifact-roots-json` maps original absolute
+`record.output_root` strings to current readable directories. This changes no
+retained source record. Public loader names and the seven existing source
+dependencies are unchanged. Tests use fictional numeric/audio/ASR fixtures and
+do not establish that any new generation, recognition or training has run.
+
+### Selective ASR observations
+
+The explicit `kws-active-asr-research-weak-view-v2` report consumes a sealed
+`active-asr-selective-final-audit-v2` by adding these options to `create`:
+
+~~~sh
+  --selective-source-map /private/source-map.json \
+  --selective-policy /private/selective-asr-v2.json \
+  --selective-audit-sha256 ACTUAL_FINAL_AUDIT_FILE_SHA256
+~~~
+
+The policy byte hash is fixed to
+`5cba6043b6c7e39aaa39482b31e0e14ae478cd5485b386e7d87f5bec78a3c501`.
+Qwen and SenseVoice are requested for every input. Whisper is mandatory for a
+primary disagreement, incomplete decoder/text, primary quality flag or source
+quality concern. Otherwise the predeclared seed `20261105` and full-plan/global
+cell identity apply the declared 20% hash threshold. Local clip numbering
+does not affect the draw. The data consumer independently repeats the source
+join, normalization, routing and requested-call matrix; a missing requested
+result blocks a complete view. The native decoder's original v1 result format
+and audio-only conditions remain unchanged.
+
+An unrequested third observation has `status="not_requested"`, `text=null`,
+`usable=false`, reason `two_primary_agree_not_sampled` and its routing hash.
+There must be no claim, native output or result for that cell/model pair. This
+state is neither an error nor a third agreeing vote. Two usable primary full
+sentences still receive the existing two-vote weight 0.5. The rule does not
+promote uncertainty or a generator failure to a negative example.
+
+Every byte in the upstream sealed input/output inventory is retained, including
+actual worker/load receipts, complete native outputs, the source map, policy,
+request, routing and final audit. The externally pinned native checkpoint
+application audit remains upstream evidence; this data consumer does not load
+models or duplicate that model-state verifier. It replays native text,
+source/audio identities, call counts, requested/absent states, supervision and
+deadline evidence before rebuilding labels. Package replay works after the
+original input, source, result and policy directories are removed. Existing v1
+packages and their three-route observations keep their original semantics.
+
 The original mono FLOAT 24 kHz WAV and the existing 16 kHz float32 derivative
 are retained unchanged. A separate PCM16 WAV is produced for current trainers:
 multiply by 32768, round to nearest even integer, then saturate to the PCM16
@@ -76,7 +164,7 @@ Saturation or an all-zero quantized signal prevents automatic training labels.
 
 ## Explicit machine-weak decisions
 
-All three result records, native outputs and durable call claims are retained.
+For a v1 batch, all three result records, native outputs and durable call claims are retained.
 The consumer checks input/model identity, native-output hashes, empty context,
 decoder termination and the source's disclosed decoding conditions. In
 particular, Whisper's explicitly supplied Chinese language is preserved; this
