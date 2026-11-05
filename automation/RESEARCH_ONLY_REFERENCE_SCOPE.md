@@ -8,7 +8,7 @@ SSC305 计算/内存开销。研究数据与最终现场验证分开，不把合
 当前唯一声源导入入口是 `automation/research_only_bulk_ingest.py`，
 使用 `kws-dataset-research-tts-scope-v2`（不接受任何历史版 scope 回退）。
 严守具体数据集/发行版适用条款，完整保留原始和转换 WAV 的 SHA、
-独立数据研究用途审核、说话人谱系、HMAC 私有匿名化以及创建一次的
+独立数据研究用途审核、说话人谱系、持久私有身份登记以及创建一次的
 私有源收据。旧导入器仅留在 Git 历史，没有当前可调用兼容层。
 
 ## 数据/模型研究路线
@@ -33,7 +33,8 @@ SSC305 计算/内存开销。研究数据与最终现场验证分开，不把合
 `prepare_open_reference_pilot.py` 先把经授权取得的原始 WAV 转为
 规范 16/24k PCM16 并保存原始/转换收据；
 `open_reference_sources.py` 复核源数据和声源家族，生成私有候选索引；
-研究导入器根据以下 scope 建立匿名 `kws-bulk-clone-sources-v1`。
+研究导入器根据以下 scope 建立私有 `kws-bulk-clone-sources-v2`；来源别名
+保持不变，新增的转录溯源只写入这个新版本，历史清单不改写。
 
 ~~~json
 {
@@ -54,6 +55,24 @@ SSC305 计算/内存开销。研究数据与最终现场验证分开，不把合
 
 实际文件必须使用准确的出版方版本和用途审阅，不得填写占位符。
 
+先为准备好的 source index 建立一次私有 speaker registry。新说话人按
+三条 train / 一条 development 登记，8 人首批得到 6/2；已有身份和角色
+只读复用，不随密钥、参考片段、数据集发行版或输入顺序改变。
+
+~~~sh
+python3 -B -m kws_data_contract.source_registry \
+  --index /restricted/corpus/prepared/source-index.json \
+  --registry /restricted/corpus/speakers.json --initialize --execute
+~~~
+
+以后增加说话人复用同一 registry 并去掉 `--initialize`。预览不写文件；
+只有 `--execute` 才以 0600 权限原子保存。丢失 registry 不会自动生成
+另一套身份。若已经用旧 HMAC 导入过声源，只在首次初始化时增加
+`--legacy-manifest /restricted/old-source-pool.json` 和
+`--legacy-key-file /restricted/old-hmac-key.bin`，配合旧原始 index 做一次
+身份联接；原 speaker/family/role 原样保留，旧清单不重写，密钥不存入
+registry。正常研究导入不再接受 HMAC key，公开别名与研究划分分离。
+
 ~~~sh
 python3 -B automation/research_only_bulk_ingest.py \
   --index /restricted/corpus/prepared/source-index.json \
@@ -63,7 +82,7 @@ python3 -B automation/research_only_bulk_ingest.py \
   --license-snapshot /restricted/corpus/publisher-terms.txt \
   --research-scope /restricted/corpus/research-tts-scope.json \
   --research-review-evidence /restricted/corpus/research-terms-review.txt \
-  --pseudonym-key-file /restricted/corpus/private-hmac-key.bin \
+  --speaker-registry /restricted/corpus/speakers.json \
   --max-refs 8 --output /restricted/corpus/research-source-pool.json
 ~~~
 
@@ -72,6 +91,46 @@ python3 -B automation/research_only_bulk_ingest.py \
 研究运行链：`bulk_pool.py` → `kws_pilot_preflight.py` →
 `supervise_bulk_autopilot.py` → 原生三 ASR/声学复核 →
 `kws-pipeline` 受控配对训练 → 独立语音和板端效果测量。
+
+## 保存出版方转录并准备 ICL 参考
+
+导入器和 `open_reference_sources.py` 都接受同一组可选参数：
+
+~~~sh
+--transcript-source /restricted/corpus/official-original/train/content.txt \
+--transcript-sha256 ACTUAL_64_HEX_SHA256 \
+--transcript-format aishell3-content-v1 \
+--reference-content-checks /restricted/corpus/reference-content-checks.json
+~~~
+
+`aishell3-content-v1` 读取 AISHELL-3 的 WAV 文件名及交替汉字/拼音记录，
+按原始文件名和说话人编号联接。其他已整理的出版方转录可使用
+`path-text-tsv-v1`，每行是原始相对路径、Tab 和完整文字。输入文件需保留
+实际字节与 SHA-256；每个选中片段保留出版方原记录、行号、文字哈希、
+原始/规范 WAV 哈希。参考片段改变时，不能沿用另一段的文字或识别结果。
+
+| 参考文字状态 | Qwen 克隆方式 |
+| --- | --- |
+| `unknown`：出版方未提供对应记录 | x-vector-only，`ref_text=None` |
+| `dataset-provided`：保留出版方转录，内容尚无一致观察或存在分歧 | x-vector-only；文字和分歧继续保留 |
+| `dataset-provided-content-checked`：独立的 audio-only 识别观察与转录一致 | ICL，传入实际参考转录；仍是机器证据 |
+
+`reference-content-checks.json` 使用 `kws-reference-content-checks-v1`，
+`observations` 中每条保存 `engine`、`model_id`、`model_revision`（40 位）、
+`model_assets_sha256`、`wav_sha256`、`pcm_sha256`、`sample_rate_hz`、
+`audio_frames`、`actual_text`、`input_mode="audio-only"` 和
+`decoder_completed=true`。这些字段必须来自实际完成的识别，不能用生成
+意图填充。每个片段最多三路不同引擎；已有观察全部一致才标记内容检查通过。
+参考转录检查与最终生成样本的弱标签是两件事；本导入器不会自动产生
+`verified` 或 human-gold，也不会执行 ASR。
+
+中文比较忽略标点和汉字间空格；英文忽略大小写、常规标点，保留单词
+边界和缩写撇号，避免把不同句子拼成同一字符串。Qwen prompt cache 绑定
+参考 WAV、文字状态、实际文字和溯源；更新内容检查后不会误用旧提示。
+出版方全文、识别原始结果、参考 WAV 与含原始路径的来源清单都继续私有保存。
+
+本改动已覆盖离线合约和 mock prompt 调用。真实参考音频的识别与
+ICL/x-vector 成对生成仍需实际执行，不能从导入成功推断克隆质量改善。
 
 ## 质量和实验边界
 

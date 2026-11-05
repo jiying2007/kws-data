@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import hmac
 import json
 import os
 from pathlib import Path
@@ -20,6 +19,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "research" / "auto-tts-voice-clone-20261102"))
 import bulk_pool as pool  # noqa: E402
 import open_reference_sources as open_source  # noqa: E402
+from kws_data_contract import source_registry  # noqa: E402
+from kws_data_contract import reference_text  # noqa: E402
 
 SCHEMA = "kws-dataset-research-tts-scope-v2"
 LIMIT = 16
@@ -42,7 +43,7 @@ def _catalog(catalog):
               1 <= len(rows) <= MAX_CATALOG_ENTRIES, "CATALOG_COUNT")
     keys = {"speaker_key", "audio_path", "wav_sha256",
             "source_original_sha256", "reference_text",
-            "reference_text_status"}
+            "reference_text_status", "reference_text_provenance"}
     seen = set()
     for row in rows:
         pool.require(type(row) is dict and set(row) == keys and
@@ -53,7 +54,8 @@ def _catalog(catalog):
         pool._sha(row["source_original_sha256"])
         pool.require((row["reference_text_status"] == "unknown" and
                    row["reference_text"] is None) or
-                  (row["reference_text_status"] == "verified" and
+                  (row["reference_text_status"] in (reference_text.PROVIDED,
+                                                     reference_text.CHECKED) and
                    type(row["reference_text"]) is str and
                    1 <= len(row["reference_text"]) <= 180),
                   "REFERENCE_TRANSCRIPT_STATUS")
@@ -134,12 +136,12 @@ def validate_research_scope(scope, index, research_evidence, license_snapshot):
 
 
 def prepare(index, original_root, audio_root, conversion_root, terms_path,
-            scope, research_evidence, pseudonym_key, *, max_refs=8):
+            scope, research_evidence, speaker_registry, *, max_refs=8,
+            transcript_source=None, transcript_sha256=None, transcript_format=None,
+            reference_content_checks=None):
     require(type(max_refs) is int and 1 <= max_refs <= LIMIT,
             "RESEARCH_SPEAKER_BUDGET")
-    require(type(pseudonym_key) is bytes and
-            32 <= len(pseudonym_key) <= 128,
-            "RESEARCH_PRIVATE_PSEUDONYM_KEY")
+    registered_sources = source_registry.validate(speaker_registry)
     terms_path = Path(terms_path)
     require(not any(x.is_symlink() for x in (terms_path, *terms_path.parents)),
             "RESEARCH_TERMS_SYMLINK")
@@ -147,26 +149,28 @@ def prepare(index, original_root, audio_root, conversion_root, terms_path,
     validate_research_scope(scope, index, research_evidence, terms_bytes)
     # Reuse the *existing* source-original WAV/normalized PCM/conversion checks.
     candidates = open_source.candidates(index, original_root, audio_root,
-                    conversion_root, terms_path, max_refs)
+                    conversion_root, terms_path, max_refs,
+                    transcript_source=transcript_source, transcript_sha256=transcript_sha256,
+                    transcript_format=transcript_format,
+                    reference_content_checks=reference_content_checks)
     rows = _catalog(candidates)
-    ids, selected = {}, {}
+    selected = {}
     for row in rows:
         measured = pool.measure_reference(audio_root, row["audio_path"])
         require(measured["wav_sha256"] == row["wav_sha256"],
                 "RESEARCH_REFERENCE_SOURCE_DRIFT")
-        token = hmac.new(pseudonym_key,
-            (scope["dataset_id"] + "\0" + row["speaker_key"]).encode("utf-8"),
-            hashlib.sha256).hexdigest()
+        identity = registered_sources.get((scope["dataset_id"], row["speaker_key"]))
+        require(identity is not None, "SPEAKER_NOT_REGISTERED")
+        family = identity["source_family_id"]
         rank = (abs(measured["frames"] / measured["sample_rate_hz"] - 5),
                 row["wav_sha256"])
-        if token not in selected or rank < selected[token][0]:
-            selected[token] = (rank, row, measured)
+        if family not in selected or rank < selected[family][0]:
+            selected[family] = (rank, row, measured, identity)
     require(1 <= len(selected) <= max_refs, "RESEARCH_NO_VALID_REFERENCES")
     result, rights = [], []
-    for token, (_, row, measured) in sorted(selected.items()):
+    for family, (_, row, measured, identity) in sorted(selected.items()):
         refid = "ref-" + hashlib.sha256(
-            (token + measured["wav_sha256"]).encode()).hexdigest()[:24]
-        speaker_id = "spk-" + token[:24]
+            (family + measured["wav_sha256"]).encode()).hexdigest()[:24]
         path = "bulk-rights-" + scope["dataset_id"] + "/" + refid + ".json"
         review = {
             "schema": "kws-clone-source-rights-review-v1",
@@ -182,12 +186,11 @@ def prepare(index, original_root, audio_root, conversion_root, terms_path,
         # Do not count dataset sources as independent real qualification voices.
         rights.append((path, pool.canonical(review)))
         result.append({
-            "reference_id": refid, "speaker_group_id": speaker_id,
-            "source_family_id": "fam-" + token[:24],
+            "reference_id": refid, "speaker_group_id": identity["speaker_group_id"],
+            "source_family_id": family,
             "dataset_id": scope["dataset_id"],
             "source_type": "reviewed-open-audio",
-            "role": ("development-only" if int(token[:4], 16) % 10 < 2
-                     else "train-candidate"),
+            "role": identity["role"],
             "audio_path": row["audio_path"],
             "wav_sha256": measured["wav_sha256"],
             "pcm_sha256": measured["pcm_sha256"],
@@ -195,6 +198,7 @@ def prepare(index, original_root, audio_root, conversion_root, terms_path,
             "frames": measured["frames"],
             "reference_text": row["reference_text"],
             "reference_text_status": row["reference_text_status"],
+            "reference_text_provenance": row["reference_text_provenance"],
             "source_license": scope["source_license"],
             "source_terms_sha256": scope["source_terms_sha256"],
             "rights_record_path": path,
@@ -211,20 +215,25 @@ def main(argv=None):
     cli = argparse.ArgumentParser(description=__doc__)
     for name in ("index", "original-root", "audio-root", "conversion-root",
                  "license-snapshot", "research-scope", "research-review-evidence",
-                 "pseudonym-key-file", "output"):
+                 "speaker-registry", "output"):
         cli.add_argument("--" + name, required=True, type=Path)
     cli.add_argument("--max-refs", type=int, default=8)
     cli.add_argument("--execute", action="store_true")
+    cli.add_argument("--transcript-source", type=Path)
+    cli.add_argument("--transcript-sha256")
+    cli.add_argument("--transcript-format", choices=reference_text.FORMATS)
+    cli.add_argument("--reference-content-checks", type=Path)
     args = cli.parse_args(argv)
     index = pool.read_json(args.index)
     scope = pool.read_json(args.research_scope)
     evidence, _ = pool._file(args.research_review_evidence.parent,
             args.research_review_evidence.name, 65536)
-    key, _ = pool._file(args.pseudonym_key_file.parent,
-            args.pseudonym_key_file.name, 128)
+    registry = source_registry.read_json(args.speaker_registry)
     manifest, rights = prepare(index, args.original_root, args.audio_root,
             args.conversion_root, args.license_snapshot, scope, evidence,
-            key, max_refs=args.max_refs)
+            registry, max_refs=args.max_refs, transcript_source=args.transcript_source,
+            transcript_sha256=args.transcript_sha256, transcript_format=args.transcript_format,
+            reference_content_checks=args.reference_content_checks)
     if args.execute:
         dest = args.output.absolute()
         require(dest != ROOT and ROOT not in dest.parents and

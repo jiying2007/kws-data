@@ -21,12 +21,13 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "research" / "auto-tts-voice-clone-20261102"))
 import bulk_pool as pool  # noqa: E402
+from kws_data_contract import reference_text  # noqa: E402
 
 REGISTRY = ROOT / "automation" / "open_reference_datasets.v1.json"
 REGISTRY_BLOB = "0050babfa9b1b48e7013d6847b76d64e3b904324"
 INDEX_SCHEMA = "kws-local-open-reference-index-v1"
 CONVERSION_SCHEMA = "kws-local-reference-conversion-receipt-v1"
-CATALOG_SCHEMA = "kws-local-open-audio-catalog-v1"
+CATALOG_SCHEMA = "kws-local-open-audio-catalog-v2"
 HEX = re.compile(r"[0-9a-f]{64}\Z")
 IDENT = re.compile(r"[a-z][a-z0-9_-]{1,63}\Z")
 MAX_CANDIDATE_ROWS = 256
@@ -162,7 +163,8 @@ def check_conversion(row, evidence_root):
 
 
 def candidates(index, original_root, normalized_root, evidence_root, terms_file,
-               max_speakers, datasets=None):
+               max_speakers, datasets=None, *, transcript_source=None,
+               transcript_sha256=None, transcript_format=None, reference_content_checks=None):
     require(type(max_speakers) is int and
             1 <= max_speakers <= MAX_SPEAKERS, "CANDIDATE_SPEAKER_BUDGET")
     catalog = registry() if datasets is None else datasets
@@ -171,6 +173,9 @@ def candidates(index, original_root, normalized_root, evidence_root, terms_file,
             item.get("reference_status") == "CANDIDATE_REVIEW_REQUIRED",
             "DATASET_NOT_APPROVED_FOR_REFERENCE_SCREEN")
     rows = check_index(index, item)
+    text_source = reference_text.document(transcript_source, transcript_sha256,
+                                           transcript_format)
+    text_checks = reference_text.content_checks(reference_content_checks)
     terms_path = Path(terms_file)
     require(not any(p.is_symlink() for p in (terms_path, *terms_path.parents)),
             "TERMS_FILE_ALIAS")
@@ -200,14 +205,15 @@ def candidates(index, original_root, normalized_root, evidence_root, terms_file,
         require(measured["pcm_sha256"] not in seen_pcm,
                 "CROSS_SPEAKER_DUPLICATE_NORMALIZED_PCM")
         seen_pcm.add(measured["pcm_sha256"])
+        text, text_status, provenance = reference_text.attach(
+            index, row, measured, text_source, text_checks)
         references.append({
             "speaker_key": speaker,
             "audio_path": row["normalized_path"],
             "wav_sha256": measured["wav_sha256"],
             "source_original_sha256": row["original_sha256"],
-            # Dataset transcriptions are not verified prompt speech/consent.
-            # Verified ref_text must be independently established downstream.
-            "reference_text": None, "reference_text_status": "unknown",
+            "reference_text": text, "reference_text_status": text_status,
+            "reference_text_provenance": provenance,
         })
     require(bool(references), "NO_REFERENCE_CANDIDATES")
     return {
@@ -240,11 +246,18 @@ def main(argv=None):
     cli.add_argument("--max-speakers", type=int, default=8)
     cli.add_argument("--output", required=True, type=Path)
     cli.add_argument("--execute", action="store_true")
+    cli.add_argument("--transcript-source", type=Path)
+    cli.add_argument("--transcript-sha256")
+    cli.add_argument("--transcript-format", choices=reference_text.FORMATS)
+    cli.add_argument("--reference-content-checks", type=Path)
     args = cli.parse_args(argv)
     index = pool.read_json(args.index)
     prepared = candidates(index, args.original_root, args.normalized_root,
                           args.conversion_evidence_root, args.license_snapshot,
-                          args.max_speakers)
+                          args.max_speakers, transcript_source=args.transcript_source,
+                          transcript_sha256=args.transcript_sha256,
+                          transcript_format=args.transcript_format,
+                          reference_content_checks=args.reference_content_checks)
     if args.execute:
         create_only(args.output, pool.canonical(prepared) + b"\n")
     print(json.dumps({

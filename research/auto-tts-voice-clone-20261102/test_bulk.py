@@ -98,6 +98,7 @@ class Fixture(unittest.TestCase):
                  "sample_rate_hz":meta["sample_rate_hz"],
                  "reference_text":None,
                  "reference_text_status":"unknown",
+                 "reference_text_provenance":None,
                  "source_license":"CC0-1.0",
                  "source_terms_sha256":"f"*64,
                  "rights_record_path":rights_name,
@@ -175,6 +176,41 @@ class BulkPlanTests(Fixture):
             bad["references"][1][field]=bad["references"][0][field]
             with self.subTest(field=field),self.assertRaises(ValueError):
                 p.validate_sources(bad,self.root)
+
+    def test_original_parent_cannot_cross_roles_even_with_distinct_pcm(self):
+        bad = copy.deepcopy(self.sources)
+        bad["references"][1]["parent_source_sha256"] = (
+            bad["references"][0]["parent_source_sha256"])
+        with self.assertRaisesRegex(ValueError, "SOURCE_IDENTITY_SPLIT_LEAK:file"):
+            p.validate_sources(bad, self.root)
+        # The read-only plan consumer must enforce the same relation without
+        # needing the private original-audio directory.
+        plan = copy.deepcopy(self.plan)
+        plan["references"] = bad["references"]
+        with self.assertRaisesRegex(ValueError, "SOURCE_IDENTITY_SPLIT_LEAK:file"):
+            p.verify_plan(plan)
+
+    def test_same_pcm_with_different_wav_headers_cannot_cross_roles(self):
+        pcm = struct.pack("<h", 3210) * 48000
+        for ref, rate in zip(self.references, (16000, 24000)):
+            with wave.open(str(self.root / ref["audio_path"]), "wb") as out:
+                out.setnchannels(1)
+                out.setsampwidth(2)
+                out.setframerate(rate)
+                out.writeframes(pcm)
+            meta = p.measure_reference(self.root, ref["audio_path"])
+            for key in ("wav_sha256", "pcm_sha256", "frames", "sample_rate_hz"):
+                ref[key] = meta[key]
+            ref["parent_source_sha256"] = meta["wav_sha256"]
+            proof_path = self.root / ref["rights_record_path"]
+            proof = json.loads(proof_path.read_bytes())
+            proof["wav_sha256"] = meta["wav_sha256"]
+            proof_path.write_bytes(p.canonical(proof))
+            ref["rights_record_sha256"] = hash_bytes(proof_path.read_bytes())
+        self.assertNotEqual(self.references[0]["wav_sha256"],
+                            self.references[1]["wav_sha256"])
+        with self.assertRaisesRegex(ValueError, "SOURCE_IDENTITY_SPLIT_LEAK:pcm"):
+            p.validate_sources(self.sources, self.root)
 
     def test_license_name_alone_never_approves_clone_rights(self):
         for mutation in ("missing","changed","forbidden","not-reviewed"):

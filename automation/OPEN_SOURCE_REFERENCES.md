@@ -33,12 +33,19 @@ python3 -B automation/open_reference_sources.py \
 ~~~
 
 输出候选目录不含研究许可结论，绝不上传原声和说话人身份。
+候选格式为 `kws-local-open-audio-catalog-v2`。选中参考的出版方转录通过
+`--transcript-source`、`--transcript-sha256`、`--transcript-format` 保留；
+有实际 audio-only 内容检查时可加 `--reference-content-checks`，详见
+[转录与 ICL 规范](RESEARCH_ONLY_REFERENCE_SCOPE.md#保存出版方转录并准备-icl-参考)。
+未找到转录的片段仍为 `unknown`，不会从生成请求补造参考文字。
 
 ## 第二阶段：唯一研究导入器
 
 在特定官方数据集/版本的非商业 TTS 研究范围已被审阅后，准备
-kws-dataset-research-tts-scope-v1 研究 scope 和独立研究审阅材料。
+kws-dataset-research-tts-scope-v2 研究 scope 和独立研究审阅材料。
 不要求商业授权，不允许伪造已审阅结论或违反版本条款。
+先按 [研究导入规范](RESEARCH_ONLY_REFERENCE_SCOPE.md) 初始化或一次性
+迁入私有 speaker registry，之后复用同一登记表。
 
 ~~~sh
 python3 -B automation/research_only_bulk_ingest.py \
@@ -49,11 +56,12 @@ python3 -B automation/research_only_bulk_ingest.py \
   --license-snapshot /restricted/open-voices/saved-publisher-terms.txt \
   --research-scope /restricted/open-voices/research-scope.json \
   --research-review-evidence /restricted/open-voices/research-review.txt \
-  --pseudonym-key-file /restricted/open-voices/private-hmac-key.bin \
+  --speaker-registry /restricted/open-voices/speakers.json \
   --max-refs 8 --output /restricted/open-voices/research-source-pool.json --execute
 ~~~
 
-上述命令只生成私有 HMAC 匿名化声源清单、不可变数据身份和审阅收据。
+上述命令只生成私有匿名声源清单、不可变数据身份和审阅收据。来源划分
+读取持久 registry，不再由可轮换的 HMAC 密钥决定。
 历史来源版本仍可从 Git 追溯；后续训练、独立录音评估及
 SSC305 目标板实测都必须具备自身真实证据，不会因为源导入成功而被自动标记通过。
 

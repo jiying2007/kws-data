@@ -180,11 +180,21 @@ class SourceFirstLanguageTests(unittest.TestCase):
     def test_synthetic_voices_do_not_masquerade_as_distinct_train_split(self) -> None:
         raw = request()
         raw["voices"][1]["source_family_id"] = raw["voices"][0]["source_family_id"]
-        with self.assertRaisesRegex(ValueError, "VOICE_FAMILY_LEAKAGE"):
+        with self.assertRaisesRegex(ValueError, "SOURCE_IDENTITY_SPLIT_LEAK:family"):
             campaign.plan(raw)
         raw = request()
         raw["voices"][0]["role"] = "sealed-evaluation"
         with self.assertRaisesRegex(ValueError, "VOICE_ORIGIN_OR_ROLE"):
+            campaign.plan(raw)
+
+    def test_same_reference_pcm_cannot_cross_splits_under_different_names(self):
+        raw = request()
+        raw["tts_providers"] = [pin("qwen3-base-clone-zh", 1)]
+        for voice in raw["voices"]:
+            voice.update(origin_kind="licensed-public",
+                         reference_pcm_sha256="a" * 64,
+                         rights_evidence_sha256="b" * 64)
+        with self.assertRaisesRegex(ValueError, "SOURCE_IDENTITY_SPLIT_LEAK:pcm"):
             campaign.plan(raw)
 
     def test_budget_exposure_and_unknown_provider(self) -> None:

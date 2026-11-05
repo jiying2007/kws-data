@@ -14,10 +14,15 @@ import os
 from pathlib import Path, PurePosixPath
 import re
 import stat
+import sys
 import unicodedata
 import wave
 
-SCHEMA = "kws-bulk-clone-sources-v1"
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from kws_data_contract.identity import SourceRoles  # noqa: E402
+from kws_data_contract import reference_text  # noqa: E402
+
+SCHEMA = "kws-bulk-clone-sources-v2"
 PLAN_SCHEMA = "kws-bulk-clone-corpus-plan-v1"
 MODEL = "Qwen/Qwen3-TTS-12Hz-0.6B-Base"
 MAX_REFERENCES = 512
@@ -168,13 +173,13 @@ def validate_sources(manifest, audio_root):
     rows = []
     ids = set()
     used_wavs = set()
-    family_roles = {}
+    source_roles = SourceRoles()
     allowed = {
         "reference_id", "speaker_group_id", "source_family_id", "dataset_id",
         "source_type", "role", "audio_path", "wav_sha256", "pcm_sha256",
         "sample_rate_hz", "frames", "reference_text", "reference_text_status",
         "source_license", "source_terms_sha256", "rights_record_path",
-        "rights_record_sha256", "parent_source_sha256"
+        "rights_record_sha256", "parent_source_sha256", "reference_text_provenance"
     }
     for ref in refs:
         require(type(ref) is dict and set(ref) == allowed, "REFERENCE_FIELDS")
@@ -186,10 +191,6 @@ def validate_sources(manifest, audio_root):
         ids.add(reference_id)
         role = ref["role"]
         require(type(role) is str and role in _ROLES, "SPLIT_ROLE")
-        for group in ("family:" + family, "speaker:" + speaker):
-            require(group not in family_roles or family_roles[group] == role,
-                    "VOICE_FAMILY_SPLIT_LEAK")
-            family_roles[group] = role
         kind = ref["source_type"]
         require(type(kind) is str and kind in _SOURCE_TYPES, "SOURCE_KIND")
         require(ref["source_license"] in ("Apache-2.0", "CC0-1.0", "CC-BY-4.0",
@@ -198,19 +199,15 @@ def validate_sources(manifest, audio_root):
         _sha(ref["source_terms_sha256"])
         if ref["parent_source_sha256"] is not None:
             _sha(ref["parent_source_sha256"])
-        require(ref["reference_text_status"] in ("verified", "unknown"),
-                "REFERENCE_TRANSCRIPT_STATUS")
-        if ref["reference_text_status"] == "verified":
-            require(type(ref["reference_text"]) is str and
-                    1 <= len(ref["reference_text"]) <= 180 and
-                    all(ord(ch) >= 32 for ch in ref["reference_text"]),
-                    "REFERENCE_TRANSCRIPT")
-        else:
-            require(ref["reference_text"] is None, "UNVERIFIED_TRANSCRIPT_MUST_BE_NULL")
+        reference_text.validate_reference(ref)
         values = measure_reference(audio_root, ref["audio_path"])
         for k in ("wav_sha256", "pcm_sha256", "sample_rate_hz", "frames"):
             require(type(ref[k]) is type(values[k]) and ref[k] == values[k],
                     "REFERENCE_AUDIO_IDENTITY_DRIFT")
+        source_roles.add(role, family=family, speaker=speaker,
+                         pcm_sha256=values["pcm_sha256"],
+                         wav_sha256=values["wav_sha256"],
+                         parent_source_sha256=ref["parent_source_sha256"])
         require(ref["wav_sha256"] not in used_wavs, "DUPLICATE_REFERENCE_AUDIO")
         used_wavs.add(ref["wav_sha256"])
         evidence, evidence_sha = _file(audio_root, ref["rights_record_path"], 65536)
@@ -310,6 +307,14 @@ def verify_plan(value):
     cells = value.get("cells")
     require(type(refs) is list and 1 <= len(refs) <= MAX_REFERENCES and
             type(cells) is list and 1 <= len(cells) <= MAX_CELLS, "PLAN_COUNTS")
+    source_roles = SourceRoles()
+    for ref in refs:
+        require(type(ref) is dict, "PLAN_REFERENCE")
+        source_roles.add(ref.get("role"), family=ref.get("source_family_id"),
+                         speaker=ref.get("speaker_group_id"),
+                         pcm_sha256=ref.get("pcm_sha256"),
+                         wav_sha256=ref.get("wav_sha256"),
+                         parent_source_sha256=ref.get("parent_source_sha256"))
     require(type(value.get("model_revision")) is str and
             bool(_HEX40.fullmatch(value["model_revision"])) and
             value.get("model_id") == MODEL, "MODEL_PIN")

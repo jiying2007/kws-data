@@ -3,8 +3,14 @@ name: Noncommercial research reference source contracts
 on:
   pull_request:
     paths:
+      - 'kws_data_contract/**'
+      - 'tests/test_source*.py'
+      - tests/test_reference_text.py
       - automation/research_only_bulk_ingest.py
       - automation/test_research_only_bulk_ingest.py
+      - automation/open_reference_sources.py
+      - research/auto-tts-voice-clone-20261102/bulk_pool.py
+      - research/auto-tts-voice-clone-20261102/bulk_runner.py
       - automation/RESEARCH_ONLY_REFERENCE_SCOPE.md
       - .github/workflows/research-only-reference-intake.yml
       - docs/BRANCH_RETENTION_20261007.json
@@ -12,8 +18,14 @@ on:
   push:
     branches: [main]
     paths:
+      - 'kws_data_contract/**'
+      - 'tests/test_source*.py'
+      - tests/test_reference_text.py
       - automation/research_only_bulk_ingest.py
       - automation/test_research_only_bulk_ingest.py
+      - automation/open_reference_sources.py
+      - research/auto-tts-voice-clone-20261102/bulk_pool.py
+      - research/auto-tts-voice-clone-20261102/bulk_runner.py
       - automation/RESEARCH_ONLY_REFERENCE_SCOPE.md
       - .github/workflows/research-only-reference-intake.yml
       - docs/BRANCH_RETENTION_20261007.json
@@ -33,6 +45,8 @@ jobs:
       - name: Research scope and source/voice lineage without TTS/ASR calls
         run: |
           set -euo pipefail
+          python3 -S -B -m unittest discover -s tests -p 'test_source*.py' -v
+          python3 -S -B -m unittest discover -s tests -p test_reference_text.py -v
           python3 -I -S -B automation/test_research_only_bulk_ingest.py -v
           python3 -I -S -B -O automation/test_research_only_bulk_ingest.py -v
           python3 -I -S -B -OO automation/test_research_only_bulk_ingest.py -v
