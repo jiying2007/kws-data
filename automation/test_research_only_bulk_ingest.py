@@ -120,6 +120,65 @@ class ResearchOnlySourceTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             research.publish_private(manifest, rights, self.audio, out)
 
+    def test_publish_appends_new_references_and_terms_without_changing_old_receipts(self):
+        initial, rights = self.prepare(max_refs=1)
+        out = self.root / "initial.json"
+        research.publish_private(initial, rights, self.audio, out)
+        original = {out: out.read_bytes(), **{self.audio / rel: body for rel, body in rights}}
+
+        expanded, rights = self.prepare()
+        research.publish_private(expanded, rights, self.audio, self.root / "expanded.json")
+        self.assertEqual(len(pool.validate_sources(expanded, self.audio)), 2)
+        for path, body in original.items():
+            self.assertEqual(path.read_bytes(), body)
+
+        old_paths = {r["rights_record_path"] for r in expanded["references"]}
+        old_rights = {self.audio / rel: body for rel, body in rights}
+        self.terms.write_bytes(b"updated fictional research terms - mock only")
+        self.index["license_snapshot_sha256"] = sha(self.terms.read_bytes())
+        self.scope["source_terms_sha256"] = self.index["license_snapshot_sha256"]
+        revised, rights = self.prepare()
+        self.assertTrue(old_paths.isdisjoint(r["rights_record_path"]
+                                            for r in revised["references"]))
+        research.publish_private(revised, rights, self.audio, self.root / "revised.json")
+        self.assertEqual(len(pool.validate_sources(revised, self.audio)), 2)
+        for path, body in {**original, **old_rights}.items():
+            self.assertEqual(path.read_bytes(), body)
+
+    def test_publish_rejects_conflicting_existing_receipt_without_overwriting(self):
+        manifest, rights = self.prepare()
+        rel, body = rights[0]
+        dest = self.audio / rel
+        dest.parent.mkdir()
+        dest.write_bytes(body + b"\n")
+        original = dest.read_bytes()
+        output = self.root / "conflicting.json"
+        with self.assertRaisesRegex(ValueError, "PREEXISTING_RIGHTS_CONFLICT"):
+            research.publish_private(manifest, rights, self.audio, output)
+        self.assertEqual(dest.read_bytes(), original)
+        self.assertFalse(output.exists())
+        self.assertEqual(list(dest.parent.iterdir()), [dest])
+
+    def test_publish_preserves_legacy_receipt_names(self):
+        manifest, rights = self.prepare()
+        legacy = copy.deepcopy(manifest)
+        legacy_rights = []
+        by_path = dict(rights)
+        for ref in legacy["references"]:
+            body = by_path[ref["rights_record_path"]]
+            ref["rights_record_path"] = str(Path(ref["rights_record_path"]).with_name(
+                ref["reference_id"] + ".json"))
+            legacy_rights.append((ref["rights_record_path"], body))
+        out = self.root / "legacy.json"
+        research.publish_private(legacy, legacy_rights, self.audio, out)
+        old_bytes = out.read_bytes()
+        research.publish_private(manifest, rights, self.audio, self.root / "new.json")
+        self.assertEqual(out.read_bytes(), old_bytes)
+        for rel, body in legacy_rights:
+            self.assertEqual((self.audio / rel).read_bytes(), body)
+        self.assertEqual(len(pool.validate_sources(legacy, self.audio)), 2)
+        self.assertEqual(len(pool.validate_sources(manifest, self.audio)), 2)
+
     def test_inadequate_research_review_cannot_generate_source(self):
         for patch in (
             {"research_tts_references_permitted": False},
@@ -193,12 +252,23 @@ class ResearchOnlySourceTests(unittest.TestCase):
             self.prepare()
 
     def test_dataset_transcript_is_preserved_and_only_content_checked_text_enables_icl(self):
+        unknown, rights = self.prepare()
+        initial_path = self.root / "unknown.json"
+        research.publish_private(unknown, rights, self.audio, initial_path)
+        old_files = [initial_path, *(self.audio / rel for rel, _ in rights)]
+        before = {path: (path.read_bytes(), path.stat().st_ino, path.stat().st_mtime_ns)
+                  for path in old_files}
         text = "今天的天气不错"
         document = self.root / "publisher-text.tsv"
         document.write_text("clip0.wav\t" + text + "\n", encoding="utf-8")
         options = dict(transcript_source=document, transcript_sha256=sha(document.read_bytes()),
                        transcript_format="path-text-tsv-v1")
-        provided, _ = self.prepare(**options)
+        provided, provided_rights = self.prepare(**options)
+        self.assertEqual(provided_rights, rights)
+        provided_path = self.root / "with-text.json"
+        research.publish_private(provided, provided_rights, self.audio, provided_path)
+        before[provided_path] = (provided_path.read_bytes(), provided_path.stat().st_ino,
+                                 provided_path.stat().st_mtime_ns)
         ref = next(r for r in provided["references"] if r["audio_path"] == "clip0.wav")
         self.assertEqual(ref["reference_text"], text)
         self.assertEqual(ref["reference_text_status"], "dataset-provided")
@@ -223,11 +293,20 @@ class ResearchOnlySourceTests(unittest.TestCase):
         checks.write_bytes(pool.canonical({"schema": pool.reference_text.CHECK_SCHEMA,
                                           "observations": [observed]}))
         checked, rights = self.prepare(**options, reference_content_checks=checks)
+        self.assertEqual(rights, provided_rights)
         checked_ref = next(r for r in checked["references"] if r["audio_path"] == "clip0.wav")
         self.assertEqual(checked_ref["reference_text_status"],
                          "dataset-provided-content-checked")
         self.assertNotEqual(checked_ref["reference_text_status"], "verified")
-        research.publish_private(checked, rights, self.audio, self.root / "with-text.json")
+        research.publish_private(checked, rights, self.audio, self.root / "content-checked.json")
+        for path, unchanged in before.items():
+            self.assertEqual((path.read_bytes(), path.stat().st_ino, path.stat().st_mtime_ns),
+                             unchanged)
+        for stage in (unknown, provided, checked):
+            self.assertEqual(len(pool.validate_sources(stage, self.audio)), 2)
+            plan = pool.plan(stage, self.audio, repetitions=1, batch_id="upgrade",
+                             revision="b" * 40, max_calls=16)
+            self.assertFalse(plan["training_admitted"])
         backend._prompt(checked_ref, self.audio)
         self.assertFalse(calls[-1]["x_vector_only_mode"])
         self.assertEqual(calls[-1]["ref_text"], text)

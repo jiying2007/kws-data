@@ -8,6 +8,7 @@ Does not create model training or deployment authority; never runs a model.
 from __future__ import annotations
 
 import argparse
+import fcntl
 import hashlib
 import json
 import os
@@ -69,31 +70,57 @@ def publish_private(manifest, rights, audio_root, out):
     root = Path(audio_root).absolute()
     output = Path(out).absolute()
     pool.require(root.is_dir() and output.parent.is_dir() and
-              not output.exists() and not output.is_symlink(),
+              not output.exists() and not output.is_symlink() and
+              not any(p.is_symlink() for p in (root, *root.parents,
+                                               *output.parents)),
               "PRIVATE_DESTINATION_MUST_BE_NEW")
-    rights_dir = root / Path(rights[0][0]).parent
-    pool.require(not rights_dir.exists(), "PREEXISTING_RIGHTS_DIRECTORY")
-    with tempfile.TemporaryDirectory(prefix=".bulk-rights-", dir=root) as tmp:
-        temp = Path(tmp)
-        for rel, body in rights:
-            path = temp/Path(rel).name
-            pool.require(path.parent == temp and not path.exists(),
-                      "RIGHTS_NAME_COLLISION")
-            fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
-            with os.fdopen(fd, "wb") as stream:
-                stream.write(body)
-                stream.flush()
-                os.fsync(stream.fileno())
-        temp.rename(rights_dir)
-    # Re-open the original audio and the newly created right records, including
-    # their content-addressed permission scope, before publishing the manifest.
-    pool.validate_sources(manifest, root)
-    body = pool.canonical(manifest) + b"\n"
-    fd = os.open(output, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
-    with os.fdopen(fd, "wb") as stream:
-        stream.write(body)
-        stream.flush()
-        os.fsync(stream.fileno())
+    pool.require(rights, "MISSING_RIGHTS_RECORDS")
+    relative_dir = Path(rights[0][0]).parent
+    pool.require(len(relative_dir.parts) == 1 and not relative_dir.is_absolute(),
+                 "RIGHTS_DIRECTORY")
+    pool._id(relative_dir.name, "RIGHTS_DIRECTORY")
+    rights_dir = root / relative_dir
+    pool.require(not rights_dir.is_symlink(), "UNSAFE_FILE_ALIAS")
+    rights_dir.mkdir(mode=0o700, exist_ok=True)
+    lock = os.open(rights_dir, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
+        # Serialize publishers while create-only links become single-link files.
+        # An existing manifest only sees its already completed, unchanged receipts.
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        with tempfile.TemporaryDirectory(prefix=".bulk-rights-", dir=root) as tmp:
+            temp = Path(tmp)
+            missing = []
+            for rel, body in rights:
+                path = temp / Path(rel).name
+                pool.require(Path(rel).parent == relative_dir and not path.exists(),
+                             "RIGHTS_NAME_COLLISION")
+                fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+                with os.fdopen(fd, "wb") as stream:
+                    stream.write(body)
+                    stream.flush()
+                    os.fsync(stream.fileno())
+                pool._file(temp, path.name, 65536)
+                dest = root / rel
+                if dest.exists() or dest.is_symlink():
+                    existing, _ = pool._file(root, rel, 65536)
+                    pool.require(existing == body, "PREEXISTING_RIGHTS_CONFLICT")
+                else:
+                    missing.append((path, dest))
+            # Stage complete bytes before publication; never replace a receipt.
+            for path, dest in missing:
+                os.link(path, dest)
+                path.unlink()
+            os.fsync(lock)
+        # Re-open audio and all new/reused receipts before publishing a new manifest.
+        pool.validate_sources(manifest, root)
+        body = pool.canonical(manifest) + b"\n"
+        fd = os.open(output, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+        with os.fdopen(fd, "wb") as stream:
+            stream.write(body)
+            stream.flush()
+            os.fsync(stream.fileno())
+    finally:
+        os.close(lock)
 
 
 
@@ -171,7 +198,6 @@ def prepare(index, original_root, audio_root, conversion_root, terms_path,
     for family, (_, row, measured, identity) in sorted(selected.items()):
         refid = "ref-" + hashlib.sha256(
             (family + measured["wav_sha256"]).encode()).hexdigest()[:24]
-        path = "bulk-rights-" + scope["dataset_id"] + "/" + refid + ".json"
         review = {
             "schema": "kws-clone-source-rights-review-v1",
             "reference_id": refid,
@@ -183,8 +209,11 @@ def prepare(index, original_root, audio_root, conversion_root, terms_path,
             "status": "source-terms-reviewed",
             "rights_record_origin": "independently-reviewed-declaration",
         }
+        review_bytes = pool.canonical(review)
+        review_sha = hashlib.sha256(review_bytes).hexdigest()
+        path = "bulk-rights-" + scope["dataset_id"] + "/" + review_sha + ".json"
         # Do not count dataset sources as independent real qualification voices.
-        rights.append((path, pool.canonical(review)))
+        rights.append((path, review_bytes))
         result.append({
             "reference_id": refid, "speaker_group_id": identity["speaker_group_id"],
             "source_family_id": family,
@@ -202,7 +231,7 @@ def prepare(index, original_root, audio_root, conversion_root, terms_path,
             "source_license": scope["source_license"],
             "source_terms_sha256": scope["source_terms_sha256"],
             "rights_record_path": path,
-            "rights_record_sha256": hashlib.sha256(pool.canonical(review)).hexdigest(),
+            "rights_record_sha256": review_sha,
             "parent_source_sha256": row["source_original_sha256"],
         })
     require(len({x["source_family_id"] for x in result}) == len(result),

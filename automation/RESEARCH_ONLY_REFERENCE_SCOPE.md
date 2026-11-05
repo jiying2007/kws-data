@@ -88,6 +88,10 @@ python3 -B automation/research_only_bulk_ingest.py \
 
 默认只校验，追加 `--execute` 才创建一次私有 0600 manifest。该 manifest
 不代表任何训练样本已经通过真实语音和标签审查。
+同一个 `audio-root` 可逐步补转录、内容检查或声源，每次指定新的 `--output`
+清单路径。新收据以完整内容的 SHA-256 命名；已存在且字节相同的收据直接
+复用，新增声源或来源条款快照生成新收据。同路径字节冲突会拒绝发布，旧
+清单及旧命名收据均不覆盖。收据在完整写入后以 create-only 方式发布。
 研究运行链：`bulk_pool.py` → `kws_pilot_preflight.py` →
 `supervise_bulk_autopilot.py` → 原生三 ASR/声学复核 →
 `kws-pipeline` 受控配对训练 → 独立语音和板端效果测量。
