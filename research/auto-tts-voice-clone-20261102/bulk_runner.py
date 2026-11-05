@@ -65,7 +65,7 @@ def asset_lock(folder, lock, revision):
 
 
 class QwenBulkClone:
-    """Production inference API, not invoked by no-model source tests."""
+    """Offline inference API, not invoked by no-model source tests."""
 
     def __init__(self, model_folder, *, device="cpu"):
         p.require(device in ("cpu", "cuda:0"), "DEVICE")
@@ -109,13 +109,15 @@ class QwenBulkClone:
         return np.frombuffer(b, dtype="<i2").astype("float32") / 32768.0, rate
 
     def _prompt(self, ref, audio_root):
+        p.reference_text.validate_reference(ref)
         cache_id = (ref["source_family_id"], ref["wav_sha256"],
-                    ref["reference_text_status"])
+                    ref["reference_text_status"], ref["reference_text"],
+                    hashlib.sha256(p.canonical(ref.get("reference_text_provenance"))).hexdigest())
         if cache_id in self.cache:
             return self.cache[cache_id]
         model = self._model()
         clip, rate = self._reference(ref, audio_root)
-        if ref["reference_text_status"] == "verified":
+        if ref["reference_text_status"] in ("verified", p.reference_text.CHECKED):
             args = {"ref_audio": (clip, rate), "ref_text": ref["reference_text"],
                     "x_vector_only_mode": False}
         else:

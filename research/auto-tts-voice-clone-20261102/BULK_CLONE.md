@@ -5,7 +5,7 @@
 The supported source importer is
 [automation/research_only_bulk_ingest.py](../../automation/research_only_bulk_ingest.py).
 It uses source-bound original/normalized WAVs, release-specific reviewed
-**noncommercial research TTS** scope, HMAC pseudonyms and create-only private
+**noncommercial research TTS** scope, persistent private speaker/split IDs and create-only private
 receipts. There is **no commercial source importer** or backward-compatibility
 alias on the current branch. Git history retains the old implementation for
 historical audit without exposing a runnable production path.
@@ -48,7 +48,13 @@ Use an exact locally verified Qwen3-TTS 0.6B Base model folder and
 kws-clone-base-model-assets-v1 file lock. The runtime rehashes all model assets.
 The official Qwen API builds one voice_clone_prompt per source reference
 and reuses it for every intended positive/negative sentence. If an actual
-reference transcript is verified, use ICL; otherwise use x-vector-only.
+reference transcript is explicitly verified or is publisher-provided with
+matching audio-only content observations, use ICL; otherwise use x-vector-only.
+The current `kws-bulk-clone-sources-v2` retains publisher text and its source
+record without calling it human verified. Unchecked or disagreeing references
+keep their text for review while using x-vector-only. The prompt cache includes
+the text and evidence identity as well as the reference WAV, so changed text
+cannot silently reuse an old ICL prompt.
 Do not invent source transcripts from request prompts. x-vector-only may reduce
 clone quality.
 

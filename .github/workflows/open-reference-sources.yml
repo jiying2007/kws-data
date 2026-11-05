@@ -3,6 +3,7 @@ name: Open-source KWS reference candidate contracts (no voice model)
 on:
   pull_request:
     paths:
+      - 'kws_data_contract/**'
       - automation/open_reference_datasets.v1.json
       - automation/open_reference_sources.py
       - automation/test_open_reference_sources.py
@@ -13,6 +14,7 @@ on:
   push:
     branches: [main]
     paths:
+      - 'kws_data_contract/**'
       - automation/open_reference_datasets.v1.json
       - automation/open_reference_sources.py
       - automation/test_open_reference_sources.py

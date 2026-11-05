@@ -2,12 +2,14 @@ name: Bilingual KWS provider source contracts - no models
 on:
   pull_request:
     paths:
+      - 'kws_data_contract/**'
       - 'automation/**'
       - '.github/workflows/bilingual-kws-provider-contracts.yml'
       - 'docs/BRANCH_RETENTION_20261007.json'
   push:
     branches: [main]
     paths:
+      - 'kws_data_contract/**'
       - 'automation/**'
       - '.github/workflows/bilingual-kws-provider-contracts.yml'
       - 'docs/BRANCH_RETENTION_20261007.json'

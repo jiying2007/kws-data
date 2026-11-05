@@ -14,9 +14,13 @@ import os
 from pathlib import Path
 import re
 import stat
+import sys
 import unicodedata
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from kws_data_contract.identity import SourceRoles  # noqa: E402
+
 CATALOG = Path(__file__).with_name("providers.v1.json")
 POLICY = "multilingual-kws-offline-campaign-plan-v1"
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
@@ -227,6 +231,7 @@ def plan(request: dict) -> dict:
     need(type(voices) is list and 1 <= len(voices) <= MAX_VOICES,
          "VOICE_ROSTER_BUDGET")
     rights, split_owners, voice_ids = [], {}, set()
+    source_roles = SourceRoles()
     for row in voices:
         need(type(row) is dict and set(row) == {
             "id", "source_family_id", "role", "origin_kind",
@@ -240,9 +245,6 @@ def plan(request: dict) -> dict:
              origin in ("owned-synthetic", "consented-human", "licensed-public"),
              "VOICE_ORIGIN_OR_ROLE")
         voice_ids.add(ident)
-        need(family not in split_owners or split_owners[family] == role,
-             "VOICE_FAMILY_LEAKAGE")
-        split_owners[family] = role
         pcm, proof = row["reference_pcm_sha256"], row["rights_evidence_sha256"]
         if origin != "owned-synthetic":
             hex_sha(pcm, 64, "REFERENCE_PCM_NOT_PINNED")
@@ -250,6 +252,8 @@ def plan(request: dict) -> dict:
         elif pcm is not None or proof is not None:
             hex_sha(pcm, 64, "SYNTHETIC_REFERENCE_PCM_NOT_PINNED")
             hex_sha(proof, 64, "SYNTHETIC_REFERENCE_RIGHTS_NOT_PINNED")
+        source_roles.add(role, family=family, pcm_sha256=pcm)
+        split_owners[family] = role
         rights.append(dict(row))
     provider_list = catalog()
     tts = choose(request["tts_providers"], "tts", locale, provider_list)
