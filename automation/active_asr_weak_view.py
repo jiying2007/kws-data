@@ -44,7 +44,13 @@ FSMN_TOKENS_SHA = "5914b5e048e14dd8e1cce6914333cbbf8b382df7679c26041e35bd1c86db4
 SHA = re.compile(r"[0-9a-f]{64}\Z")
 D1_ADAPTER = "kws-active-d1-frozen-plan-source-v1"
 D1_ADAPTER_V2 = "kws-active-d1-frozen-plan-source-v2"
+D1_ADAPTER_V3 = "kws-active-d1-partial-observation-source-v3"
 BULK_POOL_PATH = "research/auto-tts-voice-clone-20261102/bulk_pool.py"
+ACCOUNTED_SOURCE_PATHS = (
+    "automation/active_asr_weak_view.py", "automation/research_weak_sampling.py",
+    "kws_data_contract/__init__.py", "kws_data_contract/identity.py",
+    "kws_data_contract/reference_text.py", "kws_data_contract/source_registry.py", BULK_POOL_PATH,
+)
 
 
 def sha(raw):
@@ -395,6 +401,112 @@ def _d1_native_array(raw, native, pcm):
             struct.pack("<" + "f" * len(values), *values) == pcm, "D1_NATIVE_ARRAY_PCM_JOIN")
 
 
+def _d1_observed_source(clip, cell, raw, pcm, ref, plan, expected_plan_sha, row, binding, evidence,
+                        *, artifact_roots=None, retained_root=None, prefix=None,
+                        checkpoint_reader=None, owner_files=None):
+    """Replay one actual native return with unchanged audio, text and mode checks."""
+    name = cell["cell_id"]
+    record = row["record"]
+    prefix = prefix if prefix is not None else "d1/artifacts/" + name + "/"
+    if checkpoint_reader is not None:
+        require(artifact_roots is None and retained_root is None and type(owner_files) is dict,
+                "D1_SINGLE_ARTIFACT_LOCATION")
+        root = PurePosixPath(record["output_root"])
+    elif retained_root is not None:
+        require(artifact_roots is None, "D1_SINGLE_ARTIFACT_LOCATION")
+        root = Path(retained_root) / prefix
+    else:
+        roots = artifact_roots if artifact_roots is not None else {record["output_root"]: record["output_root"]}
+        require(type(roots) is dict and record["output_root"] in roots, "D1_ARTIFACT_ROOT_MAPPING")
+        root = Path(roots[record["output_root"]])
+    files = record["files"]
+    generated, native_folder = "generation/cells/" + name + "/", "native/" + name + "/"
+    success = record["status"] == "GENERATED_PENDING_ASR"
+    outcome_name = "completed.json" if success else "failed.json"
+    required = {generated + "started.json", generated + outcome_name,
+                *(native_folder + suffix for suffix in
+                  ("call.json", "native.json", "returned.json", "returned-array.npy", "returned-native.wav"))}
+    if success:
+        required |= {generated + "native-f32.wav", generated + "audio-16k.wav"}
+    require(type(files) is dict and set(files) == required and
+            record["native_wav"] == (generated + "native-f32.wav" if success else native_folder + "returned-native.wav"),
+            "D1_NATIVE_FILE_ROSTER")
+    if checkpoint_reader is not None:
+        actual = {path.removeprefix("outputs/") for path in owner_files
+                  if path.startswith(("outputs/" + generated, "outputs/" + native_folder))}
+    else:
+        actual = {path.relative_to(root).as_posix() for location in (root / generated, root / native_folder)
+                  for path in location.rglob("*") if path.is_file()}
+    require(actual == required, "D1_NATIVE_FILE_ROSTER")
+    bodies = {}
+    for path, expected in files.items():
+        body = (checkpoint_reader.file(str(root), path, expected, 16 * 1024 * 1024)
+                if checkpoint_reader is not None else read_bytes(root / relative(path), 16 * 1024 * 1024))
+        require(expected == {"bytes": len(body), "sha256": sha(body)}, "D1_NATIVE_FILE_CHANGED")
+        bodies[path] = body
+        if checkpoint_reader is None:
+            evidence[prefix + path] = body
+    lock = (checkpoint_reader.file(str(root), "generation/plan-lock.json",
+            owner_files["outputs/generation/plan-lock.json"]) if checkpoint_reader is not None
+            else read_bytes(root / "generation/plan-lock.json"))
+    _d1_lock(lock, plan, expected_plan_sha)
+    if checkpoint_reader is None:
+        evidence[prefix + "generation/plan-lock.json"] = lock
+    require(bodies[record["native_wav"]] == raw, "D1_ARCHIVE_NATIVE_CHANGED")
+    started_raw = bodies[generated + "started.json"]
+    _d1_started(started_raw, cell, ref, expected_plan_sha)
+    call = loads(bodies[native_folder + "call.json"])
+    checked = ref["reference_text_status"] in ("verified", "dataset-provided-content-checked")
+    expected_call = {"schema": "active-tts-generation-call-v1", "cell_id": name,
+                     "reference_id": ref["reference_id"], "source_family_id": ref["source_family_id"],
+                     "reference_wav_sha256": ref["wav_sha256"], "reference_pcm_sha256": ref["pcm_sha256"],
+                     "reference_text_status": ref["reference_text_status"],
+                     "reference_mode": "ICL" if checked else "x-vector-only", "reference_text_passed": checked,
+                     "seed": cell["seed"], "intended_text": cell["prompt"], "generation": binding["generation"], "attempt": 1}
+    require(set(call) == set(expected_call) | {"reference_prompt_seconds"} and
+            all(call[key] == value for key, value in expected_call.items()) and
+            type(call["reference_prompt_seconds"]) in (int, float) and call["reference_prompt_seconds"] >= 0,
+            "D1_NATIVE_CALL_REFERENCE_MODE_JOIN")
+    native = loads(bodies[native_folder + "native.json"])
+    require(native["schema"] == "active-tts-native-return-v1" and
+            native["array"] == files[native_folder + "returned-array.npy"] and
+            native["wav"] == files[native_folder + "returned-native.wav"] and
+            native["technical_gate_applied"] is False and native["all_finite"] is True and
+            native["sample_rate_hz"] == 24000 and native.get("wav_unavailable_reason") is None and
+            float_wav_pcm(bodies[native_folder + "returned-native.wav"]) == pcm,
+            "D1_NATIVE_RETURN_JOIN")
+    _d1_native_array(bodies[native_folder + "returned-array.npy"], native, pcm)
+    returned = loads(bodies[native_folder + "returned.json"])
+    require(set(returned) == {"generation_seconds", "total_seconds", "native_stop_reason"} and
+            returned["native_stop_reason"] == "not_exposed_by_voice_clone_API" and
+            all(type(returned[key]) in (int, float) and returned[key] >= 0
+                for key in ("generation_seconds", "total_seconds")), "D1_NATIVE_RETURN_RECEIPT")
+    terminal_raw = bodies[generated + outcome_name]
+    if success:
+        require(record["technical_failure_reason"] is None, "D1_COMPLETION_FAILURE_CONFLICT")
+        _d1_completed(terminal_raw, cell, clip, raw, pcm, bodies[generated + "audio-16k.wav"])
+    else:
+        failure = loads(terminal_raw)
+        require(set(failure) == {"schema", "cell_id", "status", "error_type", "training_admitted"} and
+                failure["schema"] == "kws-bulk-clone-failure-v1" and failure["cell_id"] == name and
+                failure["status"] == "FAILED_NO_RETRY" and failure["training_admitted"] is False and
+                type(failure["error_type"]) is str and 1 <= len(failure["error_type"]) <= 128 and
+                type(record["technical_failure_reason"]) is str and 1 <= len(record["technical_failure_reason"]) <= 4096,
+                "D1_FAILED_NATIVE_RECEIPT")
+    source = _d1_source(cell, ref, plan, expected_plan_sha, started_raw, terminal_raw,
+                        prefix + generated, outcome_name)
+    source.update(generation_outcome="completed" if success else "failed-native",
+                  technical_failure_reason=record["technical_failure_reason"],
+                  outcome_record_sha256=row["ledger_record_sha256"],
+                  generation_call_receipt_sha256=sha(bodies[native_folder + "call.json"]))
+    if checkpoint_reader is not None:
+        source["generation_receipt_path"] = "evidence/source/" + checkpoint_reader.location(
+            str(root / generated / outcome_name))
+        source["generation_start_receipt_path"] = "evidence/source/" + checkpoint_reader.location(
+            str(root / generated / "started.json"))
+    return source
+
+
 def d1_source_rows_v2(archive_raw, inputs, plan_raw, expected_plan_sha, outcomes_raw,
                       expected_outcomes_sha, stage_raw, job_raw, *, artifact_roots=None,
                       retained_root=None):
@@ -483,90 +595,643 @@ def d1_source_rows_v2(archive_raw, inputs, plan_raw, expected_plan_sha, outcomes
     for clip, cell, raw, pcm in _d1_audio_rows(archive_raw, inputs, cells):
         name = cell["cell_id"]
         require(name in new, "D1_ARCHIVE_MUST_BE_NEW_CALL_SUBSET")
-        row, ref = entries[name], refs[cell["reference_id"]]
-        record = row["record"]
-        prefix = "d1/artifacts/" + name + "/"
-        if retained_root is not None:
-            require(artifact_roots is None, "D1_SINGLE_ARTIFACT_LOCATION")
-            root = Path(retained_root) / prefix
-        else:
-            roots = artifact_roots if artifact_roots is not None else {record["output_root"]: record["output_root"]}
-            require(type(roots) is dict and record["output_root"] in roots, "D1_ARTIFACT_ROOT_MAPPING")
-            root = Path(roots[record["output_root"]])
-        files = record["files"]
-        generated, native_folder = "generation/cells/" + name + "/", "native/" + name + "/"
-        success = record["status"] == "GENERATED_PENDING_ASR"
-        outcome_name = "completed.json" if success else "failed.json"
-        required = {generated + "started.json", generated + outcome_name,
-                    *(native_folder + suffix for suffix in
-                      ("call.json", "native.json", "returned.json", "returned-array.npy", "returned-native.wav"))}
-        if success:
-            required |= {generated + "native-f32.wav", generated + "audio-16k.wav"}
-        require(type(files) is dict and set(files) == required and
-                record["native_wav"] == (generated + "native-f32.wav" if success else native_folder + "returned-native.wav"),
-                "D1_NATIVE_FILE_ROSTER")
-        actual = {path.relative_to(root).as_posix() for location in (root / generated, root / native_folder)
-                  for path in location.rglob("*") if path.is_file()}
-        require(actual == required, "D1_NATIVE_FILE_ROSTER")
-        bodies = {}
-        for path, expected in files.items():
-            body = read_bytes(root / relative(path), 16 * 1024 * 1024)
-            require(expected == {"bytes": len(body), "sha256": sha(body)}, "D1_NATIVE_FILE_CHANGED")
-            evidence[prefix + path] = bodies[path] = body
-        lock = read_bytes(root / "generation/plan-lock.json")
-        _d1_lock(lock, plan, expected_plan_sha)
-        evidence[prefix + "generation/plan-lock.json"] = lock
-        require(bodies[record["native_wav"]] == raw, "D1_ARCHIVE_NATIVE_CHANGED")
-        started_raw = bodies[generated + "started.json"]
-        _d1_started(started_raw, cell, ref, expected_plan_sha)
-        call = loads(bodies[native_folder + "call.json"])
-        checked = ref["reference_text_status"] in ("verified", "dataset-provided-content-checked")
-        expected_call = {"schema": "active-tts-generation-call-v1", "cell_id": name,
-                         "reference_id": ref["reference_id"], "source_family_id": ref["source_family_id"],
-                         "reference_wav_sha256": ref["wav_sha256"], "reference_pcm_sha256": ref["pcm_sha256"],
-                         "reference_text_status": ref["reference_text_status"],
-                         "reference_mode": "ICL" if checked else "x-vector-only", "reference_text_passed": checked,
-                         "seed": cell["seed"], "intended_text": cell["prompt"], "generation": binding["generation"], "attempt": 1}
-        require(set(call) == set(expected_call) | {"reference_prompt_seconds"} and
-                all(call[key] == value for key, value in expected_call.items()) and
-                type(call["reference_prompt_seconds"]) in (int, float) and call["reference_prompt_seconds"] >= 0,
-                "D1_NATIVE_CALL_REFERENCE_MODE_JOIN")
-        native = loads(bodies[native_folder + "native.json"])
-        require(native["schema"] == "active-tts-native-return-v1" and
-                native["array"] == files[native_folder + "returned-array.npy"] and
-                native["wav"] == files[native_folder + "returned-native.wav"] and
-                native["technical_gate_applied"] is False and native["all_finite"] is True and
-                native["sample_rate_hz"] == 24000 and native.get("wav_unavailable_reason") is None and
-                float_wav_pcm(bodies[native_folder + "returned-native.wav"]) == pcm,
-                "D1_NATIVE_RETURN_JOIN")
-        _d1_native_array(bodies[native_folder + "returned-array.npy"], native, pcm)
-        returned = loads(bodies[native_folder + "returned.json"])
-        require(set(returned) == {"generation_seconds", "total_seconds", "native_stop_reason"} and
-                returned["native_stop_reason"] == "not_exposed_by_voice_clone_API" and
-                all(type(returned[key]) in (int, float) and returned[key] >= 0
-                    for key in ("generation_seconds", "total_seconds")), "D1_NATIVE_RETURN_RECEIPT")
-        terminal_raw = bodies[generated + outcome_name]
-        if success:
-            require(record["technical_failure_reason"] is None, "D1_COMPLETION_FAILURE_CONFLICT")
-            _d1_completed(terminal_raw, cell, clip, raw, pcm, bodies[generated + "audio-16k.wav"])
-        else:
-            failure = loads(terminal_raw)
-            require(set(failure) == {"schema", "cell_id", "status", "error_type", "training_admitted"} and
-                    failure["schema"] == "kws-bulk-clone-failure-v1" and failure["cell_id"] == name and
-                    failure["status"] == "FAILED_NO_RETRY" and failure["training_admitted"] is False and
-                    type(failure["error_type"]) is str and 1 <= len(failure["error_type"]) <= 128 and
-                    type(record["technical_failure_reason"]) is str and 1 <= len(record["technical_failure_reason"]) <= 4096,
-                    "D1_FAILED_NATIVE_RECEIPT")
-        source = _d1_source(cell, ref, plan, expected_plan_sha, started_raw, terminal_raw,
-                            prefix + generated, outcome_name)
-        source.update(generation_outcome="completed" if success else "failed-native",
-                      technical_failure_reason=record["technical_failure_reason"],
-                      outcome_record_sha256=row["ledger_record_sha256"],
-                      generation_call_receipt_sha256=sha(bodies[native_folder + "call.json"]))
-        sources[clip["id"]] = source
+        sources[clip["id"]] = _d1_observed_source(
+            clip, cell, raw, pcm, refs[cell["reference_id"]], plan, expected_plan_sha, entries[name],
+            binding, evidence, artifact_roots=artifact_roots, retained_root=retained_root)
     return sources, evidence, {"schema": D1_ADAPTER_V2, "plan_sha256": expected_plan_sha,
         "plan_file_sha256": sha(plan_raw), "outcomes_sha256": expected_outcomes_sha,
         "stage_sha256": sha(stage_raw), "job_recipe_sha256": sha(job_raw)}
+
+
+class _D1CheckpointEvidence:
+    """Pin every read; retained replay never consults the original ledger."""
+
+    def __init__(self, *, roots=None, retained_root=None):
+        require(roots is None or retained_root is None, "D1_SINGLE_ARTIFACT_LOCATION")
+        self.roots, self.retained_root = roots or {}, retained_root
+        self.evidence, self.facts = {}, {}
+
+    @staticmethod
+    def absolute(value):
+        require(type(value) is str and PurePosixPath(value).is_absolute() and
+                PurePosixPath(value).as_posix() == value and "\\" not in value and
+                ".." not in PurePosixPath(value).parts, "D1_ABSOLUTE_EVIDENCE_PATH")
+        return value
+
+    @staticmethod
+    def location(path):
+        return "d1/accounted/pinned/" + sha(path.encode()) + ".bin"
+
+    def effective(self, path):
+        self.absolute(path)
+        if self.retained_root is not None:
+            return Path(self.retained_root) / self.location(path)
+        matches = [root for root in self.roots if Path(path).is_relative_to(root)]
+        if matches:
+            root = max(matches, key=len)
+            return Path(self.roots[root]) / Path(path).relative_to(root)
+        return Path(path)
+
+    def pin(self, value, limit=32 * 1024 * 1024):
+        require(type(value) is dict and set(value) == {"path", "bytes", "sha256"} and
+                type(value["bytes"]) is int and 0 <= value["bytes"] <= limit and
+                type(value["sha256"]) is str and SHA.fullmatch(value["sha256"]), "D1_EVIDENCE_PIN")
+        path = self.effective(value["path"])
+        body = empty_evidence(path) if value["bytes"] == 0 else read_bytes(path, limit)
+        require(len(body) == value["bytes"] and sha(body) == value["sha256"], "D1_PINNED_EVIDENCE_CHANGED")
+        name = self.location(value["path"])
+        require(name not in self.evidence or self.evidence[name] == body, "D1_EVIDENCE_CHANGED_BETWEEN_READS")
+        self.evidence[name] = body
+        self.facts[value["path"]] = {"path": str(path.absolute()), "bytes": len(body), "sha256": sha(body)}
+        return body
+
+    def file(self, root, name, record, limit=32 * 1024 * 1024):
+        relative(name)
+        require(type(record) is dict and set(record) == {"bytes", "sha256"}, "D1_FILE_RECORD")
+        return self.pin({"path": str(PurePosixPath(self.absolute(root)) / name), **record}, limit)
+
+    def json(self, value):
+        return loads(self.pin(value))
+
+    def roster(self, root, records):
+        require(type(records) is dict and len(records) <= 10000, "D1_EVIDENCE_ROSTER")
+        for name, value in records.items():
+            self.file(root, name, value)
+        if self.retained_root is None:
+            target = self.effective(root)
+            paths = list(target.rglob("*"))
+            require(not any(path.is_symlink() for path in paths) and
+                    {p.relative_to(target).as_posix() for p in paths if p.is_file()} == set(records),
+                    "D1_EXACT_OWNER_FILE_ROSTER")
+
+    def absent(self, paths):
+        require(type(paths) is list and len(paths) == len(set(paths)), "D1_ABSENT_PATH_ROSTER")
+        for name in paths:
+            path = self.effective(name)
+            require(not path.exists() and not path.is_symlink(), "D1_UNOBSERVABLE_HAS_RETURN_OR_TERMINAL")
+
+
+def _d1_accounted_owner(owner, reader):
+    require(type(owner) is dict and set(owner) == {"origin", "job_id", "stage", "job_recipe",
+        "queue_root", "queue_files", "job_root", "job_files", "result", "outputs_root",
+        "source_root", "source_files"} and owner["origin"] in ("original-timed-out", "continuation-completed", "asr-completed"),
+        "D1_ACCOUNTED_OWNER_SCHEMA")
+    queue_root, job_root = owner["queue_root"], owner["job_root"]
+    require(job_root == str(PurePosixPath(queue_root) / "jobs" / owner["job_id"]) and
+            owner["outputs_root"] == str(PurePosixPath(job_root) / "outputs") and
+            set(owner["queue_files"]) == {"queue.json", "request.json", "active-plan.json"},
+            "D1_ACCOUNTED_OWNER_PATHS")
+    bodies = {}
+    for name, pin in owner["queue_files"].items():
+        require(pin["path"] == str(PurePosixPath(queue_root) / name), "D1_QUEUE_FILE_LOCATION")
+        bodies[name] = reader.pin(pin)
+    queue, request = loads(bodies["queue.json"]), loads(bodies["request.json"])
+    require(queue["schema"] == request["schema"] == "kws-local-research-queue-v1" and
+            queue["request_sha256"] == sha(bodies["request.json"]) and
+            queue["active_plan_sha256"] == sha(bodies["active-plan.json"]) and
+            queue["automatic_retries"] == queue["historical_jobs_imported"] == 0,
+            "D1_QUEUE_ROOT_BINDING")
+    for name, expected in owner["source_files"].items():
+        reader.file(owner["source_root"], name, expected)
+    require(set(queue["source_sha256"]) == {"research_queue.py", "research_job_lock.py"} and
+            all(owner["source_files"]["tools/" + name]["sha256"] == expected
+                for name, expected in queue["source_sha256"].items()), "D1_QUEUE_CONTROLLER_SOURCE")
+    jobs = {row["job_id"]: row for row in request["jobs"]}
+    require(len(jobs) == len(request["jobs"]) and owner["job_id"] in jobs, "D1_QUEUE_JOB_ROSTER")
+    job = jobs[owner["job_id"]]
+    recipe_raw = reader.pin(owner["job_recipe"])
+    require(owner["job_recipe"]["path"] == str(PurePosixPath(queue_root) / "recipes" / (job["job_id"] + ".json")) and
+            job["recipe_sha256"] == sha(recipe_raw), "D1_QUEUE_FROZEN_RECIPE")
+    reader.roster(job_root, owner["job_files"])
+    require({"claim.json", "result.json", "dependencies.json", "stdout.log", "stderr.log",
+             "worker-started.json", "command-started.json"} <= set(owner["job_files"]), "D1_QUEUE_RECEIPTS_REQUIRED")
+    leaf = lambda name: reader.file(job_root, name, owner["job_files"][name])
+    claim_raw, terminal_raw, dependency_raw = leaf("claim.json"), leaf("result.json"), leaf("dependencies.json")
+    claim, terminal, dependencies = map(loads, (claim_raw, terminal_raw, dependency_raw))
+    binding = {"job_id": job["job_id"], "queue_sha256": sha(bodies["queue.json"]),
+               "job_definition_sha256": sha(canonical(job) + b"\n"), "recipe_sha256": sha(recipe_raw)}
+    require(claim["schema"] == "kws-local-research-job-claim-v1" and claim["attempt"] == 1 and
+            claim["automatic_retry"] is False and all(claim[key] == value for key, value in binding.items()) and
+            claim["dependencies_sha256"] == sha(dependency_raw) and
+            type(claim["allowed_runner_nanoseconds"]) is int and 0 < claim["allowed_runner_nanoseconds"] <= 600_000_000_000 and
+            claim["deadline_monotonic_ns"] == claim["started_monotonic_ns"] + claim["allowed_runner_nanoseconds"],
+            "D1_QUEUE_CALL_CLAIM")
+    require(owner["result"]["path"] == str(PurePosixPath(job_root) / "result.json") and
+            reader.pin(owner["result"]) == terminal_raw and
+            terminal["schema"] == "kws-local-research-job-result-v1" and terminal["claim_sha256"] == sha(claim_raw) and
+            all(terminal[key] == value for key, value in binding.items()) and
+            terminal["automatic_retry"] is False and terminal["actual_duration_known"] is True and
+            type(terminal["actual_elapsed_ns"]) is int and terminal["actual_elapsed_ns"] > 0 and
+            terminal["allowed_runner_nanoseconds"] == claim["allowed_runner_nanoseconds"] and
+            terminal["cwd"] == job["cwd"] == owner["source_root"], "D1_QUEUE_TERMINAL_BINDING")
+    expanded = [part.replace("{recipe}", owner["job_recipe"]["path"]).replace("{output_dir}", owner["outputs_root"])
+                for part in job["argv"]]
+    require(terminal["argv"] == expanded and set(terminal["logs"]) == {"stdout.log", "stderr.log"},
+            "D1_QUEUE_ACTUAL_INVOCATION")
+    for name, expected in terminal["logs"].items():
+        require(owner["job_files"][name] == expected, "D1_QUEUE_LOG_HASH")
+    if owner["origin"] == "original-timed-out":
+        require(terminal["status"] == "timed_out" and terminal["exit_code"] == -9 and
+                terminal["reason"] == "actual_runner_deadline" and terminal["outputs"] == {} and
+                terminal["actual_elapsed_ns"] == 600_186_647_856 and
+                claim["allowed_runner_nanoseconds"] == 600_000_000_000 and dependencies == {},
+                "D1_REAL_ORIGINAL_TIMEOUT_REQUIRED")
+    else:
+        require(terminal["status"] == "completed" and terminal["exit_code"] == 0 and
+                set(terminal["outputs"]) == set(job["outputs"]), "D1_REAL_CONTINUATION_COMPLETION_REQUIRED")
+        for name, expected in terminal["outputs"].items():
+            require(owner["job_files"]["outputs/" + relative(name)] == expected, "D1_QUEUE_COMPLETED_OUTPUT_HASH")
+    for name in ("worker-started.json", "command-started.json"):
+        require(loads(leaf(name))["claim_sha256"] == sha(claim_raw), "D1_QUEUE_PROCESS_CLAIM_BINDING")
+    return {"owner": owner, "stage": reader.json(owner["stage"]), "recipe": loads(recipe_raw),
+            "queue": queue, "request": request, "job": job, "claim": claim,
+            "terminal": terminal, "dependencies": dependencies}
+
+
+def _d1_accounted_call(raw, cell, ref, binding):
+    call = loads(raw)
+    checked = ref["reference_text_status"] in ("verified", "dataset-provided-content-checked")
+    expected = {"schema": "active-tts-generation-call-v1", "cell_id": cell["cell_id"],
+        "reference_id": ref["reference_id"], "source_family_id": ref["source_family_id"],
+        "reference_wav_sha256": ref["wav_sha256"], "reference_pcm_sha256": ref["pcm_sha256"],
+        "reference_text_status": ref["reference_text_status"],
+        "reference_mode": "ICL" if checked else "x-vector-only", "reference_text_passed": checked,
+        "seed": cell["seed"], "intended_text": cell["prompt"], "generation": binding["generation"], "attempt": 1}
+    require(set(call) == set(expected) | {"reference_prompt_seconds"} and
+            all(call[key] == value for key, value in expected.items()) and
+            type(call["reference_prompt_seconds"]) in (int, float) and call["reference_prompt_seconds"] >= 0,
+            "D1_ACCOUNTED_CALL_REFERENCE_BINDING")
+
+
+def _d1_accounted_claim(pin, claim, cell, ref, binding, owner, ledger, reader):
+    identity = sha(canonical({"binding": binding, "cell": cell, "reference": ref}))
+    require(set(claim) == {"schema", "cell_id", "identity_sha256", "attempt", "owner", "started_at"} and
+            claim["schema"] == "active-tts-plan-call-claim-v1" and claim["cell_id"] == cell["cell_id"] and
+            claim["identity_sha256"] == identity and claim["attempt"] == 1 and
+            claim["owner"] == {"stage_sha256": owner["stage"]["sha256"], "job_id": owner["job_id"],
+                              "job_recipe_sha256": owner["job_recipe"]["sha256"]} and
+            pin["path"] == str(PurePosixPath(ledger) / "claims" / (cell["cell_id"] + ".json")) and
+            reader.pin(pin) == canonical(claim) + b"\n", "D1_ACCOUNTED_ORIGINAL_CLAIM")
+    return identity
+
+
+def _d1_accounted_eligibility(record, reader):
+    """Reproduce the frozen export geometry, including its explicit rejection reason."""
+    if record["native_wav"] is None:
+        return {"eligible": False, "reason": "NO_DECODABLE_NATIVE_WAV"}
+    body = reader.file(record["output_root"], record["native_wav"], record["files"][record["native_wav"]])
+    try:
+        require(44 <= len(body) <= 16_000_000, "ASR_WAV_FILE_BOUND")
+        require(body[:4] == b"RIFF" and body[8:12] == b"WAVE" and
+                struct.unpack_from("<I", body, 4)[0] + 8 == len(body), "ASR_RIFF_GEOMETRY")
+        offset, fmt, data = 12, None, None
+        while offset < len(body):
+            require(offset + 8 <= len(body), "ASR_RIFF_CHUNK_BOUND")
+            name, size = body[offset:offset + 4], struct.unpack_from("<I", body, offset + 4)[0]
+            offset += 8
+            require(offset + size <= len(body), "ASR_RIFF_CHUNK_BOUND")
+            chunk = body[offset:offset + size]
+            if name == b"fmt ":
+                require(fmt is None and len(chunk) >= 16, "ASR_FORMAT_CHUNK")
+                fmt = struct.unpack_from("<HHIIHH", chunk)
+            elif name == b"data":
+                require(data is None, "ASR_DUPLICATE_DATA_CHUNK")
+                data = chunk
+            offset += size + size % 2
+        require(offset == len(body) and fmt == (3, 1, 24000, 96000, 4, 32) and data is not None,
+                "ASR_MONO_FLOAT_24000_REQUIRED")
+        require(len(data) % 4 == 0 and 1 <= len(data) // 4 <= 720000, "ASR_FRAME_BOUND")
+        maximum = 0.0
+        for (sample,) in struct.iter_unpack("<f", data):
+            require(math.isfinite(sample), "ASR_NONFINITE_SAMPLE")
+            maximum = max(maximum, abs(sample))
+        require(maximum <= 1_000_000, "ASR_UNSAFE_NUMERIC_RANGE")
+        return {"eligible": True, "reason": None, "frames": len(data) // 4,
+                "native_wav_sha256": record["files"][record["native_wav"]]["sha256"]}
+    except (ValueError, struct.error) as error:
+        return {"eligible": False, "reason": str(error)}
+
+
+def _d1_accounted_return(row, owner, cell, ref, plan, binding, ledger, reader):
+    require(type(row) is dict and set(row) == {"cell_id", "origin", "owner_id", "ledger_record_sha256",
+        "record_pin", "claim_pin", "record", "claim", "eligibility"} and row["cell_id"] == cell["cell_id"] and
+        row["origin"] == owner["origin"], "D1_ACCOUNTED_RETURN_SCHEMA")
+    name, record = cell["cell_id"], row["record"]
+    identity = _d1_accounted_claim(row["claim_pin"], row["claim"], cell, ref, binding, owner, ledger, reader)
+    require(record["schema"] == "active-tts-plan-cell-v1" and record["cell_id"] == name and
+            record["identity_sha256"] == identity and record["origin"] == "extension-call" and
+            record["new_generation_calls"] == 1 and record["training_admitted"] is False and
+            record["status"] in ("GENERATED_PENDING_ASR", "FAILED_NO_RETRY") and
+            record["claim_sha256"] == row["claim_pin"]["sha256"] and
+            record["output_root"] == owner["outputs_root"] and
+            record["generation_root"] == str(PurePosixPath(record["output_root"]) / "generation") and
+            row["record_pin"]["path"] == str(PurePosixPath(ledger) / "cells" / (name + ".json")) and
+            row["ledger_record_sha256"] == row["record_pin"]["sha256"] and
+            reader.pin(row["record_pin"]) == canonical(record) + b"\n", "D1_ACCOUNTED_RETURN_IDENTITY")
+    native, generated = "native/" + name + "/", "generation/cells/" + name + "/"
+    files = record["files"]
+    actual = {path.removeprefix("outputs/") for path in owner["job_files"]
+              if path.startswith(("outputs/" + native, "outputs/" + generated))}
+    require(type(files) is dict and actual == set(files) and
+            all(owner["job_files"]["outputs/" + path] == value for path, value in files.items()),
+            "D1_ACCOUNTED_OWNER_NATIVE_ROSTER")
+    required = {native + leaf for leaf in ("call.json", "native.json", "returned.json", "returned-array.npy")}
+    require(required | {generated + "started.json"} <= set(files), "D1_ACCOUNTED_REAL_RETURN_REQUIRED")
+    bodies = {path: reader.file(record["output_root"], path, value) for path, value in files.items()}
+    _d1_accounted_call(bodies[native + "call.json"], cell, ref, binding)
+    _d1_started(bodies[generated + "started.json"], cell, ref, binding["plan_canonical_sha256"])
+    rawmeta = loads(bodies[native + "native.json"])
+    require(rawmeta["schema"] == "active-tts-native-return-v1" and rawmeta["technical_gate_applied"] is False and
+            rawmeta["array"] == files[native + "returned-array.npy"], "D1_ACCOUNTED_NATIVE_RETURN")
+    eligibility = _d1_accounted_eligibility(record, reader)
+    require(row["eligibility"] == eligibility, "D1_ACCOUNTED_ELIGIBILITY_DIFFERS_FROM_NATIVE")
+    if eligibility["eligible"]:
+        wav = bodies[record["native_wav"]]
+        clip = ({"derived_pcm": {"frames": loads(bodies[generated + "completed.json"])["audio"]["audio_frames"]}}
+                if record["status"] == "GENERATED_PENDING_ASR" else None)
+        return _d1_observed_source(clip, cell, wav, float_wav_pcm(wav), ref, plan,
+            binding["plan_canonical_sha256"], row, binding, {}, checkpoint_reader=reader,
+            owner_files=owner["job_files"])
+    # A return rejected by the input contract is still a real failed return.
+    # Its original array/metadata/failure are retained; no substitute PCM is made.
+    require(record["status"] == "FAILED_NO_RETRY" and generated + "completed.json" not in files and
+            generated + "failed.json" in files and record["technical_failure_reason"],
+            "D1_UNRECOGNIZABLE_REQUIRES_REAL_FAILURE")
+    failure = loads(bodies[generated + "failed.json"])
+    require(failure["schema"] == "kws-bulk-clone-failure-v1" and failure["cell_id"] == name and
+            failure["status"] == "FAILED_NO_RETRY" and failure["training_admitted"] is False,
+            "D1_UNRECOGNIZABLE_FAILURE_RECEIPT")
+    if rawmeta["wav"] is None:
+        require(record["native_wav"] is None and rawmeta.get("wav_unavailable_reason") and
+                native + "returned-native.wav" not in files and
+                set(files) == required | {generated + "started.json", generated + "failed.json"},
+                "D1_UNRECOGNIZABLE_NO_WAV")
+    else:
+        require(record["native_wav"] == native + "returned-native.wav" and
+                rawmeta["wav"] == files[native + "returned-native.wav"] and
+                set(files) == required | {generated + "started.json", generated + "failed.json",
+                                         native + "returned-native.wav"}, "D1_UNRECOGNIZABLE_WAV_BINDING")
+    return None
+
+
+def _d1_accounted_unknown(row, owner, cell, ref, binding, ledger, reader):
+    require(set(row) == {"cell_id", "origin", "status", "owner_id", "identity_sha256", "claim_pin", "claim",
+        "output_root", "artifacts", "absent_paths", "model_return_known", "may_retry", "asr_calls",
+        "native_system_calls", "observed_text", "training_admitted"} and
+        row["cell_id"] == cell["cell_id"] and row["origin"] == owner["origin"] == "original-timed-out" and
+        row["owner_id"] == "original-232-chunk-001" and row["status"] == "unobservable-consumed" and
+        row["output_root"] == owner["outputs_root"] and row["model_return_known"] is False and
+        row["may_retry"] is False and row["asr_calls"] == row["native_system_calls"] == 0 and
+        row["observed_text"] is None and row["training_admitted"] is False, "D1_CONSUMED_UNKNOWN_SCHEMA")
+    require(row["identity_sha256"] == _d1_accounted_claim(
+        row["claim_pin"], row["claim"], cell, ref, binding, owner, ledger, reader), "D1_CONSUMED_UNKNOWN_IDENTITY")
+    name, root = cell["cell_id"], row["output_root"]
+    native, generated = "native/" + name + "/", "generation/cells/" + name + "/"
+    require(set(row["artifacts"]) == {native + "call.json", generated + "started.json"} and
+            {path.removeprefix("outputs/"): value for path, value in owner["job_files"].items()
+             if path.startswith(("outputs/" + native, "outputs/" + generated))} == row["artifacts"],
+            "D1_CONSUMED_UNKNOWN_HAS_RETURN")
+    for path, expected in row["artifacts"].items():
+        reader.file(root, path, expected)
+    _d1_accounted_call(reader.file(root, native + "call.json", row["artifacts"][native + "call.json"]),
+                       cell, ref, binding)
+    _d1_started(reader.file(root, generated + "started.json", row["artifacts"][generated + "started.json"]),
+                cell, ref, binding["plan_canonical_sha256"])
+    absent = [str(PurePosixPath(ledger) / "cells" / (name + ".json"))] + [
+        str(PurePosixPath(root) / native / leaf) for leaf in
+        ("returned-array.npy", "returned-native.wav", "native.json", "returned.json")] + [
+        str(PurePosixPath(root) / generated / leaf) for leaf in
+        ("completed.json", "failed.json", "native-f32.wav", "audio-16k.wav")]
+    require(row["absent_paths"] == absent, "D1_CONSUMED_UNKNOWN_ABSENCE_ROSTER")
+    reader.absent(absent)
+
+
+def _d1_prior176(pin, plan, reader):
+    prior = reader.json(pin)
+    plan_sha = sha(canonical(plan))
+    require(prior["schema"] == "d1-sealed-prior-evidence-v1" and prior["prefix_count"] == 176 and
+            prior["plan_sha256"] == plan_sha and prior["excluded_exports"] == [], "D1_ACCOUNTED_PRIOR176")
+    seen = []
+    for entry in prior["views"]:
+        require(set(entry) == {"path", "manifest_sha256"}, "D1_ACCOUNTED_PRIOR_VIEW")
+        path = str(PurePosixPath(entry["path"]) / "MANIFEST.json")
+        # The prior's manifest is the external pin. Its report is enough for
+        # checkpoint source accounting; verify_accounted_prior replays all audio.
+        effective = reader.effective(path)
+        body = read_bytes(effective, 16 * 1024 * 1024)
+        require(sha(body) == entry["manifest_sha256"], "D1_ACCOUNTED_PRIOR_MANIFEST")
+        manifest = loads(reader.pin({"path": path, "bytes": len(body), "sha256": entry["manifest_sha256"]}))
+        report_path = str(PurePosixPath(entry["path"]) / "report.json")
+        report_raw = read_bytes(reader.effective(report_path), 32 * 1024 * 1024)
+        report = loads(reader.pin({"path": report_path, "bytes": len(report_raw), "sha256": manifest["report.json"]}))
+        require(report["source_adapter"]["plan_sha256"] == plan_sha, "D1_ACCOUNTED_PRIOR_PLAN")
+        for row in report["items"]:
+            source = row["source"]
+            require(source["source_plan_sha256"] == plan_sha, "D1_ACCOUNTED_PRIOR_PLAN")
+            seen.append(source["source_id"])
+    expected = [row["cell_id"] for row in plan["cells"][:176]]
+    require(len(seen) == len(set(seen)) == 176 and set(seen) == set(expected), "D1_ACCOUNTED_PRIOR_EXACT176")
+    return prior
+
+
+def _d1_accounted_original(proof, protocol_pin, plan, refs, cells, reader):
+    require(set(proof) == {"schema", "protocol_declaration", "old_stage", "old_terminal", "prior_returned",
+        "returned_rows", "unobservable_consumed", "owner", "never_claimed_ids_at_registration", "binding",
+        "plan", "ledger", "old_source_root", "old_source_files"} and
+        proof["schema"] == "active-tts-original-partial-proof-v2" and
+        proof["protocol_declaration"] == protocol_pin, "D1_ORIGINAL_PARTIAL_PROOF_SCHEMA")
+    protocol = reader.json(protocol_pin)
+    ids = [row["cell_id"] for row in plan["cells"]]
+    require(protocol["schema"] == "kws-d1-post-timeout-continuation-predeclaration-v1" and
+            protocol["new_generation_maximum_calls"] == 58 and protocol["pause_after_jobs"] == 3 and
+            protocol["known_returned_cells"] == 197 and protocol["old_stage_returned_cells"] == 21 and
+            protocol["old_stage_consumed_calls"] == 22 and
+            protocol["first_pause_requires_ASR_accounted232_before_last_two_jobs"] is True and
+            all(protocol[key] is False for key in ("unknown_receives_asr_or_native_call",
+                "unknown_becomes_failed_native", "unknown_has_observed_text_or_pcm", "unknown_is_negative")) and
+            protocol["never_claimed_ids"] == proof["never_claimed_ids_at_registration"] == ids[198:] and
+            protocol["consumed_unknown_ids"] == [ids[197]], "D1_ORIGINAL_PROTOCOL_SCOPE")
+    budget = protocol["budget"]
+    require(budget["prior_actual_elapsed_ns"] == 600_186_647_856 and
+            budget["new_queue_global_minutes"] == 29.9 and budget["new_queue_global_ns"] == 1_794_000_000_000 and
+            budget["combined_allocation_ns"] == 2_400_000_000_000 and budget["per_job_maximum_ns"] == 600_000_000_000 and
+            budget["combined_declared_actual_ceiling_ns"] == 2_394_186_647_856 and
+            budget["cleanup_reserve_ns"] == 5_813_352_144, "D1_ORIGINAL_CONTINUATION_BUDGET")
+    for key in ("old_tts_stage", "old_queue_terminal", "partial_audit", "recovery_contract_review",
+                "original_training_protocol"):
+        reader.pin(protocol[key])
+    require(proof["old_stage"] == protocol["old_tts_stage"] and
+            proof["old_terminal"] == protocol["old_queue_terminal"], "D1_ORIGINAL_PROTOCOL_PINS")
+    owner = proof["owner"]
+    require(owner["origin"] == "original-timed-out" and owner["job_id"] == "chunk-001" and
+            owner["stage"] == proof["old_stage"] and owner["result"] == proof["old_terminal"] and
+            owner["source_root"] == proof["old_source_root"] and owner["source_files"] == proof["old_source_files"],
+            "D1_ORIGINAL_OWNER_BINDING")
+    verified = _d1_accounted_owner(owner, reader)
+    stage, definition = verified["stage"], verified["request"]
+    old_sources = {"tools/" + name for name in ("active_tts_expand.py", "active_tts_smoke.py",
+        "research_job_lock.py", "research_no_network.py", "research_runtime.py", "research_queue.py")}
+    require(set(owner["source_files"]) == old_sources and
+            stage["schema"] == "active-tts-extension-stage-v1" and
+            stage["source_revision"] == "43ffea59304121691a84424236543c00a56de588" and
+            stage["target_count"] == 232 and stage["target_cells"] == ids[:232] and
+            len(stage["initial_reused_cells"]) == 176 and set(stage["initial_reused_cells"]) == set(ids[:176]) and
+            stage["chunks"] == [ids[176:204], ids[204:232]] and stage["maximum_new_calls"] == 56 and
+            stage["stage_budget_minutes"] == 20 and stage["maximum_job_seconds"] == 600 and stage["max_retries"] == 0 and
+            stage["training_admitted"] is False and stage["paired_cases_included"] is False and
+            stage["execution_root"] == owner["source_root"] and
+            stage["execution_source"] == {key: owner["source_files"][key] for key in old_sources - {"tools/research_queue.py"}} and
+            stage["binding"] == proof["binding"] and stage["ledger"] == proof["ledger"] and
+            stage["queue_root"] == owner["queue_root"], "D1_ORIGINAL_STAGE_SCOPE")
+    require([row["job_id"] for row in definition["jobs"]] == ["chunk-001", "chunk-002"] and
+            definition["global_budget_minutes"] == 20 and verified["job"]["timeout_minutes"] == 10 and
+            verified["claim"]["global_actual_before_nanoseconds"] == 0, "D1_ORIGINAL_QUEUE_SCOPE")
+    expected_job = {"schema": "active-tts-extension-job-v1", "stage": proof["old_stage"]["path"],
+        "stage_sha256": proof["old_stage"]["sha256"], "job_id": "chunk-001", "chunk_index": 0,
+        "cells": ids[176:204], "maximum_new_calls": 28, "timeout_seconds": 600}
+    require(verified["recipe"] == expected_job, "D1_ORIGINAL_RECIPE_SCOPE")
+    audit = reader.json(protocol["partial_audit"])
+    require(audit["schema"] == "active-tts-timed-out-partial-independent-readback-v1" and
+            audit["stage"] == proof["old_stage"] and audit["new_terminal_cells"] == 21 and
+            audit["unknown_cell_ids"] == [ids[197]] and audit["native_arrays_read_back"] == 21 and
+            audit["derived_pcm_read_back"] == 18 and audit["model_calls_during_audit"] == 0,
+            "D1_ORIGINAL_PARTIAL_READBACK")
+    reader.roster(stage["prepared"], audit["original_stage_files"])
+    require(not any(name.startswith("queue/jobs/chunk-002/") for name in audit["original_stage_files"]),
+            "D1_ORIGINAL_SECOND_JOB_WAS_STARTED")
+    reader.absent([str(PurePosixPath(owner["queue_root"]) / "jobs/chunk-002" / name)
+                   for name in ("claim.json", "result.json")])
+    require([row["cell_id"] for row in proof["prior_returned"]] == ids[:176] and
+            [row["cell_id"] for row in proof["returned_rows"]] == ids[176:197] and
+            len(proof["unobservable_consumed"]) == 1, "D1_ORIGINAL_PARTIAL_ROSTERS")
+    for row in proof["prior_returned"]:
+        require(set(row) == {"cell_id", "record_pin"} and row["record_pin"]["path"] ==
+                str(PurePosixPath(proof["ledger"]) / "cells" / (row["cell_id"] + ".json")),
+                "D1_ORIGINAL_PRIOR_RECORD_PIN")
+        record = reader.json(row["record_pin"])
+        cell = cells[row["cell_id"]]
+        require(record["cell_id"] == cell["cell_id"] and
+                record["identity_sha256"] == sha(canonical({"binding": proof["binding"], "cell": cell,
+                    "reference": refs[cell["reference_id"]]})) and record["training_admitted"] is False and
+                record["status"] in ("GENERATED_PENDING_ASR", "FAILED_NO_RETRY"), "D1_ORIGINAL_PRIOR_RECORD")
+    _d1_accounted_unknown(proof["unobservable_consumed"][0], owner, cells[ids[197]],
+        refs[cells[ids[197]]["reference_id"]], proof["binding"], proof["ledger"], reader)
+    return protocol, verified
+
+
+def _d1_accounted_checkpoint(raw, expected_sha, reader, *, previous=False):
+    require(type(expected_sha) is str and SHA.fullmatch(expected_sha) and sha(raw) == expected_sha,
+            "D1_ACCOUNTED_CHECKPOINT_PIN")
+    value = loads(raw)
+    require(raw == canonical(value) + b"\n" and set(value) == {"schema", "declaration", "registration",
+        "protocol_declaration", "prior_evidence", "old_partial_proof", "plan", "plan_canonical_sha256", "binding",
+        "prefix_count", "prior_count", "planned_cell_ids", "prior_cell_ids", "owners", "returned_rows",
+        "unobservable_consumed", "eligible_cell_ids", "excluded_native_rows", "accounted_cell_ids", "budget",
+        "previous_checkpoint", "new_model_calls_during_checkpoint", "training_admitted"} and
+        value["schema"] == "active-tts-accounted-checkpoint-v2" and value["prefix_count"] in (232, 256) and
+        value["prior_count"] == 176 and value["new_model_calls_during_checkpoint"] == 0 and
+        value["training_admitted"] is False, "D1_ACCOUNTED_CHECKPOINT_SCHEMA")
+    plan_raw = reader.pin(value["plan"])
+    plan, refs, cells = _d1_plan(plan_raw, value["plan_canonical_sha256"])
+    ids = [row["cell_id"] for row in plan["cells"]]
+    prefix = value["prefix_count"]
+    require(len(ids) == 256 and value["planned_cell_ids"] == value["accounted_cell_ids"] == ids[:prefix] and
+            value["prior_cell_ids"] == ids[:176], "D1_ACCOUNTED_CHECKPOINT_PREFIX")
+    binding = value["binding"]
+    require(set(binding) == {"plan_canonical_sha256", "plan_file_sha256", "model_assets_sha256",
+        "source_manifest_sha256", "producer_source_sha256", "runtime_setup_sha256", "generation"} and
+        binding["plan_canonical_sha256"] == value["plan_canonical_sha256"] and
+        binding["plan_file_sha256"] == sha(plan_raw) and type(binding["generation"]) is dict and
+        all(type(item) is str and SHA.fullmatch(item) for key, item in binding.items() if key != "generation"),
+        "D1_ACCOUNTED_PLAN_BINDING")
+    d = reader.json(value["declaration"])
+    proof = reader.json(value["old_partial_proof"])
+    protocol, old_verified = _d1_accounted_original(proof, value["protocol_declaration"], plan, refs, cells, reader)
+    require(proof["plan"] == value["plan"] and proof["binding"] == binding and
+            value["owners"].get("original-232-chunk-001") == proof["owner"] and
+            value["returned_rows"][:21] == proof["returned_rows"] and
+            value["unobservable_consumed"] == proof["unobservable_consumed"], "D1_ACCOUNTED_OLD_ROWS_UNCHANGED")
+    chunks = [ids[198:210], ids[210:222], ids[222:232], ids[232:244], ids[244:256]]
+    require(d["schema"] == "active-tts-unclaimed-continuation-v2" and
+            value["declaration"]["path"] == str(PurePosixPath(d["prepared"]) / "declaration.json") and
+            d["queue_root"] == str(PurePosixPath(d["prepared"]) / "queue") and
+            d["protocol_declaration"] == value["protocol_declaration"] == proof["protocol_declaration"] and
+            d["old_partial_proof"] == value["old_partial_proof"] and
+            d["old_stage"] == proof["old_stage"] and d["old_terminal"] == proof["old_terminal"] and
+            d["prior_evidence"] == value["prior_evidence"] and d["binding"] == binding and
+            d["ledger"] == proof["ledger"] and d["heavy_lock"] == old_verified["stage"]["heavy_lock"] and
+            d["chunks"] == protocol["new_chunks"] == chunks and d["consumed_unknown_ids"] == [ids[197]] and
+            d["maximum_new_calls"] == 58 and d["new_queue_global_minutes"] == 29.9 and
+            d["per_job_maximum_seconds"] == 600 and d["combined_allocation_ns"] == 2_400_000_000_000 and
+            d["prior_actual_elapsed_ns"] == 600_186_647_856 and d["pause_after_jobs"] == 3 and
+            d["max_retries"] == 0 and d["further_continuation_allowed"] is False and
+            d["paired_cases_included"] is False and d["training_admitted"] is False and
+            d["registration_path"] == str(PurePosixPath(d["ledger"]) / "continuations" / (d["old_stage"]["sha256"] + ".json")),
+            "D1_ACCOUNTED_CONTINUATION_SCOPE")
+    required_sources = set(proof["old_source_files"]) | {"tools/research_tts_partial.py",
+        "tools/active_tts_continuation.py", "configs/research/active-plan-20261105.json"}
+    require(required_sources <= set(d["execution_source"]), "D1_ACCOUNTED_VERIFIER_SOURCE_ROSTER")
+    for name, record in d["execution_source"].items():
+        reader.file(d["execution_root"], name, record)
+        reader.file(str(PurePosixPath(d["prepared"]) / "execution-source"), name, record)
+    prior = _d1_prior176(value["prior_evidence"], plan, reader)
+    registration = reader.json(value["registration"])
+    queue_request_raw = reader.pin(registration["queue_request"])
+    request = loads(queue_request_raw)
+    expected_registration = {"schema": "active-tts-single-continuation-registration-v2",
+        "declaration": value["declaration"], "queue_request": registration["queue_request"],
+        "protocol_declaration": value["protocol_declaration"], "original_stage_sha256": d["old_stage"]["sha256"],
+        "original_terminal_sha256": d["old_terminal"]["sha256"], "never_claimed_cell_ids": ids[198:],
+        "permanently_consumed_unknown_ids": [ids[197]], "maximum_new_calls": 58,
+        "automatic_retry": False, "further_continuation_allowed": False, "new_queue_budget_ns": 1_794_000_000_000,
+        "old_actual_ns": 600_186_647_856, "combined_allocation_ns": 2_400_000_000_000}
+    require(registration == expected_registration and value["registration"]["path"] == d["registration_path"] and
+            registration["queue_request"]["path"] == str(PurePosixPath(d["prepared"]) / "queue-request.json") and
+            reader.pin({"path": str(PurePosixPath(d["prepared"]) / "registration.json"),
+                        "bytes": value["registration"]["bytes"], "sha256": value["registration"]["sha256"]}) ==
+            canonical(registration) + b"\n", "D1_ACCOUNTED_SINGLE_REGISTRATION")
+    count = 3 if prefix == 232 else 5
+    owner_ids = ["continuation-" + str(i + 1).zfill(3) for i in range(5)]
+    require(set(value["owners"]) == {"original-232-chunk-001", *owner_ids[:count]} and
+            [row["cell_id"] for row in value["returned_rows"]] == ids[176:197] + ids[198:prefix],
+            "D1_ACCOUNTED_OWNER_RETURN_ROSTER")
+    require(request["schema"] == "kws-local-research-queue-v1" and request["queue_id"] == d["continuation_id"] and
+            request["global_budget_minutes"] == 29.9 and
+            [row["job_id"] for row in request["jobs"]] == owner_ids, "D1_ACCOUNTED_QUEUE_REQUEST")
+    expected_rows, actual_before, verified_owners = list(proof["returned_rows"]), 0, {}
+    for index, name in enumerate(owner_ids):
+        requested = request["jobs"][index]
+        # Read the declared recipe using its actual request pin; its byte length
+        # is measured, never inferred from an unrelated checkpoint or source.
+        recipe_path = requested["recipe"]
+        recipe_body = read_bytes(reader.effective(recipe_path))
+        recipe = loads(reader.pin({"path": recipe_path, "bytes": len(recipe_body),
+                                  "sha256": requested["recipe_sha256"]}))
+        expected_recipe = {"schema": "active-tts-unclaimed-job-v2",
+            "declaration": value["declaration"]["path"], "declaration_sha256": value["declaration"]["sha256"],
+            "job_id": name, "chunk_index": index, "cells": chunks[index], "maximum_new_calls": len(chunks[index]),
+            "timeout_seconds": 600, "requires_asr232_handoff": index >= 3}
+        require(recipe_path == str(PurePosixPath(d["prepared"]) / "jobs" / (name + ".json")) and
+                recipe == expected_recipe and requested["timeout_minutes"] == 10 and
+                requested["depends_on"] == ([] if index == 0 else [owner_ids[index - 1]]) and
+                requested["cwd"] == d["execution_root"] and
+                requested["argv"] == [d["runtime_python"], "-I", "-B",
+                    str(PurePosixPath(d["execution_root"]) / "tools/active_tts_continuation.py"), "run",
+                    "--recipe", "{recipe}", "--output", "{output_dir}", "--heavy-lock", d["heavy_lock"]] and
+                requested["outputs"] == ["summary.json", "inventory.json", "invocation.json", "outcomes.json",
+                    "network-guard.json", "model-loaded.json", "generation/plan-lock.json"],
+                "D1_ACCOUNTED_JOB_DEFINITION")
+        if index >= count:
+            continue
+        owner = value["owners"][name]
+        require(owner["origin"] == "continuation-completed" and owner["job_id"] == name and
+                owner["stage"] == value["declaration"] and owner["queue_root"] == d["queue_root"] and
+                owner["source_root"] == d["execution_root"] and owner["source_files"] == d["execution_source"],
+                "D1_ACCOUNTED_NEW_OWNER_BINDING")
+        current = _d1_accounted_owner(owner, reader)
+        require(current["request"] == request and reader.pin(owner["queue_files"]["request.json"]) == queue_request_raw and
+                current["recipe"] == recipe and current["queue"]["heavy_lock"] == d["heavy_lock"] and
+                current["claim"]["global_actual_before_nanoseconds"] == actual_before and
+                current["claim"]["allowed_runner_nanoseconds"] == min(600_000_000_000, 1_794_000_000_000 - actual_before),
+                "D1_ACCOUNTED_CUMULATIVE_QUEUE_BUDGET")
+        dependencies = {}
+        if index:
+            previous_owner, previous_verified = value["owners"][owner_ids[index - 1]], verified_owners[owner_ids[index - 1]]
+            dependencies[owner_ids[index - 1]] = {"receipt": previous_owner["result"]["path"],
+                "receipt_sha256": previous_owner["result"]["sha256"], "outputs_root": previous_owner["outputs_root"],
+                "outputs": previous_verified["terminal"]["outputs"]}
+        require(current["dependencies"] == dependencies, "D1_ACCOUNTED_QUEUE_DEPENDENCIES")
+        output_files = {path.removeprefix("outputs/"): record for path, record in owner["job_files"].items()
+                        if path.startswith("outputs/")}
+        output = lambda leaf: reader.file(owner["outputs_root"], leaf, output_files[leaf])
+        inventory, summary, outcomes = (loads(output(leaf)) for leaf in ("inventory.json", "summary.json", "outcomes.json"))
+        require(set(output_files) == set(inventory["files"]) | {"inventory.json", "summary.json"} and
+                all(output_files[path] == record for path, record in inventory["files"].items()),
+                "D1_ACCOUNTED_COMPLETED_OUTPUT_ROSTER")
+        require(outcomes == {"schema": "active-tts-continuation-outcomes-v2", "declaration": value["declaration"],
+            "registration": value["registration"], "job_id": name,
+            "job_recipe": {"path": recipe_path, "bytes": len(recipe_body), "sha256": requested["recipe_sha256"]},
+            "plan_canonical_sha256": value["plan_canonical_sha256"], "binding": binding,
+            "selected_cells": chunks[index], "new_call_ids": chunks[index], "reused_cell_ids": [], "rows": outcomes["rows"]} and
+            [row["cell_id"] for row in outcomes["rows"]] == chunks[index] and
+            all(row["owner_id"] == name and row["origin"] == owner["origin"] for row in outcomes["rows"]),
+            "D1_ACCOUNTED_REAL_NEW_OUTCOMES")
+        require(summary["schema"] == "active-tts-continuation-result-v2" and summary["status"] == "completed" and
+                summary["job_recipe_sha256"] == requested["recipe_sha256"] and
+                summary["declaration_sha256"] == value["declaration"]["sha256"] and
+                summary["new_generation_calls"] == len(chunks[index]) and summary["new_call_ids"] == chunks[index] and
+                summary["reused_cell_ids"] == [] and summary["inventory"] == output_files["inventory.json"] and
+                summary["outcomes"] == output_files["outcomes.json"], "D1_ACCOUNTED_REAL_NEW_SUMMARY")
+        expected_rows.extend(outcomes["rows"])
+        actual_before += current["terminal"]["actual_elapsed_ns"]
+        verified_owners[name] = current
+    require(value["returned_rows"] == expected_rows, "D1_ACCOUNTED_ORIGINAL_AND_NEW_ROWS")
+    expected_budget = {"old_actual_elapsed_ns": 600_186_647_856, "new_actual_known_ns": actual_before,
+        "combined_actual_known_ns": 600_186_647_856 + actual_before, "new_actual_total_complete": True,
+        "new_queue_allocation_ns": 1_794_000_000_000, "combined_allocation_ns": 2_400_000_000_000,
+        "combined_declared_ceiling_ns": 2_394_186_647_856, "cleanup_reserve_ns": 5_813_352_144,
+        "new_queue_overrun_ns": max(0, actual_before - 1_794_000_000_000),
+        "observed_combined_overrun_ns": max(0, 600_186_647_856 + actual_before - 2_400_000_000_000),
+        "selected_job_count": count, "completed_job_count": count,
+        "within_new_queue_allocation": actual_before <= 1_794_000_000_000,
+        "within_combined_allocation": 600_186_647_856 + actual_before <= 2_400_000_000_000,
+        "historical_original_smoke_actual_total_ns": None, "historical_original_smoke_actual_total_complete": False}
+    require(value["budget"] == expected_budget, "D1_ACCOUNTED_ACTUAL_BUDGET")
+    sources = {}
+    for row in value["returned_rows"]:
+        cell = cells[row["cell_id"]]
+        source = _d1_accounted_return(row, value["owners"][row["owner_id"]], cell, refs[cell["reference_id"]],
+                                     plan, binding, proof["ledger"], reader)
+        if source is not None:
+            sources[row["cell_id"]] = source
+    require(value["eligible_cell_ids"] == list(sources) and value["excluded_native_rows"] == [
+        {"cell_id": row["cell_id"], "reason": row["eligibility"]["reason"], "ledger_record_sha256": row["ledger_record_sha256"]}
+        for row in value["returned_rows"] if row["cell_id"] not in sources], "D1_ACCOUNTED_ELIGIBLE_EXCLUDED_PARTITION")
+    if prefix == 232:
+        require(value["previous_checkpoint"] is None, "D1_ACCOUNTED_FIRST_CHECKPOINT")
+    else:
+        require(not previous and type(value["previous_checkpoint"]) is dict, "D1_ACCOUNTED_PREVIOUS_CHECKPOINT")
+        earlier, _, _, _, _ = _d1_accounted_checkpoint(reader.pin(value["previous_checkpoint"]),
+            value["previous_checkpoint"]["sha256"], reader, previous=True)
+        require(earlier["prefix_count"] == 232 and
+                all(earlier[key] == value[key] for key in ("declaration", "registration", "protocol_declaration",
+                    "prior_evidence", "old_partial_proof", "plan", "plan_canonical_sha256", "binding",
+                    "unobservable_consumed")) and
+                earlier["returned_rows"] == value["returned_rows"][:55] and
+                all(value["owners"][name] == owner for name, owner in earlier["owners"].items()),
+                "D1_ACCOUNTED_PREVIOUS_CHECKPOINT_CHANGED")
+    return value, plan, refs, sources, prior
+
+
+def d1_source_rows_v3(archive_raw, inputs, checkpoint_raw, expected_checkpoint_sha, *,
+                      artifact_roots=None, retained_root=None):
+    """Consume only authenticated real returns from the separately typed continuation."""
+    reader = _D1CheckpointEvidence(roots=artifact_roots, retained_root=retained_root)
+    value, plan, _, by_cell, _ = _d1_accounted_checkpoint(checkpoint_raw, expected_checkpoint_sha, reader)
+    cells = {row["cell_id"]: row for row in plan["cells"]}
+    new_ids = set(value["eligible_cell_ids"])
+    if value["previous_checkpoint"] is not None:
+        previous = reader.json(value["previous_checkpoint"])
+        new_ids -= {row["cell_id"] for row in previous["returned_rows"]}
+    sources = {}
+    for clip, cell, wav, pcm in _d1_audio_rows(archive_raw, inputs, cells):
+        name = cell["cell_id"]
+        require(name in new_ids and name in by_cell, "D1_ACCOUNTED_ARCHIVE_NEW_OBSERVABLE_ONLY")
+        row = next(row for row in value["returned_rows"] if row["cell_id"] == name)
+        record = row["record"]
+        require(reader.file(record["output_root"], record["native_wav"], record["files"][record["native_wav"]]) == wav,
+                "D1_ACCOUNTED_ARCHIVE_NATIVE_JOIN")
+        if record["status"] == "GENERATED_PENDING_ASR":
+            require(by_cell[name]["original_generation_row"]["audio"]["audio_frames"] == clip["derived_pcm"]["frames"],
+                    "D1_GENERATED_WAV_PCM_JOIN")
+        sources[clip["id"]] = by_cell[name]
+    reader.evidence["d1/plan.json"] = reader.pin(value["plan"])
+    reader.evidence["d1/accounted/checkpoint.json"] = checkpoint_raw
+    return sources, reader.evidence, {"schema": D1_ADAPTER_V3, "plan_sha256": value["plan_canonical_sha256"],
+        "plan_file_sha256": value["plan"]["sha256"], "checkpoint_sha256": expected_checkpoint_sha,
+        "accounted_prefix_count": value["prefix_count"], "declaration_sha256": value["declaration"]["sha256"],
+        "original_timeout_sha256": value["owners"]["original-232-chunk-001"]["result"]["sha256"],
+        "unknown_is_not_an_observation": True}
 
 
 def add_source_role(roles, source, clip, measured=None):
@@ -986,7 +1651,13 @@ def verify_inputs(inputs, input_root):
 
 def _join_source_files(archive_raw, inputs, *, d1_plan=None, d1_plan_sha256=None, d1_generation_root=None,
                        d1_outcomes=None, d1_outcomes_sha256=None, d1_stage=None, d1_job_recipe=None,
-                       d1_artifact_roots=None):
+                       d1_artifact_roots=None, d1_checkpoint=None, d1_checkpoint_sha256=None):
+    if d1_checkpoint is not None or d1_checkpoint_sha256 is not None:
+        require(d1_checkpoint is not None and d1_checkpoint_sha256 is not None and
+                all(value is None for value in (d1_plan, d1_plan_sha256, d1_generation_root,
+                    d1_outcomes, d1_outcomes_sha256, d1_stage, d1_job_recipe)), "D1_V3_DISTINCT_CHECKPOINT_REQUIRED")
+        return d1_source_rows_v3(archive_raw, inputs, read_bytes(d1_checkpoint, 32 * 1024 * 1024),
+                                d1_checkpoint_sha256, artifact_roots=d1_artifact_roots)
     v2_args = (d1_outcomes, d1_outcomes_sha256, d1_stage, d1_job_recipe)
     if any(value is not None for value in v2_args):
         require(all(value is not None for value in (*v2_args, d1_plan, d1_plan_sha256)) and
@@ -1038,7 +1709,8 @@ def build_d1_source_map(inputs_path, expected_inputs_sha, archive_path, **source
 def create_view(inputs_path, expected_inputs_sha, archive_path, asr_root, output, *, fsmn_tokens=None,
                 d1_plan=None, d1_plan_sha256=None, d1_generation_root=None, d1_outcomes=None,
                 d1_outcomes_sha256=None, d1_stage=None, d1_job_recipe=None, d1_artifact_roots=None,
-                selective_source_map=None, selective_policy=None, selective_audit_sha256=None):
+                selective_source_map=None, selective_policy=None, selective_audit_sha256=None,
+                d1_checkpoint=None, d1_checkpoint_sha256=None):
     inputs_path, asr_root, output = Path(inputs_path), Path(asr_root), Path(output).absolute()
     require(not output.exists() and output.parent.is_dir() and ROOT not in output.parents and
             not any(path.is_symlink() for path in (output, *output.parents)), "NEW_PRIVATE_VIEW_REQUIRED")
@@ -1050,7 +1722,7 @@ def create_view(inputs_path, expected_inputs_sha, archive_path, asr_root, output
     sources, evidence, source_adapter = _join_source_files(archive_raw, inputs, d1_plan=d1_plan,
         d1_plan_sha256=d1_plan_sha256, d1_generation_root=d1_generation_root, d1_outcomes=d1_outcomes,
         d1_outcomes_sha256=d1_outcomes_sha256, d1_stage=d1_stage, d1_job_recipe=d1_job_recipe,
-        d1_artifact_roots=d1_artifact_roots)
+        d1_artifact_roots=d1_artifact_roots, d1_checkpoint=d1_checkpoint, d1_checkpoint_sha256=d1_checkpoint_sha256)
     token_raw = read_bytes(fsmn_tokens, 65536) if fsmn_tokens is not None else None
     vocab = fsmn_vocabulary(token_raw) if token_raw is not None else None
     retained, selective_rows, asr_adapter = {}, None, None
@@ -1069,6 +1741,8 @@ def create_view(inputs_path, expected_inputs_sha, archive_path, asr_root, output
                       "kws_data_contract/identity.py"]
     if source_adapter is not None:
         producer_names.append(BULK_POOL_PATH)
+    if source_adapter is not None and source_adapter["schema"] == D1_ADAPTER_V3:
+        producer_names = list(ACCOUNTED_SOURCE_PATHS)
     for name in producer_names:
         raw = (ROOT / name).read_bytes()
         producer_files[name] = sha(raw)
@@ -1195,7 +1869,15 @@ def _load_rows(package, consumer, split, other_split_sources):
     verify_inputs(inputs, package / "evidence/inputs")
     archive_raw = read_bytes(package / "evidence/source-original.zip", 256 * 1024 * 1024)
     source_adapter = report.get("source_adapter")
-    if source_adapter is not None and source_adapter["schema"] == D1_ADAPTER_V2:
+    if source_adapter is not None and source_adapter["schema"] == D1_ADAPTER_V3:
+        evidence = package / "evidence/source"
+        sources, _, rebuilt_adapter = d1_source_rows_v3(archive_raw, inputs,
+            read_bytes(evidence / "d1/accounted/checkpoint.json", 32 * 1024 * 1024),
+            source_adapter["checkpoint_sha256"], retained_root=evidence)
+        require(source_adapter == rebuilt_adapter and
+                sha(read_bytes(evidence / "d1/plan.json")) == source_adapter["plan_file_sha256"],
+                "D1_SOURCE_ADAPTER_CHANGED")
+    elif source_adapter is not None and source_adapter["schema"] == D1_ADAPTER_V2:
         evidence = package / "evidence/source"
         sources, _, rebuilt_adapter = d1_source_rows_v2(
             archive_raw, inputs, read_bytes(evidence / "d1/plan.json"), source_adapter["plan_sha256"],
@@ -1261,6 +1943,286 @@ def _load_rows(package, consumer, split, other_split_sources):
         yield row
 
 
+def _d1_local_pin(path, expected_sha=None, *, limit=32 * 1024 * 1024):
+    path = Path(path).absolute()
+    body = empty_evidence(path) if path.stat().st_size == 0 else read_bytes(path, limit)
+    require(expected_sha is None or sha(body) == expected_sha, "D1_ACCOUNTED_EXTERNAL_PIN_CHANGED")
+    return {"path": str(path), "bytes": len(body), "sha256": sha(body)}
+
+
+def _d1_replay_view(entry, reader):
+    """One complete source/audio/ASR replay, then verify all four saved projections."""
+    require(set(entry) == {"path", "manifest_sha256"}, "D1_ACCOUNTED_VIEW_PIN")
+    package = Path(entry["path"]).absolute()
+    manifest_pin = _d1_local_pin(package / "MANIFEST.json", entry["manifest_sha256"])
+    manifest = reader.json(manifest_pin)
+    # This iterator validates every report row, not only the admitted subset.
+    list(load_training_rows(package, "rnn-four-token"))
+    report = loads(read_bytes(package / "report.json", 32 * 1024 * 1024))
+    counts = {}
+    for consumer in ("rnn-four-token", "fsmn-fulltext"):
+        counts[consumer] = {}
+        for split in ("train", "development"):
+            rows = [training_row(row, consumer) for row in report["items"]
+                    if row["source"]["split"] == split and row["decision"]["ctc_mask"] and
+                    row["consumers"][consumer]["supported"]]
+            encoded = b"".join(canonical(row) + b"\n" for row in rows)
+            require((package / (consumer + "-" + split + ".jsonl")).read_bytes() == encoded,
+                    "D1_ACCOUNTED_FOUR_CONSUMER_REPLAY")
+            counts[consumer][split] = len(rows)
+    for name, expected in manifest.items():
+        reader.pin(_d1_local_pin(package / relative(name), expected, limit=256 * 1024 * 1024),
+                   limit=256 * 1024 * 1024)
+    require(reader.pin(manifest_pin) == canonical(manifest) + b"\n", "D1_ACCOUNTED_VIEW_CHANGED_DURING_REPLAY")
+    return report, counts
+
+
+def _verify_accounted_prior(path, expected_sha256, *, expected_count):
+    require(type(expected_count) is int and expected_count in (232, 256), "D1_ACCOUNTED_EXPECTED_COUNT")
+    reader = _D1CheckpointEvidence()
+    pin = _d1_local_pin(path, expected_sha256)
+    value = reader.json(pin)
+    require(set(value) == {"schema", "plan_sha256", "plan_file_sha256", "accounted_prefix_count",
+        "observed_source_count", "views", "parent_evidence", "continuation_checkpoint",
+        "unobservable_consumed", "excluded_returned"} and value["schema"] == "d1-accounted-prior-evidence-v2",
+        "D1_ACCOUNTED_PRIOR_SCHEMA")
+    checkpoint, plan, refs, sources, parent = _d1_accounted_checkpoint(
+        reader.pin(value["continuation_checkpoint"]), value["continuation_checkpoint"]["sha256"], reader)
+    prefix = checkpoint["prefix_count"]
+    require(prefix <= expected_count and value["accounted_prefix_count"] == prefix and
+            value["plan_sha256"] == checkpoint["plan_canonical_sha256"] and
+            value["plan_file_sha256"] == checkpoint["plan"]["sha256"] and
+            value["parent_evidence"] == checkpoint["prior_evidence"] and
+            value["unobservable_consumed"] == checkpoint["unobservable_consumed"] and
+            value["excluded_returned"] == checkpoint["excluded_native_rows"] and
+            value["views"][:len(parent["views"])] == parent["views"], "D1_ACCOUNTED_PRIOR_CHECKPOINT_JOIN")
+    ids = [row["cell_id"] for row in plan["cells"]]
+    cells = {row["cell_id"]: row for row in plan["cells"]}
+    expected_observed = set(ids[:176]) | set(sources)
+    require(len(value["views"]) == len({row["path"] for row in value["views"]}) and
+            value["observed_source_count"] == len(expected_observed), "D1_ACCOUNTED_OBSERVED_COUNT")
+    reports, observed, roles = {}, [], SourceRoles()
+    matrices = set()
+    for entry in value["views"]:
+        report, counts = _d1_replay_view(entry, reader)
+        require(report["source_adapter"]["plan_sha256"] == value["plan_sha256"] and
+                report["source_adapter"]["plan_file_sha256"] == value["plan_file_sha256"],
+                "D1_ACCOUNTED_VIEW_PLAN")
+        if entry not in parent["views"]:
+            adapter = report["source_adapter"]
+            allowed = {value["continuation_checkpoint"]["sha256"]}
+            if checkpoint["previous_checkpoint"] is not None:
+                allowed.add(checkpoint["previous_checkpoint"]["sha256"])
+            require(adapter["schema"] == D1_ADAPTER_V3 and adapter["checkpoint_sha256"] in allowed and
+                    set(report["producer"]["source_files_sha256"]) == set(ACCOUNTED_SOURCE_PATHS),
+                    "D1_ACCOUNTED_NEW_VIEW_SOURCE")
+        for row in report["items"]:
+            source = row["source"]
+            name = source["source_id"]
+            require(name in expected_observed and name not in observed, "D1_ACCOUNTED_OBSERVED_EXACT_UNIQUE")
+            cell = cells[name]
+            ref = refs[cell["reference_id"]]
+            require(source["source_family_id"] == cell["source_family_id"] == ref["source_family_id"] and
+                    source["speaker_id"] == cell["speaker_group_id"] == ref["speaker_group_id"] and
+                    source["role"] == cell["role"] == ref["role"] and
+                    source["split"] == ("train" if cell["role"] == "train-candidate" else "development"),
+                    "D1_ACCOUNTED_SOURCE_ROLE")
+            add_source_role(roles, source, row["input"], row["audio_derivation"])
+            for observation_row in row["asr"]:
+                if observation_row["status"] != "not_requested":
+                    pair = (name, observation_row["model"])
+                    require(pair not in matrices, "D1_ACCOUNTED_DUPLICATE_RECOGNITION")
+                    matrices.add(pair)
+            observed.append(name)
+        reports[entry["path"]] = (report, counts)
+    require(set(observed) == expected_observed, "D1_ACCOUNTED_OBSERVED_UNION")
+
+    def unobserved(row, *, consumed):
+        name = row["cell_id"]
+        cell = cells[name]
+        proof = row
+        if not consumed:
+            returned = next(item for item in checkpoint["returned_rows"] if item["cell_id"] == name)
+            proof = {"exclusion": row, "returned_row": returned,
+                     "owner": checkpoint["owners"][returned["owner_id"]],
+                     "continuation_checkpoint": value["continuation_checkpoint"]}
+        return {"source_id": name, "source_family_id": cell["source_family_id"], "source_role": cell["role"],
+            "status": "unobservable-consumed" if consumed else "returned-unrecognizable",
+            "reason": "consumed_call_without_native_return" if consumed else row["reason"],
+            "asr_calls": 0, "observed_text": None, "training_admitted": False, "original_proof": proof}
+
+    excluded = [unobserved(row, consumed=False) for row in value["excluded_returned"]]
+    unknown = [unobserved(row, consumed=True) for row in value["unobservable_consumed"]]
+    unavailable = {row["source_id"] for row in excluded + unknown}
+    require(not unavailable & expected_observed and
+            len(unavailable) == len(excluded) + len(unknown) and
+            expected_observed | unavailable == set(ids[:prefix]), "D1_ACCOUNTED_DISJOINT_UNION")
+    for name in ACCOUNTED_SOURCE_PATHS:
+        reader.pin(_d1_local_pin(ROOT / name))
+    result = {"schema": "kws-d1-accounted-prior-verification-v2", "plan": plan,
+        "plan_sha256": value["plan_sha256"], "accounted_prefix_count": prefix,
+        "observed_ids": [name for name in ids if name in expected_observed],
+        "excluded_returned": excluded, "unobservable_consumed": unknown,
+        "pending_ids": ids[prefix:expected_count], "views": value["views"],
+        "evidence_files": sorted(reader.facts.values(), key=lambda row: row["path"]),
+        "counts": {"observed": len(observed), "excluded_returned": len(excluded),
+                   "unobservable_consumed": len(unknown), "pending": expected_count - prefix},
+        "accounted_complete": prefix == expected_count,
+        "complete_terminal_coverage": prefix == expected_count and not unknown,
+        "ml_imports": 0, "new_model_calls": 0}
+    return result, reports, reader, value
+
+
+def verify_accounted_prior(path, expected_sha256, *, expected_count=256):
+    """Replay typed generation accounting and every immutable weak observation."""
+    return _verify_accounted_prior(path, expected_sha256, expected_count=expected_count)[0]
+
+
+def _d1_asr_sealed_queue(queue_root, entries, reports, checkpoint_pin, reader):
+    root = Path(queue_root).absolute()
+    queue_pins = {name: _d1_local_pin(root / name) for name in ("queue.json", "request.json", "active-plan.json")}
+    queue, request = reader.json(queue_pins["queue.json"]), reader.json(queue_pins["request.json"])
+    require(request["schema"] == "kws-local-research-queue-v1" and request["global_budget_minutes"] == 20 and
+            len(request["jobs"]) == len(entries) and 1 <= len(entries) <= 2, "D1_ACCOUNTED_ASR_QUEUE_SCOPE")
+    states, total, seen_ids = {}, 0, set()
+    for index, (job, entry) in enumerate(zip(request["jobs"], entries)):
+        name = job["job_id"]
+        folder = root / "jobs" / name
+        report, consumers = reports[entry["path"]]
+        require(entry["job_id"] == name and entry["consumers"] == consumers and
+                entry["statistics"] == report["statistics"] and job["timeout_minutes"] == 10 and
+                job["depends_on"] == ([] if index == 0 else [request["jobs"][index - 1]["job_id"]]),
+                "D1_ACCOUNTED_ASR_JOB_VIEW_ORDER")
+        recipe_pin = _d1_local_pin(root / "recipes" / (name + ".json"), job["recipe_sha256"])
+        recipe = reader.json(recipe_pin)
+        require(recipe["schema"] == "active-asr-selective-request-v2" and
+                recipe["output"] == str(folder / "outputs/recognition") and recipe["budget_seconds"] == 570 and
+                recipe["policy"]["sha256"] == SELECTIVE_POLICY_SHA and
+                recipe["max_calls"] == 3 * len(report["items"]) and
+                job["argv"] == [str(PurePosixPath(recipe["runtime"]) / "venv/bin/python"), "-I", "-B",
+                    str(PurePosixPath(job["cwd"]) / "tools/active_asr_selective.py"), "run", "--request", "{recipe}"],
+                "D1_ACCOUNTED_ASR_REQUEST_SCOPE")
+        source_files = {}
+        for source_name, expected in {**recipe["source_files"], **{
+            "tools/" + key: value for key, value in queue["source_sha256"].items()}}.items():
+            current = _d1_local_pin(Path(job["cwd"]) / relative(source_name), expected)
+            source_files[source_name] = {key: current[key] for key in ("bytes", "sha256")}
+        job_files = {p.relative_to(folder).as_posix(): {key: current[key] for key in ("bytes", "sha256")}
+                     for p in sorted(folder.rglob("*")) if p.is_file()
+                     for current in [_d1_local_pin(p)]}
+        owner = {"origin": "asr-completed", "job_id": name, "stage": checkpoint_pin, "job_recipe": recipe_pin,
+            "queue_root": str(root), "queue_files": queue_pins, "job_root": str(folder), "job_files": job_files,
+            "result": _d1_local_pin(folder / "result.json"), "outputs_root": str(folder / "outputs"),
+            "source_root": job["cwd"], "source_files": source_files}
+        actual = _d1_accounted_owner(owner, reader)
+        require(actual["claim"]["global_actual_before_nanoseconds"] == total and
+                actual["claim"]["allowed_runner_nanoseconds"] == min(600_000_000_000, 1_200_000_000_000 - total) and
+                actual["terminal"]["deadline_overrun_nanoseconds"] == 0, "D1_ACCOUNTED_ASR_ACTUAL_BUDGET")
+        dependencies = {dep: {"receipt": str(root / "jobs" / dep / "result.json"),
+            "receipt_sha256": states[dep]["receipt_sha256"], "outputs_root": str(root / "jobs" / dep / "outputs"),
+            "outputs": states[dep]["outputs"]} for dep in job["depends_on"]}
+        require(actual["dependencies"] == dependencies, "D1_ACCOUNTED_ASR_DEPENDENCIES")
+        package = Path(entry["path"])
+        manifest = loads(read_bytes(package / "MANIFEST.json"))
+        actual_asr = folder / "outputs/recognition"
+        actual_inputs = Path(recipe["inputs"]["path"]).parent
+        require({p.relative_to(actual_asr).as_posix() for p in actual_asr.rglob("*") if p.is_file()} ==
+                {name.removeprefix("evidence/asr/") for name in manifest if name.startswith("evidence/asr/")} and
+                {p.relative_to(actual_inputs).as_posix() for p in actual_inputs.rglob("*") if p.is_file()} ==
+                {name.removeprefix("evidence/inputs/") for name in manifest if name.startswith("evidence/inputs/")},
+                "D1_ACCOUNTED_ASR_EXTRA_OR_MISSING_EVIDENCE")
+        # Each raw request, call, native result, model load, routing decision and
+        # input waveform must be the same bytes that the full view replay used.
+        for saved, expected in manifest.items():
+            if saved.startswith("evidence/asr/"):
+                source_path = folder / "outputs/recognition" / saved.removeprefix("evidence/asr/")
+            elif saved.startswith("evidence/inputs/"):
+                source_path = Path(recipe["inputs"]["path"]).parent / saved.removeprefix("evidence/inputs/")
+            elif saved == "evidence/selective/source-map.json":
+                source_path = Path(recipe["source_map"]["path"])
+            elif saved == "evidence/selective/policy.json":
+                source_path = Path(recipe["policy"]["path"])
+            else:
+                continue
+            reader.pin(_d1_local_pin(source_path, expected))
+        require(report["asr_adapter"]["request_sha256"] == recipe_pin["sha256"] and
+                report["asr_adapter"]["source_map_sha256"] == recipe["source_map"]["sha256"] and
+                report["inputs_sha256"] == recipe["inputs"]["sha256"] and
+                report["asr_adapter"]["final_audit_sha256"] ==
+                    actual["terminal"]["outputs"]["recognition/audit/final-summary.json"]["sha256"],
+                "D1_ACCOUNTED_ASR_TERMINAL_VIEW_JOIN")
+        current_ids = {row["source"]["source_id"] for row in report["items"]}
+        require(not current_ids & seen_ids, "D1_ACCOUNTED_ASR_DUPLICATE_SOURCES")
+        seen_ids |= current_ids
+        total += actual["terminal"]["actual_elapsed_ns"]
+        states[name] = {**actual["terminal"], "receipt_sha256": owner["result"]["sha256"]}
+    require(total <= 1_200_000_000_000, "D1_ACCOUNTED_ASR_GLOBAL_BUDGET")
+    return {"schema": "kws-local-research-queue-status-v1", "queue_id": request["queue_id"], "status": "completed",
+        "global_budget_minutes": 20, "actual_known_job_minutes": total / 60_000_000_000,
+        "actual_known_job_nanoseconds": total, "actual_total_is_complete": True, "unresolved_jobs": [],
+        "remaining_budget_nanoseconds": 1_200_000_000_000 - total, "budget_overrun_nanoseconds": 0,
+        "budget_scope": "all_jobs_in_this_frozen_queue", "jobs": states, "automatic_retries": 0,
+        "historical_jobs_imported": 0, "heavy_lock": queue["heavy_lock"], "remote_watchdog_deployed": False}
+
+
+def verify_accounted_seal(path, expected_sha256, *, expected_count=232):
+    """Verify the actual completed ASR queue→native/source-map→retained-view handoff."""
+    require(expected_count in (232, 256), "D1_ACCOUNTED_SEAL_EXPECTED_PREFIX")
+    pin = _d1_local_pin(path, expected_sha256)
+    sealed = loads(read_bytes(pin["path"]))
+    require(set(sealed) == {"schema", "accounted_prefix_count", "observed_prefix_count", "new_observed_audio",
+        "continuation_checkpoint", "accounted_prior_evidence", "queue_root", "queue_state", "views",
+        "full_replay_completed", "new_model_calls_in_sealing", "unknown_asr_requests",
+        "accounted_complete", "complete_terminal_coverage"} and
+        sealed["schema"] == "d1-accounted-selective-stage-closed-v3" and
+        sealed["accounted_prefix_count"] == expected_count and sealed["full_replay_completed"] is True and
+        sealed["new_model_calls_in_sealing"] == sealed["unknown_asr_requests"] == 0 and
+        sealed["accounted_complete"] is True and sealed["complete_terminal_coverage"] is False,
+        "D1_ACCOUNTED_SEAL_SCHEMA")
+    prior_pin = sealed["accounted_prior_evidence"]
+    result, reports, reader, prior = _verify_accounted_prior(
+        prior_pin["path"], prior_pin["sha256"], expected_count=expected_count)
+    reader.pin(prior_pin)
+    reader.pin(pin)
+    require(result["accounted_complete"] and not result["pending_ids"] and
+            prior["continuation_checkpoint"] == sealed["continuation_checkpoint"] and
+            sealed["observed_prefix_count"] == len(result["observed_ids"]) and
+            sealed["queue_root"] == str(Path(path).absolute().parent / "queue"), "D1_ACCOUNTED_SEAL_PRIOR_JOIN")
+    entries = sealed["views"]
+    require(entries and prior["views"][-len(entries):] == [
+        {"path": entry["path"], "manifest_sha256": entry["manifest_sha256"]} for entry in entries],
+        "D1_ACCOUNTED_SEAL_VIEW_ROSTER")
+    checkpoint = reader.json(sealed["continuation_checkpoint"])
+    new_ids = set(checkpoint["eligible_cell_ids"])
+    if checkpoint["previous_checkpoint"] is not None:
+        earlier = reader.json(checkpoint["previous_checkpoint"])
+        new_ids -= {row["cell_id"] for row in earlier["returned_rows"]}
+    source_snapshot = Path(path).absolute().parent / "source-snapshot/data"
+    source_hashes = {}
+    for source in ACCOUNTED_SOURCE_PATHS:
+        record = _d1_local_pin(source_snapshot / source)
+        require(record["sha256"] == sha(read_bytes(ROOT / source)), "D1_ACCOUNTED_HANDOFF_VERIFIER_SOURCE_CHANGED")
+        reader.pin(record)
+        source_hashes[source] = record["sha256"]
+    observed_new = []
+    for entry in entries:
+        report = reports[entry["path"]][0]
+        require(report["source_adapter"]["schema"] == D1_ADAPTER_V3 and
+                report["source_adapter"]["checkpoint_sha256"] == sealed["continuation_checkpoint"]["sha256"] and
+                report["producer"]["source_files_sha256"] == source_hashes,
+                "D1_ACCOUNTED_HANDOFF_PRODUCER_SOURCE")
+        observed_new.extend(row["source"]["source_id"] for row in report["items"])
+    require(len(observed_new) == len(set(observed_new)) == sealed["new_observed_audio"] and
+            set(observed_new) == new_ids, "D1_ACCOUNTED_SEAL_EXACT_NEW_OBSERVATIONS")
+    queue = _d1_asr_sealed_queue(sealed["queue_root"], entries, reports, sealed["continuation_checkpoint"], reader)
+    require(sealed["queue_state"] == queue, "D1_ACCOUNTED_SEAL_ACTUAL_QUEUE_SNAPSHOT")
+    result["evidence_files"] = sorted(reader.facts.values(), key=lambda row: row["path"])
+    return {"schema": "d1-accounted-selective-seal-verification-v3", "status": "verified", "verified": True,
+        "accounted_prefix_count": expected_count, "prior": result, "queue_state": queue,
+        "new_observed_ids": observed_new, "evidence_files": result["evidence_files"],
+        "full_replay_completed": True, "ml_imports": 0, "new_model_calls": 0}
+
+
 def main(argv=None):
     cli = argparse.ArgumentParser(description=__doc__)
     sub = cli.add_subparsers(dest="command", required=True)
@@ -1285,6 +2247,8 @@ def main(argv=None):
         parser.add_argument("--d1-stage", type=Path)
         parser.add_argument("--d1-job-recipe", type=Path)
         parser.add_argument("--d1-artifact-roots-json", type=Path)
+        parser.add_argument("--d1-checkpoint", type=Path)
+        parser.add_argument("--d1-checkpoint-sha256")
     inspect = sub.add_parser("inspect")
     inspect.add_argument("package", type=Path)
     inspect.add_argument("--consumer", choices=("rnn-four-token", "fsmn-fulltext"), default="fsmn-fulltext")
@@ -1293,7 +2257,7 @@ def main(argv=None):
     if args.command in ("create", "source-map"):
         source_options = {name: getattr(args, name) for name in (
             "d1_plan", "d1_plan_sha256", "d1_generation_root", "d1_outcomes", "d1_outcomes_sha256",
-            "d1_stage", "d1_job_recipe")}
+            "d1_stage", "d1_job_recipe", "d1_checkpoint", "d1_checkpoint_sha256")}
         source_options["d1_artifact_roots"] = (loads(read_bytes(args.d1_artifact_roots_json))
                                                if args.d1_artifact_roots_json else None)
     if args.command == "create":

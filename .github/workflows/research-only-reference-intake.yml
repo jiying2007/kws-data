@@ -16,6 +16,7 @@ on:
       - automation/test_active_asr_weak_view.py
       - automation/test_active_d1_weak_view.py
       - automation/test_active_d1_outcomes.py
+      - automation/test_active_d1_accounted.py
       - automation/test_selective_asr_weak_view.py
       - automation/test_research_weak_sampling.py
       - automation/RESEARCH_WEAK_VIEW.md
@@ -43,6 +44,7 @@ on:
       - automation/test_active_asr_weak_view.py
       - automation/test_active_d1_weak_view.py
       - automation/test_active_d1_outcomes.py
+      - automation/test_active_d1_accounted.py
       - automation/test_selective_asr_weak_view.py
       - automation/test_research_weak_sampling.py
       - automation/RESEARCH_WEAK_VIEW.md
@@ -61,7 +63,7 @@ permissions:
 jobs:
   source-contract:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -78,6 +80,7 @@ jobs:
             python3 -I -S -B $weak_mode automation/test_active_asr_weak_view.py -v
             python3 -I -S -B $weak_mode automation/test_active_d1_weak_view.py -v
             python3 -I -S -B $weak_mode automation/test_active_d1_outcomes.py -v
+            python3 -I -S -B $weak_mode automation/test_active_d1_accounted.py -v
             python3 -I -S -B $weak_mode automation/test_selective_asr_weak_view.py -v
             python3 -I -S -B $weak_mode automation/test_research_weak_sampling.py -v
             python3 -I -S -B $weak_mode automation/test_reference_asr_inputs.py -v
