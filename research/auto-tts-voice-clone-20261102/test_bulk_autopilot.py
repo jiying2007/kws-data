@@ -81,6 +81,15 @@ class BulkAutopilotTests(Fixture):
         self.assertEqual(len(self.backend.calls), 17)
         self.assertEqual(len(self.asr_calls), 51)
 
+    def test_d1_plan_is_consumed_by_existing_effect_adapter_without_model_calls(self):
+        self.sources = self.d1_sources()
+        self.plan = p.plan(self.sources, self.root, batch_id="d1-fixture",
+                           revision="b" * 40, layout=p.D1_LAYOUT)
+        result = self.go(0, 0)
+        self.assertEqual(result["new_tts_calls"], 0)
+        self.assertEqual(result["new_asr_calls"], 0)
+        self.assertEqual(len(self.backend.calls), 0)
+
     def test_missing_backend_not_run_and_no_started(self):
         result = self.go(backend=None)
         self.assertEqual(result["status"], "NOT_RUN_BACKEND_MISSING")

@@ -162,7 +162,7 @@ def execute(plan, sources, audio_root, workspace, adapters, *,
     p.verify_plan(plan)
     expected = p.plan(sources, audio_root, repetitions=plan["repetitions"],
         batch_id=plan["batch_id"], revision=plan["model_revision"],
-        max_calls=plan["budgets"]["max_total_calls"])
+        max_calls=plan["budgets"]["max_total_calls"], layout=plan.get("cell_layout"))
     p.require(p.canonical(expected) == p.canonical(plan), "SOURCE_OR_PLAN_CHANGED")
     binding = receipts.binding(plan, adapters)
     p.require(type(backend_identity) is dict and set(backend_identity) ==

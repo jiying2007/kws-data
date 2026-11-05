@@ -20,7 +20,7 @@ import subprocess
 import sys
 
 CONTROLLER_RELATIVE = Path("research/auto-tts-voice-clone-20261102/bulk_autopilot.py")
-CONTROLLER_BLOB_SHA1 = "0a5ed1972c14d1757dad11daee6ec8b1a5d1269c"
+CONTROLLER_BLOB_SHA1 = "b77f992a1c990a5eb052b3bab491cb35605edbac"
 MAX_CONTROLLER_BYTES = 128 * 1024
 MAX_HARD_SECONDS = 7200
 SAFE_CHILD_ENV = frozenset((

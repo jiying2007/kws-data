@@ -54,6 +54,29 @@ GENERAL_NEGATIVE = (
 _PROMPTS = ([(text, "positive-intent", kw) for text, kw in POSITIVE] +
             [(text, "hard-negative-intent", None) for text in HARD_NEGATIVE] +
             [(text, "speech-negative-intent", None) for text in GENERAL_NEGATIVE])
+D1_LAYOUT = "d1-interleaved-32-v1"
+# Two rounds per source: 16 full positives, 8 ordinary, 4 partial, 4 near.
+# This generation mix does not specify a downstream training sampling ratio.
+_D1_PROMPTS = (
+    ("你好小窝", "positive-intent", 1),
+    ("今天晚上吃什么", "speech-negative-intent", None),
+    ("小窝小窝", "positive-intent", 2),
+    ("小窝", "hard-negative-intent", None),
+    ("你好，小窝", "positive-intent", 1),
+    ("请把灯打开", "speech-negative-intent", None),
+    ("小窝，小窝", "positive-intent", 2),
+    ("你好小屋", "hard-negative-intent", None),
+    ("你好小窝", "positive-intent", 1),
+    ("我想听一首音乐", "speech-negative-intent", None),
+    ("小窝小窝", "positive-intent", 2),
+    ("小窝", "hard-negative-intent", None),
+    ("你好，小窝", "positive-intent", 1),
+    ("现在外面下雨了", "speech-negative-intent", None),
+    ("小窝，小窝", "positive-intent", 2),
+    ("小沃小沃", "hard-negative-intent", None),
+)
+_D1_CATEGORIES = ("full-positive", "ordinary-negative", "full-positive", "partial-negative",
+                  "full-positive", "ordinary-negative", "full-positive", "near-negative") * 2
 
 
 def require(condition, why):
@@ -236,47 +259,66 @@ def validate_sources(manifest, audio_root):
 
 
 
-def _cells(refs, repetitions, batch_id):
+def _cells(refs, repetitions, batch_id, layout=None):
     cells = []
-    for ref in refs:
-        for repetition in range(repetitions):
-            for index, (text, kind, keyword_id) in enumerate(_PROMPTS):
-                identity = hashlib.sha256(canonical({
-                    "batch_id": batch_id, "ref": ref["reference_id"], "text": text,
-                    "prompt_index": index, "repetition": repetition
-                })).hexdigest()
-                cells.append({
-                    "cell_id": "bulk-" + identity[:24],
-                    "reference_id": ref["reference_id"],
-                    "speaker_group_id": ref["speaker_group_id"],
-                    "source_family_id": ref["source_family_id"],
-                    "role": ref["role"],
-                    "prompt": text, "intended_kind": kind,
-                    "intended_keyword_id": keyword_id,
-                    "seed": 1000000 + int(identity[:8], 16) % 1000000000,
-                    "repetition": repetition, "status": "NOT_RUN",
-                    "label_authority": "intended_only",
-                    "synthetic": True,
-                    "training_admitted": False, "qualification_allowed": False
-                })
-    cells.sort(key=lambda x:(x["reference_id"],x["cell_id"]))
+    require(layout in (None, D1_LAYOUT), "UNKNOWN_CELL_LAYOUT")
+    if layout == D1_LAYOUT:
+        require(repetitions == 2 and len(refs) == 8 and
+                len({ref["source_family_id"] for ref in refs}) == 8 and
+                len({ref["speaker_group_id"] for ref in refs}) == 8 and
+                sum(ref["role"] == "train-candidate" for ref in refs) == 6 and
+                sum(ref["role"] == "development-only" for ref in refs) == 2,
+                "D1_REQUIRES_EIGHT_SOURCES_SIX_TRAIN_TWO_DEVELOPMENT")
+        ordered = sorted(refs, key=lambda ref: ref["reference_id"])
+        schedule = ((ordered[index], ((turn + index) // 16) % 2,
+                     (turn + index) % 16, _D1_PROMPTS[(turn + index) % 16])
+                    for turn in range(32) for offset in range(8)
+                    for index in [(turn + offset) % 8])
+    else:
+        schedule = ((ref, repetition, index, prompt) for ref in refs
+                    for repetition in range(repetitions) for index, prompt in enumerate(_PROMPTS))
+    for ref, repetition, index, (text, kind, keyword_id) in schedule:
+        identity = hashlib.sha256(canonical({
+            "batch_id": batch_id, "ref": ref["reference_id"], "text": text,
+            "prompt_index": index, "repetition": repetition,
+            **({"cell_layout": layout} if layout is not None else {})
+        })).hexdigest()
+        cells.append({
+            "cell_id": "bulk-" + identity[:24],
+            "reference_id": ref["reference_id"],
+            "speaker_group_id": ref["speaker_group_id"],
+            "source_family_id": ref["source_family_id"],
+            "role": ref["role"],
+            "prompt": text, "intended_kind": kind,
+            "intended_keyword_id": keyword_id,
+            **({"generation_category": _D1_CATEGORIES[index]} if layout == D1_LAYOUT else {}),
+            "seed": 1000000 + int(identity[:8], 16) % 1000000000,
+            "repetition": repetition, "status": "NOT_RUN",
+            "label_authority": "intended_only",
+            "synthetic": True,
+            "training_admitted": False, "qualification_allowed": False
+        })
+    if layout is None:
+        cells.sort(key=lambda x:(x["reference_id"],x["cell_id"]))
     return cells
 
 
 def plan(manifest, audio_root, *, repetitions=2, batch_id="pilot01",
-         revision=None, max_calls=None):
+         revision=None, max_calls=None, layout=None):
     refs = validate_sources(manifest, audio_root)
     _id(batch_id, "BATCH_ID")
     require(type(repetitions) is int and 1 <= repetitions <= 8, "REPETITIONS")
     require(type(revision) is str and bool(_HEX40.fullmatch(revision)), "PINNED_BASE_REVISION")
-    cells = _cells(refs, repetitions, batch_id)
+    cells = _cells(refs, repetitions, batch_id, layout)
     require(len(cells) <= MAX_CELLS, "PLANNED_SAMPLES_EXCEED_LIMIT")
-    cells.sort(key=lambda x:(x["reference_id"], x["cell_id"]))
+    if layout is None:
+        cells.sort(key=lambda x:(x["reference_id"], x["cell_id"]))
     ceiling = len(cells) if max_calls is None else max_calls
     require(type(ceiling) is int and 1 <= ceiling <= len(cells) and ceiling <= MAX_CELLS,
             "MAX_CALLS")
     return {
         "schema": PLAN_SCHEMA, "batch_id": batch_id, "model_id": MODEL,
+        **({"cell_layout": layout} if layout is not None else {}),
         "model_revision": revision,
         "source_manifest_sha256": hashlib.sha256(canonical(manifest)).hexdigest(),
         "references": refs, "cells": cells,
@@ -290,13 +332,14 @@ def plan(manifest, audio_root, *, repetitions=2, batch_id="pilot01",
 
 
 def verify_plan(value):
-    require(type(value) is dict and set(value) == {
+    require(type(value) is dict and set(value) - {"cell_layout"} == {
         "schema","batch_id","model_id","model_revision",
         "source_manifest_sha256","references","cells","budgets",
         "repetitions","model_calls","source_rights_authenticated",
         "actual_spoken_labels_verified","training_admitted",
         "qualification_allowed"
     } and value.get("schema") == PLAN_SCHEMA, "PLAN_SCHEMA")
+    require("cell_layout" not in value or value["cell_layout"] == D1_LAYOUT, "UNKNOWN_CELL_LAYOUT")
     # No source WAV at this stage; prove immutable plan identity by checking
     # the original private source during run with a separate rehash.
     require(value.get("training_admitted") is False and
@@ -334,7 +377,7 @@ def verify_plan(value):
             bool(_SHA.fullmatch(value["source_manifest_sha256"])) and
             value.get("model_calls") == 0, "PLAN_METADATA")
     require(canonical(cells)==canonical(_cells(refs,value["repetitions"],
-            value["batch_id"])),"CELL_PLAN_CHANGED")
+            value["batch_id"],value.get("cell_layout"))),"CELL_PLAN_CHANGED")
     require(len({row["cell_id"] for row in cells}) == len(cells) and
             len({row["reference_id"] for row in refs}) == len(refs), "PLAN_DUPLICATE")
     require(all(type(x) is dict and x.get("training_admitted") is False
@@ -353,6 +396,7 @@ def main(argv=None):
     cli.add_argument("--model-revision",required=True)
     cli.add_argument("--batch-id",default="pilot01")
     cli.add_argument("--repetitions",type=int,default=2)
+    cli.add_argument("--layout",choices=(D1_LAYOUT,))
     cli.add_argument("--max-total-calls",type=int)
     cli.add_argument("--output",type=Path,required=True)
     args=cli.parse_args(argv)
@@ -360,7 +404,7 @@ def main(argv=None):
         m=read_json(args.sources)
         result=plan(m,args.audio_root,repetitions=args.repetitions,
                     batch_id=args.batch_id,revision=args.model_revision,
-                    max_calls=args.max_total_calls)
+                    max_calls=args.max_total_calls,layout=args.layout)
         require(args.output.parent.is_dir() and not args.output.exists()
                 and not args.output.is_symlink(),"PLAN_OUTPUT_MUST_BE_NEW")
         body=canonical(result)+b"\n"
