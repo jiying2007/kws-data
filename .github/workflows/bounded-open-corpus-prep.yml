@@ -7,6 +7,12 @@ on:
       - automation/test_prepare_open_reference_pilot.py
       - automation/fetch_aishell_subset.py
       - automation/test_fetch_aishell_subset.py
+      - automation/recorded_aishell_fetch.py
+      - automation/run_newsource8_intake.py
+      - automation/test_newsource8_intake.py
+      - automation/recover_newsource8_partial.py
+      - automation/test_newsource8_offline_recovery.py
+      - docs/NEWSOURCE8_INTAKE_20261106.md
       - automation/D2_REFERENCE_INTAKE.md
       - automation/BOUNDED_CORPUS_PREP.md
       - .github/workflows/bounded-open-corpus-prep.yml
@@ -19,6 +25,12 @@ on:
       - automation/test_prepare_open_reference_pilot.py
       - automation/fetch_aishell_subset.py
       - automation/test_fetch_aishell_subset.py
+      - automation/recorded_aishell_fetch.py
+      - automation/run_newsource8_intake.py
+      - automation/test_newsource8_intake.py
+      - automation/recover_newsource8_partial.py
+      - automation/test_newsource8_offline_recovery.py
+      - docs/NEWSOURCE8_INTAKE_20261106.md
       - automation/D2_REFERENCE_INTAKE.md
       - automation/BOUNDED_CORPUS_PREP.md
       - .github/workflows/bounded-open-corpus-prep.yml
@@ -53,6 +65,12 @@ jobs:
           python3 -I -S -B automation/test_fetch_aishell_subset.py -v
           python3 -I -S -B -O automation/test_fetch_aishell_subset.py -v
           python3 -I -S -B -OO automation/test_fetch_aishell_subset.py -v
+          python3 -I -S -B automation/test_newsource8_intake.py -v
+          python3 -I -S -B -O automation/test_newsource8_intake.py -v
+          python3 -I -S -B -OO automation/test_newsource8_intake.py -v
+          python3 -I -S -B automation/test_newsource8_offline_recovery.py -v
+          python3 -I -S -B -O automation/test_newsource8_offline_recovery.py -v
+          python3 -I -S -B -OO automation/test_newsource8_offline_recovery.py -v
       - name: Ensure no tracked file was changed
         run: |
           git diff --exit-code HEAD --
