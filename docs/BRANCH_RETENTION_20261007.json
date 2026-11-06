@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1944,
-  "expected_retained_files": 1935,
+  "expected_tracked_files": 1950,
+  "expected_retained_files": 1941,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -20431,9 +20431,9 @@
     {
       "path": ".github/workflows/bounded-open-corpus-prep.yml",
       "mode": "100644",
-      "git_blob_sha1": "8df2b38be2c7f598cc410614c1201cd05c4d8b63",
-      "bytes": 2292,
-      "source_commit": "48e96e26d23e4477a1b846141f7880e66de6f518"
+      "bytes": 3300,
+      "git_blob_sha1": "e285e16dd8bc9ca945dca37ecc0b71f72c4a0b91",
+      "source_commit": "4b16564508b83a41e0870f60fbed8190b101cac1"
     },
     {
       "path": "automation/BOUNDED_CORPUS_PREP.md",
@@ -20882,6 +20882,48 @@
       "bytes": 4919,
       "git_blob_sha1": "4a19335d1e28d0aacf8f6363f926a6a8c32a5fd4",
       "source_commit": "f82eb22ef3bc55aa0a15e692d71bec326d12540c"
+    },
+    {
+      "path": "automation/recorded_aishell_fetch.py",
+      "mode": "100644",
+      "bytes": 3299,
+      "git_blob_sha1": "759faeb9257ea139b39d1ac1a33754367b9d52c3",
+      "source_commit": "4b16564508b83a41e0870f60fbed8190b101cac1"
+    },
+    {
+      "path": "automation/recover_newsource8_partial.py",
+      "mode": "100644",
+      "bytes": 16483,
+      "git_blob_sha1": "f605961f31e5ee5c36ecd63bd3f636394c0d489e",
+      "source_commit": "4b16564508b83a41e0870f60fbed8190b101cac1"
+    },
+    {
+      "path": "automation/run_newsource8_intake.py",
+      "mode": "100644",
+      "bytes": 13188,
+      "git_blob_sha1": "ff8f92dccbec7b8c0fd651d7922c47a9bfdfd6c7",
+      "source_commit": "4b16564508b83a41e0870f60fbed8190b101cac1"
+    },
+    {
+      "path": "automation/test_newsource8_intake.py",
+      "mode": "100644",
+      "bytes": 16754,
+      "git_blob_sha1": "0fde3ac5f962278505572376a8e4f11a1f4c5868",
+      "source_commit": "4b16564508b83a41e0870f60fbed8190b101cac1"
+    },
+    {
+      "path": "automation/test_newsource8_offline_recovery.py",
+      "mode": "100644",
+      "bytes": 11574,
+      "git_blob_sha1": "118c5d4fa6adeba55543ce01d3f11eef218a215f",
+      "source_commit": "4b16564508b83a41e0870f60fbed8190b101cac1"
+    },
+    {
+      "path": "docs/NEWSOURCE8_INTAKE_20261106.md",
+      "mode": "100644",
+      "bytes": 6961,
+      "git_blob_sha1": "c8a43722b298c104af49db4a59b5e72ab824d6ce",
+      "source_commit": "4b16564508b83a41e0870f60fbed8190b101cac1"
     }
   ],
   "source_registration_history": [
@@ -23161,6 +23203,123 @@
             "bytes": 4919,
             "git_blob_sha1": "4a19335d1e28d0aacf8f6363f926a6a8c32a5fd4",
             "sha256": "5e65767eb3df75eaeab7dc087aa35b06ab8100fa622e7a7a41cae0ca87037b0e"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true
+      }
+    },
+    {
+      "campaign": "bounded-newsource8-intake-20261106",
+      "source_commit": "4b16564508b83a41e0870f60fbed8190b101cac1",
+      "base_commit": "8d453edffefec06fe2a5767f02006e86e91aa8e3",
+      "paths": [
+        ".github/workflows/bounded-open-corpus-prep.yml",
+        "automation/recorded_aishell_fetch.py",
+        "automation/recover_newsource8_partial.py",
+        "automation/run_newsource8_intake.py",
+        "automation/test_newsource8_intake.py",
+        "automation/test_newsource8_offline_recovery.py",
+        "docs/NEWSOURCE8_INTAKE_20261106.md"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/bounded-open-corpus-prep.yml",
+          "mode": "100644",
+          "git_blob_sha1": "8df2b38be2c7f598cc410614c1201cd05c4d8b63",
+          "bytes": 2292,
+          "source_commit": "48e96e26d23e4477a1b846141f7880e66de6f518"
+        }
+      ],
+      "previous_manifest_sha256": "ce2a844c6de39a2d1aed88a1e0194c2325913f3e550104eb9331c74dcaf30e87",
+      "previous_manifest_git_blob_sha1": "fec60a4955ece375a555b0ee1268420a7c931ee6",
+      "scope": "Retain bounded eight-speaker source intake, fail-closed launch and HTTP accounting, verified offline prefix recovery, and normal/O/OO regression fixtures.",
+      "rationale": "Continue the accepted data plan with eight new real corpus source identities while retaining the original failed bounded fetch, unresolved final HTTP request, unchanged original 32 identities, and exact source/publication provenance.",
+      "files": [
+        {
+          "path": ".github/workflows/bounded-open-corpus-prep.yml",
+          "before": {
+            "path": ".github/workflows/bounded-open-corpus-prep.yml",
+            "mode": "100644",
+            "bytes": 2292,
+            "git_blob_sha1": "8df2b38be2c7f598cc410614c1201cd05c4d8b63",
+            "sha256": "a77282aca6940a45615840ef8ffc8543c4b514fa28769b7c1a1115d11d7b3874"
+          },
+          "after": {
+            "path": ".github/workflows/bounded-open-corpus-prep.yml",
+            "mode": "100644",
+            "bytes": 3300,
+            "git_blob_sha1": "e285e16dd8bc9ca945dca37ecc0b71f72c4a0b91",
+            "sha256": "1597776f5f2b0f805b278fd0487c4f7b7f09053e76e7c392b4ad35e20a2c8a1c"
+          }
+        },
+        {
+          "path": "automation/recorded_aishell_fetch.py",
+          "before": null,
+          "after": {
+            "path": "automation/recorded_aishell_fetch.py",
+            "mode": "100644",
+            "bytes": 3299,
+            "git_blob_sha1": "759faeb9257ea139b39d1ac1a33754367b9d52c3",
+            "sha256": "cd1cf1bd8c6bb57619735d91f4a89ae2643b9bd6669a63a922314584a595498a"
+          }
+        },
+        {
+          "path": "automation/recover_newsource8_partial.py",
+          "before": null,
+          "after": {
+            "path": "automation/recover_newsource8_partial.py",
+            "mode": "100644",
+            "bytes": 16483,
+            "git_blob_sha1": "f605961f31e5ee5c36ecd63bd3f636394c0d489e",
+            "sha256": "f0f9dc725fd2e1e8e8d6fd05afc60ab0473102066cb5e849eca8903d22b7284f"
+          }
+        },
+        {
+          "path": "automation/run_newsource8_intake.py",
+          "before": null,
+          "after": {
+            "path": "automation/run_newsource8_intake.py",
+            "mode": "100644",
+            "bytes": 13188,
+            "git_blob_sha1": "ff8f92dccbec7b8c0fd651d7922c47a9bfdfd6c7",
+            "sha256": "d286cca02035965e08a69ac7ac6adf4958c0bc0289dce22041892ff2221e27b9"
+          }
+        },
+        {
+          "path": "automation/test_newsource8_intake.py",
+          "before": null,
+          "after": {
+            "path": "automation/test_newsource8_intake.py",
+            "mode": "100644",
+            "bytes": 16754,
+            "git_blob_sha1": "0fde3ac5f962278505572376a8e4f11a1f4c5868",
+            "sha256": "2b962e0dadfbb44a35d02a1934e22ad6e9271793aaa48de736a79c1b2b3e0e38"
+          }
+        },
+        {
+          "path": "automation/test_newsource8_offline_recovery.py",
+          "before": null,
+          "after": {
+            "path": "automation/test_newsource8_offline_recovery.py",
+            "mode": "100644",
+            "bytes": 11574,
+            "git_blob_sha1": "118c5d4fa6adeba55543ce01d3f11eef218a215f",
+            "sha256": "a6825c26e2b6232316a474617a4b7a8c63d36a5697154627ce37bf0bdef7550a"
+          }
+        },
+        {
+          "path": "docs/NEWSOURCE8_INTAKE_20261106.md",
+          "before": null,
+          "after": {
+            "path": "docs/NEWSOURCE8_INTAKE_20261106.md",
+            "mode": "100644",
+            "bytes": 6961,
+            "git_blob_sha1": "c8a43722b298c104af49db4a59b5e72ab824d6ce",
+            "sha256": "96aa169c7d7c6f8221f85000d90d89011ac498ddda09ab73836d1edffe6abfe7"
           }
         }
       ],
