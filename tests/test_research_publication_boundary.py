@@ -53,7 +53,59 @@ def validate_research_workflow(source: str, name: str = "fixture") -> None:
         raise AssertionError(f"{name}: GitHub Release publishing action is forbidden")
 
 
+
+CURRENT_GUIDANCE = {
+    "README.md": (
+        ("具体版本许可", "实际非商业研究用途", "声音克隆/使用权限",
+         "不要求与本研究无关的商用授权", "未知或不允许的实际用途不得自动放行"),
+        ("须先核实实际版本的商用和声音使用范围",),
+    ),
+    "docs/ASSET_ARCHITECTURE.md": (
+        ("均以技术研究为范围", "不把产品放行通道作为数据准备、训练或算法比较的前置条件",
+         "原始音频、来源/标签、切分和实际测量", "缺失证据不能由 catalog 或 CI 成功补充",
+         "当前输出商业许可状态为 `not-established`"),
+        ("正式产品证据仍由 kws-pipeline 对应治理通道决定",),
+    ),
+}
+
+
+def validate_current_guidance(source: str, name: str) -> None:
+    required, retired = CURRENT_GUIDANCE[name]
+    for marker in required:
+        if marker not in source:
+            raise AssertionError(name + ": missing research/source-rights boundary: " + marker)
+    for marker in retired:
+        if marker in source:
+            raise AssertionError(name + ": retired commercial prerequisite: " + marker)
+
+
 class ResearchPublicationBoundaryTests(unittest.TestCase):
+    def test_current_guidance_requires_research_rights_not_commercial_approval(self):
+        for name in CURRENT_GUIDANCE:
+            with self.subTest(path=name):
+                validate_current_guidance((ROOT / name).read_text(encoding="utf-8"), name)
+
+    def test_current_guidance_rejects_missing_rights_and_restored_product_gates(self):
+        for name, (required, retired) in CURRENT_GUIDANCE.items():
+            text = (ROOT / name).read_text(encoding="utf-8")
+            for marker in required:
+                with self.subTest(path=name, missing=marker):
+                    with self.assertRaises(AssertionError):
+                        validate_current_guidance(text.replace(marker, ""), name)
+            for marker in retired:
+                with self.subTest(path=name, retired=marker):
+                    with self.assertRaises(AssertionError):
+                        validate_current_guidance(text + "\n" + marker, name)
+
+    def test_negative_rights_statements_are_not_blanket_licenses(self):
+        # Denial fields in original records remain truthful; no commercial
+        # license grant is required or invented by a research-doc migration.
+        text = (ROOT / "docs/ASSET_ARCHITECTURE.md").read_text(encoding="utf-8")
+        validate_current_guidance(text, "docs/ASSET_ARCHITECTURE.md")
+        with self.assertRaises(AssertionError):
+            validate_current_guidance(text.replace("`not-established`", "`approved`"),
+                                      "docs/ASSET_ARCHITECTURE.md")
+
     def test_every_active_workflow_is_research_only(self):
         workflows = sorted(WORKFLOWS.glob("*.yml")) + sorted(WORKFLOWS.glob("*.yaml"))
         self.assertTrue(workflows, "active workflow directory must be present")

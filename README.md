@@ -63,7 +63,7 @@ HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python3 -B tools/supervise_bulk_autopilo
 
 ### 公开语料小批量 WAV 自动准备（2026-11-03）
 
-[原始 WAV → 规范 16/24k PCM16 → 哈希及私有转换收据](automation/BOUNDED_CORPUS_PREP.md) 现可离线自动完成每个来源说话人最接近 5 秒参考片段的选择、固定本地 ffmpeg 文件 SHA、拒绝更改源文件和软链接，并直接产生现有开源声源候选导入器接受的私有 source index。不会下载未经许可的音频、执行 TTS/ASR 或自动伪造声音使用权限。AISHELL-3 等真实人声须先核实实际版本的商用和声音使用范围；原创合成声线仍可并行研发。
+[原始 WAV → 规范 16/24k PCM16 → 哈希及私有转换收据](automation/BOUNDED_CORPUS_PREP.md) 现可离线自动完成每个来源说话人最接近 5 秒参考片段的选择、固定本地 ffmpeg 文件 SHA、拒绝更改源文件和软链接，并直接产生现有开源声源候选导入器接受的私有 source index。不会下载未经许可的音频、执行 TTS/ASR 或自动伪造声音使用权限。AISHELL-3 等真实人声须核实具体版本许可、实际非商业研究用途及声音克隆/使用权限；不要求与本研究无关的商用授权。原创合成声线仍可并行研发，未知或不允许的实际用途不得自动放行。
 
 ## 历史研究入口（2026-10-07 整理）
 
