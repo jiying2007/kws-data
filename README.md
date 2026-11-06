@@ -65,6 +65,14 @@ HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python3 -B tools/supervise_bulk_autopilo
 
 [原始 WAV → 规范 16/24k PCM16 → 哈希及私有转换收据](automation/BOUNDED_CORPUS_PREP.md) 现可离线自动完成每个来源说话人最接近 5 秒参考片段的选择、固定本地 ffmpeg 文件 SHA、拒绝更改源文件和软链接，并直接产生现有开源声源候选导入器接受的私有 source index。不会下载未经许可的音频、执行 TTS/ASR 或自动伪造声音使用权限。AISHELL-3 等真实人声须核实具体版本许可、实际非商业研究用途及声音克隆/使用权限；不要求与本研究无关的商用授权。原创合成声线仍可并行研发，未知或不允许的实际用途不得自动放行。
 
+## 当前研究资产规范
+
+本数据仓和 kws-pipeline 均以技术研究为范围，不把产品放行通道作为数据准备、训练或算法比较的前置条件。独立研究结论仍须核验原始音频、来源/标签、切分和实际测量；缺失证据不能由 catalog 或 CI 成功补充。
+
+当前资产入口仅为 `catalog.json` 与 `tools.codex_assets`；固定数据 commit、catalog SHA-256、原始音频/PCM、来源、审核与分割身份。实际研究用途和声音使用范围需获得相应来源许可，不因模型许可推定额外权利。未知或不允许的用途不自动放行。
+
+[历史资产架构记录](docs/ASSET_ARCHITECTURE.md) 受 `docs/BRANCH_RETENTION_20261007.json` 按原始 Git blob 固定，保留原路径和字节用于历史重放。它不是当前执行规范，其中原产品资格通道已经退役；当前科研数据消费遵循本节，不依赖该通道。原始许可缺失声明和来源证据保持不变，不转换为许可批准。
+
 ## 历史研究入口（2026-10-07 整理）
 
 - [完整研究索引与当前结论](docs/RESEARCH_INDEX.md)：覆盖 ASR 校准、A20、N0、Cosy49、Qwen6、Melo6、N1 与失败 first-prefix 候选；标明 PASS / FAIL / REJECTED / 待资格验证的实际范围
@@ -119,7 +127,7 @@ python3 -m tools.codex_assets verify
 
 训练加载时读取 `manifest.json` 的 `recordings`，将 `path` 相对于该数据集目录解析。`splits.json` 固定开发切分：Vivian、Uncle_Fu、Dylan 为训练声线；Serena 为开发 A；Eric 为开发 B。同一声线的新增 seed 或增强派生必须沿用切分。音频只有整段文本标签，没有可靠逐词/音素结束时刻，不应把音频末尾直接当作唤醒词结束帧。
 
-长期消费使用 `python3 -m tools.codex_assets export`，必须指定已固定的完整数据 commit、catalog SHA-256 和数据集 ID。只在干净 checkout 导出；保留原生 split/审核类型，不发明 token 或词尾时刻。详见[资产架构与固定消费](docs/ASSET_ARCHITECTURE.md)。
+长期消费使用 `python3 -m tools.codex_assets export`，必须指定已固定的完整数据 commit、catalog SHA-256 和数据集 ID。只在干净 checkout 导出；保留原生 split/审核类型，不发明 token 或词尾时刻。当前规范见[当前研究资产规范](#当前研究资产规范)，旧格式说明仅见[历史资产架构记录](docs/ASSET_ARCHITECTURE.md)。
 
 ## 内容入口
 

@@ -1,6 +1,6 @@
 """Fail closed if current kws-data Actions regain commercial publication authority.
 
-Only live workflow entrypoints and retired importer paths are inspected here.
+Live workflow/importer entrypoints and current guidance are inspected here.
 Archived research records, rights statements, source receipts and historic release
 provenance must remain available for reproducibility; those are not approvals.
 """
@@ -57,14 +57,13 @@ def validate_research_workflow(source: str, name: str = "fixture") -> None:
 CURRENT_GUIDANCE = {
     "README.md": (
         ("具体版本许可", "实际非商业研究用途", "声音克隆/使用权限",
-         "不要求与本研究无关的商用授权", "未知或不允许的实际用途不得自动放行"),
-        ("须先核实实际版本的商用和声音使用范围",),
-    ),
-    "docs/ASSET_ARCHITECTURE.md": (
-        ("均以技术研究为范围", "不把产品放行通道作为数据准备、训练或算法比较的前置条件",
+         "不要求与本研究无关的商用授权", "未知或不允许的实际用途不得自动放行",
+         "## 当前研究资产规范", "均以技术研究为范围",
+         "不把产品放行通道作为数据准备、训练或算法比较的前置条件",
          "原始音频、来源/标签、切分和实际测量", "缺失证据不能由 catalog 或 CI 成功补充",
-         "当前输出商业许可状态为 `not-established`"),
-        ("正式产品证据仍由 kws-pipeline 对应治理通道决定",),
+         "它不是当前执行规范，其中原产品资格通道已经退役"),
+        ("须先核实实际版本的商用和声音使用范围",
+         "详见[资产架构与固定消费](docs/ASSET_ARCHITECTURE.md)"),
     ),
 }
 
@@ -97,14 +96,22 @@ class ResearchPublicationBoundaryTests(unittest.TestCase):
                     with self.assertRaises(AssertionError):
                         validate_current_guidance(text + "\n" + marker, name)
 
-    def test_negative_rights_statements_are_not_blanket_licenses(self):
-        # Denial fields in original records remain truthful; no commercial
-        # license grant is required or invented by a research-doc migration.
-        text = (ROOT / "docs/ASSET_ARCHITECTURE.md").read_text(encoding="utf-8")
-        validate_current_guidance(text, "docs/ASSET_ARCHITECTURE.md")
-        with self.assertRaises(AssertionError):
-            validate_current_guidance(text.replace("`not-established`", "`approved`"),
-                                      "docs/ASSET_ARCHITECTURE.md")
+    def test_historical_architecture_bytes_and_rights_are_not_rewritten(self):
+        # The old document remains at its original path for byte-exact replay.
+        # Current navigation explicitly demotes it; no retention exception or
+        # commercial license grant is introduced by a prose-only migration.
+        import hashlib
+        import json
+        name = "docs/ASSET_ARCHITECTURE.md"
+        raw = (ROOT / name).read_bytes()
+        original = "9b0f94a6cf3ce1e63112fabea0e2b467b30230ab"
+        digest = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+        self.assertEqual(digest, original)
+        manifest = json.loads((ROOT / "docs/BRANCH_RETENTION_20261007.json").read_bytes())
+        row = next(row for row in manifest["retained_files"] if row["path"] == name)
+        self.assertEqual(row["git_blob_sha1"], original)
+        self.assertEqual(row["bytes"], len(raw))
+        self.assertIn("当前输出商业许可状态为 `not-established`", raw.decode())
 
     def test_every_active_workflow_is_research_only(self):
         workflows = sorted(WORKFLOWS.glob("*.yml")) + sorted(WORKFLOWS.glob("*.yaml"))
