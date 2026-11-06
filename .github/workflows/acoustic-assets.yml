@@ -1,0 +1,28 @@
+name: Bounded acoustic source contracts
+on:
+  pull_request:
+    paths:
+      - "research/auto-tts-voice-clone-20261102/acoustic_assets.py"
+      - "research/auto-tts-voice-clone-20261102/test_acoustic_assets.py"
+      - ".github/workflows/acoustic-assets.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/auto-tts-voice-clone-20261102/acoustic_assets.py"
+      - "research/auto-tts-voice-clone-20261102/test_acoustic_assets.py"
+      - ".github/workflows/acoustic-assets.yml"
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.16"
+      - run: |
+          python -B -m unittest discover -s research/auto-tts-voice-clone-20261102 -p test_acoustic_assets.py
+          python -B -O -m unittest discover -s research/auto-tts-voice-clone-20261102 -p test_acoustic_assets.py
+          python -B -OO -m unittest discover -s research/auto-tts-voice-clone-20261102 -p test_acoustic_assets.py

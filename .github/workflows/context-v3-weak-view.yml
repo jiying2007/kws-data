@@ -1,0 +1,32 @@
+name: Context v3 native weak view
+
+on:
+  pull_request:
+    paths:
+      - "automation/active_context_v3_weak_view.py"
+      - "automation/test_active_context_v3_weak_view.py"
+      - "automation/active_asr_weak_view.py"
+      - "research/auto-tts-voice-clone-20261102/**"
+      - "kws_data_contract/**"
+      - ".github/workflows/context-v3-weak-view.yml"
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.16"
+      - run: python -B research/auto-tts-voice-clone-20261102/test_context_supplement_v3.py
+      - run: python -B -O research/auto-tts-voice-clone-20261102/test_context_supplement_v3.py
+      - run: python -B -OO research/auto-tts-voice-clone-20261102/test_context_supplement_v3.py
+      - run: python -I -S -B automation/test_active_context_v3_weak_view.py
+      - run: python -I -S -B -O automation/test_active_context_v3_weak_view.py
+      - run: python -I -S -B -OO automation/test_active_context_v3_weak_view.py
