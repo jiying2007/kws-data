@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1931,
-  "expected_retained_files": 1922,
+  "expected_tracked_files": 1941,
+  "expected_retained_files": 1932,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -20791,6 +20791,76 @@
       "bytes": 12827,
       "git_blob_sha1": "52877b381d65074d0c2c9305a3e55412c60582c4",
       "source_commit": "ca32d13aeb6e130eefeb2ae808eb65db46aa4462"
+    },
+    {
+      "path": ".github/workflows/acoustic-assets.yml",
+      "mode": "100644",
+      "bytes": 1073,
+      "git_blob_sha1": "3b5811296bbcc2701216338357f18ba989da6cf9",
+      "source_commit": "6c64ca097b9fb83b96f3c43cb579ce4a8ab14767"
+    },
+    {
+      "path": ".github/workflows/context-v3-weak-view.yml",
+      "mode": "100644",
+      "bytes": 1134,
+      "git_blob_sha1": "2b2d025253552a053a088846669ec5e49d3b1640",
+      "source_commit": "6c64ca097b9fb83b96f3c43cb579ce4a8ab14767"
+    },
+    {
+      "path": "automation/CONTEXT_V3_WEAK_VIEW.md",
+      "mode": "100644",
+      "bytes": 4850,
+      "git_blob_sha1": "d78326637139b575b362226f1c2541cafda6242b",
+      "source_commit": "6c64ca097b9fb83b96f3c43cb579ce4a8ab14767"
+    },
+    {
+      "path": "automation/active_context_v3_weak_view.py",
+      "mode": "100644",
+      "bytes": 32578,
+      "git_blob_sha1": "80eb74dec577351f0d759ecd192e88464cf29f08",
+      "source_commit": "6c64ca097b9fb83b96f3c43cb579ce4a8ab14767"
+    },
+    {
+      "path": "automation/test_active_context_v3_weak_view.py",
+      "mode": "100644",
+      "bytes": 31297,
+      "git_blob_sha1": "97979deef26084eb7b5e08977f908ce67b35706d",
+      "source_commit": "6c64ca097b9fb83b96f3c43cb579ce4a8ab14767"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/ACOUSTIC_ASSETS.md",
+      "mode": "100644",
+      "bytes": 1782,
+      "git_blob_sha1": "b187dffbb10844de97cdc41431cc0cf676b24574",
+      "source_commit": "6c64ca097b9fb83b96f3c43cb579ce4a8ab14767"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/acoustic_assets.py",
+      "mode": "100644",
+      "bytes": 12441,
+      "git_blob_sha1": "08087399d394967628542db74fb4325a09acd6f3",
+      "source_commit": "6c64ca097b9fb83b96f3c43cb579ce4a8ab14767"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/context_supplement_v3.py",
+      "mode": "100644",
+      "bytes": 18046,
+      "git_blob_sha1": "5e876cf54f70aeb61daa0447c6697e2370df1f38",
+      "source_commit": "6c64ca097b9fb83b96f3c43cb579ce4a8ab14767"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/test_acoustic_assets.py",
+      "mode": "100644",
+      "bytes": 4186,
+      "git_blob_sha1": "a00bc8ead3e993f3b0a63f175cbc349b254b5dab",
+      "source_commit": "6c64ca097b9fb83b96f3c43cb579ce4a8ab14767"
+    },
+    {
+      "path": "research/auto-tts-voice-clone-20261102/test_context_supplement_v3.py",
+      "mode": "100644",
+      "bytes": 8788,
+      "git_blob_sha1": "2098a3910b1895df859c6aed46abdfddcc9f8156",
+      "source_commit": "6c64ca097b9fb83b96f3c43cb579ce4a8ab14767"
     }
   ],
   "source_registration_history": [
@@ -22857,6 +22927,145 @@
         "new_model_calls_for_source_tests": 0,
         "synchronized_stage_recipe_native_tampering_rejected": true,
         "existing_execution_source_unchanged": true
+      }
+    },
+    {
+      "campaign": "context-v3-acoustics-20261106",
+      "source_commit": "6c64ca097b9fb83b96f3c43cb579ce4a8ab14767",
+      "base_commit": "63e0f871b19f93cd6746aa210cf0250be434e453",
+      "paths": [
+        ".github/workflows/acoustic-assets.yml",
+        ".github/workflows/context-v3-weak-view.yml",
+        "automation/CONTEXT_V3_WEAK_VIEW.md",
+        "automation/active_context_v3_weak_view.py",
+        "automation/test_active_context_v3_weak_view.py",
+        "research/auto-tts-voice-clone-20261102/ACOUSTIC_ASSETS.md",
+        "research/auto-tts-voice-clone-20261102/acoustic_assets.py",
+        "research/auto-tts-voice-clone-20261102/context_supplement_v3.py",
+        "research/auto-tts-voice-clone-20261102/test_acoustic_assets.py",
+        "research/auto-tts-voice-clone-20261102/test_context_supplement_v3.py"
+      ],
+      "previous_campaign_rows": [],
+      "previous_manifest_sha256": "7372012012a89279306dca429bc150d2573cbc2cddd1bbc09916fdb755cd3a9d",
+      "previous_manifest_git_blob_sha1": "91cf1364d8d3775532b5ad2fefbb2d6b7da990a7",
+      "scope": "New24 context72 plan, native fulltext weak replay and bounded RIR/noise source acquisition",
+      "rationale": "Continue research with genuinely new context prompts and immutable source evidence while keeping historical outcomes, identity splits, failed rows and model disagreement observable",
+      "files": [
+        {
+          "path": ".github/workflows/acoustic-assets.yml",
+          "before": null,
+          "after": {
+            "path": ".github/workflows/acoustic-assets.yml",
+            "mode": "100644",
+            "bytes": 1073,
+            "git_blob_sha1": "3b5811296bbcc2701216338357f18ba989da6cf9",
+            "sha256": "15bac7289e2d47e66ca5a9bb1d52bb4f09f221a9791c70840705cce2cdd0e77f"
+          }
+        },
+        {
+          "path": ".github/workflows/context-v3-weak-view.yml",
+          "before": null,
+          "after": {
+            "path": ".github/workflows/context-v3-weak-view.yml",
+            "mode": "100644",
+            "bytes": 1134,
+            "git_blob_sha1": "2b2d025253552a053a088846669ec5e49d3b1640",
+            "sha256": "5200bd9eb9707f9ece2baacee6281cbbee83c540203fc72bdb86c36a10ceae92"
+          }
+        },
+        {
+          "path": "automation/CONTEXT_V3_WEAK_VIEW.md",
+          "before": null,
+          "after": {
+            "path": "automation/CONTEXT_V3_WEAK_VIEW.md",
+            "mode": "100644",
+            "bytes": 4850,
+            "git_blob_sha1": "d78326637139b575b362226f1c2541cafda6242b",
+            "sha256": "41d000784c977304e5efbd2622a320fff0a67f9ef3a9ed0b01aac6aadc537963"
+          }
+        },
+        {
+          "path": "automation/active_context_v3_weak_view.py",
+          "before": null,
+          "after": {
+            "path": "automation/active_context_v3_weak_view.py",
+            "mode": "100644",
+            "bytes": 32578,
+            "git_blob_sha1": "80eb74dec577351f0d759ecd192e88464cf29f08",
+            "sha256": "cec05435ebd719ce0c444c162f97f7563a249b39467adb243b36459a8f46714d"
+          }
+        },
+        {
+          "path": "automation/test_active_context_v3_weak_view.py",
+          "before": null,
+          "after": {
+            "path": "automation/test_active_context_v3_weak_view.py",
+            "mode": "100644",
+            "bytes": 31297,
+            "git_blob_sha1": "97979deef26084eb7b5e08977f908ce67b35706d",
+            "sha256": "cbf0a1afd0def6221c4c0fc1a89d107d0baee52feff916ebd41d7908847b2e73"
+          }
+        },
+        {
+          "path": "research/auto-tts-voice-clone-20261102/ACOUSTIC_ASSETS.md",
+          "before": null,
+          "after": {
+            "path": "research/auto-tts-voice-clone-20261102/ACOUSTIC_ASSETS.md",
+            "mode": "100644",
+            "bytes": 1782,
+            "git_blob_sha1": "b187dffbb10844de97cdc41431cc0cf676b24574",
+            "sha256": "7adcaa80eb14095efb31d85e330974e2a3976c96d80de3d9798286fa5703d9c1"
+          }
+        },
+        {
+          "path": "research/auto-tts-voice-clone-20261102/acoustic_assets.py",
+          "before": null,
+          "after": {
+            "path": "research/auto-tts-voice-clone-20261102/acoustic_assets.py",
+            "mode": "100644",
+            "bytes": 12441,
+            "git_blob_sha1": "08087399d394967628542db74fb4325a09acd6f3",
+            "sha256": "572b9fe77de067f527f30743efc86c2b412c2ac43bec6fe13484ad070905da68"
+          }
+        },
+        {
+          "path": "research/auto-tts-voice-clone-20261102/context_supplement_v3.py",
+          "before": null,
+          "after": {
+            "path": "research/auto-tts-voice-clone-20261102/context_supplement_v3.py",
+            "mode": "100644",
+            "bytes": 18046,
+            "git_blob_sha1": "5e876cf54f70aeb61daa0447c6697e2370df1f38",
+            "sha256": "01f1de0118ba1aa5fa8bddeb6a7f2365bc2ed65240772e9c382afaa83ed96732"
+          }
+        },
+        {
+          "path": "research/auto-tts-voice-clone-20261102/test_acoustic_assets.py",
+          "before": null,
+          "after": {
+            "path": "research/auto-tts-voice-clone-20261102/test_acoustic_assets.py",
+            "mode": "100644",
+            "bytes": 4186,
+            "git_blob_sha1": "a00bc8ead3e993f3b0a63f175cbc349b254b5dab",
+            "sha256": "21d43af55aab90d1849139450f14156898956796dbf8a8425ce4a0d4ec279398"
+          }
+        },
+        {
+          "path": "research/auto-tts-voice-clone-20261102/test_context_supplement_v3.py",
+          "before": null,
+          "after": {
+            "path": "research/auto-tts-voice-clone-20261102/test_context_supplement_v3.py",
+            "mode": "100644",
+            "bytes": 8788,
+            "git_blob_sha1": "2098a3910b1895df859c6aed46abdfddcc9f8156",
+            "sha256": "623f99a0e1113036503086aa8f94a4e1eab94cc4bb8ff3126ee7e66a0878e62e"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true
       }
     }
   ]
