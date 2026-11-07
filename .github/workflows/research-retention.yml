@@ -16,6 +16,20 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12.16'
+          check-latest: false
+      - name: Check V3 keyword evidence and real verifier composition (fictional inputs)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -c 'import sys; assert sys.version_info[:3] == (3, 12, 16)'
+          for mode in '' '-O' '-OO'; do
+            python -I -S -B $mode automation/test_natural_keyword_evidence_v2.py -v
+            python -I -S -B $mode automation/test_natural_keyword_evidence_v2_integration.py -v
+            python -I -S -B $mode automation/test_active_natural_asr_weak_view.py -v
+          done
       - name: Test retention guard using invented bytes only
         run: python3 -B tests/test_branch_retention.py -v
       - name: Verify complete retained Git objects and working bytes
