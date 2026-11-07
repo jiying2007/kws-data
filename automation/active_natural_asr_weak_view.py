@@ -117,7 +117,7 @@ def safe_dir(value):
     path = Path(value).absolute()
     require(path.is_dir() and not any(p.is_symlink() for p in (path, *path.parents)),
             "REAL_DIRECTORY_REQUIRED")
-    return path
+    return path.resolve()
 
 
 def read(path, limit=32 * 1024 * 1024):
@@ -483,10 +483,16 @@ def create_view(request_path, expected_request_sha256, output):
     require(is_sha(expected_request_sha256) and weak.sha(request_raw) == expected_request_sha256, "REQUEST_PIN")
     request = weak.loads(request_raw); validate_request(request)
     output = Path(output).absolute()
-    require(not output.exists() and output.parent.is_dir() and ROOT not in output.parents and
-            not any(p.is_symlink() for p in (output, *output.parents)), "NEW_PRIVATE_OUTPUT")
+    require(not any(p.is_symlink() for p in (output, *output.parents)), "NEW_PRIVATE_OUTPUT")
+    output = output.resolve()
+    require(not output.exists() and output.parent.is_dir() and ROOT not in output.parents,
+            "NEW_PRIVATE_OUTPUT")
     # Check externally pinned seals/recipes exist for every batch before creating output.
     for entry in request["batches"]:
+        for name in ("bundle", "asr_output"):
+            source_root = safe_dir(entry[name])
+            require(source_root != output and source_root not in output.parents,
+                    "OUTPUT_INSIDE_READ_ONLY_EVIDENCE")
         root = safe_dir(entry["asr_output"])
         require(weak.sha(read(root / "audit/final-summary.json")) == entry["final_audit_sha256"] and
                 weak.sha(read(root / "request.json")) == entry["asr_request_sha256"], "EXISTING_SEAL_AND_RECIPE")
