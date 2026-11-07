@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1950,
-  "expected_retained_files": 1941,
+  "expected_tracked_files": 1954,
+  "expected_retained_files": 1945,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -20466,9 +20466,9 @@
     {
       "path": ".github/workflows/research-only-reference-intake.yml",
       "mode": "100644",
-      "git_blob_sha1": "c2a14c3241bbb59e2e3ccf096d619be5e141691c",
-      "bytes": 4646,
-      "source_commit": "48e96e26d23e4477a1b846141f7880e66de6f518"
+      "bytes": 5039,
+      "git_blob_sha1": "77878b67f0a1382cbe02f66a66e308966e113ec3",
+      "source_commit": "4c852635c1a19b8847f59396896cc1042172484b"
     },
     {
       "path": "kws_data_contract/__init__.py",
@@ -20522,16 +20522,16 @@
     {
       "path": "automation/RESEARCH_WEAK_VIEW.md",
       "mode": "100644",
-      "git_blob_sha1": "975d6a392ffdf87764ce5832309c684bf5192302",
-      "bytes": 21087,
-      "source_commit": "c17c5ee492658ce0ed17c97cbd51352032622d3b"
+      "bytes": 21443,
+      "git_blob_sha1": "29076ae654baa68ba23df714690d6f210b6d19d0",
+      "source_commit": "4c852635c1a19b8847f59396896cc1042172484b"
     },
     {
       "path": "automation/active_asr_weak_view.py",
       "mode": "100644",
-      "git_blob_sha1": "607596e2df49e364cc78a9a0b81345c89e1b8d2d",
-      "bytes": 151568,
-      "source_commit": "c17c5ee492658ce0ed17c97cbd51352032622d3b"
+      "bytes": 152488,
+      "git_blob_sha1": "10e663c585f87ef4756afe66ee8ec91305382a97",
+      "source_commit": "4c852635c1a19b8847f59396896cc1042172484b"
     },
     {
       "path": "automation/research_weak_sampling.py",
@@ -20924,6 +20924,34 @@
       "bytes": 6961,
       "git_blob_sha1": "c8a43722b298c104af49db4a59b5e72ab824d6ce",
       "source_commit": "4b16564508b83a41e0870f60fbed8190b101cac1"
+    },
+    {
+      "path": "automation/NATURAL_ASR_WEAK_VIEW.md",
+      "mode": "100644",
+      "bytes": 10018,
+      "git_blob_sha1": "d1963855f6b4b1a1187e41073df434852c7597f6",
+      "source_commit": "4c852635c1a19b8847f59396896cc1042172484b"
+    },
+    {
+      "path": "automation/active_natural_asr_weak_view.py",
+      "mode": "100644",
+      "bytes": 32953,
+      "git_blob_sha1": "b71603804f891e0d0bea5d4b6194b00dfc9d2173",
+      "source_commit": "4c852635c1a19b8847f59396896cc1042172484b"
+    },
+    {
+      "path": "automation/test_active_natural_asr_weak_view.py",
+      "mode": "100644",
+      "bytes": 30528,
+      "git_blob_sha1": "101d59a8115b6cf939dde6cabd97ac0906fc8896",
+      "source_commit": "4c852635c1a19b8847f59396896cc1042172484b"
+    },
+    {
+      "path": "docs/NATURAL_ASR_EVIDENCE_20261107.md",
+      "mode": "100644",
+      "bytes": 10491,
+      "git_blob_sha1": "11346ddee6d333958db4cb452ddcf332b60b41ad",
+      "source_commit": "4c852635c1a19b8847f59396896cc1042172484b"
     }
   ],
   "source_registration_history": [
@@ -23320,6 +23348,149 @@
             "bytes": 6961,
             "git_blob_sha1": "c8a43722b298c104af49db4a59b5e72ab824d6ce",
             "sha256": "96aa169c7d7c6f8221f85000d90d89011ac498ddda09ab73836d1edffe6abfe7"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true
+      }
+    },
+    {
+      "campaign": "natural-asr-evidence-20261107",
+      "source_commit": "4c852635c1a19b8847f59396896cc1042172484b",
+      "base_commit": "2293b32301fac9c783f21c788c058fa9d551b785",
+      "paths": [
+        ".github/workflows/research-only-reference-intake.yml",
+        "automation/NATURAL_ASR_WEAK_VIEW.md",
+        "automation/RESEARCH_WEAK_VIEW.md",
+        "automation/active_asr_weak_view.py",
+        "automation/active_natural_asr_weak_view.py",
+        "automation/test_active_natural_asr_weak_view.py",
+        "docs/NATURAL_ASR_EVIDENCE_20261107.md"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/research-only-reference-intake.yml",
+          "mode": "100644",
+          "git_blob_sha1": "c2a14c3241bbb59e2e3ccf096d619be5e141691c",
+          "bytes": 4646,
+          "source_commit": "48e96e26d23e4477a1b846141f7880e66de6f518"
+        },
+        {
+          "path": "automation/RESEARCH_WEAK_VIEW.md",
+          "mode": "100644",
+          "git_blob_sha1": "975d6a392ffdf87764ce5832309c684bf5192302",
+          "bytes": 21087,
+          "source_commit": "c17c5ee492658ce0ed17c97cbd51352032622d3b"
+        },
+        {
+          "path": "automation/active_asr_weak_view.py",
+          "mode": "100644",
+          "git_blob_sha1": "607596e2df49e364cc78a9a0b81345c89e1b8d2d",
+          "bytes": 151568,
+          "source_commit": "c17c5ee492658ce0ed17c97cbd51352032622d3b"
+        }
+      ],
+      "previous_manifest_sha256": "c579f6358c25aaff876dac915b5a50ff92d2841d514b69ea20a67618669a5b4a",
+      "previous_manifest_git_blob_sha1": "38672af2cba67bad83f2e3e899774a118a950035",
+      "scope": "Register the exact already published natural ASR consumer, shared reader extraction, tests, workflow and documentation; no waveform, observation, decision or producer-byte change.",
+      "rationale": "Preserve the failed PR #80 exact-head CI receipt, then repair its closed tracked-file inventory mismatch using the existing source registration history scheme. Retain every prior row identity and all original baseline and integration exemptions.",
+      "files": [
+        {
+          "path": ".github/workflows/research-only-reference-intake.yml",
+          "before": {
+            "path": ".github/workflows/research-only-reference-intake.yml",
+            "mode": "100644",
+            "bytes": 4646,
+            "git_blob_sha1": "c2a14c3241bbb59e2e3ccf096d619be5e141691c",
+            "sha256": "26ada21b46f491212aa7f123c224d0e9d99b7604145891b4e6208ebc2fa08215"
+          },
+          "after": {
+            "path": ".github/workflows/research-only-reference-intake.yml",
+            "mode": "100644",
+            "bytes": 5039,
+            "git_blob_sha1": "77878b67f0a1382cbe02f66a66e308966e113ec3",
+            "sha256": "3c03442156bfc764f1a56b6c0624baa2dab49bb1debb32d9cc07618ae9babeba"
+          }
+        },
+        {
+          "path": "automation/NATURAL_ASR_WEAK_VIEW.md",
+          "before": null,
+          "after": {
+            "path": "automation/NATURAL_ASR_WEAK_VIEW.md",
+            "mode": "100644",
+            "bytes": 10018,
+            "git_blob_sha1": "d1963855f6b4b1a1187e41073df434852c7597f6",
+            "sha256": "53c5127e79f4f0eccaf5380baeb104d20d964e474935efef58b40c042d3aae86"
+          }
+        },
+        {
+          "path": "automation/RESEARCH_WEAK_VIEW.md",
+          "before": {
+            "path": "automation/RESEARCH_WEAK_VIEW.md",
+            "mode": "100644",
+            "bytes": 21087,
+            "git_blob_sha1": "975d6a392ffdf87764ce5832309c684bf5192302",
+            "sha256": "e4cad42a48be10f176584eae016837dcf1c62e7ce6b6b3bd64f9564ff3077700"
+          },
+          "after": {
+            "path": "automation/RESEARCH_WEAK_VIEW.md",
+            "mode": "100644",
+            "bytes": 21443,
+            "git_blob_sha1": "29076ae654baa68ba23df714690d6f210b6d19d0",
+            "sha256": "c330caaf6188f341c3c9f0f6ab495d0e9cc04ca195dbb24b8c3a6eec24fd4eb0"
+          }
+        },
+        {
+          "path": "automation/active_asr_weak_view.py",
+          "before": {
+            "path": "automation/active_asr_weak_view.py",
+            "mode": "100644",
+            "bytes": 151568,
+            "git_blob_sha1": "607596e2df49e364cc78a9a0b81345c89e1b8d2d",
+            "sha256": "c0307324f8633bd6b0fc7c208984a37365ee13cc91ba6ab85b45c43114d9cd5b"
+          },
+          "after": {
+            "path": "automation/active_asr_weak_view.py",
+            "mode": "100644",
+            "bytes": 152488,
+            "git_blob_sha1": "10e663c585f87ef4756afe66ee8ec91305382a97",
+            "sha256": "702f1726ed02906819ad30580d6dc23dae60d3d289fda34782a1755fc4671335"
+          }
+        },
+        {
+          "path": "automation/active_natural_asr_weak_view.py",
+          "before": null,
+          "after": {
+            "path": "automation/active_natural_asr_weak_view.py",
+            "mode": "100644",
+            "bytes": 32953,
+            "git_blob_sha1": "b71603804f891e0d0bea5d4b6194b00dfc9d2173",
+            "sha256": "af079b2a841decfd06472a795dfe6f7acd33825dc7e77bd33dae2d54c141fedf"
+          }
+        },
+        {
+          "path": "automation/test_active_natural_asr_weak_view.py",
+          "before": null,
+          "after": {
+            "path": "automation/test_active_natural_asr_weak_view.py",
+            "mode": "100644",
+            "bytes": 30528,
+            "git_blob_sha1": "101d59a8115b6cf939dde6cabd97ac0906fc8896",
+            "sha256": "cd1d31b2313c94521239bf9c4db01c15e3598b84b3d326470276be90c2aaa622"
+          }
+        },
+        {
+          "path": "docs/NATURAL_ASR_EVIDENCE_20261107.md",
+          "before": null,
+          "after": {
+            "path": "docs/NATURAL_ASR_EVIDENCE_20261107.md",
+            "mode": "100644",
+            "bytes": 10491,
+            "git_blob_sha1": "11346ddee6d333958db4cb452ddcf332b60b41ad",
+            "sha256": "47b4027baf8214c93e45c9ee3850b7b8305b1e68403fccf2f458ee786ca4c49c"
           }
         }
       ],

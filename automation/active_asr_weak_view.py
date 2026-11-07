@@ -1362,11 +1362,27 @@ def selective_evidence(asr_root, inputs_raw, input_root, sources, plan_sha, sour
     the exact requested matrix, absence of unrequested calls, and loss inputs.
     No pipeline module, model, current source checkout or mutable ledger loads.
     """
+    require(loads(source_map_raw) == _source_map(inputs_raw, input_root, sources, plan_sha),
+            "SELECTIVE_SOURCE_MAP_CHANGED")
+    return replay_selective_evidence(asr_root, inputs_raw, input_root, plan_sha, source_map_raw,
+                                     policy_raw, expected_audit_sha, retained)
+
+
+def replay_selective_evidence(asr_root, inputs_raw, input_root, plan_sha, source_map_raw,
+                              policy_raw, expected_audit_sha, retained):
+    """Read an already sealed native ASR run after the caller verifies its source map.
+
+    Source adapters own input PCM/ancestry verification. This shared reader owns
+    native text, sealed inventory, exact requested calls, routing and deadlines.
+    It never creates a seal, loads a model or changes the saved evidence.
+    """
     asr_root, input_root = Path(asr_root), Path(input_root)
     require(type(expected_audit_sha) is str and SHA.fullmatch(expected_audit_sha), "SELECTIVE_AUDIT_PIN_REQUIRED")
     require(sha(policy_raw) == SELECTIVE_POLICY_SHA, "SELECTIVE_FROZEN_POLICY_CHANGED")
     mapping = loads(source_map_raw)
-    require(mapping == _source_map(inputs_raw, input_root, sources, plan_sha), "SELECTIVE_SOURCE_MAP_CHANGED")
+    require(mapping["schema"] == "active-asr-source-map-v2" and
+            mapping["plan_sha256"] == plan_sha and mapping["input_manifest_sha256"] == sha(inputs_raw),
+            "SELECTIVE_VERIFIED_SOURCE_MAP_BINDING")
     inputs = loads(inputs_raw)
 
     def take(name, limit=32 * 1024 * 1024, *, empty=False):
