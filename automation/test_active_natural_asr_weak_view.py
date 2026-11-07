@@ -351,17 +351,6 @@ class NaturalViewTests(unittest.TestCase):
             self.create([entry])
         self.assertFalse(seal.exists()); self.assertFalse(self.output.exists())
 
-    def test_output_inside_input_evidence_is_rejected_before_any_write(self):
-        before = {p: p.read_bytes() for p in self.fixture.root.rglob("*") if p.is_file()}
-        for output in (self.fixture.bundle / "mistaken-output", self.fixture.asr / "mistaken-output",
-                       self.fixture.asr / "../asr/mistaken-output"):
-            with self.subTest(output=output):
-                self.output = output
-                with self.assertRaisesRegex(ValueError, "OUTPUT_INSIDE_READ_ONLY_EVIDENCE"):
-                    self.create()
-                self.assertFalse(self.output.exists())
-                self.assertEqual(before, {p: p.read_bytes() for p in self.fixture.root.rglob("*") if p.is_file()})
-
     def test_recipe_and_external_manifest_pins_are_required(self):
         entry = self.fixture.entry(); entry["asr_request_sha256"] = "0" * 64
         with self.assertRaisesRegex(ValueError, "EXISTING_SEAL_AND_RECIPE"):

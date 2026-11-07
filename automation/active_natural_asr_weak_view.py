@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import array
 from collections import Counter
+import hashlib
 import io
 from pathlib import Path
 import re
@@ -36,6 +37,23 @@ PRODUCER_FILES = (
     "kws_data_contract/reference_text.py",
     "kws_data_contract/source_registry.py",
 )
+DECISION_RULES = {
+    "all_three_required": "complete, native-quality-usable, terminated, flag-free and normalized nonempty",
+    "normalization": "kws_data_contract.reference_text.normalize",
+    "three_full_transcripts_equal": {"ctc_mask": True, "ctc_weight": 1.0},
+    "exactly_two_full_transcripts_equal": {
+        "additional_condition": "all three literal-presence vectors agree for both complete keywords",
+        "ctc_mask": True, "ctc_weight": 0.5,
+    },
+    "other": {"ctc_mask": False, "ctc_weight": 0.0},
+    "keyword_projection": "only from a full-transcript quorum; otherwise targets null and masks false",
+    "ordered_nonliteral_paths": "diagnostic only; never an additional veto",
+    "near_words": "no additional phonetic or near-word admission gate",
+    "negative_ctc": "no empty CTC labels; retain the agreed nonempty whole transcript",
+}
+LOADED_SOURCE_SHA256 = {
+    name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in PRODUCER_FILES
+}
 BOUNDARY = {
     "human_gold": False, "training_admitted": False,
     "independent_test": False, "natural_far_available": False,
@@ -65,6 +83,30 @@ DERIVATION = {
 
 def require(ok, reason):
     weak.require(ok, "NATURAL_VIEW_" + reason)
+
+
+def verify_loaded_sources():
+    """Reject mixed checkouts and source edits after this verifier was imported."""
+    modules = {
+        "automation.active_asr_weak_view": "automation/active_asr_weak_view.py",
+        "kws_data_contract": "kws_data_contract/__init__.py",
+        "kws_data_contract.identity": "kws_data_contract/identity.py",
+        "kws_data_contract.reference_text": "kws_data_contract/reference_text.py",
+        "kws_data_contract.source_registry": "kws_data_contract/source_registry.py",
+    }
+    for name, relative in modules.items():
+        module = sys.modules.get(name)
+        origin = getattr(module, "__file__", None)
+        if not origin or Path(origin).resolve() != ROOT / relative:
+            raise ValueError("NATURAL_VIEW_MIXED_PRODUCER_MODULE:" + name)
+    if sys.modules["automation.active_asr_weak_view"] is not weak:
+        raise ValueError("NATURAL_VIEW_REPLACED_PRODUCER_MODULE")
+    for name, expected in LOADED_SOURCE_SHA256.items():
+        if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != expected:
+            raise ValueError("NATURAL_VIEW_LOADED_SOURCE_CHANGED:" + name)
+
+
+verify_loaded_sources()
 
 
 def is_sha(value):
@@ -354,9 +396,6 @@ def decide(observations):
         if not all(row["three_usable_literal_presence_agree"] for row in evidence):
             decision["reason"] = "two_full_transcripts_but_keyword_presence_disagrees"
             return decision, evidence
-        if any(row["any_ordered_nonliteral_path"] for row in evidence):
-            decision["reason"] = "two_full_transcripts_with_ordered_nonliteral_keyword_ambiguity"
-            return decision, evidence
         weight, reason = 0.5, "two_clean_full_transcripts_and_three_keyword_presence_vectors_agree"
     else:
         decision["reason"] = "no_full_transcript_quorum"
@@ -419,7 +458,8 @@ def summarize(request_raw, batches, rows, producer):
                   wav_sha256=row["parent_wav_sha256"])
         roles.add(role, pcm_sha256=row["window_pcm_sha256"], wav_sha256=row["window_wav_sha256"])
     counts = Counter(r["decision"]["label_tier"] for r in rows)
-    return {"schema": SCHEMA, "policy": POLICY, "request_sha256": weak.sha(request_raw),
+    return {"schema": SCHEMA, "policy": POLICY, "decision_rules": DECISION_RULES,
+        "request_sha256": weak.sha(request_raw),
         "producer": {"source_files": producer}, "batches": batches, "rows": rows,
         "statistics": {"windows": len(rows), "parents": len(parents),
             "verified_native_observations": len(rows) * 3,
@@ -433,10 +473,12 @@ def summarize(request_raw, batches, rows, producer):
 
 
 def producer_files():
+    verify_loaded_sources()
     return {name: record(read(ROOT / name)) for name in PRODUCER_FILES}
 
 
 def create_view(request_path, expected_request_sha256, output):
+    verify_loaded_sources()
     request_raw = read(request_path, 1024**2)
     require(is_sha(expected_request_sha256) and weak.sha(request_raw) == expected_request_sha256, "REQUEST_PIN")
     request = weak.loads(request_raw); validate_request(request)
@@ -471,6 +513,7 @@ def create_view(request_path, expected_request_sha256, output):
 
 def verify_view(package, *, expected_manifest_sha256):
     """Read-only exact replay. It never invokes upstream audit sealing."""
+    verify_loaded_sources()
     package = safe_dir(package)
     manifest_raw = read(package / "MANIFEST.json", 8 * 1024**2)
     require(is_sha(expected_manifest_sha256) and weak.sha(manifest_raw) == expected_manifest_sha256,
