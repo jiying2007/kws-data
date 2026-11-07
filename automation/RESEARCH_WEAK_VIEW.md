@@ -5,6 +5,12 @@
 deployment command. Output is a new private directory. Historical source,
 generation and ASR records retain their original bytes and admission fields.
 
+For unlabelled natural windows, use the separate
+[natural evidence and weak-text adapter](NATURAL_ASR_WEAK_VIEW.md). It binds
+existing natural preparation and final ASR seals, retains full transcripts and
+applies its explicit three-clean/full-text policy without a TTS-intent field.
+Its outputs do not add verified negative exposure or trainer admission.
+
 ## Inputs and source identity
 
 ~~~sh

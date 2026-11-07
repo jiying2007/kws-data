@@ -8,6 +8,9 @@ on:
       - tests/test_reference_text.py
       - automation/research_only_bulk_ingest.py
       - automation/active_asr_weak_view.py
+      - automation/active_natural_asr_weak_view.py
+      - automation/test_active_natural_asr_weak_view.py
+      - automation/NATURAL_ASR_WEAK_VIEW.md
       - automation/active_d2_weak_view.py
       - automation/research_weak_sampling.py
       - automation/reference_asr_inputs.py
@@ -41,6 +44,9 @@ on:
       - tests/test_reference_text.py
       - automation/research_only_bulk_ingest.py
       - automation/active_asr_weak_view.py
+      - automation/active_natural_asr_weak_view.py
+      - automation/test_active_natural_asr_weak_view.py
+      - automation/NATURAL_ASR_WEAK_VIEW.md
       - automation/active_d2_weak_view.py
       - automation/research_weak_sampling.py
       - automation/reference_asr_inputs.py
@@ -93,6 +99,7 @@ jobs:
             python3 -I -S -B $weak_mode automation/test_active_d1_outcomes.py -v
             python3 -I -S -B $weak_mode automation/test_active_d1_accounted.py -v
             python3 -I -S -B $weak_mode automation/test_selective_asr_weak_view.py -v
+            python3 -I -S -B $weak_mode automation/test_active_natural_asr_weak_view.py -v
             python3 -I -S -B $weak_mode automation/test_research_weak_sampling.py -v
             python3 -I -S -B $weak_mode automation/test_reference_asr_inputs.py -v
             python3 -I -S -B $weak_mode automation/test_reference_asr_checks.py -v
