@@ -1,162 +1,46 @@
-# Temporary, single-branch source staging only. The committed result restores
-# the original read-only retention workflow plus bounded V3 tests.
 name: Consolidated public research retention
 on:
+  pull_request:
   push:
-    branches: ['research/v3-natural-keyword-evidence-20261107']
+    branches: [main, 'research/consolidate-public-evidence-*']
 permissions:
   contents: read
-concurrency:
-  group: v3-keyword-source-stage-20261107
-  cancel-in-progress: false
 jobs:
-  stage-reviewed-source:
-    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/research/v3-natural-keyword-evidence-20261107' && github.run_attempt == 1
+  saved-public-evidence:
     runs-on: ubuntu-24.04
-    timeout-minutes: 12
-    permissions:
-      contents: write
+    timeout-minutes: 15
     env:
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
-          fetch-depth: 2
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
           python-version: '3.12.16'
           check-latest: false
-      - name: Authenticate fixed source-only bytes and restore normal read-only CI
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Check V3 keyword evidence and real verifier composition (fictional inputs)
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD^)" = d4c2a39e5c358bdd0770c8d2f8695898c0f54110
-          test "$(git rev-parse HEAD:docs/BRANCH_RETENTION_20261007.json)" = 16863966cd779bd77697d69d611ef6047add06a6
-          python - <<'PY'
-          import base64, hashlib, json, os, pathlib, subprocess, sys, zlib
-          if sys.version_info[:3] != (3, 12, 16):
-              raise SystemExit('wrong interpreter')
-          parts = [('dbbb3f4c9e9af4283b51f626e50012f3e194098c',3300),
-                   ('22d0ca29e6ea69d1b9788e4713659fd69274a06f',3300),
-                   ('92228239985d1425efd85bf0ff5f93155e479109',3300),
-                   ('feace9d359b7de2f61bce3157e25063ee7671415',3128)]
-          data = bytearray()
-          for sha, size in parts:
-              value = json.loads(subprocess.check_output(['gh','api',f'repos/jiying2007/kws-data/git/blobs/{sha}'], timeout=30))
-              raw = base64.b64decode(''.join(value['content'].split()), validate=True)
-              actual = hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
-              if actual != sha or len(raw) != size or value['sha'] != sha:
-                  raise SystemExit('source transport mismatch')
-              data.extend(raw)
-          decoder = zlib.decompressobj()
-          raw = decoder.decompress(bytes(data), 65537)
-          if len(raw) != 52120 or not decoder.eof or decoder.unused_data or decoder.unconsumed_tail:
-              raise SystemExit('bounded source archive mismatch')
-          if hashlib.sha256(raw).hexdigest() != '736fd3b94ec75664962167280f4ce63fb45091d63017d0b0bc8b6f2b6951f09f':
-              raise SystemExit('reviewed source identity mismatch')
-          files = json.loads(raw)
-          allowed = {'automation/natural_keyword_evidence_v2.py',
-                     'automation/test_natural_keyword_evidence_v2.py',
-                     'automation/test_natural_keyword_evidence_v2_integration.py',
-                     '.github/workflows/research-retention.yml'}
-          if set(files) != allowed:
-              raise SystemExit('source roster mismatch')
-          for name, content in files.items():
-              path = pathlib.Path(name)
-              if type(content) is not str or path.is_symlink():
-                  raise SystemExit('source type mismatch')
-              if name.endswith('.py') and path.exists():
-                  raise SystemExit('refuse replacing existing source')
-              path.parent.mkdir(exist_ok=True, parents=True)
-              with path.open('x' if name.endswith('.py') else 'w', encoding='utf-8', newline='') as stream:
-                  stream.write(content)
-          print(json.dumps({'source_bundle_sha256':hashlib.sha256(raw).hexdigest(),
-                            'files':{k:hashlib.sha256(v.encode()).hexdigest() for k,v in files.items()},
-                            'new_model_calls':0,'scope':'source-only-integration'}))
-          PY
-      - name: Test actual upstream composition on fictional native records
-        shell: bash
-        run: |
-          set -euo pipefail
+          python -c 'import sys; assert sys.version_info[:3] == (3, 12, 16)'
           for mode in '' '-O' '-OO'; do
             python -I -S -B $mode automation/test_natural_keyword_evidence_v2.py -v
             python -I -S -B $mode automation/test_natural_keyword_evidence_v2_integration.py -v
             python -I -S -B $mode automation/test_active_natural_asr_weak_view.py -v
           done
-      - name: Publish verified Git objects only; never move a branch or merge
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - <<'PYCODE'
-          import base64, hashlib, json, os, pathlib, subprocess
-          repo = 'repos/jiying2007/kws-data'
-          def api(endpoint, value):
-              return json.loads(subprocess.check_output(['gh','api','--method','POST',repo+endpoint,'--input','-'],
-                  input=json.dumps(value).encode(), timeout=45))
-          def git_blob(raw):
-              expected = hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
-              result = api('/git/blobs', {'content':base64.b64encode(raw).decode(),'encoding':'base64'})
-              if result['sha'] != expected:
-                  raise SystemExit('uploaded Git blob identity mismatch')
-              return expected
-          parent = os.environ['GITHUB_SHA']
-          current = subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
-          if current != parent:
-              raise SystemExit('execution head changed')
-          source_files = ['automation/natural_keyword_evidence_v2.py',
-                          'automation/test_natural_keyword_evidence_v2.py',
-                          'automation/test_natural_keyword_evidence_v2_integration.py']
-          paths = source_files + ['.github/workflows/research-retention.yml']
-          entries = [{'path':name,'mode':'100644','type':'blob',
-                      'sha':git_blob(pathlib.Path(name).read_bytes())} for name in paths]
-          tree = api('/git/trees', {'base_tree':subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),
-                                    'tree':entries})['sha']
-          source = api('/git/commits', {'message':'feat(data): add V3 native-verified keyword evidence and real verifier tests',
-                                      'tree':tree,'parents':[parent]})['sha']
-          path = pathlib.Path('docs/BRANCH_RETENTION_20261007.json')
-          old = json.loads(path.read_bytes())
-          manifest = json.loads(path.read_bytes())
-          known = {r['path'] for r in old['retained_files']}
-          for entry in entries:
-              name = entry['path']
-              if name not in source_files:
-                  continue
-              if name in known or name in old['integration_files']:
-                  raise SystemExit('duplicate source registration')
-              manifest['retained_files'].append({'path':name,'mode':'100644',
-                  'bytes':pathlib.Path(name).stat().st_size,'git_blob_sha1':entry['sha'],'source_commit':source})
-          manifest['retained_files'].sort(key=lambda r:r['path'])
-          manifest['expected_retained_files'] = len(manifest['retained_files'])
-          manifest['expected_tracked_files'] = len(manifest['retained_files'])+len(manifest['integration_files'])
-          if {r['path']:r for r in manifest['retained_files'] if r['path'] not in source_files} != {r['path']:r for r in old['retained_files']}:
-              raise SystemExit('historical inventory changed')
-          for key in old:
-              if key not in ('retained_files','expected_retained_files','expected_tracked_files') and manifest[key] != old[key]:
-                  raise SystemExit('historical metadata changed')
-          path.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-          # A local commit permits the unchanged verifier to compare the entire tree.
-          subprocess.run(['git','config','user.name','KWS source verifier'],check=True)
-          subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
-          subprocess.run(['git','add','--',*paths,str(path)],check=True)
-          subprocess.run(['git','commit','-m','local-only complete source inventory check'],check=True)
-          subprocess.run(['python','-B','tests/test_branch_retention.py','-v'],check=True,timeout=120)
-          subprocess.run(['python','-B','tools/verify_branch_retention.py'],check=True,timeout=120)
-          subprocess.run(['git','diff','--exit-code'],check=True)
-          final_tree = api('/git/trees', {'base_tree':tree,'tree':[{'path':str(path),'mode':'100644',
-              'type':'blob','sha':git_blob(path.read_bytes())}]})['sha']
-          local_tree = subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip()
-          if final_tree != local_tree:
-              raise SystemExit('published tree differs from actually verified tree')
-          final = api('/git/commits', {'message':'fix(data): register V3 sources without changing retained historical evidence',
-                                     'tree':final_tree,'parents':[source]})['sha']
-          print('V3_VERIFIED_OBJECTS='+json.dumps({'expected_branch_head':parent,'source_commit':source,
-                'verified_commit':final,'tree':final_tree,'new_files':source_files,
-                'python':'3.12.16','upstream':'real verifier / fictional native inputs',
-                'branch_updated':False,'model_calls':0,'training_runs':0},sort_keys=True))
-          PYCODE
+      - name: Test retention guard using invented bytes only
+        run: python3 -B tests/test_branch_retention.py -v
+      - name: Verify complete retained Git objects and working bytes
+        run: python3 -B tools/verify_branch_retention.py
+      - name: Verify dual-ASR public projection and fixed original inputs
+        run: python3 -B research/2026-10-02-dual-asr-evidence/verify_publication.py
+      - name: Verify fixed30 saved failure and recovery evidence
+        run: python3 -B research/2026-10-05-fixed30-exposed-asr-regression/verify.py
+      - name: Verify Qwen6 saved comparison and rejected panel
+        run: python3 -B research/2026-10-05-qwen6-source-screen/verify.py
+      - name: Test Qwen6 saved-evidence rejection rules
+        run: python3 -B research/2026-10-05-qwen6-source-screen/test_verify.py
+      - name: Confirm no tracked file was changed by verification
+        run: git diff --exit-code
