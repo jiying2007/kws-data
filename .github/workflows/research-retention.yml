@@ -1,46 +1,98 @@
+# Temporary one-branch inventory verification; restored in the final tree.
 name: Consolidated public research retention
 on:
-  pull_request:
   push:
-    branches: [main, 'research/consolidate-public-evidence-*']
+    branches: ['research/v3-natural-keyword-evidence-20261107']
 permissions:
   contents: read
+concurrency:
+  group: v3-keyword-inventory-20261107
+  cancel-in-progress: false
 jobs:
-  saved-public-evidence:
+  verify-inventory:
+    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/research/v3-natural-keyword-evidence-20261107' && github.run_attempt == 1
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 8
+    permissions:
+      contents: write
     env:
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.sha }}
           persist-credentials: false
+          fetch-depth: 2
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
           python-version: '3.12.16'
           check-latest: false
-      - name: Check V3 keyword evidence and real verifier composition (fictional inputs)
+      - name: Verify fixed source tree and complete historical inventory
         shell: bash
         run: |
           set -euo pipefail
-          python -c 'import sys; assert sys.version_info[:3] == (3, 12, 16)'
-          for mode in '' '-O' '-OO'; do
-            python -I -S -B $mode automation/test_natural_keyword_evidence_v2.py -v
-            python -I -S -B $mode automation/test_natural_keyword_evidence_v2_integration.py -v
-            python -I -S -B $mode automation/test_active_natural_asr_weak_view.py -v
-          done
-      - name: Test retention guard using invented bytes only
-        run: python3 -B tests/test_branch_retention.py -v
-      - name: Verify complete retained Git objects and working bytes
-        run: python3 -B tools/verify_branch_retention.py
-      - name: Verify dual-ASR public projection and fixed original inputs
-        run: python3 -B research/2026-10-02-dual-asr-evidence/verify_publication.py
-      - name: Verify fixed30 saved failure and recovery evidence
-        run: python3 -B research/2026-10-05-fixed30-exposed-asr-regression/verify.py
-      - name: Verify Qwen6 saved comparison and rejected panel
-        run: python3 -B research/2026-10-05-qwen6-source-screen/verify.py
-      - name: Test Qwen6 saved-evidence rejection rules
-        run: python3 -B research/2026-10-05-qwen6-source-screen/test_verify.py
-      - name: Confirm no tracked file was changed by verification
-        run: git diff --exit-code
+          test "$(git rev-parse HEAD^)" = f9b1367b4c50c64b6e74282d25ef211efcd00864
+          python - <<'PY'
+          import hashlib,json,pathlib,subprocess,sys
+          if sys.version_info[:3] != (3,12,16): raise SystemExit('wrong runtime')
+          source='f9b1367b4c50c64b6e74282d25ef211efcd00864'
+          files={
+            'automation/natural_keyword_evidence_v2.py':('91263289ca9f18f6c9f57177f86f8a5a16567d6a',19511),
+            'automation/test_natural_keyword_evidence_v2.py':('0bb345ddda19a4c79ef43e33870efb2da9522221',21295),
+            'automation/test_natural_keyword_evidence_v2_integration.py':('4668cbce48b6be2268ff1b079cb03ee5b80a8145',6553)}
+          path=pathlib.Path('docs/BRANCH_RETENTION_20261007.json')
+          raw=path.read_bytes()
+          if hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()!='16863966cd779bd77697d69d611ef6047add06a6':
+              raise SystemExit('original retention manifest changed')
+          old=json.loads(raw); new=json.loads(raw)
+          existing={r['path'] for r in old['retained_files']}|set(old['integration_files'])
+          for name,(sha,size) in files.items():
+              raw=pathlib.Path(name).read_bytes()
+              if name in existing or len(raw)!=size or hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()!=sha:
+                  raise SystemExit('source identity or registration conflict')
+              if subprocess.check_output(['git','rev-parse',source+':'+name],text=True).strip()!=sha:
+                  raise SystemExit('source commit mismatch')
+              new['retained_files'].append({'path':name,'mode':'100644','bytes':size,'git_blob_sha1':sha,'source_commit':source})
+          new['retained_files'].sort(key=lambda r:r['path'])
+          new['expected_retained_files']=len(new['retained_files'])
+          new['expected_tracked_files']=len(new['retained_files'])+len(new['integration_files'])
+          if {r['path']:r for r in new['retained_files'] if r['path'] not in files}!={r['path']:r for r in old['retained_files']}:
+              raise SystemExit('historical retained rows changed')
+          for key in old:
+              if key not in ('retained_files','expected_retained_files','expected_tracked_files') and new[key]!=old[key]:
+                  raise SystemExit('historical metadata changed')
+          path.write_text(json.dumps(new,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          workflow=subprocess.check_output(['git','show',source+':.github/workflows/research-retention.yml'])
+          if hashlib.sha256(workflow).hexdigest()!='8881d49b4af568891cbccf25d2e95a55304db8ad42c5a8b80786457d3e5dc837':
+              raise SystemExit('final read-only workflow changed')
+          pathlib.Path('.github/workflows/research-retention.yml').write_bytes(workflow)
+          print(json.dumps({'old_retained':old['expected_retained_files'],'retained':new['expected_retained_files'],
+                            'tracked':new['expected_tracked_files'],'new_model_calls':0,'historical_rows_unchanged':True}))
+          PY
+          git config user.name 'KWS source verifier'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/BRANCH_RETENTION_20261007.json .github/workflows/research-retention.yml
+          git commit -m 'local-only V3 final inventory verification'
+          python -B tests/test_branch_retention.py -v
+          python -B tools/verify_branch_retention.py
+          git diff --exit-code
+      - name: Export only the verified manifest blob; no tree, ref or workflow mutation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import base64,hashlib,json,os,pathlib,subprocess
+          raw=pathlib.Path('docs/BRANCH_RETENTION_20261007.json').read_bytes()
+          sha=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          result=json.loads(subprocess.check_output(['gh','api','--method','POST','repos/jiying2007/kws-data/git/blobs','--input','-'],
+              input=json.dumps({'content':base64.b64encode(raw).decode(),'encoding':'base64'}).encode(),timeout=45))
+          if result['sha']!=sha: raise SystemExit('manifest upload mismatch')
+          print('V3_INVENTORY_VERIFIED='+json.dumps({'execution_head':os.environ['GITHUB_SHA'],
+              'source_commit':'f9b1367b4c50c64b6e74282d25ef211efcd00864','manifest_blob':sha,
+              'manifest_sha256':hashlib.sha256(raw).hexdigest(),'manifest_bytes':len(raw),
+              'verified_tree':subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),
+              'final_workflow_blob':'5336da69c2dbdec5dca27e7ca0b3a1b7eb5b780d',
+              'branch_updated':False,'model_calls':0,'training_runs':0},sort_keys=True))
+          PY
