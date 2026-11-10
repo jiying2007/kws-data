@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1957,
-  "expected_retained_files": 1948,
+  "expected_tracked_files": 1959,
+  "expected_retained_files": 1950,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -20973,6 +20973,20 @@
       "bytes": 12283,
       "git_blob_sha1": "0c707896da8911d544d841764f8901fe23b3b202",
       "source_commit": "d9a1f3171bceae45908bc8ac84045d3bca23f43f"
+    },
+    {
+      "path": "docs/NATURAL_KEYWORD_REPLAY_20261110.json",
+      "mode": "100644",
+      "git_blob_sha1": "08767bc3ce8e9ce6f2e659ad23449e00a914b4bc",
+      "bytes": 2489,
+      "source_commit": "c1d5204632ee4d6df75ea8d74539b85fc357c282"
+    },
+    {
+      "path": "docs/NATURAL_KEYWORD_REPLAY_20261110.md",
+      "mode": "100644",
+      "git_blob_sha1": "b257ccd63110c50ea50a8ec79fda6c4caaeb1701",
+      "bytes": 4809,
+      "source_commit": "c1d5204632ee4d6df75ea8d74539b85fc357c282"
     }
   ],
   "source_registration_history": [
@@ -23519,6 +23533,50 @@
         "new_model_calls_for_registration": 0,
         "integration_exemptions_unchanged": true,
         "original_baseline_inventory_unchanged": true
+      }
+    },
+    {
+      "campaign": "natural-keyword-replay-public-docs-20261110",
+      "source_commit": "c1d5204632ee4d6df75ea8d74539b85fc357c282",
+      "paths": [
+        "docs/NATURAL_KEYWORD_REPLAY_20261110.json",
+        "docs/NATURAL_KEYWORD_REPLAY_20261110.md"
+      ],
+      "previous_campaign_rows": [],
+      "previous_manifest_sha256": "e63992f654cde43d059aff08105883d69cae36cf3df820a5b81e21ca7a6dcba5",
+      "previous_manifest_git_blob_sha1": "ea5e5879dcda1b44a078103b801deee2eb57d7b3",
+      "scope": "Register only the two already committed public aggregate replay documents; no raw audio, native ASR output, labels, producer source or model artifact changes.",
+      "rationale": "Retain failed PR #84 retention run 42831237919 and close its exact two-path tracked-file inventory gap without changing the verifier or integration exemptions.",
+      "files": [
+        {
+          "path": "docs/NATURAL_KEYWORD_REPLAY_20261110.json",
+          "before": null,
+          "after": {
+            "path": "docs/NATURAL_KEYWORD_REPLAY_20261110.json",
+            "mode": "100644",
+            "bytes": 2489,
+            "git_blob_sha1": "08767bc3ce8e9ce6f2e659ad23449e00a914b4bc",
+            "sha256": "776eddde63e84562b274cd07b747c42ee792a5d583320543e19e0e2de952bab9"
+          }
+        },
+        {
+          "path": "docs/NATURAL_KEYWORD_REPLAY_20261110.md",
+          "before": null,
+          "after": {
+            "path": "docs/NATURAL_KEYWORD_REPLAY_20261110.md",
+            "mode": "100644",
+            "bytes": 4809,
+            "git_blob_sha1": "b257ccd63110c50ea50a8ec79fda6c4caaeb1701",
+            "sha256": "c47f3c547641525fd092ec166549519c92ab1b56421e231a8043a86d205ee764"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_retained_rows_unchanged": true,
+        "all_previous_registration_history_unchanged": true
       }
     }
   ]
