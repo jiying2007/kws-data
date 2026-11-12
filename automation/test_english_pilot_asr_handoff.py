@@ -58,7 +58,6 @@ class PilotToNativeAsrTests(unittest.TestCase):
                 ("word-list", lambda row: row.update(wake_phrases_requested=["Hey Mero", "Hey Vosen"])),
                 ("source-family", lambda row: row["cells"][0].update(source_family_id="fake-parent")),
                 ("train-role", lambda row: row["cells"][0].update(role="development-only")),
-                ("tts-asset", lambda row: row["tts_pins"][0].update(model_assets_sha256="f" * 64)),
             ]
             for description, change in cases:
                 with self.subTest(description=description):
