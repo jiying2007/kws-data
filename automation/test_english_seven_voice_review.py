@@ -6,6 +6,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+import wave
 import zipfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -18,7 +19,32 @@ from test_english_seven_voice_asr_once import invented_source
 def invented_three_asr(root: Path):
     parent = root / "source"
     parent.mkdir()
-    plan, _ = invented_source(parent)
+    plan, source = invented_source(parent)
+    # The shared old fixture writer intentionally emits one identical WAV
+    # for every cell. Make this new fixture source-disjoint *before* ASR
+    # capture, updating the source WAV/PCM receipts coherently.
+    summary_path = source / "summary.json"
+    summary = market.read(summary_path)
+    by_id = {r["cell_id"]: r for r in summary["source_rows"]}
+    for index, cell in enumerate(plan["cells"], start=1):
+        folder = source / "capture" / "cells" / cell["cell_id"]
+        wav = folder / "audio-16k.wav"
+        with wave.open(str(wav), "rb") as stream:
+            pcm = bytearray(stream.readframes(stream.getnframes()))
+        pcm[0:2] = index.to_bytes(2, "little")
+        with wave.open(str(wav), "wb") as stream:
+            stream.setnchannels(1)
+            stream.setsampwidth(2)
+            stream.setframerate(16000)
+            stream.writeframes(bytes(pcm))
+        record_path = folder / "completed.json"
+        record = market.read(record_path)
+        record["audio"]["wav_sha256"] = hashlib.sha256(wav.read_bytes()).hexdigest()
+        record["audio"]["pcm_sha256"] = hashlib.sha256(pcm).hexdigest()
+        record_path.write_bytes(market.canonical(record) + b"\n")
+        by_id[cell["cell_id"]]["wav_sha256"] = record["audio"]["wav_sha256"]
+        by_id[cell["cell_id"]]["pcm_sha256"] = record["audio"]["pcm_sha256"]
+    summary_path.write_bytes(market.canonical(summary) + b"\n")
     wanted = {cell["cell_id"]: cell["text_requested"] for cell in plan["cells"]}
     paths = {}
     for provider in asr.PROVIDERS:
