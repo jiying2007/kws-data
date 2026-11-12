@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1974,
-  "expected_retained_files": 1965,
+  "expected_tracked_files": 1976,
+  "expected_retained_files": 1967,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -3519,6 +3519,13 @@
   ],
   "retained_files": [
     {
+      "path": ".github/triggers/english-qwen-asr-cli-recovery-20261112.json",
+      "mode": "100644",
+      "git_blob_sha1": "d05e305b0215ad2bb8c5332f3811ff3f30cddab2",
+      "bytes": 653,
+      "source_commit": "bd947eebd7279a3cc95247fc3544cd7a94f6d47a"
+    },
+    {
       "path": ".github/triggers/english-qwen-asr-real-20261112.json",
       "mode": "100644",
       "git_blob_sha1": "8b6905c65dfb629c356fbbbd32e211f4b3108d79",
@@ -3625,6 +3632,13 @@
       "bytes": 807,
       "git_blob_sha1": "7207fce834e54ed5f5c8398aa9491170233aca31",
       "source_commit": "ca32d13aeb6e130eefeb2ae808eb65db46aa4462"
+    },
+    {
+      "path": ".github/workflows/english-qwen-asr-cli-recovery-once.yml",
+      "mode": "100644",
+      "git_blob_sha1": "c3503b4f4f26040fa4ed8d0ef8cc9f5f6fadf09d",
+      "bytes": 6829,
+      "source_commit": "bd947eebd7279a3cc95247fc3544cd7a94f6d47a"
     },
     {
       "path": ".github/workflows/english-qwen-asr-real-once.yml",
@@ -4143,9 +4157,9 @@
     {
       "path": "automation/test_english_qwen_asr_sourcefix_once.py",
       "mode": "100644",
-      "git_blob_sha1": "417850c9cac72f27c22d5b39418952ccee30e3e5",
-      "bytes": 4961,
-      "source_commit": "cc12fb3b4390cec68f6c5026203aa0f4bdc80b35"
+      "git_blob_sha1": "6d707f65667844b569860e14e0880d652f543282",
+      "bytes": 5878,
+      "source_commit": "bd947eebd7279a3cc95247fc3544cd7a94f6d47a"
     },
     {
       "path": "automation/test_english_qwen_real_once.py",
@@ -24497,6 +24511,75 @@
             "git_blob_sha1": "417850c9cac72f27c22d5b39418952ccee30e3e5",
             "bytes": 4961,
             "source_commit": "cc12fb3b4390cec68f6c5026203aa0f4bdc80b35"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-asr-cli-import-recovery-once-20261112",
+      "source_commit": "bd947eebd7279a3cc95247fc3544cd7a94f6d47a",
+      "base_commit": "24b35026458c13fd89a9e9763137168b3571e786",
+      "paths": [
+        "automation/test_english_qwen_asr_sourcefix_once.py",
+        ".github/triggers/english-qwen-asr-cli-recovery-20261112.json",
+        ".github/workflows/english-qwen-asr-cli-recovery-once.yml"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/test_english_qwen_asr_sourcefix_once.py",
+          "mode": "100644",
+          "git_blob_sha1": "417850c9cac72f27c22d5b39418952ccee30e3e5",
+          "bytes": 4961,
+          "source_commit": "cc12fb3b4390cec68f6c5026203aa0f4bdc80b35"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "e2ae43cbb9139e500abeef7cc5f197451647bde7",
+      "scope": "Register distinct zero-model-call CLI import failure 43225219905 and a genuinely runnable non-isolated one-shot ASR recovery command and fixture test; no old TTS/ASR replay.",
+      "rationale": "Strict isolated Python removed sibling modules before source verification. Keep first two failed attempt IDs, source hashes and resource limits, and independently prove actual exact command-line starts before authorizing new Qwen3-ASR forwards.",
+      "files": [
+        {
+          "path": "automation/test_english_qwen_asr_sourcefix_once.py",
+          "before": {
+            "path": "automation/test_english_qwen_asr_sourcefix_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "417850c9cac72f27c22d5b39418952ccee30e3e5",
+            "bytes": 4961,
+            "source_commit": "cc12fb3b4390cec68f6c5026203aa0f4bdc80b35"
+          },
+          "after": {
+            "path": "automation/test_english_qwen_asr_sourcefix_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "6d707f65667844b569860e14e0880d652f543282",
+            "bytes": 5878,
+            "source_commit": "bd947eebd7279a3cc95247fc3544cd7a94f6d47a"
+          }
+        },
+        {
+          "path": ".github/triggers/english-qwen-asr-cli-recovery-20261112.json",
+          "before": null,
+          "after": {
+            "path": ".github/triggers/english-qwen-asr-cli-recovery-20261112.json",
+            "mode": "100644",
+            "git_blob_sha1": "d05e305b0215ad2bb8c5332f3811ff3f30cddab2",
+            "bytes": 653,
+            "source_commit": "bd947eebd7279a3cc95247fc3544cd7a94f6d47a"
+          }
+        },
+        {
+          "path": ".github/workflows/english-qwen-asr-cli-recovery-once.yml",
+          "before": null,
+          "after": {
+            "path": ".github/workflows/english-qwen-asr-cli-recovery-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "c3503b4f4f26040fa4ed8d0ef8cc9f5f6fadf09d",
+            "bytes": 6829,
+            "source_commit": "bd947eebd7279a3cc95247fc3544cd7a94f6d47a"
           }
         }
       ],

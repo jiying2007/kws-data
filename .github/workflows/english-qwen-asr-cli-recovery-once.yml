@@ -1,0 +1,147 @@
+name: English Qwen ASR CLI sourcefix once on original audio
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-qwen-asr-cli-recovery-once.yml
+      - .github/triggers/english-qwen-asr-cli-recovery-20261112.json
+      - automation/test_english_qwen_asr_sourcefix_once.py
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths:
+      - .github/triggers/english-qwen-asr-cli-recovery-20261112.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: english-qwen-asr-cli-recovery-20261112-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify third claim is distinct and CLI really starts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B - <<'PY'
+          import json, pathlib
+          p=pathlib.Path('.github/triggers/english-qwen-asr-cli-recovery-20261112.json')
+          actual=json.loads(p.read_text())
+          expected={
+            'schema':'english-qwen-asr-cli-recovery-once-20261112-v1',
+            'previous_sourcefix_run_id':43225219905,
+            'previous_sourcefix_head_sha':'24b35026458c13fd89a9e9763137168b3571e786',
+            'previous_actual_asr_model_calls':0,
+            'previous_failure':'ModuleNotFoundError',
+            'original_source_run_id':43214159818,
+            'original_source_artifact_id':13942568634,
+            'original_source_artifact_sha256':'0235b0064006f79bfe9c8fa551c2a1e41da61c86e0fd987a90ee2d47842a9f21',
+            'model_id':'Qwen/Qwen3-ASR-0.6B',
+            'model_revision':'5eb144179a02acc5e5ba31e748d22b0cf3e303b0',
+            'max_new_asr_calls':10,
+            'training_admitted':False,'three_asr_completed':False,
+          }
+          assert actual==expected,'third recovery claim drift'
+          PY
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_qwen_asr_sourcefix_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+
+  actual-asr-third-distinct-claim:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 160
+    permissions:
+      contents: read
+      actions: read
+    env:
+      OMP_NUM_THREADS: "4"
+      MKL_NUM_THREADS: "4"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify original two failures and original source artifact before recovery
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43218378495 |
+            jq -e '.status=="completed" and .conclusion=="failure" and .run_attempt==1 and
+                   .head_sha=="386c81d83865011c180b5d1c5d72a4cd0402b189"'
+          gh api repos/jiying2007/kws-data/actions/runs/43225219905 |
+            jq -e '.status=="completed" and .conclusion=="failure" and .run_attempt==1 and
+                   .head_sha=="24b35026458c13fd89a9e9763137168b3571e786"'
+          gh api repos/jiying2007/kws-data/actions/runs/43214159818 |
+            jq -e '.status=="completed" and .conclusion=="success" and .run_attempt==1 and
+                   .head_sha=="f2b91001e4fd56a03bbce9bc6b0c1cae7fad1dc8"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/13942568634 |
+            jq -e '.id==13942568634 and .expired==false and
+                   .digest=="sha256:0235b0064006f79bfe9c8fa551c2a1e41da61c86e0fd987a90ee2d47842a9f21" and
+                   .workflow_run.head_sha=="f2b91001e4fd56a03bbce9bc6b0c1cae7fad1dc8"'
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-qwen-actual-43214159818
+          run-id: 43214159818
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/english-original-10-wav
+      - name: Validate actual nested source with the exact tested non-isolated CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B automation/english_qwen_asr_sourcefix_once.py \
+            --artifact-parent "$RUNNER_TEMP/english-original-10-wav" --verify-source
+      - name: Install pinned CPU Qwen ASR runtime only after source validation
+        shell: bash
+        timeout-minutes: 25
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en-asr-cli-recovery-venv"
+          "$RUNNER_TEMP/en-asr-cli-recovery-venv/bin/pip" install --disable-pip-version-check \
+            --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu" "torchaudio==2.9.1+cpu"
+          "$RUNNER_TEMP/en-asr-cli-recovery-venv/bin/pip" install --disable-pip-version-check \
+            "qwen-asr==0.0.6" "huggingface-hub==0.36.2"
+          mkdir -p "$RUNNER_TEMP/en-asr-cli-recovery-meta"
+          "$RUNNER_TEMP/en-asr-cli-recovery-venv/bin/pip" freeze > "$RUNNER_TEMP/en-asr-cli-recovery-meta/pip-freeze.txt"
+      - name: Actual first Qwen ASR forwards on original ten WAVs - one bounded attempt
+        shell: bash
+        timeout-minutes: 125
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/en-asr-cli-recovery-venv/bin/python" -B automation/english_qwen_asr_sourcefix_once.py \
+            --artifact-parent "$RUNNER_TEMP/english-original-10-wav" \
+            --output "$RUNNER_TEMP/en-asr-cli-recovery-results" --execute
+      - name: Retain genuine ASR outputs and terminal failures, no weights or duplicate WAVs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-qwen-asr-cli-recovery-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/en-asr-cli-recovery-results/started.json
+            ${{ runner.temp }}/en-asr-cli-recovery-results/summary.json
+            ${{ runner.temp }}/en-asr-cli-recovery-results/cells/
+            ${{ runner.temp }}/en-asr-cli-recovery-meta/pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn
