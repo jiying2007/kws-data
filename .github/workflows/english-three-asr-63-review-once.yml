@@ -87,6 +87,19 @@ jobs:
                   t["new_optimizer_steps"] == 0 and
                   t["training_admitted"] is False and
                   t["no_scheduled_tasks"] is True)
+          assert t["recovery"] == {
+              "failed_run_id":43265933138,
+              "failed_step":"real-review-cli-isolated-import",
+              "prior_real_audit_rows":0,
+              "new_tts_calls":0,"new_asr_calls":0,
+              "original_artifacts_unchanged":True}
+          assert set(t) == {
+              "schema","source_tts_run_id","source_tts_artifact_id",
+              "source_tts_zip_sha256","source_three_asr_run_id",
+              "source_three_asr_head_sha","asr_artifacts",
+              "output_scope","new_tts_calls","new_asr_calls",
+              "new_optimizer_steps","training_admitted",
+              "no_scheduled_tasks","recovery"}
           PY
           gh api repos/jiying2007/kws-data/actions/runs/43242278962 |
             jq -e '.id==43242278962 and .status=="completed" and
