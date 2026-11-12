@@ -1,0 +1,149 @@
+name: English seven voice post-success ASR once on 63 WAVs
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-seven-voice-three-asr-postsuccess-once.yml
+      - .github/triggers/english-seven-voice-asr-postsuccess-20261112.json
+      - automation/english_seven_voice_asr_once.py
+      - automation/test_english_seven_voice_asr_postsuccess.py
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths:
+      - .github/triggers/english-seven-voice-asr-postsuccess-20261112.json
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: english-seven-asr-postsuccess-43242278962-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Verify exact completed 63-WAV event contract without pretrained models
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_seven_voice_asr_once.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_seven_voice_asr_postsuccess.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+
+  three-independent-asr:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1
+    strategy:
+      fail-fast: false
+      matrix:
+        provider: [qwen, whisper, parakeet]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 160
+    permissions:
+      contents: read
+      actions: read
+    env:
+      OMP_NUM_THREADS: "4"
+      MKL_NUM_THREADS: "4"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      KWS_ASR_PROVIDER: ${{ matrix.provider }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Verify exact successful new TTS run and immutable artifact source
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962 |
+            jq -e '.status=="completed" and .conclusion=="success" and
+                   .event=="push" and .run_attempt==1 and
+                   .head_sha=="bec1a1421d1db2de17afb9c6e3155343becdb980"'
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962/artifacts |
+            jq -e '[.artifacts[] |
+                select(.name=="english-seven-voice-actual-43242278962"
+                       and .id==13954744587
+                       and .digest=="sha256:f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc"
+                       and .expired==false
+                       and .workflow_run.head_sha=="bec1a1421d1db2de17afb9c6e3155343becdb980")]
+                   | length==1'
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # pinned
+        with:
+          name: english-seven-voice-actual-43242278962
+          run-id: 43242278962
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/english-seven-source
+      - name: Verify all 63 original new WAVs before ASR installation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B automation/english_seven_voice_asr_once.py \
+            --provider "$KWS_ASR_PROVIDER" \
+            --artifact-parent "$RUNNER_TEMP/english-seven-source"
+      - name: Install independent provider-only CPU runtime
+        shell: bash
+        timeout-minutes: 25
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en-seven-asr-venv"
+          venv="$RUNNER_TEMP/en-seven-asr-venv/bin"
+          case "$KWS_ASR_PROVIDER" in
+            qwen)
+              "$venv/pip" install --disable-pip-version-check \
+                --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu" "torchaudio==2.9.1+cpu"
+              "$venv/pip" install --disable-pip-version-check \
+                "qwen-asr==0.0.6" "huggingface-hub==0.36.2"
+              ;;
+            whisper)
+              "$venv/pip" install --disable-pip-version-check \
+                --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu" "torchaudio==2.9.1+cpu"
+              "$venv/pip" install --disable-pip-version-check "openai-whisper==20250625"
+              ;;
+            parakeet)
+              "$venv/pip" install --disable-pip-version-check "huggingface-hub==0.36.2"
+              ;;
+            *) exit 2 ;;
+          esac
+          mkdir -p "$RUNNER_TEMP/en-seven-asr-meta"
+          "$venv/pip" freeze > "$RUNNER_TEMP/en-seven-asr-meta/pip-freeze.txt"
+      - name: Real native ASR on 63 source-verified WAVs without hotword hints
+        shell: bash
+        timeout-minutes: 125
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/en-seven-asr-venv/bin/python" -B automation/english_seven_voice_asr_once.py \
+            --provider "$KWS_ASR_PROVIDER" \
+            --artifact-parent "$RUNNER_TEMP/english-seven-source" \
+            --output "$RUNNER_TEMP/en-seven-asr-result" --execute
+      - name: Preserve independent native outputs and terminal failures, no model/WAV copies
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # pinned
+        with:
+          name: english-seven-asr-${{ matrix.provider }}-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/en-seven-asr-result/started.json
+            ${{ runner.temp }}/en-seven-asr-result/summary.json
+            ${{ runner.temp }}/en-seven-asr-result/cells/
+            ${{ runner.temp }}/en-seven-asr-meta/pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn
