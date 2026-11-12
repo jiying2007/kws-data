@@ -6,6 +6,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -76,6 +77,23 @@ class EnglishAsrSourcefixTests(unittest.TestCase):
                                    side_effect=AssertionError("real model prohibited")):
                 with self.assertRaisesRegex(AssertionError, "real model prohibited"):
                     fix.run(parent, parent / "fresh-output")
+
+    def test_actual_command_line_imports_sibling_modules_and_verifies_all_wavs(self):
+        """Regression for the previously consumed -I/-S startup failure."""
+        with tempfile.TemporaryDirectory() as tmp:
+            parent = Path(tmp)
+            self.populate(parent)
+            result = subprocess.run(
+                [sys.executable, "-B", str(Path(fix.__file__)),
+                 "--artifact-parent", str(parent), "--verify-source"],
+                check=False, capture_output=True, text=True, timeout=20,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            report = json.loads(result.stdout.strip())
+            self.assertEqual(report["status"], "SOURCE_VERIFIED_NO_ASR")
+            self.assertEqual(report["audio_count"], 10)
+            self.assertEqual(report["asr_calls"], 0)
+            self.assertFalse(report["training_admitted"])
 
     def test_wrong_directory_and_modified_original_audio_fail_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
