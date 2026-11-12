@@ -11,6 +11,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import multilingual_campaign as campaign
 import english_qwen_capture as english
+import english_blind_asr as blind
 
 
 def fake_sha(letter: str, length: int = 64) -> str:
@@ -130,6 +131,44 @@ def fixture_wave_writer(folder, samples, rate, metrics):
             "pcm_sha256": hashlib.sha256(pcm).hexdigest(),
             "audio_frames": 8000, "sample_rate_hz": 16000,
             "wav_bytes": wav.stat().st_size}
+
+
+def fake_asr_assets(raw: dict, folder: Path) -> tuple[dict, Path, Path]:
+    """Invented files: lock verification only, no pretrained ASR or inference."""
+    raw = copy.deepcopy(raw)
+    model_root = folder / "asr-models"
+    model_root.mkdir()
+    bins = folder / "bin"
+    bins.mkdir()
+    rows = []
+    for pin_row in raw["asr_providers"]:
+        name = pin_row["provider_id"]
+        model_dir = model_root / name
+        model_dir.mkdir()
+        member = model_dir / "weights.bin"
+        member.write_bytes(("invented-asset-" + name).encode())
+        manifest = {"schema": blind.MODEL_SCHEMA, "provider_id": name,
+                    "revision": pin_row["revision_sha"],
+                    "relative_dir": name, "files": [{
+                        "path": "weights.bin", "bytes": member.stat().st_size,
+                        "sha256": hashlib.sha256(member.read_bytes()).hexdigest()}]}
+        manifest_path = folder / (name + ".model-lock.json")
+        manifest_path.write_bytes(campaign.canonical(manifest) + b"\n")
+        pin_row["model_assets_sha256"] = hashlib.sha256(
+            manifest_path.read_bytes()).hexdigest()
+        executable = bins / name
+        executable.write_bytes(b"#!/bin/sh\nexit 0\n")
+        executable.chmod(0o700)
+        rows.append({"provider_id": name, "model_revision_sha": pin_row["revision_sha"],
+                     "model_assets_sha256": pin_row["model_assets_sha256"],
+                     "model_manifest_path": str(manifest_path),
+                     "executable_path": str(executable),
+                     "executable_sha256": hashlib.sha256(executable.read_bytes()).hexdigest(),
+                     "timeout_seconds": 30})
+    lock_path = folder / "adapters.json"
+    lock_path.write_bytes(campaign.canonical({
+        "schema": blind.ADAPTER_SCHEMA, "adapters": rows}) + b"\n")
+    return raw, lock_path, model_root
 
 
 class SourceFirstLanguageTests(unittest.TestCase):
@@ -312,6 +351,100 @@ class SourceFirstLanguageTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "CAPTURE_CALL_BUDGET"):
                 english.capture(plan, out, backend, max_calls=17,
                                 writer=fixture_wave_writer)
+
+    def test_three_blind_asr_executes_only_pinned_audio_without_text_hints(self) -> None:
+        import wave
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            raw, adapter_lock, model_root = fake_asr_assets(
+                english_preset_request(), folder)
+            plan = english.prepare(raw)
+            capture_dir = folder / "generated"
+            english.capture(plan, capture_dir, FakeEnglishBackend(),
+                            max_calls=1, writer=fixture_wave_writer)
+            adapters = blind.verify_adapters(plan, adapter_lock, model_root)
+            adapter_sha = hashlib.sha256(adapter_lock.read_bytes()).hexdigest()
+            first = plan["cells"][0]
+            source = blind.verify_capture(plan, capture_dir, first)
+            self.assertIsNotNone(source)
+            wav, pcm = source
+            self.assertEqual(pcm["frames"], 8000)
+            self.assertEqual(pcm["wav_sha256"], hashlib.sha256(
+                wav.read_bytes()).hexdigest())
+            by_provider = {r["provider_id"]: r for r in plan["asr_pins"]}
+            invoked = []
+
+            def fake_native_run(argv, **kwargs):
+                self.assertEqual(argv[1], "--audio")
+                self.assertEqual(argv[3], "--model-dir")
+                self.assertEqual(argv[5], "--output")
+                self.assertNotIn("Hey Vosen", " ".join(argv))
+                self.assertNotIn("Hey Mero", " ".join(argv))
+                self.assertEqual(kwargs["env"]["HF_HUB_OFFLINE"], "1")
+                self.assertEqual(kwargs["env"]["TRANSFORMERS_OFFLINE"], "1")
+                provider = Path(argv[0]).name
+                self.assertIn(provider, blind.NAMES)
+                audio = Path(argv[2])
+                with wave.open(str(audio), "rb") as wav_input:
+                    frames = wav_input.getnframes()
+                pin_row = by_provider[provider]
+                native = {
+                    "schema": blind.RAW_SCHEMA, "provider_id": provider,
+                    "model_id": pin_row["model_id"],
+                    "model_revision_sha": pin_row["model_revision_sha"],
+                    "audio_wav_sha256": hashlib.sha256(audio.read_bytes()).hexdigest(),
+                    "processed_start_frame": 0, "processed_end_frame": frames,
+                    "decoder_completed": True, "actual_text": "Hey Vosen"}
+                Path(argv[-1]).write_bytes(campaign.canonical(native) + b"\n")
+                invoked.append(provider)
+                return type("NoModelProcess", (), {"returncode": 0})()
+
+            output = folder / "english-asr"
+            first_result = blind.dispatch(plan, capture_dir, output, adapters,
+                                          adapter_sha, max_calls=2,
+                                          executor=fake_native_run)
+            self.assertEqual(first_result["asr_attempts_this_call"], 2)
+            self.assertIsNone(blind.machine_screen(plan, output, first))
+            second_result = blind.dispatch(plan, capture_dir, output, adapters,
+                                           adapter_sha, max_calls=1,
+                                           executor=fake_native_run)
+            self.assertEqual(second_result["asr_attempts_this_call"], 1)
+            self.assertEqual(set(invoked), set(blind.NAMES))
+            screen = blind.machine_screen(plan, output, first)
+            self.assertTrue(screen["three_models_responded"])
+            self.assertTrue(screen["all_normalized_agree"])
+            self.assertFalse(screen["actual_label_authenticated"])
+            self.assertFalse(screen["training_admitted"])
+            self.assertTrue(screen["machine_verdict"].endswith("REVIEW_REQUIRED"))
+            screen_path = output / "cells" / first["cell_id"] / "machine-screen.json"
+            self.assertEqual(campaign.read(screen_path), screen)
+            final = blind.dispatch(plan, capture_dir, output, adapters,
+                                   adapter_sha, max_calls=1,
+                                   executor=fake_native_run)
+            self.assertEqual(final["asr_attempts_this_call"], 0)
+            self.assertEqual(len(invoked), 3)
+
+    def test_three_blind_asr_fails_closed_on_model_and_source_mutation(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            raw, adapter_lock, model_root = fake_asr_assets(
+                english_preset_request(), folder)
+            plan = english.prepare(raw)
+            adapters = blind.verify_adapters(plan, adapter_lock, model_root)
+            self.assertEqual(set(adapters), set(blind.NAMES))
+            p = model_root / "qwen3-asr-en" / "weights.bin"
+            p.write_bytes(b"changed-model")
+            with self.assertRaisesRegex(ValueError, "ASR_MODEL_FILE_CHANGED"):
+                blind.verify_adapters(plan, adapter_lock, model_root)
+
+            capture_dir = folder / "generated"
+            english.capture(plan, capture_dir, FakeEnglishBackend(),
+                            max_calls=1, writer=fixture_wave_writer)
+            first = plan["cells"][0]
+            wav = capture_dir / "cells" / first["cell_id"] / "audio-16k.wav"
+            wav.write_bytes(wav.read_bytes() + b"tamper")
+            with self.assertRaisesRegex(ValueError, "CAPTURE_WAV_SHA_DRIFT"):
+                blind.verify_capture(plan, capture_dir, first)
 
     def test_research_licensed_tts_is_plannable_only_with_source_provenance(self) -> None:
         raw = request()
