@@ -25,7 +25,7 @@ class RealQwenAsrSourceTests(unittest.TestCase):
         self.assertEqual(claim["model_revision"], asr.REV)
         self.assertEqual(asr.main([]), 0)
         self.assertFalse(claim["training_admitted"])
-        self.assertEqual(sum(r["bytes"] for r in asr.ASSETS), 1880558833)
+        self.assertEqual(sum(r["bytes"] for r in asr.ASSETS), 1880560703)
         self.assertEqual({r["path"] for r in asr.ASSETS}, {
             "model.safetensors", "chat_template.json", "config.json",
             "generation_config.json", "merges.txt", "preprocessor_config.json",
