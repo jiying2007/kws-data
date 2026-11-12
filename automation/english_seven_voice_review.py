@@ -241,6 +241,9 @@ def build_review(source_parent: Path, asr_parents: dict[str, Path]) -> dict:
          {"qwen3-preset-serena", "qwen3-preset-uncle_fu"} and
          len({r["wav_sha256"] for r in rows}) == len(rows),
          "ASR_REVIEW_SOURCE_SPLIT_OR_DUPLICATE_WAV")
+    source_rows = market.read(source_parent / asr.ARTIFACT_ROOT / "summary.json")["source_rows"]
+    need(len({r["pcm_sha256"] for r in source_rows}) == len(rows),
+         "ASR_REVIEW_DUPLICATE_SOURCE_PCM")
     need(counts["total"] == 63 and counts["three_way_completed_calls"] == 189,
          "ASR_REVIEW_COMPLETION_COUNT")
     return {
