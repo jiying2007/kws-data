@@ -3898,9 +3898,9 @@
     {
       "path": "automation/english_blind_asr.py",
       "mode": "100644",
-      "git_blob_sha1": "9550db4b621b7379cdc8057fe380f723abc05b3a",
-      "bytes": 19406,
-      "source_commit": "83f77ce130f44bfe68c507335275731fa5e1464e"
+      "git_blob_sha1": "35d076f20fc9413675e60d3e6b4a6e2bee13d0a0",
+      "bytes": 19639,
+      "source_commit": "9e8c92c4d4b3465c4f12ed5245166161caa1a946"
     },
     {
       "path": "automation/english_qwen_capture.py",
@@ -4087,9 +4087,9 @@
     {
       "path": "automation/test_english_pilot_asr_handoff.py",
       "mode": "100644",
-      "git_blob_sha1": "dc01951759656c1e11ea01902311d4c561f27467",
-      "bytes": 7793,
-      "source_commit": "83f77ce130f44bfe68c507335275731fa5e1464e"
+      "git_blob_sha1": "f763181942980cd64861118424efdc207912cd9e",
+      "bytes": 7970,
+      "source_commit": "9e8c92c4d4b3465c4f12ed5245166161caa1a946"
     },
     {
       "path": "automation/test_english_qwen_real_once.py",
@@ -24121,6 +24121,76 @@
             "git_blob_sha1": "01a3e5255890091ea6e6ed114db1b6ada1e459fa",
             "bytes": 18228,
             "source_commit": "83f77ce130f44bfe68c507335275731fa5e1464e"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-pilot-asr-cross-file-identity-fix-20261112",
+      "source_commit": "9e8c92c4d4b3465c4f12ed5245166161caa1a946",
+      "base_commit": "ca6312cd639ce0accb01d5c685814e302a5c2688",
+      "paths": [
+        "automation/english_blind_asr.py",
+        "automation/test_english_pilot_asr_handoff.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/english_blind_asr.py",
+          "mode": "100644",
+          "git_blob_sha1": "9550db4b621b7379cdc8057fe380f723abc05b3a",
+          "bytes": 19406,
+          "source_commit": "83f77ce130f44bfe68c507335275731fa5e1464e"
+        },
+        {
+          "path": "automation/test_english_pilot_asr_handoff.py",
+          "mode": "100644",
+          "git_blob_sha1": "dc01951759656c1e11ea01902311d4c561f27467",
+          "bytes": 7793,
+          "source_commit": "83f77ce130f44bfe68c507335275731fa5e1464e"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "9a271116a27a8cb34b8ab325eb9b03a07ff956e5",
+      "scope": "Register exact test and documentation-only verification of immutable TTS capture lock against edited source-plan model sha; no loosened data checks or model calls.",
+      "rationale": "The pilot-plan is structurally checked, but the original generated capture lock is the cross-file authority on its actual model-assets hash. Preserve this distinction with an explicit negative test.",
+      "files": [
+        {
+          "path": "automation/english_blind_asr.py",
+          "before": {
+            "path": "automation/english_blind_asr.py",
+            "mode": "100644",
+            "git_blob_sha1": "9550db4b621b7379cdc8057fe380f723abc05b3a",
+            "bytes": 19406,
+            "source_commit": "83f77ce130f44bfe68c507335275731fa5e1464e"
+          },
+          "after": {
+            "path": "automation/english_blind_asr.py",
+            "mode": "100644",
+            "git_blob_sha1": "35d076f20fc9413675e60d3e6b4a6e2bee13d0a0",
+            "bytes": 19639,
+            "source_commit": "9e8c92c4d4b3465c4f12ed5245166161caa1a946"
+          }
+        },
+        {
+          "path": "automation/test_english_pilot_asr_handoff.py",
+          "before": {
+            "path": "automation/test_english_pilot_asr_handoff.py",
+            "mode": "100644",
+            "git_blob_sha1": "dc01951759656c1e11ea01902311d4c561f27467",
+            "bytes": 7793,
+            "source_commit": "83f77ce130f44bfe68c507335275731fa5e1464e"
+          },
+          "after": {
+            "path": "automation/test_english_pilot_asr_handoff.py",
+            "mode": "100644",
+            "git_blob_sha1": "f763181942980cd64861118424efdc207912cd9e",
+            "bytes": 7970,
+            "source_commit": "9e8c92c4d4b3465c4f12ed5245166161caa1a946"
           }
         }
       ],
