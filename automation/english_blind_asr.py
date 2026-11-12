@@ -18,6 +18,7 @@ import sys
 import wave
 
 import english_qwen_capture as english
+import english_qwen_real_once as pilot
 import multilingual_campaign as market
 
 POLICY = "en-market-three-blind-asr-v1"
@@ -25,6 +26,7 @@ ADAPTER_SCHEMA = "en-market-three-asr-adapters-v1"
 MODEL_SCHEMA = "kws-native-asr-model-assets-v1"
 RAW_SCHEMA = "en-market-native-asr-result-v1"
 MAX_CALLS = 12
+PILOT_PINS_SCHEMA = "en-market-blind-asr-pins-v1"
 MAX_MODEL_BYTES = 8 * 1024**3
 NAMES = ("qwen3-asr-en", "whisper-small-en", "parakeet-tdt-v3-en")
 REL = re.compile(r"[a-zA-Z0-9][a-zA-Z0-9_/-]{0,120}\Z")
@@ -92,7 +94,40 @@ def verify_assets(pin: dict, lock_path: Path, model_root: Path) -> Path:
     return folder
 
 
-def verify_adapters(plan: dict, lock_path: Path, model_root: Path) -> dict:
+def load_pilot_plan(source_path: Path) -> dict:
+    """Rebuild the exact one-shot TTS-only pilot source plan, no guessed ASR pins."""
+    private_path(source_path, "PILOT_SOURCE_PLAN_NOT_PRIVATE")
+    pilot.read_trigger()
+    source = market.read(source_path)
+    market.need(type(source.get("tts_pins")) is list and
+                len(source["tts_pins"]) == 1 and
+                type(source["tts_pins"][0]) is dict,
+                "PILOT_TTS_PIN_MISSING")
+    model_sha = source["tts_pins"][0].get("model_assets_sha256")
+    market.need(type(model_sha) is str and
+                market.HEX64.fullmatch(model_sha) is not None,
+                "PILOT_TTS_MODEL_SHA_INVALID")
+    expected = pilot.pilot_plan(model_sha)
+    market.need(market.canonical(source) == market.canonical(expected),
+                "PILOT_SOURCE_PLAN_DRIFT")
+    return source
+
+
+def load_pilot_asr_pins(path: Path) -> list[dict]:
+    """Keep ASR provenance separate from immutable pilot TTS identity."""
+    private_path(path, "PILOT_ASR_PINS_NOT_PRIVATE")
+    value = market.read(path)
+    market.need(set(value) == {"schema", "providers"} and
+                value["schema"] == PILOT_PINS_SCHEMA,
+                "PILOT_ASR_PINS_SCHEMA")
+    chosen = market.choose(value["providers"], "asr", "en-US", market.catalog())
+    market.need({r["provider_id"] for r in chosen} == set(NAMES),
+                "PILOT_ASR_FAMILY_ROSTER")
+    return chosen
+
+
+def verify_adapters(plan: dict, lock_path: Path, model_root: Path,
+                    *, asr_pins: list[dict] | None = None) -> dict:
     runner = english.media()
     private_path(lock_path, "ASR_ADAPTER_LOCK_NOT_PRIVATE")
     lock = market.read(lock_path)
@@ -100,7 +135,7 @@ def verify_adapters(plan: dict, lock_path: Path, model_root: Path) -> dict:
                 lock["schema"] == ADAPTER_SCHEMA and
                 type(lock["adapters"]) is list and len(lock["adapters"]) == 3,
                 "ASR_ADAPTER_LOCK_SCHEMA")
-    pins = {r["provider_id"]: r for r in plan["asr_pins"]}
+    pins = {r["provider_id"]: r for r in (asr_pins if asr_pins is not None else plan["asr_pins"])}
     market.need(set(pins) == set(NAMES), "ENGLISH_THREE_MODEL_ROSTER_REQUIRED")
     adapters = {}
     for row in lock["adapters"]:
@@ -235,7 +270,8 @@ def machine_screen(plan: dict, out: Path, cell: dict) -> dict | None:
 
 
 def dispatch(plan: dict, capture_root: Path, out: Path, adapters: dict,
-             adapter_hash: str, *, max_calls: int, executor=subprocess.run) -> dict:
+             adapter_hash: str, *, max_calls: int, executor=subprocess.run,
+             asr_pins: list[dict] | None = None) -> dict:
     runner = english.media()
     market.need(type(max_calls) is int and 0 <= max_calls <= MAX_CALLS,
                 "ASR_CALL_BUDGET")
@@ -251,7 +287,8 @@ def dispatch(plan: dict, capture_root: Path, out: Path, adapters: dict,
                     stat.S_IMODE(out.stat().st_mode) == 0o700 and
                     market.read(out / "plan-lock.json") == locked,
                     "ASR_RESUME_SOURCE_OR_ADAPTER_DRIFT")
-    pins = {r["provider_id"]: r for r in plan["asr_pins"]}
+    pins = {r["provider_id"]: r for r in (asr_pins if asr_pins is not None else plan["asr_pins"])}
+    market.need(set(pins) == set(NAMES), "ENGLISH_THREE_MODEL_ROSTER_REQUIRED")
     calls = 0
     for cell in plan["cells"]:
         source = verify_capture(plan, capture_root, cell)
@@ -313,7 +350,9 @@ def dispatch(plan: dict, capture_root: Path, out: Path, adapters: dict,
 
 def main(argv=None) -> int:
     cli = argparse.ArgumentParser(description=__doc__)
-    cli.add_argument("--request", required=True, type=Path)
+    cli.add_argument("--request", type=Path)
+    cli.add_argument("--pilot-source-plan", type=Path)
+    cli.add_argument("--pilot-asr-pins", type=Path)
     cli.add_argument("--capture-root", type=Path)
     cli.add_argument("--adapter-lock", type=Path)
     cli.add_argument("--model-root", type=Path)
@@ -322,7 +361,18 @@ def main(argv=None) -> int:
     cli.add_argument("--execute", action="store_true")
     args = cli.parse_args(argv)
     try:
-        plan = english.prepare(market.read(args.request))
+        pilot_mode = args.pilot_source_plan is not None
+        market.need((args.request is None) != pilot_mode,
+                    "EXACTLY_ONE_ENGLISH_SOURCE_MODE_REQUIRED")
+        if pilot_mode:
+            market.need(args.pilot_asr_pins is not None,
+                        "PILOT_ASR_MODEL_PINS_REQUIRED")
+            plan = load_pilot_plan(args.pilot_source_plan)
+            asr_pins = load_pilot_asr_pins(args.pilot_asr_pins)
+        else:
+            market.need(args.pilot_asr_pins is None, "NO_PILOT_PINS_FOR_GENERIC_REQUEST")
+            plan = english.prepare(market.read(args.request))
+            asr_pins = None
         market.need(type(args.max_calls) is int and 0 <= args.max_calls <= MAX_CALLS,
                     "ASR_CALL_BUDGET")
         if not args.execute:
@@ -334,10 +384,12 @@ def main(argv=None) -> int:
                     os.environ.get("HF_HUB_OFFLINE") == "1" and
                     os.environ.get("TRANSFORMERS_OFFLINE") == "1",
                     "ASR_EXPLICIT_OFFLINE_EXECUTION_REQUIRED")
-        adapters = verify_adapters(plan, args.adapter_lock, args.model_root)
+        adapters = verify_adapters(plan, args.adapter_lock, args.model_root,
+                                   asr_pins=asr_pins)
         adapter_hash = sha(args.adapter_lock.read_bytes())
         report = dispatch(plan, args.capture_root, args.out, adapters,
-                          adapter_hash, max_calls=args.max_calls)
+                          adapter_hash, max_calls=args.max_calls,
+                          asr_pins=asr_pins)
         print(json.dumps(report, sort_keys=True))
         return 0
     except (OSError, ValueError, wave.Error) as error:
