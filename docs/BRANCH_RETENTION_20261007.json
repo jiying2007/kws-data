@@ -4143,9 +4143,9 @@
     {
       "path": "automation/test_english_qwen_asr_sourcefix_once.py",
       "mode": "100644",
-      "git_blob_sha1": "677bf7c75e53382efa66a23a599d9bf11cd9e729",
-      "bytes": 4930,
-      "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
+      "git_blob_sha1": "417850c9cac72f27c22d5b39418952ccee30e3e5",
+      "bytes": 4961,
+      "source_commit": "cc12fb3b4390cec68f6c5026203aa0f4bdc80b35"
     },
     {
       "path": "automation/test_english_qwen_real_once.py",
@@ -24452,6 +24452,51 @@
             "git_blob_sha1": "e6628c4cb0650cda90e7536413cf86f185173db8",
             "bytes": 5696,
             "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-qwen-asr-strict-root-error-test-fix-20261112",
+      "source_commit": "cc12fb3b4390cec68f6c5026203aa0f4bdc80b35",
+      "base_commit": "b5d68f2bce46e423cf9e2481ba6ce863fe6aafa2",
+      "paths": [
+        "automation/test_english_qwen_asr_sourcefix_once.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/test_english_qwen_asr_sourcefix_once.py",
+          "mode": "100644",
+          "git_blob_sha1": "677bf7c75e53382efa66a23a599d9bf11cd9e729",
+          "bytes": 4930,
+          "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "66e80f3f8df186843be96cbb4cc71d193fabd3f7",
+      "scope": "Register exact test assertion on existing strict-source reader: missing plan at ZIP root raises ValueError INPUT_FILE_UNSAFE_OR_OVERSIZE, not FileNotFoundError.",
+      "rationale": "Only expected exception class changes; original missing-plan fail-closed behavior and real PCM/source hashes remain unchanged. No data/model calls.",
+      "files": [
+        {
+          "path": "automation/test_english_qwen_asr_sourcefix_once.py",
+          "before": {
+            "path": "automation/test_english_qwen_asr_sourcefix_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "677bf7c75e53382efa66a23a599d9bf11cd9e729",
+            "bytes": 4930,
+            "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
+          },
+          "after": {
+            "path": "automation/test_english_qwen_asr_sourcefix_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "417850c9cac72f27c22d5b39418952ccee30e3e5",
+            "bytes": 4961,
+            "source_commit": "cc12fb3b4390cec68f6c5026203aa0f4bdc80b35"
           }
         }
       ],
