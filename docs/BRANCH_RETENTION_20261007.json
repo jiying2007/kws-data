@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1966,
-  "expected_retained_files": 1957,
+  "expected_tracked_files": 1970,
+  "expected_retained_files": 1961,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -3519,6 +3519,13 @@
   ],
   "retained_files": [
     {
+      "path": ".github/triggers/english-qwen-asr-real-20261112.json",
+      "mode": "100644",
+      "git_blob_sha1": "8b6905c65dfb629c356fbbbd32e211f4b3108d79",
+      "bytes": 469,
+      "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+    },
+    {
       "path": ".github/triggers/english-qwen-real-20261112.json",
       "mode": "100644",
       "git_blob_sha1": "ce15310e24f2e54542fdaa72d1092808d31857f5",
@@ -3611,6 +3618,13 @@
       "bytes": 807,
       "git_blob_sha1": "7207fce834e54ed5f5c8398aa9491170233aca31",
       "source_commit": "ca32d13aeb6e130eefeb2ae808eb65db46aa4462"
+    },
+    {
+      "path": ".github/workflows/english-qwen-asr-real-once.yml",
+      "mode": "100644",
+      "git_blob_sha1": "7218ae117a83667c3b98194144037ba4326a584d",
+      "bytes": 4868,
+      "source_commit": "53eaebda80f3e2a847536ba969589e3d9b6e1f9e"
     },
     {
       "path": ".github/workflows/english-qwen-real-once.yml",
@@ -3903,6 +3917,13 @@
       "source_commit": "9e8c92c4d4b3465c4f12ed5245166161caa1a946"
     },
     {
+      "path": "automation/english_qwen_asr_real_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "5749ae3afad71fd06aff13686231cc7e181abcb4",
+      "bytes": 12161,
+      "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+    },
+    {
       "path": "automation/english_qwen_capture.py",
       "mode": "100644",
       "git_blob_sha1": "380c3f2ef2bc789ef1e653a8c21d216b28911d23",
@@ -4090,6 +4111,13 @@
       "git_blob_sha1": "f763181942980cd64861118424efdc207912cd9e",
       "bytes": 7970,
       "source_commit": "9e8c92c4d4b3465c4f12ed5245166161caa1a946"
+    },
+    {
+      "path": "automation/test_english_qwen_asr_real_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "fddae72a68ed299e295532ec3b38b22b0ab7662a",
+      "bytes": 4419,
+      "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
     },
     {
       "path": "automation/test_english_qwen_real_once.py",
@@ -24191,6 +24219,118 @@
             "git_blob_sha1": "f763181942980cd64861118424efdc207912cd9e",
             "bytes": 7970,
             "source_commit": "9e8c92c4d4b3465c4f12ed5245166161caa1a946"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-qwen-asr-actual-source-replay-20261112",
+      "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44",
+      "base_commit": "90bec0d49d3ab789f34b776e8b576ac854dbde5b",
+      "paths": [
+        ".github/triggers/english-qwen-asr-real-20261112.json",
+        ".github/workflows/english-qwen-asr-real-once.yml",
+        "automation/english_qwen_asr_real_once.py",
+        "automation/test_english_qwen_asr_real_once.py"
+      ],
+      "previous_campaign_rows": [],
+      "previous_manifest_git_blob_sha1": "148eb0ab12a670ad6e6be135d9d079a091300aef",
+      "scope": "Register actual source-bound Qwen3-ASR English real-audio once worker and its zero-model regression, immutable request, and protected main-only Actions execution; no modifications to original TTS WAVs.",
+      "rationale": "Recover the already generated ten real Qwen English WAVs from immutable source artifact and run first independent pretrained ASR at pinned exact upstream checkpoint, once only, without fabricated three-ASR label admission.",
+      "files": [
+        {
+          "path": ".github/triggers/english-qwen-asr-real-20261112.json",
+          "before": null,
+          "after": {
+            "path": ".github/triggers/english-qwen-asr-real-20261112.json",
+            "mode": "100644",
+            "git_blob_sha1": "8b6905c65dfb629c356fbbbd32e211f4b3108d79",
+            "bytes": 469,
+            "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+          }
+        },
+        {
+          "path": ".github/workflows/english-qwen-asr-real-once.yml",
+          "before": null,
+          "after": {
+            "path": ".github/workflows/english-qwen-asr-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "9e71ddbd58aad3de4a074554ea64b51e2da8694f",
+            "bytes": 4826,
+            "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+          }
+        },
+        {
+          "path": "automation/english_qwen_asr_real_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/english_qwen_asr_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "5749ae3afad71fd06aff13686231cc7e181abcb4",
+            "bytes": 12161,
+            "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+          }
+        },
+        {
+          "path": "automation/test_english_qwen_asr_real_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/test_english_qwen_asr_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "fddae72a68ed299e295532ec3b38b22b0ab7662a",
+            "bytes": 4419,
+            "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-qwen-asr-exact-artifact-extraction-fix-20261112",
+      "source_commit": "53eaebda80f3e2a847536ba969589e3d9b6e1f9e",
+      "base_commit": "f3cbd9494ccbcc9e55c8ab5c6e44aa0c232ec95b",
+      "paths": [
+        ".github/workflows/english-qwen-asr-real-once.yml"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/english-qwen-asr-real-once.yml",
+          "mode": "100644",
+          "git_blob_sha1": "9e71ddbd58aad3de4a074554ea64b51e2da8694f",
+          "bytes": 4826,
+          "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "5ed4c005666e911b062d33de7a219ebf53901c5d",
+      "scope": "Register exact GitHub download-artifact named/run-bound extraction correction before real ASR, without reprocessing historical audio.",
+      "rationale": "Avoid ambiguous subdirectory nesting from artifact-id multi-artifact mode while requiring independent source run, artifact digest, and head SHA checks.",
+      "files": [
+        {
+          "path": ".github/workflows/english-qwen-asr-real-once.yml",
+          "before": {
+            "path": ".github/workflows/english-qwen-asr-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "9e71ddbd58aad3de4a074554ea64b51e2da8694f",
+            "bytes": 4826,
+            "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+          },
+          "after": {
+            "path": ".github/workflows/english-qwen-asr-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "7218ae117a83667c3b98194144037ba4326a584d",
+            "bytes": 4868,
+            "source_commit": "53eaebda80f3e2a847536ba969589e3d9b6e1f9e"
           }
         }
       ],
