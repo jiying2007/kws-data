@@ -1,0 +1,100 @@
+name: English seven new Qwen voices 63 real WAVs once
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-seven-voice-tts-once.yml
+      - .github/triggers/english-seven-voice-tts-20261112.json
+      - automation/english_seven_voice_tts_once.py
+      - automation/test_english_seven_voice_tts_once.py
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths:
+      - .github/triggers/english-seven-voice-tts-20261112.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: english-seven-qwen-20261112-once-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Verify seven new sources and bounded 63-cell no-model execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_seven_voice_tts_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+
+  generate-new-english-audio:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 160
+    permissions:
+      contents: read
+    env:
+      OMP_NUM_THREADS: "4"
+      MKL_NUM_THREADS: "4"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      HF_HUB_DISABLE_XET: "0"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Install isolated CPU Qwen TTS 0.6B runtime
+        shell: bash
+        timeout-minutes: 25
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/english-seven-tts-venv"
+          "$RUNNER_TEMP/english-seven-tts-venv/bin/pip" install --disable-pip-version-check \
+            --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu" "torchaudio==2.9.1+cpu"
+          "$RUNNER_TEMP/english-seven-tts-venv/bin/pip" install --disable-pip-version-check \
+            "qwen-tts==0.1.1" "huggingface-hub==0.36.2"
+          mkdir -p "$RUNNER_TEMP/english-seven-tts-meta"
+          "$RUNNER_TEMP/english-seven-tts-venv/bin/pip" freeze > "$RUNNER_TEMP/english-seven-tts-meta/installed-packages.txt"
+      - name: Generate 63 NEW English WAVs with seven fresh preset identities and no retries
+        shell: bash
+        timeout-minutes: 125
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/english-seven-tts-venv/bin/python" -B automation/english_seven_voice_tts_once.py \
+            --output "$RUNNER_TEMP/english-seven-voice-actual" --execute
+      - name: Retain all original WAVs and source/failure receipts, never model weights
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # pinned
+        with:
+          name: english-seven-voice-actual-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-seven-voice-actual/started.json
+            ${{ runner.temp }}/english-seven-voice-actual/failed.json
+            ${{ runner.temp }}/english-seven-voice-actual/summary.json
+            ${{ runner.temp }}/english-seven-voice-actual/model-lock.json
+            ${{ runner.temp }}/english-seven-voice-actual/source-plan.json
+            ${{ runner.temp }}/english-seven-voice-actual/stage-*.json
+            ${{ runner.temp }}/english-seven-voice-actual/capture/
+            ${{ runner.temp }}/english-seven-tts-meta/installed-packages.txt
+          retention-days: 30
+          if-no-files-found: warn
