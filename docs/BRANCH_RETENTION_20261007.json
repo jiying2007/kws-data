@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1992,
-  "expected_retained_files": 1983,
+  "expected_tracked_files": 1995,
+  "expected_retained_files": 1986,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -3704,6 +3704,13 @@
       "source_commit": "78cecf87fa19ae9f49f9e575d2b08edbcc38add8"
     },
     {
+      "path": ".github/workflows/english-seven-voice-three-asr-event.yml",
+      "mode": "100644",
+      "git_blob_sha1": "a9828c9259ca77e562524a7295a20b0133c58dc0",
+      "bytes": 6610,
+      "source_commit": "0c115286ca70a0d27546b200a258bbd5c32c94f6"
+    },
+    {
       "path": ".github/workflows/english-seven-voice-tts-once.yml",
       "mode": "100644",
       "git_blob_sha1": "d3b1fb1690cade13296f0fe6604a1c7db94a867d",
@@ -4043,6 +4050,13 @@
       "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
     },
     {
+      "path": "automation/english_seven_voice_asr_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "6875f7f2fbf7f2dcf06030a790a757b1896c72f5",
+      "bytes": 14624,
+      "source_commit": "0c115286ca70a0d27546b200a258bbd5c32c94f6"
+    },
+    {
       "path": "automation/english_seven_voice_tts_once.py",
       "mode": "100644",
       "git_blob_sha1": "0cff82fa0f6131104c63a1763659c2d2adc090b1",
@@ -4265,6 +4279,13 @@
       "git_blob_sha1": "fb68128b521127f7995e79e964874f4354dc0347",
       "bytes": 4159,
       "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+    },
+    {
+      "path": "automation/test_english_seven_voice_asr_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "c4645e5cccc203f5426c74894a039a5f464b0228",
+      "bytes": 7202,
+      "source_commit": "0c115286ca70a0d27546b200a258bbd5c32c94f6"
     },
     {
       "path": "automation/test_english_seven_voice_tts_once.py",
@@ -25120,6 +25141,61 @@
             "git_blob_sha1": "d3b1fb1690cade13296f0fe6604a1c7db94a867d",
             "bytes": 4207,
             "source_commit": "5cb89ca8414bbc11c15f77cbbcb43e7f4435d964"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-seven-voice-three-asr-event-20261112",
+      "source_commit": "0c115286ca70a0d27546b200a258bbd5c32c94f6",
+      "base_commit": "bec1a1421d1db2de17afb9c6e3155343becdb980",
+      "paths": [
+        "automation/english_seven_voice_asr_once.py",
+        "automation/test_english_seven_voice_asr_once.py",
+        ".github/workflows/english-seven-voice-three-asr-event.yml"
+      ],
+      "previous_campaign_rows": [],
+      "previous_manifest_git_blob_sha1": "244bf791eb9a02e8b9e72e173711bc3984484e56",
+      "scope": "Register event-triggered three independent real ASR families on the 63-cell new English TTS run, with source pins and source-only offline tests; no old audio reruns.",
+      "rationale": "Upon success of protected one-shot TTS run 43242278962, independently verify full 63 WAV/PCM/source roles and automatically run pinned Qwen3-ASR, Whisper-small, Parakeet Q8 on three isolated GitHub runners without target text, peer output, artificial labels or scheduled tasks.",
+      "files": [
+        {
+          "path": "automation/english_seven_voice_asr_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/english_seven_voice_asr_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "6875f7f2fbf7f2dcf06030a790a757b1896c72f5",
+            "bytes": 14624,
+            "source_commit": "0c115286ca70a0d27546b200a258bbd5c32c94f6"
+          }
+        },
+        {
+          "path": "automation/test_english_seven_voice_asr_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/test_english_seven_voice_asr_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "c4645e5cccc203f5426c74894a039a5f464b0228",
+            "bytes": 7202,
+            "source_commit": "0c115286ca70a0d27546b200a258bbd5c32c94f6"
+          }
+        },
+        {
+          "path": ".github/workflows/english-seven-voice-three-asr-event.yml",
+          "before": null,
+          "after": {
+            "path": ".github/workflows/english-seven-voice-three-asr-event.yml",
+            "mode": "100644",
+            "git_blob_sha1": "a9828c9259ca77e562524a7295a20b0133c58dc0",
+            "bytes": 6610,
+            "source_commit": "0c115286ca70a0d27546b200a258bbd5c32c94f6"
           }
         }
       ],
