@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1959,
-  "expected_retained_files": 1950,
+  "expected_tracked_files": 1960,
+  "expected_retained_files": 1951,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -3814,9 +3814,9 @@
     {
       "path": "automation/README.md",
       "mode": "100644",
-      "git_blob_sha1": "3e8e0c607e63bcd181d35aad58d2ee9852b9d46e",
-      "bytes": 9134,
-      "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96"
+      "git_blob_sha1": "53ae8908d4a13993bf770fb0a96584e5e739b982",
+      "bytes": 12154,
+      "source_commit": "33da3daaf660c540e57778e0ef5d11ae9f85a7fe"
     },
     {
       "path": "automation/RESEARCH_ONLY_REFERENCE_SCOPE.md",
@@ -3880,6 +3880,13 @@
       "bytes": 32953,
       "git_blob_sha1": "b71603804f891e0d0bea5d4b6194b00dfc9d2173",
       "source_commit": "4c852635c1a19b8847f59396896cc1042172484b"
+    },
+    {
+      "path": "automation/english_qwen_capture.py",
+      "mode": "100644",
+      "git_blob_sha1": "3d81a4d6bd0bc6be584a280cfe6bbb16cfa54430",
+      "bytes": 11021,
+      "source_commit": "33da3daaf660c540e57778e0ef5d11ae9f85a7fe"
     },
     {
       "path": "automation/fetch_aishell_subset.py",
@@ -4059,9 +4066,9 @@
     {
       "path": "automation/test_multilingual_campaign.py",
       "mode": "100644",
-      "git_blob_sha1": "04c9607e3b816b0085f2f9262a4e1a134d75df36",
-      "bytes": 16400,
-      "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96"
+      "git_blob_sha1": "a74ab50252c75907d8e04b898224e0ed1d65a98c",
+      "bytes": 22746,
+      "source_commit": "33da3daaf660c540e57778e0ef5d11ae9f85a7fe"
     },
     {
       "path": "automation/test_natural_keyword_evidence_v2.py",
@@ -23664,6 +23671,88 @@
             "git_blob_sha1": "04c9607e3b816b0085f2f9262a4e1a134d75df36",
             "bytes": 16400,
             "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-qwen-capture-20261112",
+      "source_commit": "33da3daaf660c540e57778e0ef5d11ae9f85a7fe",
+      "base_commit": "44de611c7e11bcf1028e80532f3487897300ebd2",
+      "paths": [
+        "automation/english_qwen_capture.py",
+        "automation/test_multilingual_campaign.py",
+        "automation/README.md"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/test_multilingual_campaign.py",
+          "mode": "100644",
+          "git_blob_sha1": "04c9607e3b816b0085f2f9262a4e1a134d75df36",
+          "bytes": 16400,
+          "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96"
+        },
+        {
+          "path": "automation/README.md",
+          "mode": "100644",
+          "git_blob_sha1": "3e8e0c607e63bcd181d35aad58d2ee9852b9d46e",
+          "bytes": 9134,
+          "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "60253e41179d4a06870aef9f65aa98c481994a72",
+      "scope": "Register bounded English CustomVoice local capture source and invented offline-only regression, without changing archived experimental bytes.",
+      "rationale": "Continue actual audio execution path for Hey Vosen/Hey Mero while requiring exact model locks, independent source roles, offline inference and no-retry receipts; existing Mandarin source and confirmed samples remain untouched.",
+      "files": [
+        {
+          "path": "automation/english_qwen_capture.py",
+          "before": null,
+          "after": {
+            "path": "automation/english_qwen_capture.py",
+            "mode": "100644",
+            "git_blob_sha1": "3d81a4d6bd0bc6be584a280cfe6bbb16cfa54430",
+            "bytes": 11021,
+            "source_commit": "33da3daaf660c540e57778e0ef5d11ae9f85a7fe"
+          }
+        },
+        {
+          "path": "automation/test_multilingual_campaign.py",
+          "before": {
+            "path": "automation/test_multilingual_campaign.py",
+            "mode": "100644",
+            "git_blob_sha1": "04c9607e3b816b0085f2f9262a4e1a134d75df36",
+            "bytes": 16400,
+            "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96"
+          },
+          "after": {
+            "path": "automation/test_multilingual_campaign.py",
+            "mode": "100644",
+            "git_blob_sha1": "a74ab50252c75907d8e04b898224e0ed1d65a98c",
+            "bytes": 22746,
+            "source_commit": "33da3daaf660c540e57778e0ef5d11ae9f85a7fe"
+          }
+        },
+        {
+          "path": "automation/README.md",
+          "before": {
+            "path": "automation/README.md",
+            "mode": "100644",
+            "git_blob_sha1": "3e8e0c607e63bcd181d35aad58d2ee9852b9d46e",
+            "bytes": 9134,
+            "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96"
+          },
+          "after": {
+            "path": "automation/README.md",
+            "mode": "100644",
+            "git_blob_sha1": "53ae8908d4a13993bf770fb0a96584e5e739b982",
+            "bytes": 12154,
+            "source_commit": "33da3daaf660c540e57778e0ef5d11ae9f85a7fe"
           }
         }
       ],
