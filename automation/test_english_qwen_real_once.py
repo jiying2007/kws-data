@@ -50,7 +50,7 @@ class OneTimeEnglishPilotTests(unittest.TestCase):
             trigger = Path(tmp) / "trigger.json"
             original = pilot.TRIGGER
             with mock.patch.object(pilot, "TRIGGER", trigger):
-                valid = pilot.read_trigger() if False else market.read(original)
+                valid = market.read(original)
                 for field, changed in [
                     ("max_tts_calls", 12),
                     ("wake_phrases", ["Hey Mero", "Hey Vosen"]),
