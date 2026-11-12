@@ -10,6 +10,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import multilingual_campaign as campaign
+import english_qwen_capture as english
 
 
 def fake_sha(letter: str, length: int = 64) -> str:
@@ -86,6 +87,48 @@ def english_market_request() -> dict:
     ]
     raw["max_generation_cells"] = 64
     return raw
+
+
+def english_preset_request() -> dict:
+    raw = english_market_request()
+    raw["tts_providers"] = [pin("qwen3-custom-en", 22)]
+    raw["voices"] = [
+        {"id": name, "source_family_id": "qwen3-preset-" + name,
+         "role": role, "origin_kind": "owned-synthetic",
+         "reference_pcm_sha256": None, "rights_evidence_sha256": None}
+        for name, role in (("ryan", "train-candidate"),
+                           ("aiden", "development-only"))
+    ]
+    return raw
+
+
+class FakeEnglishBackend:
+    def __init__(self, fail_first=False):
+        self.calls = []
+        self.fail_first = fail_first
+
+    def synthesize(self, cell, speaker):
+        self.calls.append((cell["cell_id"], speaker))
+        if self.fail_first and len(self.calls) == 1:
+            raise RuntimeError("invented test failure")
+        return [0.1] * 12000, 24000
+
+
+def fixture_wave_writer(folder, samples, rate, metrics):
+    import wave
+    native = folder / "native-f32.wav"
+    native.write_bytes(b"invented-fixture-only")
+    pcm = b"\x00\x04" * 8000
+    wav = folder / "audio-16k.wav"
+    with wave.open(str(wav), "wb") as out:
+        out.setnchannels(1)
+        out.setsampwidth(2)
+        out.setframerate(16000)
+        out.writeframes(pcm)
+    return {"native_sha256": hashlib.sha256(native.read_bytes()).hexdigest(),
+            "wav_sha256": hashlib.sha256(wav.read_bytes()).hexdigest(),
+            "pcm_sha256": hashlib.sha256(pcm).hexdigest(),
+            "audio_frames": 8000, "sample_rate_hz": 16000}
 
 
 class SourceFirstLanguageTests(unittest.TestCase):
@@ -184,6 +227,90 @@ class SourceFirstLanguageTests(unittest.TestCase):
                 campaign.main(["--request", str(source), "--output", str(absent),
                                "--market-candidates"])
             self.assertFalse(absent.exists())
+
+    def test_english_qwen_explicit_preset_and_no_cross_market_execution(self) -> None:
+        raw = english_preset_request()
+        planned = english.prepare(raw)
+        self.assertTrue(planned["market_candidate_roster_verified"])
+        self.assertEqual(planned["wake_phrases_requested"],
+                         ["Hey Vosen", "Hey Mero"])
+        self.assertEqual(planned["generation_cells_planned"], 24)
+        self.assertFalse(planned["training_admitted"])
+        for bad in (
+            lambda x: x["voices"][0].update(source_family_id="fake-ryan"),
+            lambda x: x["voices"][0].update(id="unknown-clone"),
+            lambda x: x["voices"][0].update(origin_kind="consented-human",
+                                           reference_pcm_sha256="a" * 64,
+                                           rights_evidence_sha256="b" * 64),
+            lambda x: x["tts_providers"].append(pin("kokoro-82m-en", 23)),
+            lambda x: x["wake_phrases"].reverse(),
+        ):
+            changed = copy.deepcopy(raw)
+            bad(changed)
+            with self.assertRaises(ValueError):
+                english.prepare(changed)
+        with self.assertRaises(ValueError):
+            english.prepare(request("zh-CN"))
+
+    def test_english_qwen_model_lock_checks_real_bytes_not_claims(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            model = folder / "assets" / "preset"
+            model.mkdir(parents=True)
+            material = model / "config.json"
+            material.write_bytes(b'{"invented":"fixture-only"}\n')
+            source = english_preset_request()
+            lock = {"schema": english.MODEL_SCHEMA, "models": [{
+                "model_id": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+                "revision": source["tts_providers"][0]["revision_sha"],
+                "relative_dir": "preset", "files": [{
+                    "path": "config.json", "bytes": material.stat().st_size,
+                    "sha256": hashlib.sha256(material.read_bytes()).hexdigest()}]
+            }]}
+            lock_path = folder / "lock.json"
+            lock_path.write_bytes(campaign.canonical(lock) + b"\n")
+            source["tts_providers"][0]["model_assets_sha256"] = (
+                hashlib.sha256(lock_path.read_bytes()).hexdigest())
+            plan = english.prepare(source)
+            self.assertEqual(english.verify_model(plan, lock_path, folder / "assets"),
+                             model)
+            material.write_bytes(b"unexpected-model-bytes")
+            with self.assertRaisesRegex(ValueError, "MODEL_FILE_BYTES_CHANGED"):
+                english.verify_model(plan, lock_path, folder / "assets")
+            source["tts_providers"][0]["model_assets_sha256"] = "f" * 64
+            with self.assertRaisesRegex(ValueError, "MODEL_LOCK_SHA_NOT_PINNED"):
+                english.verify_model(english.prepare(source), lock_path,
+                                     folder / "assets")
+
+    def test_english_qwen_private_capture_is_bounded_and_never_retries(self) -> None:
+        plan = english.prepare(english_preset_request())
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "private-run"
+            backend = FakeEnglishBackend(fail_first=True)
+            result = english.capture(plan, out, backend, max_calls=2,
+                                     writer=fixture_wave_writer)
+            self.assertEqual((result["total_started"], result["total_completed"]),
+                             (2, 1))
+            self.assertEqual(result["asr_calls"], 0)
+            first = out / "cells" / plan["cells"][0]["cell_id"]
+            self.assertTrue((first / "failed.json").is_file())
+            before = (first / "started.json").read_bytes()
+            result = english.capture(plan, out, backend, max_calls=1,
+                                     writer=fixture_wave_writer)
+            self.assertEqual((result["total_started"], result["total_completed"]),
+                             (3, 2))
+            self.assertEqual((first / "started.json").read_bytes(), before)
+            self.assertEqual(len(backend.calls), 3)
+            self.assertFalse(result["training_admitted"])
+            self.assertEqual(out.stat().st_mode & 0o777, 0o700)
+            other = copy.deepcopy(plan)
+            other["wake_phrases_requested"] = ["unbound"]
+            with self.assertRaisesRegex(ValueError, "CAPTURE_RESUME_IDENTITY_DRIFT"):
+                english.capture(other, out, backend, max_calls=1,
+                                writer=fixture_wave_writer)
+            with self.assertRaisesRegex(ValueError, "CAPTURE_CALL_BUDGET"):
+                english.capture(plan, out, backend, max_calls=17,
+                                writer=fixture_wave_writer)
 
     def test_research_licensed_tts_is_plannable_only_with_source_provenance(self) -> None:
         raw = request()
