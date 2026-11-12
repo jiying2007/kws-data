@@ -1,0 +1,128 @@
+name: English Qwen ASR original-audio source correction once
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-qwen-asr-sourcefix-once.yml
+      - .github/triggers/english-qwen-asr-sourcefix-20261112.json
+      - automation/english_qwen_asr_real_once.py
+      - automation/english_qwen_asr_sourcefix_once.py
+      - automation/test_english_qwen_asr_sourcefix_once.py
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths:
+      - .github/triggers/english-qwen-asr-sourcefix-20261112.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: english-qwen-asr-sourcefix-20261112-once-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Test exact original audio parent, Qwen ASR API and retention
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_qwen_asr_sourcefix_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+
+  corrected-actual-asr:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 160
+    permissions:
+      contents: read
+      actions: read
+    env:
+      OMP_NUM_THREADS: "4"
+      MKL_NUM_THREADS: "4"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Require previous ASR failure and exact original audio source
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43218378495 |
+            jq -e '.status=="completed" and .conclusion=="failure" and
+                   .head_sha=="386c81d83865011c180b5d1c5d72a4cd0402b189" and
+                   .event=="push" and .run_attempt==1'
+          gh api repos/jiying2007/kws-data/actions/runs/43214159818 |
+            jq -e '.status=="completed" and .conclusion=="success" and
+                   .head_sha=="f2b91001e4fd56a03bbce9bc6b0c1cae7fad1dc8" and
+                   .event=="push" and .run_attempt==1'
+          gh api repos/jiying2007/kws-data/actions/artifacts/13942568634 |
+            jq -e '.id==13942568634 and .expired==false and
+                   .digest=="sha256:0235b0064006f79bfe9c8fa551c2a1e41da61c86e0fd987a90ee2d47842a9f21" and
+                   .workflow_run.head_sha=="f2b91001e4fd56a03bbce9bc6b0c1cae7fad1dc8"'
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # pinned
+        with:
+          name: english-qwen-actual-43214159818
+          run-id: 43214159818
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/english-original-artifact
+      - name: Verify all ten source WAVs and the known parent directory before loading ASR
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_qwen_asr_sourcefix_once.py \
+            --artifact-parent "$RUNNER_TEMP/english-original-artifact" --verify-source
+      - name: Install standalone pinned Qwen3-ASR CPU environment
+        shell: bash
+        timeout-minutes: 25
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en-asr-sourcefix-venv"
+          "$RUNNER_TEMP/en-asr-sourcefix-venv/bin/pip" install --disable-pip-version-check \
+            --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu" "torchaudio==2.9.1+cpu"
+          "$RUNNER_TEMP/en-asr-sourcefix-venv/bin/pip" install --disable-pip-version-check \
+            "qwen-asr==0.0.6" "huggingface-hub==0.36.2"
+          mkdir -p "$RUNNER_TEMP/en-asr-sourcefix-meta"
+          "$RUNNER_TEMP/en-asr-sourcefix-venv/bin/pip" freeze > "$RUNNER_TEMP/en-asr-sourcefix-meta/installed-packages.txt"
+      - name: Actual once-only Qwen3-ASR on reused English WAVs
+        shell: bash
+        timeout-minutes: 125
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/en-asr-sourcefix-venv/bin/python" -B automation/english_qwen_asr_sourcefix_once.py \
+            --artifact-parent "$RUNNER_TEMP/english-original-artifact" \
+            --output "$RUNNER_TEMP/en-asr-sourcefix-actual" --execute
+      - name: Retain native ASR receipts and partial failures, no weights or original WAV duplication
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # pinned
+        with:
+          name: english-qwen-asr-sourcefix-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/en-asr-sourcefix-actual/started.json
+            ${{ runner.temp }}/en-asr-sourcefix-actual/summary.json
+            ${{ runner.temp }}/en-asr-sourcefix-actual/cells/
+            ${{ runner.temp }}/en-asr-sourcefix-meta/installed-packages.txt
+          retention-days: 30
+          if-no-files-found: warn
