@@ -1,0 +1,120 @@
+name: English Parakeet TDT v3 Q8 native ASR once on original WAVs
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-parakeet-real-once.yml
+      - .github/triggers/english-parakeet-real-20261112.json
+      - automation/english_parakeet_real_once.py
+      - automation/test_english_parakeet_real_once.py
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths:
+      - .github/triggers/english-parakeet-real-20261112.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: english-parakeet-real-20261112-once-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: No-model Parakeet CPU release and input integrity contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_parakeet_real_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+
+  real-native-parakeet:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    permissions:
+      contents: read
+      actions: read
+    env:
+      OMP_NUM_THREADS: "4"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Require original real TTS source and published artifact bytes
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43214159818 |
+            jq -e '.status=="completed" and .conclusion=="success" and
+                   .head_sha=="f2b91001e4fd56a03bbce9bc6b0c1cae7fad1dc8" and
+                   .event=="push" and .run_attempt==1'
+          gh api repos/jiying2007/kws-data/actions/artifacts/13942568634 |
+            jq -e '.id==13942568634 and .expired==false and
+                   .digest=="sha256:0235b0064006f79bfe9c8fa551c2a1e41da61c86e0fd987a90ee2d47842a9f21" and
+                   .workflow_run.head_sha=="f2b91001e4fd56a03bbce9bc6b0c1cae7fad1dc8"'
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-qwen-actual-43214159818
+          run-id: 43214159818
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/parakeet-original-audio
+      - name: Verify ten original WAVs without loading any ASR model
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B automation/english_parakeet_real_once.py \
+            --artifact-parent "$RUNNER_TEMP/parakeet-original-audio" --verify-source
+      - name: Install only pinned Hugging Face GGUF download helper
+        shell: bash
+        timeout-minutes: 8
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en-parakeet-venv"
+          "$RUNNER_TEMP/en-parakeet-venv/bin/pip" install --disable-pip-version-check \
+            "huggingface-hub==0.36.2" "hf-xet==1.2.0"
+          mkdir -p "$RUNNER_TEMP/en-parakeet-meta"
+          "$RUNNER_TEMP/en-parakeet-venv/bin/pip" freeze > "$RUNNER_TEMP/en-parakeet-meta/pip-freeze.txt"
+      - name: Actual Parakeet v3 CPU inference - pinned GGUF and native release
+        shell: bash
+        timeout-minutes: 85
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/en-parakeet-venv/bin/python" -B automation/english_parakeet_real_once.py \
+            --artifact-parent "$RUNNER_TEMP/parakeet-original-audio" \
+            --output "$RUNNER_TEMP/en-parakeet-native-results" --execute
+      - name: Retain real transcripts and terminal failures, no model weights or duplicate audio
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-parakeet-native-real-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/en-parakeet-native-results/started.json
+            ${{ runner.temp }}/en-parakeet-native-results/summary.json
+            ${{ runner.temp }}/en-parakeet-native-results/cells/
+            ${{ runner.temp }}/en-parakeet-meta/pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn
