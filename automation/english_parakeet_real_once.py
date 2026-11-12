@@ -125,7 +125,9 @@ def verify_runtime(root: Path) -> tuple[Path, dict]:
                  all(x not in (".", "..", "") for x in rel.parts) and
                  key not in names and
                  (member.isdir() or member.isfile()),
-                 "RUNTIME_ARCHIVE_UNSAFE_MEMBER")
+                 "RUNTIME_ARCHIVE_UNSAFE_MEMBER:" +
+                 repr((member.name[:100],str(member.type)[:20],
+                       member.linkname[:100])))
             names.add(key)
             location = extracted.joinpath(*rel.parts)
             if member.isdir():
