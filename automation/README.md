@@ -270,6 +270,63 @@ This new runner never reads/reprocesses the older Chinese legacy batches.
 Offline/source-only CI uses invented WAVs and simulated native subprocess
 output; it does not execute any pretrained model.
 
+## Reusing the November English real-audio pilot without regenerating audio
+
+The successful **main** one-shot English TTS run can be consumed by the
+native three-ASR entry without editing its original source/plan identity.
+Its original artifact contains \`source-plan.json\`, \`capture/plan-lock.json\`,
+and per-cell actual audio, started/completed receipts and SHA256 checks. Keep
+the downloaded artifact intact and outside the repository; do not rerun the
+TTS job to obtain a new audio ID.
+
+The optional \`english_blind_asr.py --pilot-source-plan\` mode now verifies
+every byte and planned cell against the original
+\`english_qwen_real_once.pilot_plan\` identity. ASR model IDs and revisions
+are **separately pinned**, not injected into the immutable TTS source plan.
+The private \`--pilot-asr-pins\` JSON has exactly:
+
+~~~json
+{
+  "schema": "en-market-blind-asr-pins-v1",
+  "providers": [
+    {
+      "provider_id": "qwen3-asr-en",
+      "revision_sha": "REAL_GIT_COMMIT_40_HEX",
+      "model_assets_sha256": "REAL_ASSET_LOCK_BYTES_SHA256",
+      "license_review_sha256": "REAL_SOURCE_REVIEW_SHA256"
+    }
+  ]
+}
+~~~
+
+Supply all three independently pinned Qwen3-ASR, Whisper-small and
+Parakeet-TDT providers; this one-entry example is intentionally incomplete
+and must fail. Each adapter must also pass the existing physical model/
+executable-hash checks. This does not fabricate ASR binaries or model
+licenses, and never treats intended text as observed transcript.
+
+~~~sh
+python3 -B automation/english_blind_asr.py \
+  --pilot-source-plan /restricted/en-qwen-actual/source-plan.json \
+  --pilot-asr-pins /restricted/en-qwen-three-asr-pins.json
+
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+python3 -B automation/english_blind_asr.py \
+  --pilot-source-plan /restricted/en-qwen-actual/source-plan.json \
+  --pilot-asr-pins /restricted/en-qwen-three-asr-pins.json \
+  --capture-root /restricted/en-qwen-actual/capture \
+  --adapter-lock /restricted/en-qwen-three-asr-adapters.json \
+  --model-root /restricted/models \
+  --out /restricted/en-three-asr-attempt001 --max-calls 9 --execute
+~~~
+
+The original \`--request\` mode remains unchanged and compatible. The two
+modes are mutually exclusive. Both produce create-only machine-review
+results, never human gold, training admission or formal FAR/FRR. The
+asynchronous real TTS job and the independent ASR models are distinct
+scientific stages; do not count the 10 actual TTS WAVs as 30 completed
+native ASR calls.
+
 ## True automatic execution, once legal and acoustic sources exist
 
 Future execution should reuse the **existing** rights-checked Qwen local
