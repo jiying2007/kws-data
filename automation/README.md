@@ -52,9 +52,14 @@ with:
 - \`locale=zh-CN\`: exactly **你好小窝** / **小窝小窝**, both complete,
   one independent positive request per keyword. \`小窝\` alone is negative.
   No implicit Mandarin experiment config or frozen model change.
-- \`locale=en-US\`: **researcher-defined, multiword English wake phrase**.
-  No fixed English phrase has been adopted; do **not** invent one.
-  English tests use an explicitly fabricated phrase as a protocol fixture.
+- \`locale=en-US\`: generic protocol remains **researcher-defined, multiword English wake phrases**;
+  existing fixtures intentionally use an invented word. For the current US/European
+  English-language study, use the explicit \`--market-candidates\` guard to require
+  the ordered pair **Hey Vosen** (K1) and **Hey Mero** (K2), rather than silently
+  substituting a generic fixture. This pair is a frozen *comparison roster*,
+  not an accepted model, validated pronunciation or shipping decision.
+- \`locale=zh-CN\`: the same optional guard asserts the existing ordered pair
+  **你好小窝** (K1) / **小窝小窝** (K2) without changing historical data.
 - Positive / phonetic near-miss / ordinary-negative classes, plus a
   requested \`challenge\` subtype. Requested words never certify what
   the WAV actually contains; samples remain machine-screen candidates.
@@ -107,8 +112,24 @@ python3 -I -S -B automation/multilingual_campaign.py \
 
 python3 -I -S -B automation/multilingual_campaign.py \
   --request /restricted/kws/private-en-campaign-request.json \
-  --output /restricted/kws/new-en-task-matrix.json
+  --output /restricted/kws/new-en-task-matrix.json \
+  --market-candidates
 \`\`\`
+
+The current English request must list \`["Hey Vosen", "Hey Mero"]\` in that
+order and include a complete positive request for each word. Suggested
+initial near-miss prompts include \`Hey Wosen\`, \`Hey Miro\` and partial
+\`Hey\`, plus ordinary conversation negatives; TTS audio and unbiased ASR
+judgments still need real acoustic verification. Test American, British and
+other European English accents on independent speaker/source groups.
+The \`en-US\` protocol name does not establish a US-only speaker limit.
+Near-miss suppression must not erase legitimate accented positives.
+
+\`--market-candidates\` checks only the requested keyword roster and adds
+\`market_candidate_roster_verified=true\` and a fixed research policy tag
+to the **planning-only** receipt. It never runs models or authenticates
+voices or training eligibility. Generic English research still works without
+the opt-in flag, preserving existing protocol and historical fixtures.
 
 Output is immutable, private mode 0600 and create-only. **Do not** commit
 the private request, speaker/voice identities, model artifacts, transcripts,
