@@ -38,6 +38,7 @@ jobs:
               stripped) args=(-OO);;
             esac
             python3 -I -S -B "${args[@]}" automation/test_multilingual_campaign.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_pilot_asr_handoff.py -v
           done
           test -z "$(git status --porcelain)"
       - name: Verify closed retained-source inventory
