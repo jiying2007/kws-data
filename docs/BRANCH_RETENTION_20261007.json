@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1980,
-  "expected_retained_files": 1971,
+  "expected_tracked_files": 1984,
+  "expected_retained_files": 1975,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -3519,6 +3519,13 @@
   ],
   "retained_files": [
     {
+      "path": ".github/triggers/english-parakeet-real-20261112.json",
+      "mode": "100644",
+      "git_blob_sha1": "83ecb5205b00279ce104c919a2de90ad936761de",
+      "bytes": 807,
+      "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+    },
+    {
       "path": ".github/triggers/english-qwen-asr-cli-recovery-20261112.json",
       "mode": "100644",
       "git_blob_sha1": "d05e305b0215ad2bb8c5332f3811ff3f30cddab2",
@@ -3639,6 +3646,13 @@
       "bytes": 807,
       "git_blob_sha1": "7207fce834e54ed5f5c8398aa9491170233aca31",
       "source_commit": "ca32d13aeb6e130eefeb2ae808eb65db46aa4462"
+    },
+    {
+      "path": ".github/workflows/english-parakeet-real-once.yml",
+      "mode": "100644",
+      "git_blob_sha1": "618aa47f5a19a81a1dcc335ecab042f7152f7655",
+      "bytes": 5011,
+      "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
     },
     {
       "path": ".github/workflows/english-qwen-asr-cli-recovery-once.yml",
@@ -3959,6 +3973,13 @@
       "source_commit": "9e8c92c4d4b3465c4f12ed5245166161caa1a946"
     },
     {
+      "path": "automation/english_parakeet_real_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "f7c44e974a3fdd0e92c60fe3f7cac17b2e9fc6a0",
+      "bytes": 14725,
+      "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+    },
+    {
       "path": "automation/english_qwen_asr_real_once.py",
       "mode": "100644",
       "git_blob_sha1": "6ae22049d7cea0431e034c5a18651122766d48bc",
@@ -4160,6 +4181,13 @@
       "bytes": 30528,
       "git_blob_sha1": "101d59a8115b6cf939dde6cabd97ac0906fc8896",
       "source_commit": "4c852635c1a19b8847f59396896cc1042172484b"
+    },
+    {
+      "path": "automation/test_english_parakeet_real_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "e7955ab0b0d211c509e24561e828b3e9ecf69df4",
+      "bytes": 6216,
+      "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
     },
     {
       "path": "automation/test_english_pilot_asr_handoff.py",
@@ -24675,6 +24703,73 @@
             "git_blob_sha1": "df0899aec4f82db11fd7cc5521a026eff876575c",
             "bytes": 5150,
             "source_commit": "1880dc68f8b636237efd44b02f7d5d04afa72033"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-parakeet-native-gguf-original-wav-20261112",
+      "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b",
+      "base_commit": "20be3a452a445aa770f4e9ba6e477faa8fb02631",
+      "paths": [
+        "automation/english_parakeet_real_once.py",
+        "automation/test_english_parakeet_real_once.py",
+        ".github/triggers/english-parakeet-real-20261112.json",
+        ".github/workflows/english-parakeet-real-once.yml"
+      ],
+      "previous_campaign_rows": [],
+      "previous_manifest_git_blob_sha1": "a984abed283c2c77cf25b20e61a7c5373f1d5972",
+      "scope": "Register single new public source-only native NVIDIA Parakeet Q8 GGUF English ASR third-family experiment, no new TTS or model calls during registration.",
+      "rationale": "Third independent audio-only ASR route on exact 10 English WAVs using pinned NVIDIA NeMo-Speech.cpp CPU release and pinned Parakeet GGUF file bytes; preserve explicit machine-only/no-admission and one-shot failure accounting.",
+      "files": [
+        {
+          "path": "automation/english_parakeet_real_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/english_parakeet_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "f7c44e974a3fdd0e92c60fe3f7cac17b2e9fc6a0",
+            "bytes": 14725,
+            "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+          }
+        },
+        {
+          "path": "automation/test_english_parakeet_real_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/test_english_parakeet_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "e7955ab0b0d211c509e24561e828b3e9ecf69df4",
+            "bytes": 6216,
+            "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+          }
+        },
+        {
+          "path": ".github/triggers/english-parakeet-real-20261112.json",
+          "before": null,
+          "after": {
+            "path": ".github/triggers/english-parakeet-real-20261112.json",
+            "mode": "100644",
+            "git_blob_sha1": "83ecb5205b00279ce104c919a2de90ad936761de",
+            "bytes": 807,
+            "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+          }
+        },
+        {
+          "path": ".github/workflows/english-parakeet-real-once.yml",
+          "before": null,
+          "after": {
+            "path": ".github/workflows/english-parakeet-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "618aa47f5a19a81a1dcc335ecab042f7152f7655",
+            "bytes": 5011,
+            "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
           }
         }
       ],
