@@ -206,7 +206,7 @@ def run(source: Path, output: Path) -> dict:
             total_attempts += 1
             status = "FAILED_NO_RETRY"
             try:
-                result = model.transcribe(audio=str(wav), language="English", prompt=None)
+                result = model.transcribe(audio=str(wav), language="English", context="")
                 need(type(result) is list and len(result) == 1 and
                      type(result[0].text) is str and
                      0 < len(result[0].text) <= 512, "ASR_EMPTY_OR_INVALID_TEXT")
