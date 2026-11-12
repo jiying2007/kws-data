@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -59,6 +60,16 @@ def invented_three_asr(root: Path):
 
 
 class EnglishReviewTests(unittest.TestCase):
+    def test_exact_gh_actions_isolated_cli_import_no_model_calls(self):
+        proc = subprocess.run(
+            [sys.executable, "-I", "-S", "-B", str(Path(review.__file__)),
+             "--help"],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+            timeout=20, check=False)
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertIn("--tts-zip", proc.stdout)
+        self.assertIn("--parakeet-zip", proc.stdout)
+
     def test_synthetic_source_consensus_is_not_gold_or_admission(self):
         with tempfile.TemporaryDirectory() as temp:
             parent, paths, plan = invented_three_asr(Path(temp))
