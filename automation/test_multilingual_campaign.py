@@ -128,7 +128,8 @@ def fixture_wave_writer(folder, samples, rate, metrics):
     return {"native_sha256": hashlib.sha256(native.read_bytes()).hexdigest(),
             "wav_sha256": hashlib.sha256(wav.read_bytes()).hexdigest(),
             "pcm_sha256": hashlib.sha256(pcm).hexdigest(),
-            "audio_frames": 8000, "sample_rate_hz": 16000}
+            "audio_frames": 8000, "sample_rate_hz": 16000,
+            "wav_bytes": wav.stat().st_size}
 
 
 class SourceFirstLanguageTests(unittest.TestCase):
