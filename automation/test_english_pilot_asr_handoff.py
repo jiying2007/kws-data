@@ -86,6 +86,10 @@ class PilotToNativeAsrTests(unittest.TestCase):
             item = plan["cells"][0]
             real_wav = capture_root / "cells" / item["cell_id"] / "audio-16k.wav"
             self.assertIsNotNone(blind.verify_capture(plan, capture_root, item))
+            tampered_plan = copy.deepcopy(plan)
+            tampered_plan["tts_pins"][0]["model_assets_sha256"] = "f" * 64
+            with self.assertRaisesRegex(ValueError, "SOURCE_CAPTURE_PLAN_DRIFT"):
+                blind.verify_capture(tampered_plan, capture_root, item)
             by_name = {r["provider_id"]: r for r in selected}
             seen = []
 
