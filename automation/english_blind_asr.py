@@ -362,7 +362,7 @@ def main(argv=None) -> int:
     args = cli.parse_args(argv)
     try:
         pilot_mode = args.pilot_source_plan is not None
-        market.need((args.request is None) != pilot_mode,
+        market.need((args.request is not None) != pilot_mode,
                     "EXACTLY_ONE_ENGLISH_SOURCE_MODE_REQUIRED")
         if pilot_mode:
             market.need(args.pilot_asr_pins is not None,
