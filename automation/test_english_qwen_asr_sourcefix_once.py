@@ -70,7 +70,7 @@ class EnglishAsrSourcefixTests(unittest.TestCase):
                                        "--verify-source"]), 0)
             self.assertEqual(fix.main(["--artifact-parent", str(parent)]), 2)
             # This is the exact failure from the first consumed run.
-            with self.assertRaises(ValueError):
+            with self.assertRaises(FileNotFoundError):
                 asr.verified_source(parent)
             with mock.patch.object(asr, "run",
                                    side_effect=AssertionError("real model prohibited")):
