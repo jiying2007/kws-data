@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1984,
-  "expected_retained_files": 1975,
+  "expected_tracked_files": 1988,
+  "expected_retained_files": 1979,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -3526,6 +3526,13 @@
       "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
     },
     {
+      "path": ".github/triggers/english-parakeet-runtimefix-20261112.json",
+      "mode": "100644",
+      "git_blob_sha1": "1eca322a1e260df0b9cbe3ca3570f57d26f9aa07",
+      "bytes": 975,
+      "source_commit": "bbade56665a48a79b3e48bbb0f90dd291ba3b1cd"
+    },
+    {
       "path": ".github/triggers/english-qwen-asr-cli-recovery-20261112.json",
       "mode": "100644",
       "git_blob_sha1": "d05e305b0215ad2bb8c5332f3811ff3f30cddab2",
@@ -3653,6 +3660,13 @@
       "git_blob_sha1": "291f130ce444848bab16dd9e0f3e9239f26961d0",
       "bytes": 6052,
       "source_commit": "8b86e26d379f62a313941d1f193136337abf60f6"
+    },
+    {
+      "path": ".github/workflows/english-parakeet-runtimefix-once.yml",
+      "mode": "100644",
+      "git_blob_sha1": "18b70507fe4284137af75b8e48c9b8e82e73d6c6",
+      "bytes": 7564,
+      "source_commit": "bbade56665a48a79b3e48bbb0f90dd291ba3b1cd"
     },
     {
       "path": ".github/workflows/english-qwen-asr-cli-recovery-once.yml",
@@ -3980,6 +3994,13 @@
       "source_commit": "939894c087c7bab64c88964e26d53f701e09c069"
     },
     {
+      "path": "automation/english_parakeet_runtimefix_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "c479ce5d9957d5607a19cee1e66d15d9eb4e1492",
+      "bytes": 4374,
+      "source_commit": "bbade56665a48a79b3e48bbb0f90dd291ba3b1cd"
+    },
+    {
       "path": "automation/english_qwen_asr_real_once.py",
       "mode": "100644",
       "git_blob_sha1": "6ae22049d7cea0431e034c5a18651122766d48bc",
@@ -4188,6 +4209,13 @@
       "git_blob_sha1": "8ccba51221f61d8c4f602de7a6ef3f62e702be6a",
       "bytes": 7177,
       "source_commit": "939894c087c7bab64c88964e26d53f701e09c069"
+    },
+    {
+      "path": "automation/test_english_parakeet_runtimefix_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "c5efce146e2c41e5a7dc26be2cfbc3f15a823119",
+      "bytes": 4324,
+      "source_commit": "bbade56665a48a79b3e48bbb0f90dd291ba3b1cd"
     },
     {
       "path": "automation/test_english_pilot_asr_handoff.py",
@@ -24930,6 +24958,73 @@
             "git_blob_sha1": "8ccba51221f61d8c4f602de7a6ef3f62e702be6a",
             "bytes": 7177,
             "source_commit": "939894c087c7bab64c88964e26d53f701e09c069"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-parakeet-native-runtimefix-once-20261112",
+      "source_commit": "bbade56665a48a79b3e48bbb0f90dd291ba3b1cd",
+      "base_commit": "5f274ca13a00d3a7f7376e9fff121593b2544cd9",
+      "paths": [
+        "automation/english_parakeet_runtimefix_once.py",
+        "automation/test_english_parakeet_runtimefix_once.py",
+        ".github/triggers/english-parakeet-runtimefix-20261112.json",
+        ".github/workflows/english-parakeet-runtimefix-once.yml"
+      ],
+      "previous_campaign_rows": [],
+      "previous_manifest_git_blob_sha1": "298b477bd0151f849ca9438664891cb7bdd53500",
+      "scope": "Register new independent Parakeet one-shot recovery after original verified zero-call runtime extraction failure; source-only tests and actual CPU --version preregistration, no new model calls.",
+      "rationale": "Do not rerun failed run 43231581918 or regenerate original TTS. Verify failed artifact and fixed native loader first, then only a distinct main push can load pinned 714MB GGUF and attempt ten ASR forwards.",
+      "files": [
+        {
+          "path": "automation/english_parakeet_runtimefix_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/english_parakeet_runtimefix_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "c479ce5d9957d5607a19cee1e66d15d9eb4e1492",
+            "bytes": 4374,
+            "source_commit": "bbade56665a48a79b3e48bbb0f90dd291ba3b1cd"
+          }
+        },
+        {
+          "path": "automation/test_english_parakeet_runtimefix_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/test_english_parakeet_runtimefix_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "c5efce146e2c41e5a7dc26be2cfbc3f15a823119",
+            "bytes": 4324,
+            "source_commit": "bbade56665a48a79b3e48bbb0f90dd291ba3b1cd"
+          }
+        },
+        {
+          "path": ".github/triggers/english-parakeet-runtimefix-20261112.json",
+          "before": null,
+          "after": {
+            "path": ".github/triggers/english-parakeet-runtimefix-20261112.json",
+            "mode": "100644",
+            "git_blob_sha1": "1eca322a1e260df0b9cbe3ca3570f57d26f9aa07",
+            "bytes": 975,
+            "source_commit": "bbade56665a48a79b3e48bbb0f90dd291ba3b1cd"
+          }
+        },
+        {
+          "path": ".github/workflows/english-parakeet-runtimefix-once.yml",
+          "before": null,
+          "after": {
+            "path": ".github/workflows/english-parakeet-runtimefix-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "18b70507fe4284137af75b8e48c9b8e82e73d6c6",
+            "bytes": 7564,
+            "source_commit": "bbade56665a48a79b3e48bbb0f90dd291ba3b1cd"
           }
         }
       ],
