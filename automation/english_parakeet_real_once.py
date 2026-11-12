@@ -117,12 +117,16 @@ def verify_runtime(root: Path) -> tuple[Path, dict]:
         need(1 <= len(members) <= 1024, "RUNTIME_ARCHIVE_MEMBER_BUDGET")
         for member in members:
             rel = PurePosixPath(member.name)
+            # Tar archives may contain a harmless leading "./" root member.
+            if member.isdir() and not rel.parts:
+                continue
+            key = rel.as_posix()
             need(not rel.is_absolute() and rel.parts and
                  all(x not in (".", "..", "") for x in rel.parts) and
-                 member.name not in names and
+                 key not in names and
                  (member.isdir() or member.isfile()),
                  "RUNTIME_ARCHIVE_UNSAFE_MEMBER")
-            names.add(member.name)
+            names.add(key)
             location = extracted.joinpath(*rel.parts)
             if member.isdir():
                 location.mkdir(parents=True, exist_ok=True)
@@ -160,13 +164,24 @@ def verify_gguf(root: Path) -> tuple[Path, dict]:
     model_path = root / MODEL_FILE
     need(not model_path.exists(), "GGUF_ALREADY_EXISTS")
     cached = Path(cached)
-    size, checksum = english.media()._safe_file(cached, limit=MAX_MODEL_BYTES)
-    need(size > 100*1024**2 and checksum == MODEL_SHA256,
+    need(cached.is_file(), "PINNED_GGUF_CACHE_NOT_FILE")
+    # HF's cache may point to a content-addressed blob via a symlink.
+    # Stream into our own create-once regular file and trust only verified bytes.
+    count = 0
+    digest = hashlib.sha256()
+    with cached.open("rb") as src, model_path.open("xb") as dst:
+        for piece in iter(lambda: src.read(1024*1024), b""):
+            count += len(piece)
+            need(count <= MAX_MODEL_BYTES, "PINNED_GGUF_COPY_OVERSIZE")
+            digest.update(piece)
+            dst.write(piece)
+        dst.flush()
+        os.fsync(dst.fileno())
+    need(count > 100*1024**2 and digest.hexdigest() == MODEL_SHA256,
          "PINNED_GGUF_CHECKSUM_CHANGED")
-    shutil.copyfile(cached, model_path)
     actual_size, actual_sha = english.media()._safe_file(
         model_path, limit=MAX_MODEL_BYTES)
-    need(actual_size == size and actual_sha == MODEL_SHA256,
+    need(actual_size == count and actual_sha == MODEL_SHA256,
          "PINNED_GGUF_LOCAL_COPY_CHANGED")
     return model_path, {"bytes":actual_size,"sha256":actual_sha}
 
