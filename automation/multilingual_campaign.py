@@ -40,6 +40,10 @@ MAX_GENERATION_CELLS = 256
 MAX_VOICES = 16
 MAX_UTTERANCES = 48
 CANONICAL_CHINESE = ("你好小窝", "小窝小窝")
+# Active English research pair. This is an optional current-campaign guard,
+# not a change to the generic English planner or an acoustic validation.
+MARKET_ENGLISH_CANDIDATES = ("hey vosen", "hey mero")
+MARKET_CANDIDATE_POLICY = "kws-market-research-candidates-20261112-v1"
 PLANNING_ONLY = {
     "human_gold": False, "source_rights_authenticated": False,
     "asr_source_authenticated": False, "training_admitted": False,
@@ -167,6 +171,18 @@ def choose(value: object, role: str, locale: str, providers: dict) -> list[dict]
     if role == "asr":
         need(len(result) == 3, "THREE_DISTINCT_ASR_FAMILIES_REQUIRED")
     return sorted(result, key=lambda x: x["provider_id"])
+
+
+def require_market_candidates(request: dict) -> None:
+    """Check the current two-word roster without granting data/model admission."""
+    locale = request.get("locale")
+    need(locale in LANGUAGES, "MARKET_CANDIDATE_LOCALE_UNSUPPORTED")
+    words = request.get("wake_phrases")
+    need(type(words) is list and all(type(w) is str for w in words),
+         "MARKET_CANDIDATE_WAKE_LIST")
+    expected = CANONICAL_CHINESE if locale == "zh-CN" else MARKET_ENGLISH_CANDIDATES
+    observed = tuple(normalize(w, locale) for w in words)
+    need(observed == expected, "MARKET_CANDIDATE_ROSTER_MISMATCH")
 
 
 def plan(request: dict) -> dict:
@@ -309,8 +325,15 @@ def main(argv: list[str] | None = None) -> int:
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument("--request", required=True, type=Path)
     cli.add_argument("--output", required=True, type=Path)
+    cli.add_argument("--market-candidates", action="store_true",
+                     help="require current research wake-word pair for the selected market")
     args = cli.parse_args(argv)
-    result = plan(read(args.request))
+    request = read(args.request)
+    result = plan(request)
+    if args.market_candidates:
+        require_market_candidates(request)
+        result["market_candidate_policy"] = MARKET_CANDIDATE_POLICY
+        result["market_candidate_roster_verified"] = True
     dest = args.output.resolve()
     need(dest != ROOT and ROOT not in dest.parents and
          dest != args.request.resolve() and
