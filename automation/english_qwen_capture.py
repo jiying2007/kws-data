@@ -187,6 +187,8 @@ def capture(plan: dict, root: Path, backend, *, max_calls: int, writer=None) -> 
                             for k in ("native_sha256", "wav_sha256", "pcm_sha256")) and
                         type(assets.get("audio_frames")) is int and
                         assets["audio_frames"] > 0 and
+                        type(assets.get("wav_bytes")) is int and
+                        assets["wav_bytes"] > 44 and
                         assets.get("sample_rate_hz") == 16000,
                         "AUDIO_OUTPUT_RECEIPT")
             runner._once(folder / "completed.json", {

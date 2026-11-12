@@ -191,6 +191,85 @@ English capture format and must not be called as though it were.
 Actual model availability, pinned assets and runner costs remain explicit
 prerequisites; a successful source-only CI proves none of those are present.
 
+## English three-model blind ASR (after actual capture)
+
+\`automation/english_blind_asr.py\` now reads only hash-verified, actually
+captured \`audio-16k.wav\` files from the English Qwen runner. It rejects
+missing, modified or incomplete source audio. It never sends the intended
+wake text, expected/negative label, speaker identity or model output from
+another recognizer to an ASR process.
+
+The fixed English three-model roster is **qwen3-asr-en /
+whisper-small-en / parakeet-tdt-v3-en**. The private adapter lock contains
+exactly one entry per provider:
+
+~~~json
+{
+  "schema": "en-market-three-asr-adapters-v1",
+  "adapters": [{
+    "provider_id": "qwen3-asr-en",
+    "model_revision_sha": "ACTUAL_GIT_40_HEX",
+    "model_assets_sha256": "ACTUAL_MODEL_MANIFEST_BYTES_SHA256",
+    "model_manifest_path": "/restricted/models/qwen-asr-lock.json",
+    "executable_path": "/restricted/bin/qwen-asr-native",
+    "executable_sha256": "ACTUAL_NATIVE_EXECUTABLE_SHA256",
+    "timeout_seconds": 300
+  }]
+}
+~~~
+
+The example shows only one entry for readability; a working lock requires
+**all three**. Each model manifest has the exact schema
+\`kws-native-asr-model-assets-v1\` and fields
+\`schema,provider_id,revision,relative_dir,files\`; each file entry
+has \`path,bytes,sha256\`. The manifest's actual byte SHA256 must match the
+provider pin in the private source request. Each executable must exist,
+be executable and match its locked SHA256. These are source/asset integrity
+checks, not proof that the model's predictions are scientifically correct.
+
+Adapters implement one fixed CLI:
+
+~~~sh
+/path/to/native-asr-adapter \
+  --audio /restricted/capture/cells/<opaque-id>/audio-16k.wav \
+  --model-dir /restricted/asr-models/<model-folder> \
+  --output /restricted/asr/cells/<opaque-id>/<provider>/native.json
+~~~
+
+The adapter MUST write a create-once native JSON with exactly
+\`schema="en-market-native-asr-result-v1"\`,
+\`provider_id,model_id,model_revision_sha,audio_wav_sha256,
+processed_start_frame,processed_end_frame,decoder_completed,actual_text\`.
+For a successful full-file decode: frames run from 0 through the original
+16-kHz WAV frame count, and \`decoder_completed=true\`. Recognizers must
+not use hotword bias or target-text hints. Adapted model binaries and their
+weights must already exist locally; this repository does **not** claim
+three provider-specific ASR executable implementations are available.
+
+~~~sh
+python3 -I -S -B automation/english_blind_asr.py \
+  --request /restricted/kws/private-en-campaign-request.json
+
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+python3 -B automation/english_blind_asr.py \
+  --request /restricted/kws/private-en-campaign-request.json \
+  --capture-root /restricted/kws/en-qwen-capture001 \
+  --adapter-lock /restricted/kws/en-three-asr-adapters.json \
+  --model-root /restricted/asr-models \
+  --out /restricted/kws/en-three-asr001 --max-calls 9 --execute
+~~~
+
+Each native ASR attempt writes a private started receipt **before**
+calling the executable, then either a completed receipt or a terminal
+failed-no-retry receipt. A 3/3 result creates a machine-screen record
+for review; punctuation/word normalization disagreement, apparent false
+wake in a negative prompt, and unsupported Unicode stay **review-required**.
+Even 3/3 agreement does NOT become authenticated gold, a trusted
+negative label, training admission, FAR/FRR or model qualification.
+This new runner never reads/reprocesses the older Chinese legacy batches.
+Offline/source-only CI uses invented WAVs and simulated native subprocess
+output; it does not execute any pretrained model.
+
 ## True automatic execution, once legal and acoustic sources exist
 
 Future execution should reuse the **existing** rights-checked Qwen local
