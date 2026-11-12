@@ -39,6 +39,7 @@ jobs:
             esac
             python3 -I -S -B "${args[@]}" automation/test_multilingual_campaign.py -v
             python3 -I -S -B "${args[@]}" automation/test_english_pilot_asr_handoff.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_seven_voice_review.py -v
           done
           test -z "$(git status --porcelain)"
       - name: Verify closed retained-source inventory

@@ -1,0 +1,150 @@
+name: English 63 source-linked three-ASR review once (no model calls)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/english-three-asr-63-review-once.yml'
+      - '.github/triggers/english-three-asr-63-review-20261113.json'
+      - 'automation/english_seven_voice_review.py'
+      - 'automation/test_english_seven_voice_review.py'
+  push:
+    branches: [main]
+    paths:
+      - '.github/triggers/english-three-asr-63-review-20261113.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: english-three-asr-63-review-once-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  no-model-source-tests:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Regression and negative tests (no audio or pretrained downloads)
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_seven_voice_review.py -v
+          done
+          test -z "$(git status --porcelain)"
+
+  immutable-real-asr-review:
+    needs: no-model-source-tests
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Verify exact TTS/ASR terminal runs, pinned artifact IDs, digests and trigger
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+          sys.path.insert(0, "automation")
+          import english_seven_voice_review as review
+          t = json.loads(Path(".github/triggers/english-three-asr-63-review-20261113.json").read_text())
+          assert t["schema"] == "english-three-asr-63-source-linked-review-once-v1"
+          assert t["source_tts_run_id"] == review.asr.SOURCE_RUN_ID
+          assert t["source_tts_artifact_id"] == review.ARCHIVES["tts"][0]
+          assert t["source_tts_zip_sha256"] == review.ARCHIVES["tts"][1]
+          assert t["source_three_asr_run_id"] == review.ASR_RUN_ID
+          assert t["source_three_asr_head_sha"] == review.ASR_HEAD_SHA
+          assert set(t["asr_artifacts"]) == set(review.asr.PROVIDERS)
+          for p in review.asr.PROVIDERS:
+              assert t["asr_artifacts"][p] == {"id":review.ARCHIVES[p][0],
+                                               "sha256":review.ARCHIVES[p][1]}
+          assert (t["output_scope"] == "machine-only-not-gold" and
+                  t["new_tts_calls"] == t["new_asr_calls"] ==
+                  t["new_optimizer_steps"] == 0 and
+                  t["training_admitted"] is False and
+                  t["no_scheduled_tasks"] is True)
+          PY
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962 |
+            jq -e '.id==43242278962 and .status=="completed" and
+                   .conclusion=="success" and .event=="push" and .run_attempt==1 and
+                   .head_sha=="bec1a1421d1db2de17afb9c6e3155343becdb980"'
+          gh api repos/jiying2007/kws-data/actions/runs/43246104418 |
+            jq -e '.id==43246104418 and .status=="completed" and
+                   .conclusion=="success" and .event=="push" and .run_attempt==1 and
+                   .head_sha=="25a328f41aa7b8a2473a1a30024d3e7fcb8dd2c0"'
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962/artifacts |
+            jq -e '[.artifacts[] | select(.id==13954744587 and
+                   .digest=="sha256:f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc"
+                   and .expired==false)] | length==1'
+          gh api repos/jiying2007/kws-data/actions/runs/43246104418/artifacts |
+            jq -e '([.artifacts[] | select(.id==13956812495 and
+                     .digest=="sha256:aa483b6c7f360356c4851f1f7d65e8b0db20414129ded0de95b4e2b7575ac601"
+                     and .expired==false)] | length==1) and
+                   ([.artifacts[] | select(.id==13957321094 and
+                     .digest=="sha256:ea7041d3eaa6bbc9e44bc48ba0a90ce521c532a0e0471071fcab52fa38f7f489"
+                     and .expired==false)] | length==1) and
+                   ([.artifacts[] | select(.id==13958425005 and
+                     .digest=="sha256:cff9be11d89b4ae9f74fa7150b0ab957bc5ccb9dd50be5c1f55bdec390607113"
+                     and .expired==false)] | length==1)'
+      - name: Download ONLY already-consumed exact original ZIP artifacts
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for item in \
+            'tts:13954744587' \
+            'qwen:13956812495' \
+            'whisper:13957321094' \
+            'parakeet:13958425005'; do
+            name="${item%%:*}"
+            id="${item#*:}"
+            curl --fail --location --silent --show-error --retry 0 \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H 'Accept: application/vnd.github+json' \
+              "https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/${id}/zip" \
+              -o "$RUNNER_TEMP/english-${name}-63.zip"
+          done
+      - name: Perform exact source and 189-result audit; no acoustic gold
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_seven_voice_review.py \
+            --tts-zip "$RUNNER_TEMP/english-tts-63.zip" \
+            --qwen-zip "$RUNNER_TEMP/english-qwen-63.zip" \
+            --whisper-zip "$RUNNER_TEMP/english-whisper-63.zip" \
+            --parakeet-zip "$RUNNER_TEMP/english-parakeet-63.zip" \
+            --output "$RUNNER_TEMP/english-63-machine-review.json"
+          test -z "$(git status --porcelain)"
+      - name: Preserve read-only review ledger with real per-source binding
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # pinned
+        with:
+          name: english-63-source-linked-three-asr-machine-review-${{ github.run_id }}
+          path: ${{ runner.temp }}/english-63-machine-review.json
+          retention-days: 30
+          if-no-files-found: error
