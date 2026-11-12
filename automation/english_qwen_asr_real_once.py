@@ -217,7 +217,6 @@ def run(source: Path, output: Path) -> dict:
                     "audio_wav_sha256": pcm["wav_sha256"],
                     "processed_start_frame": 0, "processed_end_frame": pcm["frames"],
                     "decoder_completed": True, "actual_text": transcript}
-                blind.native_result_written = None
                 english.media()._once(receipt / "native.json", native)
                 need(blind.native_result(receipt / "native.json",
                     {"provider_id": PROVIDER, "model_id": MODEL,
