@@ -95,7 +95,12 @@ def verify_assets(pin: dict, lock_path: Path, model_root: Path) -> Path:
 
 
 def load_pilot_plan(source_path: Path) -> dict:
-    """Rebuild the exact one-shot TTS-only pilot source plan, no guessed ASR pins."""
+    """Validate pilot structure; original model lock is proved at verify_capture.
+
+    A source-plan-only SHA cannot authenticate its own model asset pin. The
+    original capture/plan-lock is an independent cross-file binding, checked
+    before every new native ASR call, never inferred from this JSON alone.
+    """
     private_path(source_path, "PILOT_SOURCE_PLAN_NOT_PRIVATE")
     pilot.read_trigger()
     source = market.read(source_path)
