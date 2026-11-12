@@ -136,6 +136,61 @@ the private request, speaker/voice identities, model artifacts, transcripts,
 reference audio or generated WAVs. Normal CI tests use invented data only,
 not real model inference, Internet, open dataset scraping or paid APIs.
 
+## English Qwen CustomVoice real-audio capture (explicit opt-in)
+
+The new \`automation/english_qwen_capture.py\` consumes the existing
+**private** multilingual source request. Unlike the planner, its explicit
+\`--execute\` mode runs a real local Qwen3 CustomVoice model and writes
+private mono 16-kHz WAVs plus exact started/completed/failed receipts. It
+does **not** run ASR, authenticate transcripts or train a KWS model. The
+English two-keyword roster is enforced and the Chinese lane is untouched.
+
+Only \`qwen3-custom-en\` is accepted; Kokoro, F5, voice clone and other
+unimplemented provider adapters are **not** silently treated as executable.
+Original voice entries must use approved Qwen preset IDs such as \`ryan\`
+or \`aiden\` and identity \`source_family_id=qwen3-preset-ryan\`. A
+new seed does not create an independent voice. Use distinct source-family
+IDs across train/development, with rights reviewed for the actual pinned
+model/source. A model file lock must follow the existing
+\`qwen3-tts-offline-asset-lock-v1\` schema with one Qwen CustomVoice entry
+and every local weight/config file included; its exact **file-byte** SHA256
+must be the private request's \`model_assets_sha256\` pin. This is not
+self-authenticating ownership or a model-license approval.
+
+Example, after the pinned model is **already** available locally:
+
+~~~sh
+python3 -I -S -B automation/english_qwen_capture.py \
+  --request /restricted/kws/private-en-campaign-request.json
+
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+python3 -B automation/english_qwen_capture.py \
+  --request /restricted/kws/private-en-campaign-request.json \
+  --model-lock /restricted/models/qwen-custom-model-lock.json \
+  --model-root /restricted/models \
+  --out /restricted/kws/en-qwen-capture001 \
+  --max-calls 8 --execute
+~~~
+
+The first command validates input and makes **zero** model calls.
+The second runs at most 8 new cells on the local CPU with offline weights.
+It is neither a scheduled Action nor an implicit GitHub model runner.
+All source/request IDs and 24-kHz/16-kHz waveforms stay outside public Git.
+The capture is private create-once; any started attempt, including a
+failed/interrupted one, is consumed and never regenerated on resume.
+No Qwen legacy Chinese batch, especially previously verified audio, is
+revisited. The overall cap is the already planned finite cell set.
+
+This stage only establishes **actual synthetic audio** and source identity,
+not pronunciation truth. Near misses like \`Hey Wosen\` may sound like
+\`Hey Vosen\`; do not assign trusted negative labels merely from intended
+text. Feed generated audio into **three independently pinned blind-ASR
+adapters** and independent source review before new training admission.
+The older Chinese-only \`asr_dispatch.py\` is *not* compatible with this
+English capture format and must not be called as though it were.
+Actual model availability, pinned assets and runner costs remain explicit
+prerequisites; a successful source-only CI proves none of those are present.
+
 ## True automatic execution, once legal and acoustic sources exist
 
 Future execution should reuse the **existing** rights-checked Qwen local
