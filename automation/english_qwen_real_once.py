@@ -71,9 +71,12 @@ def pilot_plan(lock_sha: str) -> dict:
                 "intent": intent, "requested_keyword_index": index})
     require(len(cells) == MAX_CALLS and len({x["cell_id"] for x in cells}) == MAX_CALLS,
             "CELL_IDENTITY")
+    wake_roster = ["Hey Vosen", "Hey Mero"]
+    require(tuple(market.normalize(word, "en-US") for word in wake_roster) ==
+            market.MARKET_ENGLISH_CANDIDATES, "MARKET_ROSTER_DRIFT")
     return {
         "schema": POLICY, "locale": "en-US",
-        "wake_phrases_requested": ["Hey Vosen", "Hey Mero"],
+        "wake_phrases_requested": wake_roster,
         "voice_sources": voices, "cells": cells,
         "tts_pins": [{"provider_id": "qwen3-custom-en", "model_id": MODEL,
                       "model_revision_sha": REV, "model_assets_sha256": lock_sha}],
