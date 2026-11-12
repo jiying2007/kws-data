@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1970,
-  "expected_retained_files": 1961,
+  "expected_tracked_files": 1974,
+  "expected_retained_files": 1965,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -3526,6 +3526,13 @@
       "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
     },
     {
+      "path": ".github/triggers/english-qwen-asr-sourcefix-20261112.json",
+      "mode": "100644",
+      "git_blob_sha1": "2013efa08d91e5844d678a676b1ecca3c05ad240",
+      "bytes": 731,
+      "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
+    },
+    {
       "path": ".github/triggers/english-qwen-real-20261112.json",
       "mode": "100644",
       "git_blob_sha1": "ce15310e24f2e54542fdaa72d1092808d31857f5",
@@ -3625,6 +3632,13 @@
       "git_blob_sha1": "7218ae117a83667c3b98194144037ba4326a584d",
       "bytes": 4868,
       "source_commit": "53eaebda80f3e2a847536ba969589e3d9b6e1f9e"
+    },
+    {
+      "path": ".github/workflows/english-qwen-asr-sourcefix-once.yml",
+      "mode": "100644",
+      "git_blob_sha1": "e6628c4cb0650cda90e7536413cf86f185173db8",
+      "bytes": 5696,
+      "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
     },
     {
       "path": ".github/workflows/english-qwen-real-once.yml",
@@ -3919,9 +3933,16 @@
     {
       "path": "automation/english_qwen_asr_real_once.py",
       "mode": "100644",
-      "git_blob_sha1": "5749ae3afad71fd06aff13686231cc7e181abcb4",
-      "bytes": 12161,
-      "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+      "git_blob_sha1": "6ae22049d7cea0431e034c5a18651122766d48bc",
+      "bytes": 12160,
+      "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
+    },
+    {
+      "path": "automation/english_qwen_asr_sourcefix_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "0bff05cbde65ee4ef367025516d296e1671a4bf6",
+      "bytes": 4240,
+      "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
     },
     {
       "path": "automation/english_qwen_capture.py",
@@ -4118,6 +4139,13 @@
       "git_blob_sha1": "fddae72a68ed299e295532ec3b38b22b0ab7662a",
       "bytes": 4419,
       "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+    },
+    {
+      "path": "automation/test_english_qwen_asr_sourcefix_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "677bf7c75e53382efa66a23a599d9bf11cd9e729",
+      "bytes": 4930,
+      "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
     },
     {
       "path": "automation/test_english_qwen_real_once.py",
@@ -24331,6 +24359,99 @@
             "git_blob_sha1": "7218ae117a83667c3b98194144037ba4326a584d",
             "bytes": 4868,
             "source_commit": "53eaebda80f3e2a847536ba969589e3d9b6e1f9e"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-qwen-asr-nested-artifact-sourcefix-20261112",
+      "source_commit": "7894712f42640bc8a27929c3d736124f836abc73",
+      "base_commit": "386c81d83865011c180b5d1c5d72a4cd0402b189",
+      "paths": [
+        "automation/english_qwen_asr_real_once.py",
+        "automation/english_qwen_asr_sourcefix_once.py",
+        "automation/test_english_qwen_asr_sourcefix_once.py",
+        ".github/triggers/english-qwen-asr-sourcefix-20261112.json",
+        ".github/workflows/english-qwen-asr-sourcefix-once.yml"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/english_qwen_asr_real_once.py",
+          "mode": "100644",
+          "git_blob_sha1": "5749ae3afad71fd06aff13686231cc7e181abcb4",
+          "bytes": 12161,
+          "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "e3e37035913ca4eb74a05c76ee9e6281fad8efbe",
+      "scope": "Register first real-ASR zero-call setup failure correction with original source artifact directory and documented Qwen3-ASR context API; no original audio/model transcript mutation.",
+      "rationale": "The first real-ASR job 43218378495 failed at source root before any model download or ASR call. New one-time main workflow validates nested original source, records previous failed run and corrected empty-context no-hotword ASR, retaining prior evidence and no-retry constraints.",
+      "files": [
+        {
+          "path": "automation/english_qwen_asr_real_once.py",
+          "before": {
+            "path": "automation/english_qwen_asr_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "5749ae3afad71fd06aff13686231cc7e181abcb4",
+            "bytes": 12161,
+            "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+          },
+          "after": {
+            "path": "automation/english_qwen_asr_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "6ae22049d7cea0431e034c5a18651122766d48bc",
+            "bytes": 12160,
+            "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
+          }
+        },
+        {
+          "path": "automation/english_qwen_asr_sourcefix_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/english_qwen_asr_sourcefix_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "0bff05cbde65ee4ef367025516d296e1671a4bf6",
+            "bytes": 4240,
+            "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
+          }
+        },
+        {
+          "path": "automation/test_english_qwen_asr_sourcefix_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/test_english_qwen_asr_sourcefix_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "677bf7c75e53382efa66a23a599d9bf11cd9e729",
+            "bytes": 4930,
+            "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
+          }
+        },
+        {
+          "path": ".github/triggers/english-qwen-asr-sourcefix-20261112.json",
+          "before": null,
+          "after": {
+            "path": ".github/triggers/english-qwen-asr-sourcefix-20261112.json",
+            "mode": "100644",
+            "git_blob_sha1": "2013efa08d91e5844d678a676b1ecca3c05ad240",
+            "bytes": 731,
+            "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
+          }
+        },
+        {
+          "path": ".github/workflows/english-qwen-asr-sourcefix-once.yml",
+          "before": null,
+          "after": {
+            "path": ".github/workflows/english-qwen-asr-sourcefix-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "e6628c4cb0650cda90e7536413cf86f185173db8",
+            "bytes": 5696,
+            "source_commit": "7894712f42640bc8a27929c3d736124f836abc73"
           }
         }
       ],
