@@ -3814,9 +3814,9 @@
     {
       "path": "automation/README.md",
       "mode": "100644",
-      "git_blob_sha1": "0e8e4e4d9097c654f060bde75984b6afc3b55b67",
-      "bytes": 7718,
-      "source_commit": "81495d90863efb6e1ce97952ebf0baca8c8ae466"
+      "git_blob_sha1": "3e8e0c607e63bcd181d35aad58d2ee9852b9d46e",
+      "bytes": 9134,
+      "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96"
     },
     {
       "path": "automation/RESEARCH_ONLY_REFERENCE_SCOPE.md",
@@ -3891,9 +3891,9 @@
     {
       "path": "automation/multilingual_campaign.py",
       "mode": "100644",
-      "git_blob_sha1": "b9e4ade435f6e3077abef4f75341883108d8bf22",
-      "bytes": 15763,
-      "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+      "git_blob_sha1": "0ae882fc72ef5845c35a9bacd00a2c66a026cc76",
+      "bytes": 17018,
+      "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96"
     },
     {
       "path": "automation/natural_keyword_evidence_v2.py",
@@ -4059,9 +4059,9 @@
     {
       "path": "automation/test_multilingual_campaign.py",
       "mode": "100644",
-      "git_blob_sha1": "a4c8b1b1cb0c7f0bd189746f7ebca8a5650ded37",
-      "bytes": 11638,
-      "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+      "git_blob_sha1": "04c9607e3b816b0085f2f9262a4e1a134d75df36",
+      "bytes": 16400,
+      "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96"
     },
     {
       "path": "automation/test_natural_keyword_evidence_v2.py",
@@ -23576,6 +23576,101 @@
         "integration_exemptions_unchanged": true,
         "original_baseline_inventory_unchanged": true,
         "all_previous_retained_rows_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-market-candidate-cohort-20261112",
+      "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96",
+      "base_commit": "6f56614ba78273feb96024f4a7ec7ee4582af330",
+      "paths": [
+        "automation/README.md",
+        "automation/multilingual_campaign.py",
+        "automation/test_multilingual_campaign.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/README.md",
+          "mode": "100644",
+          "git_blob_sha1": "0e8e4e4d9097c654f060bde75984b6afc3b55b67",
+          "bytes": 7718,
+          "source_commit": "81495d90863efb6e1ce97952ebf0baca8c8ae466"
+        },
+        {
+          "path": "automation/multilingual_campaign.py",
+          "mode": "100644",
+          "git_blob_sha1": "b9e4ade435f6e3077abef4f75341883108d8bf22",
+          "bytes": 15763,
+          "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+        },
+        {
+          "path": "automation/test_multilingual_campaign.py",
+          "mode": "100644",
+          "git_blob_sha1": "a4c8b1b1cb0c7f0bd189746f7ebca8a5650ded37",
+          "bytes": 11638,
+          "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "ce7ed29600346fb291e1259ed9316c50b441d34d",
+      "scope": "Register exact public source-only English candidate cohort changes and tests; retain historical source identities in prior rows.",
+      "rationale": "Opt-in Hey Vosen/Hey Mero research-only roster, separate unchanged Mandarin wake set, no audio/model execution or historical data rewrite. Keep closed tracked inventory and verify actual post-change file blobs.",
+      "files": [
+        {
+          "path": "automation/README.md",
+          "before": {
+            "path": "automation/README.md",
+            "mode": "100644",
+            "git_blob_sha1": "0e8e4e4d9097c654f060bde75984b6afc3b55b67",
+            "bytes": 7718,
+            "source_commit": "81495d90863efb6e1ce97952ebf0baca8c8ae466"
+          },
+          "after": {
+            "path": "automation/README.md",
+            "mode": "100644",
+            "git_blob_sha1": "3e8e0c607e63bcd181d35aad58d2ee9852b9d46e",
+            "bytes": 9134,
+            "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96"
+          }
+        },
+        {
+          "path": "automation/multilingual_campaign.py",
+          "before": {
+            "path": "automation/multilingual_campaign.py",
+            "mode": "100644",
+            "git_blob_sha1": "b9e4ade435f6e3077abef4f75341883108d8bf22",
+            "bytes": 15763,
+            "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+          },
+          "after": {
+            "path": "automation/multilingual_campaign.py",
+            "mode": "100644",
+            "git_blob_sha1": "0ae882fc72ef5845c35a9bacd00a2c66a026cc76",
+            "bytes": 17018,
+            "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96"
+          }
+        },
+        {
+          "path": "automation/test_multilingual_campaign.py",
+          "before": {
+            "path": "automation/test_multilingual_campaign.py",
+            "mode": "100644",
+            "git_blob_sha1": "a4c8b1b1cb0c7f0bd189746f7ebca8a5650ded37",
+            "bytes": 11638,
+            "source_commit": "d6278427689e69e8ebeb872487b3d7e11c645ed6"
+          },
+          "after": {
+            "path": "automation/test_multilingual_campaign.py",
+            "mode": "100644",
+            "git_blob_sha1": "04c9607e3b816b0085f2f9262a4e1a134d75df36",
+            "bytes": 16400,
+            "source_commit": "a3bb535a4afaac52e98a79635b013aeddd311a96"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
         "all_previous_registration_history_unchanged": true
       }
     }
