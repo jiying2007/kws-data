@@ -3650,9 +3650,9 @@
     {
       "path": ".github/workflows/english-parakeet-real-once.yml",
       "mode": "100644",
-      "git_blob_sha1": "618aa47f5a19a81a1dcc335ecab042f7152f7655",
-      "bytes": 5011,
-      "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+      "git_blob_sha1": "291f130ce444848bab16dd9e0f3e9239f26961d0",
+      "bytes": 6052,
+      "source_commit": "8b86e26d379f62a313941d1f193136337abf60f6"
     },
     {
       "path": ".github/workflows/english-qwen-asr-cli-recovery-once.yml",
@@ -24770,6 +24770,51 @@
             "git_blob_sha1": "618aa47f5a19a81a1dcc335ecab042f7152f7655",
             "bytes": 5011,
             "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-parakeet-authenticated-native-runtime-preflight-20261112",
+      "source_commit": "8b86e26d379f62a313941d1f193136337abf60f6",
+      "base_commit": "b87652d3b1c4f68a182cdc0ffa521059f53a9123",
+      "paths": [
+        ".github/workflows/english-parakeet-real-once.yml"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/english-parakeet-real-once.yml",
+          "mode": "100644",
+          "git_blob_sha1": "618aa47f5a19a81a1dcc335ecab042f7152f7655",
+          "bytes": 5011,
+          "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "66aaeb809eb37ddd72d129a7ec7f38265c7e4a49",
+      "scope": "Register actual pinned 9.6MB NVIDIA CPU native release no-model PR preflight to diagnose first third-ASR zero-call setup failure.",
+      "rationale": "No GGUF download, ASR audio forward, TTS or training. Preserve failed run 43231581918 and independently prove release archive bytes and safe extraction before any new one-shot inference claim.",
+      "files": [
+        {
+          "path": ".github/workflows/english-parakeet-real-once.yml",
+          "before": {
+            "path": ".github/workflows/english-parakeet-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "618aa47f5a19a81a1dcc335ecab042f7152f7655",
+            "bytes": 5011,
+            "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+          },
+          "after": {
+            "path": ".github/workflows/english-parakeet-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "291f130ce444848bab16dd9e0f3e9239f26961d0",
+            "bytes": 6052,
+            "source_commit": "8b86e26d379f62a313941d1f193136337abf60f6"
           }
         }
       ],
