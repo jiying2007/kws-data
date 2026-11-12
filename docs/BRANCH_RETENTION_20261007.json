@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1988,
-  "expected_retained_files": 1979,
+  "expected_tracked_files": 1992,
+  "expected_retained_files": 1983,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -3561,6 +3561,13 @@
       "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
     },
     {
+      "path": ".github/triggers/english-seven-voice-tts-20261112.json",
+      "mode": "100644",
+      "git_blob_sha1": "f60504dd544f817fd4ae687a98bf83d33d549585",
+      "bytes": 578,
+      "source_commit": "5cb89ca8414bbc11c15f77cbbcb43e7f4435d964"
+    },
+    {
       "path": ".github/triggers/english-whisper-real-20261112.json",
       "mode": "100644",
       "git_blob_sha1": "4ddac7d0529d89e2ff3318bb66beb675926e08cd",
@@ -3695,6 +3702,13 @@
       "git_blob_sha1": "5858075d823ef256edfa8b4f5aa4ae2153fcb86c",
       "bytes": 3964,
       "source_commit": "78cecf87fa19ae9f49f9e575d2b08edbcc38add8"
+    },
+    {
+      "path": ".github/workflows/english-seven-voice-tts-once.yml",
+      "mode": "100644",
+      "git_blob_sha1": "d3b1fb1690cade13296f0fe6604a1c7db94a867d",
+      "bytes": 4207,
+      "source_commit": "5cb89ca8414bbc11c15f77cbbcb43e7f4435d964"
     },
     {
       "path": ".github/workflows/english-whisper-real-once.yml",
@@ -4029,6 +4043,13 @@
       "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
     },
     {
+      "path": "automation/english_seven_voice_tts_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "0cff82fa0f6131104c63a1763659c2d2adc090b1",
+      "bytes": 10628,
+      "source_commit": "5cb89ca8414bbc11c15f77cbbcb43e7f4435d964"
+    },
+    {
       "path": "automation/english_whisper_real_once.py",
       "mode": "100644",
       "git_blob_sha1": "1d064d16b597f97b79a3b0c9608d5f4c05d698ac",
@@ -4244,6 +4265,13 @@
       "git_blob_sha1": "fb68128b521127f7995e79e964874f4354dc0347",
       "bytes": 4159,
       "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+    },
+    {
+      "path": "automation/test_english_seven_voice_tts_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "b0fd480429d475f4ff67f1a00e0fa63823d2cdb0",
+      "bytes": 5920,
+      "source_commit": "5cb89ca8414bbc11c15f77cbbcb43e7f4435d964"
     },
     {
       "path": "automation/test_english_whisper_real_once.py",
@@ -25025,6 +25053,73 @@
             "git_blob_sha1": "18b70507fe4284137af75b8e48c9b8e82e73d6c6",
             "bytes": 7564,
             "source_commit": "bbade56665a48a79b3e48bbb0f90dd291ba3b1cd"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-new-seven-voice-63-cell-tts-20261112",
+      "source_commit": "5cb89ca8414bbc11c15f77cbbcb43e7f4435d964",
+      "base_commit": "b14eb80fbc5656f82b3823ed3e6dc22377a7c121",
+      "paths": [
+        "automation/english_seven_voice_tts_once.py",
+        "automation/test_english_seven_voice_tts_once.py",
+        ".github/triggers/english-seven-voice-tts-20261112.json",
+        ".github/workflows/english-seven-voice-tts-once.yml"
+      ],
+      "previous_campaign_rows": [],
+      "previous_manifest_git_blob_sha1": "570ef4a3aaca6cf0ddfdc6a559db860a3b9cb302",
+      "scope": "Register source-only 63-cell seven-new-voice English TTS campaign with one-time main execution and unchanged original 10-WAV source.",
+      "rationale": "Expand real English source diversity beyond poor 10-clip TTS pilot without reusing previous preset ancestry, admitting intended labels, regenerating previous 10 audio files, or scheduling model runs. All 63 calls are bounded 16+16+16+15 and source roles split by preset family.",
+      "files": [
+        {
+          "path": "automation/english_seven_voice_tts_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/english_seven_voice_tts_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "0cff82fa0f6131104c63a1763659c2d2adc090b1",
+            "bytes": 10628,
+            "source_commit": "5cb89ca8414bbc11c15f77cbbcb43e7f4435d964"
+          }
+        },
+        {
+          "path": "automation/test_english_seven_voice_tts_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/test_english_seven_voice_tts_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "b0fd480429d475f4ff67f1a00e0fa63823d2cdb0",
+            "bytes": 5920,
+            "source_commit": "5cb89ca8414bbc11c15f77cbbcb43e7f4435d964"
+          }
+        },
+        {
+          "path": ".github/triggers/english-seven-voice-tts-20261112.json",
+          "before": null,
+          "after": {
+            "path": ".github/triggers/english-seven-voice-tts-20261112.json",
+            "mode": "100644",
+            "git_blob_sha1": "f60504dd544f817fd4ae687a98bf83d33d549585",
+            "bytes": 578,
+            "source_commit": "5cb89ca8414bbc11c15f77cbbcb43e7f4435d964"
+          }
+        },
+        {
+          "path": ".github/workflows/english-seven-voice-tts-once.yml",
+          "before": null,
+          "after": {
+            "path": ".github/workflows/english-seven-voice-tts-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "d3b1fb1690cade13296f0fe6604a1c7db94a867d",
+            "bytes": 4207,
+            "source_commit": "5cb89ca8414bbc11c15f77cbbcb43e7f4435d964"
           }
         }
       ],
