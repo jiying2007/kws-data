@@ -29,6 +29,11 @@ SOURCE_RUN_ID = 43242278962
 SOURCE_HEAD_SHA = "bec1a1421d1db2de17afb9c6e3155343becdb980"
 SOURCE_WORKFLOW = "English seven new Qwen voices 63 real WAVs once"
 ARTIFACT_ROOT = "english-seven-voice-actual"
+POSTSUCCESS_TRIGGER = (Path(__file__).resolve().parents[1] /
+    ".github/triggers/english-seven-voice-asr-postsuccess-20261112.json")
+POSTSUCCESS_POLICY = "english-seven-voice-asr-postsuccess-once-v1"
+POSTSUCCESS_ARTIFACT_ID = 13954744587
+POSTSUCCESS_ARTIFACT_SHA256 = "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc"
 MAX_CALLS = 63
 PROVIDERS = ("qwen", "whisper", "parakeet")
 PROVENANCE = {
@@ -122,6 +127,32 @@ def validate_trigger_event(path: Path) -> dict:
     return run
 
 
+def validate_postsuccess_push() -> dict:
+    """A separately frozen one-time source-success recovery, not a retry."""
+    expected = {
+        "schema": POSTSUCCESS_POLICY,
+        "source_tts_run_id": SOURCE_RUN_ID,
+        "source_tts_head_sha": SOURCE_HEAD_SHA,
+        "source_tts_artifact_id": POSTSUCCESS_ARTIFACT_ID,
+        "source_tts_artifact_sha256": POSTSUCCESS_ARTIFACT_SHA256,
+        "source_tts_status": "COMPLETE",
+        "source_new_audio": MAX_CALLS,
+        "providers": list(PROVIDERS),
+        "max_new_asr_calls_per_provider": MAX_CALLS,
+        "original_10_regenerated": 0,
+        "no_scheduled_tasks": True,
+        "training_admitted": False,
+    }
+    need(market.read(POSTSUCCESS_TRIGGER) == expected,
+         "SEVEN_ASR_POSTSUCCESS_CLAIM_CHANGED")
+    need(os.environ.get("GITHUB_REPOSITORY") == "jiying2007/kws-data" and
+         os.environ.get("GITHUB_EVENT_NAME") == "push" and
+         os.environ.get("GITHUB_REF") == "refs/heads/main" and
+         os.environ.get("GITHUB_RUN_ATTEMPT") == "1",
+         "SEVEN_ASR_POSTSUCCESS_PROTECTED_MAIN_ONLY")
+    return expected
+
+
 def _load(provider: str, model_root: Path):
     """Only explicit execute mode reaches one real, exact-pinned provider."""
     need(provider in PROVIDERS, "SEVEN_ASR_UNKNOWN_PROVIDER")
@@ -188,10 +219,14 @@ def capture(provider: str, parent: Path, output: Path,
     need(provider in PROVIDERS, "SEVEN_ASR_PROVIDER_INVALID")
     if decoder is None:
         need(os.environ.get("GITHUB_REPOSITORY") == "jiying2007/kws-data" and
-             os.environ.get("GITHUB_EVENT_NAME") == "workflow_run" and
-             os.environ.get("GITHUB_RUN_ATTEMPT") == "1" and
-             event_path is not None, "SEVEN_ASR_EVENT_ONLY")
-        validate_trigger_event(event_path)
+             os.environ.get("GITHUB_RUN_ATTEMPT") == "1",
+             "SEVEN_ASR_EVENT_ONLY")
+        if os.environ.get("GITHUB_EVENT_NAME") == "workflow_run":
+            need(event_path is not None, "SEVEN_ASR_WORKFLOW_RUN_EVIDENCE_REQUIRED")
+            validate_trigger_event(event_path)
+        else:
+            need(event_path is None, "SEVEN_ASR_POSTSUCCESS_CLAIM_REQUIRED")
+            validate_postsuccess_push()
     plan, cells = source_from_artifact(parent)
     blind.private_path(output, "SEVEN_ASR_OUTPUT_NOT_PRIVATE")
     need(output.parent.is_dir() and not output.exists(),
