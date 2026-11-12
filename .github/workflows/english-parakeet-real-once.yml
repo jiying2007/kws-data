@@ -40,6 +40,29 @@ jobs:
           done
           python3 -I -S -B tools/verify_branch_retention.py
           test -z "$(git status --porcelain)"
+      - name: Authenticate actual NVIDIA CPU release archive, no model or audio calls
+        if: github.event_name == 'pull_request'
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          python3 -B - <<'PY'
+          import json, tempfile, sys
+          from pathlib import Path
+          sys.path.insert(0, 'automation')
+          import english_parakeet_real_once as p
+          with tempfile.TemporaryDirectory() as tmp:
+              try:
+                  exe, receipt = p.verify_runtime(Path(tmp))
+              except ValueError as err:
+                  print('PINNED_RUNTIME_PREFLIGHT_ERROR:', str(err), file=sys.stderr)
+                  raise SystemExit(2)
+              print(json.dumps({'status':'NATIVE_RUNTIME_VERIFIED_NO_MODEL',
+                                'archive_sha256':receipt['sha256'],
+                                'binary_name':exe.name,
+                                'model_calls':0},sort_keys=True))
+          PY
+          test -z "$(git status --porcelain)"
 
   real-native-parakeet:
     needs: source-contract
