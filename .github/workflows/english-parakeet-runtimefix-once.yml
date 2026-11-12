@@ -1,0 +1,161 @@
+name: English Parakeet native runtimefix once on original ten WAVs
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-parakeet-runtimefix-once.yml
+      - .github/triggers/english-parakeet-runtimefix-20261112.json
+      - automation/english_parakeet_runtimefix_once.py
+      - automation/test_english_parakeet_runtimefix_once.py
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths:
+      - .github/triggers/english-parakeet-runtimefix-20261112.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: english-parakeet-runtimefix-20261112-once-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify exact previous failed ASR and new no-model CLI contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_parakeet_runtimefix_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+      - name: Execute exact native CPU release --version; no GGUF or audio inference
+        if: github.event_name == 'pull_request'
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          python3 -B - <<'PY'
+          from pathlib import Path
+          import json,os,subprocess,sys,tempfile
+          sys.path.insert(0,"automation")
+          import english_parakeet_real_once as p
+          with tempfile.TemporaryDirectory() as tmp:
+              exe,receipt=p.verify_runtime(Path(tmp))
+              env={"PATH":"/usr/bin:/bin","HOME":str(tmp),"LANG":"C.UTF-8",
+                   "HF_HUB_OFFLINE":"1","TRANSFORMERS_OFFLINE":"1",
+                   "NEMO_SPEECH_MODEL_DIR":str(tmp),"OMP_NUM_THREADS":"4"}
+              run=subprocess.run([str(exe),"--version"],env=env,
+                                 capture_output=True,text=True,timeout=20,check=False)
+              if run.returncode!=0:
+                  print("NATIVE_CPU_LAUNCH_FAILED:",run.returncode,
+                        run.stderr[-500:],file=sys.stderr)
+                  raise SystemExit(2)
+              print(json.dumps({"status":"PINNED_NATIVE_BINARY_EXECUTABLE",
+                                "cpu_release_sha256":receipt["sha256"],
+                                "asr_model_calls":0},sort_keys=True))
+          PY
+          test -z "$(git status --porcelain)"
+
+  actual-parakeet-native-runtimefix:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    permissions:
+      contents: read
+      actions: read
+    env:
+      OMP_NUM_THREADS: "4"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify original failed Parakeet attempt and original TTS artifact identities
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43231581918 |
+            jq -e '.status=="completed" and .conclusion=="failure" and .run_attempt==1 and
+                   .head_sha=="b87652d3b1c4f68a182cdc0ffa521059f53a9123"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/13949214717 |
+            jq -e '.id==13949214717 and .expired==false and
+                   .digest=="sha256:e769fd64b44c84ee4d02fa60b5e220640a778108aa812b94445111188997ee2f"'
+          gh api repos/jiying2007/kws-data/actions/runs/43214159818 |
+            jq -e '.status=="completed" and .conclusion=="success" and
+                   .head_sha=="f2b91001e4fd56a03bbce9bc6b0c1cae7fad1dc8" and
+                   .event=="push" and .run_attempt==1'
+          gh api repos/jiying2007/kws-data/actions/artifacts/13942568634 |
+            jq -e '.id==13942568634 and .expired==false and
+                   .digest=="sha256:0235b0064006f79bfe9c8fa551c2a1e41da61c86e0fd987a90ee2d47842a9f21" and
+                   .workflow_run.head_sha=="f2b91001e4fd56a03bbce9bc6b0c1cae7fad1dc8"'
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-parakeet-native-real-43231581918
+          run-id: 43231581918
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/english-parakeet-consumed
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-qwen-actual-43214159818
+          run-id: 43214159818
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/english-parakeet-original-10-wavs
+      - name: Verify 0-call prior failure and all original 10 WAVs before loading models
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B automation/english_parakeet_runtimefix_once.py \
+            --artifact-parent "$RUNNER_TEMP/english-parakeet-original-10-wavs" \
+            --prior-summary "$RUNNER_TEMP/english-parakeet-consumed/en-parakeet-native-results/summary.json" \
+            --verify-source
+      - name: Install minimal pinned Hugging Face GGUF helper
+        shell: bash
+        timeout-minutes: 8
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en-parakeet-runtimefix-venv"
+          "$RUNNER_TEMP/en-parakeet-runtimefix-venv/bin/pip" install --disable-pip-version-check \
+            "huggingface-hub==0.36.2" "hf-xet==1.2.0"
+          mkdir -p "$RUNNER_TEMP/en-parakeet-runtimefix-meta"
+          "$RUNNER_TEMP/en-parakeet-runtimefix-venv/bin/pip" freeze > "$RUNNER_TEMP/en-parakeet-runtimefix-meta/pip-freeze.txt"
+      - name: Actual third recognizer CPU inference on ten original English WAVs
+        shell: bash
+        timeout-minutes: 90
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/en-parakeet-runtimefix-venv/bin/python" -B automation/english_parakeet_runtimefix_once.py \
+            --artifact-parent "$RUNNER_TEMP/english-parakeet-original-10-wavs" \
+            --prior-summary "$RUNNER_TEMP/english-parakeet-consumed/en-parakeet-native-results/summary.json" \
+            --output "$RUNNER_TEMP/en-parakeet-recovery-actual" --execute
+      - name: Keep genuine third-ASR results and unknown attempts; never model or audio copies
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-parakeet-runtimefix-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/en-parakeet-recovery-actual/started.json
+            ${{ runner.temp }}/en-parakeet-recovery-actual/summary.json
+            ${{ runner.temp }}/en-parakeet-recovery-actual/cells/
+            ${{ runner.temp }}/en-parakeet-runtimefix-meta/pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn
