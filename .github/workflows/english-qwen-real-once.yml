@@ -1,0 +1,99 @@
+name: English Qwen real pilot once (research audio only)
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-qwen-real-once.yml
+      - .github/triggers/english-qwen-real-20261112.json
+      - automation/english_qwen_real_once.py
+      - automation/test_english_qwen_real_once.py
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths:
+      - .github/triggers/english-qwen-real-20261112.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: english-qwen-real-20261112-once-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned v7.0.1
+        with:
+          persist-credentials: false
+      - name: Exact one-time model-free source and safety checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_qwen_real_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+
+  actual-tts:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 160
+    permissions:
+      contents: read
+    env:
+      OMP_NUM_THREADS: "4"
+      MKL_NUM_THREADS: "4"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      HF_HUB_DISABLE_XET: "0"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned v7.0.1
+        with:
+          persist-credentials: false
+      - name: Prepare isolated CPU-only public research runtime
+        shell: bash
+        timeout-minutes: 25
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en-qwen-venv"
+          "$RUNNER_TEMP/en-qwen-venv/bin/pip" install --disable-pip-version-check \
+            --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu" "torchaudio==2.9.1+cpu"
+          "$RUNNER_TEMP/en-qwen-venv/bin/pip" install --disable-pip-version-check \
+            "qwen-tts==0.1.1" "huggingface-hub==0.36.2"
+          mkdir -p "$RUNNER_TEMP/en-qwen-audit"
+          "$RUNNER_TEMP/en-qwen-venv/bin/pip" freeze > "$RUNNER_TEMP/en-qwen-audit/installed-packages.txt"
+      - name: Actual pinned Qwen English TTS - ten bounded single attempts
+        shell: bash
+        timeout-minutes: 125
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/en-qwen-venv/bin/python" -B automation/english_qwen_real_once.py \
+            --out "$RUNNER_TEMP/en-qwen-actual-20261112" --execute
+      - name: Retain original model-free audio evidence even after partial failure
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # pinned v7.0.2
+        with:
+          name: english-qwen-actual-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/en-qwen-actual-20261112/started.json
+            ${{ runner.temp }}/en-qwen-actual-20261112/failed.json
+            ${{ runner.temp }}/en-qwen-actual-20261112/summary.json
+            ${{ runner.temp }}/en-qwen-actual-20261112/model-lock.json
+            ${{ runner.temp }}/en-qwen-actual-20261112/source-plan.json
+            ${{ runner.temp }}/en-qwen-actual-20261112/capture/
+            ${{ runner.temp }}/en-qwen-audit/installed-packages.txt
+          if-no-files-found: warn
+          retention-days: 30

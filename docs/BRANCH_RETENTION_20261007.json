@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1961,
-  "expected_retained_files": 1952,
+  "expected_tracked_files": 1965,
+  "expected_retained_files": 1956,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -3519,6 +3519,13 @@
   ],
   "retained_files": [
     {
+      "path": ".github/triggers/english-qwen-real-20261112.json",
+      "mode": "100644",
+      "git_blob_sha1": "ce15310e24f2e54542fdaa72d1092808d31857f5",
+      "bytes": 307,
+      "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+    },
+    {
       "path": ".github/workflows/a20-prepared-inputs-integrity.yml",
       "mode": "100644",
       "bytes": 1168,
@@ -3604,6 +3611,13 @@
       "bytes": 807,
       "git_blob_sha1": "7207fce834e54ed5f5c8398aa9491170233aca31",
       "source_commit": "ca32d13aeb6e130eefeb2ae808eb65db46aa4462"
+    },
+    {
+      "path": ".github/workflows/english-qwen-real-once.yml",
+      "mode": "100644",
+      "git_blob_sha1": "5858075d823ef256edfa8b4f5aa4ae2153fcb86c",
+      "bytes": 3964,
+      "source_commit": "78cecf87fa19ae9f49f9e575d2b08edbcc38add8"
     },
     {
       "path": ".github/workflows/field-collection-pilot-20261102.yml",
@@ -3896,6 +3910,13 @@
       "source_commit": "158b0e20e2f18ed2652d0b1f91361e868ba3b12b"
     },
     {
+      "path": "automation/english_qwen_real_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "c81f13fc6307585a0359c7b0e0916f5a81621d6e",
+      "bytes": 10217,
+      "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+    },
+    {
       "path": "automation/fetch_aishell_subset.py",
       "mode": "100644",
       "git_blob_sha1": "ac44bc4770614a9115fd1ae2c59a818b196ce577",
@@ -4062,6 +4083,13 @@
       "bytes": 30528,
       "git_blob_sha1": "101d59a8115b6cf939dde6cabd97ac0906fc8896",
       "source_commit": "4c852635c1a19b8847f59396896cc1042172484b"
+    },
+    {
+      "path": "automation/test_english_qwen_real_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "fb68128b521127f7995e79e964874f4354dc0347",
+      "bytes": 4159,
+      "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
     },
     {
       "path": "automation/test_fetch_aishell_subset.py",
@@ -23867,6 +23895,118 @@
             "git_blob_sha1": "681155da104c0077a6450c9ee9d3fbe54e6663e8",
             "bytes": 15759,
             "source_commit": "158b0e20e2f18ed2652d0b1f91361e868ba3b12b"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-qwen-one-shot-real-20261112",
+      "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203",
+      "base_commit": "c976d2e4e353dfe9363f47b079617aed63457c66",
+      "paths": [
+        ".github/triggers/english-qwen-real-20261112.json",
+        ".github/workflows/english-qwen-real-once.yml",
+        "automation/english_qwen_real_once.py",
+        "automation/test_english_qwen_real_once.py"
+      ],
+      "previous_campaign_rows": [],
+      "previous_manifest_git_blob_sha1": "0bc270c88d6d3a0251239b405565e278a636e773",
+      "scope": "Register one-time English Qwen true model invocation source, immutable trigger, no-model tests and protected Actions flow without modifying prior source or Qwen audio.",
+      "rationale": "Freeze actual public pinned model revision and ten new synthetic English source cells in a main-only single-attempt runner; publish audio-only receipts and retain unknown/failed attempts without retries; no ASR or training authority.",
+      "files": [
+        {
+          "path": ".github/triggers/english-qwen-real-20261112.json",
+          "before": null,
+          "after": {
+            "path": ".github/triggers/english-qwen-real-20261112.json",
+            "mode": "100644",
+            "git_blob_sha1": "ce15310e24f2e54542fdaa72d1092808d31857f5",
+            "bytes": 307,
+            "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+          }
+        },
+        {
+          "path": ".github/workflows/english-qwen-real-once.yml",
+          "before": null,
+          "after": {
+            "path": ".github/workflows/english-qwen-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "b56b7f761c55cc8178208f914556d0ef3c5101e0",
+            "bytes": 3940,
+            "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+          }
+        },
+        {
+          "path": "automation/english_qwen_real_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/english_qwen_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "c81f13fc6307585a0359c7b0e0916f5a81621d6e",
+            "bytes": 10217,
+            "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+          }
+        },
+        {
+          "path": "automation/test_english_qwen_real_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/test_english_qwen_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "fb68128b521127f7995e79e964874f4354dc0347",
+            "bytes": 4159,
+            "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-one-shot-python-compat-fix-20261112",
+      "source_commit": "78cecf87fa19ae9f49f9e575d2b08edbcc38add8",
+      "base_commit": "a7e2033a3c239640f8067331307ef54f761d98bf",
+      "paths": [
+        ".github/workflows/english-qwen-real-once.yml"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/english-qwen-real-once.yml",
+          "mode": "100644",
+          "git_blob_sha1": "b56b7f761c55cc8178208f914556d0ef3c5101e0",
+          "bytes": 3940,
+          "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "0228293507cb0554e03c37a8940dba063e2b0dd7",
+      "scope": "Register verified dependency compatibility correction before any real model invocation; historical source identities remain unchanged.",
+      "rationale": "Qwen TTS 0.1.1 requires Transformers 4.57.3 compatible HF hub <1; pin hub 0.36.2 and paired CPU torchaudio to avoid wasting the one-shot run on deterministic dependency conflict.",
+      "files": [
+        {
+          "path": ".github/workflows/english-qwen-real-once.yml",
+          "before": {
+            "path": ".github/workflows/english-qwen-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "b56b7f761c55cc8178208f914556d0ef3c5101e0",
+            "bytes": 3940,
+            "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+          },
+          "after": {
+            "path": ".github/workflows/english-qwen-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "5858075d823ef256edfa8b4f5aa4ae2153fcb86c",
+            "bytes": 3964,
+            "source_commit": "78cecf87fa19ae9f49f9e575d2b08edbcc38add8"
           }
         }
       ],
