@@ -3622,9 +3622,9 @@
     {
       "path": ".github/workflows/english-qwen-asr-real-once.yml",
       "mode": "100644",
-      "git_blob_sha1": "9e71ddbd58aad3de4a074554ea64b51e2da8694f",
-      "bytes": 4826,
-      "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+      "git_blob_sha1": "7218ae117a83667c3b98194144037ba4326a584d",
+      "bytes": 4868,
+      "source_commit": "53eaebda80f3e2a847536ba969589e3d9b6e1f9e"
     },
     {
       "path": ".github/workflows/english-qwen-real-once.yml",
@@ -24286,6 +24286,51 @@
             "git_blob_sha1": "fddae72a68ed299e295532ec3b38b22b0ab7662a",
             "bytes": 4419,
             "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-qwen-asr-exact-artifact-extraction-fix-20261112",
+      "source_commit": "53eaebda80f3e2a847536ba969589e3d9b6e1f9e",
+      "base_commit": "f3cbd9494ccbcc9e55c8ab5c6e44aa0c232ec95b",
+      "paths": [
+        ".github/workflows/english-qwen-asr-real-once.yml"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/english-qwen-asr-real-once.yml",
+          "mode": "100644",
+          "git_blob_sha1": "9e71ddbd58aad3de4a074554ea64b51e2da8694f",
+          "bytes": 4826,
+          "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "5ed4c005666e911b062d33de7a219ebf53901c5d",
+      "scope": "Register exact GitHub download-artifact named/run-bound extraction correction before real ASR, without reprocessing historical audio.",
+      "rationale": "Avoid ambiguous subdirectory nesting from artifact-id multi-artifact mode while requiring independent source run, artifact digest, and head SHA checks.",
+      "files": [
+        {
+          "path": ".github/workflows/english-qwen-asr-real-once.yml",
+          "before": {
+            "path": ".github/workflows/english-qwen-asr-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "9e71ddbd58aad3de4a074554ea64b51e2da8694f",
+            "bytes": 4826,
+            "source_commit": "a2a6808b8ecf3453351a75b64205b1362269eb44"
+          },
+          "after": {
+            "path": ".github/workflows/english-qwen-asr-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "7218ae117a83667c3b98194144037ba4326a584d",
+            "bytes": 4868,
+            "source_commit": "53eaebda80f3e2a847536ba969589e3d9b6e1f9e"
           }
         }
       ],
