@@ -22,11 +22,13 @@ def invented_three_asr(root: Path):
     wanted = {cell["cell_id"]: cell["text_requested"] for cell in plan["cells"]}
     paths = {}
     for provider in asr.PROVIDERS:
-        out = root / provider
+        outer = root / provider
+        outer.mkdir()
+        out = outer / "en-seven-asr-result"
         result = asr.capture(provider, parent, out,
                              decoder=lambda _wav, folder: wanted[folder.name])
         assert result["completed_asr"] == 63
-        paths[provider] = out
+        paths[provider] = outer
     return parent, paths, plan
 
 
