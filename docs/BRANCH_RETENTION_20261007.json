@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 1976,
-  "expected_retained_files": 1967,
+  "expected_tracked_files": 1980,
+  "expected_retained_files": 1971,
   "new_retained_paths": 1266,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -3547,6 +3547,13 @@
       "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
     },
     {
+      "path": ".github/triggers/english-whisper-real-20261112.json",
+      "mode": "100644",
+      "git_blob_sha1": "4ddac7d0529d89e2ff3318bb66beb675926e08cd",
+      "bytes": 672,
+      "source_commit": "1880dc68f8b636237efd44b02f7d5d04afa72033"
+    },
+    {
       "path": ".github/workflows/a20-prepared-inputs-integrity.yml",
       "mode": "100644",
       "bytes": 1168,
@@ -3660,6 +3667,13 @@
       "git_blob_sha1": "5858075d823ef256edfa8b4f5aa4ae2153fcb86c",
       "bytes": 3964,
       "source_commit": "78cecf87fa19ae9f49f9e575d2b08edbcc38add8"
+    },
+    {
+      "path": ".github/workflows/english-whisper-real-once.yml",
+      "mode": "100644",
+      "git_blob_sha1": "df0899aec4f82db11fd7cc5521a026eff876575c",
+      "bytes": 5150,
+      "source_commit": "1880dc68f8b636237efd44b02f7d5d04afa72033"
     },
     {
       "path": ".github/workflows/field-collection-pilot-20261102.yml",
@@ -3973,6 +3987,13 @@
       "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
     },
     {
+      "path": "automation/english_whisper_real_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "1d064d16b597f97b79a3b0c9608d5f4c05d698ac",
+      "bytes": 11226,
+      "source_commit": "1880dc68f8b636237efd44b02f7d5d04afa72033"
+    },
+    {
       "path": "automation/fetch_aishell_subset.py",
       "mode": "100644",
       "git_blob_sha1": "ac44bc4770614a9115fd1ae2c59a818b196ce577",
@@ -4167,6 +4188,13 @@
       "git_blob_sha1": "fb68128b521127f7995e79e964874f4354dc0347",
       "bytes": 4159,
       "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+    },
+    {
+      "path": "automation/test_english_whisper_real_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "60cc2ee5aded0b6bd391ef22966ade61baf55c9a",
+      "bytes": 4755,
+      "source_commit": "1880dc68f8b636237efd44b02f7d5d04afa72033"
     },
     {
       "path": "automation/test_fetch_aishell_subset.py",
@@ -24580,6 +24608,73 @@
             "git_blob_sha1": "c3503b4f4f26040fa4ed8d0ef8cc9f5f6fadf09d",
             "bytes": 6829,
             "source_commit": "bd947eebd7279a3cc95247fc3544cd7a94f6d47a"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-whisper-real-blind-source-20261112",
+      "source_commit": "1880dc68f8b636237efd44b02f7d5d04afa72033",
+      "base_commit": "c7a53ea0cae5cc0d793441438f9ceecee77c945c",
+      "paths": [
+        "automation/english_whisper_real_once.py",
+        "automation/test_english_whisper_real_once.py",
+        ".github/triggers/english-whisper-real-20261112.json",
+        ".github/workflows/english-whisper-real-once.yml"
+      ],
+      "previous_campaign_rows": [],
+      "previous_manifest_git_blob_sha1": "46c8cf69e259a323f0871784fb5ec4d9e011cfe2",
+      "scope": "Register independent Whisper-small native-ASR real audio research code, one-time public source trigger and no-model provenance tests, without changing original TTS bytes or prior Qwen-ASR observations.",
+      "rationale": "Obtain a second blind recognizer observation for Hey Vosen/Hey Mero using the original verified ten-WAV TTS artifact; bind official MIT weight SHA and original source commit, no hotword bias, no human gold or training admission.",
+      "files": [
+        {
+          "path": "automation/english_whisper_real_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/english_whisper_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "1d064d16b597f97b79a3b0c9608d5f4c05d698ac",
+            "bytes": 11226,
+            "source_commit": "1880dc68f8b636237efd44b02f7d5d04afa72033"
+          }
+        },
+        {
+          "path": "automation/test_english_whisper_real_once.py",
+          "before": null,
+          "after": {
+            "path": "automation/test_english_whisper_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "60cc2ee5aded0b6bd391ef22966ade61baf55c9a",
+            "bytes": 4755,
+            "source_commit": "1880dc68f8b636237efd44b02f7d5d04afa72033"
+          }
+        },
+        {
+          "path": ".github/triggers/english-whisper-real-20261112.json",
+          "before": null,
+          "after": {
+            "path": ".github/triggers/english-whisper-real-20261112.json",
+            "mode": "100644",
+            "git_blob_sha1": "4ddac7d0529d89e2ff3318bb66beb675926e08cd",
+            "bytes": 672,
+            "source_commit": "1880dc68f8b636237efd44b02f7d5d04afa72033"
+          }
+        },
+        {
+          "path": ".github/workflows/english-whisper-real-once.yml",
+          "before": null,
+          "after": {
+            "path": ".github/workflows/english-whisper-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "df0899aec4f82db11fd7cc5521a026eff876575c",
+            "bytes": 5150,
+            "source_commit": "1880dc68f8b636237efd44b02f7d5d04afa72033"
           }
         }
       ],

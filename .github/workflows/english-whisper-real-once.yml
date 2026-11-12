@@ -1,0 +1,122 @@
+name: English Whisper-small independent real-ASR once on ten WAVs
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-whisper-real-once.yml
+      - .github/triggers/english-whisper-real-20261112.json
+      - automation/english_whisper_real_once.py
+      - automation/test_english_whisper_real_once.py
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths:
+      - .github/triggers/english-whisper-real-20261112.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: english-whisper-20261112-once-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Frozen open-source Whisper pins and no-model real CLI regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_whisper_real_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+
+  whisper-real-asr:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    permissions:
+      contents: read
+      actions: read
+    env:
+      OMP_NUM_THREADS: "4"
+      MKL_NUM_THREADS: "4"
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify original ten WAVs and independent recognition boundary
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43214159818 |
+            jq -e '.status=="completed" and .conclusion=="success" and
+                   .head_sha=="f2b91001e4fd56a03bbce9bc6b0c1cae7fad1dc8" and
+                   .event=="push" and .run_attempt==1'
+          gh api repos/jiying2007/kws-data/actions/artifacts/13942568634 |
+            jq -e '.id==13942568634 and .expired==false and
+                   .digest=="sha256:0235b0064006f79bfe9c8fa551c2a1e41da61c86e0fd987a90ee2d47842a9f21" and
+                   .workflow_run.head_sha=="f2b91001e4fd56a03bbce9bc6b0c1cae7fad1dc8"'
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-qwen-actual-43214159818
+          run-id: 43214159818
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/whisper-original-audio
+      - name: Validate all original WAVs without importing or running Whisper
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B automation/english_whisper_real_once.py \
+            --artifact-parent "$RUNNER_TEMP/whisper-original-audio" --verify-source
+      - name: Install pinned standalone CPU Whisper research environment
+        shell: bash
+        timeout-minutes: 25
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en-whisper-venv"
+          "$RUNNER_TEMP/en-whisper-venv/bin/pip" install --disable-pip-version-check \
+            --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu" "torchaudio==2.9.1+cpu"
+          "$RUNNER_TEMP/en-whisper-venv/bin/pip" install --disable-pip-version-check \
+            "openai-whisper==20250625"
+          mkdir -p "$RUNNER_TEMP/en-whisper-meta"
+          "$RUNNER_TEMP/en-whisper-venv/bin/pip" freeze > "$RUNNER_TEMP/en-whisper-meta/pip-freeze.txt"
+      - name: Actual blind Whisper-small inference on original ten 16-kHz WAVs
+        shell: bash
+        timeout-minutes: 115
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/en-whisper-venv/bin/python" -B automation/english_whisper_real_once.py \
+            --artifact-parent "$RUNNER_TEMP/whisper-original-audio" \
+            --output "$RUNNER_TEMP/en-whisper-real-results" --execute
+      - name: Keep source-bound transcripts/attempts and failure receipts, never model weights
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-whisper-real-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/en-whisper-real-results/started.json
+            ${{ runner.temp }}/en-whisper-real-results/summary.json
+            ${{ runner.temp }}/en-whisper-real-results/cells/
+            ${{ runner.temp }}/en-whisper-meta/pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn
