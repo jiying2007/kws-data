@@ -147,12 +147,15 @@ class SourceFirstLanguageTests(unittest.TestCase):
     def test_market_roster_rejects_missing_reordered_and_cross_market_wakes(self) -> None:
         campaign.require_market_candidates(request("zh-CN"))
         for phrases in (["Hey Mero", "Hey Vosen"], ["Hey Vosen"],
-                        ["Hey Vosen", "Hello Orbit"],
-                        ["你好小窝", "小窝小窝"]):
+                        ["Hey Vosen", "Hello Orbit"]):
             raw = english_market_request()
             raw["wake_phrases"] = phrases
             with self.assertRaisesRegex(ValueError, "MARKET_CANDIDATE_ROSTER_MISMATCH"):
                 campaign.require_market_candidates(raw)
+        raw = english_market_request()
+        raw["wake_phrases"] = ["你好小窝", "小窝小窝"]
+        with self.assertRaisesRegex(ValueError, "ENGLISH_REQUEST_MUST_BE_ASCII"):
+            campaign.require_market_candidates(raw)
         raw = english_market_request()
         raw["utterances"][2]["text"] = "hey VOSEN!"
         with self.assertRaisesRegex(ValueError, "NEGATIVE_MUST_NOT_MATCH_WAKE"):
