@@ -3615,9 +3615,9 @@
     {
       "path": ".github/workflows/english-qwen-real-once.yml",
       "mode": "100644",
-      "git_blob_sha1": "b56b7f761c55cc8178208f914556d0ef3c5101e0",
-      "bytes": 3940,
-      "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+      "git_blob_sha1": "5858075d823ef256edfa8b4f5aa4ae2153fcb86c",
+      "bytes": 3964,
+      "source_commit": "78cecf87fa19ae9f49f9e575d2b08edbcc38add8"
     },
     {
       "path": ".github/workflows/field-collection-pilot-20261102.yml",
@@ -23962,6 +23962,51 @@
             "git_blob_sha1": "fb68128b521127f7995e79e964874f4354dc0347",
             "bytes": 4159,
             "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-one-shot-python-compat-fix-20261112",
+      "source_commit": "78cecf87fa19ae9f49f9e575d2b08edbcc38add8",
+      "base_commit": "a7e2033a3c239640f8067331307ef54f761d98bf",
+      "paths": [
+        ".github/workflows/english-qwen-real-once.yml"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/english-qwen-real-once.yml",
+          "mode": "100644",
+          "git_blob_sha1": "b56b7f761c55cc8178208f914556d0ef3c5101e0",
+          "bytes": 3940,
+          "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "0228293507cb0554e03c37a8940dba063e2b0dd7",
+      "scope": "Register verified dependency compatibility correction before any real model invocation; historical source identities remain unchanged.",
+      "rationale": "Qwen TTS 0.1.1 requires Transformers 4.57.3 compatible HF hub <1; pin hub 0.36.2 and paired CPU torchaudio to avoid wasting the one-shot run on deterministic dependency conflict.",
+      "files": [
+        {
+          "path": ".github/workflows/english-qwen-real-once.yml",
+          "before": {
+            "path": ".github/workflows/english-qwen-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "b56b7f761c55cc8178208f914556d0ef3c5101e0",
+            "bytes": 3940,
+            "source_commit": "27496119b6c22847dc9fe0dc78777f5cf7710203"
+          },
+          "after": {
+            "path": ".github/workflows/english-qwen-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "5858075d823ef256edfa8b4f5aa4ae2153fcb86c",
+            "bytes": 3964,
+            "source_commit": "78cecf87fa19ae9f49f9e575d2b08edbcc38add8"
           }
         }
       ],
