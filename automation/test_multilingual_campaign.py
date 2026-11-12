@@ -66,6 +66,28 @@ def request(locale: str = "zh-CN") -> dict:
     }
 
 
+def english_market_request() -> dict:
+    """Small invented source-only matrix; no WAVs, ASR, model or true label."""
+    raw = request("en-US")
+    raw["wake_phrases"] = ["Hey Vosen", "Hey Mero"]
+    raw["utterances"] = [
+        {"id": "wake-vosen", "text": "HEY VOSEN!", "intent": "wake",
+         "challenge": "complete_keyword", "keyword_index": 1},
+        {"id": "wake-mero", "text": "Hey Mero", "intent": "wake",
+         "challenge": "complete_keyword", "keyword_index": 2},
+        {"id": "near-vosen", "text": "Hey Wosen", "intent": "near_miss",
+         "challenge": "other_confusable", "keyword_index": None},
+        {"id": "near-mero", "text": "Hey Miro", "intent": "near_miss",
+         "challenge": "other_confusable", "keyword_index": None},
+        {"id": "near-prefix", "text": "Hey", "intent": "near_miss",
+         "challenge": "partial_prefix", "keyword_index": None},
+        {"id": "ordinary", "text": "Turn off the lights", "intent": "ordinary_negative",
+         "challenge": "conversation", "keyword_index": None},
+    ]
+    raw["max_generation_cells"] = 64
+    return raw
+
+
 class SourceFirstLanguageTests(unittest.TestCase):
     def test_mandarin_wake_and_homophone_are_distinct(self) -> None:
         p = campaign.plan(request())
@@ -101,6 +123,64 @@ class SourceFirstLanguageTests(unittest.TestCase):
                          {"qwen3-tts", "kokoro"})
         self.assertEqual(first["wake_phrases_requested"], ["hello orbit"])
         self.assertFalse(first["next_campaign_authorized"])
+
+    def test_current_english_market_pair_has_separate_positive_and_near_miss_cells(self) -> None:
+        raw = english_market_request()
+        campaign.require_market_candidates(raw)
+        first = campaign.plan(raw)
+        self.assertEqual(first, campaign.plan(raw))
+        self.assertEqual(first["locale"], "en-US")
+        self.assertEqual(first["wake_phrases_requested"], ["Hey Vosen", "Hey Mero"])
+        self.assertEqual(first["generation_cells_planned"], 48)
+        self.assertEqual(first["asr_observations_planned"], 144)
+        self.assertEqual(first["requested_intents"],
+                         {"wake": 2, "near_miss": 3, "ordinary_negative": 1})
+        wake = [row for row in first["cells"] if row["intent"] == "wake"]
+        self.assertEqual({row["requested_keyword_index"] for row in wake}, {1, 2})
+        self.assertEqual({campaign.normalize(row["text_requested"], "en-US")
+                          for row in wake}, {"hey vosen", "hey mero"})
+        self.assertFalse(first["human_gold"])
+        self.assertFalse(first["training_admitted"])
+        self.assertFalse(first["independent_acceptance_evidence"])
+        self.assertEqual(first["model_calls_executed"], 0)
+
+    def test_market_roster_rejects_missing_reordered_and_cross_market_wakes(self) -> None:
+        campaign.require_market_candidates(request("zh-CN"))
+        for phrases in (["Hey Mero", "Hey Vosen"], ["Hey Vosen"],
+                        ["Hey Vosen", "Hello Orbit"],
+                        ["你好小窝", "小窝小窝"]):
+            raw = english_market_request()
+            raw["wake_phrases"] = phrases
+            with self.assertRaisesRegex(ValueError, "MARKET_CANDIDATE_ROSTER_MISMATCH"):
+                campaign.require_market_candidates(raw)
+        raw = english_market_request()
+        raw["utterances"][2]["text"] = "hey VOSEN!"
+        with self.assertRaisesRegex(ValueError, "NEGATIVE_MUST_NOT_MATCH_WAKE"):
+            campaign.plan(raw)
+
+    def test_market_cli_is_opt_in_and_preserves_private_create_only(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp)
+            source, output = work / "request.json", work / "market-plan.json"
+            source.write_text(json.dumps(english_market_request(), ensure_ascii=False))
+            self.assertEqual(campaign.main(["--request", str(source),
+                                            "--output", str(output),
+                                            "--market-candidates"]), 0)
+            generated = json.loads(output.read_text(encoding="utf-8"))
+            self.assertTrue(generated["market_candidate_roster_verified"])
+            self.assertEqual(generated["market_candidate_policy"],
+                             campaign.MARKET_CANDIDATE_POLICY)
+            self.assertFalse(generated["training_admitted"])
+            self.assertEqual(output.stat().st_mode & 0o777, 0o600)
+            with self.assertRaises(FileExistsError):
+                campaign.main(["--request", str(source), "--output", str(output),
+                               "--market-candidates"])
+            source.write_text(json.dumps(request("en-US")))
+            absent = work / "must-not-exist.json"
+            with self.assertRaisesRegex(ValueError, "MARKET_CANDIDATE_ROSTER_MISMATCH"):
+                campaign.main(["--request", str(source), "--output", str(absent),
+                               "--market-candidates"])
+            self.assertFalse(absent.exists())
 
     def test_research_licensed_tts_is_plannable_only_with_source_provenance(self) -> None:
         raw = request()
