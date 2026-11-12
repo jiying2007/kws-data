@@ -20,6 +20,10 @@ import tempfile
 import unicodedata
 import zipfile
 
+# -I -S does not include the script directory on sys.path. The exact
+# checked-out sibling modules are required for isolated, no-site execution.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 import english_blind_asr as blind
 import english_seven_voice_asr_once as asr
 import multilingual_campaign as market

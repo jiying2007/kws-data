@@ -21264,30 +21264,30 @@
     {
       "path": ".github/triggers/english-three-asr-63-review-20261113.json",
       "mode": "100644",
-      "git_blob_sha1": "b6bd9f8b89dc1d9b5713a810214bffc1f00b17b8",
-      "bytes": 951,
-      "source_commit": "ed013ba9cc9405afadd07c9e3019e922b340ec10"
+      "git_blob_sha1": "c44b49a3c3bddbe7c57cd2daa507ddbae0992cb2",
+      "bytes": 1181,
+      "source_commit": "89c604b08938aa78c195c5525e0235ef43e9e191"
     },
     {
       "path": ".github/workflows/english-three-asr-63-review-once.yml",
       "mode": "100644",
-      "git_blob_sha1": "744aaa57aaa44a8d418c8bbaf03572b3d5c06cd2",
-      "bytes": 6858,
-      "source_commit": "ed013ba9cc9405afadd07c9e3019e922b340ec10"
+      "git_blob_sha1": "085cc32855f3f70fa0f3d22ee5fd9003a2d796a1",
+      "bytes": 7531,
+      "source_commit": "89c604b08938aa78c195c5525e0235ef43e9e191"
     },
     {
       "path": "automation/english_seven_voice_review.py",
       "mode": "100644",
-      "git_blob_sha1": "ad5a38022c86d041c26d0a0c1e9bb3254dbce63a",
-      "bytes": 14549,
-      "source_commit": "ed013ba9cc9405afadd07c9e3019e922b340ec10"
+      "git_blob_sha1": "325e7ddf111162ad56697a0b56ee4af42ede2a3b",
+      "bytes": 14752,
+      "source_commit": "89c604b08938aa78c195c5525e0235ef43e9e191"
     },
     {
       "path": "automation/test_english_seven_voice_review.py",
       "mode": "100644",
-      "git_blob_sha1": "1aeb99a87da66d93795ed28205658530ecf4e0e6",
-      "bytes": 7225,
-      "source_commit": "ed013ba9cc9405afadd07c9e3019e922b340ec10"
+      "git_blob_sha1": "1e11388d2aff6a1b1eeedce7adb375d53516b48f",
+      "bytes": 7713,
+      "source_commit": "89c604b08938aa78c195c5525e0235ef43e9e191"
     },
     {
       "path": "docs/ENGLISH_ASR63_REVIEW_20261113.md",
@@ -25438,6 +25438,126 @@
             "git_blob_sha1": "f861d2687a4a0d891f9ad9f57ea2c24d3ef8fcc0",
             "bytes": 4464,
             "source_commit": "ed013ba9cc9405afadd07c9e3019e922b340ec10"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-63-three-asr-machine-review-isolated-cli-zero-forward-recovery-20261113",
+      "source_commit": "89c604b08938aa78c195c5525e0235ef43e9e191",
+      "base_commit": "976b9268365d75de14076dfdbb1adb86e058c8c4",
+      "paths": [
+        "automation/english_seven_voice_review.py",
+        "automation/test_english_seven_voice_review.py",
+        ".github/triggers/english-three-asr-63-review-20261113.json",
+        ".github/workflows/english-three-asr-63-review-once.yml"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/english_seven_voice_review.py",
+          "mode": "100644",
+          "git_blob_sha1": "ad5a38022c86d041c26d0a0c1e9bb3254dbce63a",
+          "bytes": 14549,
+          "source_commit": "ed013ba9cc9405afadd07c9e3019e922b340ec10"
+        },
+        {
+          "path": "automation/test_english_seven_voice_review.py",
+          "mode": "100644",
+          "git_blob_sha1": "1aeb99a87da66d93795ed28205658530ecf4e0e6",
+          "bytes": 7225,
+          "source_commit": "ed013ba9cc9405afadd07c9e3019e922b340ec10"
+        },
+        {
+          "path": ".github/triggers/english-three-asr-63-review-20261113.json",
+          "mode": "100644",
+          "git_blob_sha1": "b6bd9f8b89dc1d9b5713a810214bffc1f00b17b8",
+          "bytes": 951,
+          "source_commit": "ed013ba9cc9405afadd07c9e3019e922b340ec10"
+        },
+        {
+          "path": ".github/workflows/english-three-asr-63-review-once.yml",
+          "mode": "100644",
+          "git_blob_sha1": "744aaa57aaa44a8d418c8bbaf03572b3d5c06cd2",
+          "bytes": 6858,
+          "source_commit": "ed013ba9cc9405afadd07c9e3019e922b340ec10"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "13f280831dfdbed75bbed4e357b26dc7efddd461",
+      "scope": "Fix isolated CLI import that failed before real audio review after PR #100, add exact -I/-S subprocess regression, and activate one distinct review-only recovery against unchanged original artifacts.",
+      "rationale": "Main audit run 43265933138 reached real-review CLI then failed ModuleNotFoundError before any WAV/ASR source read. No new ASR/TTS/optimizer calls authorized; prior failed run remains unchanged.",
+      "files": [
+        {
+          "path": "automation/english_seven_voice_review.py",
+          "before": {
+            "path": "automation/english_seven_voice_review.py",
+            "mode": "100644",
+            "git_blob_sha1": "ad5a38022c86d041c26d0a0c1e9bb3254dbce63a",
+            "bytes": 14549,
+            "source_commit": "ed013ba9cc9405afadd07c9e3019e922b340ec10"
+          },
+          "after": {
+            "path": "automation/english_seven_voice_review.py",
+            "mode": "100644",
+            "git_blob_sha1": "325e7ddf111162ad56697a0b56ee4af42ede2a3b",
+            "bytes": 14752,
+            "source_commit": "89c604b08938aa78c195c5525e0235ef43e9e191"
+          }
+        },
+        {
+          "path": "automation/test_english_seven_voice_review.py",
+          "before": {
+            "path": "automation/test_english_seven_voice_review.py",
+            "mode": "100644",
+            "git_blob_sha1": "1aeb99a87da66d93795ed28205658530ecf4e0e6",
+            "bytes": 7225,
+            "source_commit": "ed013ba9cc9405afadd07c9e3019e922b340ec10"
+          },
+          "after": {
+            "path": "automation/test_english_seven_voice_review.py",
+            "mode": "100644",
+            "git_blob_sha1": "1e11388d2aff6a1b1eeedce7adb375d53516b48f",
+            "bytes": 7713,
+            "source_commit": "89c604b08938aa78c195c5525e0235ef43e9e191"
+          }
+        },
+        {
+          "path": ".github/triggers/english-three-asr-63-review-20261113.json",
+          "before": {
+            "path": ".github/triggers/english-three-asr-63-review-20261113.json",
+            "mode": "100644",
+            "git_blob_sha1": "b6bd9f8b89dc1d9b5713a810214bffc1f00b17b8",
+            "bytes": 951,
+            "source_commit": "ed013ba9cc9405afadd07c9e3019e922b340ec10"
+          },
+          "after": {
+            "path": ".github/triggers/english-three-asr-63-review-20261113.json",
+            "mode": "100644",
+            "git_blob_sha1": "c44b49a3c3bddbe7c57cd2daa507ddbae0992cb2",
+            "bytes": 1181,
+            "source_commit": "89c604b08938aa78c195c5525e0235ef43e9e191"
+          }
+        },
+        {
+          "path": ".github/workflows/english-three-asr-63-review-once.yml",
+          "before": {
+            "path": ".github/workflows/english-three-asr-63-review-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "744aaa57aaa44a8d418c8bbaf03572b3d5c06cd2",
+            "bytes": 6858,
+            "source_commit": "ed013ba9cc9405afadd07c9e3019e922b340ec10"
+          },
+          "after": {
+            "path": ".github/workflows/english-three-asr-63-review-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "085cc32855f3f70fa0f3d22ee5fd9003a2d796a1",
+            "bytes": 7531,
+            "source_commit": "89c604b08938aa78c195c5525e0235ef43e9e191"
           }
         }
       ],
