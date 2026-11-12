@@ -79,7 +79,8 @@ jobs:
                    .workflow_run.head_sha=="f2b91001e4fd56a03bbce9bc6b0c1cae7fad1dc8"'
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # pinned
         with:
-          artifact-ids: 13942568634
+          name: english-qwen-actual-43214159818
+          run-id: 43214159818
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/en-qwen-real-source
       - name: Build pinned standalone public Qwen-ASR CPU runtime
