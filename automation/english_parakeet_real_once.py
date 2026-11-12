@@ -112,6 +112,7 @@ def verify_runtime(root: Path) -> tuple[Path, dict]:
     extracted = root / "extract"
     extracted.mkdir(mode=0o700)
     names = set()
+    links = []
     with tarfile.open(archive, "r:gz") as tar:
         members = tar.getmembers()
         need(1 <= len(members) <= 1024, "RUNTIME_ARCHIVE_MEMBER_BUDGET")
@@ -124,12 +125,26 @@ def verify_runtime(root: Path) -> tuple[Path, dict]:
             need(not rel.is_absolute() and rel.parts and
                  all(x not in (".", "..", "") for x in rel.parts) and
                  key not in names and
-                 (member.isdir() or member.isfile()),
+                 (member.isdir() or member.isfile() or member.issym()),
                  "RUNTIME_ARCHIVE_UNSAFE_MEMBER")
             names.add(key)
             location = extracted.joinpath(*rel.parts)
             if member.isdir():
                 location.mkdir(parents=True, exist_ok=True)
+                continue
+            if member.issym():
+                # Materialize only links resolving to retained regular files.
+                # Never create a filesystem symlink or follow an outside alias.
+                link = PurePosixPath(member.linkname)
+                need(not link.is_absolute() and link.parts and
+                     len(member.linkname) <= 180 and
+                     not any(x == "" for x in link.parts),
+                     "RUNTIME_ARCHIVE_LINK_INVALID")
+                target = (location.parent / member.linkname).resolve()
+                need(target != location and
+                     extracted.resolve() in target.parents,
+                     "RUNTIME_ARCHIVE_LINK_ESCAPES_ROOT")
+                links.append((location, target))
                 continue
             need(0 <= member.size <= 25*1024**2,
                  "RUNTIME_MEMBER_SIZE_BUDGET")
@@ -143,6 +158,30 @@ def verify_runtime(root: Path) -> tuple[Path, dict]:
                     need(copied <= member.size, "RUNTIME_MEMBER_OVERSIZE")
                     out.write(piece)
             need(copied == member.size, "RUNTIME_MEMBER_INCOMPLETE")
+    # Official CPU release uses libfoo.so -> libfoo.so.0 aliases.
+    # Resolve safely *after* all regular members exist, as create-only copies.
+    for _ in range(len(links) + 1):
+        unresolved = []
+        for location, target in links:
+            if target.is_file() and not target.is_symlink():
+                need(not location.exists() and
+                     target.stat().st_size <= 25*1024**2,
+                     "RUNTIME_LINK_TARGET_INVALID")
+                location.parent.mkdir(parents=True, exist_ok=True)
+                with target.open("rb") as src, location.open("xb") as dst:
+                    copied = 0
+                    for piece in iter(lambda: src.read(1024*1024), b""):
+                        copied += len(piece)
+                        need(copied <= 25*1024**2, "RUNTIME_LINK_COPY_BUDGET")
+                        dst.write(piece)
+                need(copied == target.stat().st_size, "RUNTIME_LINK_COPY_INCOMPLETE")
+            else:
+                unresolved.append((location, target))
+        if not unresolved:
+            break
+        need(len(unresolved) < len(links), "RUNTIME_LINK_CYCLE_OR_MISSING")
+        links = unresolved
+    need(not unresolved, "RUNTIME_LINK_UNRESOLVED")
     candidates = [p for p in extracted.rglob("nemo-speech")
                   if p.is_file() and not p.is_symlink()]
     need(len(candidates) == 1, "NEMO_SPEECH_BINARY_MISSING_OR_AMBIGUOUS")

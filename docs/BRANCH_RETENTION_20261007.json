@@ -3650,9 +3650,9 @@
     {
       "path": ".github/workflows/english-parakeet-real-once.yml",
       "mode": "100644",
-      "git_blob_sha1": "618aa47f5a19a81a1dcc335ecab042f7152f7655",
-      "bytes": 5011,
-      "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+      "git_blob_sha1": "291f130ce444848bab16dd9e0f3e9239f26961d0",
+      "bytes": 6052,
+      "source_commit": "8b86e26d379f62a313941d1f193136337abf60f6"
     },
     {
       "path": ".github/workflows/english-qwen-asr-cli-recovery-once.yml",
@@ -3975,9 +3975,9 @@
     {
       "path": "automation/english_parakeet_real_once.py",
       "mode": "100644",
-      "git_blob_sha1": "f7c44e974a3fdd0e92c60fe3f7cac17b2e9fc6a0",
-      "bytes": 14725,
-      "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+      "git_blob_sha1": "053d2fc3aea2c5a04514c1a2ad24c622f2542672",
+      "bytes": 16767,
+      "source_commit": "939894c087c7bab64c88964e26d53f701e09c069"
     },
     {
       "path": "automation/english_qwen_asr_real_once.py",
@@ -4185,9 +4185,9 @@
     {
       "path": "automation/test_english_parakeet_real_once.py",
       "mode": "100644",
-      "git_blob_sha1": "e7955ab0b0d211c509e24561e828b3e9ecf69df4",
-      "bytes": 6216,
-      "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+      "git_blob_sha1": "8ccba51221f61d8c4f602de7a6ef3f62e702be6a",
+      "bytes": 7177,
+      "source_commit": "939894c087c7bab64c88964e26d53f701e09c069"
     },
     {
       "path": "automation/test_english_pilot_asr_handoff.py",
@@ -24770,6 +24770,166 @@
             "git_blob_sha1": "618aa47f5a19a81a1dcc335ecab042f7152f7655",
             "bytes": 5011,
             "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-parakeet-authenticated-native-runtime-preflight-20261112",
+      "source_commit": "8b86e26d379f62a313941d1f193136337abf60f6",
+      "base_commit": "b87652d3b1c4f68a182cdc0ffa521059f53a9123",
+      "paths": [
+        ".github/workflows/english-parakeet-real-once.yml"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/english-parakeet-real-once.yml",
+          "mode": "100644",
+          "git_blob_sha1": "618aa47f5a19a81a1dcc335ecab042f7152f7655",
+          "bytes": 5011,
+          "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "66aaeb809eb37ddd72d129a7ec7f38265c7e4a49",
+      "scope": "Register actual pinned 9.6MB NVIDIA CPU native release no-model PR preflight to diagnose first third-ASR zero-call setup failure.",
+      "rationale": "No GGUF download, ASR audio forward, TTS or training. Preserve failed run 43231581918 and independently prove release archive bytes and safe extraction before any new one-shot inference claim.",
+      "files": [
+        {
+          "path": ".github/workflows/english-parakeet-real-once.yml",
+          "before": {
+            "path": ".github/workflows/english-parakeet-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "618aa47f5a19a81a1dcc335ecab042f7152f7655",
+            "bytes": 5011,
+            "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+          },
+          "after": {
+            "path": ".github/workflows/english-parakeet-real-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "291f130ce444848bab16dd9e0f3e9239f26961d0",
+            "bytes": 6052,
+            "source_commit": "8b86e26d379f62a313941d1f193136337abf60f6"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-parakeet-native-tar-unsafe-member-diagnostic-20261112",
+      "source_commit": "a98e8cdd0efd5f3e96d89781cf6fc1ec8b218eca",
+      "base_commit": "c658a3a72575603619f6f81c9d61a68910a429b3",
+      "paths": [
+        "automation/english_parakeet_real_once.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/english_parakeet_real_once.py",
+          "mode": "100644",
+          "git_blob_sha1": "f7c44e974a3fdd0e92c60fe3f7cac17b2e9fc6a0",
+          "bytes": 14725,
+          "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "88bdd4a428636131b80575b007810b32769259a0",
+      "scope": "Register narrowly bounded diagnostic for member rejected from exact verified native release; no model or audio calls.",
+      "rationale": "Log first exact filename/type/linkname up to 100 chars from SHA-verified release archive so the controlled extraction policy can be corrected without weakening traversal checks.",
+      "files": [
+        {
+          "path": "automation/english_parakeet_real_once.py",
+          "before": {
+            "path": "automation/english_parakeet_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "f7c44e974a3fdd0e92c60fe3f7cac17b2e9fc6a0",
+            "bytes": 14725,
+            "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+          },
+          "after": {
+            "path": "automation/english_parakeet_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "96081ed9dd9b579d6375da1565fb384933c304df",
+            "bytes": 14839,
+            "source_commit": "a98e8cdd0efd5f3e96d89781cf6fc1ec8b218eca"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english-parakeet-native-symlink-safe-materialization-20261112",
+      "source_commit": "939894c087c7bab64c88964e26d53f701e09c069",
+      "base_commit": "28b8d49107e0522aab39253284c2ecf9a15dea2a",
+      "paths": [
+        "automation/english_parakeet_real_once.py",
+        "automation/test_english_parakeet_real_once.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/english_parakeet_real_once.py",
+          "mode": "100644",
+          "git_blob_sha1": "96081ed9dd9b579d6375da1565fb384933c304df",
+          "bytes": 14839,
+          "source_commit": "a98e8cdd0efd5f3e96d89781cf6fc1ec8b218eca"
+        },
+        {
+          "path": "automation/test_english_parakeet_real_once.py",
+          "mode": "100644",
+          "git_blob_sha1": "e7955ab0b0d211c509e24561e828b3e9ecf69df4",
+          "bytes": 6216,
+          "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "27eb126252515d566cd26bf8f0c04a21ceba8210",
+      "scope": "Register repaired release extraction that materializes only checksum-pinned in-root shared-library symlinks as regular files, preserving no-inference PR preflight and path traversal rejection.",
+      "rationale": "Exact preflight showed official NVIDIA release contains local .so symlink. Safe bounded copy is required; original ASR run remains consumed with 0 forwards and no new model calls made by this registration.",
+      "files": [
+        {
+          "path": "automation/english_parakeet_real_once.py",
+          "before": {
+            "path": "automation/english_parakeet_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "96081ed9dd9b579d6375da1565fb384933c304df",
+            "bytes": 14839,
+            "source_commit": "a98e8cdd0efd5f3e96d89781cf6fc1ec8b218eca"
+          },
+          "after": {
+            "path": "automation/english_parakeet_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "053d2fc3aea2c5a04514c1a2ad24c622f2542672",
+            "bytes": 16767,
+            "source_commit": "939894c087c7bab64c88964e26d53f701e09c069"
+          }
+        },
+        {
+          "path": "automation/test_english_parakeet_real_once.py",
+          "before": {
+            "path": "automation/test_english_parakeet_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "e7955ab0b0d211c509e24561e828b3e9ecf69df4",
+            "bytes": 6216,
+            "source_commit": "94735c9b835d0a5d5c878407acb9396fa13ead1b"
+          },
+          "after": {
+            "path": "automation/test_english_parakeet_real_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "8ccba51221f61d8c4f602de7a6ef3f62e702be6a",
+            "bytes": 7177,
+            "source_commit": "939894c087c7bab64c88964e26d53f701e09c069"
           }
         }
       ],

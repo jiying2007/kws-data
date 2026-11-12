@@ -61,6 +61,21 @@ class ParakeetOnceTests(unittest.TestCase):
                 file = tarfile.TarInfo("./bin/nemo-speech")
                 file.size = len(content)
                 tar.addfile(file, io.BytesIO(content))
+                d = tarfile.TarInfo("./lib/")
+                d.type = tarfile.DIRTYPE
+                tar.addfile(d)
+                lib = b"fake-verified-library" * 100
+                file = tarfile.TarInfo("./lib/libggml-base.so.0")
+                file.size = len(lib)
+                tar.addfile(file, io.BytesIO(lib))
+                link = tarfile.TarInfo("./lib/libggml-base.so")
+                link.type = tarfile.SYMTYPE
+                link.linkname = "libggml-base.so.0"
+                tar.addfile(link)
+                link = tarfile.TarInfo("./lib/libggml-alias.so")
+                link.type = tarfile.SYMTYPE
+                link.linkname = "libggml-base.so"
+                tar.addfile(link)
             def fake_fetch(url, target, maximum, expected_sha, expected_length):
                 self.assertEqual(url,p.RUNTIME_URL)
                 target.write_bytes(archive.read_bytes())
@@ -71,6 +86,9 @@ class ParakeetOnceTests(unittest.TestCase):
                 exe, receipt = p.verify_runtime(root)
             self.assertEqual(exe.read_bytes(),content)
             self.assertEqual(exe.stat().st_mode & 0o700,0o700)
+            self.assertEqual((root/"extract/lib/libggml-base.so").read_bytes(),lib)
+            self.assertEqual((root/"extract/lib/libggml-alias.so").read_bytes(),lib)
+            self.assertFalse((root/"extract/lib/libggml-base.so").is_symlink())
 
     def test_execution_is_blind_bounded_and_replay_refused(self):
         with tempfile.TemporaryDirectory() as tmp:
