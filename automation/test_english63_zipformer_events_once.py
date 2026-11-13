@@ -126,6 +126,31 @@ class English63ZipformerEventTests(unittest.TestCase):
                                     "EN_ZIPFORMER_CELL_FALSE_LABEL"):
             probe.validate_result(tampered)
 
+    def test_exact_failed_click_runtime_is_recovered_without_new_audio(self):
+        root = Path(__file__).resolve().parents[1]
+        receipt = market.read(root / ".github/triggers/english63-zipformer-cli-click-recovery-20261113.json")
+        self.assertEqual(receipt, {
+            "schema": "english63-pretrained-zipformer-click-recovery-v1",
+            "original_main_commit": "18933893f35fd16b3024d2e045c74b28d2100fdd",
+            "failed_workflow_run_id": 43437982732,
+            "failed_jobs": {
+                "gigaspeech": 131928165688,
+                "zh-en": 131928165967,
+            },
+            "observed_failure": "ModuleNotFoundError: No module named 'click'",
+            "failure_stage": "sherpa-onnx-cli text2token before any KWS event inference",
+            "runtime_dependency": "click==8.1.8",
+            "original_source_artifact_id": 13954744587,
+            "original_source_zip_sha256": "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc",
+            "new_tts_calls": 0, "new_asr_calls": 0,
+            "model_promotion_allowed": False, "scheduled_polling": False,
+        })
+        workflow = (root / ".github/workflows/english63-zipformer-events-once.yml").read_text(encoding="utf-8")
+        self.assertIn("'click==8.1.8'", workflow)
+        self.assertIn('"$RUNNER_TEMP/en63-kws-runtime/bin/sherpa-onnx-cli" --help', workflow)
+        self.assertIn("english63-zipformer-cli-click-recovery-20261113.json", workflow)
+        self.assertNotIn('gh api "repos/k2-fsa/sherpa-onnx/releases', workflow)
+
     def test_offline_cli_does_not_download_or_infer(self):
         p = subprocess.run([sys.executable, "-I", "-S", "-B",
                             str(Path(probe.__file__))],
