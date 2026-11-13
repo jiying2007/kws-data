@@ -1,0 +1,103 @@
+name: English63 GigaSpeech official vendor-positive diagnostic
+
+on:
+  pull_request:
+    paths:
+      - 'automation/english63_gigaspeech_vendor_canary.py'
+      - 'automation/test_english63_gigaspeech_vendor_canary.py'
+      - '.github/workflows/english63-gigaspeech-vendor-canary.yml'
+      - 'docs/BRANCH_RETENTION_20261007.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: en63-vendor-canary-${{ github.event.pull_request.number }}-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  source-only:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Source-only vendor controls under three interpreter modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/test_english63_gigaspeech_vendor_canary.py -v
+          python3 -I -S -B -O automation/test_english63_gigaspeech_vendor_canary.py -v
+          python3 -I -S -B -OO automation/test_english63_gigaspeech_vendor_canary.py -v
+          python3 -I -S -B automation/english63_gigaspeech_vendor_canary.py
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+
+  real-vendor-controls:
+    needs: source-only
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Fetch exactly the pretrained official GigaSpeech source (NO English63 audio)
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 2 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2' \
+            -o "$RUNNER_TEMP/gigaspeech-original.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/gigaspeech-original.tar.bz2")" = 17626723
+          printf '%s  %s\n' \
+            'f170013b4716e41b62b9bfd809687c207cef798ef9bc6534d524e17af9b6561a' \
+            "$RUNNER_TEMP/gigaspeech-original.tar.bz2" |
+            sha256sum --check --status
+      - name: Install identical pinned Sherpa-ONNX CPU version, no trainer
+        shell: bash
+        timeout-minutes: 8
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/gigaspeech-vendor-venv"
+          "$RUNNER_TEMP/gigaspeech-vendor-venv/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8' \
+            'click==8.1.8' 'pypinyin==0.55.0' 'sentencepiece==0.2.1'
+          "$RUNNER_TEMP/gigaspeech-vendor-venv/bin/pip" check
+          "$RUNNER_TEMP/gigaspeech-vendor-venv/bin/pip" freeze \
+            > "$RUNNER_TEMP/gigaspeech-vendor-runtime.txt"
+      - name: Actual vendor test_wavs/0.wav and 1.wav with official test_keywords.txt
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/gigaspeech-vendor-venv/bin/python" -I -B \
+            automation/english63_gigaspeech_vendor_canary.py --execute \
+            --archive "$RUNNER_TEMP/gigaspeech-original.tar.bz2" \
+            --output "$RUNNER_TEMP/gigaspeech-vendor-real-events.json"
+          test -z "$(git status --porcelain)"
+      - name: Retain observed vendor event-level JSON and environment only
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # pinned
+        with:
+          name: english63-gigaspeech-vendor-canary-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/gigaspeech-vendor-real-events.json
+            ${{ runner.temp }}/gigaspeech-vendor-runtime.txt
+          retention-days: 30
+          if-no-files-found: error
