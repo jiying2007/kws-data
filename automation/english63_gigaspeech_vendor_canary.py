@@ -104,7 +104,12 @@ def validate_receipt(report):
              row["decoded_steps"] >= 0 and
              type(row.get("events")) is list and
              type(row.get("documented_keyword_detected")) is bool and
-             row.get("acoustic_gold") is False,
+             row.get("acoustic_gold") is False and
+             type(row.get("wav_sha256")) is str and
+             len(row["wav_sha256"]) == 64 and
+             type(row.get("pcm_sha256")) is str and
+             len(row["pcm_sha256"]) == 64 and
+             len(row["events"]) <= prior.EVENT_LIMIT,
              "EN_VENDOR_ROW_SCHEMA")
         seen.add(row["filename"])
         for event in row["events"]:
@@ -113,6 +118,10 @@ def validate_receipt(report):
                  type(event.get("token_timestamps_sec")) is list and
                  event.get("is_streaming_event") is True,
                  "EN_VENDOR_EVENT_SHAPE")
+        need(row["documented_keyword_detected"] is any(
+             event["keyword"].strip().upper() ==
+             row["documented_vendor_keyword"] for event in row["events"]),
+             "EN_VENDOR_FORGED_POSITIVE_CONTROL")
     need(report.get("vendor_positive_control_passed") is
          all(r["documented_keyword_detected"] for r in report["canary_rows"]),
          "EN_VENDOR_FALSE_POSITIVE_CONTROL_PASS")
