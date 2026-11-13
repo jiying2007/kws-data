@@ -1,0 +1,180 @@
+{
+  "schema": "english63-zh-en-mero-only-observed-event-readback-v1",
+  "status": "SOURCE_BOUND_SYNTHETIC_EVENT_DIAGNOSTIC_NOT_MODEL_QUALIFICATION",
+  "source": {
+    "repository": "jiying2007/kws-data",
+    "implementation_merge_sha": "8400da16e4f093641716b649e7c5d5f688977a40",
+    "actual_workflow_run_id": 43448541871,
+    "actual_workflow_url": "https://github.com/jiying2007/kws-data/actions/runs/43448541871",
+    "artifact_id": 14049636426,
+    "artifact_name": "english63-zh-en-meroonly-events-43448541871",
+    "artifact_zip_sha256": "aef82fd070d7057a5f025cecc1a92a1700c8f97440015844d09783bc048e8bf4",
+    "receipt_member": "english63-meroonly-events.json",
+    "receipt_member_sha256": "0e8614392c8fb6d263ae7e5cc1e074610773e8ec046dd7028baa76899733c383",
+    "receipt_member_bytes": 40048,
+    "original_tts_run_id": 43242278962,
+    "original_tts_artifact_id": 13954744587,
+    "original_tts_zip_sha256": "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc",
+    "official_model_archive_sha256": "68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6",
+    "official_model_source": "sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20"
+  },
+  "experiment": {
+    "keyword_original_text": "Hey Mero",
+    "official_phone_tokens": "HH EY1 M EH1 R OW0 @HEY_MERO",
+    "candidate_hey_vosen_not_evaluated": true,
+    "synthetic_source_families": 7,
+    "original_audio_clips": 63,
+    "original_audio_samples": 2101760,
+    "original_audio_duration_seconds": 131.36,
+    "decoder_policy": {
+      "threads": 1,
+      "feature_dim": 80,
+      "max_active_paths": 4,
+      "keywords_score": 1,
+      "keywords_threshold": 0.25,
+      "num_trailing_blanks": 1,
+      "feed_samples": 1600,
+      "tail_samples": 10560
+    },
+    "keyword_count": 1,
+    "model_adaptation_or_finetune": false
+  },
+  "observed": {
+    "total_event_count": 9,
+    "total_clips_with_event": 9,
+    "target_requested_clips": 14,
+    "target_requested_clips_with_event": 9,
+    "target_requested_event_count": 9,
+    "other_requested_clips": 49,
+    "other_requested_clips_with_event": 0,
+    "other_requested_event_count": 0,
+    "requested_text": {
+      "Hey Mero": {
+        "clips": 7,
+        "clips_with_event": 4,
+        "events": 4
+      },
+      "Hey, Mero!": {
+        "clips": 7,
+        "clips_with_event": 5,
+        "events": 5
+      },
+      "Hey Miro": {
+        "clips": 7,
+        "clips_with_event": 0,
+        "events": 0
+      },
+      "Hey Rosen": {
+        "clips": 7,
+        "clips_with_event": 0,
+        "events": 0
+      },
+      "Hey Vosen": {
+        "clips": 7,
+        "clips_with_event": 0,
+        "events": 0
+      },
+      "Hey Wosen": {
+        "clips": 7,
+        "clips_with_event": 0,
+        "events": 0
+      },
+      "Hey, Vosen!": {
+        "clips": 7,
+        "clips_with_event": 0,
+        "events": 0
+      },
+      "Hey, can you hear me?": {
+        "clips": 7,
+        "clips_with_event": 0,
+        "events": 0
+      },
+      "What time is it?": {
+        "clips": 7,
+        "clips_with_event": 0,
+        "events": 0
+      }
+    },
+    "synthetic_voice_families": {
+      "qwen3-preset-dylan": {
+        "clips": 9,
+        "target_requested": 2,
+        "target_clips_with_event": 2,
+        "total_events": 2
+      },
+      "qwen3-preset-eric": {
+        "clips": 9,
+        "target_requested": 2,
+        "target_clips_with_event": 2,
+        "total_events": 2
+      },
+      "qwen3-preset-ono_anna": {
+        "clips": 9,
+        "target_requested": 2,
+        "target_clips_with_event": 1,
+        "total_events": 1
+      },
+      "qwen3-preset-serena": {
+        "clips": 9,
+        "target_requested": 2,
+        "target_clips_with_event": 2,
+        "total_events": 2
+      },
+      "qwen3-preset-sohee": {
+        "clips": 9,
+        "target_requested": 2,
+        "target_clips_with_event": 0,
+        "total_events": 0
+      },
+      "qwen3-preset-uncle_fu": {
+        "clips": 9,
+        "target_requested": 2,
+        "target_clips_with_event": 1,
+        "total_events": 1
+      },
+      "qwen3-preset-vivian": {
+        "clips": 9,
+        "target_requested": 2,
+        "target_clips_with_event": 1,
+        "total_events": 1
+      }
+    },
+    "synthetic_voices_with_at_least_one_event": 6,
+    "event_tokens_missing": 9,
+    "event_token_timestamps_missing": 9,
+    "input_available_at_detection_seconds": {
+      "min": 1.5,
+      "median": 1.94,
+      "max": 2.82
+    },
+    "input_availability_is_not_end_of_word_latency": true,
+    "host_decode_loop_seconds": 1.4138,
+    "host_decode_loop_rtf_approx": 0.01076,
+    "host_timing_excludes_model_load_and_ssc305": true
+  },
+  "comparison": {
+    "english_gigaspeech_pretained_run_id": 43443799469,
+    "english_gigaspeech_event_count_on_source63": 0,
+    "gigaspeech_vendor_control_run_id": 43445799002,
+    "gigaspeech_vendor_positive_control_passed": true,
+    "model_keyword_lists_differ": true,
+    "no_winner_from_untrusted_weak_labels": true
+  },
+  "limits": {
+    "source_requested_text_is_acoustic_gold": false,
+    "human_gold": false,
+    "human_speaker_count": 0,
+    "formal_training_admitted": false,
+    "independent_test_qualified": false,
+    "continuous_negative_far_per_hour": "NOT_RUN",
+    "independent_human_frr": "NOT_RUN",
+    "accent_far_field_3to5m": "NOT_RUN",
+    "model_on_ssc305": "NOT_RUN",
+    "latency_p99": "NOT_RUN",
+    "model_promotion_allowed": false,
+    "nearphones_untrusted_as_negatives": true,
+    "no_new_tts_or_asr_calls": true,
+    "no_new_audio_generated": true,
+    "no_new_training_or_threshold_sweep": true
+  }
+}
