@@ -1,0 +1,155 @@
+name: English63 pretrained Zipformer actual keyword events once
+
+on:
+  pull_request:
+    paths:
+      - 'automation/english63_zipformer_events_once.py'
+      - 'automation/test_english63_zipformer_events_once.py'
+      - '.github/triggers/english63-zipformer-event-probe-20261113.json'
+      - '.github/workflows/english63-zipformer-events-once.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.github/triggers/english63-zipformer-event-probe-20261113.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: en63-zipformer-real-once-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  source-contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Exact original source, release pins and hostile receipt tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/test_english63_zipformer_events_once.py -v
+          python3 -I -S -B -O automation/test_english63_zipformer_events_once.py -v
+          python3 -I -S -B -OO automation/test_english63_zipformer_events_once.py -v
+          python3 -I -S -B automation/english63_zipformer_events_once.py
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+
+  real-event-probe:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1
+    strategy:
+      fail-fast: false
+      matrix:
+        model: [gigaspeech, zh-en]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    permissions:
+      contents: read
+      actions: read
+    env:
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+
+      - name: Verify original 63-WAV run, exact artifact digest and frozen source model identity
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MODEL: ${{ matrix.model }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962 |
+            jq -e '.id==43242278962 and .status=="completed" and
+                   .conclusion=="success" and .run_attempt==1 and
+                   .head_sha=="bec1a1421d1db2de17afb9c6e3155343becdb980"'
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962/artifacts |
+            jq -e '[.artifacts[] | select(.id==13954744587 and .expired==false and
+                   .digest=="sha256:f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc")] | length==1'
+          # Model artifacts are research inputs only, never GitHub Release authority.
+          # Exact source URLs are fixed here and model size/SHA are checked again
+          # in the Python loader; an unpinned GigaSpeech digest cannot promote.
+          case "$MODEL" in
+            gigaspeech)
+              archive_name=sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2
+              ;;
+            zh-en)
+              archive_name=sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2
+              ;;
+            *) exit 2 ;;
+          esac
+          expected_url="https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/$archive_name"
+          printf 'MODEL_URL=%s\n' "$expected_url" >> "$GITHUB_ENV"
+
+      - name: Download exactly existing source ZIP and official model asset; no TTS/ASR/training
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 0 \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/13954744587/zip' \
+            -o "$RUNNER_TEMP/en63-original.zip"
+          printf '%s  %s\n' \
+            'f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc' \
+            "$RUNNER_TEMP/en63-original.zip" | sha256sum --check --status
+          curl --fail --location --silent --show-error --retry 2 \
+            "$MODEL_URL" -o "$RUNNER_TEMP/zipformer-official.tar.bz2"
+
+      - name: Install isolated native CPU pretrained KWS runtime only
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en63-kws-runtime"
+          "$RUNNER_TEMP/en63-kws-runtime/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8'
+          "$RUNNER_TEMP/en63-kws-runtime/bin/pip" freeze \
+            > "$RUNNER_TEMP/en63-kws-runtime-pins.txt"
+
+      - name: Execute 63 source-verified PCM clips with actual streaming keyword events
+        shell: bash
+        env:
+          MODEL: ${{ matrix.model }}
+        run: |
+          set -euo pipefail
+          export PATH="$RUNNER_TEMP/en63-kws-runtime/bin:$PATH"
+          "$RUNNER_TEMP/en63-kws-runtime/bin/python" -I -B \
+            automation/english63_zipformer_events_once.py --execute \
+            --tts-zip "$RUNNER_TEMP/en63-original.zip" \
+            --model-archive "$RUNNER_TEMP/zipformer-official.tar.bz2" \
+            --model "$MODEL" \
+            --output "$RUNNER_TEMP/en63-$MODEL-real-events.json"
+          test -z "$(git status --porcelain)"
+
+      - name: Retain actual event rows and immutable source/model hashes, not source audio or weights
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # pinned
+        with:
+          name: english63-pretrained-${{ matrix.model }}-events-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/en63-${{ matrix.model }}-real-events.json
+            ${{ runner.temp }}/en63-kws-runtime-pins.txt
+          retention-days: 30
+          if-no-files-found: error
