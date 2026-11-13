@@ -228,6 +228,36 @@ class English63ZipformerEventTests(unittest.TestCase):
             self.assertEqual(result["kws_inference_calls"], 0)
             self.assertFalse(result["model_promotion_allowed"])
 
+    def test_source_capture_receipt_is_wav_and_frames_not_pseudo_pcm_field(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            wav = Path(tmp) / "fixture.wav"
+            wav.write_bytes(b"invented source bytes, never synthetic KWS evaluation")
+            digest = probe.sha_file(wav)
+            receipt = {"wav_sha256": digest, "frames": 7}
+            self.assertTrue(probe.verify_source_readback(wav, receipt,
+                                                        [0] * 7, "0" * 64))
+            for tampered in (
+                {"wav_sha256": "f" * 64, "frames": 7},
+                {"wav_sha256": digest, "frames": 8},
+                {"wav_sha256": digest, "frames": 7, "pcm_sha256": "x" * 64},
+            ):
+                with self.assertRaisesRegex(ValueError,
+                                            "EN_ZIPFORMER_SOURCE_READBACK_DRIFT"):
+                    probe.verify_source_readback(wav, tampered, [0] * 7, "0" * 64)
+            wav.write_bytes(b"changed after the original source read")
+            with self.assertRaisesRegex(ValueError,
+                                        "EN_ZIPFORMER_SOURCE_READBACK_DRIFT"):
+                probe.verify_source_readback(wav, receipt, [0] * 7, "0" * 64)
+
+    def test_real_wav_preflight_is_source_only_and_requires_original_zip(self):
+        p = subprocess.run([sys.executable, "-I", "-S", "-B",
+                            str(Path(probe.__file__)), "--preflight-audio"],
+                           capture_output=True, text=True, check=False,
+                           timeout=20)
+        self.assertEqual(p.returncode, 2, p.stderr)
+        self.assertIn("EN_ZIPFORMER_AUDIO_PREFLIGHT_SOURCE_ONLY", p.stderr)
+        self.assertNotIn("63_AUTHENTICATED", p.stdout)
+
     def test_offline_cli_does_not_download_or_infer(self):
         p = subprocess.run([sys.executable, "-I", "-S", "-B",
                             str(Path(probe.__file__))],
