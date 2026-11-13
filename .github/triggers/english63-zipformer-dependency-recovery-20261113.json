@@ -17,9 +17,17 @@
     "pypinyin==0.55.0",
     "sentencepiece==0.2.1"
   ],
-  "replay_scope": "keyword tokenization preflight then real streaming events for unchanged 63 WAVs, no TTS ASR or training",
+  "replay_scope": "preflight both official pretrained tokenizers, reuse unchanged 63 WAVs only for lexicon-qualified GigaSpeech events; zh-en OOV blocked without guessed phonetic transcription",
   "training_admitted": false,
   "model_promotion_allowed": false,
   "new_tts_calls": 0,
-  "no_scheduled_patrol": true
+  "no_scheduled_patrol": true,
+  "preflight_models": [
+    "gigaspeech",
+    "zh-en"
+  ],
+  "actual_event_models": [
+    "gigaspeech"
+  ],
+  "new_asr_calls": 0
 }
