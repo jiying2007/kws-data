@@ -1,0 +1,199 @@
+name: English63 Zh-En pretrained Hey Mero only real event research
+
+on:
+  pull_request:
+    paths:
+      - 'automation/english63_zh_en_mero_only.py'
+      - 'automation/test_english63_zh_en_mero_only.py'
+      - '.github/triggers/english63-zh-en-mero-only-20261113.json'
+      - '.github/workflows/english63-zh-en-mero-only.yml'
+      - 'docs/BRANCH_RETENTION_20261007.json'
+  push:
+    branches: [main]
+    paths:
+      - '.github/triggers/english63-zh-en-mero-only-20261113.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: english63-zh-en-mero-only-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  source-only:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Immutable original source, phonetic OOV and non-promotion regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/test_english63_zh_en_mero_only.py -v
+          python3 -I -S -B -O automation/test_english63_zh_en_mero_only.py -v
+          python3 -I -S -B -OO automation/test_english63_zh_en_mero_only.py -v
+          python3 -I -S -B automation/english63_zh_en_mero_only.py
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+
+  source-model-preflight:
+    needs: source-only
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      actions: read
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Verify and reuse existing public original English63 artifact without regenerating WAV
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962 |
+            jq -e '.id==43242278962 and .status=="completed" and
+                   .conclusion=="success" and .run_attempt==1 and
+                   .head_sha=="bec1a1421d1db2de17afb9c6e3155343becdb980"'
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962/artifacts |
+            jq -e '[.artifacts[] | select(.id==13954744587 and .expired==false and
+                   .digest=="sha256:f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc")] | length==1'
+          curl --fail --location --silent --show-error --retry 0 \
+            -H 'Authorization: Bearer ${GH_TOKEN}' \
+            -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/13954744587/zip' \
+            -o "$RUNNER_TEMP/english63-source-original.zip"
+          printf '%s  %s\n' \
+            'f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc' \
+            "$RUNNER_TEMP/english63-source-original.zip" | sha256sum --check --status
+      - name: Fetch exactly the official 3M bilingual model without G2P guesses
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 2 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2' \
+            -o "$RUNNER_TEMP/zh-en-original.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/zh-en-original.tar.bz2")" = 32885699
+          printf '%s  %s\n' \
+            '68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6' \
+            "$RUNNER_TEMP/zh-en-original.tar.bz2" | sha256sum --check --status
+      - name: Install pinned one-thread native Sherpa tokenizer runtime
+        shell: bash
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/mero-research-venv"
+          "$RUNNER_TEMP/mero-research-venv/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8' \
+            'click==8.1.8' 'pypinyin==0.55.0' 'sentencepiece==0.2.1'
+          "$RUNNER_TEMP/mero-research-venv/bin/pip" check
+          "$RUNNER_TEMP/mero-research-venv/bin/sherpa-onnx-cli" text2token --help >/dev/null
+      - name: Actual original-63 PCM and official MERO lexicon preflight without model inference
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PATH="$RUNNER_TEMP/mero-research-venv/bin:$PATH"
+          "$RUNNER_TEMP/mero-research-venv/bin/python" -I -B \
+            automation/english63_zh_en_mero_only.py --preflight \
+            --tts-zip "$RUNNER_TEMP/english63-source-original.zip" \
+            --model-archive "$RUNNER_TEMP/zh-en-original.tar.bz2"
+          test -z "$(git status --porcelain)"
+
+  actual-mero-events:
+    needs: source-only
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    permissions:
+      contents: read
+      actions: read
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      TOKENIZERS_PARALLELISM: 'false'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Download only previously pinned source and official pretrained model
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962/artifacts |
+            jq -e '[.artifacts[] | select(.id==13954744587 and .expired==false and
+                   .digest=="sha256:f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc")] | length==1'
+          curl --fail --location --silent --show-error --retry 0 \
+            -H 'Authorization: Bearer ${GH_TOKEN}' \
+            -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/13954744587/zip' \
+            -o "$RUNNER_TEMP/english63-source-original.zip"
+          printf '%s  %s\n' \
+            'f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc' \
+            "$RUNNER_TEMP/english63-source-original.zip" | sha256sum --check --status
+          curl --fail --location --silent --show-error --retry 2 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2' \
+            -o "$RUNNER_TEMP/zh-en-original.tar.bz2"
+          printf '%s  %s\n' \
+            '68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6' \
+            "$RUNNER_TEMP/zh-en-original.tar.bz2" | sha256sum --check --status
+      - name: Isolated exact pinned CPU runtime, never TTS or training
+        shell: bash
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/mero-research-venv"
+          "$RUNNER_TEMP/mero-research-venv/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8' \
+            'click==8.1.8' 'pypinyin==0.55.0' 'sentencepiece==0.2.1'
+          "$RUNNER_TEMP/mero-research-venv/bin/pip" check
+          "$RUNNER_TEMP/mero-research-venv/bin/pip" freeze \
+            > "$RUNNER_TEMP/mero-research-runtime.txt"
+      - name: Execute actual Zh-En Hey Mero only KWS streaming events on 63 original WAVs
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PATH="$RUNNER_TEMP/mero-research-venv/bin:$PATH"
+          "$RUNNER_TEMP/mero-research-venv/bin/python" -I -B \
+            automation/english63_zh_en_mero_only.py --execute \
+            --tts-zip "$RUNNER_TEMP/english63-source-original.zip" \
+            --model-archive "$RUNNER_TEMP/zh-en-original.tar.bz2" \
+            --output "$RUNNER_TEMP/english63-meroonly-events.json"
+          test -z "$(git status --porcelain)"
+      - name: Archive actual clip-level events and exact runtime only
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # pinned
+        with:
+          name: english63-zh-en-meroonly-events-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english63-meroonly-events.json
+            ${{ runner.temp }}/mero-research-runtime.txt
+          retention-days: 30
+          if-no-files-found: error
