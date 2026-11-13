@@ -116,7 +116,7 @@ class ThreeEvidenceQueueTests(unittest.TestCase):
              "ENGLISH63_ASR_OR_IPA_NOT_COMPLETE"),
             (lambda a,d,i: a["rows"][0].update(training_admitted=True),
              "ENGLISH63_SOURCE_ROLE_HASH_OR_GOLD_DRIFT"),
-            (lambda a,d,i: a["rows"][0].update(requested_intent="wake"),
+            (lambda a,d,i: a["rows"][0].update(requested_intent="near_miss"),
              "ENGLISH63_SOURCE_ROLE_HASH_OR_GOLD_DRIFT"),
         ]:
             a,d,i=invented_three_sources()
