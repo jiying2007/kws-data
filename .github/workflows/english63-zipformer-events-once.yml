@@ -12,6 +12,7 @@ on:
     paths:
       - '.github/triggers/english63-zipformer-event-probe-20261113.json'
       - '.github/triggers/english63-zipformer-cli-click-recovery-20261113.json'
+      - '.github/triggers/english63-zipformer-text2token-dependency-recovery-20261113.json'
 
 permissions:
   contents: read
@@ -42,6 +43,21 @@ jobs:
           python3 -I -S -B -OO automation/test_english63_zipformer_events_once.py -v
           python3 -I -S -B automation/english63_zipformer_events_once.py
           python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+
+      - name: Prove Sherpa 1.13.8 text2token CLI import closure without any model or audio
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en63-cli-dep-smoke"
+          "$RUNNER_TEMP/en63-cli-dep-smoke/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8' 'click==8.1.8' \
+            'sentencepiece==0.2.1' 'pypinyin==0.55.0'
+          "$RUNNER_TEMP/en63-cli-dep-smoke/bin/python" -I -c \
+            'import click, sentencepiece, pypinyin, sherpa_onnx; from sherpa_onnx import text2token'
+          "$RUNNER_TEMP/en63-cli-dep-smoke/bin/sherpa-onnx-cli" --help >/dev/null
           test -z "$(git status --porcelain)"
 
   real-event-probe:
@@ -125,7 +141,10 @@ jobs:
           python3 -m venv "$RUNNER_TEMP/en63-kws-runtime"
           "$RUNNER_TEMP/en63-kws-runtime/bin/pip" install \
             --disable-pip-version-check --no-cache-dir --only-binary=:all: \
-            'numpy==1.26.4' 'sherpa-onnx==1.13.8' 'click==8.1.8'
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8' 'click==8.1.8' \
+            'sentencepiece==0.2.1' 'pypinyin==0.55.0'
+          "$RUNNER_TEMP/en63-kws-runtime/bin/python" -I -c \
+            'import click, sentencepiece, pypinyin, sherpa_onnx; from sherpa_onnx import text2token'
           "$RUNNER_TEMP/en63-kws-runtime/bin/sherpa-onnx-cli" --help >/dev/null
           "$RUNNER_TEMP/en63-kws-runtime/bin/pip" freeze \
             > "$RUNNER_TEMP/en63-kws-runtime-pins.txt"
