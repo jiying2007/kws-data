@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2025,
-  "expected_retained_files": 2016,
+  "expected_tracked_files": 2028,
+  "expected_retained_files": 2019,
   "new_retained_paths": 1281,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -21449,6 +21449,27 @@
       "git_blob_sha1": "caa26ba578b4c0255fdb5d8affc84fd05dcff6a0",
       "bytes": 767,
       "source_commit": "b48d6734daa22806ab5d166903489de8807e2706"
+    },
+    {
+      "path": "automation/english63_gigaspeech_vendor_canary.py",
+      "mode": "100644",
+      "git_blob_sha1": "244b01c9b27ea816ff9127e7c8e163b94de21391",
+      "bytes": 10968,
+      "source_commit": "4ee620e739422afc11072745fc9c9dc9f41172e5"
+    },
+    {
+      "path": "automation/test_english63_gigaspeech_vendor_canary.py",
+      "mode": "100644",
+      "git_blob_sha1": "e3c93cca92e3d2742fbe9d11aac990fb0c41e652",
+      "bytes": 6791,
+      "source_commit": "3a85534a9060b99c0595626dfa8fe5abf58f8558"
+    },
+    {
+      "path": ".github/workflows/english63-gigaspeech-vendor-canary.yml",
+      "mode": "100644",
+      "git_blob_sha1": "7b387d7e325e8209266890dffec4374bea080ace",
+      "bytes": 4400,
+      "source_commit": "69ce3ab930eeff11a4e0835281999fcf4626c2fd"
     }
   ],
   "source_registration_history": [
@@ -26549,6 +26570,57 @@
             "git_blob_sha1": "caa26ba578b4c0255fdb5d8affc84fd05dcff6a0",
             "bytes": 767,
             "source_commit": "b48d6734daa22806ab5d166903489de8807e2706"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-gigaspeech-vendor-positive-control-diagnostic-20261113",
+      "source_commit": "69ce3ab930eeff11a4e0835281999fcf4626c2fd",
+      "base_commit": "fd26c22a2b76209467b334c02ff399c34ef7052e",
+      "paths": [
+        "automation/english63_gigaspeech_vendor_canary.py",
+        "automation/test_english63_gigaspeech_vendor_canary.py",
+        ".github/workflows/english63-gigaspeech-vendor-canary.yml"
+      ],
+      "previous_manifest_git_blob_sha1": "a4563ec1e498d42d67a942277690f9893e7e5ca9",
+      "scope": "Read-only Sherpa GigaSpeech official vendor WAV 0/1 plus original test_keywords, to isolate whether zero English63 target events arise from runtime or proprietary-word acoustics, without any English63 replay.",
+      "rationale": "Actual pretrained English63 GigaSpeech run 43443799469 completed 63 real audio decodes with zero wake events; verify the exact same runtime and thresholds on vendor documented positive controls before tuning or selecting a model.",
+      "files": [
+        {
+          "path": "automation/english63_gigaspeech_vendor_canary.py",
+          "after": {
+            "path": "automation/english63_gigaspeech_vendor_canary.py",
+            "mode": "100644",
+            "git_blob_sha1": "244b01c9b27ea816ff9127e7c8e163b94de21391",
+            "bytes": 10968,
+            "source_commit": "4ee620e739422afc11072745fc9c9dc9f41172e5"
+          }
+        },
+        {
+          "path": "automation/test_english63_gigaspeech_vendor_canary.py",
+          "after": {
+            "path": "automation/test_english63_gigaspeech_vendor_canary.py",
+            "mode": "100644",
+            "git_blob_sha1": "e3c93cca92e3d2742fbe9d11aac990fb0c41e652",
+            "bytes": 6791,
+            "source_commit": "3a85534a9060b99c0595626dfa8fe5abf58f8558"
+          }
+        },
+        {
+          "path": ".github/workflows/english63-gigaspeech-vendor-canary.yml",
+          "after": {
+            "path": ".github/workflows/english63-gigaspeech-vendor-canary.yml",
+            "mode": "100644",
+            "git_blob_sha1": "7b387d7e325e8209266890dffec4374bea080ace",
+            "bytes": 4400,
+            "source_commit": "69ce3ab930eeff11a4e0835281999fcf4626c2fd"
           }
         }
       ],
