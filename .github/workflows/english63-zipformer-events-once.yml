@@ -70,7 +70,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Verify unchanged original 63-WAV run, full artifact digest and release asset identity
+      - name: Verify original 63-WAV run, exact artifact digest and frozen source model identity
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -84,26 +84,19 @@ jobs:
           gh api repos/jiying2007/kws-data/actions/runs/43242278962/artifacts |
             jq -e '[.artifacts[] | select(.id==13954744587 and .expired==false and
                    .digest=="sha256:f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc")] | length==1'
+          # Model artifacts are research inputs only, never GitHub Release authority.
+          # Exact source URLs are fixed here and model size/SHA are checked again
+          # in the Python loader; an unpinned GigaSpeech digest cannot promote.
           case "$MODEL" in
             gigaspeech)
-              asset_id=166405338
               archive_name=sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2
-              expected_bytes=17626723
-              expected_digest=null
               ;;
             zh-en)
-              asset_id=331699066
               archive_name=sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2
-              expected_bytes=32885699
-              expected_digest='"sha256:68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6"'
               ;;
             *) exit 2 ;;
           esac
           expected_url="https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/$archive_name"
-          gh api "repos/k2-fsa/sherpa-onnx/releases/assets/$asset_id" |
-            jq -e --arg name "$archive_name" --arg url "$expected_url" \
-                  --argjson size "$expected_bytes" --argjson digest "$expected_digest" \
-              '.name==$name and .size==$size and .browser_download_url==$url and .digest==$digest'
           printf 'MODEL_URL=%s\n' "$expected_url" >> "$GITHUB_ENV"
 
       - name: Download exactly existing source ZIP and official model asset; no TTS/ASR/training
