@@ -11,6 +11,7 @@ on:
     branches: [main]
     paths:
       - '.github/triggers/english63-zipformer-event-probe-20261113.json'
+      - '.github/triggers/english63-zipformer-cli-click-recovery-20261113.json'
 
 permissions:
   contents: read
@@ -124,7 +125,8 @@ jobs:
           python3 -m venv "$RUNNER_TEMP/en63-kws-runtime"
           "$RUNNER_TEMP/en63-kws-runtime/bin/pip" install \
             --disable-pip-version-check --no-cache-dir --only-binary=:all: \
-            'numpy==1.26.4' 'sherpa-onnx==1.13.8'
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8' 'click==8.1.8'
+          "$RUNNER_TEMP/en63-kws-runtime/bin/sherpa-onnx-cli" --help >/dev/null
           "$RUNNER_TEMP/en63-kws-runtime/bin/pip" freeze \
             > "$RUNNER_TEMP/en63-kws-runtime-pins.txt"
 
