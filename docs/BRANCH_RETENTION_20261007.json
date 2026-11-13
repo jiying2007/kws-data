@@ -21376,9 +21376,9 @@
     {
       "path": "automation/test_english63_evidence_review_queue.py",
       "mode": "100644",
-      "git_blob_sha1": "ce6b4f841621bceaf4347261ad770f7f3d52a908",
-      "bytes": 7473,
-      "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+      "git_blob_sha1": "fc3eca68f6386fbed0a73005f5241d9afc8aaf82",
+      "bytes": 7523,
+      "source_commit": "fd900e4e9f780d14665676e0690e556582aa6e98"
     },
     {
       "path": "docs/ENGLISH_63_TRIAGE_QUEUE_20261113.md",
@@ -25900,6 +25900,51 @@
             "git_blob_sha1": "01475e176b928fa3f81bac8cc5fbf7c6d009bb34",
             "bytes": 7725,
             "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-three-evidence-queue-test-fixture-source-key-repair-20261113",
+      "source_commit": "fd900e4e9f780d14665676e0690e556582aa6e98",
+      "base_commit": "5228e8ba92d4934381d4fdea843d764acb1c1e7b",
+      "paths": [
+        "automation/test_english63_evidence_review_queue.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/test_english63_evidence_review_queue.py",
+          "mode": "100644",
+          "git_blob_sha1": "ce6b4f841621bceaf4347261ad770f7f3d52a908",
+          "bytes": 7473,
+          "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "67300d0b91dda9f0151e07ab1e99c65b22bb71c9",
+      "scope": "Repair fake-only comparison key roster to use actual source report keys.",
+      "rationale": "PR #104 source-only test failed at KeyError on an invented dictionary: source report has three distinct comparison names. No actual audio/model calls or source admissibility changes.",
+      "files": [
+        {
+          "path": "automation/test_english63_evidence_review_queue.py",
+          "before": {
+            "path": "automation/test_english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "ce6b4f841621bceaf4347261ad770f7f3d52a908",
+            "bytes": 7473,
+            "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+          },
+          "after": {
+            "path": "automation/test_english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "fc3eca68f6386fbed0a73005f5241d9afc8aaf82",
+            "bytes": 7523,
+            "source_commit": "fd900e4e9f780d14665676e0690e556582aa6e98"
           }
         }
       ],
