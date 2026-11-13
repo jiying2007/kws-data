@@ -21369,16 +21369,16 @@
     {
       "path": "automation/english63_evidence_review_queue.py",
       "mode": "100644",
-      "git_blob_sha1": "6dccd6b44e70e067d33d9735a15685022b4c0b7e",
-      "bytes": 14734,
-      "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+      "git_blob_sha1": "a014587d375b45e247c39ac87f4f8200ecfec06b",
+      "bytes": 14737,
+      "source_commit": "18af6b2aec4add22c920cab1cea9b1c3ca0b61ba"
     },
     {
       "path": "automation/test_english63_evidence_review_queue.py",
       "mode": "100644",
-      "git_blob_sha1": "fc3eca68f6386fbed0a73005f5241d9afc8aaf82",
-      "bytes": 7523,
-      "source_commit": "fd900e4e9f780d14665676e0690e556582aa6e98"
+      "git_blob_sha1": "effdc7f0d599ae23dcf111816fc33509a180de86",
+      "bytes": 7670,
+      "source_commit": "18af6b2aec4add22c920cab1cea9b1c3ca0b61ba"
     },
     {
       "path": "docs/ENGLISH_63_TRIAGE_QUEUE_20261113.md",
@@ -25990,6 +25990,76 @@
             "git_blob_sha1": "caee6170e6460f7e5983b4c4de92791c02ab210f",
             "bytes": 9371,
             "source_commit": "3383e8719d78727d0415c9c1c58860310293028a"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-original-asr-pronunciation-status-schema-correction-20261113",
+      "source_commit": "18af6b2aec4add22c920cab1cea9b1c3ca0b61ba",
+      "base_commit": "5228e8ba92d4934381d4fdea843d764acb1c1e7b",
+      "paths": [
+        "automation/english63_evidence_review_queue.py",
+        "automation/test_english63_evidence_review_queue.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/english63_evidence_review_queue.py",
+          "mode": "100644",
+          "git_blob_sha1": "6dccd6b44e70e067d33d9735a15685022b4c0b7e",
+          "bytes": 14734,
+          "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+        },
+        {
+          "path": "automation/test_english63_evidence_review_queue.py",
+          "mode": "100644",
+          "git_blob_sha1": "fc3eca68f6386fbed0a73005f5241d9afc8aaf82",
+          "bytes": 7523,
+          "source_commit": "fd900e4e9f780d14665676e0690e556582aa6e98"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "2d129eca0ca4c5ba716ebeb232d4438c9e956ddd",
+      "scope": "Require original three-ASR acoustic_pronunciation_verified flag and independent IPA phonetic_label_authenticated, with explicit forged-status regression.",
+      "rationale": "PR source-data preflight revealed an ASR row schema mismatch before output; no original data or model was changed or rerun.",
+      "files": [
+        {
+          "path": "automation/english63_evidence_review_queue.py",
+          "before": {
+            "path": "automation/english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "6dccd6b44e70e067d33d9735a15685022b4c0b7e",
+            "bytes": 14734,
+            "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+          },
+          "after": {
+            "path": "automation/english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "a014587d375b45e247c39ac87f4f8200ecfec06b",
+            "bytes": 14737,
+            "source_commit": "18af6b2aec4add22c920cab1cea9b1c3ca0b61ba"
+          }
+        },
+        {
+          "path": "automation/test_english63_evidence_review_queue.py",
+          "before": {
+            "path": "automation/test_english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "fc3eca68f6386fbed0a73005f5241d9afc8aaf82",
+            "bytes": 7523,
+            "source_commit": "fd900e4e9f780d14665676e0690e556582aa6e98"
+          },
+          "after": {
+            "path": "automation/test_english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "effdc7f0d599ae23dcf111816fc33509a180de86",
+            "bytes": 7670,
+            "source_commit": "18af6b2aec4add22c920cab1cea9b1c3ca0b61ba"
           }
         }
       ],
