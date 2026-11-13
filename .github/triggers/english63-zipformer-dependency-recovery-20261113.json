@@ -1,0 +1,25 @@
+{
+  "schema": "english63-zipformer-dependency-recovery-v1",
+  "failed_workflow_run_id": 43437982732,
+  "failed_head_sha": "18933893f35fd16b3024d2e045c74b28d2100fdd",
+  "failure_reason": "sherpa-onnx-cli missing click before any KWS model inference",
+  "existing_tts_run_id": 43242278962,
+  "existing_tts_artifact_id": 13954744587,
+  "existing_tts_archive_sha256": "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc",
+  "models": [
+    "gigaspeech",
+    "zh-en"
+  ],
+  "dependencies": [
+    "numpy==1.26.4",
+    "sherpa-onnx==1.13.8",
+    "click==8.1.8",
+    "pypinyin==0.55.0",
+    "sentencepiece==0.2.1"
+  ],
+  "replay_scope": "keyword tokenization preflight then real streaming events for unchanged 63 WAVs, no TTS ASR or training",
+  "training_admitted": false,
+  "model_promotion_allowed": false,
+  "new_tts_calls": 0,
+  "no_scheduled_patrol": true
+}
