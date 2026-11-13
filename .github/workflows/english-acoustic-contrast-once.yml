@@ -1,0 +1,133 @@
+name: English 63 WAV paired acoustic contrast once - no neural calls
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/english-acoustic-contrast-once.yml'
+      - '.github/triggers/english-acoustic-contrast-20261113.json'
+      - 'automation/english_acoustic_contrast.py'
+      - 'automation/test_english_acoustic_contrast.py'
+  push:
+    branches: [main]
+    paths:
+      - '.github/triggers/english-acoustic-contrast-20261113.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: english63-acoustic-contrast-once-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  source-regressions:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Install CPU-only deterministic numerical dependency
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en-acoustic-venv"
+          "$RUNNER_TEMP/en-acoustic-venv/bin/pip" install --disable-pip-version-check \
+            --only-binary=:all: "numpy==1.26.4"
+      - name: Source-only invented PCM and failure regressions in 3 interpreter modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            OPENBLAS_NUM_THREADS=1 "$RUNNER_TEMP/en-acoustic-venv/bin/python" \
+              -I -B "${args[@]}" automation/test_english_acoustic_contrast.py -v
+          done
+          python3 -I -S -B automation/english_acoustic_contrast.py
+          test -z "$(git status --porcelain)"
+
+  real-source-contrast:
+    needs: source-regressions
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Exact prior successful run and existing artifact evidence, no new audio/model
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962 |
+            jq -e '.id==43242278962 and .status=="completed" and
+                   .conclusion=="success" and .event=="push" and .run_attempt==1 and
+                   .head_sha=="bec1a1421d1db2de17afb9c6e3155343becdb980"'
+          gh api repos/jiying2007/kws-data/actions/runs/43267739514 |
+            jq -e '.id==43267739514 and .status=="completed" and
+                   .conclusion=="success" and .event=="push" and .run_attempt==1 and
+                   .head_sha=="cf67b64f7283af9da284b06cd118901db93f27dd"'
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962/artifacts |
+            jq -e '[.artifacts[] | select(.id==13954744587 and
+                   .digest=="sha256:f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc"
+                   and .expired==false)] | length==1'
+          gh api repos/jiying2007/kws-data/actions/runs/43267739514/artifacts |
+            jq -e '[.artifacts[] | select(.id==13965259534 and
+                   .digest=="sha256:3786baa9fd3575437a05e97956fafdf3298eac23de2538b485b8342ef4d25133"
+                   and .expired==false)] | length==1'
+      - name: Download only the two already-consumed, hash-pinned ZIPs
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for item in 'tts:13954744587' 'review:13965259534'; do
+            name="${item%%:*}"
+            id="${item#*:}"
+            curl --fail --location --silent --show-error --retry 0 \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H 'Accept: application/vnd.github+json' \
+              "https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/${id}/zip" \
+              -o "$RUNNER_TEMP/english63-${name}.zip"
+          done
+      - name: Run source-bound real acoustic contrast, no neural inference or TTS/ASR
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en-acoustic-real-venv"
+          "$RUNNER_TEMP/en-acoustic-real-venv/bin/pip" install \
+            --disable-pip-version-check --only-binary=:all: "numpy==1.26.4"
+          "$RUNNER_TEMP/en-acoustic-real-venv/bin/python" -I -B \
+            automation/english_acoustic_contrast.py \
+            --tts-zip "$RUNNER_TEMP/english63-tts.zip" \
+            --review-zip "$RUNNER_TEMP/english63-review.zip" \
+            --output "$RUNNER_TEMP/english63-paired-acoustic-result.json" --execute
+          test -z "$(git status --porcelain)"
+      - name: Retain only machine distances and source hashes, not raw WAV/models
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # pinned
+        with:
+          name: english63-paired-acoustic-contrast-${{ github.run_id }}
+          path: ${{ runner.temp }}/english63-paired-acoustic-result.json
+          retention-days: 30
+          if-no-files-found: error
