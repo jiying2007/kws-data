@@ -45,7 +45,7 @@ def invented_three_sources():
             asr_rows.append({
                 **common,"requested_text":text,"requested_intent":intent,
                 "machine_agreement":"THREE_DISAGREE",
-                "phonetic_label_authenticated":False,
+                "acoustic_pronunciation_verified":False,
                 "trusted_negative":False,
                 "asr":{p:{"text":p+" "+text,"normalized":p+" "+text,
                            "native_sha256":digest(p+ident)}
@@ -115,6 +115,8 @@ class ThreeEvidenceQueueTests(unittest.TestCase):
             (lambda a,d,i: a["rows"][0]["asr"].pop("qwen"),
              "ENGLISH63_ASR_OR_IPA_NOT_COMPLETE"),
             (lambda a,d,i: a["rows"][0].update(training_admitted=True),
+             "ENGLISH63_SOURCE_ROLE_HASH_OR_GOLD_DRIFT"),
+            (lambda a,d,i: a["rows"][0].update(acoustic_pronunciation_verified=True),
              "ENGLISH63_SOURCE_ROLE_HASH_OR_GOLD_DRIFT"),
             (lambda a,d,i: a["rows"][0].update(requested_intent="near_miss"),
              "ENGLISH63_SOURCE_ROLE_HASH_OR_GOLD_DRIFT"),
