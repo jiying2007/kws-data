@@ -45,6 +45,38 @@ jobs:
           python3 -I -S -B tools/verify_branch_retention.py
           test -z "$(git status --porcelain)"
 
+      - name: PR-only original three-artifact byte-identity preflight (no model or audio)
+        if: github.event_name == 'pull_request'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for pair in 'asr:13965259534' 'dtw:13996662526' 'ipa:13997774459'; do
+            name="${pair%%:*}"
+            id="${pair#*:}"
+            curl --fail --location --silent --show-error --retry 0 \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H 'Accept: application/vnd.github+json' \
+              "https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/${id}/zip" \
+              -o "$RUNNER_TEMP/english63-${name}-original.zip"
+          done
+          python3 -I -S -B automation/english63_evidence_review_queue.py \
+            --asr-zip "$RUNNER_TEMP/english63-asr-original.zip" \
+            --dtw-zip "$RUNNER_TEMP/english63-dtw-original.zip" \
+            --ipa-zip "$RUNNER_TEMP/english63-ipa-original.zip" \
+            --output-dir "$RUNNER_TEMP/english63-preflight"
+          python3 -I -S -B - "$RUNNER_TEMP/english63-preflight/english63-three-evidence-review.json" <<'PY'
+          import hashlib,json,sys
+          content=open(sys.argv[1],'rb').read()
+          assert hashlib.sha256(content).hexdigest()=="89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12"
+          out=json.loads(content)
+          assert out["audio_rows_reused"]==63 and out["review_wake_pairs"]==14
+          assert out["new_model_calls"]==0 and out["training_admitted"] is False
+          PY
+          test -z "$(git status --porcelain)"
+
+
   actual-immutable-evidence-join:
     needs: source-only
     if: >-
