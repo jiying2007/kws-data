@@ -149,6 +149,48 @@ def validate_receipt(result):
     return True
 
 
+def preflight_inputs(tts_zip: Path, archive: Path):
+    """Genuine official phone/token and 63 PCM source readback, no KWS calls."""
+    claim()
+    with tempfile.TemporaryDirectory(prefix="mero-only-preflight-") as tmp:
+        root = Path(tmp)
+        parent = root / "source"
+        parent.mkdir(mode=0o700)
+        source_review.unpack_pinned(tts_zip, ORIGINAL_TTS_SHA, parent)
+        plan, cells = audio_source.source_from_artifact(parent)
+        need(len(cells) == 63 and
+             plan.get("wake_phrases_requested") ==
+             ["Hey Vosen", "Hey Mero"], "EN_MERO_PREFLIGHT_SOURCE_DRIFT")
+        total_samples = 0
+        for cell, wav, evidence in cells:
+            samples, pcm_sha = reference.read_pcm(wav)
+            reference.verify_source_readback(wav, evidence, samples, pcm_sha)
+            total_samples += len(samples)
+        model_root = root / "model"
+        model_root.mkdir(mode=0o700)
+        parts, digest = reference.extract_locked_model(
+            archive, "zh-en", model_root)
+        need(digest == PUBLISHED_ZH_EN_SHA,
+             "EN_MERO_MODEL_SHA_DRIFT")
+        keyword = encode_one_keyword(parts, root)
+        return {
+            "schema": "english63-zh-en-mero-source-only-preflight-v1",
+            "status": "63_ORIGINAL_PCM_AND_OFFICIAL_MERO_PHONEMES_READY",
+            "original_tts_zip_sha256": ORIGINAL_TTS_SHA,
+            "model_archive_sha256": digest,
+            "source_clip_count": len(cells),
+            "total_audio_samples": total_samples,
+            "keyword_sha256": reference.sha_file(keyword),
+            "keyword_line": keyword.read_text(encoding="utf-8").strip(),
+            "source_audio_regenerated": False,
+            "new_tts_calls": 0, "new_asr_calls": 0,
+            "kws_inference_calls": 0, "optimizer_updates": 0,
+            "model_promotion_allowed": False,
+            "training_admitted": False,
+            "vosen_not_evaluated": True,
+        }
+
+
 def execute(tts_zip: Path, archive: Path):
     claim()
     protected_main()
@@ -244,12 +286,22 @@ def execute(tts_zip: Path, archive: Path):
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--execute", action="store_true")
+    p.add_argument("--preflight", action="store_true")
     p.add_argument("--tts-zip", type=Path)
     p.add_argument("--model-archive", type=Path)
     p.add_argument("--output", type=Path)
     args = p.parse_args(argv)
     try:
         claim()
+        need(not (args.execute and args.preflight),
+             "EN_MERO_NO_MIXED_EXECUTION_MODES")
+        if args.preflight:
+            need(args.tts_zip is not None and
+                 args.model_archive is not None and args.output is None,
+                 "EN_MERO_EXPLICIT_PREFLIGHT_INPUTS")
+            print(json.dumps(preflight_inputs(args.tts_zip, args.model_archive),
+                             sort_keys=True))
+            return 0
         if not args.execute:
             need(all(x is None for x in
                      (args.tts_zip, args.model_archive, args.output)),
