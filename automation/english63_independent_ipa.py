@@ -261,7 +261,7 @@ def execute(tts_zip: Path, review_zip: Path, out: Path) -> dict:
                 need(len(done) < MAX_FORWARDS,"IPA_FORWARD_BUDGET")
                 # The recognizer receives WAV only, not target/label/ASR/role.
                 raw,phonemes,frames=predict_phone(wav,processor,model,torch)
-                need(frames==by_cell[cell["cell_id"]].get("audio_frames",frames),
+                need(frames==pcm["frames"],
                      "IPA_FRAME_BINDING")
                 done.append({
                     "cell_id":cell["cell_id"],"voice_id":cell["voice_id"],
