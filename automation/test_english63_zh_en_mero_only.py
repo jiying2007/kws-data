@@ -141,6 +141,15 @@ class MeroOnlySourceTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             mero.validate_receipt(changed)
 
+    def test_artifact_bearer_token_is_expanded_in_both_jobs(self):
+        path = Path(__file__).resolve().parents[1] / ".github/workflows/english63-zh-en-mero-only.yml"
+        source = path.read_text(encoding="utf-8")
+        self.assertEqual(source.count('-H "Authorization: Bearer $GH_TOKEN"'), 2)
+        self.assertNotIn("'Authorization: Bearer " + "$" + "{GH_TOKEN}'", source)
+        self.assertIn("source-model-preflight:", source)
+        self.assertIn("actual-mero-events:", source)
+        self.assertNotIn("  schedule:", source)
+
     def test_default_cli_is_model_free_and_preflight_requires_both_archives(self):
         script = Path(mero.__file__)
         p = subprocess.run([sys.executable, "-I", "-S", "-B", str(script)],
