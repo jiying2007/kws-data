@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2022,
-  "expected_retained_files": 2013,
+  "expected_tracked_files": 2023,
+  "expected_retained_files": 2014,
   "new_retained_paths": 1281,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -21411,9 +21411,9 @@
     {
       "path": "automation/test_english63_zipformer_events_once.py",
       "mode": "100644",
-      "git_blob_sha1": "37294a46b1d040b410eacbda442ffac447968eb5",
-      "bytes": 7110,
-      "source_commit": "2f8ba07978d3c7ac949b152fdb35e5296507dcd7"
+      "git_blob_sha1": "dc80b256b9eb1859a47ffe0798ccdf981bd6c077",
+      "bytes": 8665,
+      "source_commit": "4719e2409071725a5e1f9106f3ebc1e1d7f4b513"
     },
     {
       "path": ".github/triggers/english63-zipformer-event-probe-20261113.json",
@@ -21425,9 +21425,16 @@
     {
       "path": ".github/workflows/english63-zipformer-events-once.yml",
       "mode": "100644",
-      "git_blob_sha1": "04557fce6cfa36ccfe23f5bb94fb65f64e78c651",
-      "bytes": 6447,
-      "source_commit": "def7343ad54f2e76074cd5662717aea960e4875d"
+      "git_blob_sha1": "66387f31b684b84f4db6ba8046c188c1a16c12a6",
+      "bytes": 6622,
+      "source_commit": "60e01eb9e4f7f82c63b591e21ed8c858ceccb6c4"
+    },
+    {
+      "path": ".github/triggers/english63-zipformer-cli-click-recovery-20261113.json",
+      "mode": "100644",
+      "git_blob_sha1": "870af778b4a52976a047c3327b10329c188252b3",
+      "bytes": 706,
+      "source_commit": "aee1f6975bc133cd982df08ea7f253f5e27e8428"
     }
   ],
   "source_registration_history": [
@@ -26155,6 +26162,90 @@
       ],
       "validation": {
         "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-pretrained-zipformer-click-runtime-recovery-v1",
+      "source_commit": "4719e2409071725a5e1f9106f3ebc1e1d7f4b513",
+      "base_commit": "18933893f35fd16b3024d2e045c74b28d2100fdd",
+      "paths": [
+        ".github/workflows/english63-zipformer-events-once.yml",
+        "automation/test_english63_zipformer_events_once.py",
+        ".github/triggers/english63-zipformer-cli-click-recovery-20261113.json"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/english63-zipformer-events-once.yml",
+          "mode": "100644",
+          "git_blob_sha1": "04557fce6cfa36ccfe23f5bb94fb65f64e78c651",
+          "bytes": 6447,
+          "source_commit": "def7343ad54f2e76074cd5662717aea960e4875d"
+        },
+        {
+          "path": "automation/test_english63_zipformer_events_once.py",
+          "mode": "100644",
+          "git_blob_sha1": "37294a46b1d040b410eacbda442ffac447968eb5",
+          "bytes": 7110,
+          "source_commit": "2f8ba07978d3c7ac949b152fdb35e5296507dcd7"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "12abad59f29af80bc987ea666ec8482350038551",
+      "scope": "Single controlled original-audio recovery after the actual Sherpa CLI missing-click runtime failure, with pinned click and a distinct first-main-push trigger.",
+      "rationale": "Original real event jobs failed at CLI import (not KWS inference). Pin click, check help before actual inference, do not regenerate or recertify data.",
+      "files": [
+        {
+          "path": ".github/workflows/english63-zipformer-events-once.yml",
+          "before": {
+            "path": ".github/workflows/english63-zipformer-events-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "04557fce6cfa36ccfe23f5bb94fb65f64e78c651",
+            "bytes": 6447,
+            "source_commit": "def7343ad54f2e76074cd5662717aea960e4875d"
+          },
+          "after": {
+            "path": ".github/workflows/english63-zipformer-events-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "66387f31b684b84f4db6ba8046c188c1a16c12a6",
+            "bytes": 6622,
+            "source_commit": "60e01eb9e4f7f82c63b591e21ed8c858ceccb6c4"
+          }
+        },
+        {
+          "path": "automation/test_english63_zipformer_events_once.py",
+          "before": {
+            "path": "automation/test_english63_zipformer_events_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "37294a46b1d040b410eacbda442ffac447968eb5",
+            "bytes": 7110,
+            "source_commit": "2f8ba07978d3c7ac949b152fdb35e5296507dcd7"
+          },
+          "after": {
+            "path": "automation/test_english63_zipformer_events_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "dc80b256b9eb1859a47ffe0798ccdf981bd6c077",
+            "bytes": 8665,
+            "source_commit": "4719e2409071725a5e1f9106f3ebc1e1d7f4b513"
+          }
+        },
+        {
+          "path": ".github/triggers/english63-zipformer-cli-click-recovery-20261113.json",
+          "after": {
+            "path": ".github/triggers/english63-zipformer-cli-click-recovery-20261113.json",
+            "mode": "100644",
+            "git_blob_sha1": "870af778b4a52976a047c3327b10329c188252b3",
+            "bytes": 706,
+            "source_commit": "aee1f6975bc133cd982df08ea7f253f5e27e8428"
+          }
+        }
+      ],
+      "validation": {
+        "new_tts_calls": 0,
+        "new_asr_calls": 0,
+        "first_run_still_failed": true,
+        "new_model_promotion_allowed": false,
         "integration_exemptions_unchanged": true,
         "original_baseline_inventory_unchanged": true,
         "all_previous_registration_history_unchanged": true
