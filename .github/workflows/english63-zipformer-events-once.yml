@@ -194,6 +194,7 @@ jobs:
             'numpy==1.26.4' 'sherpa-onnx==1.13.8' \
             'click==8.1.8' 'pypinyin==0.55.0' 'sentencepiece==0.2.1'
           "$RUNNER_TEMP/en63-kws-runtime/bin/pip" check
+          "$RUNNER_TEMP/en63-kws-runtime/bin/sherpa-onnx-cli" --help >/dev/null
           "$RUNNER_TEMP/en63-kws-runtime/bin/sherpa-onnx-cli" text2token --help >/dev/null
           "$RUNNER_TEMP/en63-kws-runtime/bin/pip" freeze \
             > "$RUNNER_TEMP/en63-kws-runtime-pins.txt"
