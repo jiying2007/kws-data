@@ -260,6 +260,59 @@ def read_pcm(wav: Path):
     return values, hashlib.sha256(data).hexdigest()
 
 
+def verify_source_readback(wav: Path, receipt: dict, samples, pcm_sha: str):
+    """The frozen source reader returns wav_sha256+frames, not a PCM digest.
+    
+    It already authenticates PCM against original completed.json. This
+    independent post-readback check rejects changed WAV bytes/frame geometry;
+    never synthesize a nonexistent source field or downgrade identity.
+    """
+    need(type(receipt) is dict and set(receipt) == {"wav_sha256", "frames"} and
+         type(receipt["frames"]) is int and receipt["frames"] > 0 and
+         type(receipt["wav_sha256"]) is str and
+         len(receipt["wav_sha256"]) == 64 and
+         type(pcm_sha) is str and len(pcm_sha) == 64 and
+         len(samples) == receipt["frames"] and
+         wav.is_file() and not wav.is_symlink() and
+         sha_file(wav) == receipt["wav_sha256"],
+         "EN_ZIPFORMER_SOURCE_READBACK_DRIFT")
+    return True
+
+
+def preflight_source_audio(tts_zip: Path):
+    """Actual 63-WAV source/PCM readback, zero model calls, PR-time only."""
+    frozen_claim()
+    with tempfile.TemporaryDirectory(prefix="en63-audio-readback-preflight-") as tmp:
+        parent = Path(tmp) / "verified-source"
+        parent.mkdir(mode=0o700)
+        review.unpack_pinned(tts_zip, review.ARCHIVES["tts"][1], parent)
+        plan, cells = source.source_from_artifact(parent)
+        need(len(cells) == WAVS and
+             plan.get("wake_phrases_requested") == ["Hey Vosen", "Hey Mero"],
+             "EN_ZIPFORMER_PREFLIGHT_SOURCE_ROSTER")
+        total_samples = 0
+        cell_ids = set()
+        for cell, wav, receipt in cells:
+            samples, pcm_sha = read_pcm(wav)
+            verify_source_readback(wav, receipt, samples, pcm_sha)
+            need(cell["cell_id"] not in cell_ids,
+                 "EN_ZIPFORMER_PREFLIGHT_DUPLICATE_CELL")
+            cell_ids.add(cell["cell_id"])
+            total_samples += len(samples)
+        need(len(cell_ids) == WAVS, "EN_ZIPFORMER_PREFLIGHT_CELL_COUNT")
+        return {
+            "schema": "english63-source-pcm-readback-preflight-v1",
+            "status": "63_AUTHENTICATED_WAV_PCM_READBACK_NO_NEURAL_CALLS",
+            "source_artifact_id": review.ARCHIVES["tts"][0],
+            "source_zip_sha256": review.ARCHIVES["tts"][1],
+            "source_clips": WAVS,
+            "total_audio_samples": total_samples,
+            "new_tts_calls": 0, "new_asr_calls": 0,
+            "kws_inference_calls": 0, "optimizer_updates": 0,
+            "training_admitted": False, "model_promotion_allowed": False,
+        }
+
+
 def normalize_event_keyword(keyword: str) -> str:
     need(isinstance(keyword, str) and 0 < len(keyword) < 256,
          "EN_ZIPFORMER_KEYWORD_RESULT_INVALID")
@@ -374,8 +427,7 @@ def execute(tts_zip: Path, archive: Path, model_name: str):
         start = time.perf_counter()
         for cell, wav, pcm in sorted(cells, key=lambda e: e[0]["cell_id"]):
             samples, checked_pcm = read_pcm(wav)
-            need(checked_pcm == pcm["pcm_sha256"],
-                 "EN_ZIPFORMER_PCM_SHA_DRIFT")
+            verify_source_readback(wav, pcm, samples, checked_pcm)
             events, steps = stream_events(spotter, samples)
             total_seconds += len(samples) / SAMPLE_RATE
             groups[cell["intent"]] += len(events)
@@ -434,6 +486,7 @@ def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--execute", action="store_true")
     p.add_argument("--preflight-model", choices=sorted(MODEL_SPECS))
+    p.add_argument("--preflight-audio", action="store_true")
     p.add_argument("--tts-zip", type=Path)
     p.add_argument("--model-archive", type=Path)
     p.add_argument("--model", choices=sorted(MODEL_SPECS))
@@ -441,7 +494,8 @@ def main(argv=None):
     a = p.parse_args(argv)
     try:
         frozen_claim()
-        need(not (a.execute and a.preflight_model),
+        need(sum(bool(x) for x in (a.execute, a.preflight_model,
+                                    a.preflight_audio)) <= 1,
              "EN_ZIPFORMER_MODE_CONFLICT")
         if a.preflight_model:
             need(a.model_archive is not None and a.model is None and
@@ -449,6 +503,12 @@ def main(argv=None):
                  "EN_ZIPFORMER_PREFLIGHT_MODEL_ONLY")
             print(json.dumps(preflight_model(a.model_archive, a.preflight_model),
                              sort_keys=True))
+            return 0
+        if a.preflight_audio:
+            need(a.tts_zip is not None and a.model_archive is None and
+                 a.model is None and a.output is None,
+                 "EN_ZIPFORMER_AUDIO_PREFLIGHT_SOURCE_ONLY")
+            print(json.dumps(preflight_source_audio(a.tts_zip), sort_keys=True))
             return 0
         if not a.execute:
             print(json.dumps({"schema": POLICY, "models": sorted(MODEL_SPECS),
