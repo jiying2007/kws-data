@@ -197,6 +197,54 @@ def generate_keywords(model_name: str, model_parts: dict, parent: Path):
     return out
 
 
+def preflight_model(archive: Path, model_name: str):
+    """Bounded real pretrained tokenizer probe; never touches original audio."""
+    frozen_claim()
+    need(model_name in MODEL_SPECS, "EN_ZIPFORMER_UNKNOWN_MODEL")
+    with tempfile.TemporaryDirectory(prefix="en63-pronunciation-preflight-") as tmp:
+        root = Path(tmp)
+        parts, archive_sha = extract_locked_model(archive, model_name, root)
+        # The official zh-en model's English names require its own en.phone
+        # lexicon entries. A missing proper name is an explicit blocked
+        # research candidate, never a guessed phonetic transcription.
+        if model_name == "zh-en":
+            with parts["lexicon"].open(encoding="utf-8") as handle:
+                words = {line.split()[0] for line in handle if line.strip()}
+            missing = [word for word in ("HEY", "VOSEN", "MERO")
+                       if word not in words]
+            if missing:
+                return {
+                    "schema": "english63-pretrained-tokenization-preflight-v1",
+                    "model": model_name,
+                    "status": "BLOCKED_OFFICIAL_LEXICON_PROPER_NAME_OOV",
+                    "model_archive_sha256": archive_sha,
+                    "model_source_integrity": MODEL_SPECS[model_name]["source_integrity"],
+                    "missing_official_lexicon_words": missing,
+                    "keyword_lines": [],
+                    "keyword_sha256": None, "tokenization_complete": False,
+                    "source_audio_read": False, "new_tts_calls": 0,
+                    "new_asr_calls": 0, "kws_inference_calls": 0,
+                    "training_admitted": False, "model_promotion_allowed": False,
+                }
+        keywords = generate_keywords(model_name, parts, root)
+        lines = keywords.read_text(encoding="utf-8").splitlines()
+        need(len(lines) == len(ALIASES) and
+             all(lines[i].endswith(" @" + ALIASES[i]) for i in range(len(ALIASES))),
+             "EN_ZIPFORMER_PREFLIGHT_TOKEN_COUNT_OR_ALIAS")
+        return {
+            "schema": "english63-pretrained-tokenization-preflight-v1",
+            "model": model_name, "status": "TWO_KEYWORDS_ENCODED_NO_AUDIO",
+            "model_archive_sha256": archive_sha,
+            "model_source_integrity": MODEL_SPECS[model_name]["source_integrity"],
+            "keyword_lines": lines,
+            "keyword_sha256": sha_file(keywords),
+            "tokenization_complete": True,
+            "source_audio_read": False, "new_tts_calls": 0,
+            "new_asr_calls": 0, "kws_inference_calls": 0,
+            "training_admitted": False, "model_promotion_allowed": False,
+        }
+
+
 def read_pcm(wav: Path):
     import numpy as np
     with wave.open(str(wav), "rb") as f:
@@ -385,6 +433,7 @@ def execute(tts_zip: Path, archive: Path, model_name: str):
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--execute", action="store_true")
+    p.add_argument("--preflight-model", choices=sorted(MODEL_SPECS))
     p.add_argument("--tts-zip", type=Path)
     p.add_argument("--model-archive", type=Path)
     p.add_argument("--model", choices=sorted(MODEL_SPECS))
@@ -392,6 +441,15 @@ def main(argv=None):
     a = p.parse_args(argv)
     try:
         frozen_claim()
+        need(not (a.execute and a.preflight_model),
+             "EN_ZIPFORMER_MODE_CONFLICT")
+        if a.preflight_model:
+            need(a.model_archive is not None and a.model is None and
+                 a.tts_zip is None and a.output is None,
+                 "EN_ZIPFORMER_PREFLIGHT_MODEL_ONLY")
+            print(json.dumps(preflight_model(a.model_archive, a.preflight_model),
+                             sort_keys=True))
+            return 0
         if not a.execute:
             print(json.dumps({"schema": POLICY, "models": sorted(MODEL_SPECS),
                               "original_audio_reused": WAVS,

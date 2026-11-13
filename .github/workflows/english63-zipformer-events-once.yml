@@ -6,12 +6,14 @@ on:
       - 'automation/english63_zipformer_events_once.py'
       - 'automation/test_english63_zipformer_events_once.py'
       - '.github/triggers/english63-zipformer-event-probe-20261113.json'
+      - '.github/triggers/english63-zipformer-dependency-recovery-20261113.json'
       - '.github/workflows/english63-zipformer-events-once.yml'
   push:
     branches: [main]
     paths:
-      - '.github/triggers/english63-zipformer-event-probe-20261113.json'
       - '.github/triggers/english63-zipformer-cli-click-recovery-20261113.json'
+      - '.github/triggers/english63-zipformer-event-probe-20261113.json'
+      - '.github/triggers/english63-zipformer-dependency-recovery-20261113.json'
 
 permissions:
   contents: read
@@ -44,6 +46,70 @@ jobs:
           python3 -I -S -B tools/verify_branch_retention.py
           test -z "$(git status --porcelain)"
 
+  model-keyword-preflight:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    strategy:
+      fail-fast: false
+      matrix:
+        model: [gigaspeech, zh-en]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    env:
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Fetch unchanged official pretrained model for real tokenizer smoke, no audio
+        shell: bash
+        env:
+          MODEL: ${{ matrix.model }}
+        run: |
+          set -euo pipefail
+          case "$MODEL" in
+            gigaspeech)
+              archive_name=sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2
+              ;;
+            zh-en)
+              archive_name=sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2
+              ;;
+            *) exit 2 ;;
+          esac
+          curl --fail --location --silent --show-error --retry 2 \
+            "https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/$archive_name" \
+            -o "$RUNNER_TEMP/pretrained-model.tar.bz2"
+      - name: Verify sherpa-onnx text2token all runtime dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/kws-token-preflight"
+          "$RUNNER_TEMP/kws-token-preflight/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8' \
+            'click==8.1.8' 'pypinyin==0.55.0' 'sentencepiece==0.2.1'
+          "$RUNNER_TEMP/kws-token-preflight/bin/pip" check
+          "$RUNNER_TEMP/kws-token-preflight/bin/sherpa-onnx-cli" text2token --help >/dev/null
+      - name: Real tokenizer compatibility on both unmodified official models
+        shell: bash
+        env:
+          MODEL: ${{ matrix.model }}
+        run: |
+          set -euo pipefail
+          export PATH="$RUNNER_TEMP/kws-token-preflight/bin:$PATH"
+          "$RUNNER_TEMP/kws-token-preflight/bin/python" -I -B \
+            automation/english63_zipformer_events_once.py \
+            --preflight-model "$MODEL" \
+            --model-archive "$RUNNER_TEMP/pretrained-model.tar.bz2"
+          test -z "$(git status --porcelain)"
+
   real-event-probe:
     needs: source-contract
     if: >-
@@ -55,7 +121,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        model: [gigaspeech, zh-en]
+        # zh-en official en.phone cannot encode the proper names; no guessed G2P.
+        model: [gigaspeech]
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     permissions:
@@ -125,8 +192,11 @@ jobs:
           python3 -m venv "$RUNNER_TEMP/en63-kws-runtime"
           "$RUNNER_TEMP/en63-kws-runtime/bin/pip" install \
             --disable-pip-version-check --no-cache-dir --only-binary=:all: \
-            'numpy==1.26.4' 'sherpa-onnx==1.13.8' 'click==8.1.8'
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8' \
+            'click==8.1.8' 'pypinyin==0.55.0' 'sentencepiece==0.2.1'
+          "$RUNNER_TEMP/en63-kws-runtime/bin/pip" check
           "$RUNNER_TEMP/en63-kws-runtime/bin/sherpa-onnx-cli" --help >/dev/null
+          "$RUNNER_TEMP/en63-kws-runtime/bin/sherpa-onnx-cli" text2token --help >/dev/null
           "$RUNNER_TEMP/en63-kws-runtime/bin/pip" freeze \
             > "$RUNNER_TEMP/en63-kws-runtime-pins.txt"
 

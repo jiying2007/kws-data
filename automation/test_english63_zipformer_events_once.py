@@ -126,6 +126,62 @@ class English63ZipformerEventTests(unittest.TestCase):
                                     "EN_ZIPFORMER_CELL_FALSE_LABEL"):
             probe.validate_result(tampered)
 
+    def test_recovery_is_single_source_bound_dependency_failure_only(self):
+        root = Path(__file__).resolve().parents[1]
+        marker = json.loads((root / ".github/triggers/english63-zipformer-dependency-recovery-20261113.json").read_text())
+        self.assertEqual(marker, {
+            "schema": "english63-zipformer-dependency-recovery-v1",
+            "failed_workflow_run_id": 43437982732,
+            "failed_head_sha": "18933893f35fd16b3024d2e045c74b28d2100fdd",
+            "failure_reason": "sherpa-onnx-cli missing click before any KWS model inference",
+            "existing_tts_run_id": 43242278962,
+            "existing_tts_artifact_id": 13954744587,
+            "existing_tts_archive_sha256": "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc",
+            "models": ["gigaspeech", "zh-en"],
+            "dependencies": ["numpy==1.26.4", "sherpa-onnx==1.13.8",
+                             "click==8.1.8", "pypinyin==0.55.0",
+                             "sentencepiece==0.2.1"],
+            "preflight_models": ["gigaspeech", "zh-en"],
+            "actual_event_models": ["gigaspeech"],
+            "replay_scope": "preflight both official pretrained tokenizers, reuse unchanged 63 WAVs only for lexicon-qualified GigaSpeech events; zh-en OOV blocked without guessed phonetic transcription",
+            "training_admitted": False, "model_promotion_allowed": False,
+            "new_tts_calls": 0, "new_asr_calls": 0,
+            "no_scheduled_patrol": True,
+        })
+        workflow = (root / ".github/workflows/english63-zipformer-events-once.yml").read_text()
+        self.assertIn("english63-zipformer-dependency-recovery-20261113.json", workflow)
+        self.assertIn("model-keyword-preflight:", workflow)
+        real = workflow.split("  real-event-probe:", 1)[1]
+        self.assertIn("model: [gigaspeech]", real)
+        self.assertNotIn("model: [gigaspeech, zh-en]", real)
+        for pin in marker["dependencies"]:
+            self.assertIn("'" + pin + "'", workflow)
+        self.assertNotIn("\\n  schedule:", workflow)
+
+    def test_preflight_reads_model_and_tokens_only(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            marker = root / "mock-model.tar.bz2"
+            marker.write_bytes(b"pretend model - never unpacked")
+            def read_model(archive, name, parent):
+                self.assertEqual(archive, marker)
+                self.assertEqual(name, "gigaspeech")
+                return {"tokens": parent / "tokens.txt"}, "1" * 64
+            def fake_keywords(name, parts, parent):
+                self.assertEqual(name, "gigaspeech")
+                out = parent / "keywords.txt"
+                out.write_text("X Y @HEY_VOSEN\nX Z @HEY_MERO\n")
+                return out
+            with mock.patch.object(probe, "extract_locked_model", side_effect=read_model), \
+                 mock.patch.object(probe, "generate_keywords", side_effect=fake_keywords):
+                receipt = probe.preflight_model(marker, "gigaspeech")
+            self.assertEqual(receipt["status"], "TWO_KEYWORDS_ENCODED_NO_AUDIO")
+            self.assertFalse(receipt["source_audio_read"])
+            self.assertEqual(receipt["kws_inference_calls"], 0)
+            self.assertEqual(receipt["keyword_lines"],
+                             ["X Y @HEY_VOSEN", "X Z @HEY_MERO"])
+            self.assertFalse(receipt["model_promotion_allowed"])
+
     def test_exact_failed_click_runtime_is_recovered_without_new_audio(self):
         root = Path(__file__).resolve().parents[1]
         receipt = market.read(root / ".github/triggers/english63-zipformer-cli-click-recovery-20261113.json")
@@ -150,6 +206,27 @@ class English63ZipformerEventTests(unittest.TestCase):
         self.assertIn('"$RUNNER_TEMP/en63-kws-runtime/bin/sherpa-onnx-cli" --help', workflow)
         self.assertIn("english63-zipformer-cli-click-recovery-20261113.json", workflow)
         self.assertNotIn('gh api "repos/k2-fsa/sherpa-onnx/releases', workflow)
+
+    def test_zh_en_official_lexicon_oov_blocks_without_guessed_pronunciation(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fake = root / "source-model.tar.bz2"
+            fake.write_bytes(b"research-placeholder")
+            def read_model(archive, name, parent):
+                lexicon = parent / "en.phone"
+                lexicon.write_text("HEY HH EY1\nOTHER AH1 DH ER0\n")
+                return {"lexicon": lexicon}, "2" * 64
+            with mock.patch.object(probe, "extract_locked_model", side_effect=read_model), \
+                 mock.patch.object(probe, "generate_keywords") as no_fake:
+                result = probe.preflight_model(fake, "zh-en")
+            no_fake.assert_not_called()
+            self.assertEqual(result["status"],
+                             "BLOCKED_OFFICIAL_LEXICON_PROPER_NAME_OOV")
+            self.assertEqual(result["missing_official_lexicon_words"],
+                             ["VOSEN", "MERO"])
+            self.assertFalse(result["tokenization_complete"])
+            self.assertEqual(result["kws_inference_calls"], 0)
+            self.assertFalse(result["model_promotion_allowed"])
 
     def test_offline_cli_does_not_download_or_infer(self):
         p = subprocess.run([sys.executable, "-I", "-S", "-B",
