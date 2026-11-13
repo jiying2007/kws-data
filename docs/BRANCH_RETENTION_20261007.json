@@ -21481,9 +21481,9 @@
     {
       "path": "automation/test_english63_zh_en_mero_only.py",
       "mode": "100644",
-      "git_blob_sha1": "7f39c4a19cce53dd328d398d7fa5eee9032bd53f",
-      "bytes": 7534,
-      "source_commit": "e8bc360847cdba81aeec10cc315cb1e3b9081315"
+      "git_blob_sha1": "f18683fc76f7aecb22ca68b9d59ea9ba7f28c660",
+      "bytes": 8077,
+      "source_commit": "ca4bddae19e847a0b5d2125dcff1212eb14522f0"
     },
     {
       "path": ".github/triggers/english63-zh-en-mero-only-20261113.json",
@@ -21495,9 +21495,9 @@
     {
       "path": ".github/workflows/english63-zh-en-mero-only.yml",
       "mode": "100644",
-      "git_blob_sha1": "8a6abba2ad4f98917a92757e479cd29ca446a0dc",
-      "bytes": 9142,
-      "source_commit": "f6c75ee2762b72a525aafdbca925cc0547744ec6"
+      "git_blob_sha1": "ed8f989c10e3f1e2c0a01313809b5a7c27c02a0f",
+      "bytes": 9138,
+      "source_commit": "ed10898709bd2a29a1715b53521090670c8aaa4e"
     }
   ],
   "source_registration_history": [
@@ -26711,6 +26711,60 @@
             "git_blob_sha1": "8a6abba2ad4f98917a92757e479cd29ca446a0dc",
             "bytes": 9142,
             "source_commit": "f6c75ee2762b72a525aafdbca925cc0547744ec6"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-zh-en-mero-only-correct-artifact-bearer-20261113",
+      "source_commit": "ca4bddae19e847a0b5d2125dcff1212eb14522f0",
+      "base_commit": "d5ef33d7da8202db434b5d1508616e028e3071b7",
+      "paths": [
+        ".github/workflows/english63-zh-en-mero-only.yml",
+        "automation/test_english63_zh_en_mero_only.py"
+      ],
+      "previous_manifest_git_blob_sha1": "3a9031467c39ae273a4e321eefdff61012f1e479",
+      "scope": "Fix two GitHub Actions original-artifact downloads: bearer token expansion. No changes to source audio, model or frozen keyword thresholds.",
+      "rationale": "Source preflight on first Mero-only PR failed at HTTP401 due single-quoted unexpanded token, before source readback or model execution. Preserve exact prior history and add source-only regression.",
+      "files": [
+        {
+          "path": ".github/workflows/english63-zh-en-mero-only.yml",
+          "before": {
+            "path": ".github/workflows/english63-zh-en-mero-only.yml",
+            "mode": "100644",
+            "git_blob_sha1": "8a6abba2ad4f98917a92757e479cd29ca446a0dc",
+            "bytes": 9142,
+            "source_commit": "f6c75ee2762b72a525aafdbca925cc0547744ec6"
+          },
+          "after": {
+            "path": ".github/workflows/english63-zh-en-mero-only.yml",
+            "mode": "100644",
+            "git_blob_sha1": "ed8f989c10e3f1e2c0a01313809b5a7c27c02a0f",
+            "bytes": 9138,
+            "source_commit": "ed10898709bd2a29a1715b53521090670c8aaa4e"
+          }
+        },
+        {
+          "path": "automation/test_english63_zh_en_mero_only.py",
+          "before": {
+            "path": "automation/test_english63_zh_en_mero_only.py",
+            "mode": "100644",
+            "git_blob_sha1": "7f39c4a19cce53dd328d398d7fa5eee9032bd53f",
+            "bytes": 7534,
+            "source_commit": "e8bc360847cdba81aeec10cc315cb1e3b9081315"
+          },
+          "after": {
+            "path": "automation/test_english63_zh_en_mero_only.py",
+            "mode": "100644",
+            "git_blob_sha1": "f18683fc76f7aecb22ca68b9d59ea9ba7f28c660",
+            "bytes": 8077,
+            "source_commit": "ca4bddae19e847a0b5d2125dcff1212eb14522f0"
           }
         }
       ],
