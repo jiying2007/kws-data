@@ -1,0 +1,24 @@
+{
+  "schema": "english63-zipformer-text2token-full-deps-recovery-v1",
+  "prior_main_commit": "4481ea583c01ec59c5b855b504f560b41fed1258",
+  "failed_workflow_run_id": 43439523806,
+  "failed_jobs": {
+    "gigaspeech": 131933302073,
+    "zh-en": 131933302012
+  },
+  "observed_error": "ModuleNotFoundError: No module named 'sentencepiece'",
+  "official_sherpa_source_tag": "v1.13.8",
+  "required_undeclared_dependencies": [
+    "click==8.1.8",
+    "sentencepiece==0.2.1",
+    "pypinyin==0.55.0"
+  ],
+  "failure_stage": "official text2token before PCM KeywordSpotter decode",
+  "original_tts_artifact_id": 13954744587,
+  "original_tts_zip_sha256": "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc",
+  "new_tts_calls": 0,
+  "new_asr_calls": 0,
+  "optimizer_updates": 0,
+  "model_promotion_allowed": false,
+  "periodic_jobs_created": false
+}
