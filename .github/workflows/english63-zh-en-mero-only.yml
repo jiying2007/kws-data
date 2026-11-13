@@ -77,7 +77,7 @@ jobs:
             jq -e '[.artifacts[] | select(.id==13954744587 and .expired==false and
                    .digest=="sha256:f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc")] | length==1'
           curl --fail --location --silent --show-error --retry 0 \
-            -H 'Authorization: Bearer ${GH_TOKEN}' \
+            -H "Authorization: Bearer $GH_TOKEN" \
             -H 'Accept: application/vnd.github+json' \
             'https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/13954744587/zip' \
             -o "$RUNNER_TEMP/english63-source-original.zip"
@@ -150,7 +150,7 @@ jobs:
             jq -e '[.artifacts[] | select(.id==13954744587 and .expired==false and
                    .digest=="sha256:f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc")] | length==1'
           curl --fail --location --silent --show-error --retry 0 \
-            -H 'Authorization: Bearer ${GH_TOKEN}' \
+            -H "Authorization: Bearer $GH_TOKEN" \
             -H 'Accept: application/vnd.github+json' \
             'https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/13954744587/zip' \
             -o "$RUNNER_TEMP/english63-source-original.zip"
