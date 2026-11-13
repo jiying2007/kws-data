@@ -7,6 +7,7 @@ on:
       - 'automation/test_english63_zipformer_events_once.py'
       - '.github/triggers/english63-zipformer-event-probe-20261113.json'
       - '.github/triggers/english63-zipformer-dependency-recovery-20261113.json'
+      - '.github/triggers/english63-zipformer-source-readback-recovery-20261113.json'
       - '.github/workflows/english63-zipformer-events-once.yml'
   push:
     branches: [main]
@@ -14,6 +15,7 @@ on:
       - '.github/triggers/english63-zipformer-cli-click-recovery-20261113.json'
       - '.github/triggers/english63-zipformer-event-probe-20261113.json'
       - '.github/triggers/english63-zipformer-dependency-recovery-20261113.json'
+      - '.github/triggers/english63-zipformer-source-readback-recovery-20261113.json'
 
 permissions:
   contents: read
@@ -108,6 +110,56 @@ jobs:
             automation/english63_zipformer_events_once.py \
             --preflight-model "$MODEL" \
             --model-archive "$RUNNER_TEMP/pretrained-model.tar.bz2"
+          test -z "$(git status --porcelain)"
+
+  source-audio-readback-preflight:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Reuse only the completed original 63-WAV artifact, unchanged SHA
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962 |
+            jq -e '.id==43242278962 and .status=="completed" and
+                   .conclusion=="success" and .run_attempt==1 and
+                   .head_sha=="bec1a1421d1db2de17afb9c6e3155343becdb980"'
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962/artifacts |
+            jq -e '[.artifacts[] | select(.id==13954744587 and .expired==false and
+                   .digest=="sha256:f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc")] | length==1'
+          curl --fail --location --silent --show-error --retry 0 \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/13954744587/zip' \
+            -o "$RUNNER_TEMP/en63-original-source-preflight.zip"
+          printf '%s  %s\n' \
+            'f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc' \
+            "$RUNNER_TEMP/en63-original-source-preflight.zip" |
+            sha256sum --check --status
+      - name: Verify real 63 PCM readback without KWS model inference
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en63-source-preflight"
+          "$RUNNER_TEMP/en63-source-preflight/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4'
+          "$RUNNER_TEMP/en63-source-preflight/bin/python" -I -B \
+            automation/english63_zipformer_events_once.py --preflight-audio \
+            --tts-zip "$RUNNER_TEMP/en63-original-source-preflight.zip"
           test -z "$(git status --porcelain)"
 
   real-event-probe:

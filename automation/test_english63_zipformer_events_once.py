@@ -228,6 +228,61 @@ class English63ZipformerEventTests(unittest.TestCase):
             self.assertEqual(result["kws_inference_calls"], 0)
             self.assertFalse(result["model_promotion_allowed"])
 
+    def test_source_capture_receipt_is_wav_and_frames_not_pseudo_pcm_field(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            wav = Path(tmp) / "fixture.wav"
+            wav.write_bytes(b"invented source bytes, never synthetic KWS evaluation")
+            digest = probe.sha_file(wav)
+            receipt = {"wav_sha256": digest, "frames": 7}
+            self.assertTrue(probe.verify_source_readback(wav, receipt,
+                                                        [0] * 7, "0" * 64))
+            for tampered in (
+                {"wav_sha256": "f" * 64, "frames": 7},
+                {"wav_sha256": digest, "frames": 8},
+                {"wav_sha256": digest, "frames": 7, "pcm_sha256": "x" * 64},
+            ):
+                with self.assertRaisesRegex(ValueError,
+                                            "EN_ZIPFORMER_SOURCE_READBACK_DRIFT"):
+                    probe.verify_source_readback(wav, tampered, [0] * 7, "0" * 64)
+            wav.write_bytes(b"changed after the original source read")
+            with self.assertRaisesRegex(ValueError,
+                                        "EN_ZIPFORMER_SOURCE_READBACK_DRIFT"):
+                probe.verify_source_readback(wav, receipt, [0] * 7, "0" * 64)
+
+    def test_real_wav_preflight_is_source_only_and_requires_original_zip(self):
+        p = subprocess.run([sys.executable, "-I", "-S", "-B",
+                            str(Path(probe.__file__)), "--preflight-audio"],
+                           capture_output=True, text=True, check=False,
+                           timeout=20)
+        self.assertEqual(p.returncode, 2, p.stderr)
+        self.assertIn("EN_ZIPFORMER_AUDIO_PREFLIGHT_SOURCE_ONLY", p.stderr)
+        self.assertNotIn("63_AUTHENTICATED", p.stdout)
+
+    def test_readback_recovery_is_exactly_one_original_audio_source(self):
+        root = Path(__file__).resolve().parents[1]
+        trigger = json.loads((root / ".github/triggers/english63-zipformer-source-readback-recovery-20261113.json").read_text())
+        self.assertEqual(trigger, {
+            "schema": "english63-source-readback-recovery-v1",
+            "failed_workflow_run_id": 43442135240,
+            "failed_head_sha": "510eaa7d17810cdd7beef499fa31108d32237725",
+            "failure": "KeyError: 'pcm_sha256' because source reader returns wav_sha256+frames",
+            "previous_runtime_preflight_status": "GIGASPEECH_BOTH_BPE_PASS_ZH_EN_VOSEN_LEXICON_OOV",
+            "original_tts_run_id": 43242278962,
+            "original_audio_artifact_id": 13954744587,
+            "original_audio_zip_sha256": "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc",
+            "model": "gigaspeech",
+            "single_research_model_event_replay": True,
+            "new_tts_calls": 0, "new_asr_calls": 0, "optimizer_updates": 0,
+            "formal_training_admitted": False, "model_promotion_allowed": False,
+            "no_scheduled_patrol": True,
+        })
+        workflow = (root / ".github/workflows/english63-zipformer-events-once.yml").read_text()
+        self.assertIn("english63-zipformer-source-readback-recovery-20261113.json", workflow)
+        self.assertIn("source-audio-readback-preflight:", workflow)
+        self.assertIn("--preflight-audio", workflow)
+        self.assertIn("model: [gigaspeech]", workflow.split("  real-event-probe:",1)[1])
+        self.assertNotIn("  schedule:", workflow)
+
     def test_offline_cli_does_not_download_or_infer(self):
         p = subprocess.run([sys.executable, "-I", "-S", "-B",
                             str(Path(probe.__file__))],
