@@ -21397,9 +21397,9 @@
     {
       "path": ".github/workflows/english63-three-evidence-queue-once.yml",
       "mode": "100644",
-      "git_blob_sha1": "01475e176b928fa3f81bac8cc5fbf7c6d009bb34",
-      "bytes": 7725,
-      "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+      "git_blob_sha1": "caee6170e6460f7e5983b4c4de92791c02ab210f",
+      "bytes": 9371,
+      "source_commit": "3383e8719d78727d0415c9c1c58860310293028a"
     }
   ],
   "source_registration_history": [
@@ -25945,6 +25945,51 @@
             "git_blob_sha1": "fc3eca68f6386fbed0a73005f5241d9afc8aaf82",
             "bytes": 7523,
             "source_commit": "fd900e4e9f780d14665676e0690e556582aa6e98"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-source-join-pr-original-artifact-preflight-20261113",
+      "source_commit": "3383e8719d78727d0415c9c1c58860310293028a",
+      "base_commit": "5228e8ba92d4934381d4fdea843d764acb1c1e7b",
+      "paths": [
+        ".github/workflows/english63-three-evidence-queue-once.yml"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/english63-three-evidence-queue-once.yml",
+          "mode": "100644",
+          "git_blob_sha1": "01475e176b928fa3f81bac8cc5fbf7c6d009bb34",
+          "bytes": 7725,
+          "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "bf436212715f836ca6201ff208617e43860e255a",
+      "scope": "Run same read-only original three-archive hash and byte-identical review join on same-repo PR to catch errors before guarded main once.",
+      "rationale": "Protected PR should not appear green if exact original saved 63-row join is not reproducible. Source-only tests and actual run do not regenerate WAV, download models, run ASR or optimize KWS.",
+      "files": [
+        {
+          "path": ".github/workflows/english63-three-evidence-queue-once.yml",
+          "before": {
+            "path": ".github/workflows/english63-three-evidence-queue-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "01475e176b928fa3f81bac8cc5fbf7c6d009bb34",
+            "bytes": 7725,
+            "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+          },
+          "after": {
+            "path": ".github/workflows/english63-three-evidence-queue-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "caee6170e6460f7e5983b4c4de92791c02ab210f",
+            "bytes": 9371,
+            "source_commit": "3383e8719d78727d0415c9c1c58860310293028a"
           }
         }
       ],
