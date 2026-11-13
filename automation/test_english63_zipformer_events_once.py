@@ -151,6 +151,32 @@ class English63ZipformerEventTests(unittest.TestCase):
         self.assertIn("english63-zipformer-cli-click-recovery-20261113.json", workflow)
         self.assertNotIn('gh api "repos/k2-fsa/sherpa-onnx/releases', workflow)
 
+    def test_exact_second_failure_and_complete_python_tokenizer_imports(self):
+        root = Path(__file__).resolve().parents[1]
+        receipt = market.read(root / ".github/triggers/english63-zipformer-text2token-dependency-recovery-20261113.json")
+        self.assertEqual(receipt, {
+            "schema": "english63-zipformer-text2token-full-deps-recovery-v1",
+            "prior_main_commit": "4481ea583c01ec59c5b855b504f560b41fed1258",
+            "failed_workflow_run_id": 43439523806,
+            "failed_jobs": {"gigaspeech": 131933302073, "zh-en": 131933302012},
+            "observed_error": "ModuleNotFoundError: No module named 'sentencepiece'",
+            "official_sherpa_source_tag": "v1.13.8",
+            "required_undeclared_dependencies": [
+                "click==8.1.8", "sentencepiece==0.2.1", "pypinyin==0.55.0",
+            ],
+            "failure_stage": "official text2token before PCM KeywordSpotter decode",
+            "original_tts_artifact_id": 13954744587,
+            "original_tts_zip_sha256": "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc",
+            "new_tts_calls": 0, "new_asr_calls": 0, "optimizer_updates": 0,
+            "model_promotion_allowed": False, "periodic_jobs_created": False,
+        })
+        workflow = (root / ".github/workflows/english63-zipformer-events-once.yml").read_text(encoding="utf-8")
+        self.assertIn("english63-zipformer-text2token-dependency-recovery-20261113.json", workflow)
+        self.assertIn("'sentencepiece==0.2.1' 'pypinyin==0.55.0'", workflow)
+        self.assertIn("text2token CLI import closure without any model or audio", workflow)
+        self.assertIn("import click, sentencepiece, pypinyin, sherpa_onnx", workflow)
+        self.assertNotIn('gh api "repos/k2-fsa/sherpa-onnx/releases', workflow)
+
     def test_offline_cli_does_not_download_or_infer(self):
         p = subprocess.run([sys.executable, "-I", "-S", "-B",
                             str(Path(probe.__file__))],
