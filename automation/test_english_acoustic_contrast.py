@@ -142,6 +142,7 @@ class AcousticContrastTests(unittest.TestCase):
     def test_wrong_zip_identity_rejected_before_any_recomputation(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
+            (root/"unpacked").mkdir()
             corrupt=root/"incorrect.zip"
             corrupt.write_bytes(b"not a real retained ZIP")
             with self.assertRaisesRegex(ValueError,
