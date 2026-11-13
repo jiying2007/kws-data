@@ -24,15 +24,15 @@ def invented_three_sources():
     dtw_voice, ipa_voice = [], []
     for voice in voices:
         r = "train-candidate" if voice in queue.TRAIN_VOICES else "development-only"
-        comparisons = {label:{
+        comparisons = {contrast:{
             "nearphone_to_same_variant_ratio":0.95,
             "nearphone_not_farther_than_same":True,
-            } for label,_,_,_ in queue.WAKES}
-        ipa_contrasts = {label:{
+            } for _,_,_,names in queue.WAKES for contrast in names}
+        ipa_contrasts = {contrast:{
             "same_wake_variant_phone_edit":2,
             "nearest_nearphone_phone_edit":1,
             "nearphone_not_farther_than_wake_variant":True,
-            } for label,_,_,_ in queue.WAKES}
+            } for _,_,_,names in queue.WAKES for contrast in names}
         dtw_voice.append({"voice_id":voice,"comparisons":comparisons})
         ipa_voice.append({"voice_id":voice,"contrasts":ipa_contrasts})
         for text,intent in queue.REQUESTS.items():
