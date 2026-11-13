@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2028,
-  "expected_retained_files": 2019,
+  "expected_tracked_files": 2032,
+  "expected_retained_files": 2023,
   "new_retained_paths": 1281,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -21470,6 +21470,34 @@
       "git_blob_sha1": "7b387d7e325e8209266890dffec4374bea080ace",
       "bytes": 4400,
       "source_commit": "69ce3ab930eeff11a4e0835281999fcf4626c2fd"
+    },
+    {
+      "path": "automation/english63_zh_en_mero_only.py",
+      "mode": "100644",
+      "git_blob_sha1": "8e6b8f0ed1873c26844b1afd08040ce033841f8f",
+      "bytes": 15298,
+      "source_commit": "348bd813b1044c23f6d73d902824b905c1f7cc20"
+    },
+    {
+      "path": "automation/test_english63_zh_en_mero_only.py",
+      "mode": "100644",
+      "git_blob_sha1": "f18683fc76f7aecb22ca68b9d59ea9ba7f28c660",
+      "bytes": 8077,
+      "source_commit": "ca4bddae19e847a0b5d2125dcff1212eb14522f0"
+    },
+    {
+      "path": ".github/triggers/english63-zh-en-mero-only-20261113.json",
+      "mode": "100644",
+      "git_blob_sha1": "8486dc1a7ca3be3982bc7c5af0b9cfd33bab628c",
+      "bytes": 721,
+      "source_commit": "fd3b127e90b1172a0e3cf2c76bab3fa430896b7d"
+    },
+    {
+      "path": ".github/workflows/english63-zh-en-mero-only.yml",
+      "mode": "100644",
+      "git_blob_sha1": "ed8f989c10e3f1e2c0a01313809b5a7c27c02a0f",
+      "bytes": 9138,
+      "source_commit": "ed10898709bd2a29a1715b53521090670c8aaa4e"
     }
   ],
   "source_registration_history": [
@@ -26621,6 +26649,122 @@
             "git_blob_sha1": "7b387d7e325e8209266890dffec4374bea080ace",
             "bytes": 4400,
             "source_commit": "69ce3ab930eeff11a4e0835281999fcf4626c2fd"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-bilingual-zipformer-mero-only-first-real-events-20261113",
+      "source_commit": "f6c75ee2762b72a525aafdbca925cc0547744ec6",
+      "base_commit": "d5ef33d7da8202db434b5d1508616e028e3071b7",
+      "paths": [
+        "automation/english63_zh_en_mero_only.py",
+        "automation/test_english63_zh_en_mero_only.py",
+        ".github/triggers/english63-zh-en-mero-only-20261113.json",
+        ".github/workflows/english63-zh-en-mero-only.yml"
+      ],
+      "previous_manifest_git_blob_sha1": "4b9ede5de0d3a300e1982a34e14d3a86d83b1de9",
+      "scope": "Real GigaSpeech comparator follow-up: frozen Chinese-English pretrained 3M on exactly supported Hey Mero only, original 63 WAVs, no Vosen G2P and no formal FAR/FRR.",
+      "rationale": "Official Zh-En en.phone is proven missing VOSEN but supports HEY and MERO. Source-bound PR-time real PCM/phoneme preflight, then protected once event experiment on all original 63. Never claim an untested candidate.",
+      "files": [
+        {
+          "path": "automation/english63_zh_en_mero_only.py",
+          "after": {
+            "path": "automation/english63_zh_en_mero_only.py",
+            "mode": "100644",
+            "git_blob_sha1": "8e6b8f0ed1873c26844b1afd08040ce033841f8f",
+            "bytes": 15298,
+            "source_commit": "348bd813b1044c23f6d73d902824b905c1f7cc20"
+          }
+        },
+        {
+          "path": "automation/test_english63_zh_en_mero_only.py",
+          "after": {
+            "path": "automation/test_english63_zh_en_mero_only.py",
+            "mode": "100644",
+            "git_blob_sha1": "7f39c4a19cce53dd328d398d7fa5eee9032bd53f",
+            "bytes": 7534,
+            "source_commit": "e8bc360847cdba81aeec10cc315cb1e3b9081315"
+          }
+        },
+        {
+          "path": ".github/triggers/english63-zh-en-mero-only-20261113.json",
+          "after": {
+            "path": ".github/triggers/english63-zh-en-mero-only-20261113.json",
+            "mode": "100644",
+            "git_blob_sha1": "8486dc1a7ca3be3982bc7c5af0b9cfd33bab628c",
+            "bytes": 721,
+            "source_commit": "fd3b127e90b1172a0e3cf2c76bab3fa430896b7d"
+          }
+        },
+        {
+          "path": ".github/workflows/english63-zh-en-mero-only.yml",
+          "after": {
+            "path": ".github/workflows/english63-zh-en-mero-only.yml",
+            "mode": "100644",
+            "git_blob_sha1": "8a6abba2ad4f98917a92757e479cd29ca446a0dc",
+            "bytes": 9142,
+            "source_commit": "f6c75ee2762b72a525aafdbca925cc0547744ec6"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-zh-en-mero-only-correct-artifact-bearer-20261113",
+      "source_commit": "ca4bddae19e847a0b5d2125dcff1212eb14522f0",
+      "base_commit": "d5ef33d7da8202db434b5d1508616e028e3071b7",
+      "paths": [
+        ".github/workflows/english63-zh-en-mero-only.yml",
+        "automation/test_english63_zh_en_mero_only.py"
+      ],
+      "previous_manifest_git_blob_sha1": "3a9031467c39ae273a4e321eefdff61012f1e479",
+      "scope": "Fix two GitHub Actions original-artifact downloads: bearer token expansion. No changes to source audio, model or frozen keyword thresholds.",
+      "rationale": "Source preflight on first Mero-only PR failed at HTTP401 due single-quoted unexpanded token, before source readback or model execution. Preserve exact prior history and add source-only regression.",
+      "files": [
+        {
+          "path": ".github/workflows/english63-zh-en-mero-only.yml",
+          "before": {
+            "path": ".github/workflows/english63-zh-en-mero-only.yml",
+            "mode": "100644",
+            "git_blob_sha1": "8a6abba2ad4f98917a92757e479cd29ca446a0dc",
+            "bytes": 9142,
+            "source_commit": "f6c75ee2762b72a525aafdbca925cc0547744ec6"
+          },
+          "after": {
+            "path": ".github/workflows/english63-zh-en-mero-only.yml",
+            "mode": "100644",
+            "git_blob_sha1": "ed8f989c10e3f1e2c0a01313809b5a7c27c02a0f",
+            "bytes": 9138,
+            "source_commit": "ed10898709bd2a29a1715b53521090670c8aaa4e"
+          }
+        },
+        {
+          "path": "automation/test_english63_zh_en_mero_only.py",
+          "before": {
+            "path": "automation/test_english63_zh_en_mero_only.py",
+            "mode": "100644",
+            "git_blob_sha1": "7f39c4a19cce53dd328d398d7fa5eee9032bd53f",
+            "bytes": 7534,
+            "source_commit": "e8bc360847cdba81aeec10cc315cb1e3b9081315"
+          },
+          "after": {
+            "path": "automation/test_english63_zh_en_mero_only.py",
+            "mode": "100644",
+            "git_blob_sha1": "f18683fc76f7aecb22ca68b9d59ea9ba7f28c660",
+            "bytes": 8077,
+            "source_commit": "ca4bddae19e847a0b5d2125dcff1212eb14522f0"
           }
         }
       ],
