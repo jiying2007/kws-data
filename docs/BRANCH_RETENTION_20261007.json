@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2023,
-  "expected_retained_files": 2014,
+  "expected_tracked_files": 2024,
+  "expected_retained_files": 2015,
   "new_retained_paths": 1281,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -21411,9 +21411,9 @@
     {
       "path": "automation/test_english63_zipformer_events_once.py",
       "mode": "100644",
-      "git_blob_sha1": "dc80b256b9eb1859a47ffe0798ccdf981bd6c077",
-      "bytes": 8665,
-      "source_commit": "4719e2409071725a5e1f9106f3ebc1e1d7f4b513"
+      "git_blob_sha1": "9d793678d6441be9bcc83e6a118959fd0c076ae2",
+      "bytes": 10477,
+      "source_commit": "4b490451d04350a7420844a26be136e236593189"
     },
     {
       "path": ".github/triggers/english63-zipformer-event-probe-20261113.json",
@@ -21425,9 +21425,9 @@
     {
       "path": ".github/workflows/english63-zipformer-events-once.yml",
       "mode": "100644",
-      "git_blob_sha1": "66387f31b684b84f4db6ba8046c188c1a16c12a6",
-      "bytes": 6622,
-      "source_commit": "60e01eb9e4f7f82c63b591e21ed8c858ceccb6c4"
+      "git_blob_sha1": "a87742942e915936ffc364eb404c357e627cc564",
+      "bytes": 7747,
+      "source_commit": "88924b3b21a723797a3ec9076330d20d1d7bfb13"
     },
     {
       "path": ".github/triggers/english63-zipformer-cli-click-recovery-20261113.json",
@@ -21435,6 +21435,13 @@
       "git_blob_sha1": "870af778b4a52976a047c3327b10329c188252b3",
       "bytes": 706,
       "source_commit": "aee1f6975bc133cd982df08ea7f253f5e27e8428"
+    },
+    {
+      "path": ".github/triggers/english63-zipformer-text2token-dependency-recovery-20261113.json",
+      "mode": "100644",
+      "git_blob_sha1": "e1cecd2dc3823263058bc2fa3ca98763f3a16f0f",
+      "bytes": 851,
+      "source_commit": "ee4db54b42dcd234ab70ad53216899d379b30567"
     }
   ],
   "source_registration_history": [
@@ -26246,6 +26253,90 @@
         "new_asr_calls": 0,
         "first_run_still_failed": true,
         "new_model_promotion_allowed": false,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-pretrained-zipformer-tokenizer-dependency-closure-v1",
+      "source_commit": "4b490451d04350a7420844a26be136e236593189",
+      "base_commit": "4481ea583c01ec59c5b855b504f560b41fed1258",
+      "paths": [
+        ".github/workflows/english63-zipformer-events-once.yml",
+        "automation/test_english63_zipformer_events_once.py",
+        ".github/triggers/english63-zipformer-text2token-dependency-recovery-20261113.json"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/english63-zipformer-events-once.yml",
+          "mode": "100644",
+          "git_blob_sha1": "66387f31b684b84f4db6ba8046c188c1a16c12a6",
+          "bytes": 6622,
+          "source_commit": "60e01eb9e4f7f82c63b591e21ed8c858ceccb6c4"
+        },
+        {
+          "path": "automation/test_english63_zipformer_events_once.py",
+          "mode": "100644",
+          "git_blob_sha1": "dc80b256b9eb1859a47ffe0798ccdf981bd6c077",
+          "bytes": 8665,
+          "source_commit": "4719e2409071725a5e1f9106f3ebc1e1d7f4b513"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "fd9f7f7219128fcde771b2a036735adaeda6d0df",
+      "scope": "One native Sherpa 1.13.8 text2token dependency closure correction, exact prior failed run, PR-stage no-model import gate and distinct main recovery",
+      "rationale": "Second native real-run failure confirmed both BPE and bilingual tokenizer need sentencepiece and pypinyin. Preserve failures, add pinned complete dependencies before any more inference.",
+      "files": [
+        {
+          "path": ".github/workflows/english63-zipformer-events-once.yml",
+          "before": {
+            "path": ".github/workflows/english63-zipformer-events-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "66387f31b684b84f4db6ba8046c188c1a16c12a6",
+            "bytes": 6622,
+            "source_commit": "60e01eb9e4f7f82c63b591e21ed8c858ceccb6c4"
+          },
+          "after": {
+            "path": ".github/workflows/english63-zipformer-events-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "a87742942e915936ffc364eb404c357e627cc564",
+            "bytes": 7747,
+            "source_commit": "88924b3b21a723797a3ec9076330d20d1d7bfb13"
+          }
+        },
+        {
+          "path": "automation/test_english63_zipformer_events_once.py",
+          "before": {
+            "path": "automation/test_english63_zipformer_events_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "dc80b256b9eb1859a47ffe0798ccdf981bd6c077",
+            "bytes": 8665,
+            "source_commit": "4719e2409071725a5e1f9106f3ebc1e1d7f4b513"
+          },
+          "after": {
+            "path": "automation/test_english63_zipformer_events_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "9d793678d6441be9bcc83e6a118959fd0c076ae2",
+            "bytes": 10477,
+            "source_commit": "4b490451d04350a7420844a26be136e236593189"
+          }
+        },
+        {
+          "path": ".github/triggers/english63-zipformer-text2token-dependency-recovery-20261113.json",
+          "after": {
+            "path": ".github/triggers/english63-zipformer-text2token-dependency-recovery-20261113.json",
+            "mode": "100644",
+            "git_blob_sha1": "e1cecd2dc3823263058bc2fa3ca98763f3a16f0f",
+            "bytes": 851,
+            "source_commit": "ee4db54b42dcd234ab70ad53216899d379b30567"
+          }
+        }
+      ],
+      "validation": {
+        "original_audio_regenerated": false,
+        "new_tts_calls": 0,
+        "new_asr_calls": 0,
+        "model_promotion_allowed": false,
         "integration_exemptions_unchanged": true,
         "original_baseline_inventory_unchanged": true,
         "all_previous_registration_history_unchanged": true
