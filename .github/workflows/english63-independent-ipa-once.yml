@@ -1,0 +1,143 @@
+name: English 63 independent native IPA observation once
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/english63-independent-ipa-once.yml'
+      - '.github/triggers/english63-independent-ipa-20261113.json'
+      - 'automation/english63_independent_ipa.py'
+      - 'automation/test_english63_independent_ipa.py'
+  push:
+    branches: [main]
+    paths:
+      - '.github/triggers/english63-independent-ipa-20261113.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: english63-ipa-once-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  source-only-regression:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: No-model tests in regular, -O, -OO and isolated CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english63_independent_ipa.py -v
+          done
+          python3 -I -S -B automation/english63_independent_ipa.py
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+
+  actual-blinded-phoneme:
+    needs: source-only-regression
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    permissions:
+      contents: read
+      actions: read
+    env:
+      OMP_NUM_THREADS: "4"
+      MKL_NUM_THREADS: "4"
+      OPENBLAS_NUM_THREADS: "1"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Verify exact earlier source runs and original ZIP hashes
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962 |
+            jq -e '.id==43242278962 and .status=="completed" and
+                   .conclusion=="success" and .event=="push" and .run_attempt==1 and
+                   .head_sha=="bec1a1421d1db2de17afb9c6e3155343becdb980"'
+          gh api repos/jiying2007/kws-data/actions/runs/43267739514 |
+            jq -e '.id==43267739514 and .status=="completed" and
+                   .conclusion=="success" and .event=="push" and .run_attempt==1 and
+                   .head_sha=="cf67b64f7283af9da284b06cd118901db93f27dd"'
+          gh api repos/jiying2007/kws-data/actions/runs/43242278962/artifacts |
+            jq -e '[.artifacts[] | select(.id==13954744587 and
+                   .digest=="sha256:f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc"
+                   and .expired==false)] | length==1'
+          gh api repos/jiying2007/kws-data/actions/runs/43267739514/artifacts |
+            jq -e '[.artifacts[] | select(.id==13965259534 and
+                   .digest=="sha256:3786baa9fd3575437a05e97956fafdf3298eac23de2538b485b8342ef4d25133"
+                   and .expired==false)] | length==1'
+      - name: Download unchanged original TTS and review ZIPs only
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for item in 'tts:13954744587' 'review:13965259534'; do
+            name="${item%%:*}"
+            id="${item#*:}"
+            curl --fail --location --silent --show-error --retry 0 \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H 'Accept: application/vnd.github+json' \
+              "https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/${id}/zip" \
+              -o "$RUNNER_TEMP/english63-${name}.zip"
+          done
+      - name: Install pinned free CPU research phoneme stack
+        timeout-minutes: 30
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/ipa-venv"
+          venv="$RUNNER_TEMP/ipa-venv/bin"
+          "$venv/pip" install --disable-pip-version-check \
+            --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu"
+          "$venv/pip" install --disable-pip-version-check \
+            "transformers==4.46.3" "huggingface-hub==0.36.2" \
+            "safetensors==0.4.5" "numpy==1.26.4"
+          "$venv/pip" freeze > "$RUNNER_TEMP/ipa-installed-packages.txt"
+      - name: Source-verified 63 real PCM to native IPA, no targets or ASR hints
+        timeout-minutes: 105
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/ipa-venv/bin/python" -I -B \
+            automation/english63_independent_ipa.py --execute \
+            --tts-zip "$RUNNER_TEMP/english63-tts.zip" \
+            --review-zip "$RUNNER_TEMP/english63-review.zip" \
+            --output "$RUNNER_TEMP/english63-ipa-result"
+          test -z "$(git status --porcelain)"
+      - name: Retain actual per-cell machine observations OR terminal failure only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # pinned
+        with:
+          name: english63-real-independent-ipa-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english63-ipa-result/started.json
+            ${{ runner.temp }}/english63-ipa-result/summary.json
+            ${{ runner.temp }}/english63-ipa-result/failed.json
+            ${{ runner.temp }}/ipa-installed-packages.txt
+          retention-days: 30
+          if-no-files-found: warn
