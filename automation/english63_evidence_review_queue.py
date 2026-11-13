@@ -125,7 +125,7 @@ def join(asr: dict, dtw: dict, ipa: dict) -> dict:
             i.get("requested_intent") and
             all(x.get("human_gold") is False and
                 x.get("training_admitted") is False for x in (a,d,i)) and
-            a.get("phonetic_label_authenticated") is False and
+            a.get("acoustic_pronunciation_verified") is False and
             a.get("trusted_negative") is False and
             i.get("phonetic_label_authenticated") is False and
             i.get("trusted_negative") is False,
