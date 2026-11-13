@@ -21425,9 +21425,9 @@
     {
       "path": ".github/workflows/english63-zipformer-events-once.yml",
       "mode": "100644",
-      "git_blob_sha1": "fe7acf6e9bf38eb4135255385221c34ea4fa339b",
-      "bytes": 9435,
-      "source_commit": "2bae58f9bee48fff7fb60d67b7514cc434a503cb"
+      "git_blob_sha1": "3846d41417873dad2302df67a5235cdb8c990779",
+      "bytes": 9515,
+      "source_commit": "1ed6fb6b90e7a52fb70baac069f15b676a931775"
     },
     {
       "path": ".github/triggers/english63-zipformer-cli-click-recovery-20261113.json",
@@ -26332,6 +26332,42 @@
             "git_blob_sha1": "10b827872c2aafb38c9e7d3a4df5e03bba4950c0",
             "bytes": 870,
             "source_commit": "2bae58f9bee48fff7fb60d67b7514cc434a503cb"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-pretrained-cli-entrypoint-smoke-coexistence-v1",
+      "source_commit": "1ed6fb6b90e7a52fb70baac069f15b676a931775",
+      "base_commit": "4481ea583c01ec59c5b855b504f560b41fed1258",
+      "paths": [
+        ".github/workflows/english63-zipformer-events-once.yml"
+      ],
+      "previous_manifest_git_blob_sha1": "b24ef0bb4473ba8b6d7f001a283e57c781d8a2d1",
+      "scope": "Preserve #106 --help entrypoint regression and add text2token --help preflight using fully pinned dependencies, before original-63 real inference",
+      "rationale": "Protected source-only check explicitly requires the original CLI smoke; retaining it does not weaken actual tokenizer preflight.",
+      "files": [
+        {
+          "path": ".github/workflows/english63-zipformer-events-once.yml",
+          "before": {
+            "path": ".github/workflows/english63-zipformer-events-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "fe7acf6e9bf38eb4135255385221c34ea4fa339b",
+            "bytes": 9435,
+            "source_commit": "2bae58f9bee48fff7fb60d67b7514cc434a503cb"
+          },
+          "after": {
+            "path": ".github/workflows/english63-zipformer-events-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "3846d41417873dad2302df67a5235cdb8c990779",
+            "bytes": 9515,
+            "source_commit": "1ed6fb6b90e7a52fb70baac069f15b676a931775"
           }
         }
       ],
