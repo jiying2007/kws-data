@@ -204,6 +204,28 @@ def preflight_model(archive: Path, model_name: str):
     with tempfile.TemporaryDirectory(prefix="en63-pronunciation-preflight-") as tmp:
         root = Path(tmp)
         parts, archive_sha = extract_locked_model(archive, model_name, root)
+        # The official zh-en model's English names require its own en.phone
+        # lexicon entries. A missing proper name is an explicit blocked
+        # research candidate, never a guessed phonetic transcription.
+        if model_name == "zh-en":
+            with parts["lexicon"].open(encoding="utf-8") as handle:
+                words = {line.split()[0] for line in handle if line.strip()}
+            missing = [word for word in ("HEY", "VOSEN", "MERO")
+                       if word not in words]
+            if missing:
+                return {
+                    "schema": "english63-pretrained-tokenization-preflight-v1",
+                    "model": model_name,
+                    "status": "BLOCKED_OFFICIAL_LEXICON_PROPER_NAME_OOV",
+                    "model_archive_sha256": archive_sha,
+                    "model_source_integrity": MODEL_SPECS[model_name]["source_integrity"],
+                    "missing_official_lexicon_words": missing,
+                    "keyword_lines": [],
+                    "keyword_sha256": None, "tokenization_complete": False,
+                    "source_audio_read": False, "new_tts_calls": 0,
+                    "new_asr_calls": 0, "kws_inference_calls": 0,
+                    "training_admitted": False, "model_promotion_allowed": False,
+                }
         keywords = generate_keywords(model_name, parts, root)
         lines = keywords.read_text(encoding="utf-8").splitlines()
         need(len(lines) == len(ALIASES) and
@@ -216,6 +238,7 @@ def preflight_model(archive: Path, model_name: str):
             "model_source_integrity": MODEL_SPECS[model_name]["source_integrity"],
             "keyword_lines": lines,
             "keyword_sha256": sha_file(keywords),
+            "tokenization_complete": True,
             "source_audio_read": False, "new_tts_calls": 0,
             "new_asr_calls": 0, "kws_inference_calls": 0,
             "training_admitted": False, "model_promotion_allowed": False,
