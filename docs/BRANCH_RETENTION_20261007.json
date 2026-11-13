@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2018,
-  "expected_retained_files": 2009,
+  "expected_tracked_files": 2022,
+  "expected_retained_files": 2013,
   "new_retained_paths": 1281,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -21400,6 +21400,34 @@
       "git_blob_sha1": "caee6170e6460f7e5983b4c4de92791c02ab210f",
       "bytes": 9371,
       "source_commit": "3383e8719d78727d0415c9c1c58860310293028a"
+    },
+    {
+      "path": "automation/english63_zipformer_events_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "133c72d7ff0df8d8f1c3de3c9a65e7642e8c0405",
+      "bytes": 18950,
+      "source_commit": "2e5e2084290e58b7d10dc0d276bc736d694bbb9a"
+    },
+    {
+      "path": "automation/test_english63_zipformer_events_once.py",
+      "mode": "100644",
+      "git_blob_sha1": "37294a46b1d040b410eacbda442ffac447968eb5",
+      "bytes": 7110,
+      "source_commit": "2f8ba07978d3c7ac949b152fdb35e5296507dcd7"
+    },
+    {
+      "path": ".github/triggers/english63-zipformer-event-probe-20261113.json",
+      "mode": "100644",
+      "git_blob_sha1": "13ed5cf30682fbf92d23ef11a8025592993f03d8",
+      "bytes": 920,
+      "source_commit": "6b2237b9d88ccc6db423b0137854957da517c523"
+    },
+    {
+      "path": ".github/workflows/english63-zipformer-events-once.yml",
+      "mode": "100644",
+      "git_blob_sha1": "04557fce6cfa36ccfe23f5bb94fb65f64e78c651",
+      "bytes": 6447,
+      "source_commit": "def7343ad54f2e76074cd5662717aea960e4875d"
     }
   ],
   "source_registration_history": [
@@ -26060,6 +26088,68 @@
             "git_blob_sha1": "effdc7f0d599ae23dcf111816fc33509a180de86",
             "bytes": 7670,
             "source_commit": "18af6b2aec4add22c920cab1cea9b1c3ca0b61ba"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-pretrained-zipformer-event-execution-v1",
+      "source_commit": "def7343ad54f2e76074cd5662717aea960e4875d",
+      "base_commit": "fb2b4deeb87dd24ce2796df7716bbb365445d58d",
+      "paths": [
+        "automation/english63_zipformer_events_once.py",
+        "automation/test_english63_zipformer_events_once.py",
+        ".github/triggers/english63-zipformer-event-probe-20261113.json",
+        ".github/workflows/english63-zipformer-events-once.yml"
+      ],
+      "previous_manifest_git_blob_sha1": "ae5988d07a500c1f9cacc5e434fcdf96beadcf7c",
+      "scope": "research-only original-English63 two-pretrained streaming event probe; real inference only on protected main, no new audio or label promotion",
+      "rationale": "Register exact source bytes and preserve closed file inventory plus historical data retention; new study cannot weaken publication or audio source authority",
+      "files": [
+        {
+          "path": "automation/english63_zipformer_events_once.py",
+          "after": {
+            "path": "automation/english63_zipformer_events_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "133c72d7ff0df8d8f1c3de3c9a65e7642e8c0405",
+            "bytes": 18950,
+            "source_commit": "2e5e2084290e58b7d10dc0d276bc736d694bbb9a"
+          }
+        },
+        {
+          "path": "automation/test_english63_zipformer_events_once.py",
+          "after": {
+            "path": "automation/test_english63_zipformer_events_once.py",
+            "mode": "100644",
+            "git_blob_sha1": "37294a46b1d040b410eacbda442ffac447968eb5",
+            "bytes": 7110,
+            "source_commit": "2f8ba07978d3c7ac949b152fdb35e5296507dcd7"
+          }
+        },
+        {
+          "path": ".github/triggers/english63-zipformer-event-probe-20261113.json",
+          "after": {
+            "path": ".github/triggers/english63-zipformer-event-probe-20261113.json",
+            "mode": "100644",
+            "git_blob_sha1": "13ed5cf30682fbf92d23ef11a8025592993f03d8",
+            "bytes": 920,
+            "source_commit": "6b2237b9d88ccc6db423b0137854957da517c523"
+          }
+        },
+        {
+          "path": ".github/workflows/english63-zipformer-events-once.yml",
+          "after": {
+            "path": ".github/workflows/english63-zipformer-events-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "04557fce6cfa36ccfe23f5bb94fb65f64e78c651",
+            "bytes": 6447,
+            "source_commit": "def7343ad54f2e76074cd5662717aea960e4875d"
           }
         }
       ],
