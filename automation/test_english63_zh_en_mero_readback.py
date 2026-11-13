@@ -121,7 +121,7 @@ def verify_summary(v):
     must_false = (
         "source_requested_text_is_acoustic_gold", "human_gold",
         "formal_training_admitted", "independent_test_qualified",
-        "model_on_ssc305", "model_promotion_allowed")
+        "model_promotion_allowed")
     must_true = (
         "nearphones_untrusted_as_negatives", "no_new_tts_or_asr_calls",
         "no_new_audio_generated", "no_new_training_or_threshold_sweep")
@@ -130,7 +130,7 @@ def verify_summary(v):
          limits.get("human_speaker_count") == 0 and
          all(limits.get(key) == "NOT_RUN" for key in (
              "continuous_negative_far_per_hour","independent_human_frr",
-             "accent_far_field_3to5m","latency_p99")),
+             "accent_far_field_3to5m","latency_p99", "model_on_ssc305")),
          "MERO_READBACK_FALSE_QUALIFICATION")
     return True
 
