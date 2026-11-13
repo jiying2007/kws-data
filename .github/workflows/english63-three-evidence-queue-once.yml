@@ -1,0 +1,192 @@
+name: English 63 three-source evidence review queue once (no models)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/english63-three-evidence-queue-once.yml'
+      - '.github/triggers/english63-three-evidence-queue-20261113.json'
+      - 'automation/english63_evidence_review_queue.py'
+      - 'automation/test_english63_evidence_review_queue.py'
+      - 'docs/BRANCH_RETENTION_20261007.json'
+  push:
+    branches: [main]
+    paths:
+      - '.github/triggers/english63-three-evidence-queue-20261113.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: english63-evidence-queue-once-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  source-only:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Reproducible source-only queue/negative tests with no model or audio
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english63_evidence_review_queue.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+
+      - name: PR-only original three-artifact byte-identity preflight (no model or audio)
+        if: github.event_name == 'pull_request'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for pair in 'asr:13965259534' 'dtw:13996662526' 'ipa:13997774459'; do
+            name="${pair%%:*}"
+            id="${pair#*:}"
+            curl --fail --location --silent --show-error --retry 0 \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H 'Accept: application/vnd.github+json' \
+              "https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/${id}/zip" \
+              -o "$RUNNER_TEMP/english63-${name}-original.zip"
+          done
+          python3 -I -S -B automation/english63_evidence_review_queue.py \
+            --asr-zip "$RUNNER_TEMP/english63-asr-original.zip" \
+            --dtw-zip "$RUNNER_TEMP/english63-dtw-original.zip" \
+            --ipa-zip "$RUNNER_TEMP/english63-ipa-original.zip" \
+            --output-dir "$RUNNER_TEMP/english63-preflight"
+          python3 -I -S -B - "$RUNNER_TEMP/english63-preflight/english63-three-evidence-review.json" <<'PY'
+          import hashlib,json,sys
+          content=open(sys.argv[1],'rb').read()
+          assert hashlib.sha256(content).hexdigest()=="89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12"
+          out=json.loads(content)
+          assert out["audio_rows_reused"]==63 and out["review_wake_pairs"]==14
+          assert out["new_model_calls"]==0 and out["training_admitted"] is False
+          PY
+          test -z "$(git status --porcelain)"
+
+
+  actual-immutable-evidence-join:
+    needs: source-only
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Verify unchanged source run and frozen no-model claim
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'PY'
+          import json
+          from pathlib import Path
+          data=json.loads(Path('.github/triggers/english63-three-evidence-queue-20261113.json').read_text())
+          assert set(data)=={'schema','source_artifacts',
+                             'expected_existing_report_sha256',
+                             'audio_cells','asr_observations_reused','pairs',
+                             'new_model_calls','new_audio_generated',
+                             'human_gold','training_admitted','no_scheduled_tasks'}
+          assert data['schema']=='english63-three-evidence-review-queue-once-v1'
+          assert data['expected_existing_report_sha256']=='89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12'
+          assert (data['audio_cells'],data['asr_observations_reused'],data['pairs'])==(63,189,14)
+          assert data['new_model_calls']==data['new_audio_generated']==0
+          assert data['human_gold'] is data['training_admitted'] is False
+          assert data['no_scheduled_tasks'] is True
+          expected={
+            'asr':(43267739514,13965259534,'3786baa9fd3575437a05e97956fafdf3298eac23de2538b485b8342ef4d25133'),
+            'dtw':(43334622072,13996662526,'64efe60c4b8c45cf130b2b55b4be6674f665dbcf7d667548c463dda15d951e18'),
+            'ipa':(43340235981,13997774459,'a70ee89c76bf25f8a0a6b82a5a72c46128782e7f2020fb7655c06845de131be0')}
+          assert set(data['source_artifacts'])==set(expected)
+          for key,(run,id,digest) in expected.items():
+              assert data['source_artifacts'][key]=={
+                'run_id':run,'artifact_id':id,'zip_sha256':digest}
+          PY
+          gh api repos/jiying2007/kws-data/actions/runs/43267739514 |
+            jq -e '.status=="completed" and .conclusion=="success" and
+                   .event=="push" and .run_attempt==1 and
+                   .head_sha=="cf67b64f7283af9da284b06cd118901db93f27dd"'
+          gh api repos/jiying2007/kws-data/actions/runs/43334622072 |
+            jq -e '.status=="completed" and .conclusion=="success" and
+                   .event=="push" and .run_attempt==1 and
+                   .head_sha=="f0a1bf4721fc70adb3ddd50556b153661f604ea5"'
+          gh api repos/jiying2007/kws-data/actions/runs/43340235981 |
+            jq -e '.status=="completed" and .conclusion=="success" and
+                   .event=="push" and .run_attempt==1 and
+                   .head_sha=="5228e8ba92d4934381d4fdea843d764acb1c1e7b"'
+          for pair in \
+            '43267739514:13965259534:3786baa9fd3575437a05e97956fafdf3298eac23de2538b485b8342ef4d25133' \
+            '43334622072:13996662526:64efe60c4b8c45cf130b2b55b4be6674f665dbcf7d667548c463dda15d951e18' \
+            '43340235981:13997774459:a70ee89c76bf25f8a0a6b82a5a72c46128782e7f2020fb7655c06845de131be0'; do
+            run="${pair%%:*}"
+            remain="${pair#*:}"
+            artifact="${remain%%:*}"
+            digest="${remain#*:}"
+            gh api "repos/jiying2007/kws-data/actions/runs/${run}/artifacts" |
+              jq -e --argjson id "$artifact" --arg digest "sha256:${digest}" \
+                '[.artifacts[] | select(.id==$id and .digest==$digest and .expired==false)] | length==1'
+          done
+      - name: Reuse ONLY original three small ZIP artifacts, no synthesis or inference
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for pair in 'asr:13965259534' 'dtw:13996662526' 'ipa:13997774459'; do
+            name="${pair%%:*}"
+            id="${pair#*:}"
+            curl --fail --location --silent --show-error --retry 0 \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H 'Accept: application/vnd.github+json' \
+              "https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/${id}/zip" \
+              -o "$RUNNER_TEMP/english63-${name}-original.zip"
+          done
+      - name: Rebuild 63 source-linked rows and 14 review pairs byte-identically
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english63_evidence_review_queue.py \
+            --asr-zip "$RUNNER_TEMP/english63-asr-original.zip" \
+            --dtw-zip "$RUNNER_TEMP/english63-dtw-original.zip" \
+            --ipa-zip "$RUNNER_TEMP/english63-ipa-original.zip" \
+            --output-dir "$RUNNER_TEMP/english63-triage"
+          python3 -I -S -B - "$RUNNER_TEMP/english63-triage/english63-three-evidence-review.json" <<'PY'
+          import hashlib,json,sys
+          raw=open(sys.argv[1],'rb').read()
+          assert hashlib.sha256(raw).hexdigest()=='89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12'
+          x=json.loads(raw)
+          assert len(x['rows'])==63 and len(x['wake_pairs'])==14
+          assert all(r['training_admitted'] is False and r['human_gold'] is False for r in x['rows'])
+          assert x['new_model_calls']==0 and x['training_admitted'] is False
+          PY
+          test -z "$(git status --porcelain)"
+      - name: Retain review queue only, not original WAV or model weights
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # pinned
+        with:
+          name: english63-three-evidence-review-queue-${{ github.run_id }}
+          path: ${{ runner.temp }}/english63-triage/
+          retention-days: 30
+          if-no-files-found: error

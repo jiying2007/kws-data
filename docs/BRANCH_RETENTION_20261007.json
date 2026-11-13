@@ -232,9 +232,9 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2013,
-  "expected_retained_files": 2004,
-  "new_retained_paths": 1276,
+  "expected_tracked_files": 2018,
+  "expected_retained_files": 2009,
+  "new_retained_paths": 1281,
   "integration_files": [
     ".github/workflows/research-retention.yml",
     "README.md",
@@ -21365,6 +21365,41 @@
       "git_blob_sha1": "3778b559064a8eed539c55d6f50d9ecaa7e0709e",
       "bytes": 3888,
       "source_commit": "5c56107d17f9e891aedbe7f1a925d971359b0719"
+    },
+    {
+      "path": "automation/english63_evidence_review_queue.py",
+      "mode": "100644",
+      "git_blob_sha1": "a014587d375b45e247c39ac87f4f8200ecfec06b",
+      "bytes": 14737,
+      "source_commit": "18af6b2aec4add22c920cab1cea9b1c3ca0b61ba"
+    },
+    {
+      "path": "automation/test_english63_evidence_review_queue.py",
+      "mode": "100644",
+      "git_blob_sha1": "effdc7f0d599ae23dcf111816fc33509a180de86",
+      "bytes": 7670,
+      "source_commit": "18af6b2aec4add22c920cab1cea9b1c3ca0b61ba"
+    },
+    {
+      "path": "docs/ENGLISH_63_TRIAGE_QUEUE_20261113.md",
+      "mode": "100644",
+      "git_blob_sha1": "7df556b03adf7866ac726fb2fa1e717d64982b7d",
+      "bytes": 2828,
+      "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+    },
+    {
+      "path": ".github/triggers/english63-three-evidence-queue-20261113.json",
+      "mode": "100644",
+      "git_blob_sha1": "6ac2fbebb367652eddd7615ea4612c0df0a4602f",
+      "bytes": 912,
+      "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+    },
+    {
+      "path": ".github/workflows/english63-three-evidence-queue-once.yml",
+      "mode": "100644",
+      "git_blob_sha1": "caee6170e6460f7e5983b4c4de92791c02ab210f",
+      "bytes": 9371,
+      "source_commit": "3383e8719d78727d0415c9c1c58860310293028a"
     }
   ],
   "source_registration_history": [
@@ -25786,6 +25821,245 @@
             "git_blob_sha1": "3778b559064a8eed539c55d6f50d9ecaa7e0709e",
             "bytes": 3888,
             "source_commit": "5c56107d17f9e891aedbe7f1a925d971359b0719"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-pinned-three-evidence-join-repro-20261113",
+      "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f",
+      "base_commit": "5228e8ba92d4934381d4fdea843d764acb1c1e7b",
+      "paths": [
+        "automation/english63_evidence_review_queue.py",
+        "automation/test_english63_evidence_review_queue.py",
+        "docs/ENGLISH_63_TRIAGE_QUEUE_20261113.md",
+        ".github/triggers/english63-three-evidence-queue-20261113.json",
+        ".github/workflows/english63-three-evidence-queue-once.yml"
+      ],
+      "previous_campaign_rows": [],
+      "previous_manifest_git_blob_sha1": "4b635ff2230e142f010a72967891b0e2403aa430",
+      "scope": "Publish no-model exact-source English 63-way ASR/DTW/IPA review queue reproducer and one-time real artifact join with source-only tests.",
+      "rationale": "The saved 14-pair reviewer queue must be reproducible from original GitHub Actions ZIPs without new voice generation, model calls, gold labels, or exposure of owner-held weights/audio; retain source role and semantic class distinctions.",
+      "files": [
+        {
+          "path": "automation/english63_evidence_review_queue.py",
+          "before": null,
+          "after": {
+            "path": "automation/english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "6dccd6b44e70e067d33d9735a15685022b4c0b7e",
+            "bytes": 14734,
+            "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+          }
+        },
+        {
+          "path": "automation/test_english63_evidence_review_queue.py",
+          "before": null,
+          "after": {
+            "path": "automation/test_english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "ce6b4f841621bceaf4347261ad770f7f3d52a908",
+            "bytes": 7473,
+            "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+          }
+        },
+        {
+          "path": "docs/ENGLISH_63_TRIAGE_QUEUE_20261113.md",
+          "before": null,
+          "after": {
+            "path": "docs/ENGLISH_63_TRIAGE_QUEUE_20261113.md",
+            "mode": "100644",
+            "git_blob_sha1": "7df556b03adf7866ac726fb2fa1e717d64982b7d",
+            "bytes": 2828,
+            "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+          }
+        },
+        {
+          "path": ".github/triggers/english63-three-evidence-queue-20261113.json",
+          "before": null,
+          "after": {
+            "path": ".github/triggers/english63-three-evidence-queue-20261113.json",
+            "mode": "100644",
+            "git_blob_sha1": "6ac2fbebb367652eddd7615ea4612c0df0a4602f",
+            "bytes": 912,
+            "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+          }
+        },
+        {
+          "path": ".github/workflows/english63-three-evidence-queue-once.yml",
+          "before": null,
+          "after": {
+            "path": ".github/workflows/english63-three-evidence-queue-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "01475e176b928fa3f81bac8cc5fbf7c6d009bb34",
+            "bytes": 7725,
+            "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-three-evidence-queue-test-fixture-source-key-repair-20261113",
+      "source_commit": "fd900e4e9f780d14665676e0690e556582aa6e98",
+      "base_commit": "5228e8ba92d4934381d4fdea843d764acb1c1e7b",
+      "paths": [
+        "automation/test_english63_evidence_review_queue.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/test_english63_evidence_review_queue.py",
+          "mode": "100644",
+          "git_blob_sha1": "ce6b4f841621bceaf4347261ad770f7f3d52a908",
+          "bytes": 7473,
+          "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "67300d0b91dda9f0151e07ab1e99c65b22bb71c9",
+      "scope": "Repair fake-only comparison key roster to use actual source report keys.",
+      "rationale": "PR #104 source-only test failed at KeyError on an invented dictionary: source report has three distinct comparison names. No actual audio/model calls or source admissibility changes.",
+      "files": [
+        {
+          "path": "automation/test_english63_evidence_review_queue.py",
+          "before": {
+            "path": "automation/test_english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "ce6b4f841621bceaf4347261ad770f7f3d52a908",
+            "bytes": 7473,
+            "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+          },
+          "after": {
+            "path": "automation/test_english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "fc3eca68f6386fbed0a73005f5241d9afc8aaf82",
+            "bytes": 7523,
+            "source_commit": "fd900e4e9f780d14665676e0690e556582aa6e98"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-source-join-pr-original-artifact-preflight-20261113",
+      "source_commit": "3383e8719d78727d0415c9c1c58860310293028a",
+      "base_commit": "5228e8ba92d4934381d4fdea843d764acb1c1e7b",
+      "paths": [
+        ".github/workflows/english63-three-evidence-queue-once.yml"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": ".github/workflows/english63-three-evidence-queue-once.yml",
+          "mode": "100644",
+          "git_blob_sha1": "01475e176b928fa3f81bac8cc5fbf7c6d009bb34",
+          "bytes": 7725,
+          "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "bf436212715f836ca6201ff208617e43860e255a",
+      "scope": "Run same read-only original three-archive hash and byte-identical review join on same-repo PR to catch errors before guarded main once.",
+      "rationale": "Protected PR should not appear green if exact original saved 63-row join is not reproducible. Source-only tests and actual run do not regenerate WAV, download models, run ASR or optimize KWS.",
+      "files": [
+        {
+          "path": ".github/workflows/english63-three-evidence-queue-once.yml",
+          "before": {
+            "path": ".github/workflows/english63-three-evidence-queue-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "01475e176b928fa3f81bac8cc5fbf7c6d009bb34",
+            "bytes": 7725,
+            "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+          },
+          "after": {
+            "path": ".github/workflows/english63-three-evidence-queue-once.yml",
+            "mode": "100644",
+            "git_blob_sha1": "caee6170e6460f7e5983b4c4de92791c02ab210f",
+            "bytes": 9371,
+            "source_commit": "3383e8719d78727d0415c9c1c58860310293028a"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-original-asr-pronunciation-status-schema-correction-20261113",
+      "source_commit": "18af6b2aec4add22c920cab1cea9b1c3ca0b61ba",
+      "base_commit": "5228e8ba92d4934381d4fdea843d764acb1c1e7b",
+      "paths": [
+        "automation/english63_evidence_review_queue.py",
+        "automation/test_english63_evidence_review_queue.py"
+      ],
+      "previous_campaign_rows": [
+        {
+          "path": "automation/english63_evidence_review_queue.py",
+          "mode": "100644",
+          "git_blob_sha1": "6dccd6b44e70e067d33d9735a15685022b4c0b7e",
+          "bytes": 14734,
+          "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+        },
+        {
+          "path": "automation/test_english63_evidence_review_queue.py",
+          "mode": "100644",
+          "git_blob_sha1": "fc3eca68f6386fbed0a73005f5241d9afc8aaf82",
+          "bytes": 7523,
+          "source_commit": "fd900e4e9f780d14665676e0690e556582aa6e98"
+        }
+      ],
+      "previous_manifest_git_blob_sha1": "2d129eca0ca4c5ba716ebeb232d4438c9e956ddd",
+      "scope": "Require original three-ASR acoustic_pronunciation_verified flag and independent IPA phonetic_label_authenticated, with explicit forged-status regression.",
+      "rationale": "PR source-data preflight revealed an ASR row schema mismatch before output; no original data or model was changed or rerun.",
+      "files": [
+        {
+          "path": "automation/english63_evidence_review_queue.py",
+          "before": {
+            "path": "automation/english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "6dccd6b44e70e067d33d9735a15685022b4c0b7e",
+            "bytes": 14734,
+            "source_commit": "eec62bcfc1cb726cf598fa18a57c4d797497fe0f"
+          },
+          "after": {
+            "path": "automation/english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "a014587d375b45e247c39ac87f4f8200ecfec06b",
+            "bytes": 14737,
+            "source_commit": "18af6b2aec4add22c920cab1cea9b1c3ca0b61ba"
+          }
+        },
+        {
+          "path": "automation/test_english63_evidence_review_queue.py",
+          "before": {
+            "path": "automation/test_english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "fc3eca68f6386fbed0a73005f5241d9afc8aaf82",
+            "bytes": 7523,
+            "source_commit": "fd900e4e9f780d14665676e0690e556582aa6e98"
+          },
+          "after": {
+            "path": "automation/test_english63_evidence_review_queue.py",
+            "mode": "100644",
+            "git_blob_sha1": "effdc7f0d599ae23dcf111816fc33509a180de86",
+            "bytes": 7670,
+            "source_commit": "18af6b2aec4add22c920cab1cea9b1c3ca0b61ba"
           }
         }
       ],
