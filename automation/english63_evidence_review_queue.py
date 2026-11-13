@@ -36,6 +36,14 @@ SOURCES = {
 PROVIDERS = ("qwen", "whisper", "parakeet")
 TRAIN_VOICES = {"dylan", "eric", "ono_anna", "sohee", "vivian"}
 DEV_VOICES = {"serena", "uncle_fu"}
+REQUESTS = {
+    "Hey Vosen": "wake", "Hey, Vosen!": "wake",
+    "Hey Mero": "wake", "Hey, Mero!": "wake",
+    "Hey Wosen": "near_miss", "Hey Miro": "near_miss",
+    "Hey Rosen": "near_miss",
+    "What time is it?": "ordinary_negative",
+    "Hey, can you hear me?": "ordinary_negative",
+}
 WAKES = (
     ("vosen", "Hey Vosen", "Hey, Vosen!",
      ("vosen_vs_wosen", "vosen_vs_rosen")),
@@ -123,6 +131,9 @@ def join(asr: dict, dtw: dict, ipa: dict) -> dict:
             i.get("trusted_negative") is False,
             "ENGLISH63_SOURCE_ROLE_HASH_OR_GOLD_DRIFT")
         voice = a["voice_id"]
+        need(a.get("requested_text") in REQUESTS and
+             a.get("requested_intent") == REQUESTS[a["requested_text"]],
+             "ENGLISH63_PROMPT_INTENT_DRIFT")
         known = TRAIN_VOICES | DEV_VOICES
         need(voice in known and a["source_family_id"] ==
              "qwen3-preset-" + voice and
@@ -166,8 +177,8 @@ def join(asr: dict, dtw: dict, ipa: dict) -> dict:
             "training_admitted":False,"independent_evaluation":False,
         })
     prompts = set(voice_prompts)
-    need(len(prompts) == 63 and
-         {v for v,_ in prompts} == TRAIN_VOICES | DEV_VOICES,
+    need(prompts == {(v, p) for v in TRAIN_VOICES | DEV_VOICES
+                     for p in REQUESTS},
          "ENGLISH63_PROMPT_ROSTER_DRIFT")
     by_word = {(r["voice_id"],r["requested_text"]):r for r in rows}
     dtw_comparisons = {v["voice_id"]:v["comparisons"]
