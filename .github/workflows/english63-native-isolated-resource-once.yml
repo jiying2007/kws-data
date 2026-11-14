@@ -1,0 +1,112 @@
+name: english63-host-native-C-only-resource-once
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/english63-native-isolated-resource-once.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  original-source-native-standalone-C:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.head_ref == 'research/en63-native-c-isolated-resource-once-20261114' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout immutable public C resource profiler implementation
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 014d9dc12c4d17d6b7d12eca7d9a9481530647b0
+          path: pipeline
+          persist-credentials: false
+      - name: Prove source SHA and run no-model CPU/RSS authenticity counterexamples
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C pipeline rev-parse HEAD)" = 014d9dc12c4d17d6b7d12eca7d9a9481530647b0
+          python3 -I -S -B pipeline/research/sherpa_pcm/tests/english_native_profile_cases.py -v
+          python3 -I -S -B -O pipeline/research/sherpa_pcm/tests/english_native_profile_cases.py -v
+          python3 -I -S -B -OO pipeline/research/sherpa_pcm/tests/english_native_profile_cases.py -v
+      - name: Download previously verified source-owned Qwen63 and independent review only
+        timeout-minutes: 6
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$GH_TOKEN"
+          fetch_existing() {
+            curl -fsSL --retry 1 --connect-timeout 20 --max-time 240 \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H 'Accept: application/vnd.github+json' \
+              "https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/$1/zip" -o "$2"
+          }
+          fetch_existing 13954744587 "$RUNNER_TEMP/original63.zip"
+          fetch_existing 14001747172 "$RUNNER_TEMP/three-review.zip"
+          echo "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc  $RUNNER_TEMP/original63.zip" | sha256sum -c -
+          unzip -p "$RUNNER_TEMP/three-review.zip" english63-three-evidence-review.json > "$RUNNER_TEMP/review.json"
+          echo "89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12  $RUNNER_TEMP/review.json" | sha256sum -c -
+      - name: Download exact original official model and host runtime with immutable hashes
+        timeout-minutes: 9
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 2 --connect-timeout 20 --max-time 320 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2' \
+            -o "$RUNNER_TEMP/model.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/model.tar.bz2")" = 32885699
+          echo "68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6  $RUNNER_TEMP/model.tar.bz2" | sha256sum -c -
+          curl -fsSL --retry 2 --connect-timeout 20 --max-time 320 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.13.8/sherpa-onnx-v1.13.8-linux-x64-shared.tar.bz2' \
+            -o "$RUNNER_TEMP/host.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/host.tar.bz2")" = 28156791
+          echo "c0bdb7907d3a74bba1d55d22bf4d9fa75586cf1530614ebe88a27b9118e015c4  $RUNNER_TEMP/host.tar.bz2" | sha256sum -c -
+      - name: Build actual official host Sherpa C ABI with independently pinned runtime
+        timeout-minutes: 8
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/source-verify-env"
+          "$RUNNER_TEMP/source-verify-env/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4'
+          "$RUNNER_TEMP/source-verify-env/bin/pip" check
+          "$RUNNER_TEMP/source-verify-env/bin/python" \
+            pipeline/research/sherpa_pcm/build_official_x64.py \
+            --runtime-archive "$RUNNER_TEMP/host.tar.bz2" \
+            --output "$RUNNER_TEMP/native"
+      - name: Execute actual source-authenticated C-only RSS/CPU/feed-p99 benchmark
+        timeout-minutes: 12
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/source-verify-env/bin/python" -I -B \
+            pipeline/research/sherpa_pcm/tests/english_native_profile_once.py \
+            --native-library "$RUNNER_TEMP/native/libkws_sherpa_pcm.so" \
+            --build-receipt "$RUNNER_TEMP/native/build-receipt.json" \
+            --original-audio-zip "$RUNNER_TEMP/original63.zip" \
+            --original-review "$RUNNER_TEMP/review.json" \
+            --pretrained-model-archive "$RUNNER_TEMP/model.tar.bz2" \
+            --output "$RUNNER_TEMP/english63-native-C-only-profile.json"
+      - name: Retain machine-only resource result; never WAVs, models or binaries
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english63-native-C-only-resource-profile
+          path: ${{ runner.temp }}/english63-native-C-only-profile.json
+          retention-days: 14
+          if-no-files-found: error
