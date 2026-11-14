@@ -1,0 +1,105 @@
+name: english63-original-pcm-no-artificial-tail-once
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/english63-unpadded-source-event-once.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  compare-unchanged-source-no-artificial-silence:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.repository.private == false &&
+      github.head_ref == 'research/en63-unpadded-event-once-20261114' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout fixed public model+unpadding source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 0d68e35ee7862f781aa99533fe3dbd0b978e3a66
+          path: pipeline
+          persist-credentials: false
+      - name: Verify commit and no-audio hostile tests in three modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C pipeline rev-parse HEAD)" = 0d68e35ee7862f781aa99533fe3dbd0b978e3a66
+          python3 -I -S -B pipeline/research/english63_weak_pilot/pretrained_live_timing_cases.py -v
+          python3 -I -S -B -O pipeline/research/english63_weak_pilot/pretrained_live_timing_cases.py -v
+          python3 -I -S -B -OO pipeline/research/english63_weak_pilot/pretrained_live_timing_cases.py -v
+      - name: Reuse exact original Qwen, ASR review and prior padded-event receipts
+        timeout-minutes: 6
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -n "$GH_TOKEN"
+          fetch_existing() {
+            local id="$1" dest="$2"
+            curl -fsSL --retry 1 --connect-timeout 20 --max-time 240 \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/${id}/zip" -o "$dest"
+          }
+          fetch_existing 13954744587 "$RUNNER_TEMP/original-english63.zip"
+          fetch_existing 14001747172 "$RUNNER_TEMP/original-three-review.zip"
+          fetch_existing 14090411896 "$RUNNER_TEMP/existing-quant-events.zip"
+          echo 'f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc  '"$RUNNER_TEMP/original-english63.zip" | sha256sum -c -
+          echo '5f76390b557ab58c6d6ae131b8dad91ec232f3efb708466dcb4fc850b0eb13b5  '"$RUNNER_TEMP/existing-quant-events.zip" | sha256sum -c -
+          unzip -p "$RUNNER_TEMP/original-three-review.zip" english63-three-evidence-review.json > "$RUNNER_TEMP/review.json"
+          echo '89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12  '"$RUNNER_TEMP/review.json" | sha256sum -c -
+      - name: Fetch exact original official Zh-En 3M model (no re-training)
+        timeout-minutes: 7
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 2 --connect-timeout 20 --max-time 300 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2' \
+            -o "$RUNNER_TEMP/model.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/model.tar.bz2")" = 32885699
+          echo '68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6  '"$RUNNER_TEMP/model.tar.bz2" | sha256sum -c -
+      - name: Install exact CPU-only research runtime, no TTS/ASR
+        timeout-minutes: 9
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en-live"
+          "$RUNNER_TEMP/en-live/bin/pip" install --disable-pip-version-check \
+            --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8' \
+            'click==8.1.8' 'pypinyin==0.55.0' 'sentencepiece==0.2.1'
+          "$RUNNER_TEMP/en-live/bin/pip" check
+      - name: Execute no-padding actual source PCM inference
+        timeout-minutes: 10
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/en-live/bin/python" -I -B \
+            pipeline/research/english63_weak_pilot/pretrained_live_timing.py \
+            --tts-zip "$RUNNER_TEMP/original-english63.zip" \
+            --review-json "$RUNNER_TEMP/review.json" \
+            --model-archive "$RUNNER_TEMP/model.tar.bz2" \
+            --baseline-archive "$RUNNER_TEMP/existing-quant-events.zip" \
+            --output "$RUNNER_TEMP/english63-unpadded-events.json"
+      - name: Publish only machine timing receipt, no WAVs or model
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english63-real-pcm-unpadded-events
+          path: ${{ runner.temp }}/english63-unpadded-events.json
+          retention-days: 14
+          if-no-files-found: error
