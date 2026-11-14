@@ -75,6 +75,11 @@ jobs:
           tar -xjf "$RUNNER_TEMP/host.tar.bz2" -C "$RUNNER_TEMP/runtime"
           find "$RUNNER_TEMP/runtime" -type f -name libsherpa-onnx-c-api.so -print -quit > "$RUNNER_TEMP/libpath"
           test -s "$RUNNER_TEMP/libpath"
+          c_api="$(cat "$RUNNER_TEMP/libpath")"
+          ort="$(dirname "$c_api")/libonnxruntime.so"
+          test -f "$ort"
+          sha256sum "$c_api" "$ort" > "$RUNNER_TEMP/verified-official-inner-libraries.sha256"
+          wc -c "$c_api" "$ort" > "$RUNNER_TEMP/verified-official-inner-libraries.bytes"
       - name: Compile real native C adapter with locked host runtime
         timeout-minutes: 8
         run: |
@@ -97,12 +102,14 @@ jobs:
             --baseline-archive "$RUNNER_TEMP/unpadded-baseline.zip" \
             --output "$RUNNER_TEMP/native-original-mero-result.json"
       - name: Upload machine evidence only
-        if: success()
+        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: english63-native-original-pcm-mero-parity
           path: |
             ${{ runner.temp }}/native/build-receipt.json
             ${{ runner.temp }}/native-original-mero-result.json
+            ${{ runner.temp }}/verified-official-inner-libraries.sha256
+            ${{ runner.temp }}/verified-official-inner-libraries.bytes
           if-no-files-found: error
           retention-days: 14
