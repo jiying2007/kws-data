@@ -1,0 +1,114 @@
+name: english-original-LibriSpeech-uninterrupted-native-C-once
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/english-real-read-speech-contiguous-native-once.yml"
+permissions:
+  contents: read
+  actions: read
+jobs:
+  official-native-C-real-audiobook-stream:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.head_ref == 'research/en-real-read-speech-uninterrupted-once-20261114' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout source-pinned public research implementation
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 658955dcddd8e6e782b295b469e0eed6050eddb5
+          path: pipeline
+          persist-credentials: false
+      - name: Verify exact research SHA and no-model counterexamples
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C pipeline rev-parse HEAD)" = 658955dcddd8e6e782b295b469e0eed6050eddb5
+          python3 -I -S -B pipeline/research/sherpa_pcm/tests/english_librispeech_contiguous_c_cases.py -v
+          python3 -I -S -B -O pipeline/research/sherpa_pcm/tests/english_librispeech_contiguous_c_cases.py -v
+          python3 -I -S -B -OO pipeline/research/sherpa_pcm/tests/english_librispeech_contiguous_c_cases.py -v
+      - name: Download existing source-owned segmented real-speech evidence only
+        timeout-minutes: 6
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -n "$GH_TOKEN"
+          curl -fsSL --retry 1 --connect-timeout 20 --max-time 240 \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/14090383839/zip' \
+            -o "$RUNNER_TEMP/original-segmented-reference.zip"
+          echo "7f28b4eddbee87435b9dc5b4c44e47a6d6ed200cbf9f4b8688d9b93cabeb4db4  $RUNNER_TEMP/original-segmented-reference.zip" | sha256sum -c -
+          unzip -p "$RUNNER_TEMP/original-segmented-reference.zip" \
+            english-natural-read-speech-result.json > "$RUNNER_TEMP/reference.json"
+          echo "788a1b04b9ecb22fb96d4036d19456f460ce3ccecd4da69d53d96fea53b29510  $RUNNER_TEMP/reference.json" | sha256sum -c -
+      - name: Retrieve exactly licensed original LibriSpeech dev-clean read speech
+        timeout-minutes: 18
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 2 --connect-timeout 30 --max-time 1000 \
+            "https://www.openslr.org/resources/12/dev-clean.tar.gz" \
+            -o "$RUNNER_TEMP/dev-clean.tar.gz"
+          test "$(stat -c %s "$RUNNER_TEMP/dev-clean.tar.gz")" = 337926286
+          echo "76f87d090650617fca0cac8f88b9416e0ebf80350acb97b343a85fa903728ab3  $RUNNER_TEMP/dev-clean.tar.gz" | sha256sum -c -
+          echo "42e2234ba48799c1f50f24a7926300a1  $RUNNER_TEMP/dev-clean.tar.gz" | md5sum -c -
+      - name: Verify same official Zh-En 3M pretrained model and x64 runtime
+        timeout-minutes: 8
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 2 --connect-timeout 20 --max-time 300 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2' \
+            -o "$RUNNER_TEMP/model.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/model.tar.bz2")" = 32885699
+          echo "68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6  $RUNNER_TEMP/model.tar.bz2" | sha256sum -c -
+          curl -fsSL --retry 2 --connect-timeout 20 --max-time 300 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.13.8/sherpa-onnx-v1.13.8-linux-x64-shared.tar.bz2' \
+            -o "$RUNNER_TEMP/official-host.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/official-host.tar.bz2")" = 28156791
+          echo "c0bdb7907d3a74bba1d55d22bf4d9fa75586cf1530614ebe88a27b9118e015c4  $RUNNER_TEMP/official-host.tar.bz2" | sha256sum -c -
+      - name: Build exact original official C ABI and native FLAC decoding
+        timeout-minutes: 8
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/native-env"
+          "$RUNNER_TEMP/native-env/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4' 'soundfile==0.13.1'
+          "$RUNNER_TEMP/native-env/bin/pip" check
+          "$RUNNER_TEMP/native-env/bin/python" \
+            pipeline/research/sherpa_pcm/build_official_x64.py \
+            --runtime-archive "$RUNNER_TEMP/official-host.tar.bz2" \
+            --output "$RUNNER_TEMP/native-output"
+          test -s "$RUNNER_TEMP/native-output/libkws_sherpa_pcm.so"
+      - name: Actual real read English speech, no resets or synthetic tails
+        timeout-minutes: 17
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/native-env/bin/python" -I -B \
+            pipeline/research/sherpa_pcm/tests/english_librispeech_contiguous_c.py \
+            --native-library "$RUNNER_TEMP/native-output/libkws_sherpa_pcm.so" \
+            --build-receipt "$RUNNER_TEMP/native-output/build-receipt.json" \
+            --corpus-archive "$RUNNER_TEMP/dev-clean.tar.gz" \
+            --model-archive "$RUNNER_TEMP/model.tar.bz2" \
+            --reference-zip "$RUNNER_TEMP/original-segmented-reference.zip" \
+            --output "$RUNNER_TEMP/english-natural-uninterrupted-native.json"
+      - name: Publish only machine provenance/events, never recordings or model
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-natural-61min-contiguous-native-events
+          path: ${{ runner.temp }}/english-natural-uninterrupted-native.json
+          if-no-files-found: error
+          retention-days: 14
