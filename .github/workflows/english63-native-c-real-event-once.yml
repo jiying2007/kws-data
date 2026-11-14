@@ -26,13 +26,13 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: jiying2007/kws-pipeline
-          ref: 7c5afdfaef0a08d76ec8ccb758a3db942866901e
+          ref: 771d081f7a853d523838b575b16bcd723a2f7a46
           path: pipeline
           persist-credentials: false
       - name: Exact source and offline regression
         run: |
           set -euo pipefail
-          test "$(git -C pipeline rev-parse HEAD)" = 7c5afdfaef0a08d76ec8ccb758a3db942866901e
+          test "$(git -C pipeline rev-parse HEAD)" = 771d081f7a853d523838b575b16bcd723a2f7a46
           python3 -I -S -B pipeline/research/sherpa_pcm/tests/english_original_pcm_c_parity_cases.py
           python3 -I -S -B -O pipeline/research/sherpa_pcm/tests/english_original_pcm_c_parity_cases.py
           python3 -I -S -B -OO pipeline/research/sherpa_pcm/tests/english_original_pcm_c_parity_cases.py
@@ -87,8 +87,8 @@ jobs:
           python3 -m venv "$RUNNER_TEMP/env"
           "$RUNNER_TEMP/env/bin/pip" install --disable-pip-version-check --no-cache-dir --only-binary=:all: 'numpy==1.26.4'
           "$RUNNER_TEMP/env/bin/pip" check
-          "$RUNNER_TEMP/env/bin/python" pipeline/research/sherpa_pcm/build.py \
-            --library "$(cat "$RUNNER_TEMP/libpath")" --output "$RUNNER_TEMP/native"
+          "$RUNNER_TEMP/env/bin/python" pipeline/research/sherpa_pcm/build_official_x64.py \
+            --runtime-archive "$RUNNER_TEMP/host.tar.bz2" --output "$RUNNER_TEMP/native"
       - name: Real source-verified INT8 C API event partition parity
         timeout-minutes: 10
         run: |
