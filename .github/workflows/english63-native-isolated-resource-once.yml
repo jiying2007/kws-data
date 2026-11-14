@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: jiying2007/kws-pipeline
-          ref: 014d9dc12c4d17d6b7d12eca7d9a9481530647b0
+          ref: 18bda33b9de4f82d18a093f1e7d668be5b3f9f14
           path: pipeline
           persist-credentials: false
       - name: Prove source SHA and run no-model CPU/RSS authenticity counterexamples
@@ -37,7 +37,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git -C pipeline rev-parse HEAD)" = 014d9dc12c4d17d6b7d12eca7d9a9481530647b0
+          test "$(git -C pipeline rev-parse HEAD)" = 18bda33b9de4f82d18a093f1e7d668be5b3f9f14
           python3 -I -S -B pipeline/research/sherpa_pcm/tests/english_native_profile_cases.py -v
           python3 -I -S -B -O pipeline/research/sherpa_pcm/tests/english_native_profile_cases.py -v
           python3 -I -S -B -OO pipeline/research/sherpa_pcm/tests/english_native_profile_cases.py -v
