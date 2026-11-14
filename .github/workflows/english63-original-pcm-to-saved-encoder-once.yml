@@ -1,0 +1,99 @@
+name: english63-original-pcm-to-saved-encoder-once
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/english63-original-pcm-to-saved-encoder-once.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  original-source-saved-model-one-shot:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.head_ref == 'research/en63-full-chain-replay-once-20261114'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Checkout exact public pipeline research source and saved weights
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 8c6f34b110bea6d21fcf4659a85f0f6a635b5469
+          path: pipeline
+          persist-credentials: false
+      - name: Prove fixed source revision and non-model-promotion boundary
+        run: |
+          test "$(git -C pipeline rev-parse HEAD)" = \
+            8c6f34b110bea6d21fcf4659a85f0f6a635b5469
+          test -f pipeline/research/english63_weak_pilot/integrated_pcm_encoder.py
+          test -f pipeline/research/english63_weak_pilot/gru-weights.npz.b64
+          test -f pipeline/research/english63_weak_pilot/dsc_tcn-weights.npz.b64
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - name: Install pinned CPU-only original research readback
+        timeout-minutes: 10
+        run: |
+          python -m pip install --disable-pip-version-check --no-input 'numpy==2.3.5'
+          python -m pip install --disable-pip-version-check --no-input \
+            --index-url https://download.pytorch.org/whl/cpu \
+            'torch==2.10.0+cpu'
+          python - <<'PY'
+          import torch,numpy
+          assert numpy.__version__ == '2.3.5'
+          assert torch.__version__ == '2.10.0+cpu'
+          assert not torch.cuda.is_available()
+          PY
+      - name: Download only original same-repository Actions artifacts
+        timeout-minutes: 6
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$GH_TOKEN"
+          fetch_existing() {
+            id="$1"
+            output="$2"
+            curl -fsSL --retry 1 --connect-timeout 20 --max-time 240 \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/${id}/zip" \
+              -o "$output"
+          }
+          fetch_existing 13954744587 "$RUNNER_TEMP/english63-original-tts.zip"
+          fetch_existing 14001747172 "$RUNNER_TEMP/english63-original-review-artifact.zip"
+          printf '%s  %s\n' \
+            f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc \
+            "$RUNNER_TEMP/english63-original-tts.zip" | sha256sum -c -
+          unzip -p "$RUNNER_TEMP/english63-original-review-artifact.zip" \
+            english63-three-evidence-review.json > "$RUNNER_TEMP/english63-original-review.json"
+          printf '%s  %s\n' \
+            89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12 \
+            "$RUNNER_TEMP/english63-original-review.json" | sha256sum -c -
+      - name: Compare real original PCM streaming and saved model final logits
+        timeout-minutes: 12
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python -B pipeline/research/english63_weak_pilot/integrated_pcm_encoder.py \
+            --tts-zip "$RUNNER_TEMP/english63-original-tts.zip" \
+            --review-json "$RUNNER_TEMP/english63-original-review.json" \
+            --output "$RUNNER_TEMP/english63-integrated-pcm-encoder-parity.json"
+      - name: Publish only machine receipt, never source audio or weights
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english63-original-pcm-encoder-parity
+          path: ${{ runner.temp }}/english63-integrated-pcm-encoder-parity.json
+          if-no-files-found: error
+          retention-days: 14
