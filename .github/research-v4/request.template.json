@@ -1,0 +1,28 @@
+{
+  "schema": "kws-research-v4-request-v1",
+  "request_id": "en63-online-20261114-v1",
+  "reason": "First bounded online weak-intent experiment on the unchanged English63 inputs; no formal KWS qualification.",
+  "experiment": "english63-online-weak-mil",
+  "pipeline_repository": "jiying2007/kws-pipeline",
+  "pipeline_commit": "REPLACE_WITH_REVIEWED_FULL_PIPELINE_COMMIT",
+  "entrypoint": "research/english63_online_pilot/online_pilot.py",
+  "source_artifacts": {
+    "tts": {
+      "artifact_id": 13954744587,
+      "zip_sha256": "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc"
+    },
+    "review": {
+      "artifact_id": 14001747172,
+      "zip_sha256": "f83d6a2f399c20af5bbc920ef6c38c42ac1e44b516d2b7291f4510557491cec8",
+      "member": "english63-three-evidence-review.json",
+      "member_sha256": "89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12"
+    }
+  },
+  "optimizer_updates_per_model": 48,
+  "max_training_seconds": 1200,
+  "max_replay_seconds": 300,
+  "new_audio_generated": false,
+  "new_asr_calls": 0,
+  "formal_training_admitted": false,
+  "model_promotion_allowed": false
+}
