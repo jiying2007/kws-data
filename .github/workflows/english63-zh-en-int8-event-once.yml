@@ -27,14 +27,14 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: jiying2007/kws-pipeline
-          ref: 1ea272173e7a3ad8dc80f82b64c064751d5352c3
+          ref: 8de2da63ae4a2e89957890871aa84cc51dd705d9
           path: pipeline
           persist-credentials: false
       - name: Prove exact source and run no-audio negative tests
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git -C pipeline rev-parse HEAD)" = 1ea272173e7a3ad8dc80f82b64c064751d5352c3
+          test "$(git -C pipeline rev-parse HEAD)" = 8de2da63ae4a2e89957890871aa84cc51dd705d9
           python3 -I -S -B pipeline/research/english63_weak_pilot/pretrained_quant_events_cases.py
           python3 -I -S -B -O pipeline/research/english63_weak_pilot/pretrained_quant_events_cases.py
           python3 -I -S -B -OO pipeline/research/english63_weak_pilot/pretrained_quant_events_cases.py
