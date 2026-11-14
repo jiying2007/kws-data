@@ -1,0 +1,111 @@
+name: english63-official-zh-en-int8-vs-fp32-once
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/english63-zh-en-int8-event-once.yml"
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-source-three-models:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.head_ref == 'research/en63-zh-en-int8-event-once-20261114' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 48
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      TOKENIZERS_PARALLELISM: 'false'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout exact pinned pipeline source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 1ea272173e7a3ad8dc80f82b64c064751d5352c3
+          path: pipeline
+          persist-credentials: false
+      - name: Prove exact source and run no-audio negative tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C pipeline rev-parse HEAD)" = 1ea272173e7a3ad8dc80f82b64c064751d5352c3
+          python3 -I -S -B pipeline/research/english63_weak_pilot/pretrained_quant_events_cases.py
+          python3 -I -S -B -O pipeline/research/english63_weak_pilot/pretrained_quant_events_cases.py
+          python3 -I -S -B -OO pipeline/research/english63_weak_pilot/pretrained_quant_events_cases.py
+      - name: Fetch exact existing original English63 source and review
+        timeout-minutes: 6
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$GH_TOKEN"
+          fetch_existing() {
+            id="$1"; dest="$2"
+            curl -fsSL --retry 1 --connect-timeout 20 --max-time 240 \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H 'Accept: application/vnd.github+json' \
+              "https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/${id}/zip" \
+              -o "$dest"
+          }
+          fetch_existing 13954744587 "$RUNNER_TEMP/source.zip"
+          fetch_existing 14001747172 "$RUNNER_TEMP/review-archive.zip"
+          echo 'f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
+          unzip -p "$RUNNER_TEMP/review-archive.zip" english63-three-evidence-review.json > "$RUNNER_TEMP/review.json"
+          echo '89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12  '"$RUNNER_TEMP/review.json" | sha256sum -c -
+      - name: Fetch identical official Zh-En 3M pretrained archive
+        timeout-minutes: 6
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 2 --connect-timeout 20 --max-time 240 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2' \
+            -o "$RUNNER_TEMP/model.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/model.tar.bz2")" = 32885699
+          echo '68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6  '"$RUNNER_TEMP/model.tar.bz2" | sha256sum -c -
+      - name: Prepare exact native CPU inference dependencies
+        timeout-minutes: 10
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/quant-venv"
+          "$RUNNER_TEMP/quant-venv/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8' \
+            'click==8.1.8' 'pypinyin==0.55.0' 'sentencepiece==0.2.1'
+          "$RUNNER_TEMP/quant-venv/bin/pip" check
+      - name: Execute three source-locked FP32/INT8 event decoders
+        timeout-minutes: 15
+        shell: bash
+        run: |
+          set -euo pipefail
+          script="pipeline/research/english63_weak_pilot/pretrained_quant_events.py"
+          for mode in fp32_c16 int8_c16 int8_c8; do
+            "$RUNNER_TEMP/quant-venv/bin/python" -I -B "$script" \
+              --mode "$mode" \
+              --tts-zip "$RUNNER_TEMP/source.zip" \
+              --review-json "$RUNNER_TEMP/review.json" \
+              --model-archive "$RUNNER_TEMP/model.tar.bz2" \
+              --output "$RUNNER_TEMP/$mode.json"
+          done
+          "$RUNNER_TEMP/quant-venv/bin/python" -I -B "$script" \
+            --compare "$RUNNER_TEMP/fp32_c16.json" "$RUNNER_TEMP/int8_c16.json" "$RUNNER_TEMP/int8_c8.json" \
+            --output "$RUNNER_TEMP/english63-quant-summary.json"
+      - name: Archive machine receipts only; no WAV, weights, secrets
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english63-official-quant-event-receipts
+          path: |
+            ${{ runner.temp }}/fp32_c16.json
+            ${{ runner.temp }}/int8_c16.json
+            ${{ runner.temp }}/int8_c8.json
+            ${{ runner.temp }}/english63-quant-summary.json
+          retention-days: 14
+          if-no-files-found: error
