@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2032,
-  "expected_retained_files": 2023,
+  "expected_tracked_files": 2035,
+  "expected_retained_files": 2026,
   "new_retained_paths": 1281,
   "integration_files": [
     ".github/workflows/research-retention.yml",
@@ -21498,6 +21498,27 @@
       "git_blob_sha1": "ed8f989c10e3f1e2c0a01313809b5a7c27c02a0f",
       "bytes": 9138,
       "source_commit": "ed10898709bd2a29a1715b53521090670c8aaa4e"
+    },
+    {
+      "path": "docs/ENGLISH63_ZH_EN_MERO_EVENT_READBACK_20261113.json",
+      "mode": "100644",
+      "git_blob_sha1": "677c83f132aca4badf9bf771afc5c527194aebcb",
+      "bytes": 5584,
+      "source_commit": "0c5ed610b783696cbec405dd5ce348de9231ce3f"
+    },
+    {
+      "path": "automation/test_english63_zh_en_mero_readback.py",
+      "mode": "100644",
+      "git_blob_sha1": "697224364a491a99d4a76d7fea3c1b5831e7926f",
+      "bytes": 8523,
+      "source_commit": "f542c004f33eebacab86281f41782280a9858eba"
+    },
+    {
+      "path": ".github/workflows/english63-zh-en-mero-readback.yml",
+      "mode": "100644",
+      "git_blob_sha1": "eacdfa291140948afd6128da6512d0c291eceb0a",
+      "bytes": 1388,
+      "source_commit": "31430a3aff12e9397656b4c91a9212dd0af60632"
     }
   ],
   "source_registration_history": [
@@ -26765,6 +26786,93 @@
             "git_blob_sha1": "f18683fc76f7aecb22ca68b9d59ea9ba7f28c660",
             "bytes": 8077,
             "source_commit": "ca4bddae19e847a0b5d2125dcff1212eb14522f0"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-mero-only-measured-unique-event-readback-20261113",
+      "source_commit": "31430a3aff12e9397656b4c91a9212dd0af60632",
+      "base_commit": "8400da16e4f093641716b649e7c5d5f688977a40",
+      "paths": [
+        "docs/ENGLISH63_ZH_EN_MERO_EVENT_READBACK_20261113.json",
+        "automation/test_english63_zh_en_mero_readback.py",
+        ".github/workflows/english63-zh-en-mero-readback.yml"
+      ],
+      "previous_manifest_git_blob_sha1": "d948e9a1ea24c3e3463e6bda117f6b70d6a10c3d",
+      "scope": "Retain source-bound aggregate measured Mero-only 9 unique events from 63 original Qwen synthetic WAVs; no audio/models downloaded or inference triggered by this readback.",
+      "rationale": "Run 43448541871 returned nine real event rows, nine distinct original synthetic source clips, across six of seven preset voices, but no token timestamps or independent human gold. Permanent aggregate must preserve non-qualification and source hashes before expiring Actions archive.",
+      "files": [
+        {
+          "path": "docs/ENGLISH63_ZH_EN_MERO_EVENT_READBACK_20261113.json",
+          "after": {
+            "path": "docs/ENGLISH63_ZH_EN_MERO_EVENT_READBACK_20261113.json",
+            "mode": "100644",
+            "git_blob_sha1": "677c83f132aca4badf9bf771afc5c527194aebcb",
+            "bytes": 5584,
+            "source_commit": "0c5ed610b783696cbec405dd5ce348de9231ce3f"
+          }
+        },
+        {
+          "path": "automation/test_english63_zh_en_mero_readback.py",
+          "after": {
+            "path": "automation/test_english63_zh_en_mero_readback.py",
+            "mode": "100644",
+            "git_blob_sha1": "02830d434d42a9b7f8582dacf5fb104e6c6a6302",
+            "bytes": 8523,
+            "source_commit": "0eb8f4b62b957bba7000fc539ad3b4a1ee6f329f"
+          }
+        },
+        {
+          "path": ".github/workflows/english63-zh-en-mero-readback.yml",
+          "after": {
+            "path": ".github/workflows/english63-zh-en-mero-readback.yml",
+            "mode": "100644",
+            "git_blob_sha1": "eacdfa291140948afd6128da6512d0c291eceb0a",
+            "bytes": 1388,
+            "source_commit": "31430a3aff12e9397656b4c91a9212dd0af60632"
+          }
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "integration_exemptions_unchanged": true,
+        "original_baseline_inventory_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
+    },
+    {
+      "campaign": "english63-mero-readback-ssc305-explicit-unmeasured-status-20261113",
+      "source_commit": "f542c004f33eebacab86281f41782280a9858eba",
+      "base_commit": "8400da16e4f093641716b649e7c5d5f688977a40",
+      "paths": [
+        "automation/test_english63_zh_en_mero_readback.py"
+      ],
+      "previous_manifest_git_blob_sha1": "97e5ca84117c7f7961bbf0416441fba87c1643d1",
+      "scope": "Enforce explicitly unmeasured SSC305 as NOT_RUN in immutable Mero result readback, not a claimed false/true qualification.",
+      "rationale": "The real event artifact contains no board measurement. The source-only test must distinguish NOT_RUN from boolean assertions, retaining unchanged event evidence.",
+      "files": [
+        {
+          "path": "automation/test_english63_zh_en_mero_readback.py",
+          "before": {
+            "path": "automation/test_english63_zh_en_mero_readback.py",
+            "mode": "100644",
+            "git_blob_sha1": "02830d434d42a9b7f8582dacf5fb104e6c6a6302",
+            "bytes": 8523,
+            "source_commit": "0eb8f4b62b957bba7000fc539ad3b4a1ee6f329f"
+          },
+          "after": {
+            "path": "automation/test_english63_zh_en_mero_readback.py",
+            "mode": "100644",
+            "git_blob_sha1": "697224364a491a99d4a76d7fea3c1b5831e7926f",
+            "bytes": 8523,
+            "source_commit": "f542c004f33eebacab86281f41782280a9858eba"
           }
         }
       ],

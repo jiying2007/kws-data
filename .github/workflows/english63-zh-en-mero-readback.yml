@@ -1,0 +1,38 @@
+name: English63 Zh-En Hey Mero measured research readback only
+
+on:
+  pull_request:
+    paths:
+      - 'docs/ENGLISH63_ZH_EN_MERO_EVENT_READBACK_20261113.json'
+      - 'automation/test_english63_zh_en_mero_readback.py'
+      - '.github/workflows/english63-zh-en-mero-readback.yml'
+      - 'docs/BRANCH_RETENTION_20261007.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: english63-zh-en-mero-readback-${{ github.event.pull_request.number }}-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  measured-receipt:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Read only original retained research evidence no model inference
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/test_english63_zh_en_mero_readback.py -v
+          python3 -I -S -B -O automation/test_english63_zh_en_mero_readback.py -v
+          python3 -I -S -B -OO automation/test_english63_zh_en_mero_readback.py -v
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
