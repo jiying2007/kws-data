@@ -1,8 +1,10 @@
 # Persistent V4 research executor
 
-This executor runs one fixed, bounded English63 online weak-intent experiment
-after a reviewed, **new versioned request** reaches public `main`. It produces
-actual GRU and DS-TCN weights and independently reloads the saved weights.
+This executor accepts two explicit, bounded English63 research task types after
+a reviewed, **new versioned request** reaches public `main`. The original online
+weak-intent task produces GRU and DS-TCN weights and reloads them. The separate
+saved-weight native C comparison consumes the existing successful checkpoints
+with zero optimizer updates; its protocol is described below.
 PRs verify source and request boundaries only. They do not train, generate
 audio, call ASR or download the original audio.
 
@@ -122,3 +124,82 @@ No local project-model execution is needed for source verification. The
 executor tests use invented receipts/checkpoint bytes and mocked APIs; the
 pipeline owns actual numeric/model tests. Register new files in the existing
 branch-retention inventory as integration files when integrating this change.
+
+## Independent task: saved-weight native C comparison
+
+`english63-saved-native-c-parity` uses the same persistent workflow and immutable
+request directory. Its separate consumer is `automation/research_v4_native_c.py`.
+The existing `en63-online-20261114-v1.json` request remains unchanged. There is
+no call to the online training entrypoint in this task.
+
+Start from `.github/research-v4/native-c-request.template.json`, pin the reviewed
+pipeline commit containing `research/english63_online_c/c_replay.py`, and add
+one new named request through the normal PR checks. A code/documentation update
+without a new request does not perform model computation. The only execution
+entrypoint is:
+
+```sh
+python -I -B research/english63_online_c/c_replay.py \
+  --tts-zip /absolute/original-tts.zip \
+  --review-json /absolute/english63-three-evidence-review.json \
+  --trained-result-dir /absolute/original-successful-artifact-root \
+  --output-dir /absolute/new-comparison
+```
+
+The original successful checkpoint is
+[run 43595338774](https://github.com/jiying2007/kws-data/actions/runs/43595338774),
+artifact `14114695344`, from data commit
+`14547faa42299ae9d819ba4bff9824c2471c412e`. Its exact byte identities are fixed:
+
+| Original checkpoint component | SHA256 |
+| --- | --- |
+| Complete artifact ZIP | `bc76805934df8eb158fa4259a75c26a4ea4276c15b83542acad5948a1f954b54` |
+| Original consumed request | `ffa74269a0537115462da17b5050462e867cdb9980690105d2a92a4bdc0b7e53` |
+| Successful terminal | `7c840f2877c0d80a147b5d1287261faeb01495e61f8a2d8ab8cf9053c6cc91a4` |
+| GRU NPZ | `71f731155a19538b533e4253d2e4b19d5c03328bd26da5263542159df066e623` |
+| DS-TCN NPZ | `167282c1037a28152bed4afaf49e53a4307bd8d5576a486b41c0a2291fdca935` |
+
+Before compiling or forwarding a model, the consumer verifies that the original
+Actions run succeeded, the artifact belongs to that run, the ZIP digest matches,
+and the **whole original terminal/checkpoint/replay manifest** passes the
+existing online validator. It checks the fixed NPZ identities again after the
+comparison and evidence verification. A missing or changed checkpoint never
+causes retraining or re-creation of the original WAVs.
+
+This task runs on one CPU thread with the same pinned Python/NumPy/Torch
+versions. C compilation and reference/C comparison have a shared 1,200-second
+wall limit. A second `--verify-result-dir` call has a 300-second limit and uses
+only saved evidence: zero optimizer updates and zero model forward calls.
+The full Actions job is capped at 40 minutes including setup. Timeout handling
+kills the execution process group, including compiler/native descendants.
+
+The comparison covers both existing models, all 63 isolated clips and one
+continuous concatenation of the same source PCM, with fixed `160` and `mixed`
+chunk plans. It requires 13,010 isolated frames and 13,134 continuous frames,
+64 reference sequences per model, feature/logit/probability absolute errors
+at most `0.0002`, identical chunk probabilities/events, and identical Python/C
+events. EOF padding, EOF-only events and continuous-state resets must all be
+zero. These checks establish equivalence for these retained inputs. They do
+not establish independent real-world continuous-stream performance.
+
+The 17 comparison files are `SUMMARY.json`, `REPLAY.json`, `BUILD.json`,
+`RESOURCES.json`, the Linux `en63_replay` executable, two reference NPZ files,
+eight aggregate binary traces, and `export/EXPORT.json` plus
+`export/en63_generated.h`. Original PCM/WAVs and copies of the trained NPZ
+weights are not included. All files are covered by the evidence manifest.
+The consumer also retains its request, execution receipt, runtime and logs,
+within the existing 24-file/64-MiB accepted-result limits.
+
+Native C claims and terminal artifacts use independent names:
+`research-v4-native-c-claim-<request_sha256>` and
+`research-v4-native-c-result-<request_sha256>`. A successful terminal is verified
+and reused without input downloads, compilation or model calls. A previous
+failure, an incomplete claim or expired receipt blocks automatic repetition.
+Failures retain available comparison evidence and logs. Any necessary correction
+uses a reviewed new versioned request, preserving the earlier terminal.
+
+No model or threshold is selected. Formal training admission, human gold and
+model promotion remain false; English FRR, continuous-negative FAR/hour,
+word-end latency and SSC305 profile remain `NOT_RUN`. Recorded Linux native
+resources are host observations. The original synthetic source and exposed
+development limitations continue to apply.

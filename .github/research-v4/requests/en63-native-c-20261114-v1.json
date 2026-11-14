@@ -1,0 +1,48 @@
+{
+  "schema": "kws-research-v4-native-c-request-v1",
+  "experiment": "english63-saved-native-c-parity",
+  "pipeline_repository": "jiying2007/kws-pipeline",
+  "entrypoint": "research/english63_online_c/c_replay.py",
+  "source_artifacts": {
+    "tts": {
+      "artifact_id": 13954744587,
+      "zip_sha256": "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc"
+    },
+    "review": {
+      "artifact_id": 14001747172,
+      "zip_sha256": "f83d6a2f399c20af5bbc920ef6c38c42ac1e44b516d2b7291f4510557491cec8",
+      "member": "english63-three-evidence-review.json",
+      "member_sha256": "89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12"
+    }
+  },
+  "trained_checkpoint": {
+    "run_id": 43595338774,
+    "artifact_id": 14114695344,
+    "zip_sha256": "bc76805934df8eb158fa4259a75c26a4ea4276c15b83542acad5948a1f954b54",
+    "data_commit": "14547faa42299ae9d819ba4bff9824c2471c412e",
+    "training_pipeline_commit": "fc59bef7fe108ce6accbf51d8de0bfcaae19e0bc",
+    "request_sha256": "ffa74269a0537115462da17b5050462e867cdb9980690105d2a92a4bdc0b7e53",
+    "terminal_sha256": "7c840f2877c0d80a147b5d1287261faeb01495e61f8a2d8ab8cf9053c6cc91a4",
+    "weights_sha256": {
+      "gru": "71f731155a19538b533e4253d2e4b19d5c03328bd26da5263542159df066e623",
+      "dsc_tcn": "167282c1037a28152bed4afaf49e53a4307bd8d5576a486b41c0a2291fdca935"
+    }
+  },
+  "optimizer_updates": 0,
+  "cpu_threads": 1,
+  "chunk_plans": [
+    "160",
+    "mixed"
+  ],
+  "numeric_abs_tolerance": 0.0002,
+  "max_execution_seconds": 1200,
+  "max_verification_seconds": 300,
+  "new_audio_generated": false,
+  "new_tts_asr_ipa_calls": 0,
+  "formal_training_admitted": false,
+  "human_gold": false,
+  "model_promotion_allowed": false,
+  "request_id": "en63-native-c-20261114-v1",
+  "pipeline_commit": "b09d1436fb05fce6bf1548cb8127f84566d64ee7",
+  "reason": "Compile native C and compare the two existing English63 checkpoints on the original PCM under fixed chunk plans; zero optimizer updates and no model or threshold selection."
+}
