@@ -1,0 +1,104 @@
+name: english63-contiguous-native-c-original-pcm-once
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/english63-contiguous-native-c-once.yml"
+permissions:
+  contents: read
+  actions: read
+jobs:
+  actual-native-uninterrupted-source:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.head_ref == 'research/en-mero-contiguous-native-once-20261114' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 38
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout exact pinned native source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 54a8b2cc00309e1572542c06c16a5f17f4b04b1e
+          path: pipeline
+          persist-credentials: false
+      - name: Verify source SHA and source-only hostile cases in 3 modes
+        run: |
+          set -euo pipefail
+          test "$(git -C pipeline rev-parse HEAD)" = 54a8b2cc00309e1572542c06c16a5f17f4b04b1e
+          python3 -I -S -B pipeline/research/sherpa_pcm/tests/english_contiguous_pcm_c_cases.py -v
+          python3 -I -S -B -O pipeline/research/sherpa_pcm/tests/english_contiguous_pcm_c_cases.py -v
+          python3 -I -S -B -OO pipeline/research/sherpa_pcm/tests/english_contiguous_pcm_c_cases.py -v
+      - name: Reuse exact original Qwen audio, review and no-padding baseline
+        timeout-minutes: 6
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -n "$GH_TOKEN"
+          fetch_existing() {
+            curl -fsSL --retry 1 --connect-timeout 20 --max-time 240 \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H 'Accept: application/vnd.github+json' \
+              "https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/$1/zip" \
+              -o "$2"
+          }
+          fetch_existing 13954744587 "$RUNNER_TEMP/source.zip"
+          fetch_existing 14001747172 "$RUNNER_TEMP/review.zip"
+          fetch_existing 14093802841 "$RUNNER_TEMP/unpadded.zip"
+          echo "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc  $RUNNER_TEMP/source.zip" | sha256sum -c -
+          echo "4f006138eb9dcc6f856ef0e61da8dcf10034904e4e683255db302775a19a62f6  $RUNNER_TEMP/unpadded.zip" | sha256sum -c -
+          unzip -p "$RUNNER_TEMP/review.zip" english63-three-evidence-review.json > "$RUNNER_TEMP/review.json"
+          echo "89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12  $RUNNER_TEMP/review.json" | sha256sum -c -
+      - name: Download genuine unchanged official Zh-En model and x64 Sherpa runtime
+        timeout-minutes: 8
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 2 --connect-timeout 20 --max-time 300 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2' \
+            -o "$RUNNER_TEMP/model.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/model.tar.bz2")" = 32885699
+          echo "68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6  $RUNNER_TEMP/model.tar.bz2" | sha256sum -c -
+          curl -fsSL --retry 2 --connect-timeout 20 --max-time 300 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.13.8/sherpa-onnx-v1.13.8-linux-x64-shared.tar.bz2' \
+            -o "$RUNNER_TEMP/official-host.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/official-host.tar.bz2")" = 28156791
+          echo "c0bdb7907d3a74bba1d55d22bf4d9fa75586cf1530614ebe88a27b9118e015c4  $RUNNER_TEMP/official-host.tar.bz2" | sha256sum -c -
+      - name: Build native runtime from original pinned official shared-library closure
+        timeout-minutes: 8
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/native-env"
+          "$RUNNER_TEMP/native-env/bin/pip" install --disable-pip-version-check --no-cache-dir --only-binary=:all: 'numpy==1.26.4'
+          "$RUNNER_TEMP/native-env/bin/pip" check
+          "$RUNNER_TEMP/native-env/bin/python" pipeline/research/sherpa_pcm/build_official_x64.py \
+            --runtime-archive "$RUNNER_TEMP/official-host.tar.bz2" \
+            --output "$RUNNER_TEMP/native-output"
+      - name: Execute two contiguous source orders and three caller partitions without resets
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/native-env/bin/python" -I -B \
+            pipeline/research/sherpa_pcm/tests/english_contiguous_pcm_c.py \
+            --native-library "$RUNNER_TEMP/native-output/libkws_sherpa_pcm.so" \
+            --build-receipt "$RUNNER_TEMP/native-output/build-receipt.json" \
+            --tts-zip "$RUNNER_TEMP/source.zip" \
+            --review-json "$RUNNER_TEMP/review.json" \
+            --model-archive "$RUNNER_TEMP/model.tar.bz2" \
+            --baseline-archive "$RUNNER_TEMP/unpadded.zip" \
+            --output "$RUNNER_TEMP/english63-contiguous-native.json"
+      - name: Upload only machine results, never model, source audio or secrets
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english63-contiguous-native-kws-events
+          path: ${{ runner.temp }}/english63-contiguous-native.json
+          retention-days: 14
+          if-no-files-found: error
