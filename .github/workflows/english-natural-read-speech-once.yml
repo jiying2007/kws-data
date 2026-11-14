@@ -1,0 +1,88 @@
+name: english-natural-read-speech-non-gold-original-once
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/english-natural-read-speech-once.yml"
+permissions:
+  contents: read
+jobs:
+  pinned-read-speech-source-probe:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.head_ref == 'research/en-librispeech-neg-once-20261114' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Pin original natural-background research source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 5aff4bd7a9e9dd9905e2cd7f8ccf7b9174b66180
+          path: pipeline
+          persist-credentials: false
+      - name: Verify exact source and no-model hostile source-only tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C pipeline rev-parse HEAD)" = 5aff4bd7a9e9dd9905e2cd7f8ccf7b9174b66180
+          python3 -I -S -B pipeline/research/english63_weak_pilot/librispeech_negative_cases.py
+          python3 -I -S -B -O pipeline/research/english63_weak_pilot/librispeech_negative_cases.py
+          python3 -I -S -B -OO pipeline/research/english63_weak_pilot/librispeech_negative_cases.py
+      - name: Download original CC BY 4.0 LibriSpeech dev-clean (never altered)
+        shell: bash
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 2 --connect-timeout 30 --max-time 1000 \
+            "https://www.openslr.org/resources/12/dev-clean.tar.gz" \
+            -o "$RUNNER_TEMP/dev-clean.tar.gz"
+          test "$(stat -c %s "$RUNNER_TEMP/dev-clean.tar.gz")" = 337926286
+          echo '76f87d090650617fca0cac8f88b9416e0ebf80350acb97b343a85fa903728ab3  '"$RUNNER_TEMP/dev-clean.tar.gz" | sha256sum -c -
+          echo '42e2234ba48799c1f50f24a7926300a1  '"$RUNNER_TEMP/dev-clean.tar.gz" | md5sum -c -
+      - name: Pin original official pre-trained Zh-En 3M archive
+        shell: bash
+        timeout-minutes: 7
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 2 --connect-timeout 30 --max-time 300 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2' \
+            -o "$RUNNER_TEMP/zh-en-original.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/zh-en-original.tar.bz2")" = 32885699
+          echo '68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6  '"$RUNNER_TEMP/zh-en-original.tar.bz2" | sha256sum -c -
+      - name: Install CPU-only inference and FLAC decoder
+        shell: bash
+        timeout-minutes: 9
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/english-nat"
+          "$RUNNER_TEMP/english-nat/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8' 'soundfile==0.13.1' \
+            'click==8.1.8' 'pypinyin==0.55.0' 'sentencepiece==0.2.1'
+          "$RUNNER_TEMP/english-nat/bin/pip" check
+      - name: Real independent native English read-speech event probe, no training
+        shell: bash
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/english-nat/bin/python" -I -B \
+            pipeline/research/english63_weak_pilot/librispeech_negative_events.py \
+            --source-archive "$RUNNER_TEMP/dev-clean.tar.gz" \
+            --model-archive "$RUNNER_TEMP/zh-en-original.tar.bz2" \
+            --output "$RUNNER_TEMP/english-natural-read-speech-result.json"
+      - name: Retain only machine event receipt, never audio, model or text
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-natural-read-speech-nongold
+          path: ${{ runner.temp }}/english-natural-read-speech-result.json
+          retention-days: 14
+          if-no-files-found: error
