@@ -122,6 +122,19 @@ def changed_request(lines, allow_empty):
     return path
 
 
+def native_consumer(request_path):
+    """Only this named, no-training consumer may extend the original task."""
+    value = read_json(request_path)
+    if not isinstance(value, dict) or value.get("experiment") != "english63-saved-native-c-parity":
+        return None
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "research_v4_native_c", Path(__file__).with_name("research_v4_native_c.py"))
+    consumer = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(consumer)
+    return consumer
+
+
 def source_check():
     event = read_json(os.environ["GITHUB_EVENT_PATH"])
     name = os.environ["GITHUB_EVENT_NAME"]
@@ -134,10 +147,12 @@ def source_check():
     changes = subprocess.check_output(["git", "diff", "--name-status", "--no-renames", before, after, "--", REQUEST_DIR], text=True)
     path = changed_request(changes, allow_empty=name == "pull_request")
     if path:
-        request, _, digest = load_request(path)
-        output(request_path=path, request_sha256=digest, pipeline_commit=request["pipeline_commit"])
+        consumer = native_consumer(path)
+        request, _, digest = (consumer.load_request if consumer else load_request)(path)
+        output(request_path=path, request_sha256=digest, pipeline_commit=request["pipeline_commit"],
+               experiment=request["experiment"], job_timeout_minutes=40 if consumer else 45)
     else:
-        output(request_path="", request_sha256="", pipeline_commit="")
+        output(request_path="", request_sha256="", pipeline_commit="", experiment="", job_timeout_minutes=45)
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -377,6 +392,10 @@ def main():
         source_check()
         return
     require(args.request is not None and args.state is not None and args.state.is_absolute(), "request and absolute state directory required")
+    consumer = native_consumer(args.request)
+    if consumer:
+        consumer.dispatch(args)
+        return
     if args.command == "prepare":
         prepare(args.request, args.state)
     elif args.command == "execute":
