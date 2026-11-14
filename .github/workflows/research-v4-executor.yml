@@ -1,0 +1,151 @@
+name: V4 bounded research executor
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/research-v4-executor.yml'
+      - '.github/research-v4/**'
+      - 'automation/research_v4_executor.py'
+      - 'automation/test_research_v4_executor.py'
+      - 'automation/v4_keyword_evidence.py'
+      - 'automation/test_v4_keyword_evidence.py'
+      - 'docs/RESEARCH_V4_EXECUTOR.md'
+      - 'docs/BRANCH_RETENTION_20261007.json'
+  push:
+    branches: [main]
+    paths:
+      - '.github/research-v4/requests/*.json'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  source:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    outputs:
+      request_path: ${{ steps.request.outputs.request_path }}
+      request_sha256: ${{ steps.request.outputs.request_sha256 }}
+      pipeline_commit: ${{ steps.request.outputs.pipeline_commit }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Source-only execution-boundary and evidence tests
+        run: |
+          python3 -I -S -B automation/test_research_v4_executor.py -v
+          python3 -I -S -B -O automation/test_research_v4_executor.py -v
+          python3 -I -S -B automation/test_v4_keyword_evidence.py -v
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+      - name: Validate new immutable request against event source
+        id: request
+        run: python3 -I -S -B automation/research_v4_executor.py source
+
+  execute:
+    needs: source
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      needs.source.outputs.request_path != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    concurrency:
+      group: research-v4-${{ needs.source.outputs.request_sha256 }}
+      cancel-in-progress: false
+    defaults:
+      run:
+        shell: bash
+        working-directory: data
+    env:
+      REQUEST_PATH: ${{ needs.source.outputs.request_path }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          path: data
+          persist-credentials: false
+      - name: Read prior terminal checkpoints or reuse original same-repository inputs
+        id: prepare
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python3 -I -S -B automation/research_v4_executor.py prepare
+          --request "$REQUEST_PATH" --state "$RUNNER_TEMP/research-v4"
+      - name: Persist consumed request before any model execution
+        if: steps.prepare.outputs.execute == 'true'
+        id: claim
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ${{ steps.prepare.outputs.claim_artifact }}
+          path: ${{ runner.temp }}/research-v4/claim/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Check out only the reviewed public model source
+        if: steps.prepare.outputs.execute == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: ${{ needs.source.outputs.pipeline_commit }}
+          path: pipeline
+          persist-credentials: false
+      - name: Select the recorded new experiment Python runtime
+        if: steps.prepare.outputs.execute == 'true'
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12.16'
+      - name: Install the pinned CPU-only runtime
+        if: steps.prepare.outputs.execute == 'true'
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/research-v4-venv"
+          "$RUNNER_TEMP/research-v4-venv/bin/pip" install --disable-pip-version-check --no-cache-dir --only-binary=:all: 'numpy==2.3.5'
+          "$RUNNER_TEMP/research-v4-venv/bin/pip" install --disable-pip-version-check --no-cache-dir --only-binary=:all: --index-url https://download.pytorch.org/whl/cpu 'torch==2.10.0+cpu'
+          "$RUNNER_TEMP/research-v4-venv/bin/pip" check
+          {
+            "$RUNNER_TEMP/research-v4-venv/bin/python" --version
+            "$RUNNER_TEMP/research-v4-venv/bin/pip" freeze
+            uname -srmo
+          } > "$RUNNER_TEMP/research-v4/result/runtime.txt"
+      - name: Reuse the existing 189 ASR observations for word-level evidence
+        if: steps.prepare.outputs.execute == 'true'
+        run: >-
+          python3 -I -S -B automation/v4_keyword_evidence.py english63
+          --evidence-zip "$RUNNER_TEMP/research-v4/inputs/review.zip"
+          --output-dir "$RUNNER_TEMP/research-v4/result/keyword-evidence"
+      - name: Train the two fixed 48-update weak-intent candidates and reload saved weights
+        if: steps.prepare.outputs.execute == 'true'
+        timeout-minutes: 26
+        run: >-
+          python3 -I -S -B automation/research_v4_executor.py execute
+          --request "$REQUEST_PATH" --state "$RUNNER_TEMP/research-v4"
+          --pipeline "$GITHUB_WORKSPACE/pipeline"
+          --python "$RUNNER_TEMP/research-v4-venv/bin/python"
+      - name: Seal success or failure with actual checkpoint hashes
+        if: always() && steps.claim.outcome == 'success'
+        run: >-
+          python3 -I -S -B automation/research_v4_executor.py seal
+          --request "$REQUEST_PATH" --state "$RUNNER_TEMP/research-v4"
+      - name: Retain terminal, saved weights, replay and partial failure evidence
+        if: always() && steps.claim.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ${{ steps.prepare.outputs.result_artifact }}
+          path: ${{ runner.temp }}/research-v4/result/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Require actual success or a verified previous successful checkpoint
+        if: always() && (steps.prepare.outputs.execute == 'false' || steps.claim.outcome == 'success')
+        run: >-
+          python3 -I -S -B automation/research_v4_executor.py check
+          --request "$REQUEST_PATH" --state "$RUNNER_TEMP/research-v4"

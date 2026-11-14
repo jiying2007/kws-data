@@ -1,0 +1,85 @@
+{
+  "accepted_negative_seconds": 0,
+  "acoustic_timestamps_created": false,
+  "asr_observations_reused": 189,
+  "audio_rows": 63,
+  "batch_id": "en-qwen-seven-voice-63-20261112",
+  "continuous_negative_far": "NOT_RUN",
+  "human_gold": false,
+  "independent_evaluation": false,
+  "independent_frr": "NOT_RUN",
+  "interpretation": "All 126 keyword acoustic-label states remain unknown. Literal ASR matches are orthographic observations only; absence is not a negative label. Requested intent and preserved family roles map 30 clips to weak-diagnostic use, 12 to exposed-development/no-tune use and all 21 ambiguous nearphones to quarantine. Family split and allowed research use remain separate. This projection creates neither an acoustic label nor pronunciation approval.",
+  "keyword_counts": {
+    "en-k1": {
+      "labels": {
+        "unknown": 63
+      },
+      "literal_agreement": {
+        "three_literal_not_observed": 63
+      },
+      "orthographic_positive_candidates": 0,
+      "preserved_weak_mask_true": 0
+    },
+    "en-k2": {
+      "labels": {
+        "unknown": 63
+      },
+      "literal_agreement": {
+        "literal_presence_disagreement": 4,
+        "three_literal_not_observed": 58,
+        "three_literal_present": 1
+      },
+      "orthographic_positive_candidates": 1,
+      "preserved_weak_mask_true": 0
+    }
+  },
+  "keyword_rows": 126,
+  "language": "en",
+  "native_verifier_source_commit": "db85340282df2da8e401012b1df174ca70d8f8e0",
+  "new_asr_calls": 0,
+  "new_model_calls": 0,
+  "new_tts_calls": 0,
+  "original_research_usage_counts": {
+    "development_no_tune": {
+      "audio_rows": 12,
+      "keyword_rows": 24
+    },
+    "nearphone_quarantine": {
+      "audio_rows": 21,
+      "keyword_rows": 42
+    },
+    "weak_diagnostic_only": {
+      "audio_rows": 30,
+      "keyword_rows": 60
+    }
+  },
+  "original_source_role_counts": {
+    "development_only_audio_rows": 18,
+    "train_candidate_audio_rows": 45
+  },
+  "projector_sha256": "617115b37777586215199da04a8680b32a40529b057f0d3666634fd6169cfc7a",
+  "pronunciation_approval_created": false,
+  "recorded_date": "2026-11-14",
+  "result_sha256": {
+    "report.json": "805a9a9a869f3dc334930c2ef2249e4b6773101d154cedec3b644e647052b533",
+    "rows.jsonl": "a173865824867337add2b2613949f13fc42d22aed9bba88af9bd97937cb76978"
+  },
+  "schema": "kws-v4-d01-executed-aggregate-v1",
+  "source": {
+    "archive_sha256": "f83d6a2f399c20af5bbc920ef6c38c42ac1e44b516d2b7291f4510557491cec8",
+    "artifact_id": 14001747172,
+    "payload_sha256": "89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12",
+    "repository": "jiying2007/kws-data",
+    "schema": "english63-independent-evidence-joined-review-priority-v1",
+    "verification": "pinned-existing-original-artifact",
+    "workflow_run_id": 43346200939
+  },
+  "source_audio_included": false,
+  "source_families": 7,
+  "source_repository": "jiying2007/kws-data",
+  "status": "EXECUTED_EXISTING_EVIDENCE_PROJECTION_NOT_ADMISSION",
+  "summary_contains_individual_source_ids_or_transcripts": false,
+  "training_admitted": false,
+  "voice_families_are_not_verified_real_humans": true,
+  "word_end_latency": "NOT_RUN"
+}

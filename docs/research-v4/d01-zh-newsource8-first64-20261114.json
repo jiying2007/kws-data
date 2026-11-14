@@ -1,0 +1,109 @@
+{
+  "accepted_negative_seconds": 0,
+  "acoustic_timestamps_created": false,
+  "asr_observations_reused": 192,
+  "audio_rows": 64,
+  "batch_id": "zh-newsource8-synthetic64-20261106",
+  "continuous_negative_far": "NOT_RUN",
+  "human_gold": false,
+  "independent_evaluation": false,
+  "independent_frr": "NOT_RUN",
+  "interpretation": "The 2026-11-06 new-eight-source synthetic first64 batch only: eight existing pilot rows plus two existing 28-row parts. Original machine-weak targets/masks/weights are preserved after native verification. Train remains 48 rows including 44 mask-true and four unknown; development remains 16. This is neither the historical 2026-11-05 first64 nor the later natural64. It grants no new training admission or trusted negative exposure.",
+  "keyword_counts": {
+    "zh-k1": {
+      "labels": {
+        "absent": 46,
+        "present": 14,
+        "unknown": 4
+      },
+      "literal_agreement": {
+        "literal_presence_disagreement": 8,
+        "three_literal_not_observed": 48,
+        "three_literal_present": 8
+      },
+      "orthographic_positive_candidates": 8,
+      "preserved_weak_mask_true": 60
+    },
+    "zh-k2": {
+      "labels": {
+        "absent": 45,
+        "present": 15,
+        "unknown": 4
+      },
+      "literal_agreement": {
+        "literal_presence_disagreement": 5,
+        "three_literal_not_observed": 48,
+        "three_literal_present": 11
+      },
+      "orthographic_positive_candidates": 11,
+      "preserved_weak_mask_true": 60
+    }
+  },
+  "keyword_rows": 128,
+  "language": "zh",
+  "native_verifier_source_commit": "db85340282df2da8e401012b1df174ca70d8f8e0",
+  "new_asr_calls": 0,
+  "new_model_calls": 0,
+  "new_tts_calls": 0,
+  "original_split_accounting": {
+    "development": {
+      "audio_rows": 16,
+      "mask_true_rows": 16,
+      "unknown_rows": 0
+    },
+    "train": {
+      "audio_rows": 48,
+      "mask_true_rows": 44,
+      "unknown_rows": 4
+    }
+  },
+  "original_weight_counts": {
+    "0.0": 4,
+    "0.5": 25,
+    "1.0": 35
+  },
+  "projector_sha256": "617115b37777586215199da04a8680b32a40529b057f0d3666634fd6169cfc7a",
+  "pronunciation_approval_created": false,
+  "recorded_date": "2026-11-14",
+  "result_sha256": {
+    "report.json": "ef2122b11675e42b7af067521db328983642634084ab7a84143dff140b6ddc62",
+    "rows.jsonl": "14ba37c2c163a0513c699d67ce61bc708b79dc165183a20e180c2e31feb20a0f"
+  },
+  "schema": "kws-v4-d01-executed-aggregate-v1",
+  "source": {
+    "capsule_file": "checkpoint-8028ec0ccab799837a4bf66a.zip",
+    "capsule_manifest_sha256": "0e2747d42118941473255c9317ad54b8f7e2da386ba9736ec3ef084f9eb0f0a1",
+    "capsule_sha256": "f377d506bc8448ece3eefb40de7a6dd49e20e2053a03c28fcc274a59e4d7f7e9",
+    "origin": "existing-owner-held-C1-preparation-capsule",
+    "parts": [
+      {
+        "audio_rows": 8,
+        "manifest_sha256": "a7edb56ffb0d0df478aadd165483a8309cf8d0289eeadfe2278b2331d326a717",
+        "payload_sha256": "857da92a5e7190c7245c9b512b23c245c2b1e4e28de2fa5660c00c4b100458a1",
+        "schema": "kws-active-asr-research-weak-view-v1",
+        "verification": "existing-native-source-audio-asr-verifier"
+      },
+      {
+        "audio_rows": 28,
+        "manifest_sha256": "154c8e52dc19ac13fbf823eeade851368fa908227042ceafac2ce3e5ec83541d",
+        "payload_sha256": "64c461b48bef4afb773bdff5a885176fbfc9393aa8a09f8dd67530db3d9ae9c8",
+        "schema": "kws-active-asr-research-weak-view-v1",
+        "verification": "existing-native-source-audio-asr-verifier"
+      },
+      {
+        "audio_rows": 28,
+        "manifest_sha256": "1ac6db4fe034d6acfc6b775e68f28c6f8f63179dd6eec837a4e461cb48a2abf9",
+        "payload_sha256": "2ba38521e2676cd9b14b879236ef2a10b024116ca18f10f570df34bae37dae4a",
+        "schema": "kws-active-asr-research-weak-view-v1",
+        "verification": "existing-native-source-audio-asr-verifier"
+      }
+    ]
+  },
+  "source_audio_included": false,
+  "source_families": 8,
+  "source_repository": "jiying2007/kws-data",
+  "status": "EXECUTED_EXISTING_EVIDENCE_PROJECTION_NOT_ADMISSION",
+  "summary_contains_individual_source_ids_or_transcripts": false,
+  "training_admitted": false,
+  "word_end_latency": "NOT_RUN"
+}
