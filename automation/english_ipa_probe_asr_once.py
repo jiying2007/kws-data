@@ -226,7 +226,7 @@ def combine(results_parent,out,source_parent):
     (out/"three-asr-summary.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2)+"\\n")
     print(json.dumps(summary,ensure_ascii=False,sort_keys=True))
     return summary
-def main():
+def main(argv=None):
     p=argparse.ArgumentParser()
     p.add_argument("--provider",choices=PROVIDERS)
     p.add_argument("--source",type=Path)
@@ -234,7 +234,7 @@ def main():
     p.add_argument("--combine",type=Path)
     p.add_argument("--compact-source",type=Path)
     p.add_argument("--combined-output",type=Path)
-    a=p.parse_args()
+    a=p.parse_args(argv)
     if a.combine:
         need(a.compact_source is not None,"COMBINE_SOURCE_REQUIRED")
         combine(a.combine,a.combined_output,a.compact_source);return
