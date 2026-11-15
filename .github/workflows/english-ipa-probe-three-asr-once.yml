@@ -1,0 +1,121 @@
+name: Three blind ASR families on confirmed-IPA probes once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-ipa-probe-three-asr-once.yml
+      - .github/triggers/english-ipa-probe-three-asr-20261115.json
+      - automation/english_ipa_probe_asr_once.py
+      - automation/test_english_ipa_probe_asr_once.py
+  push:
+    branches: [main]
+    paths:
+      - .github/triggers/english-ipa-probe-three-asr-20261115.json
+permissions:
+  contents: read
+concurrency:
+  group: english-ipa-probe-three-asr-20261115-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify fixed blind ASR contract without models
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_ipa_probe_asr_once.py -v
+          done
+  asr:
+    needs: source-contract
+    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        provider: [qwen, whisper, parakeet]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Download compact pronunciation probes
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-ipa-qwen17-probe-compact-43728096763
+          run-id: 43730318351
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/compact-probes
+      - name: Install pinned provider runtime
+        shell: bash
+        timeout-minutes: 30
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/asr-venv"
+          if [ "${{ matrix.provider }}" = qwen ]; then
+            "$RUNNER_TEMP/asr-venv/bin/pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu" "torchaudio==2.9.1+cpu"
+            "$RUNNER_TEMP/asr-venv/bin/pip" install --disable-pip-version-check "qwen-asr==0.0.6" "huggingface-hub==0.36.2"
+          elif [ "${{ matrix.provider }}" = whisper ]; then
+            "$RUNNER_TEMP/asr-venv/bin/pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu" "torchaudio==2.9.1+cpu"
+            "$RUNNER_TEMP/asr-venv/bin/pip" install --disable-pip-version-check "openai-whisper==20250625" "huggingface-hub==0.36.2"
+          else
+            "$RUNNER_TEMP/asr-venv/bin/pip" install --disable-pip-version-check "huggingface-hub==0.36.2"
+          fi
+      - name: Run exactly four blind transcriptions for one provider
+        shell: bash
+        timeout-minutes: 55
+        env:
+          OMP_NUM_THREADS: "4"
+          MKL_NUM_THREADS: "4"
+          TOKENIZERS_PARALLELISM: "false"
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/asr-venv/bin/python" -I -S -B automation/english_ipa_probe_asr_once.py \
+            --provider "${{ matrix.provider }}" \
+            --source "$RUNNER_TEMP/compact-probes" \
+            --output "$RUNNER_TEMP/asr-${{ matrix.provider }}"
+      - name: Upload blind provider observations only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-ipa-probe-asr-${{ matrix.provider }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/asr-${{ matrix.provider }}/
+          retention-days: 30
+          if-no-files-found: warn
+  combine:
+    needs: asr
+    if: always() && github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          pattern: english-ipa-probe-asr-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/asr-results
+      - name: Combine completed blind transcripts without label admission
+        if: ${{ needs.asr.result == 'success' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_ipa_probe_asr_once.py \
+            --combine "$RUNNER_TEMP/asr-results" \
+            --combined-output "$RUNNER_TEMP/asr-combined"
+      - name: Upload combined machine-only result
+        if: ${{ always() && needs.asr.result == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-ipa-probe-three-asr-summary-${{ github.run_id }}
+          path: ${{ runner.temp }}/asr-combined/
+          retention-days: 30
+          if-no-files-found: warn
