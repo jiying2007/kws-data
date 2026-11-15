@@ -26970,7 +26970,7 @@
     },
     {
       "campaign": "english-ipa-qwen17-three-blind-asr-20261116",
-      "source_commit": "f50d13bcca70d16935897743d648ae7d42f7ff99",
+      "source_commit": "7a75b90caff117de259f047fed09f8481b028d2f",
       "paths": [
         ".github/triggers/english-ipa-probe-three-asr-20261115.json",
         ".github/workflows/english-ipa-probe-three-asr-once.yml",
@@ -26978,8 +26978,8 @@
         "automation/test_english_ipa_probe_asr_once.py"
       ],
       "previous_manifest_git_blob_sha1": "7aeddf9e7dba26275b6d8d786bdaff462c0b74cf",
-      "scope": "Three independent blind ASR families on the four hash-verified, confirmed-IPA TTS probes; 12 calls maximum; machine-only observations; no human gold or training admission.",
-      "rationale": "The compact source artifact is now stable and verified. This stage tests whether Qwen3-ASR, Whisper-small, and Parakeet TDT v3 independently recognize the generated words. Recognizers receive only audio, not intended text. Exact source artifact SHA, provider/model revisions, per-WAV identity, no-retry and unadmitted status are enforced."
+      "scope": "Three independent blind ASR families on four hash-verified confirmed-IPA TTS samples; exact original and compact artifact identities pinned; 12-call ceiling; per-cell no-retry receipts; machine-only observations; no human gold or training admission.",
+      "rationale": "The four TTS outputs were generated once, compacted and verified; the oversized model-containing source artifact was deleted only after the compact audio+receipt artifact was uploaded. This stage binds both the original TTS artifact and the compact readback artifact by run/artifact IDs and SHA-256. Each recognizer receives only audio, with no target phrase. The three outputs are joined only after all providers finish. Agreement is a review signal, never acoustic truth."
     }
   ]
 }
