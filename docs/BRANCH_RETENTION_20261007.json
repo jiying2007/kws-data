@@ -232,7 +232,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2078,
+  "expected_tracked_files": 2079,
   "expected_retained_files": 2026,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -251,6 +251,7 @@
     ".github/research-v4/requests/en63-online-20261114-v1.json",
     ".github/research-v4/requests/en63-projection48-20261115-v1.json",
     ".github/triggers/english-ipa-probe-compact-readback-20261115.json",
+    ".github/triggers/english-ipa-probe-compact-readback-v2-20261115.json",
     ".github/triggers/english-ipa-qwen17-probe-20261115.json",
     ".github/workflows/english-ipa-probe-compact-readback.yml",
     ".github/workflows/english-ipa-qwen17-probe-once.yml",
@@ -26952,6 +26953,16 @@
       "previous_manifest_git_blob_sha1": "50e8030105c3ae06644a8aa9ba153524f36caa92",
       "scope": "One-shot saved-only verification and compaction of the four confirmed-IPA TTS probes; remove the oversized model-containing source artifact only after compact audio+receipt artifact is verified.",
       "rationale": "The successful 1.7B TTS job's initial artifact included downloaded model weights and measured 3,608,298,695 bytes. Preserve only the four WAVs, receipts, and model lock; then delete the exact source artifact by pinned run/artifact ID and digest. No model/audio generation or ASR is repeated."
+    },
+    {
+      "campaign": "english-ipa-qwen17-four-cell-compact-readback-v2-20261115",
+      "source_commit": "8f7bccf50fb74add9614c5188523be14f551615b",
+      "paths": [
+        ".github/triggers/english-ipa-probe-compact-readback-v2-20261115.json"
+      ],
+      "previous_manifest_git_blob_sha1": "36d793467537b534e3398655cc3aab5b41c60c25",
+      "scope": "Second bounded saved-only readback attempt for the exact original four-cell TTS artifact; no TTS, ASR, model inference or training.",
+      "rationale": "The first compaction workflow downloaded the correct source artifact but the download action placed its contents under the artifact-name child directory. Add a separately pinned readback trigger and fix the verifier to accept this documented layout; the original audio/model run is not repeated."
     }
   ]
 }
