@@ -61,6 +61,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          find "$RUNNER_TEMP/english-ipa-source" -maxdepth 3 -type f \
+            | sed "s#^$RUNNER_TEMP/english-ipa-source/##" | head -80
           python3 -I -S -B automation/english_ipa_probe_compact_readback.py \
             --source "$RUNNER_TEMP/english-ipa-source" \
             --destination "$RUNNER_TEMP/english-ipa-compact"
