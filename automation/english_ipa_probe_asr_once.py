@@ -14,7 +14,7 @@ POLICY="english-ipa-qwen17-three-blind-asr-v1"
 SOURCE_RUN_ID=43730318351
 SOURCE_ARTIFACT_ID=14168142552
 SOURCE_ARTIFACT_NAME="english-ipa-qwen17-probe-compact-43728096763"
-SOURCE_ARTIFACT_SHA256="e9c4c5a0b4f4e99a6e5e9e7d4b6c0a1e5e1b4c2b4f9a0d2c7a4f8a0c4e7b6a9d"
+SOURCE_ARTIFACT_SHA256="35fc9ef1a76c5056d3c8307a87f9372f4d3f67412223d39c24fbc7724ee9b788"
 PROVIDERS=("qwen","whisper","parakeet")
 PHRASES={"Hey Mero":"/heɪ ˈmɪəroʊ/","Hey Vosen":"/heɪ ˈvoʊsən/"}
 MAX_CALLS=12
@@ -36,6 +36,7 @@ def root_for(parent):
          summary.get("source_run_id")==SOURCE_RUN_ID and
          summary.get("source_artifact_id")==SOURCE_ARTIFACT_ID and
          summary.get("source_artifact_name")==SOURCE_ARTIFACT_NAME and
+         summary.get("source_artifact_sha256")==SOURCE_ARTIFACT_SHA256 and
          summary.get("status")=="PASS_SAVED_AUDIO_IDENTITY_AND_RECEIPTS" and
          summary.get("cell_count")==4 and summary.get("asr_calls")==0 and
          summary.get("pronunciation_verified") is False and
@@ -133,58 +134,68 @@ def run_provider(provider,source_parent,out):
     media._once(out/"summary.json",summary)
     return summary
 
-def combine(results_parent,out):
+def combine(results_parent,out,source_parent):
     results_parent=Path(results_parent).resolve()
     out=Path(out).resolve()
     need(results_parent.is_dir() and not out.exists(),"COMBINE_PATHS")
+    _,plan,source_cells=root_for(source_parent)
+    target_by_id={cell["cell_id"]:cell for cell,_,_ in source_cells}
     transcripts={}
     for provider in PROVIDERS:
-        roots=[p.parent for p in results_parent.rglob("summary.json")
-               if p.parent.is_dir() and market.read(p).get("provider")==provider]
-        need(len(roots)==1,"PROVIDER_RESULT_ROOT")
-        root=roots[0]
+        root=results_parent/provider
+        need(root.is_dir(),"PROVIDER_RESULT_ROOT")
         summary=market.read(root/"summary.json")
         need(summary.get("schema")==POLICY and summary.get("status")=="COMPLETE" and
-             summary.get("asr_attempts")==4 and summary.get("training_admitted") is False,
+             summary.get("provider")==provider and summary.get("asr_attempts")==4 and
+             summary.get("training_admitted") is False and summary.get("human_gold") is False,
              "PROVIDER_RESULT_NOT_COMPLETE")
-        for cell_dir in (root/"cells").iterdir():
-            native=market.read(cell_dir/"native.json")
+        rows={row["cell_id"]:row for row in summary["rows"]}
+        need(set(rows)==set(target_by_id),"PROVIDER_CELL_ROSTER")
+        for cid in sorted(target_by_id):
+            native=market.read(root/"cells"/cid/"native.json")
             need(native.get("decoder_completed") is True and
                  native.get("provider_id")==summary["provider_id"] and
-                 native.get("audio_wav_sha256")==next(x["wav_sha256"] for x in summary["rows"] if x["cell_id"]==native["cell_id"]) if "cell_id" in native else True,
+                 native.get("audio_wav_sha256")==rows[cid]["wav_sha256"] and
+                 type(native.get("actual_text")) is str and bool(native["actual_text"]),
                  "NATIVE_RESULT_PROVENANCE")
-            transcripts.setdefault(cell_dir.name,{})[provider]=native["actual_text"]
-    source=Path(os.environ.get("COMPACT_SOURCE_ROOT",""))
+            transcripts.setdefault(cid,{})[provider]=native["actual_text"]
     need(len(transcripts)==4,"COMBINED_CELL_COUNT")
     out.mkdir(mode=0o700)
     rows=[]
     for cid,values in sorted(transcripts.items()):
         need(set(values)==set(PROVIDERS),"THREE_ASR_REQUIRED")
         folded=[market.normalize(values[p],"en-US") for p in PROVIDERS]
-        # Target text is loaded only after all blind recognizers have completed.
-        rows.append({"cell_id":cid,"transcripts":values,
-          "all_three_normalized_agree":len(set(folded))==1,
-          "normalized_transcript":folded[0] if len(set(folded))==1 else None,
+        target=target_by_id[cid]["phrase"]
+        agree=len(set(folded))==1
+        match=agree and folded[0]==market.normalize(target,"en-US")
+        rows.append({"cell_id":cid,"target_phrase":target,
+          "target_ipa":target_by_id[cid]["ipa"],"transcripts":values,
+          "all_three_normalized_agree":agree,
+          "agreed_transcript":folded[0] if agree else None,
+          "agrees_with_requested_phrase":match,
+          "machine_verdict":"THREE_ASR_AGREE_TARGET_REVIEW_REQUIRED" if match else
+             "MISMATCH_OR_DISAGREEMENT_REVIEW_REQUIRED",
           "acoustic_truth":False,"human_gold":False,"training_admitted":False})
     summary={"schema":POLICY,"status":"THREE_ASR_COMPLETE_REVIEW_REQUIRED",
       "source_run_id":SOURCE_RUN_ID,"source_artifact_id":SOURCE_ARTIFACT_ID,
       "providers":list(PROVIDERS),"asr_calls":12,"cells":rows,
       "machine_consensus_is_not_acoustic_gold":True,
       "training_admitted":False,"human_gold":False}
-    (out/"three-asr-summary.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2)+"\n")
+    (out/"three-asr-summary.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2)+"\\n")
     print(json.dumps(summary,ensure_ascii=False,sort_keys=True))
     return summary
-
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--provider",choices=PROVIDERS)
     p.add_argument("--source",type=Path)
     p.add_argument("--output",type=Path)
     p.add_argument("--combine",type=Path)
+    p.add_argument("--source",type=Path)
     p.add_argument("--combined-output",type=Path)
     a=p.parse_args()
     if a.combine:
-        combine(a.combine,a.combined_output);return
+        need(a.source is not None,"COMBINE_SOURCE_REQUIRED")
+        combine(a.combine,a.combined_output,a.source);return
     need(a.provider and a.source and a.output,"ARGS")
     run_provider(a.provider,a.source,a.output)
 if __name__=="__main__": main()
