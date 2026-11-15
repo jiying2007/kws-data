@@ -19,20 +19,23 @@ def need(ok,msg):
     if not ok: raise ValueError(msg)
 def read_trigger():
     x=market.read(TRIGGER)
+    expected = [
+      {"phrase":"Hey Mero","ipa":"/heɪ ˈmɪəroʊ/","speaker":"aiden",
+       "instruction":"Pronounce the name Mero exactly as /mɪəroʊ/, with stress on its first syllable. Keep the phrase natural."},
+      {"phrase":"Hey Mero","ipa":"/heɪ ˈmɪəroʊ/","speaker":"ryan",
+       "instruction":"Pronounce the name Mero exactly as /mɪəroʊ/, with stress on its first syllable. Keep the phrase natural."},
+      {"phrase":"Hey Vosen","ipa":"/heɪ ˈvoʊsən/","speaker":"aiden",
+       "instruction":"Pronounce the name Vosen exactly as /voʊsən/, with an unvoiced /s/ in the middle, not /z/. Keep the phrase natural."},
+      {"phrase":"Hey Vosen","ipa":"/heɪ ˈvoʊsən/","speaker":"ryan",
+       "instruction":"Pronounce the name Vosen exactly as /voʊsən/, with an unvoiced /s/ in the middle, not /z/. Keep the phrase natural."}
+    ]
     need(x.get("schema")==POLICY and x.get("model_id")==MODEL and
          x.get("model_revision")==REV and x.get("model_license")=="Apache-2.0" and
+         x.get("voices")==["aiden","ryan"] and x.get("cells")==expected and
          x.get("max_calls")==4 and x.get("asr_calls")==0 and
          x.get("training_admitted") is False and x.get("human_gold") is False and
          x.get("qualification_allowed") is False and x.get("no_retry") is True,
-         "TRIGGER_IDENTITY")
-    need(len(x.get("cells",[]))==4 and
-         {(c["phrase"],c["speaker"]) for c in x["cells"]}=={
-          ("Hey Mero","aiden"),("Hey Mero","ryan"),
-          ("Hey Vosen","aiden"),("Hey Vosen","ryan")},
-         "FIXED_FOUR_CELL_ROSTER")
-    need(all(c["ipa"] in ("/heɪ ˈmɪəroʊ/","/heɪ ˈvoʊsən/") and
-             type(c["instruction"]) is str and len(c["instruction"])<240
-             for c in x["cells"]), "PRONUNCIATION_INSTRUCTION")
+         "TRIGGER_IDENTITY_OR_PRONUNCIATION_DRIFT")
     return x
 
 def materialize(root):
