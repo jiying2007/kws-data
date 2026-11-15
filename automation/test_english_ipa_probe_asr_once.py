@@ -24,6 +24,9 @@ class ProbeAsrTests(__import__("unittest").TestCase):
  def test_three_asr_is_not_gold(self):
   self.assertEqual(a.SOURCE_ARTIFACT_SHA256,
     "35fc9ef1a76c5056d3c8307a87f9372f4d3f67412223d39c24fbc7724ee9b788")
+  self.assertEqual(a.COMPACT_ARTIFACT_ID,14168142552)
+  self.assertEqual(a.COMPACT_ARTIFACT_SHA256,
+    "717b52d4fef8b17aa3e91baf1e28663c8d337919b4dd49f5cfdbba050f32cf64")
   self.assertEqual(a.PROVIDERS,("qwen","whisper","parakeet"))
   self.assertEqual(a.MAX_CALLS,12)
 if __name__=="__main__":
