@@ -142,6 +142,19 @@ def native_consumer(request_path):
     return consumer
 
 
+def fixed_consumer(request_path):
+    """The new paired training experiment has its own claim and update budget."""
+    value = read_json(request_path)
+    if not isinstance(value, dict) or value.get("experiment") != "english63-natural-background-continuation":
+        return native_consumer(request_path)
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "research_v4_background_continuation", Path(__file__).with_name("research_v4_background_continuation.py"))
+    consumer = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(consumer)
+    return consumer
+
+
 def source_check():
     event = read_json(os.environ["GITHUB_EVENT_PATH"])
     name = os.environ["GITHUB_EVENT_NAME"]
@@ -154,10 +167,11 @@ def source_check():
     changes = subprocess.check_output(["git", "diff", "--name-status", "--no-renames", before, after, "--", REQUEST_DIR], text=True)
     path = changed_request(changes, allow_empty=name == "pull_request")
     if path:
-        consumer = native_consumer(path)
+        consumer = fixed_consumer(path)
         request, _, digest = (consumer.load_request if consumer else load_request)(path)
         output(request_path=path, request_sha256=digest, pipeline_commit=request["pipeline_commit"],
-               experiment=request["experiment"], job_timeout_minutes=40 if consumer else 45)
+               experiment=request["experiment"], job_timeout_minutes=(
+                   45 if not consumer or request["experiment"] == "english63-natural-background-continuation" else 40))
     else:
         output(request_path="", request_sha256="", pipeline_commit="", experiment="", job_timeout_minutes=45)
 
@@ -399,7 +413,7 @@ def main():
         source_check()
         return
     require(args.request is not None and args.state is not None and args.state.is_absolute(), "request and absolute state directory required")
-    consumer = native_consumer(args.request)
+    consumer = fixed_consumer(args.request)
     if consumer:
         consumer.dispatch(args)
         return

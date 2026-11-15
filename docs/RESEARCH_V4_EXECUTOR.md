@@ -388,3 +388,88 @@ proposals, source-splice proximity and host resource observations. It does
 not report an independently qualified FAR/hour, FRR, acoustic word-end latency
 or SSC305 measurement. Those fields stay `NOT_RUN`; trusted-negative status,
 human gold, training admission, model selection and promotion stay false.
+
+
+## Paired natural-background continuation from the frozen online weights
+
+`english63-natural-background-continuation` is a separate weak-training
+experiment, handled by `automation/research_v4_background_continuation.py`
+inside the same V4 workflow. Its immutable request is
+`en63-background48-20261115-v1`; it cannot consume any earlier training or
+LibriSpeech-screen claim. The request pins the new source commit and all
+protocol values. Source PR checks use invented fixtures only. Actual model
+work is restricted to the first public-main Actions attempt after the new
+claim has been uploaded. There is no scheduler, dispatch retry or generic
+command field.
+
+The warm-start source is original online training artifact 14114695344 from
+run 43595338774, not the older whole-clip checkpoints. Both GRU arms start
+from the same frozen GRU NPZ, and both DS-TCN arms from the same frozen DS-TCN
+NPZ. There is no saved optimizer state: all four arms use fresh AdamW,
+48 updates per arm, learning rate 0.001, weight decay 0.01 and gradient clip
+1. Each model's control and treatment use the same fixed seed. The control
+loss is the original 30-clip weak MIL cross-entropy. Treatment adds 0.5 times
+the mean weak-background MIL cross-entropy of 128 natural windows. Each step
+backpropagates the original loss and four 32-window natural microbatches,
+then clips once and updates once. The total budget is exactly 192 updates.
+The original train-only normalizer, decoder and pool macro zero stay fixed.
+
+All 40 source speakers from the already exposed 517-clip LibriSpeech roster
+are ordered by SHA256 of `en63-bg48-speaker-v1/` plus speaker identity. The
+first 32 supply training windows and the last eight are study development.
+Within each training speaker, eligible utterances have at least 48,000
+samples and are ordered by SHA256 of `en63-bg48-record-v1/` plus source-member
+path; the first four yield centered 48,000-sample windows. Thus treatment
+uses 128 three-second windows, 6,144,000 samples / 384 seconds. The 102
+study-development source clips contain 11,124,244 samples and produce 69,525
+continuous frames. The twelve original English63 development clips are
+evaluated separately with resets, producing 2,440 frames. Original development
+and quarantined nearphone rows never enter training.
+
+Baseline, control and treatment for both model kinds each receive the same
+13 development streams exactly once in native C: one natural continuous
+stream and twelve isolated original English63 clips. Across all six model
+passes this is 431,790 forward frames. There is no repeated verification
+forward. The consumer independently checks 78 initializations, 78 finishes,
+431,946 feeds and 69,110,904 supplied samples across those six passes. Repeated
+supplies are not counted as new independent audio. For each model kind, the predefined benefit rule requires positive
+baseline and control natural-proposal totals, at least a halving by treatment
+against both, and no increase in either keyword's natural proposals. Each
+keyword's four positive clips must have correct-trigger coverage at least
+the larger of baseline, control and two clips, with wrong-other-keyword clip
+counts no greater than either comparator. The four ordinary-background
+clips' total proposals must not exceed either comparator. All valid benefit
+outcomes, including `NO_BENEFIT`, produce a successful scientific terminal;
+the gate never authorizes extra training or evaluation.
+
+Each training arm is limited to 180 seconds and the training group to 720;
+each native child is limited to 120 seconds and the native group to 180.
+The source entrypoint has a 1,200-second limit and the saved verifier 180.
+Python 3.12.16, NumPy 2.3.5, CPU Torch 2.10.0 and SoundFile 0.13.1 are pinned.
+Input downloads reuse the fixed artifact and corpus safety helpers. The
+337,926,286-byte original corpus remains outside the 64-MiB result limit.
+
+The distinct artifacts are `research-v4-background-claim-<request_sha256>`
+and `research-v4-background-result-<request_sha256>`. The claim records an
+update budget of 192 and zero updates before model start. Successful execution
+and terminal records require the actual 192 updates and 431,790 native frames.
+Failed executions retain available weights, progress and evidence; an unknown
+completed count is not reported as zero or as a full run. Failed, orphaned,
+ambiguous and unproven attempts remain consumed and cannot repeat.
+
+The inner result has exactly 17 files: eight JSON/archive receipts plus
+`native.stderr`, `WEIGHTS.zip`, `RUNTIME.zip` and six variant/model trace
+containers. `WEIGHTS.zip` contains the four new NPZs; `RUNTIME.zip` retains
+three generated headers and their native binaries. The outer result remains
+within the unchanged 24-file and 64-MiB limits. Before any archived reader
+executes, every `SOURCE.zip` path and SHA256 must match the reviewed closure.
+The isolated standard-library reader then recomputes saved events, counts
+and benefit results without network access, compilation, model loading,
+forward calls or optimizer updates. Outer request/claim/run identity and
+actual work counts are independently checked by the data consumer.
+
+This is a paired weak-background correction study on already exposed source
+material. Development observations are not independent acoustic gold or
+household FAR. The benefit gate does not select or promote a model, change
+runtime defaults or grant formal-training admission. Those permissions,
+human-gold and trusted-negative status remain false.
