@@ -30,11 +30,16 @@ def verify_and_compact(source,destination):
     source=Path(source).resolve()
     destination=Path(destination).resolve()
     need(source.is_dir() and not source.is_symlink(),"SOURCE_DIRECTORY")
-    # download-artifact creates a named child directory with merge-multiple=false.
-    if not (source/"started.json").is_file():
-        nested=source/ARTIFACT_NAME
-        need(nested.is_dir() and not nested.is_symlink(),"ARTIFACT_ROOT_LAYOUT")
-        source=nested
+    # upload-artifact preserves a common parent directory; locate the unique root
+    # containing all four top-level receipts rather than assuming extraction layout.
+    roots=[]
+    for result_path in source.rglob("result.json"):
+        parent=result_path.parent
+        if all((parent/name).is_file() for name in
+               ("started.json","model-lock.json","source-plan.json")):
+            roots.append(parent)
+    need(len(roots)==1 and not roots[0].is_symlink(),"ARTIFACT_ROOT_LAYOUT")
+    source=roots[0]
     need(not destination.exists() and destination.parent.is_dir(),"CREATE_ONLY_DESTINATION")
     for p in source.rglob("*"):
         need(not p.is_symlink(),"SOURCE_SYMLINK")
