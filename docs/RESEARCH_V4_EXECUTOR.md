@@ -322,3 +322,69 @@ source/build/input identities, native binaries, traces and saved verification
 are retained; the saved verifier has zero model calls. Partial failures keep
 their failure terminal and available evidence. Source PR tests use only
 invented JSON/binary fixtures and mocked execution.
+
+
+## Frozen English63 screen on the retained LibriSpeech sources
+
+`english63-native-c-librispeech-screen` supplies the previously selected 517
+LibriSpeech dev-clean utterances from 40 source speakers to the two trained
+English63 native models. Each model receives one continuous PCM stream in
+lexical source-member order. GRU and DS-TCN reuse the fixed state ancestor's
+exported header, original thresholds and baseline pool macro zero. There is
+no optimization, threshold selection, extra warm-up replay or model promotion.
+
+The request `en63-native-c-librispeech-20261115-v1` is handled by the existing
+V4 workflow and `automation/research_v4_native_c_librispeech.py`. Only a new
+immutable request on public main can execute. The source-only PR checks cannot
+run the original corpus or models. The template's placeholder source commit
+is deliberately invalid. Existing consumed requests and claims remain frozen.
+
+The fixed reference is artifact 14090383839 from successful first-attempt run
+43538998200 (source commit `5da87fc5785cfa0b5ad26c451fc366b80e3d491b`). Its
+47,199-byte ZIP contains only `english-natural-read-speech-result.json`. The
+reference binds the selected FLAC bytes, transcript hashes, speaker source
+identities and sample counts. It contains no historical decoded-PCM hashes.
+The original OpenSLR dev-clean archive is fetched once from its fixed HTTPS
+URL, without redirects, credentials or retries, under its separate exact
+337,926,286-byte and SHA256 constraint. This does not enlarge the existing
+64-MiB GitHub artifact or output bound. A failed transfer leaves its partial
+file and stops. The fixed transfer deadline is 300 seconds, with 30-second
+socket timeouts; no second request is issued.
+
+Actual decoding uses NumPy 2.3.5 and SoundFile 0.13.1, records libsndfile's
+version, and verifies every original FLAC identity and PCM16 geometry. It
+records each newly decoded PCM hash and the concatenated PCM hash. It does
+not claim comparison against nonexistent earlier PCM hashes. No source
+samples are resampled, normalized, inserted or discarded. The stream has
+58,646,164 samples / 3,665.38525 seconds, with 366,539 feeds of at most 160
+samples and a final 84-sample feed. Each model produces 366,537 frames with
+no reset between source utterances and no EOF padding. Both models together
+have two passes, 733,074 frames and 117,292,328 supplied samples including
+replay; reuse of the old source set adds zero independent audio duration.
+
+The native group is limited to 420 seconds, each pass to 180 seconds, and the
+whole entrypoint to 900 seconds. The two processes use one fixed allowed CPU.
+The runtime installs NumPy/SoundFile only; no Torch, Sherpa, ASR or TTS runtime
+is introduced. The workflow uploads a consumed claim before native execution.
+Failed, orphaned, ambiguous or unproven rerun requests stop instead of repeating
+model work. Success remains a completed diagnostic even when proposals occur.
+
+The twelve-file inner result preserves compact 32-byte probability/event
+traces, sources, build/runtime identity, exact inputs, raw process observations
+and the saved verification receipt. The consumer first matches every member
+of `SOURCE.zip` against a fixed reviewed path/SHA256 allowlist, rejecting
+missing, extra, duplicate or symlink entries before any archived code runs.
+Only that frozen standard-library saved reader is then invoked with
+`--verify-result-dir`, isolated Python, a credential-free environment with
+no Actions execution identity, and a 180-second limit. It recomputes decoder
+events from saved probabilities without downloading, compiling, loading models
+or running forward passes. The consumer separately checks the outer request,
+claim and run identities, file closure, header, trace sizes, fixed counters
+and research scope. A successful saved terminal is reusable without inference.
+
+These are previously exposed read-speech sources with machine text filtering,
+not human acoustic negative gold or household audio. The result reports
+proposals, source-splice proximity and host resource observations. It does
+not report an independently qualified FAR/hour, FRR, acoustic word-end latency
+or SSC305 measurement. Those fields stay `NOT_RUN`; trusted-negative status,
+human gold, training admission, model selection and promotion stay false.

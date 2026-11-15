@@ -1,0 +1,70 @@
+{
+  "schema": "kws-research-v4-native-c-librispeech-request-v1",
+  "experiment": "english63-native-c-librispeech-screen",
+  "request_id": "en63-native-c-librispeech-20261115-v1",
+  "pipeline_repository": "jiying2007/kws-pipeline",
+  "entrypoint": "research/english63_online_c/librispeech_screen.py",
+  "native_state_ancestor": {
+    "run_id": 43663731129,
+    "artifact_id": 14141171320,
+    "zip_bytes": 1597111,
+    "zip_sha256": "2fdd0c951d6cf964d6b73afff5726e7d82b365dae539876822e513d7af0ccaa7",
+    "data_commit": "16df89d871f423f8105a22b8bff5556e68685f18",
+    "pipeline_commit": "5ed17337558ef1fb48b06f737a2078fcb716a8d3",
+    "request_sha256": "5996025f47227d18154fbfa29e7a2bb2fce1322385f53b3d83bebe2e5d6d2e18",
+    "terminal_sha256": "00aa4b75d1ca3934992503ac5cd4a698c2ecbc7a48fab51fec660dab70c39e30",
+    "header_sha256": "912f443a85fddbc77c49f6cc52c2dbde6c395436d7d8d0818a4e6225cd90fc16"
+  },
+  "source_artifacts": {
+    "negative_reference": {
+      "run_id": 43538998200,
+      "artifact_id": 14090383839,
+      "zip_bytes": 47199,
+      "zip_sha256": "7f28b4eddbee87435b9dc5b4c44e47a6d6ed200cbf9f4b8688d9b93cabeb4db4",
+      "member": "english-natural-read-speech-result.json",
+      "member_sha256": "788a1b04b9ecb22fb96d4036d19456f460ce3ccecd4da69d53d96fea53b29510"
+    },
+    "corpus": {
+      "url": "https://www.openslr.org/resources/12/dev-clean.tar.gz",
+      "bytes": 337926286,
+      "sha256": "76f87d090650617fca0cac8f88b9416e0ebf80350acb97b343a85fa903728ab3",
+      "license": "CC-BY-4.0"
+    }
+  },
+  "profile": {
+    "models": [
+      "gru",
+      "dsc_tcn"
+    ],
+    "source_clips": 517,
+    "source_speakers": 40,
+    "source_pcm_samples": 58646164,
+    "source_seconds": 3665.38525,
+    "order": "source_member",
+    "feed_chunk_samples": 160,
+    "frames_per_pass": 366537,
+    "feed_calls_per_pass": 366539,
+    "final_feed_samples": 84,
+    "full_passes": 2,
+    "forward_frames": 733074,
+    "supplied_samples_including_replays": 117292328,
+    "pool_time_major": 0,
+    "native_child_seconds": 180,
+    "native_group_seconds": 420,
+    "state_bytes": 38192,
+    "cpu_affinity": "lowest-allowed-single-cpu",
+    "trace_record_bytes": 32
+  },
+  "optimizer_updates": 0,
+  "cpu_threads": 1,
+  "max_execution_seconds": 900,
+  "max_verification_seconds": 180,
+  "new_audio_generated": false,
+  "new_tts_asr_ipa_calls": 0,
+  "new_independent_audio_seconds": 0,
+  "formal_training_admitted": false,
+  "human_gold": false,
+  "model_promotion_allowed": false,
+  "pipeline_commit": "REPLACE_WITH_REVIEWED_FULL_COMMIT_SHA",
+  "reason": "Screen two frozen English63 native models once each on the same retained 517 LibriSpeech sources in one continuous stream; preserve thresholds and zero-padding behavior, retain events and saved decoder evidence without formal FAR or model promotion."
+}
