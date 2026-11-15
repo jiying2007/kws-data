@@ -129,6 +129,7 @@ def native_consumer(request_path):
         "english63-saved-native-c-parity": "research_v4_native_c",
         "english63-native-c-state-contracts": "research_v4_native_c_state",
         "english63-native-c-pool-profile": "research_v4_native_c_pool",
+        "english63-native-c-librispeech-screen": "research_v4_native_c_librispeech",
     }
     if not isinstance(value, dict) or value.get("experiment") not in modules:
         return None
@@ -422,3 +423,4 @@ if __name__ == "__main__":
     except (OSError, ValueError, KeyError, TypeError, zipfile.BadZipFile, subprocess.SubprocessError) as exc:
         print(type(exc).__name__ + ": " + str(exc), file=sys.stderr)
         sys.exit(1)
+
