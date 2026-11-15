@@ -18,12 +18,24 @@ SOURCE_ARTIFACT_SHA256="35fc9ef1a76c5056d3c8307a87f9372f4d3f67412223d39c24fbc772
 PROVIDERS=("qwen","whisper","parakeet")
 PHRASES={"Hey Mero":"/heɪ ˈmɪəroʊ/","Hey Vosen":"/heɪ ˈvoʊsən/"}
 MAX_CALLS=12
+TRIGGER=Path(__file__).resolve().parents[1]/".github/triggers/english-ipa-probe-three-asr-20261115.json"
 
 def need(ok,msg):
     if not ok: raise ValueError(msg)
 def sha(raw): return hashlib.sha256(raw).hexdigest()
 def safe_file(path,limit):
     return english.media()._safe_file(Path(path),limit=limit)
+def verify_trigger():
+    expected={"schema":POLICY,"source_run_id":SOURCE_RUN_ID,
+      "source_artifact_id":SOURCE_ARTIFACT_ID,
+      "source_artifact_name":SOURCE_ARTIFACT_NAME,
+      "source_artifact_sha256":SOURCE_ARTIFACT_SHA256,
+      "providers":list(PROVIDERS),"max_calls":MAX_CALLS,"retry_count":0,
+      "training_admitted":False,"human_gold":False,"pronunciation_verified":False}
+    need(market.read(TRIGGER)==expected,"TRIGGER_POLICY_DRIFT")
+    return expected
+
+
 def root_for(parent):
     parent=Path(parent).resolve()
     need(parent.is_dir() and not parent.is_symlink(),"COMPACT_PARENT")
@@ -82,6 +94,7 @@ def run_provider(provider,source_parent,out):
     need(os.environ.get("GITHUB_REPOSITORY")=="jiying2007/kws-data" and
          os.environ.get("GITHUB_REF")=="refs/heads/main" and
          os.environ.get("GITHUB_RUN_ATTEMPT")=="1","MAIN_ATTEMPT_ONE")
+    verify_trigger()
     _,plan,cells=root_for(source_parent)
     out=Path(out).resolve()
     need(out.parent.is_dir() and not out.exists(),"OUTPUT_CREATE_ONLY")
@@ -92,44 +105,65 @@ def run_provider(provider,source_parent,out):
       "provider_id":provider_id,"model_id":model_id,"model_revision_sha":revision,
       "source_run_id":SOURCE_RUN_ID,"source_artifact_id":SOURCE_ARTIFACT_ID,
       "calls_budget":4,"training_admitted":False,"human_gold":False,"retry_count":0})
-    model_root=out/"private-model";model_root.mkdir(mode=0o700)
+    model_root=out/"private-model"
+    model_root.mkdir(mode=0o700)
     rows=[]
+    attempts=0
+    model_error=None
     try:
-        decode=seven._load(provider,model_root)
+        try:
+            decode=seven._load(provider,model_root)
+        except Exception as exc:
+            decode=None
+            model_error=type(exc).__name__
         for cell,wav,pcm in cells:
             cid=cell["cell_id"]
             folder=out/"cells"/cid
             folder.mkdir(parents=True,mode=0o700)
             media._once(folder/"started.json",{"schema":POLICY,"cell_id":cid,
-              "provider":provider,"wav_sha256":pcm["wav_sha256"],"attempt":1})
-            text=decode(wav,folder)
-            need(type(text) is str and 0<len(text)<=512 and
-                 not any(ord(ch)<32 for ch in text),"ASR_TEXT")
-            native={"schema":blind.RAW_SCHEMA,"provider_id":provider_id,
-              "model_id":model_id,"model_revision_sha":revision,
-              "audio_wav_sha256":pcm["wav_sha256"],"processed_start_frame":0,
-              "processed_end_frame":pcm["frames"],"decoder_completed":True,
-              "actual_text":text}
-            media._once(folder/"native.json",native)
-            blind.native_result(folder/"native.json",{"provider_id":provider_id,
-              "model_id":model_id,"model_revision_sha":revision},cell,pcm)
-            media._once(folder/"completed.json",{"schema":POLICY,"cell_id":cid,
-              "provider":provider,"provider_id":provider_id,"wav_sha256":pcm["wav_sha256"],
-              "native_sha256":sha((folder/"native.json").read_bytes()),
-              "status":"BLIND_ASR_UNADMITTED","training_admitted":False,"human_gold":False})
-            rows.append({"cell_id":cid,"wav_sha256":pcm["wav_sha256"],"status":"COMPLETE"})
-    except Exception as e:
-        media._once(out/"failed.json",{"schema":POLICY,"provider":provider,
-          "status":"INCOMPLETE_NO_RETRY","error_type":type(e).__name__,
-          "completed_cells":len(rows),"training_admitted":False})
-        raise
+              "provider":provider,"wav_sha256":pcm["wav_sha256"],"attempt":1,
+              "training_admitted":False})
+            if decode is None:
+                media._once(folder/"failed.json",{"schema":POLICY,"cell_id":cid,
+                  "provider":provider,"status":"MODEL_LOAD_FAILED_NO_RETRY",
+                  "error_type":model_error,"training_admitted":False})
+                rows.append({"cell_id":cid,"wav_sha256":pcm["wav_sha256"],
+                  "status":"MODEL_LOAD_FAILED_NO_RETRY"})
+                continue
+            attempts+=1
+            try:
+                text=decode(wav,folder)
+                need(type(text) is str and 0<len(text)<=512 and
+                     not any(ord(ch)<32 for ch in text),"ASR_TEXT")
+                native={"schema":blind.RAW_SCHEMA,"provider_id":provider_id,
+                  "model_id":model_id,"model_revision_sha":revision,
+                  "audio_wav_sha256":pcm["wav_sha256"],"processed_start_frame":0,
+                  "processed_end_frame":pcm["frames"],"decoder_completed":True,
+                  "actual_text":text}
+                media._once(folder/"native.json",native)
+                blind.native_result(folder/"native.json",{"provider_id":provider_id,
+                  "model_id":model_id,"model_revision_sha":revision},cell,pcm)
+                media._once(folder/"completed.json",{"schema":POLICY,"cell_id":cid,
+                  "provider":provider,"provider_id":provider_id,"wav_sha256":pcm["wav_sha256"],
+                  "native_sha256":sha((folder/"native.json").read_bytes()),
+                  "status":"BLIND_ASR_UNADMITTED","training_admitted":False,"human_gold":False})
+                status="COMPLETE"
+            except Exception as exc:
+                media._once(folder/"failed.json",{"schema":POLICY,"cell_id":cid,
+                  "provider":provider,"status":"FAILED_NO_RETRY",
+                  "error_type":type(exc).__name__,"training_admitted":False})
+                status="FAILED_NO_RETRY"
+            rows.append({"cell_id":cid,"wav_sha256":pcm["wav_sha256"],"status":status})
     finally:
-        if model_root.exists(): shutil.rmtree(model_root)
-    summary={"schema":POLICY,"status":"COMPLETE" if len(rows)==4 else "INCOMPLETE",
+        if model_root.exists():
+            shutil.rmtree(model_root)
+    completed=sum(row["status"]=="COMPLETE" for row in rows)
+    summary={"schema":POLICY,"status":"COMPLETE" if completed==4 else "INCOMPLETE_NO_RETRY",
       "provider":provider,"provider_id":provider_id,"model_id":model_id,
       "model_revision_sha":revision,"source_run_id":SOURCE_RUN_ID,
-      "source_artifact_id":SOURCE_ARTIFACT_ID,"source_cell_count":4,
-      "asr_attempts":len(rows),"rows":rows,"training_admitted":False,
+      "source_artifact_id":SOURCE_ARTIFACT_ID,"source_artifact_sha256":SOURCE_ARTIFACT_SHA256,
+      "source_cell_count":4,"asr_attempts":attempts,"completed_asr":completed,
+      "model_load_error_type":model_error,"rows":rows,"training_admitted":False,
       "human_gold":False,"pronunciation_verified":False}
     media._once(out/"summary.json",summary)
     return summary
