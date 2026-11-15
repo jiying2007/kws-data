@@ -190,12 +190,12 @@ def main():
     p.add_argument("--source",type=Path)
     p.add_argument("--output",type=Path)
     p.add_argument("--combine",type=Path)
-    p.add_argument("--source",type=Path)
+    p.add_argument("--compact-source",type=Path)
     p.add_argument("--combined-output",type=Path)
     a=p.parse_args()
     if a.combine:
-        need(a.source is not None,"COMBINE_SOURCE_REQUIRED")
-        combine(a.combine,a.combined_output,a.source);return
+        need(a.compact_source is not None,"COMBINE_SOURCE_REQUIRED")
+        combine(a.combine,a.combined_output,a.compact_source);return
     need(a.provider and a.source and a.output,"ARGS")
     run_provider(a.provider,a.source,a.output)
 if __name__=="__main__": main()
