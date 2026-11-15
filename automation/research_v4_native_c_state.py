@@ -60,7 +60,9 @@ def load_request(path):
     core.require(isinstance(request, dict) and set(request) == set(FIXED) | {
         "request_id", "pipeline_commit", "reason"}, "state request keys differ from fixed task")
     for key, expected in FIXED.items():
-        core.require(request[key] == expected and type(request[key]) is type(expected),
+        core.require(type(request[key]) is type(expected) and
+                     json.dumps(request[key], sort_keys=True, allow_nan=False) ==
+                     json.dumps(expected, sort_keys=True, allow_nan=False),
                      "unsupported state request field: " + key)
     core.require(isinstance(request["request_id"], str) and re.fullmatch(
         r"[a-z0-9][a-z0-9-]{2,79}", request["request_id"]), "invalid state request_id")

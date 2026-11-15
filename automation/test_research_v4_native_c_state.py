@@ -139,6 +139,17 @@ class StateConsumerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             C.load_request(self.path)
 
+    def test_nested_source_identity_types_are_exact(self):
+        for source in ("native_baseline", "source_artifacts"):
+            request = copy.deepcopy(self.request)
+            if source == "native_baseline":
+                request[source]["run_id"] = float(request[source]["run_id"])
+            else:
+                request[source]["tts"]["artifact_id"] = float(request[source]["tts"]["artifact_id"])
+            self.write(self.path, request)
+            with self.subTest(source=source), self.assertRaisesRegex(ValueError, "unsupported state request field"):
+                C.load_request(self.path)
+
     def test_old_request_is_immutable_and_dispatch_does_not_train(self):
         self.assertEqual(C.core.sha256(C.SOURCE_REQUEST.read_bytes()), C.BASELINE["request_sha256"])
         self.assertEqual(C.core.native_consumer(self.path).ENTRYPOINT, C.ENTRYPOINT)
