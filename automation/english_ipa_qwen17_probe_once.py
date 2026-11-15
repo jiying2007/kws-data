@@ -4,6 +4,7 @@ import argparse, hashlib, json, os, shutil, sys
 from pathlib import Path
 from importlib.metadata import version
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 import english_qwen_capture as capture
 import multilingual_campaign as market
 
