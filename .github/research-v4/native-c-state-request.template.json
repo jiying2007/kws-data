@@ -1,0 +1,41 @@
+{
+  "schema": "kws-research-v4-native-c-state-request-v1",
+  "experiment": "english63-native-c-state-contracts",
+  "pipeline_repository": "jiying2007/kws-pipeline",
+  "entrypoint": "research/english63_online_c/state_replay.py",
+  "source_artifacts": {
+    "tts": {
+      "artifact_id": 13954744587,
+      "zip_sha256": "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc"
+    },
+    "review": {
+      "artifact_id": 14001747172,
+      "zip_sha256": "f83d6a2f399c20af5bbc920ef6c38c42ac1e44b516d2b7291f4510557491cec8",
+      "member": "english63-three-evidence-review.json",
+      "member_sha256": "89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12"
+    }
+  },
+  "native_baseline": {
+    "run_id": 43605922752,
+    "artifact_id": 14117638750,
+    "zip_sha256": "e85d14c87727f93b6e33edc196af00a6c9ce023d9e7d41d844109617fa5fb397",
+    "data_commit": "0d5db0eaa0101ee8009882aa86dc85dc513cd174",
+    "pipeline_commit": "6eab7c5e72d44483a14c5095a53805ea94126070",
+    "request_sha256": "2221d418d8890b16ffb1a65973b364b89bacb440946b634e76f2e4b675d64a27",
+    "terminal_sha256": "e78d5d623675a08d39dbf20b39814ab7de15fffda669768ffa23ecc2d05387cb",
+    "header_sha256": "912f443a85fddbc77c49f6cc52c2dbde6c395436d7d8d0818a4e6225cd90fc16"
+  },
+  "optimizer_updates": 0,
+  "cpu_threads": 1,
+  "max_execution_seconds": 600,
+  "max_verification_seconds": 180,
+  "new_audio_generated": false,
+  "new_tts_asr_ipa_calls": 0,
+  "new_independent_audio_seconds": 0,
+  "formal_training_admitted": false,
+  "human_gold": false,
+  "model_promotion_allowed": false,
+  "request_id": "en63-native-c-state-template-v1",
+  "pipeline_commit": "REPLACE_WITH_REVIEWED_FULL_COMMIT_SHA",
+  "reason": "New discontinuity, reset, interleaved-instance and invalid-call contracts using the retained trained C header and original PCM; zero new training, recognition or independent audio exposure."
+}

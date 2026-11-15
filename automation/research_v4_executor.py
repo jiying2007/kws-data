@@ -123,13 +123,18 @@ def changed_request(lines, allow_empty):
 
 
 def native_consumer(request_path):
-    """Only this named, no-training consumer may extend the original task."""
+    """Only two named, no-training consumers may extend the original task."""
     value = read_json(request_path)
-    if not isinstance(value, dict) or value.get("experiment") != "english63-saved-native-c-parity":
+    modules = {
+        "english63-saved-native-c-parity": "research_v4_native_c",
+        "english63-native-c-state-contracts": "research_v4_native_c_state",
+    }
+    if not isinstance(value, dict) or value.get("experiment") not in modules:
         return None
     import importlib.util
+    module = modules[value["experiment"]]
     spec = importlib.util.spec_from_file_location(
-        "research_v4_native_c", Path(__file__).with_name("research_v4_native_c.py"))
+        module, Path(__file__).with_name(module + ".py"))
     consumer = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(consumer)
     return consumer

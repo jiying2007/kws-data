@@ -9,6 +9,8 @@ on:
       - 'automation/test_research_v4_executor.py'
       - 'automation/research_v4_native_c.py'
       - 'automation/test_research_v4_native_c.py'
+      - 'automation/research_v4_native_c_state.py'
+      - 'automation/test_research_v4_native_c_state.py'
       - 'automation/v4_keyword_evidence.py'
       - 'automation/test_v4_keyword_evidence.py'
       - 'docs/RESEARCH_V4_EXECUTOR.md'
@@ -48,6 +50,8 @@ jobs:
           python3 -I -S -B -O automation/test_research_v4_executor.py -v
           python3 -I -S -B automation/test_research_v4_native_c.py -v
           python3 -I -S -B -O automation/test_research_v4_native_c.py -v
+          python3 -I -S -B automation/test_research_v4_native_c_state.py -v
+          python3 -I -S -B -O automation/test_research_v4_native_c_state.py -v
           python3 -I -S -B automation/test_v4_keyword_evidence.py -v
           python3 -I -S -B tools/verify_branch_retention.py
           test -z "$(git status --porcelain)"
@@ -74,6 +78,7 @@ jobs:
         working-directory: data
     env:
       REQUEST_PATH: ${{ needs.source.outputs.request_path }}
+      RESEARCH_EXPERIMENT: ${{ needs.source.outputs.experiment }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -115,8 +120,10 @@ jobs:
         run: |
           set -euo pipefail
           python -m venv "$RUNNER_TEMP/research-v4-venv"
-          "$RUNNER_TEMP/research-v4-venv/bin/pip" install --disable-pip-version-check --no-cache-dir --only-binary=:all: 'numpy==2.3.5'
-          "$RUNNER_TEMP/research-v4-venv/bin/pip" install --disable-pip-version-check --no-cache-dir --only-binary=:all: --index-url https://download.pytorch.org/whl/cpu 'torch==2.10.0+cpu'
+          if [ "$RESEARCH_EXPERIMENT" != 'english63-native-c-state-contracts' ]; then
+            "$RUNNER_TEMP/research-v4-venv/bin/pip" install --disable-pip-version-check --no-cache-dir --only-binary=:all: 'numpy==2.3.5'
+            "$RUNNER_TEMP/research-v4-venv/bin/pip" install --disable-pip-version-check --no-cache-dir --only-binary=:all: --index-url https://download.pytorch.org/whl/cpu 'torch==2.10.0+cpu'
+          fi
           "$RUNNER_TEMP/research-v4-venv/bin/pip" check
           {
             "$RUNNER_TEMP/research-v4-venv/bin/python" --version

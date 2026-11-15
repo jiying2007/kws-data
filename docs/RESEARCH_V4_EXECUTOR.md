@@ -1,10 +1,12 @@
 # Persistent V4 research executor
 
-This executor accepts two explicit, bounded English63 research task types after
+This executor accepts three explicit, bounded English63 research task types after
 a reviewed, **new versioned request** reaches public `main`. The original online
 weak-intent task produces GRU and DS-TCN weights and reloads them. The separate
 saved-weight native C comparison consumes the existing successful checkpoints
 with zero optimizer updates; its protocol is described below.
+The third task measures new C discontinuity and state-isolation contracts using
+the retained native header and original PCM, with no Python model forward.
 PRs verify source and request boundaries only. They do not train, generate
 audio, call ASR or download the original audio.
 
@@ -203,3 +205,58 @@ model promotion remain false; English FRR, continuous-negative FAR/hour,
 word-end latency and SSC305 profile remain `NOT_RUN`. Recorded Linux native
 resources are host observations. The original synthetic source and exposed
 development limitations continue to apply.
+
+## Native C discontinuity and state contracts
+
+`english63-native-c-state-contracts` addresses a different question from the
+consumed parity experiment: after a dropped block, can the C stream clear its
+acoustic, encoder and decoder history while preserving the session's supplied
+sample clock? A full `en63_reset` still starts a new session at zero. A separate
+`en63_discontinuity` starts a new acoustic segment, repeats the 50-frame warm-up,
+and preserves cumulative supplied samples, produced frames and emitted events.
+Missing capture time is not known and is never filled with silence or invented
+samples. This research clock is not a hardware capture clock.
+
+The fixed consumer is `automation/research_v4_native_c_state.py`, dispatched by
+the same V4 executor and workflow. The only new pipeline entrypoint is
+`research/english63_online_c/state_replay.py`. The request template is
+`.github/research-v4/native-c-state-request.template.json`; its placeholder source
+SHA cannot execute. Existing request bytes and claim names remain unchanged.
+
+Inputs are the original two public audio/review artifacts above and the exact
+successful native artifact `14117638750` from run `43605922752`, whose SHA256 is
+`e85d14c87727f93b6e33edc196af00a6c9ce023d9e7d41d844109617fa5fb397`.
+The baseline request, terminal, source commit, full evidence manifest and C
+header are checked before reuse. Its exported weights are copied unchanged;
+there is no weight export, optimizer update or Python reference-model forward.
+
+Each of GRU and DS-TCN has ten fixed cases: saved baseline prefix, midstream
+reset, reset after EOF, two interleaved instances, discontinuity at samples
+399/400/32401, EOF without padding, invalid-call atomicity and invalid-model
+atomicity. The source inventory remains 63 clips and 2,101,760 samples. The test
+uses the first **128,246 unique existing samples**, divided into two 64,123-sample
+streams. These are controlled state regressions, not a new 63-clip acoustic
+evaluation. Repeated suffixes and resets add **zero independent audio exposure**.
+The saved no-discontinuity prefix must remain byte-identical to its prior C
+trace; any failure is retained rather than accepted with a looser threshold.
+
+The new task uses Python 3.12.16 standard library and GCC on public Ubuntu 24.04
+Actions. It does not install NumPy or PyTorch. Execution is capped at 600 seconds,
+followed by a separate 180-second saved-evidence verification that has zero model
+calls. Requests cannot override the source entrypoint, original inputs, model
+roster, budget or scientific boundary. The child environment is the same
+credential-free, offline, single-thread allowlist as the existing executor.
+
+The workflow uploads `research-v4-c-state-claim-<request_sha256>` before executing
+the native models and retains `research-v4-c-state-result-<request_sha256>` for
+90 days. A successful saved terminal is reusable without model execution. A
+failed terminal, orphan claim, ambiguous result or missing receipt on an Actions
+rerun blocks repetition. Results retain actual case observations, raw numeric
+traces, reviewed source snapshot, build/runtime identities, summary and complete
+hash manifest; failed partial outputs remain failures. All successful output
+files still fit the existing 24-file and 64-MiB outer budget.
+
+Source PR checks use invented JSON and analytic fixtures only. The new state
+contract proves neither target pronunciation nor independent FRR, continuous
+negative FAR/hour, true word-end latency or SSC305 resources. These remain
+`NOT_RUN`; model selection, formal admission and promotion remain false.
