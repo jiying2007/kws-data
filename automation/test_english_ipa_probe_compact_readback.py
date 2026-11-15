@@ -43,9 +43,9 @@ class ReadbackTests(__import__("unittest").TestCase):
    self.assertEqual(summary["cell_count"],4)
    self.assertFalse((out/"model").exists())
    self.assertTrue((out/"COMPACT_READBACK.json").is_file())
- def test_named_download_directory_is_accepted(self):
+ def test_preserved_common_parent_directory_is_accepted(self):
   with tempfile.TemporaryDirectory() as td:
-   parent=Path(td)/"download";root=parent/r.ARTIFACT_NAME;root.mkdir(parents=True)
+   parent=Path(td)/"download";root=parent/"en-ipa-probe";root.mkdir(parents=True)
    self.fixture(root)
    summary=r.verify_and_compact(parent,Path(td)/"compact")
    self.assertEqual(summary["cell_count"],4)
