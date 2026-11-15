@@ -30,6 +30,11 @@ def verify_and_compact(source,destination):
     source=Path(source).resolve()
     destination=Path(destination).resolve()
     need(source.is_dir() and not source.is_symlink(),"SOURCE_DIRECTORY")
+    # download-artifact creates a named child directory with merge-multiple=false.
+    if not (source/"started.json").is_file():
+        nested=source/ARTIFACT_NAME
+        need(nested.is_dir() and not nested.is_symlink(),"ARTIFACT_ROOT_LAYOUT")
+        source=nested
     need(not destination.exists() and destination.parent.is_dir(),"CREATE_ONLY_DESTINATION")
     for p in source.rglob("*"):
         need(not p.is_symlink(),"SOURCE_SYMLINK")
