@@ -11,10 +11,14 @@ import english_qwen_capture as english
 import multilingual_campaign as market
 
 POLICY="english-ipa-qwen17-three-blind-asr-v1"
-SOURCE_RUN_ID=43730318351
-SOURCE_ARTIFACT_ID=14168142552
-SOURCE_ARTIFACT_NAME="english-ipa-qwen17-probe-compact-43728096763"
+SOURCE_RUN_ID=43728096763
+SOURCE_ARTIFACT_ID=14167735482
+SOURCE_ARTIFACT_NAME="english-ipa-qwen17-probe-43728096763"
 SOURCE_ARTIFACT_SHA256="35fc9ef1a76c5056d3c8307a87f9372f4d3f67412223d39c24fbc7724ee9b788"
+COMPACT_PRODUCER_RUN_ID=43730318351
+COMPACT_ARTIFACT_ID=14168142552
+COMPACT_ARTIFACT_NAME="english-ipa-qwen17-probe-compact-43728096763"
+COMPACT_ARTIFACT_SHA256="717b52d4fef8b17aa3e91baf1e28663c8d337919b4dd49f5cfdbba050f32cf64"
 PROVIDERS=("qwen","whisper","parakeet")
 PHRASES={"Hey Mero":"/heɪ ˈmɪəroʊ/","Hey Vosen":"/heɪ ˈvoʊsən/"}
 MAX_CALLS=12
@@ -30,6 +34,10 @@ def verify_trigger():
       "source_artifact_id":SOURCE_ARTIFACT_ID,
       "source_artifact_name":SOURCE_ARTIFACT_NAME,
       "source_artifact_sha256":SOURCE_ARTIFACT_SHA256,
+      "compact_producer_run_id":COMPACT_PRODUCER_RUN_ID,
+      "compact_artifact_id":COMPACT_ARTIFACT_ID,
+      "compact_artifact_name":COMPACT_ARTIFACT_NAME,
+      "compact_artifact_sha256":COMPACT_ARTIFACT_SHA256,
       "providers":list(PROVIDERS),"max_calls":MAX_CALLS,"retry_count":0,
       "training_admitted":False,"human_gold":False,"pronunciation_verified":False}
     need(market.read(TRIGGER)==expected,"TRIGGER_POLICY_DRIFT")
