@@ -232,7 +232,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2079,
+  "expected_tracked_files": 2083,
   "expected_retained_files": 2026,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -252,12 +252,15 @@
     ".github/research-v4/requests/en63-projection48-20261115-v1.json",
     ".github/triggers/english-ipa-probe-compact-readback-20261115.json",
     ".github/triggers/english-ipa-probe-compact-readback-v2-20261115.json",
+    ".github/triggers/english-ipa-probe-three-asr-20261115.json",
     ".github/triggers/english-ipa-qwen17-probe-20261115.json",
     ".github/workflows/english-ipa-probe-compact-readback.yml",
+    ".github/workflows/english-ipa-probe-three-asr-once.yml",
     ".github/workflows/english-ipa-qwen17-probe-once.yml",
     ".github/workflows/research-retention.yml",
     ".github/workflows/research-v4-executor.yml",
     "README.md",
+    "automation/english_ipa_probe_asr_once.py",
     "automation/english_ipa_probe_compact_readback.py",
     "automation/english_ipa_qwen17_probe_once.py",
     "automation/research_v4_background_continuation.py",
@@ -267,6 +270,7 @@
     "automation/research_v4_native_c_pool.py",
     "automation/research_v4_native_c_state.py",
     "automation/research_v4_projection_continuation.py",
+    "automation/test_english_ipa_probe_asr_once.py",
     "automation/test_english_ipa_probe_compact_readback.py",
     "automation/test_english_ipa_qwen17_probe_once.py",
     "automation/test_research_v4_background_continuation.py",
@@ -26963,6 +26967,19 @@
       "previous_manifest_git_blob_sha1": "36d793467537b534e3398655cc3aab5b41c60c25",
       "scope": "Second bounded saved-only readback attempt for the exact original four-cell TTS artifact; no TTS, ASR, model inference or training.",
       "rationale": "The first compaction workflow downloaded the correct source artifact but the download action placed its contents under the artifact-name child directory. Add a separately pinned readback trigger and fix the verifier to accept this documented layout; the original audio/model run is not repeated."
+    },
+    {
+      "campaign": "english-ipa-qwen17-three-blind-asr-20261116",
+      "source_commit": "7a75b90caff117de259f047fed09f8481b028d2f",
+      "paths": [
+        ".github/triggers/english-ipa-probe-three-asr-20261115.json",
+        ".github/workflows/english-ipa-probe-three-asr-once.yml",
+        "automation/english_ipa_probe_asr_once.py",
+        "automation/test_english_ipa_probe_asr_once.py"
+      ],
+      "previous_manifest_git_blob_sha1": "7aeddf9e7dba26275b6d8d786bdaff462c0b74cf",
+      "scope": "Three independent blind ASR families on four hash-verified confirmed-IPA TTS samples; exact original and compact artifact identities pinned; 12-call ceiling; per-cell no-retry receipts; machine-only observations; no human gold or training admission.",
+      "rationale": "The four TTS outputs were generated once, compacted and verified; the oversized model-containing source artifact was deleted only after the compact audio+receipt artifact was uploaded. This stage binds both the original TTS artifact and the compact readback artifact by run/artifact IDs and SHA-256. Each recognizer receives only audio, with no target phrase. The three outputs are joined only after all providers finish. Agreement is a review signal, never acoustic truth."
     }
   ]
 }
