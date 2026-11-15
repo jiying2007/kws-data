@@ -17,6 +17,8 @@ on:
       - 'automation/test_research_v4_native_c_librispeech.py'
       - 'automation/research_v4_background_continuation.py'
       - 'automation/test_research_v4_background_continuation.py'
+      - 'automation/research_v4_projection_continuation.py'
+      - 'automation/test_research_v4_projection_continuation.py'
       - 'automation/v4_keyword_evidence.py'
       - 'automation/test_v4_keyword_evidence.py'
       - 'docs/RESEARCH_V4_EXECUTOR.md'
@@ -64,6 +66,9 @@ jobs:
           python3 -I -S -B -O automation/test_research_v4_native_c_librispeech.py -v
           python3 -I -S -B automation/test_research_v4_background_continuation.py -v
           python3 -I -S -B -O automation/test_research_v4_background_continuation.py -v
+          python3 -I -S -B automation/test_research_v4_projection_continuation.py -v
+          python3 -I -S -B -O automation/test_research_v4_projection_continuation.py -v
+          python3 -I -S -B -OO automation/test_research_v4_projection_continuation.py -v
           python3 -I -S -B automation/test_v4_keyword_evidence.py -v
           python3 -I -S -B tools/verify_branch_retention.py
           test -z "$(git status --porcelain)"
@@ -137,7 +142,7 @@ jobs:
           elif [ "$RESEARCH_EXPERIMENT" != 'english63-native-c-state-contracts' ] && [ "$RESEARCH_EXPERIMENT" != 'english63-native-c-pool-profile' ]; then
             "$RUNNER_TEMP/research-v4-venv/bin/pip" install --disable-pip-version-check --no-cache-dir --only-binary=:all: 'numpy==2.3.5'
             "$RUNNER_TEMP/research-v4-venv/bin/pip" install --disable-pip-version-check --no-cache-dir --only-binary=:all: --index-url https://download.pytorch.org/whl/cpu 'torch==2.10.0+cpu'
-            if [ "$RESEARCH_EXPERIMENT" = 'english63-natural-background-continuation' ]; then
+            if [ "$RESEARCH_EXPERIMENT" = 'english63-natural-background-continuation' ] || [ "$RESEARCH_EXPERIMENT" = 'english63-one-sided-background-gradient-projection' ]; then
               "$RUNNER_TEMP/research-v4-venv/bin/pip" install --disable-pip-version-check --no-cache-dir --only-binary=:all: 'soundfile==0.13.1'
             fi
           fi

@@ -143,13 +143,17 @@ def native_consumer(request_path):
 
 
 def fixed_consumer(request_path):
-    """The new paired training experiment has its own claim and update budget."""
+    """Each fixed training experiment has a separate claim and update budget."""
     value = read_json(request_path)
-    if not isinstance(value, dict) or value.get("experiment") != "english63-natural-background-continuation":
+    modules = {
+        "english63-natural-background-continuation": "research_v4_background_continuation",
+        "english63-one-sided-background-gradient-projection": "research_v4_projection_continuation",
+    }
+    if not isinstance(value, dict) or value.get("experiment") not in modules:
         return native_consumer(request_path)
     import importlib.util
-    spec = importlib.util.spec_from_file_location(
-        "research_v4_background_continuation", Path(__file__).with_name("research_v4_background_continuation.py"))
+    module = modules[value["experiment"]]
+    spec = importlib.util.spec_from_file_location(module, Path(__file__).with_name(module + ".py"))
     consumer = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(consumer)
     return consumer
@@ -171,7 +175,9 @@ def source_check():
         request, _, digest = (consumer.load_request if consumer else load_request)(path)
         output(request_path=path, request_sha256=digest, pipeline_commit=request["pipeline_commit"],
                experiment=request["experiment"], job_timeout_minutes=(
-                   45 if not consumer or request["experiment"] == "english63-natural-background-continuation" else 40))
+                   45 if not consumer or request["experiment"] in (
+                       "english63-natural-background-continuation",
+                       "english63-one-sided-background-gradient-projection") else 40))
     else:
         output(request_path="", request_sha256="", pipeline_commit="", experiment="", job_timeout_minutes=45)
 
