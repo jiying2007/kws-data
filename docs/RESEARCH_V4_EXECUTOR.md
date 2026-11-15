@@ -260,3 +260,65 @@ Source PR checks use invented JSON and analytic fixtures only. The new state
 contract proves neither target pronunciation nor independent FRR, continuous
 negative FAR/hour, true word-end latency or SSC305 resources. These remain
 `NOT_RUN`; model selection, formal admission and promotion remain false.
+
+## Fixed paired C pool-access profile
+
+`english63-native-c-pool-profile` measures one implementation variable:
+`EN63_POOL_TIME_MAJOR=0/1` changes traversal of the 200-slot, 32-channel sliding
+pool while preserving each channel's FP32 addition and maximum order. Its fixed
+consumer is `automation/research_v4_native_c_pool.py`; the only pipeline entry is
+`research/english63_online_c/pool_profile.py`. The same existing workflow handles
+source checks and the public main request. The template
+`.github/research-v4/native-c-pool-request.template.json` cannot execute until its
+placeholder commit is replaced by the reviewed full source SHA. The sole request
+ID is `en63-native-c-pool-20261115-v1`; this lane cannot create another campaign by
+renaming a request. Existing requests, consumers and claims remain unchanged.
+
+Inputs are the original TTS/review artifacts and the successful state result
+artifact `14141171320` from run `43663731129`, attempt 1. The 1,597,111-byte state
+ZIP has SHA256
+`2fdd0c951d6cf964d6b73afff5726e7d82b365dae539876822e513d7af0ccaa7`.
+Its request, data/source commits, terminal, file manifest and original C header
+are checked without executing its binaries. The new paired baseline and
+candidate are both compiled on the same current runner from one reviewed source
+commit and the same retained header, driver and flags; the macro value is the
+only algorithm variable. Historical timing or RSS is not the new baseline.
+
+Each model has eight pairs: one trace pair, one warm-up pair and six timed pairs.
+Timed order alternates baseline/candidate and candidate/baseline, three of each.
+Each full pass supplies the same 2,101,760 original PCM samples in 13,136 calls of
+160 samples, producing 13,134 frames. Both models together have exactly 32 full
+passes, 420,288 frames and 67,256,320 supplied samples including repeats. The
+unique original sample positions remain 2,101,760; repeated profiling adds zero
+independent audio exposure. The original 30 train-role, 12 exposed-development
+and 21 quarantine identities are not promoted to labels or optimizer inputs.
+
+The profile uses the lowest allowed single CPU, an overall 180-second native
+process-group budget and a 30-second budget for each child. The outer execution
+and saved-only verification remain bounded at 600 and 180 seconds. It uses only
+Python 3.12.16 standard library and GCC, with no NumPy or PyTorch installation.
+The child receives the existing single-thread environment allowlist and five
+public Actions identity fields, never download or checkout credentials.
+
+Four complete traces must exactly reproduce the retained original continuous
+trace hashes, including candidate versus baseline. Each trace has magic
+`EN63TRC1`, version 1, 168-byte records and 2,206,528 total bytes. Resource timing
+is recorded separately from trace writing. The fixed benefit rule for each
+model requires at least 5% median paired CPU reduction, at least five positive
+pairs out of six, a median paired p99 ratio no greater than 1.10, exact numerical
+equality and no increase beyond 38,192 bytes per state. An otherwise valid
+`NO_BENEFIT` result is still a successful experiment; no extra pairs or changed
+thresholds may be used to turn it into a benefit result. It does not select or
+promote a model, and it does not measure independent FRR, natural FAR/hour,
+acoustic word-end latency or SSC305 resources.
+
+The independent artifacts are `research-v4-c-pool-claim-<request_sha256>` and
+`research-v4-c-pool-result-<request_sha256>`. The claim is uploaded before native
+execution. A prior successful terminal is verified without model execution;
+failed, incomplete, ambiguous or expired receipts do not authorize repetition.
+The result's `pool-profile` directory has exactly 15 fixed files, within the
+existing 24-file and 64-MiB outer budget. Original raw process measurements,
+source/build/input identities, native binaries, traces and saved verification
+are retained; the saved verifier has zero model calls. Partial failures keep
+their failure terminal and available evidence. Source PR tests use only
+invented JSON/binary fixtures and mocked execution.

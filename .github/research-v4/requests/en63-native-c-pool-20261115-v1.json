@@ -1,0 +1,109 @@
+{
+  "schema": "kws-research-v4-native-c-pool-request-v1",
+  "experiment": "english63-native-c-pool-profile",
+  "request_id": "en63-native-c-pool-20261115-v1",
+  "pipeline_repository": "jiying2007/kws-pipeline",
+  "entrypoint": "research/english63_online_c/pool_profile.py",
+  "source_artifacts": {
+    "tts": {
+      "artifact_id": 13954744587,
+      "zip_sha256": "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc"
+    },
+    "review": {
+      "artifact_id": 14001747172,
+      "zip_sha256": "f83d6a2f399c20af5bbc920ef6c38c42ac1e44b516d2b7291f4510557491cec8",
+      "member": "english63-three-evidence-review.json",
+      "member_sha256": "89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12"
+    }
+  },
+  "native_state_ancestor": {
+    "run_id": 43663731129,
+    "artifact_id": 14141171320,
+    "zip_bytes": 1597111,
+    "zip_sha256": "2fdd0c951d6cf964d6b73afff5726e7d82b365dae539876822e513d7af0ccaa7",
+    "data_commit": "16df89d871f423f8105a22b8bff5556e68685f18",
+    "pipeline_commit": "5ed17337558ef1fb48b06f737a2078fcb716a8d3",
+    "request_sha256": "5996025f47227d18154fbfa29e7a2bb2fce1322385f53b3d83bebe2e5d6d2e18",
+    "terminal_sha256": "00aa4b75d1ca3934992503ac5cd4a698c2ecbc7a48fab51fec660dab70c39e30",
+    "header_sha256": "912f443a85fddbc77c49f6cc52c2dbde6c395436d7d8d0818a4e6225cd90fc16"
+  },
+  "profile": {
+    "macro": "EN63_POOL_TIME_MAJOR",
+    "variants": {
+      "baseline": 0,
+      "candidate": 1
+    },
+    "models": [
+      "gru",
+      "dsc_tcn"
+    ],
+    "source_pcm_samples": 2101760,
+    "frames_per_pass": 13134,
+    "feed_chunk_samples": 160,
+    "feed_calls_per_pass": 13136,
+    "pairs_per_model": {
+      "trace": 1,
+      "warmup": 1,
+      "timed": 6
+    },
+    "timed_pair_orders": [
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ],
+      [
+        "baseline",
+        "candidate"
+      ],
+      [
+        "candidate",
+        "baseline"
+      ]
+    ],
+    "full_passes": 32,
+    "forward_frames": 420288,
+    "supplied_samples_including_replays": 67256320,
+    "cpu_affinity": "lowest-allowed-single-cpu",
+    "native_group_seconds": 180,
+    "native_child_seconds": 30,
+    "state_bytes_max": 38192,
+    "acceptance": {
+      "median_paired_cpu_reduction_min": 0.05,
+      "positive_cpu_pairs_min": 5,
+      "paired_p99_median_ratio_max": 1.1,
+      "exact_data_equality_required": true
+    },
+    "trace_pair_order": [
+      "baseline",
+      "candidate"
+    ],
+    "warmup_pair_order": [
+      "baseline",
+      "candidate"
+    ]
+  },
+  "optimizer_updates": 0,
+  "cpu_threads": 1,
+  "max_execution_seconds": 600,
+  "max_verification_seconds": 180,
+  "new_audio_generated": false,
+  "new_tts_asr_ipa_calls": 0,
+  "new_independent_audio_seconds": 0,
+  "formal_training_admitted": false,
+  "human_gold": false,
+  "model_promotion_allowed": false,
+  "pipeline_commit": "292929222e014340dc42a0e800f24b5867032305",
+  "reason": "Measure one lossless pool traversal macro using the retained header and original full63 PCM: fixed 32 passes, six AB/BA timed pairs per model, exact old trace equality, single CPU and predeclared resource gates. Retain NO_BENEFIT without extra passes; no training, recognition, model/default promotion or new independent exposure."
+}
