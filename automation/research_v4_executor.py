@@ -123,11 +123,12 @@ def changed_request(lines, allow_empty):
 
 
 def native_consumer(request_path):
-    """Only two named, no-training consumers may extend the original task."""
+    """Only explicitly named, no-training consumers may extend the original task."""
     value = read_json(request_path)
     modules = {
         "english63-saved-native-c-parity": "research_v4_native_c",
         "english63-native-c-state-contracts": "research_v4_native_c_state",
+        "english63-native-c-pool-profile": "research_v4_native_c_pool",
     }
     if not isinstance(value, dict) or value.get("experiment") not in modules:
         return None
