@@ -72,7 +72,11 @@ jobs:
         with:
           name: english-ipa-qwen17-probe-${{ github.run_id }}
           path: |
-            ${{ runner.temp }}/en-ipa-probe/
+            ${{ runner.temp }}/en-ipa-probe/started.json
+            ${{ runner.temp }}/en-ipa-probe/result.json
+            ${{ runner.temp }}/en-ipa-probe/model-lock.json
+            ${{ runner.temp }}/en-ipa-probe/source-plan.json
+            ${{ runner.temp }}/en-ipa-probe/cells/
             ${{ runner.temp }}/en-ipa-pip-freeze.txt
           retention-days: 30
           if-no-files-found: warn
