@@ -473,3 +473,107 @@ material. Development observations are not independent acoustic gold or
 household FAR. The benefit gate does not select or promote a model, change
 runtime defaults or grant formal-training admission. Those permissions,
 human-gold and trusted-negative status remain false.
+
+
+## One-sided background-gradient projection with frozen comparators
+
+`english63-one-sided-background-gradient-projection` is a new fixed request,
+`en63-projection48-20261115-v1`, consumed by
+`automation/research_v4_projection_continuation.py` in the same V4 workflow.
+It investigates the gradient-conflict mechanism after the previous weighted
+background experiment failed its fixed benefit gate. The previous request,
+claim, consumer, source closure and results remain immutable. The new request
+is eligible for one public-main Actions attempt only; a claim is retained
+before model execution. Source PR checks use invented fixtures without audio,
+model loading, training, compilation or native inference.
+
+The GRU and DS-TCN projected arms each begin at their original online weights
+in artifact 14114695344, with the original train-only normalizer and fixed
+seeds. Each uses 48 updates of fresh AdamW, learning rate 0.001, weight decay
+0.01, and one global gradient clipping operation at norm 1 per update. Total
+new work is 96 optimizer updates, 480 training forwards and 4,669,824 padded
+training frames. The four previous control/treatment checkpoints are reused
+unchanged from artifact 14149230666, successful public run 43681928374 and
+data commit `48e1234a506334d05e962f6a30367f2d50947598`. Their archive, request,
+terminal, source, saved receipts and individual NPZ identities are checked;
+the unchanged previous consumer validates the prior successful terminal.
+No prior training arm is rerun.
+
+At each projected update, `g` is the gradient of the original 30-clip MIL
+cross-entropy. `h` is the weighted natural-background gradient: the sum of
+four 32-window microbatch gradients, each weighted 0.125, which preserves
+the previous coefficient 0.5 for all 128 windows. The parameter ordering is
+`model.named_parameters()`, checked against the frozen exporter roster.
+The global dot products `d = dot(g,h)` and `n = dot(g,g)` use `math.fsum` over
+products of exact FP32 gradient values represented in Python double precision.
+If `d < 0` and `n > 0`, set `h_prime = h - (d/n)*g`; otherwise retain `h`.
+There is no epsilon. A zero old-gradient norm leaves `h` unchanged. Compute
+`g + h_prime` in FP64, cast once to FP32, then apply the original clipping
+and AdamW. No per-layer projection, coefficient search, extra loss forward,
+or outcome-dependent training extension is permitted. Per-class old-loss
+values come from the same original forward and are diagnostic only.
+
+This correction controls the raw Euclidean background-gradient component.
+AdamW's momentum, coordinate scaling, weight decay and finite step mean it
+does not guarantee that the original loss decreases after the update. The
+saved evidence records both the actual clipped gradient and actual parameter
+movement so those effects can be inspected separately.
+
+The original 32/8 natural-speaker split, 128 centered training windows,
+102 natural development clips, twelve original TTS development clips,
+normalizer, decoder threshold 0.8, confirmation 3, cooldown 100, 200-frame
+pool and pool macro zero are fixed. Baseline, previous old-only control,
+previous weighted treatment and new projected weights each receive the same
+13 streams once for each model kind. The eight native C passes total
+575,720 frames, 104 initializations, 104 finishes, 575,928 feeds and
+92,147,872 supplied samples. Unique evaluation duration remains 719.90525
+seconds; repeated supplies add no independent audio. No new TTS, ASR, IPA,
+source clips are generated. Model selection remains false.
+
+For each model kind, apply the original benefit gate to projected `P`,
+baseline `B` and old-only control `C`: `B > 0`, `C > 0`, `2*P <= B`,
+`2*P <= C`, with each natural keyword count no larger than either comparator.
+Each keyword's correct positive-clip coverage must be at least
+`max(B coverage, C coverage, 2)`, wrong-other-keyword clip counts must not
+increase, and ordinary-background proposals must not increase against either
+comparator. The previous weighted treatment is descriptive and cannot replace
+these gate comparators. `NO_BENEFIT` is a successful scientific completion;
+it never authorizes another attempt, extra steps or extra evaluation.
+
+Each training arm has a 180-second limit and the two-arm group 360 seconds.
+Each native child has a 120-second limit and the eight-pass group 180 seconds.
+The producer limit remains 1,200 seconds and saved verification 180 seconds;
+the V4 training job remains 45 minutes. Python 3.12.16, NumPy 2.3.5, CPU Torch
+2.10.0 and SoundFile 0.13.1 remain pinned. Both data inputs and every reviewed
+producer source file are checked before and after execution.
+
+The inner result has exactly 13 files. `TRACES.zip` closes exactly eight
+variant/model trace containers, each with the same 13-segment geometry.
+`WEIGHTS.zip` holds the four exact frozen NPZs and two new projected NPZs;
+`RUNTIME.zip` holds four headers and four native binaries. `GRADIENTS.zip`
+closes two NPZ tapes, one for each model kind, each no larger than 8 MiB.
+Each tape stores six little-endian FP32 arrays of shape `(48, parameter_count)`:
+old gradient, weighted background gradient, combined gradient before clipping,
+actual clipped gradient, actual parameter delta and parameters after the step.
+The standard-library saved verifier independently recomputes projection math,
+checks clipping, checks each delta against successive parameter rows and the
+original baseline, binds the final parameter row to the final saved NPZ, and
+recomputes trace observations and benefit outcomes. It performs zero model
+forwards, optimizer updates, native executions or audio/model API calls.
+
+The new `SOURCE.zip` closure has exactly the previous 24 unchanged paths plus
+three reviewed projection paths. Every path and SHA256 is checked before any
+archived reader executes under `-I -S -B` with no credentials. The 13 inner
+files and five outer nonterminal files use 18 of the unchanged 24-file
+manifest budget, below the unchanged 64-MiB limit. The distinct artifacts are
+`research-v4-projection-claim-<request_sha256>` and
+`research-v4-projection-result-<request_sha256>`. Successful execution and
+terminal receipts require the exact observed workload counters. Failures
+retain partial evidence; unknown completed counts remain unknown, and any
+failed, orphaned, ambiguous or unproven consumed attempt cannot repeat.
+
+This is another development study on already exposed weak labels. It does
+not supply independent human acoustic gold, household FAR, independent FRR,
+word-end latency, SSC305 measurements, formal training admission or promotion.
+Human-gold, trusted-negative, model selection, threshold selection and runtime
+default changes remain false. Qualification stays `NOT_RUN`.
