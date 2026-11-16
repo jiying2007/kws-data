@@ -40,10 +40,9 @@ jobs:
 
   real-vendor-controls:
     needs: source-only
-    if: >-
-      github.repository == 'jiying2007/kws-data' &&
-      github.event_name == 'pull_request' &&
-      github.event.pull_request.head.repo.full_name == github.repository
+    # This historical model experiment is consumed; unrelated PRs run source checks only.
+    # Preserve its original workflow bytes under research/workflow-history/20261116/.
+    if: ${{ false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     permissions:
