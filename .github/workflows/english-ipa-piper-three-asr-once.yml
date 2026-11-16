@@ -35,7 +35,7 @@ jobs:
           done
   asr:
     needs: source-contract
-    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    if: false # Superseded old-IPA Piper artifact; current-target ASR must bind the v2 artifact only.
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     strategy:
@@ -103,7 +103,7 @@ jobs:
           if-no-files-found: warn
   combine:
     needs: asr
-    if: always() && github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    if: false # No transcript combination for superseded old-IPA samples.
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
