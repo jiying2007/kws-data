@@ -13,14 +13,14 @@ import multilingual_campaign as market
 POLICY="english-ipa-piper-v2-three-blind-asr-v1"
 SOURCE_RUN_ID=43789385672
 SOURCE_ARTIFACT_ID=14191228436
-SOURCE_ARTIFACT_NAME="english-ipa-piper-probe-43789385672"
+SOURCE_ARTIFACT_NAME="english-ipa-piper-probe-v2-43789385672"
 SOURCE_ARTIFACT_SHA256="8ab7ff273ce5ee98e4c4bd83f43fd80b82c7ae03ac89449ded93a4cd61bedc61"
 PROVIDERS=("qwen","whisper","parakeet")
 PHRASES={"Hey Mero":"/heɪ ˈmiːroʊ/","Hey Vosen":"/heɪ ˈvoʊzən/"}
 SPEAKERS={"p3922":0,"p8699":1}
 RAW_IPA={"Hey Mero":"hˈeɪ mˈiːɹoʊ","Hey Vosen":"hˈeɪ vˈoʊzən"}
 MAX_CALLS=12
-TRIGGER=Path(__file__).resolve().parents[1]/".github/triggers/english-ipa-piper-three-asr-20261116.json"
+TRIGGER=Path(__file__).resolve().parents[1]/".github/triggers/english-ipa-piper-v2-three-asr-20261116.json"
 
 def need(ok,msg):
     if not ok: raise ValueError(msg)
@@ -43,7 +43,7 @@ def source_cells(parent):
     need(len(matches)==1,"SOURCE_ROOT_UNIQUE")
     root=matches[0].parent
     summary=read(root/"result.json")
-    need(summary.get("schema")=="english-ipa-piper-phoneme-probe-v1" and
+    need(summary.get("schema")=="english-ipa-piper-phoneme-probe-v2" and
          summary.get("status")=="COMPLETE" and summary.get("attempts")==4 and
          summary.get("completed")==4 and summary.get("asr_calls")==0 and
          summary.get("training_admitted") is False and summary.get("human_gold") is False and
