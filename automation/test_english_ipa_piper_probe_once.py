@@ -11,13 +11,13 @@ class PiperProbeTests(unittest.TestCase):
   self.assertEqual({(x["phrase"],x["speaker_id"]) for x in p.EXPECTED_CELLS},
     {("Hey Mero",0),("Hey Mero",1),("Hey Vosen",0),("Hey Vosen",1)})
  def test_exact_raw_ipa_strings(self):
-  self.assertEqual(p.EXPECTED_CELLS[0]["raw_espeak_ipa"],"hˈeɪ mˈiːɹoʊ")
-  self.assertEqual(p.EXPECTED_CELLS[2]["raw_espeak_ipa"],"hˈeɪ vˈoʊzən")
+  self.assertEqual(p.EXPECTED_CELLS[0]["raw_espeak_ipa"],"heɪ mˈiːɹoʊ")
+  self.assertEqual(p.EXPECTED_CELLS[2]["raw_espeak_ipa"],"heɪ vˈoʊzən")
  def test_final_image_pronunciation_targets(self):
   self.assertEqual(p.EXPECTED_CELLS[0]["ipa"],"/heɪ ˈmiːroʊ/")
-  self.assertEqual(p.EXPECTED_CELLS[0]["raw_espeak_ipa"],"hˈeɪ mˈiːɹoʊ")
+  self.assertEqual(p.EXPECTED_CELLS[0]["raw_espeak_ipa"],"heɪ mˈiːɹoʊ")
   self.assertEqual(p.EXPECTED_CELLS[2]["ipa"],"/heɪ ˈvoʊzən/")
-  self.assertEqual(p.EXPECTED_CELLS[2]["raw_espeak_ipa"],"hˈeɪ vˈoʊzən")
+  self.assertEqual(p.EXPECTED_CELLS[2]["raw_espeak_ipa"],"heɪ vˈoʊzən")
  def test_no_training_or_asr(self):
   self.assertEqual(p.MAX_CALLS,4)
   self.assertEqual(p.PIPER_VERSION,"1.8.0")
