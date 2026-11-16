@@ -1,0 +1,334 @@
+name: English final-IPA bounded weak-intent data and head experiment
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-final144-weak-intent-once.yml
+      - automation/final144_*.py
+      - automation/test_final144_*.py
+      - automation/final144_*_pins.json
+      - automation/english_final144_embedding_once.py
+      - automation/test_english_final144_embedding_once.py
+      - automation/english_final_embedding_infer.py
+      - automation/package_final_embedding.py
+      - automation/test_final_embedding_package.py
+  push:
+    branches: [main]
+    paths:
+      - automation/final144_execution_pins.json
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-final144-intent-20261116-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '4'
+  MKL_NUM_THREADS: '4'
+  OPENBLAS_NUM_THREADS: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check fixed recipe, source joins and research selection without models
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_final144_recipe.py -v
+            python3 -I -S -B "${args[@]}" automation/test_final144_runner.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_final144_embedding_once.py -v
+            python3 -I -S -B "${args[@]}" automation/test_final_embedding_package.py -v
+            python3 -I -S -B "${args[@]}" automation/final144_runner.py --pins automation/final144_execution_pins.json
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  evidence:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 && github.event.before == '2fa1b22fe96169b29844e417170f94fbcef282f9'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify the completed rendering and independent diagnostic evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43809825038 |
+            jq -e '.status=="completed" and .conclusion=="success" and .run_attempt==1 and .head_sha=="0641690f2af5468992485319d04ba7c2b4fe6a61"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14200506304 |
+            jq -e '.expired==false and .workflow_run.id==43809825038 and .digest=="sha256:b7af8b2a3151b81e9801cc21f0e2ef876cfc578847aa69ee571d6e879aa02b25"'
+          gh api repos/jiying2007/kws-data/actions/runs/43812073656 |
+            jq -e '.status=="completed" and .conclusion=="success" and .run_attempt==1 and .head_sha=="2fa1b22fe96169b29844e417170f94fbcef282f9"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14200951947 |
+            jq -e '.expired==false and .workflow_run.id==43812073656 and .digest=="sha256:c7d8f1ce717218ca1490cd57d253a95ba95a9dca2c46e33a41cd9f61a40ae03d"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14200506304/zip > "$RUNNER_TEMP/pilot.zip"
+          gh api repos/jiying2007/kws-data/actions/artifacts/14200951947/zip > "$RUNNER_TEMP/xlsr.zip"
+          python3 -I -S -B - <<'PYCODE'
+          import hashlib, os, pathlib, sys, zipfile
+          sys.path.insert(0, 'automation')
+          import final144_runner as r
+          root=pathlib.Path(os.environ['RUNNER_TEMP']); out=root/'pilot-evidence'; out.mkdir()
+          for filename, digest, member, target in (
+              ('pilot.zip','b7af8b2a3151b81e9801cc21f0e2ef876cfc578847aa69ee571d6e879aa02b25','rendering-review.json','pilot-review.json'),
+              ('xlsr.zip','c7d8f1ce717218ca1490cd57d253a95ba95a9dca2c46e33a41cd9f61a40ae03d','summary.json','xlsr-review.json')):
+              raw=(root/filename).read_bytes(); r.need(hashlib.sha256(raw).hexdigest()==digest,'EXACT_REVIEW_ZIP')
+              with zipfile.ZipFile(root/filename) as archive: (out/target).write_bytes(archive.read(member))
+          pins=r.loads(r.regular(pathlib.Path('automation/final144_execution_pins.json'),65536))
+          r.validate_evidence(pins,out/'pilot-review.json',out/'xlsr-review.json')
+          print('EXACT_COMPLETED_EVIDENCE_VERIFIED_NO_MODEL_CALLS')
+          PYCODE
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pilot-evidence
+          path: ${{ runner.temp }}/pilot-evidence/
+          retention-days: 30
+          if-no-files-found: error
+  generate:
+    needs: evidence
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        shard: ['00', '01', '02', '03', '04', '05', '06', '07', '08']
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: pilot-evidence
+          path: ${{ runner.temp }}/pilot-evidence
+      - name: Install pinned Qwen 1.7B CPU runtime
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/tts-venv"
+          pip="$RUNNER_TEMP/tts-venv/bin/pip"
+          "$pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu'
+          "$pip" install --disable-pip-version-check 'qwen-tts==0.1.1' 'huggingface-hub==0.36.2'
+          "$pip" freeze > "$RUNNER_TEMP/tts-pip-freeze.txt"
+      - name: Generate exactly one declared 16-cell partition without retries
+        shell: bash
+        timeout-minutes: 48
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 47m "$RUNNER_TEMP/tts-venv/bin/python" -I -B \
+            automation/final144_runner.py --generate --shard '${{ matrix.shard }}' \
+            --pins automation/final144_execution_pins.json \
+            --pilot-review "$RUNNER_TEMP/pilot-evidence/pilot-review.json" \
+            --xlsr-review "$RUNNER_TEMP/pilot-evidence/xlsr-review.json" \
+            --output "$RUNNER_TEMP/shard-${{ matrix.shard }}"
+      - name: Retain original partition audio and attempt receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/shard-${{ matrix.shard }}/
+          retention-days: 30
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: runtime-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/tts-pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn
+  observe:
+    needs: generate
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        provider: [qwen, whisper, parakeet, phones]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      PROVIDER: ${{ matrix.provider }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: pilot-evidence
+          path: ${{ runner.temp }}/pilot-evidence
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          pattern: shard-*
+          path: ${{ runner.temp }}/source
+          merge-multiple: false
+      - name: Install one fixed independent observer
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/observe-venv"
+          pip="$RUNNER_TEMP/observe-venv/bin/pip"
+          if [ "$PROVIDER" = parakeet ]; then
+            "$pip" install --disable-pip-version-check 'huggingface-hub==0.36.2' 'hf-xet==1.2.0'
+          elif [ "$PROVIDER" = phones ]; then
+            "$pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+            "$pip" install --disable-pip-version-check 'transformers==4.46.3' 'huggingface-hub==0.36.2' 'numpy==1.26.4'
+          else
+            "$pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu'
+            if [ "$PROVIDER" = qwen ]; then
+              "$pip" install --disable-pip-version-check 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2'
+            else
+              "$pip" install --disable-pip-version-check 'openai-whisper==20250625'
+            fi
+          fi
+          "$pip" freeze > "$RUNNER_TEMP/observer-pip-freeze.txt"
+      - name: Observe each of the 144 original new WAVs once
+        shell: bash
+        timeout-minutes: 32
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 31m "$RUNNER_TEMP/observe-venv/bin/python" -I -B \
+            automation/final144_runner.py --observe "$PROVIDER" \
+            --pins automation/final144_execution_pins.json \
+            --pilot-review "$RUNNER_TEMP/pilot-evidence/pilot-review.json" \
+            --xlsr-review "$RUNNER_TEMP/pilot-evidence/xlsr-review.json" \
+            --source-parent "$RUNNER_TEMP/source" --output "$RUNNER_TEMP/observations"
+      - name: Retain actual observer receipts even on partial failure
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: observer-${{ matrix.provider }}
+          path: ${{ runner.temp }}/observations/
+          retention-days: 30
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: runtime-${{ matrix.provider }}
+          path: ${{ runner.temp }}/observer-pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn
+  train-weak-intent:
+    needs: observe
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 31238cafe3d6668874d446eae5dfa7c55028fb13
+          path: pipeline-source
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          pattern: shard-*
+          path: ${{ runner.temp }}/source
+          merge-multiple: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          pattern: observer-*
+          path: ${{ runner.temp }}/observations
+          merge-multiple: false
+      - name: Acquire only the fixed exposed background and qualified feature assets
+        shell: bash
+        timeout-minutes: 15
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43538998200 |
+            jq -e '.status=="completed" and .conclusion=="success" and .head_sha=="5da87fc5785cfa0b5ad26c451fc366b80e3d491b"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14090383839 |
+            jq -e '.expired==false and .workflow_run.id==43538998200 and .digest=="sha256:7f28b4eddbee87435b9dc5b4c44e47a6d6ed200cbf9f4b8688d9b93cabeb4db4"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14090383839/zip > "$RUNNER_TEMP/librispeech-reference.zip"
+          curl --fail --location --silent --show-error --retry 0 \
+            https://www.openslr.org/resources/12/dev-clean.tar.gz --output "$RUNNER_TEMP/dev-clean.tar.gz"
+          curl --fail --location --silent --show-error --retry 0 \
+            https://raw.githubusercontent.com/dscripka/openWakeWord/368c03716d1e92591906a84949bc477f3a834455/LICENSE \
+            --output "$RUNNER_TEMP/openWakeWord-LICENSE"
+          mkdir "$RUNNER_TEMP/feature-assets"
+          for asset in melspectrogram.onnx embedding_model.onnx; do
+            curl --fail --location --silent --show-error --retry 0 \
+              "https://github.com/dscripka/openWakeWord/releases/download/v0.5.1/$asset" \
+              --output "$RUNNER_TEMP/feature-assets/$asset"
+          done
+      - name: Install fixed CPU training runtime and ARM replay tools
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends gcc-arm-linux-gnueabihf libc6-dev-armhf-cross qemu-user
+          python3 -m venv "$RUNNER_TEMP/train-venv"
+          pip="$RUNNER_TEMP/train-venv/bin/pip"
+          "$pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+          "$pip" install --disable-pip-version-check 'numpy==1.26.4' 'soundfile==0.13.1' 'onnx==1.17.0' 'onnxruntime==1.20.1'
+          "$pip" freeze > "$RUNNER_TEMP/training-pip-freeze.txt"
+          gcc --version > "$RUNNER_TEMP/host-compiler.txt"
+          arm-linux-gnueabihf-gcc --version > "$RUNNER_TEMP/arm-compiler.txt"
+          qemu-arm --version > "$RUNNER_TEMP/qemu-version.txt"
+      - name: Execute the fixed requested-intent experiment and saved-weight C ARM replay
+        shell: bash
+        timeout-minutes: 88
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 87m "$RUNNER_TEMP/train-venv/bin/python" -I -B \
+            automation/english_final144_embedding_once.py --execute \
+            --pins automation/final144_training_pins.json \
+            --batch-pins automation/final144_execution_pins.json \
+            --source-parent "$RUNNER_TEMP/source" \
+            --observations-parent "$RUNNER_TEMP/observations" \
+            --pipeline-source "$GITHUB_WORKSPACE/pipeline-source" \
+            --corpus-archive "$RUNNER_TEMP/dev-clean.tar.gz" \
+            --reference-zip "$RUNNER_TEMP/librispeech-reference.zip" \
+            --assets "$RUNNER_TEMP/feature-assets" --output "$RUNNER_TEMP/training-result"
+      - name: Build and verify the complete offline research bundle without new inference
+        shell: bash
+        timeout-minutes: 3
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/package_final_embedding.py --build \
+            --training-result "$RUNNER_TEMP/training-result" \
+            --pipeline-source "$GITHUB_WORKSPACE/pipeline-source" \
+            --assets "$RUNNER_TEMP/feature-assets" \
+            --upstream-license "$RUNNER_TEMP/openWakeWord-LICENSE" \
+            --output "$RUNNER_TEMP/training-result/english-final-embedding-research-bundle"
+          python3 -I -S -B automation/english_final_embedding_infer.py \
+            --bundle "$RUNNER_TEMP/training-result/english-final-embedding-research-bundle" --verify-only
+      - name: Retain selection, actual weights, replay and partial failure evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: final144-weak-embedding-research-${{ github.run_id }}
+          path: ${{ runner.temp }}/training-result/
+          retention-days: 30
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: final144-weak-embedding-runtime-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/training-pip-freeze.txt
+            ${{ runner.temp }}/host-compiler.txt
+            ${{ runner.temp }}/arm-compiler.txt
+            ${{ runner.temp }}/qemu-version.txt
+          retention-days: 30
+          if-no-files-found: warn
