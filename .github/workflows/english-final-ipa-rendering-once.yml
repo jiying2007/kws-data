@@ -5,10 +5,13 @@ on:
       - .github/workflows/english-final-ipa-rendering-once.yml
       - automation/english_final_ipa_rendering_once.py
       - automation/test_english_final_ipa_rendering_once.py
+      - automation/english_final_ipa_xlsr_once.py
+      - automation/test_english_final_ipa_xlsr_once.py
   push:
     branches: [main]
     paths:
       - automation/english_final_ipa_rendering_once.py
+      - automation/english_final_ipa_xlsr_once.py
 permissions:
   contents: read
 concurrency:
@@ -38,6 +41,8 @@ jobs:
             case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
             python3 -I -S -B "${args[@]}" automation/test_english_final_ipa_rendering_once.py -v
             python3 -I -S -B "${args[@]}" automation/english_final_ipa_rendering_once.py
+            python3 -I -S -B "${args[@]}" automation/test_english_final_ipa_xlsr_once.py -v
+            python3 -I -S -B "${args[@]}" automation/english_final_ipa_xlsr_once.py
           done
           python3 -I -S -B tools/verify_branch_retention.py
           test -z "$(git status --porcelain)"
@@ -198,3 +203,74 @@ jobs:
           path: ${{ runner.temp }}/rendering-review.json
           retention-days: 30
           if-no-files-found: error
+  independent-xlsr:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '0641690f2af5468992485319d04ba7c2b4fe6a61'
+    permissions:
+      contents: read
+      actions: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Bind both completed source runs and original audio artifacts
+        shell: bash
+        timeout-minutes: 5
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43793684582 |
+            jq -e '.status=="completed" and .conclusion=="success" and .run_attempt==1 and .head_sha=="5273e92135f71245dca531221f2f51f1415113c7"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14193452864 |
+            jq -e '.expired==false and .workflow_run.id==43793684582 and .digest=="sha256:e737354ad8ed69d511f061781f5b6cc3c86ff1ea70ba9c72084c5ac4cd1c738f"'
+          gh api repos/jiying2007/kws-data/actions/runs/43809825038 |
+            jq -e '.status=="completed" and .conclusion=="success" and .run_attempt==1 and .head_sha=="0641690f2af5468992485319d04ba7c2b4fe6a61"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14199609338 |
+            jq -e '.expired==false and .workflow_run.id==43809825038 and .digest=="sha256:93b47d8885bf592f219a658bd27090c9af3c1a80bc5a3cae98bb49b9af7b7661"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14200506304 |
+            jq -e '.expired==false and .workflow_run.id==43809825038 and .digest=="sha256:b7af8b2a3151b81e9801cc21f0e2ef876cfc578847aa69ee571d6e879aa02b25"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14193452864/zip > "$RUNNER_TEMP/original.zip"
+          gh api repos/jiying2007/kws-data/actions/artifacts/14199609338/zip > "$RUNNER_TEMP/rendered.zip"
+      - name: Install the pinned independent audio-only observer
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/xlsr-venv"
+          pip="$RUNNER_TEMP/xlsr-venv/bin/pip"
+          "$pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+          "$pip" install --disable-pip-version-check 'transformers==4.46.3' 'huggingface-hub==0.36.2' 'numpy==1.26.4'
+          "$pip" freeze > "$RUNNER_TEMP/xlsr-pip-freeze.txt"
+      - name: Observe the eight unchanged WAVs once without target hints
+        shell: bash
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 11m "$RUNNER_TEMP/xlsr-venv/bin/python" -I -B \
+            automation/english_final_ipa_xlsr_once.py --execute \
+            --original-zip "$RUNNER_TEMP/original.zip" --rendered-zip "$RUNNER_TEMP/rendered.zip" \
+            --output "$RUNNER_TEMP/xlsr-result"
+      - name: Preserve actual observations and partial execution receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: final-ipa-independent-xlsr-${{ github.run_id }}
+          path: ${{ runner.temp }}/xlsr-result/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Preserve independent observer runtime versions
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: final-ipa-independent-xlsr-runtime-${{ github.run_id }}
+          path: ${{ runner.temp }}/xlsr-pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn

@@ -151,3 +151,55 @@ This experiment addresses the observed Mero vowel conflict directly. Expansion
 to a separate source-split research training batch depends on the observed
 usefulness of these renderings; four probe clips are not a training dataset
 or evidence of final FAR/FRR/SSC305 completion.
+
+## Completed rendering observations and independent-domain diagnosis
+
+The connected rendering run `43809825038` completed four real TTS calls,
+twelve real ASR calls and four bookbot phoneme forwards. Its source artifact
+`14199609338` has ZIP SHA-256
+`93b47d8885bf592f219a658bd27090c9af3c1a80bc5a3cae98bb49b9af7b7661`;
+combined review artifact `14200506304` has ZIP SHA-256
+`b7af8b2a3151b81e9801cc21f0e2ef876cfc578847aa69ee571d6e879aa02b25`.
+The original lengths are 0.88/0.96/0.88/0.96 seconds. Independent readback
+verified the ZIPs and each WAV/PCM identity before interpreting the rows:
+
+| Rendering / voice | Qwen3-ASR | Whisper-small | Parakeet | Bookbot raw phones |
+|---|---|---|---|---|
+| Meero / Aiden | Hey Miro. | Hey, Miro! | Hey Miro! | k j ʊ ɹ oʊ |
+| Meero / Ryan | Hey Miro. | Hey, Miro! | Hey Miro | ɪ ɹ oʊ |
+| Vozen / Aiden | Hey, Vosin. | Hey, Vosin! | Hey Vozin | p t͡ʃ eɪ v oʊ oʊ ɪ n |
+| Vozen / Ryan | Hey, Vozin. | Hey, Vosin! | Hey Vozin! | p eɪ oʊ p v oʊ z ɪ n |
+
+The three ASR word hypotheses are more consistent for Mero, but the phoneme
+observer still does not establish the requested tense long vowel. Neither
+spelling agreement nor an uncertain phoneme sequence confirms light Hey,
+stress, duration, or pronunciation. Source-only inspection found no concrete
+PCM-scaling or CTC-collapse bug in the bookbot adapter. Its single-narrator
+LJSpeech domain and vocabulary without length/stress tokens remain limitations.
+The prepared 144-cell expansion therefore remains inactive at this point.
+
+One separately bounded observation now compares the same four original and
+four rendered WAVs using `facebook/wav2vec2-xlsr-53-espeak-cv-ft`, revision
+`2c733782da5604684829819a5eb744c193fe9398`. The official model is trained for
+phonetic recognition on multilingual Common Voice and requires 16 kHz input.
+Its vocabulary distinguishes `iː`, `i`, `ɪ`, `ɛ`, `s` and `z`. This addresses a
+specific observer-domain/phone-inventory uncertainty; it is not an automatic
+tie-breaker, pronunciation approval, or replacement of the earlier evidence.
+
+Official source: [model card](https://huggingface.co/facebook/wav2vec2-xlsr-53-espeak-cv-ft/tree/2c733782da5604684829819a5eb744c193fe9398),
+[weights pointer](https://huggingface.co/facebook/wav2vec2-xlsr-53-espeak-cv-ft/blob/2c733782da5604684829819a5eb744c193fe9398/pytorch_model.bin),
+and [vocabulary](https://huggingface.co/facebook/wav2vec2-xlsr-53-espeak-cv-ft/blob/2c733782da5604684829819a5eb744c193fe9398/vocab.json).
+The fixed PyTorch weights are 1,263,535,127 bytes, SHA-256
+`04366b6c8d24099ef313cf02f0e58d26f5dddfda16edbfc8eb2c713d94a9f551`.
+The local loader permits weights only and disables remote code. No text or
+phonemizer output enters the acoustic model. Exact metadata hashes and runtime
+versions accompany raw CTC tokens and per-input attempt receipts.
+
+The new `independent-xlsr` job in the existing rendering workflow and
+`english_final_ipa_xlsr_once.py` require the first public-main successor push
+whose `before` is `0641690f2af5468992485319d04ba7c2b4fe6a61`, attempt 1.
+The maximum is eight real forwards, once per pinned WAV, no retries. Existing
+TTS/ASR/bookbot guards remain unchanged. No new synthesis, ASR, KWS inference
+or optimizer update is authorized by this stage. Partial failures retain
+receipts and exit unsuccessfully. All gold, pronunciation, admission and
+promotion flags stay false, including if the new model agrees with a target.
