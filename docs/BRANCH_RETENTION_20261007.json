@@ -232,7 +232,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2097,
+  "expected_tracked_files": 2101,
   "expected_retained_files": 2026,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -254,6 +254,7 @@
     ".github/triggers/english-ipa-piper-phoneme-probe-20261116.json",
     ".github/triggers/english-ipa-piper-phoneme-probe-v2-20261116.json",
     ".github/triggers/english-ipa-piper-three-asr-20261116.json",
+    ".github/triggers/english-ipa-piper-three-asr-v2-20261116.json",
     ".github/triggers/english-ipa-probe-compact-readback-20261115.json",
     ".github/triggers/english-ipa-probe-compact-readback-v2-20261115.json",
     ".github/triggers/english-ipa-probe-three-asr-20261115.json",
@@ -261,6 +262,7 @@
     ".github/workflows/english-ipa-piper-independent-ctc-once.yml",
     ".github/workflows/english-ipa-piper-probe-once.yml",
     ".github/workflows/english-ipa-piper-three-asr-once.yml",
+    ".github/workflows/english-ipa-piper-three-asr-v2-once.yml",
     ".github/workflows/english-ipa-probe-compact-readback.yml",
     ".github/workflows/english-ipa-probe-three-asr-once.yml",
     ".github/workflows/english-ipa-qwen17-probe-once.yml",
@@ -273,6 +275,7 @@
     "automation/english_ipa_qwen17_probe_once.py",
     "automation/english_piper_ipa_ctc_once.py",
     "automation/english_piper_probe_asr_once.py",
+    "automation/english_piper_probe_asr_v2_once.py",
     "automation/research_v4_background_continuation.py",
     "automation/research_v4_executor.py",
     "automation/research_v4_native_c.py",
@@ -286,6 +289,7 @@
     "automation/test_english_ipa_qwen17_probe_once.py",
     "automation/test_english_piper_ipa_ctc_once.py",
     "automation/test_english_piper_probe_asr_once.py",
+    "automation/test_english_piper_probe_asr_v2_once.py",
     "automation/test_research_v4_background_continuation.py",
     "automation/test_research_v4_executor.py",
     "automation/test_research_v4_native_c.py",
@@ -27022,6 +27026,19 @@
       "previous_manifest_git_blob_sha1": "c76824847a477dd3118158121565bc8a8e0765ea",
       "scope": "Four one-shot Piper raw-phoneme probes for final image-confirmed American readings Mero /heɪ ˈmiːroʊ/ and Vosen /heɪ ˈvoʊzən/. Old-IPA artifacts remain immutable and unadmitted.",
       "rationale": "User image dated 2026-11-16 supersedes previous readings. New v2 trigger and runner use long /iː/ and voiced /z/, four calls, no retries, no ASR, no training, no qualification."
+    },
+    {
+      "campaign": "english-ipa-piper-final-image-three-blind-asr-v2-20261116",
+      "source_commit": "ce50ff169e870ccfec5e6a8cc51643cf26145e6a",
+      "paths": [
+        ".github/triggers/english-ipa-piper-three-asr-v2-20261116.json",
+        ".github/workflows/english-ipa-piper-three-asr-v2-once.yml",
+        "automation/english_piper_probe_asr_v2_once.py",
+        "automation/test_english_piper_probe_asr_v2_once.py"
+      ],
+      "previous_manifest_git_blob_sha1": "7428b5e3d4dfca9c4120cbfa21624d14ae2a20a6",
+      "scope": "Three independent blind ASR providers on the exact four-cell final-IPA Piper v2 artifact; 12-call maximum, no retries, no training admission or human-gold claim.",
+      "rationale": "The v2 Piper artifact is pinned to the user's final image-confirmed American readings. This consumer binds run/artifact IDs and SHA-256, verifies all WAV/PCM receipts, sends only audio to Qwen3-ASR, Whisper-small and Parakeet TDT v3, and joins outputs only after provider completion. Machine consensus is only a review cue."
     }
   ]
 }
