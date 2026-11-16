@@ -232,7 +232,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2092,
+  "expected_tracked_files": 2093,
   "expected_retained_files": 2026,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -251,11 +251,14 @@
     ".github/research-v4/requests/en63-online-20261114-v1.json",
     ".github/research-v4/requests/en63-projection48-20261115-v1.json",
     ".github/triggers/english-ipa-piper-phoneme-probe-20261116.json",
+    ".github/triggers/english-ipa-piper-phoneme-probe-v2-20261116.json",
+    ".github/triggers/english-ipa-piper-three-asr-20261116.json",
     ".github/triggers/english-ipa-probe-compact-readback-20261115.json",
     ".github/triggers/english-ipa-probe-compact-readback-v2-20261115.json",
     ".github/triggers/english-ipa-probe-three-asr-20261115.json",
     ".github/triggers/english-ipa-qwen17-probe-20261115.json",
     ".github/workflows/english-ipa-piper-probe-once.yml",
+    ".github/workflows/english-ipa-piper-three-asr-once.yml",
     ".github/workflows/english-ipa-probe-compact-readback.yml",
     ".github/workflows/english-ipa-probe-three-asr-once.yml",
     ".github/workflows/english-ipa-qwen17-probe-once.yml",
@@ -266,6 +269,7 @@
     "automation/english_ipa_probe_asr_once.py",
     "automation/english_ipa_probe_compact_readback.py",
     "automation/english_ipa_qwen17_probe_once.py",
+    "automation/english_piper_probe_asr_once.py",
     "automation/research_v4_background_continuation.py",
     "automation/research_v4_executor.py",
     "automation/research_v4_native_c.py",
@@ -277,6 +281,7 @@
     "automation/test_english_ipa_probe_asr_once.py",
     "automation/test_english_ipa_probe_compact_readback.py",
     "automation/test_english_ipa_qwen17_probe_once.py",
+    "automation/test_english_piper_probe_asr_once.py",
     "automation/test_research_v4_background_continuation.py",
     "automation/test_research_v4_executor.py",
     "automation/test_research_v4_native_c.py",
@@ -297,11 +302,7 @@
     "research/consolidation/git-atomic-prune-2026-10-08.json",
     "tests/test_branch_retention.py",
     "tests/test_research_publication_boundary.py",
-    "tools/verify_branch_retention.py",
-    ".github/triggers/english-ipa-piper-three-asr-20261116.json",
-    "automation/english_piper_probe_asr_once.py",
-    "automation/test_english_piper_probe_asr_once.py",
-    ".github/workflows/english-ipa-piper-three-asr-once.yml"
+    "tools/verify_branch_retention.py"
   ],
   "baseline_files": [
     {
@@ -27003,6 +27004,20 @@
       "previous_manifest_git_blob_sha1": "454050b8c05ba099028b4d29dcbfa43561b1e042",
       "scope": "Four one-shot Piper raw-phoneme synthesis probes using the pinned multi-speaker LibriTTS-high voice; exact confirmed IPA; no ASR, no training, no admission.",
       "rationale": "Qwen3-TTS 1.7B instruction-controlled probes were generated and blind-ASR screened, but the three recognizers did not establish the requested phonetic forms. This separate probe uses Piper's documented raw eSpeak-IPA blocks to bypass text G2P. The voice is trained from scratch on LibriTTS train-clean-360 (CC BY 4.0), not the Lessac-derived LibriTTS-R model. Four cells only; model/runtime remain ephemeral."
+    },
+    {
+      "campaign": "english-ipa-piper-final-image-pronunciation-probe-v2-20261116",
+      "source_commit": "652855987dc50e9eb5a66c51e81bc0b8b2975a4d",
+      "paths": [
+        ".github/triggers/english-ipa-piper-phoneme-probe-v2-20261116.json",
+        ".github/workflows/english-ipa-piper-probe-once.yml",
+        "automation/english_ipa_piper_probe_once.py",
+        "automation/test_english_ipa_piper_probe_once.py",
+        "docs/ENGLISH_IPA_PHONEME_TTS_RESEARCH_20261116.md"
+      ],
+      "previous_manifest_git_blob_sha1": "62d4448999053da184932ef534ed4494c85612b5",
+      "scope": "Four one-shot Piper raw-phoneme probes for the user's final 2026-11-16 image standard: Mero /heɪ ˈmiːroʊ/ and Vosen /heɪ ˈvoʊzən/. Old IPA Piper/Qwen artifacts remain immutable and unadmitted.",
+      "rationale": "The user explicitly superseded earlier pronunciations with the uploaded image. The previous Piper four-cell artifact used /mɪə/ and /s/ and cannot be relabelled. This v2 trigger and runner pin long /iː/ for Mero and voiced /z/ for Vosen, with exactly four calls, no retry, no ASR, no training, and no qualification. The British variants are recorded separately in the pipeline profile."
     }
   ]
 }
