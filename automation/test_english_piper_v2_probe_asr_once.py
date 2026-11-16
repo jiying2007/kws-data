@@ -14,6 +14,9 @@ class PiperAsrContract(unittest.TestCase):
  def test_phrase_profile(self):
   self.assertEqual(a.PHRASES["Hey Mero"],"/heɪ ˈmiːroʊ/")
   self.assertEqual(a.PHRASES["Hey Vosen"],"/heɪ ˈvoʊzən/")
+ def test_exact_raw_ipa_profile(self):
+  self.assertEqual(a.RAW_IPA["Hey Mero"],"hˈeɪ mˈiːɹoʊ")
+  self.assertEqual(a.RAW_IPA["Hey Vosen"],"hˈeɪ vˈoʊzən")
  def test_source_does_not_admit(self):
   x=a.verify_trigger()
   self.assertIs(x["training_admitted"],False)
