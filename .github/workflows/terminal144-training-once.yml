@@ -1,0 +1,449 @@
+name: Terminal English144 bounded weak-intent training
+on:
+  pull_request:
+    paths:
+      - .github/workflows/terminal144-training-once.yml
+      - automation/terminal144_train_once.py
+      - automation/test_terminal144_train_once.py
+      - automation/terminal144_training_pins.json
+      - automation/terminal144_package.py
+      - automation/test_terminal144_package.py
+      - automation/verify_terminal_frontend_once.py
+      - automation/test_verify_terminal_frontend_once.py
+      - automation/terminal_frontend_verification_pins.json
+  push:
+    branches: [main]
+    paths:
+      - automation/terminal144_training_pins.json
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: terminal144-training-20261116-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '4'
+  MKL_NUM_THREADS: '4'
+  OPENBLAS_NUM_THREADS: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      training_enabled: ${{ steps.contract.outputs.training_enabled }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - name: Check separate identities, immutable selection and saved-weight packaging without models
+        id: contract
+        shell: bash
+        timeout-minutes: 7
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_terminal144_train_once.py -v
+            python3 -I -S -B "${args[@]}" automation/test_terminal144_package.py -v
+            python3 -I -S -B "${args[@]}" automation/test_verify_terminal_frontend_once.py -v
+            python3 -I -S -B "${args[@]}" automation/test_terminal144_observe_once.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_final144_embedding_once.py -v
+            python3 -I -S -B "${args[@]}" automation/terminal144_train_once.py
+            python3 -I -S -B "${args[@]}" automation/terminal144_package.py
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+          python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import terminal144_train_once as worker
+          pins = worker.read_json('automation/terminal144_training_pins.json')
+          worker.need(type(pins.get('enabled')) is bool, 'EXPLICIT_TRAINING_ENABLE_BOOLEAN')
+          if pins['enabled']:
+              worker.validate_pins(pins, execution=True)
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write('training_enabled=' + str(pins['enabled']).lower() + '\n')
+          PYCODE
+  source-evidence:
+    needs: source-contract
+    if: >-
+      needs.source-contract.outputs.training_enabled == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 && github.event.before == '21d807461c0afa30037362ddde7ea527d87cf3e6'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    outputs:
+      selection_passed: ${{ steps.audit.outputs.selection_passed }}
+      inputs_manifest_sha256: ${{ steps.audit.outputs.inputs_manifest_sha256 }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 3
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 31238cafe3d6668874d446eae5dfa7c55028fb13
+          path: pipeline-source
+          persist-credentials: false
+      - name: Read exact original and observer API bytes and fourteen pinned archives once
+        shell: bash
+        timeout-minutes: 12
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, shutil, subprocess, sys, time
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import terminal144_train_once as worker
+          pins = worker.read_json('automation/terminal144_training_pins.json')
+          worker.execution_guard(pins, worker.read_json(os.environ['GITHUB_EVENT_PATH']), os.environ)
+          old, observer = worker.contracts()
+          observation_pins = worker.read_json('automation/terminal144_observation_pins.json')
+          observer.validate_pins(observation_pins, frozen=True)
+          worker.need(worker.sha(worker.canonical(observation_pins)) == pins['observation_pins_sha256'],
+                      'PINNED_OBSERVER_CONFIG')
+          worker.need(pins['observer_run']['run_id'] == 43822597212 and
+                      pins['observer_run']['github_sha'] == '21d807461c0afa30037362ddde7ea527d87cf3e6',
+                      'ONLY_THE_DECLARED_FIRST_TERMINAL_OBSERVER_RUN')
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'terminal144-training-inputs'
+          root.mkdir(mode=0o700)
+          source, observed = root / 'source-bundle', root / 'observer-bundle'
+          source.mkdir()
+          observed.mkdir()
+          shutil.copyfile('automation/terminal144_training_pins.json', root / 'training-pins.json')
+          shutil.copyfile('automation/terminal144_observation_pins.json', root / 'observation-pins.json')
+          worker.once(root / 'PREFLIGHT_STARTED.json', {'run_id': os.environ['GITHUB_RUN_ID'],
+              'github_sha': os.environ['GITHUB_SHA'], 'run_attempt': '1',
+              'source_run_id': 43816869386, 'observer_run_id': 43822597212,
+              'new_tts_asr_phone_calls': 0, 'optimizer_updates': 0, 'no_retry': True})
+          tasks = []
+          for run_id, folder in ((43816869386, source), (43822597212, observed)):
+              base = 'repos/jiying2007/kws-data/actions/runs/' + str(run_id)
+              tasks += [(base, folder / 'run.json', 4 * 1024**2, None),
+                        (base + '/jobs?filter=all&per_page=100', folder / 'jobs.json', 4 * 1024**2, None),
+                        (base + '/artifacts?per_page=100', folder / 'artifacts.json', 4 * 1024**2, None)]
+          for pin in observation_pins['source_artifacts']:
+              tasks.append(('repos/jiying2007/kws-data/actions/artifacts/' + str(pin['artifact_id']) + '/zip',
+                            source / ('shard-%02d.zip' % pin['shard_index']), pin['zip_bytes'], pin['zip_sha256']))
+          for provider in worker.PROVIDERS:
+              pin = pins['observer_artifacts'][provider]
+              tasks.append(('repos/jiying2007/kws-data/actions/artifacts/' + str(pin['artifact_id']) + '/zip',
+                            observed / ('observer-' + provider + '.zip'), pin['zip_bytes'], pin['zip_sha256']))
+          pin = pins['combined_artifact']
+          tasks.append(('repos/jiying2007/kws-data/actions/artifacts/' + str(pin['artifact_id']) + '/zip',
+                        observed / 'combined.zip', pin['zip_bytes'], pin['zip_sha256']))
+          worker.need(len(tasks) == 20, 'FINITE_EXACT_API_AND_ARCHIVE_ROSTER')
+          with (root / 'DOWNLOAD_ATTEMPTS.jsonl').open('x', encoding='utf-8') as journal:
+              for endpoint, destination, maximum, expected in tasks:
+                  entry = {'endpoint': endpoint, 'file': destination.relative_to(root).as_posix(),
+                           'maximum_bytes': maximum, 'expected_sha256': expected, 'retry_count': 0}
+                  journal.write(worker.canonical({**entry, 'status': 'STARTED'}).decode() + '\n')
+                  journal.flush()
+                  os.fsync(journal.fileno())
+                  clock = time.monotonic()
+                  try:
+                      with destination.open('xb') as output:
+                          subprocess.run(['gh', 'api', endpoint], stdout=output, check=True, timeout=120)
+                      raw = worker.regular(destination, maximum)
+                      worker.need(expected is None or len(raw) == maximum and worker.sha(raw) == expected,
+                                  'DOWNLOADED_ARCHIVE_PIN_MISMATCH')
+                      final = {'status': 'COMPLETE', 'bytes': len(raw), 'sha256': worker.sha(raw)}
+                  except BaseException as exc:
+                      journal.write(worker.canonical({**entry, 'status': 'FAILED_OR_INTERRUPTED_NO_RETRY',
+                          'error_type': type(exc).__name__, 'elapsed_seconds': time.monotonic() - clock}).decode() + '\n')
+                      journal.flush()
+                      os.fsync(journal.fileno())
+                      raise
+                  journal.write(worker.canonical({**entry, **final, 'elapsed_seconds': time.monotonic() - clock}).decode() + '\n')
+                  journal.flush()
+                  os.fsync(journal.fileno())
+          PYCODE
+      - name: Rebuild the saved four-observer join and audit the fixed source selection without models
+        id: audit
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          set +e
+          timeout --signal=TERM --kill-after=30s 4m python3 -I -S -B \
+            automation/terminal144_train_once.py --audit-selection \
+            --pins automation/terminal144_training_pins.json \
+            --observation-pins automation/terminal144_observation_pins.json \
+            --source-bundle "$RUNNER_TEMP/terminal144-training-inputs/source-bundle" \
+            --observer-bundle "$RUNNER_TEMP/terminal144-training-inputs/observer-bundle" \
+            --pipeline-source "$GITHUB_WORKSPACE/pipeline-source" \
+            --output "$RUNNER_TEMP/terminal144-training-inputs/selection-audit"
+          terminal_audit_exit=$?
+          set -e
+          TERMINAL_AUDIT_EXIT="$terminal_audit_exit" python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import terminal144_train_once as worker
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'terminal144-training-inputs'
+          code = int(os.environ['TERMINAL_AUDIT_EXIT'])
+          worker.once(root / 'AUDIT_COMMAND_EXIT.json', {'returncode': code, 'model_calls': 0,
+              'optimizer_updates': 0, 'retry_count': 0})
+          if code:
+              raise SystemExit(0)
+          pins = worker.read_json('automation/terminal144_training_pins.json')
+          result = worker.read_json(root / 'selection-audit/RESULT.json')
+          worker.need(pins['enabled'] is True and result.get('status') == 'SOURCE_AND_SELECTION_AUDIT_ONLY' and
+              result.get('model_calls') == result.get('optimizer_updates') == 0 and
+              result.get('execution_enabled_by_audit') is False and result.get('minimum', {}).get('passed') is True and
+              result.get('selected_rows_sha256') == pins['selected_rows_sha256'] and
+              result.get('source_ledger_canonical_sha256') == pins['source_ledger_canonical_sha256'] and
+              result.get('valid_cells_sha256') == pins['valid_cells_sha256'] and
+              result.get('valid_source_count') == pins['valid_count'], 'PINNED_SELECTION_AND_SOURCE_MINIMUM')
+          files = {}
+          for path in sorted(root.rglob('*')):
+              worker.need(not path.is_symlink(), 'NO_INPUT_BUNDLE_SYMLINKS')
+              if path.is_file():
+                  raw = worker.regular(path, 32 * 1024**2)
+                  files[path.relative_to(root).as_posix()] = {'bytes': len(raw), 'sha256': worker.sha(raw)}
+          worker.need(1 <= len(files) <= 100 and sum(p['bytes'] for p in files.values()) <= 256 * 1024**2,
+                      'FINITE_SOURCE_AND_OBSERVER_HANDOFF')
+          digest = worker.once(root / 'INPUTS_MANIFEST.json', {'schema': 'english-terminal144-training-inputs-v1',
+              'run_id': os.environ['GITHUB_RUN_ID'], 'github_sha': os.environ['GITHUB_SHA'],
+              'model_calls': 0, 'optimizer_updates': 0, 'files': files})
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write('selection_passed=true\ninputs_manifest_sha256=' + digest + '\n')
+          PYCODE
+          exit "$terminal_audit_exit"
+      - name: Retain exact source archives, observer evidence, download attempts and selection audit
+        if: always()
+        timeout-minutes: 5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: terminal144-training-inputs
+          path: ${{ runner.temp }}/terminal144-training-inputs/
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: warn
+  train-weak-intent:
+    needs: [source-contract, source-evidence]
+    if: >-
+      needs.source-contract.outputs.training_enabled == 'true' &&
+      needs.source-evidence.outputs.selection_passed == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 && github.event.before == '21d807461c0afa30037362ddde7ea527d87cf3e6'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 3
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 31238cafe3d6668874d446eae5dfa7c55028fb13
+          path: pipeline-source
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          name: terminal144-training-inputs
+          path: ${{ runner.temp }}/terminal144-training-inputs
+      - name: Recheck the exact audited handoff and first-run guard before installing any model runtime
+        shell: bash
+        timeout-minutes: 2
+        env:
+          EXPECTED_INPUTS_MANIFEST_SHA: ${{ needs.source-evidence.outputs.inputs_manifest_sha256 }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import terminal144_train_once as worker
+          pins = worker.read_json('automation/terminal144_training_pins.json')
+          worker.execution_guard(pins, worker.read_json(os.environ['GITHUB_EVENT_PATH']), os.environ)
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'terminal144-training-inputs'
+          raw = worker.regular(root / 'INPUTS_MANIFEST.json', 1024**2)
+          worker.need(worker.sha(raw) == os.environ['EXPECTED_INPUTS_MANIFEST_SHA'], 'EXACT_AUDITED_INPUT_MANIFEST')
+          manifest = worker.loads(raw)
+          worker.need(manifest.get('schema') == 'english-terminal144-training-inputs-v1' and
+              manifest.get('run_id') == os.environ['GITHUB_RUN_ID'] and manifest.get('github_sha') == os.environ['GITHUB_SHA'] and
+              manifest.get('model_calls') == manifest.get('optimizer_updates') == 0, 'SAME_RUN_ZERO_MODEL_AUDIT')
+          files = manifest.get('files')
+          worker.need(type(files) is dict and 1 <= len(files) <= 100, 'FINITE_AUDITED_FILES')
+          actual = set()
+          for path in root.rglob('*'):
+              worker.need(not path.is_symlink(), 'NO_HANDOFF_SYMLINK')
+              if path.is_file():
+                  actual.add(path.relative_to(root).as_posix())
+          worker.need(actual == set(files) | {'INPUTS_MANIFEST.json'}, 'EXACT_HANDOFF_ROSTER')
+          for name, expected in files.items():
+              path = pathlib.PurePosixPath(name)
+              worker.need(not path.is_absolute() and '..' not in path.parts and str(path) == name and '\\' not in name,
+                          'SAFE_HANDOFF_MEMBER')
+              raw = worker.regular(root / name, 32 * 1024**2)
+              worker.need({'bytes': len(raw), 'sha256': worker.sha(raw)} == expected, 'AUDITED_FILE_BYTES_CHANGED')
+          worker.need(worker.regular(root / 'training-pins.json') == worker.regular('automation/terminal144_training_pins.json') and
+              worker.regular(root / 'observation-pins.json') == worker.regular('automation/terminal144_observation_pins.json'),
+              'UNCHANGED_AUDITED_EXECUTION_PINS')
+          audit = worker.read_json(root / 'selection-audit/RESULT.json')
+          worker.need(audit.get('status') == 'SOURCE_AND_SELECTION_AUDIT_ONLY' and
+              audit.get('minimum', {}).get('passed') is True and
+              audit.get('selected_rows_sha256') == pins['selected_rows_sha256'], 'FIXED_AUDITED_SELECTION_REQUIRED')
+          PYCODE
+      - name: Acquire only the original fixed background, feature assets and upstream license
+        shell: bash
+        timeout-minutes: 15
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/training-input-metadata"
+          gh api repos/jiying2007/kws-data/actions/runs/43538998200 \
+            > "$RUNNER_TEMP/training-input-metadata/librispeech-reference-run.json"
+          jq -e '.status=="completed" and .conclusion=="success" and .head_sha=="5da87fc5785cfa0b5ad26c451fc366b80e3d491b"' \
+            "$RUNNER_TEMP/training-input-metadata/librispeech-reference-run.json"
+          gh api repos/jiying2007/kws-data/actions/artifacts/14090383839 \
+            > "$RUNNER_TEMP/training-input-metadata/librispeech-reference-artifact.json"
+          jq -e '.expired==false and .workflow_run.id==43538998200 and .size_in_bytes==47199 and .digest=="sha256:7f28b4eddbee87435b9dc5b4c44e47a6d6ed200cbf9f4b8688d9b93cabeb4db4"' \
+            "$RUNNER_TEMP/training-input-metadata/librispeech-reference-artifact.json"
+          gh api repos/jiying2007/kws-data/actions/artifacts/14090383839/zip > "$RUNNER_TEMP/librispeech-reference.zip"
+          curl --fail --location --silent --show-error --retry 0 \
+            https://www.openslr.org/resources/12/dev-clean.tar.gz --output "$RUNNER_TEMP/dev-clean.tar.gz"
+          curl --fail --location --silent --show-error --retry 0 \
+            https://raw.githubusercontent.com/dscripka/openWakeWord/368c03716d1e92591906a84949bc477f3a834455/LICENSE \
+            --output "$RUNNER_TEMP/openWakeWord-LICENSE"
+          mkdir "$RUNNER_TEMP/feature-assets"
+          for asset in melspectrogram.onnx embedding_model.onnx; do
+            curl --fail --location --silent --show-error --retry 0 \
+              "https://github.com/dscripka/openWakeWord/releases/download/v0.5.1/$asset" \
+              --output "$RUNNER_TEMP/feature-assets/$asset"
+          done
+          python3 -I -S -B - <<'PYCODE'
+          import hashlib, os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import terminal144_train_once as worker
+          import english_final_embedding_infer as contract
+          old, _ = worker.contracts()
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          expected = {'dev-clean.tar.gz': (old.CORPUS['bytes'], old.CORPUS['sha256']),
+              'librispeech-reference.zip': (old.REFERENCE['zip_bytes'], old.REFERENCE['zip_sha256']),
+              'openWakeWord-LICENSE': contract.UPSTREAM_LICENSE,
+              **{'feature-assets/' + name: value for name, value in contract.ASSETS.items()}}
+          identities = {}
+          for name, (size, digest) in expected.items():
+              path = root / name
+              worker.need(path.is_file() and not path.is_symlink() and path.stat().st_size == size, 'FIXED_DOWNLOAD_SIZE')
+              actual = hashlib.sha256()
+              with path.open('rb') as source:
+                  for chunk in iter(lambda: source.read(1024**2), b''):
+                      actual.update(chunk)
+              worker.need(actual.hexdigest() == digest, 'FIXED_DOWNLOAD_SHA256')
+              identities[name] = {'bytes': size, 'sha256': digest}
+          worker.once(root / 'training-input-metadata/FIXED_INPUT_IDENTITIES.json', identities)
+          PYCODE
+      - name: Install the unchanged CPU training runtime and ARM replay tools
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends gcc-arm-linux-gnueabihf libc6-dev-armhf-cross qemu-user
+          python3 -m venv "$RUNNER_TEMP/train-venv"
+          pip="$RUNNER_TEMP/train-venv/bin/pip"
+          trap '"$pip" freeze > "$RUNNER_TEMP/training-pip-freeze.txt"' EXIT
+          "$pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+          "$pip" install --disable-pip-version-check 'numpy==1.26.4' 'soundfile==0.13.1' 'onnx==1.17.0' 'onnxruntime==1.20.1'
+          gcc --version > "$RUNNER_TEMP/host-compiler.txt"
+          arm-linux-gnueabihf-gcc --version > "$RUNNER_TEMP/arm-compiler.txt"
+          qemu-arm --version > "$RUNNER_TEMP/qemu-version.txt"
+      - name: Execute exactly one fixed 96-update experiment and replay the actual saved head
+        id: train
+        shell: bash
+        timeout-minutes: 88
+        run: |
+          set -euo pipefail
+          set +e
+          timeout --signal=TERM --kill-after=30s 87m "$RUNNER_TEMP/train-venv/bin/python" -I -B \
+            automation/terminal144_train_once.py --execute \
+            --pins automation/terminal144_training_pins.json \
+            --observation-pins automation/terminal144_observation_pins.json \
+            --source-bundle "$RUNNER_TEMP/terminal144-training-inputs/source-bundle" \
+            --observer-bundle "$RUNNER_TEMP/terminal144-training-inputs/observer-bundle" \
+            --pipeline-source "$GITHUB_WORKSPACE/pipeline-source" \
+            --corpus-archive "$RUNNER_TEMP/dev-clean.tar.gz" \
+            --reference-zip "$RUNNER_TEMP/librispeech-reference.zip" \
+            --assets "$RUNNER_TEMP/feature-assets" --output "$RUNNER_TEMP/training-result"
+          terminal_train_exit=$?
+          set -e
+          TERMINAL_TRAIN_EXIT="$terminal_train_exit" python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import terminal144_train_once as worker
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          trained = root / 'training-result'
+          code = int(os.environ['TERMINAL_TRAIN_EXIT'])
+          status = 'UNKNOWN_AFTER_TRAINING_STARTED' if (trained / 'TRAINING_STARTED.json').exists() else 'NO_OPTIMIZER_START_RECEIPT'
+          updates = 'UNKNOWN_AFTER_TRAINING_STARTED' if (trained / 'TRAINING_STARTED.json').exists() else 0
+          result = None
+          try:
+              if (trained / 'RESULT.json').is_file():
+                  result = worker.read_json(trained / 'RESULT.json')
+                  status, updates = result.get('status'), result.get('optimizer_updates')
+          finally:
+              worker.once(root / 'TRAIN_COMMAND_EXIT.json', {'returncode': code, 'status': status,
+                  'optimizer_updates': updates, 'retry_count': 0})
+          if code:
+              raise SystemExit(0)
+          worker.need(result is not None and result.get('status') == worker.SUCCESS and
+              result.get('optimizer_updates') == 96 and result.get('minimum', {}).get('passed') is True and
+              result.get('new_tts_asr_phone_calls') == 0, 'ONLY_COMPLETE_REAL_SAVED_WEIGHT_RESULT_CAN_PACKAGE')
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write('completed=true\n')
+          PYCODE
+          exit "$terminal_train_exit"
+      - name: Build and verify the terminal-source research bundle without further inference
+        if: success() && steps.train.outputs.completed == 'true'
+        shell: bash
+        timeout-minutes: 3
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/terminal144_package.py --build \
+            --training-result "$RUNNER_TEMP/training-result" \
+            --pipeline-source "$GITHUB_WORKSPACE/pipeline-source" \
+            --assets "$RUNNER_TEMP/feature-assets" \
+            --upstream-license "$RUNNER_TEMP/openWakeWord-LICENSE" \
+            --output "$RUNNER_TEMP/training-result/english-terminal-embedding-research-bundle"
+          python3 -I -S -B automation/english_final_embedding_infer.py \
+            --bundle "$RUNNER_TEMP/training-result/english-terminal-embedding-research-bundle" --verify-only
+      - name: Retain actual weights, saved replay streams and all partial training or stop evidence
+        if: always()
+        timeout-minutes: 5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: terminal144-weak-embedding-research-${{ github.run_id }}
+          path: ${{ runner.temp }}/training-result/
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain runtime, fixed input identities and explicit command exit evidence
+        if: always()
+        timeout-minutes: 3
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: terminal144-weak-embedding-runtime-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/training-pip-freeze.txt
+            ${{ runner.temp }}/host-compiler.txt
+            ${{ runner.temp }}/arm-compiler.txt
+            ${{ runner.temp }}/qemu-version.txt
+            ${{ runner.temp }}/training-input-metadata/
+            ${{ runner.temp }}/TRAIN_COMMAND_EXIT.json
+          retention-days: 30
+          if-no-files-found: warn

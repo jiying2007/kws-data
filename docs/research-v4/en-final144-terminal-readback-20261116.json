@@ -1,0 +1,208 @@
+{
+  "disposition_counts": {
+    "UNKNOWN": 70,
+    "USEFUL_FOR_INTENT_RESEARCH": 74
+  },
+  "eligible_requested_intent_rows": 74,
+  "failed_source_count": 1,
+  "formal_training_admitted": false,
+  "full_chain_parity": "NOT_RUN",
+  "future_feature_geometry_minimum": "NOT_RUN",
+  "human_gold": false,
+  "independent_far": "NOT_RUN",
+  "independent_frr": "NOT_RUN",
+  "minimum_after_deduplication": {
+    "counts": {
+      "development/0": {
+        "count": 16,
+        "families": [
+          "qwen3-preset-ryan",
+          "qwen3-preset-vivian"
+        ],
+        "minimum_count": 2,
+        "minimum_families": 1,
+        "passed": true
+      },
+      "development/1": {
+        "count": 3,
+        "families": [
+          "qwen3-preset-ryan"
+        ],
+        "minimum_count": 2,
+        "minimum_families": 1,
+        "passed": true
+      },
+      "development/2": {
+        "count": 8,
+        "families": [
+          "qwen3-preset-ryan",
+          "qwen3-preset-vivian"
+        ],
+        "minimum_count": 2,
+        "minimum_families": 1,
+        "passed": true
+      },
+      "train/0": {
+        "count": 32,
+        "families": [
+          "qwen3-preset-aiden",
+          "qwen3-preset-dylan",
+          "qwen3-preset-eric",
+          "qwen3-preset-serena"
+        ],
+        "minimum_count": 8,
+        "minimum_families": 1,
+        "passed": true
+      },
+      "train/1": {
+        "count": 5,
+        "families": [
+          "qwen3-preset-aiden",
+          "qwen3-preset-eric"
+        ],
+        "minimum_count": 8,
+        "minimum_families": 2,
+        "passed": false
+      },
+      "train/2": {
+        "count": 10,
+        "families": [
+          "qwen3-preset-aiden",
+          "qwen3-preset-dylan",
+          "qwen3-preset-eric"
+        ],
+        "minimum_count": 8,
+        "minimum_families": 2,
+        "passed": true
+      }
+    },
+    "ordinary_negative_excludes_librispeech_substitution": true,
+    "passed": false
+  },
+  "model_promotion_allowed": false,
+  "new_kws_training": "NOT_RUN",
+  "new_kws_weights": "NOT_PRODUCED",
+  "no_retry": true,
+  "observer": {
+    "github_sha": "21d807461c0afa30037362ddde7ea527d87cf3e6",
+    "run_attempt": "1",
+    "run_id": "43822597212",
+    "test_backend": false
+  },
+  "observer_artifacts": [
+    {
+      "artifact_id": 14204798341,
+      "name": "observer-qwen",
+      "zip_bytes": 317574,
+      "zip_sha256": "b422851d131ec086dfa2669638a6acbf9fd0437e21f863094b8446aa530b8164"
+    },
+    {
+      "artifact_id": 14205880194,
+      "name": "observer-whisper",
+      "zip_bytes": 318330,
+      "zip_sha256": "100554566dbb7d8c2cee5c0c824c78b5c8c53d1862b6d42e52cc0c4d215b182f"
+    },
+    {
+      "artifact_id": 14205521171,
+      "name": "observer-parakeet",
+      "zip_bytes": 318245,
+      "zip_sha256": "f19f7434888e3058120859fa74a68c1aec15ab42eab9d356d11812e738f3aeaa"
+    },
+    {
+      "artifact_id": 14205671176,
+      "name": "observer-phones",
+      "zip_bytes": 324501,
+      "zip_sha256": "a6cac53608c077393aea699ceb6e915956924d58b59d51e7e152b52c968c3fb6"
+    },
+    {
+      "artifact_id": 14205293116,
+      "name": "terminal144-observations-43822597212",
+      "zip_bytes": 40964,
+      "zip_sha256": "fadac8805e8ca6315036f1d745d07e43fb9bb091efd6446aae93005b9db6ccdb"
+    }
+  ],
+  "observer_terminal_evidence_canonical_sha256": "73e2b17227171ecc693d8bfb62b7c1f4b5d7a7f832e28ea4404341dc9b85a63c",
+  "original_source": {
+    "conclusion": "failure",
+    "github_sha": "8286ee743a2690d168c3e56f5b31ccc64ae490ed",
+    "run_attempt": "1",
+    "run_id": "43816869386"
+  },
+  "pronunciation_verified": false,
+  "qualification_allowed": false,
+  "retained_disabled_training_pins": {
+    "bytes": 3768,
+    "enabled": false,
+    "next_main_before": null,
+    "path": "automation/terminal144_training_pins.json",
+    "sha256": "b3f9958ba6a2d1b7e49119a4486f3297405cafabdebaa1a5179e659efa30a6d4"
+  },
+  "saved_head_parity": "NOT_RUN",
+  "schema": "english-final144-terminal-readback-summary-v1",
+  "selection_audit": {
+    "model_calls": 0,
+    "optimizer_updates": 0,
+    "returncode": 2,
+    "source_files": {
+      "COMBINED_OBSERVATIONS.json": {
+        "bytes": 1085028,
+        "sha256": "7e72f6c1aed3d802a45641bed956ee19f0c3ed1135a2246666d1b65aff3df8ca"
+      },
+      "EXCLUSIONS.json": {
+        "bytes": 75573,
+        "sha256": "636ad78e96ff37643a1f2227c258c046597ffbb2eb4e933c783452fa6682e19e"
+      },
+      "MINIMUM_AFTER_DEDUPLICATION.json": {
+        "bytes": 928,
+        "sha256": "de853cc55ce546ed9f07bbbfcdc34a5303b3c573d7e375fe787d4570331be39c"
+      },
+      "OBSERVATION_PINS.json": {
+        "bytes": 37162,
+        "sha256": "1514ab6cfc2110940c9e1919c3d32c2153a01cdd30f9da7e2531f53ac2beadc2"
+      },
+      "OBSERVER_BINDING.json": {
+        "bytes": 2744,
+        "sha256": "76cb0b7294b47cdcb46b5446335593e7280e1e7481b14d51ea4454d34a0a1737"
+      },
+      "READBACK_STARTED.json": {
+        "bytes": 1087,
+        "sha256": "8eb84f673b78cc15bfaab54425abf9c688264691d77086f3f6b40fd77fa314f1"
+      },
+      "RESULT.json": {
+        "bytes": 3373,
+        "sha256": "2672c3bfffefb867ec415eae9c2289f7f9db08f4e3cdc9556a03d9c2467bceac"
+      },
+      "SELECTION.json": {
+        "bytes": 232318,
+        "sha256": "d5bb21c05901e439936feeacaa815f82540f3e4e2b8ac6827c1b01c625856972"
+      },
+      "SOURCE_BINDING.json": {
+        "bytes": 1673,
+        "sha256": "9f3b69e0659bbb14d918ac5182af84ea27e3dac56bbfe9d4322f0d0d4e5b3262"
+      },
+      "SOURCE_LEDGER.json": {
+        "bytes": 227601,
+        "sha256": "d5cabd80ba5261c349ce9b090b3917716619f04f27f6feb734e5177174d28e26"
+      },
+      "TRAINING_PINS.json": {
+        "bytes": 3088,
+        "sha256": "e3ef20775caaf472d3742cba10be0b57b6bddff1bd6993b740df79b1136232a1"
+      }
+    },
+    "status": "SOURCE_AND_SELECTION_AUDIT_ONLY"
+  },
+  "selection_policy_sha256": "27a18716b5c0e7f29a937eeedde085917c04d4d45f30db0d9115dc3c881a9fd5",
+  "selection_sha256": "f51849b945cd49c4a726ce79a3d22b656408c9088532b6376d829a10c2baf6b2",
+  "source_denominator": 144,
+  "source_ledger_canonical_sha256": "b6e157eea8eeea38f9261d8756ab43d6570c35a6ef53b892436b7c97424efb38",
+  "ssc305": "NOT_RUN",
+  "status": "BLOCKED_BY_FROZEN_TRAIN_VOSEN_MINIMUM",
+  "target_ipa": {
+    "Hey Mero": "/heɪ ˈmiːroʊ/",
+    "Hey Vosen": "/heɪ ˈvoʊzən/"
+  },
+  "training_admitted": false,
+  "trusted_negative": false,
+  "valid_source_count": 143,
+  "word_end_callback_latency": "NOT_RUN"
+}
