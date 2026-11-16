@@ -6,10 +6,11 @@ on:
       - .github/triggers/english-ipa-qwen17-final-ipa-20261116.json
       - automation/english_ipa_qwen17_final_ipa_probe_once.py
       - automation/test_english_ipa_qwen17_final_ipa_probe_once.py
+      - docs/ENGLISH_QWEN17_FINAL_IPA_PROBE_20261116.md
   push:
     branches: [main]
     paths:
-      - .github/triggers/english-ipa-qwen17-final-ipa-20261116.json
+      - automation/english_ipa_qwen17_final_ipa_probe_once.py
 permissions:
   contents: read
 concurrency:
@@ -24,7 +25,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - name: Source-only fixed pronunciation contract
+      - name: Source-only fixed pronunciation and no-replay contracts
         shell: bash
         run: |
           set -euo pipefail
@@ -32,51 +33,128 @@ jobs:
             args=()
             case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
             python3 -I -S -B "${args[@]}" automation/test_english_ipa_qwen17_final_ipa_probe_once.py -v
-            python3 -I -S -B "${args[@]}" automation/english_ipa_qwen17_final_ipa_probe_once.py --output /tmp/not-created
+            python3 -I -S -B "${args[@]}" automation/english_ipa_qwen17_final_ipa_probe_once.py
           done
-  generate-pronunciation-probes:
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  # TTS was consumed in 43793684582. Its original source remains at 5273e921.
+  # This successor has NO generation job and never changes the original trigger.
+  blind-asr:
     needs: source-contract
-    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '5273e92135f71245dca531221f2f51f1415113c7'
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        provider: [qwen, whisper, parakeet]
     runs-on: ubuntu-24.04
-    timeout-minutes: 150
+    timeout-minutes: 45
     permissions:
       contents: read
+      actions: read
     env:
-      OMP_NUM_THREADS: "4"
-      MKL_NUM_THREADS: "4"
-      TOKENIZERS_PARALLELISM: "false"
-      HF_HUB_DISABLE_TELEMETRY: "1"
-      HF_HUB_DISABLE_XET: "0"
+      OMP_NUM_THREADS: '4'
+      MKL_NUM_THREADS: '4'
+      TOKENIZERS_PARALLELISM: 'false'
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      PROVIDER: ${{ matrix.provider }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - name: Install pinned CPU runtime
+      - name: Verify and fetch the exact already-generated four-WAV artifact
         shell: bash
-        timeout-minutes: 30
+        timeout-minutes: 5
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          python3 -m venv "$RUNNER_TEMP/en-ipa-venv"
-          "$RUNNER_TEMP/en-ipa-venv/bin/pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu" "torchaudio==2.9.1+cpu"
-          "$RUNNER_TEMP/en-ipa-venv/bin/pip" install --disable-pip-version-check "qwen-tts==0.1.1" "huggingface-hub==0.36.2"
-          "$RUNNER_TEMP/en-ipa-venv/bin/pip" freeze > "$RUNNER_TEMP/en-ipa-pip-freeze.txt"
-      - name: Generate exactly four pronunciation probes without retries
+          gh api repos/jiying2007/kws-data/actions/runs/43793684582 |
+            jq -e '.status=="completed" and .conclusion=="success" and .run_attempt==1 and .head_sha=="5273e92135f71245dca531221f2f51f1415113c7"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14193452864 |
+            jq -e '.expired==false and .workflow_run.id==43793684582 and .digest=="sha256:e737354ad8ed69d511f061781f5b6cc3c86ff1ea70ba9c72084c5ac4cd1c738f"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14193452864/zip > "$RUNNER_TEMP/source.zip"
+          python3 -B automation/english_ipa_qwen17_final_ipa_probe_once.py --source-zip "$RUNNER_TEMP/source.zip"
+      - name: Install the retained provider CPU runtime
         shell: bash
-        timeout-minutes: 110
+        timeout-minutes: 20
         run: |
           set -euo pipefail
-          "$RUNNER_TEMP/en-ipa-venv/bin/python" -B automation/english_ipa_qwen17_final_ipa_probe_once.py --output "$RUNNER_TEMP/en-ipa-probe" --execute
-      - name: Retain audio and exact receipts for manual acoustic review
+          python3 -m venv "$RUNNER_TEMP/asr-venv"
+          pip="$RUNNER_TEMP/asr-venv/bin/pip"
+          if [ "$PROVIDER" = parakeet ]; then
+            "$pip" install --disable-pip-version-check 'huggingface-hub==0.36.2' 'hf-xet==1.2.0'
+          else
+            "$pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu'
+            if [ "$PROVIDER" = qwen ]; then
+              "$pip" install --disable-pip-version-check 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2'
+            else
+              "$pip" install --disable-pip-version-check 'openai-whisper==20250625'
+            fi
+          fi
+          "$pip" freeze > "$RUNNER_TEMP/asr-pip-freeze.txt"
+      - name: Four audio-only forwards, no retries or target prompts
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 14m "$RUNNER_TEMP/asr-venv/bin/python" -B \
+            automation/english_ipa_qwen17_final_ipa_probe_once.py \
+            --source-zip "$RUNNER_TEMP/source.zip" --provider "$PROVIDER" \
+            --output "$RUNNER_TEMP/asr-result" --execute-asr
+      - name: Preserve runtime receipt even on failure
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/asr-result"
+          if [ -f "$RUNNER_TEMP/asr-pip-freeze.txt" ]; then
+            cp "$RUNNER_TEMP/asr-pip-freeze.txt" "$RUNNER_TEMP/asr-result/pip-freeze.txt"
+          fi
+      - name: Retain observations and failures, not duplicate WAVs or model assets
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: english-ipa-qwen17-final-ipa-${{ github.run_id }}
+          name: final-ipa-qwen17-${{ matrix.provider }}-${{ github.run_id }}
           path: |
-            ${{ runner.temp }}/en-ipa-probe/started.json
-            ${{ runner.temp }}/en-ipa-probe/result.json
-            ${{ runner.temp }}/en-ipa-probe/model-lock.json
-            ${{ runner.temp }}/en-ipa-probe/source-plan.json
-            ${{ runner.temp }}/en-ipa-probe/cells/
-            ${{ runner.temp }}/en-ipa-pip-freeze.txt
+            ${{ runner.temp }}/asr-result/summary.json
+            ${{ runner.temp }}/asr-result/started.json
+            ${{ runner.temp }}/asr-result/observation-*/*.json
+            ${{ runner.temp }}/asr-result/pip-freeze.txt
           retention-days: 30
           if-no-files-found: warn
+  combine:
+    needs: blind-asr
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: final-ipa-qwen17-qwen-${{ github.run_id }}
+          path: ${{ runner.temp }}/observations/qwen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: final-ipa-qwen17-whisper-${{ github.run_id }}
+          path: ${{ runner.temp }}/observations/whisper
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: final-ipa-qwen17-parakeet-${{ github.run_id }}
+          path: ${{ runner.temp }}/observations/parakeet
+      - name: Join source-bound observations without admitting labels
+        run: >-
+          python3 -I -S -B automation/english_ipa_qwen17_final_ipa_probe_once.py
+          --combine "${{ runner.temp }}/observations"
+          --output "${{ runner.temp }}/three-asr-summary.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: final-ipa-qwen17-three-asr-${{ github.run_id }}
+          path: ${{ runner.temp }}/three-asr-summary.json
+          retention-days: 30
+          if-no-files-found: error
