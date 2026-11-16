@@ -18,12 +18,16 @@ The Qwen3-TTS CustomVoice API exposes an optional free-text instruction, not a h
 
 The chosen model is not the LibriTTS-R voice that was fine-tuned from Lessac. It is the separate LibriTTS high voice explicitly described as trained from scratch on train-clean-360.
 
-## Fixed four-cell probe
+## Superseded probe notice
+
+The earlier four-cell Piper probe and its ASR consumer were generated against the now-superseded readings /heɪ ˈmɪəroʊ/ and /heɪ ˈvoʊsən/. Those WAVs remain immutable historical evidence and are not positives for the current standard. The new v2 probe below uses the image-confirmed readings only.
+
+## Fixed four-cell probe v2
 
 | Phrase | Exact IPA | Raw eSpeak IPA | Speaker IDs |
 |---|---|---|---|
-| Hey Mero | /heɪ ˈmɪəroʊ/ | `hˈeɪ mˈɪəɹoʊ` | 0, 1 |
-| Hey Vosen | /heɪ ˈvoʊsən/ | `hˈeɪ vˈoʊsən` | 0, 1 |
+| Hey Mero | /heɪ ˈmiːroʊ/ | `hˈeɪ mˈiːɹoʊ` | 0, 1 |
+| Hey Vosen | /heɪ ˈvoʊzən/ | `hˈeɪ vˈoʊzən` | 0, 1 |
 
 Speaker IDs 0 and 1 correspond to LibriTTS speaker IDs p3922 and p8699 in the pinned voice configuration. They are dataset speakers, not user-supplied cloned identities.
 
@@ -38,3 +42,7 @@ Piper's documented `[[ ... ]]` syntax bypasses normal text-to-phoneme conversion
 - Only the four WAVs, source plan, model lock, receipts and package freeze are uploaded; model weights remain in the ephemeral worker and are removed before artifact publication.
 
 The result must still pass three independent blind ASR and acoustic review. Raw phoneme control reduces the text-to-phoneme ambiguity but does not guarantee a natural or correct acoustic realization.
+
+## Final owner-confirmed source
+
+The controlling standard is the user-provided image dated 2026-11-16. American target: Mero /heɪ ˈmiːroʊ/ (MEE-roh, long /iː/); Vosen /heɪ ˈvoʊzən/ (VOH-zən, voiced /z/). British variants are /heɪ ˈmiːrəʊ/ and /heɪ ˈvəʊzən/ and are tracked separately.
