@@ -16,6 +16,16 @@ jobs:
           python-version: '3.12'
       - name: Verify all catalog assets
         run: python3 -m tools.codex_assets verify
+      - name: Verify English Piper v4 eight-speaker source contract
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_ipa_piper_probe_v4_once.py -v
+            python3 -I -S -B "${args[@]}" automation/english_ipa_piper_probe_v4_once.py --output "$RUNNER_TEMP/not-created"
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
       - name: Test rejected mutations and consumer contract
         run: python3 -m unittest discover -s tests -v
       - name: Verify retained baseline evidence
