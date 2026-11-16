@@ -1,0 +1,267 @@
+name: Terminal English144 source observations only
+on:
+  pull_request:
+    paths:
+      - .github/workflows/terminal144-observations-once.yml
+      - automation/terminal144_observe_once.py
+      - automation/test_terminal144_observe_once.py
+      - automation/terminal144_observation_pins.json
+  push:
+    branches: [main]
+    paths:
+      - automation/terminal144_observation_pins.json
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: terminal144-observations-20261116-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '4'
+  MKL_NUM_THREADS: '4'
+  OPENBLAS_NUM_THREADS: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check terminal source identity, partial observers and unchanged original guards
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_terminal144_observe_once.py -v
+            python3 -I -S -B "${args[@]}" automation/test_final144_recipe.py -v
+            python3 -I -S -B "${args[@]}" automation/test_final144_runner.py -v
+            python3 -I -S -B "${args[@]}" automation/terminal144_observe_once.py \
+              --pins automation/terminal144_observation_pins.json
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  source-evidence:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 && github.event.before == '8286ee743a2690d168c3e56f5b31ccc64ae490ed'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    outputs:
+      observation_enabled: ${{ steps.audit.outputs.observation_enabled }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - name: Fetch the exact original run metadata and nine source archives
+        shell: bash
+        timeout-minutes: 10
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/terminal144-source-evidence"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib, re
+          def need(ok, reason):
+              if not ok:
+                  raise ValueError(reason)
+          def unique(pairs):
+              value = {}
+              for key, item in pairs:
+                  need(key not in value, 'DUPLICATE_PIN_KEY')
+                  value[key] = item
+              return value
+          pins = json.loads(pathlib.Path('automation/terminal144_observation_pins.json').read_bytes(),
+                            object_pairs_hook=unique)
+          need(pins.get('schema') == 'english-terminal144-observation-pins-v1', 'TERMINAL_PIN_SCHEMA')
+          need(type(pins.get('source_run_id')) is int and pins['source_run_id'] == 43816869386 and
+               pins.get('source_head_sha') == '8286ee743a2690d168c3e56f5b31ccc64ae490ed' and
+               pins.get('source_run_attempt') == 1, 'EXACT_ORIGINAL_SOURCE_RUN')
+          artifacts = pins.get('source_artifacts')
+          need(type(artifacts) is list and len(artifacts) == 9 and
+               [a.get('shard_index') for a in artifacts] == list(range(9)), 'NINE_ORDERED_SOURCE_ARCHIVES')
+          lines, identifiers, total = [], set(), 0
+          for row in artifacts:
+              identifier, size, digest = row.get('artifact_id'), row.get('zip_bytes'), row.get('zip_sha256')
+              need(type(identifier) is int and identifier > 0 and identifier not in identifiers and
+                   type(size) is int and 0 < size <= 32 * 1024**2 and
+                   type(digest) is str and re.fullmatch('[0-9a-f]{64}', digest), 'COMPLETE_ORIGINAL_ARCHIVE_PIN')
+              identifiers.add(identifier)
+              total += size
+              lines.append('%02d\t%d' % (row['shard_index'], identifier))
+          need(total <= 128 * 1024**2, 'TOTAL_SOURCE_ARCHIVE_BUDGET')
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          (root / 'terminal144-artifacts.tsv').write_text('\n'.join(lines) + '\n')
+          PYCODE
+          gh api repos/jiying2007/kws-data/actions/runs/43816869386 \
+            > "$RUNNER_TEMP/terminal144-source-evidence/run.json"
+          gh api 'repos/jiying2007/kws-data/actions/runs/43816869386/jobs?filter=all&per_page=100' \
+            > "$RUNNER_TEMP/terminal144-source-evidence/jobs.json"
+          gh api 'repos/jiying2007/kws-data/actions/runs/43816869386/artifacts?per_page=100' \
+            > "$RUNNER_TEMP/terminal144-source-evidence/artifacts.json"
+          while IFS=$'\t' read -r terminal_shard terminal_artifact_id; do
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$terminal_artifact_id/zip" \
+              > "$RUNNER_TEMP/terminal144-source-evidence/shard-$terminal_shard.zip"
+          done < "$RUNNER_TEMP/terminal144-artifacts.tsv"
+      - name: Audit original terminal failure, skipped observers and unchanged 144 denominator
+        id: audit
+        shell: bash
+        timeout-minutes: 4
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/terminal144_observe_once.py --audit \
+            --source-bundle "$RUNNER_TEMP/terminal144-source-evidence" \
+            --pins automation/terminal144_observation_pins.json \
+            --output "$RUNNER_TEMP/terminal144-source-audit"
+          cp "$RUNNER_TEMP/terminal144-source-audit/SOURCE_LEDGER.json" \
+            "$RUNNER_TEMP/terminal144-source-evidence/SOURCE_LEDGER.json"
+          cp "$RUNNER_TEMP/terminal144-source-audit/RESULT.json" \
+            "$RUNNER_TEMP/terminal144-source-evidence/AUDIT_RESULT.json"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          pins = json.loads(pathlib.Path('automation/terminal144_observation_pins.json').read_bytes())
+          enabled = 'true' if pins.get('enabled') is True else 'false'
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write('observation_enabled=' + enabled + '\n')
+          PYCODE
+      - name: Retain original API bytes, exact ZIPs and zero-model source audit
+        if: always()
+        timeout-minutes: 4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: terminal144-source-evidence
+          path: ${{ runner.temp }}/terminal144-source-evidence/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain any partial source audit
+        if: always()
+        timeout-minutes: 2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: terminal144-source-audit
+          path: ${{ runner.temp }}/terminal144-source-audit/
+          retention-days: 30
+          if-no-files-found: warn
+  observe:
+    needs: source-evidence
+    if: needs.source-evidence.outputs.observation_enabled == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        provider: [qwen, whisper, parakeet, phones]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      PROVIDER: ${{ matrix.provider }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          name: terminal144-source-evidence
+          path: ${{ runner.temp }}/terminal144-source-evidence
+      - name: Install the original fixed CPU observer runtime
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/observe-venv"
+          pip="$RUNNER_TEMP/observe-venv/bin/pip"
+          trap '"$pip" freeze > "$RUNNER_TEMP/observer-pip-freeze.txt"' EXIT
+          if [ "$PROVIDER" = parakeet ]; then
+            "$pip" install --disable-pip-version-check 'huggingface-hub==0.36.2' 'hf-xet==1.2.0'
+          elif [ "$PROVIDER" = phones ]; then
+            "$pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+            "$pip" install --disable-pip-version-check 'transformers==4.46.3' 'huggingface-hub==0.36.2' 'numpy==1.26.4'
+          else
+            "$pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu'
+            if [ "$PROVIDER" = qwen ]; then
+              "$pip" install --disable-pip-version-check 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2'
+            else
+              "$pip" install --disable-pip-version-check 'openai-whisper==20250625'
+            fi
+          fi
+      - name: Observe each pinned valid original WAV at most once for this provider
+        shell: bash
+        timeout-minutes: 32
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 31m "$RUNNER_TEMP/observe-venv/bin/python" -I -B \
+            automation/terminal144_observe_once.py --observe "$PROVIDER" \
+            --source-bundle "$RUNNER_TEMP/terminal144-source-evidence" \
+            --pins automation/terminal144_observation_pins.json \
+            --output "$RUNNER_TEMP/observer-${{ matrix.provider }}"
+      - name: Retain actual observer receipts even when incomplete
+        if: always()
+        timeout-minutes: 3
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: observer-${{ matrix.provider }}
+          path: ${{ runner.temp }}/observer-${{ matrix.provider }}/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain runtime versions even after a partial installation
+        if: always()
+        timeout-minutes: 2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: terminal144-runtime-${{ matrix.provider }}
+          path: ${{ runner.temp }}/observer-pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn
+  combine:
+    needs: [source-evidence, observe]
+    if: always() && needs.source-evidence.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          name: terminal144-source-evidence
+          path: ${{ runner.temp }}/terminal144-source-evidence
+      - name: Collect available first observer artifacts without hiding missing providers
+        continue-on-error: true
+        timeout-minutes: 3
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          pattern: observer-*
+          path: ${{ runner.temp }}/terminal144-observations
+          merge-multiple: false
+      - name: Revalidate original source and join all 144 rows without model calls
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/terminal144-observations"
+          python3 -I -S -B automation/terminal144_observe_once.py \
+            --combine "$RUNNER_TEMP/terminal144-observations" \
+            --source-bundle "$RUNNER_TEMP/terminal144-source-evidence" \
+            --pins automation/terminal144_observation_pins.json \
+            --output "$RUNNER_TEMP/terminal144-observations-144.json"
+      - name: Retain the full denominator report, including unknown and source-failed rows
+        if: always()
+        timeout-minutes: 3
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: terminal144-observations-${{ github.run_id }}
+          path: ${{ runner.temp }}/terminal144-observations-144.json
+          retention-days: 30
+          if-no-files-found: warn
