@@ -10,6 +10,10 @@
 
 The source run's aggregate status is `INCOMPLETE_NO_RETRY` because of a stale four-cell terminal count in the v4 generation script. The actual artifact contains 16 attempts and 16 completed receipts; this observer independently checks source-plan/model-lock hashes and all 16 cell/WAV/PCM identities. It does not regenerate or modify any audio.
 
+## Source-pin correction
+
+The first v4 observer attempt stopped before download because the workflow YAML still used the v3 artifact name. No model or audio was loaded and no phoneme forward occurred. The workflow is now pinned to the exact v4 artifact name, and binding revision 2 forces a fresh first-attempt workflow over the same immutable audio.
+
 ## Targets and roster
 
 - Hey Mero: /heɪ ˈmiːroʊ/ — light Hey; first-syllable stress on Mero.
