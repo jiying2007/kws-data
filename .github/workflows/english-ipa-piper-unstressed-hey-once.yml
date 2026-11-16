@@ -6,7 +6,7 @@ on:
       - .github/triggers/english-ipa-piper-unstressed-hey-20261116.json
       - automation/english_ipa_piper_unstressed_hey_once.py
       - automation/test_english_ipa_piper_unstressed_hey_once.py
-      - docs/ENGLISH_IPA_PHONEME_TTS_RESEARCH_20261116.md
+      - docs/ENGLISH_PIPER_UNSTRESSED_HEY_PROBE_20261116.md
   push:
     branches: [main]
     paths:
@@ -14,7 +14,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: english-ipa-piper-phoneme-probe-20261116-${{ github.event_name }}
+  group: english-ipa-piper-unstressed-hey-20261116-${{ github.event_name }}
   cancel-in-progress: false
 jobs:
   source-contract:
