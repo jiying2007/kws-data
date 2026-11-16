@@ -1,0 +1,212 @@
+name: English snapshot160 saved-head full C composition once
+on:
+  pull_request:
+    paths:
+      - automation/verify_snapshot160_frontend_once.py
+      - automation/test_verify_snapshot160_frontend_once.py
+      - automation/snapshot160_frontend_pins.json
+      - .github/workflows/english-snapshot160-frontend-once.yml
+      - research/english_snapshot160_delivery/**
+  push:
+    branches: [main]
+    paths:
+      - automation/snapshot160_frontend_pins.json
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-snapshot160-fullchain-20261116-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    outputs:
+      execution_enabled: ${{ steps.contract.outputs.execution_enabled }}
+      main_before: ${{ steps.contract.outputs.main_before }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - name: Validate only invented bytes, saved-reference composition contract and frozen pins
+        id: contract
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_verify_snapshot160_frontend_once.py -v
+            python3 -I -S -B "${args[@]}" automation/verify_snapshot160_frontend_once.py
+            python3 -I -S -B "${args[@]}" research/english_snapshot160_delivery/test_read_c_trace.py -v
+          done
+          python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import verify_snapshot160_frontend_once as worker
+          pins = worker.read_json('automation/snapshot160_frontend_pins.json')
+          worker.validate_pins(pins)
+          if pins['enabled']:
+              worker.need(worker.sha(worker.regular(worker.__file__)) == pins['worker_code_sha256'],
+                  'EXACT_REVIEWED_FULLCHAIN_WORKER')
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write('execution_enabled=' + str(pins['enabled']).lower() + '\n')
+              output.write('main_before=' + (pins['main_before'] or '') + '\n')
+          PYCODE
+          test -z "$(git status --porcelain)"
+  verify-snapshot160-fullchain:
+    needs: source-contract
+    if: >-
+      needs.source-contract.outputs.execution_enabled == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == needs.source-contract.outputs.main_before
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          path: data-source
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 6ed95e5ffcb680d2b9c68778c14289025eeefebd
+          path: verified-pipeline
+          persist-credentials: false
+      - name: Guard then acquire the exact saved training and completed mel artifacts once
+        working-directory: data-source
+        shell: bash
+        timeout-minutes: 12
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, subprocess, sys, time
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import verify_snapshot160_frontend_once as worker
+          pins = worker.read_json('automation/snapshot160_frontend_pins.json')
+          evidence = pathlib.Path(os.environ['RUNNER_TEMP']) / 'snapshot160-fullchain-evidence'
+          evidence.mkdir(mode=0o700)
+          worker.once(evidence / 'WORKFLOW_STARTED.json', {'schema': worker.SCHEMA, 'profile': worker.PROFILE,
+              'run_id': os.environ['GITHUB_RUN_ID'], 'github_sha': os.environ['GITHUB_SHA'],
+              'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'], 'plan_sha256': worker.FIXED_PLAN_SHA,
+              'pins_sha256': worker.sha(worker.canonical(pins)),
+              'worker_code_sha256': worker.sha(worker.regular(worker.__file__)),
+              'phase': 'ACQUISITION_BEFORE_ANY_C_BUILD_OR_HEAD_REFERENCE', 'no_retry': True,
+              'c_process_attempts_at_start': 0, 'new_onnx_session_runs_at_start': 0})
+          try:
+              worker.execution_guard(pins, os.environ, worker.read_json(os.environ['GITHUB_EVENT_PATH']),
+                  worker.sha(worker.regular(worker.__file__)))
+              with (evidence / 'DOWNLOAD_ATTEMPTS.jsonl').open('x', encoding='utf-8') as journal:
+                  def fetch(endpoint, destination, maximum, expected=None, headers=(), timeout=150):
+                      item = {'endpoint': endpoint, 'file': destination.name, 'maximum_bytes': maximum,
+                          'expected_sha256': expected, 'retry_count': 0}
+                      def record(status, **extra):
+                          journal.write(worker.canonical({**item, 'status': status, **extra}).decode() + '\n')
+                          journal.flush(); os.fsync(journal.fileno())
+                      record('STARTED'); clock = time.monotonic()
+                      try:
+                          with destination.open('xb') as output:
+                              subprocess.run(['gh', 'api', endpoint, *headers], stdout=output,
+                                  stderr=subprocess.PIPE, check=True, timeout=timeout)
+                          raw = worker.regular(destination, maximum)
+                          worker.need(expected is None or len(raw) == maximum and worker.sha(raw) == expected,
+                              'EXACT_DOWNLOADED_ARTIFACT_BYTES')
+                      except BaseException as error:
+                          record('FAILED_OR_INTERRUPTED_NO_RETRY', error_type=type(error).__name__,
+                              elapsed_seconds=time.monotonic() - clock)
+                          raise
+                      record('COMPLETE', bytes=len(raw), sha256=worker.sha(raw),
+                          elapsed_seconds=time.monotonic() - clock)
+                  for prefix, pin, repository in (('training', pins['head_training'], worker.REPOSITORY),
+                                                  ('mel', pins['mel'], 'jiying2007/kws-pipeline')):
+                      fetch('repos/' + repository + '/actions/runs/' + pin['run_id'],
+                          evidence / (prefix + '-run.json'), 4 * 1024**2, timeout=60)
+                      fetch('repos/' + repository + '/actions/artifacts/' + str(pin['artifact_id']),
+                          evidence / (prefix + '-artifact.json'), 4 * 1024**2, timeout=60)
+                      worker.api_identity(worker.read_json(evidence / (prefix + '-run.json')),
+                          worker.read_json(evidence / (prefix + '-artifact.json')), pin, repository)
+                      fetch('repos/' + repository + '/actions/artifacts/' + str(pin['artifact_id']) + '/zip',
+                          evidence / (prefix + '.zip'), pin['zip_bytes'], pin['zip_sha256'])
+                  fetch('repos/dscripka/openWakeWord/contents/LICENSE?ref=368c03716d1e92591906a84949bc477f3a834455',
+                      evidence / 'openWakeWord-LICENSE', worker.UPSTREAM_LICENSE['bytes'],
+                      worker.UPSTREAM_LICENSE['sha256'], ('-H', 'Accept: application/vnd.github.raw+json'), timeout=60)
+              worker.once(evidence / 'ACQUIRED_INPUTS.json', {'training': pins['head_training'], 'mel': pins['mel'],
+                  'phase': 'ACQUISITION_COMPLETE_BEFORE_ANY_C_BUILD_OR_HEAD_REFERENCE',
+                  'separate_upstream_onnx_downloads': 0, 'new_ort_inference_calls': 0,
+                  'saved_training_archive_contains_onnx': None,
+                  'archive_onnx_scope': 'archive members are retained evidence; source preflight records their identities without inference',
+                  'c_process_attempts_at_acquisition_end': 0, 'optimizer_updates': 0, 'new_tts_asr_phone_calls': 0})
+          except BaseException as error:
+              worker.once(evidence / 'ACQUISITION_FAILURE.json', {'status': 'FAILED_NO_RETRY',
+                  'phase': 'ACQUISITION_BEFORE_ANY_C_BUILD_OR_HEAD_REFERENCE',
+                  'error_type': type(error).__name__, 'reason': str(error)[:1000],
+                  'c_process_attempts_at_acquisition_end': 0, 'new_onnx_session_runs': 0, 'retry_count': 0})
+              raise
+          PYCODE
+      - name: Install only NumPy for saved-head math and the two C toolchains
+        shell: bash
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends python3-venv gcc-arm-linux-gnueabihf libc6-dev-armhf-cross qemu-user
+          python3 -m venv "$RUNNER_TEMP/snapshot160-fullchain-venv"
+          "$RUNNER_TEMP/snapshot160-fullchain-venv/bin/pip" install --disable-pip-version-check --retries 0 'numpy==1.26.4'
+          "$RUNNER_TEMP/snapshot160-fullchain-venv/bin/pip" freeze > "$RUNNER_TEMP/snapshot160-fullchain-evidence/pip-freeze.txt"
+          gcc --version > "$RUNNER_TEMP/snapshot160-fullchain-evidence/host-compiler.txt"
+          arm-linux-gnueabihf-gcc --version > "$RUNNER_TEMP/snapshot160-fullchain-evidence/arm-compiler.txt"
+          qemu-arm --version > "$RUNNER_TEMP/snapshot160-fullchain-evidence/qemu-version.txt"
+      - name: Attach the saved head and run only six full C cases against existing references
+        working-directory: data-source
+        shell: bash
+        timeout-minutes: 32
+        run: |
+          set -euo pipefail
+          set +e
+          timeout --signal=TERM --kill-after=30s 31m "$RUNNER_TEMP/snapshot160-fullchain-venv/bin/python" -I -B \
+            automation/verify_snapshot160_frontend_once.py --execute \
+            --pins "$GITHUB_WORKSPACE/data-source/automation/snapshot160_frontend_pins.json" \
+            --pipeline-source "$GITHUB_WORKSPACE/verified-pipeline" \
+            --training-zip "$RUNNER_TEMP/snapshot160-fullchain-evidence/training.zip" \
+            --mel-zip "$RUNNER_TEMP/snapshot160-fullchain-evidence/mel.zip" \
+            --training-run-json "$RUNNER_TEMP/snapshot160-fullchain-evidence/training-run.json" \
+            --training-artifact-json "$RUNNER_TEMP/snapshot160-fullchain-evidence/training-artifact.json" \
+            --mel-run-json "$RUNNER_TEMP/snapshot160-fullchain-evidence/mel-run.json" \
+            --mel-artifact-json "$RUNNER_TEMP/snapshot160-fullchain-evidence/mel-artifact.json" \
+            --upstream-license "$RUNNER_TEMP/snapshot160-fullchain-evidence/openWakeWord-LICENSE" \
+            --output "$RUNNER_TEMP/snapshot160-fullchain-result"
+          composition_exit=$?
+          set -e
+          COMPOSITION_COMMAND_EXIT="$composition_exit" python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import verify_snapshot160_frontend_once as worker
+          root = pathlib.Path(os.environ['RUNNER_TEMP']); result = root / 'snapshot160-fullchain-result'
+          worker.once(root / 'snapshot160-fullchain-evidence/COMMAND_EXIT.json', {
+              'returncode': int(os.environ['COMPOSITION_COMMAND_EXIT']), 'retry_count': 0,
+              'result_receipt_present': (result / 'RESULT.json').is_file(),
+              'failure_receipt_present': (result / 'FAILURE.json').is_file(),
+              'missing_terminal_receipt_means': 'UNKNOWN_INTERRUPTED_C_OR_HEAD_ATTEMPTS_REQUIRE_STARTED_LEDGER',
+              'new_onnx_session_runs': 0, 'optimizer_updates': 0, 'new_tts_asr_phone_calls': 0})
+          PYCODE
+          exit "$composition_exit"
+      - name: Preserve runnable research C, source, saved weights, references and partial receipts
+        if: always()
+        timeout-minutes: 7
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-snapshot160-fullchain-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/snapshot160-fullchain-result/
+            ${{ runner.temp }}/snapshot160-fullchain-evidence/
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: warn
