@@ -1,0 +1,79 @@
+name: English Piper unstressed-Hey IPA probe once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-ipa-piper-unstressed-hey-once.yml
+      - .github/triggers/english-ipa-piper-unstressed-hey-20261116.json
+      - automation/english_ipa_piper_unstressed_hey_once.py
+      - automation/test_english_ipa_piper_unstressed_hey_once.py
+      - docs/ENGLISH_IPA_PHONEME_TTS_RESEARCH_20261116.md
+  push:
+    branches: [main]
+    paths:
+      - .github/triggers/english-ipa-piper-unstressed-hey-20261116.json
+permissions:
+  contents: read
+concurrency:
+  group: english-ipa-piper-phoneme-probe-20261116-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify exact-IPA probe source contract only
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_ipa_piper_unstressed_hey_once.py -v
+            python3 -I -S -B "${args[@]}" automation/english_ipa_piper_unstressed_hey_once.py --output /tmp/not-created
+          done
+  generate:
+    needs: source-contract
+    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      OMP_NUM_THREADS: "4"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      HF_HUB_DISABLE_XET: "0"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Install pinned Piper and CPU synthesis dependencies
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/piper-venv"
+          "$RUNNER_TEMP/piper-venv/bin/pip" install --disable-pip-version-check "piper-tts==1.8.0" "huggingface-hub==0.36.2" "scipy==1.15.3"
+          "$RUNNER_TEMP/piper-venv/bin/pip" freeze > "$RUNNER_TEMP/piper-pip-freeze.txt"
+      - name: Generate four exact-IPA probe samples once
+        shell: bash
+        timeout-minutes: 40
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/piper-probe-parent"
+          "$RUNNER_TEMP/piper-venv/bin/python" -I -B automation/english_ipa_piper_unstressed_hey_once.py \
+            --output "$RUNNER_TEMP/piper-probe-parent/probe" --execute
+      - name: Upload only four samples and provenance, never model weights
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-ipa-piper-unstressed-hey-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/piper-probe-parent/probe/result.json
+            ${{ runner.temp }}/piper-probe-parent/probe/source-plan.json
+            ${{ runner.temp }}/piper-probe-parent/probe/model-lock.json
+            ${{ runner.temp }}/piper-probe-parent/probe/cells/
+            ${{ runner.temp }}/piper-pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn
