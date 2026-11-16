@@ -65,7 +65,7 @@ def root_for(parent):
          "COMPACT_READBACK_IDENTITY")
     plan=market.read(root/"source-plan.json")
     need(plan.get("schema")=="english-ipa-qwen17-probe-v1" and
-         plan.get("model_revision")=="0c0e3051f131929182e2c023b9537f8b1c68adfe" and
+         plan.get("revision")=="0c0e3051f131929182e2c023b9537f8b1c68adfe" and
          plan.get("training_admitted") is False and
          plan.get("human_gold") is False,"SOURCE_PLAN_IDENTITY")
     cells=plan.get("cells")
