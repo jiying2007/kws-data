@@ -1,0 +1,468 @@
+name: English snapshot160 fixed weak-intent training once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-snapshot160-train-once.yml
+      - automation/english_snapshot160_train_once.py
+      - automation/english_snapshot160_package.py
+      - automation/test_english_snapshot160.py
+      - automation/english_snapshot160_training_pins.json
+  push:
+    branches: [main]
+    paths:
+      - automation/english_snapshot160_training_pins.json
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-snapshot160-training-20261116-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '4'
+  MKL_NUM_THREADS: '4'
+  OPENBLAS_NUM_THREADS: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      training_enabled: ${{ steps.contract.outputs.training_enabled }}
+      next_main_before: ${{ steps.contract.outputs.next_main_before }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - name: Check the bounded union, both minimum gates and actual-weight packaging without models
+        id: contract
+        shell: bash
+        timeout-minutes: 7
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_snapshot160.py -v
+            python3 -I -S -B "${args[@]}" automation/english_snapshot160_train_once.py
+            python3 -I -S -B "${args[@]}" automation/english_snapshot160_package.py
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+          python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import english_snapshot160_train_once as worker
+          pins = worker.read_json('automation/english_snapshot160_training_pins.json')
+          worker.validate_pins(pins, ready=False)
+          if pins['enabled']:
+              worker.validate_pins(pins, execution=True)
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write('training_enabled=' + str(pins['enabled']).lower() + '\n')
+              output.write('next_main_before=' + (pins['next_main_before'] or '') + '\n')
+          PYCODE
+  source-evidence:
+    needs: source-contract
+    if: >-
+      needs.source-contract.outputs.training_enabled == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 && github.event.before == needs.source-contract.outputs.next_main_before
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    outputs:
+      selection_passed: ${{ steps.prepare.outputs.selection_passed }}
+      snapshot_sha256: ${{ steps.prepare.outputs.snapshot_sha256 }}
+      snapshot_manifest_sha256: ${{ steps.prepare.outputs.snapshot_manifest_sha256 }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - name: Enforce the separately enabled first-main training identity before acquiring inputs
+        shell: bash
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain)"
+          python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import english_snapshot160_train_once as worker
+          pins = worker.read_json('automation/english_snapshot160_training_pins.json')
+          worker.execution_guard(pins, worker.read_json(os.environ['GITHUB_EVENT_PATH']), os.environ)
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'snapshot160-inputs'
+          root.mkdir(mode=0o700)
+          worker.once(root / 'PREFLIGHT_STARTED.json', {'run_id': os.environ['GITHUB_RUN_ID'],
+              'github_sha': os.environ['GITHUB_SHA'], 'run_attempt': 1,
+              'phase': 'SOURCE_ACQUISITION_AND_PREPARATION_ONLY', 'model_calls': 0,
+              'optimizer_updates': 0, 'source_denominator': 160, 'no_retry': True})
+          PYCODE
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 3
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 31238cafe3d6668874d446eae5dfa7c55028fb13
+          path: pipeline-source
+          persist-credentials: false
+      - name: Fetch only the original and newly pinned terminal API bytes and source archives
+        shell: bash
+        timeout-minutes: 20
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, shutil, subprocess, sys, time
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import english_snapshot160_train_once as worker
+          pins = worker.read_json('automation/english_snapshot160_training_pins.json')
+          worker.execution_guard(pins, worker.read_json(os.environ['GITHUB_EVENT_PATH']), os.environ)
+          old_training = worker.read_json('automation/terminal144_training_pins.json')
+          old_observation = worker.read_json('automation/terminal144_observation_pins.json')
+          worker.need(worker.identity('automation/terminal144_training_pins.json')['sha256'] ==
+              pins['old_training_pins_sha256'] and
+              worker.identity('automation/terminal144_observation_pins.json')['sha256'] ==
+              pins['old_observation_pins_sha256'], 'EXACT_UNCHANGED_OLD_EXECUTION_PINS')
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'snapshot160-inputs'
+          old_source, old_observed, new = (root / name for name in
+              ('old-source-bundle', 'old-observer-bundle', 'new-bundle'))
+          for folder in (old_source, old_observed, new):
+              folder.mkdir(mode=0o700)
+          shutil.copyfile('automation/english_snapshot160_training_pins.json', root / 'training-pins.json')
+          tasks = []
+          for run_id, folder in ((43816869386, old_source), (43822597212, old_observed),
+                                 (pins['new_run']['run_id'], new)):
+              base = 'repos/jiying2007/kws-data/actions/runs/' + str(run_id)
+              tasks.extend((base + suffix, folder / filename, 4 * 1024**2, None) for suffix, filename in
+                  (('', 'run.json'), ('/jobs?filter=all&per_page=100', 'jobs.json'),
+                   ('/artifacts?per_page=100', 'artifacts.json')))
+          for pin in old_observation['source_artifacts']:
+              tasks.append(('repos/jiying2007/kws-data/actions/artifacts/' + str(pin['artifact_id']) + '/zip',
+                  old_source / ('shard-%02d.zip' % pin['shard_index']), pin['zip_bytes'], pin['zip_sha256']))
+          for provider in worker.PROVIDERS:
+              pin = old_training['observer_artifacts'][provider]
+              tasks.append(('repos/jiying2007/kws-data/actions/artifacts/' + str(pin['artifact_id']) + '/zip',
+                  old_observed / ('observer-' + provider + '.zip'), pin['zip_bytes'], pin['zip_sha256']))
+          pin = old_training['combined_artifact']
+          tasks.append(('repos/jiying2007/kws-data/actions/artifacts/' + str(pin['artifact_id']) + '/zip',
+              old_observed / 'combined.zip', pin['zip_bytes'], pin['zip_sha256']))
+          for kind in ('source', *worker.PROVIDERS):
+              pin = pins['new_artifacts'][kind]
+              if pin is None:
+                  worker.need(kind != 'source', 'NEW_SOURCE_ARCHIVE_REQUIRED')
+                  continue
+              filename = 'source.zip' if kind == 'source' else 'observer-' + kind + '.zip'
+              tasks.append(('repos/jiying2007/kws-data/actions/artifacts/' + str(pin['artifact_id']) + '/zip',
+                  new / filename, pin['zip_bytes'], pin['zip_sha256']))
+          expected_count = 23 + sum(pin is not None for pin in pins['new_artifacts'].values())
+          worker.need(len(tasks) == expected_count and 24 <= len(tasks) <= 28 and
+              len({str(path) for _, path, _, _ in tasks}) == len(tasks) and
+              sum(maximum for _, _, maximum, _ in tasks) <= 256 * 1024**2,
+              'FINITE_EXACT_OLD_AND_NEW_ACQUISITION_ROSTER')
+          deadline = time.monotonic() + 19 * 60
+          with (root / 'DOWNLOAD_ATTEMPTS.jsonl').open('x', encoding='utf-8') as journal:
+              for endpoint, destination, maximum, expected in tasks:
+                  entry = {'endpoint': endpoint, 'file': destination.relative_to(root).as_posix(),
+                      'maximum_bytes': maximum, 'expected_sha256': expected, 'retry_count': 0}
+                  journal.write(worker.canonical({**entry, 'status': 'STARTED'}).decode() + '\n')
+                  journal.flush()
+                  os.fsync(journal.fileno())
+                  clock = time.monotonic()
+                  try:
+                      remaining = deadline - clock
+                      worker.need(remaining > 0, 'SOURCE_ACQUISITION_DEADLINE')
+                      with destination.open('xb') as output:
+                          subprocess.run(['gh', 'api', endpoint], stdout=output, check=True,
+                              timeout=min(120, remaining))
+                      raw = worker.regular(destination, maximum)
+                      worker.need(expected is None or len(raw) == maximum and worker.sha(raw) == expected,
+                          'DOWNLOADED_ORIGINAL_ARCHIVE_PIN_MISMATCH')
+                      final = {'status': 'COMPLETE', 'bytes': len(raw), 'sha256': worker.sha(raw)}
+                  except BaseException as error:
+                      journal.write(worker.canonical({**entry, 'status': 'FAILED_OR_INTERRUPTED_NO_RETRY',
+                          'error_type': type(error).__name__, 'elapsed_seconds': time.monotonic() - clock}).decode() + '\n')
+                      journal.flush()
+                      os.fsync(journal.fileno())
+                      raise
+                  journal.write(worker.canonical({**entry, **final,
+                      'elapsed_seconds': time.monotonic() - clock}).decode() + '\n')
+                  journal.flush()
+                  os.fsync(journal.fileno())
+          PYCODE
+      - name: Prepare the full declared snapshot and unchanged source minimum without models
+        id: prepare
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          set +e
+          timeout --signal=TERM --kill-after=30s 4m python3 -I -S -B \
+            automation/english_snapshot160_train_once.py --prepare \
+            --pins automation/english_snapshot160_training_pins.json \
+            --old-source-bundle "$RUNNER_TEMP/snapshot160-inputs/old-source-bundle" \
+            --old-observer-bundle "$RUNNER_TEMP/snapshot160-inputs/old-observer-bundle" \
+            --new-bundle "$RUNNER_TEMP/snapshot160-inputs/new-bundle" \
+            --pipeline-source "$GITHUB_WORKSPACE/pipeline-source" \
+            --output "$RUNNER_TEMP/snapshot160-prepared"
+          snapshot_prepare_exit=$?
+          set -e
+          SNAPSHOT_COMMAND_EXIT="$snapshot_prepare_exit" python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import english_snapshot160_train_once as worker
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          code = int(os.environ['SNAPSHOT_COMMAND_EXIT'])
+          worker.once(root / 'snapshot160-inputs/PREPARE_COMMAND_EXIT.json',
+              {'returncode': code, 'model_calls': 0, 'optimizer_updates': 0, 'retry_count': 0})
+          if code:
+              raise SystemExit(0)
+          pins = worker.read_json('automation/english_snapshot160_training_pins.json')
+          prepared = root / 'snapshot160-prepared'
+          verified = worker.verify_snapshot_manifest(prepared, pins)
+          result = worker.read_json(prepared / 'RESULT.json')
+          worker.need(result.get('status') == 'PREPARED_SNAPSHOT160_WEAK_RESEARCH' and
+              result.get('model_calls') == result.get('optimizer_updates') == 0 and
+              result.get('minimum', {}).get('passed') is True and
+              result.get('snapshot_sha256') == verified['snapshot_sha256'] == pins['snapshot_sha256'],
+              'ONLY_EXACT_PREPARED_SNAPSHOT_WITH_FIRST_MINIMUM_CAN_ADVANCE')
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write('selection_passed=true\nsnapshot_sha256=' + verified['snapshot_sha256'] +
+                  '\nsnapshot_manifest_sha256=' + verified['manifest_sha256'] + '\n')
+          PYCODE
+          exit "$snapshot_prepare_exit"
+      - name: Retain the complete prepared snapshot or its partial preparation evidence
+        if: always()
+        timeout-minutes: 5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: snapshot160-prepared
+          path: ${{ runner.temp }}/snapshot160-prepared/
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain original API response bytes, archive acquisitions and preparation exit
+        if: always()
+        timeout-minutes: 5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: snapshot160-source-evidence-${{ github.run_id }}
+          path: ${{ runner.temp }}/snapshot160-inputs/
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: warn
+  train-weak-intent:
+    needs: [source-contract, source-evidence]
+    if: >-
+      needs.source-contract.outputs.training_enabled == 'true' &&
+      needs.source-evidence.outputs.selection_passed == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 && github.event.before == needs.source-contract.outputs.next_main_before
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - name: Recheck the exact first training execution before downloading the prepared snapshot
+        shell: bash
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain)"
+          python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import english_snapshot160_train_once as worker
+          pins = worker.read_json('automation/english_snapshot160_training_pins.json')
+          worker.execution_guard(pins, worker.read_json(os.environ['GITHUB_EVENT_PATH']), os.environ)
+          PYCODE
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 3
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 31238cafe3d6668874d446eae5dfa7c55028fb13
+          path: pipeline-source
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          name: snapshot160-prepared
+          path: ${{ runner.temp }}/snapshot160-prepared
+      - name: Verify the actual closed handoff and pinned semantic snapshot before installing models
+        shell: bash
+        timeout-minutes: 2
+        env:
+          EXPECTED_SNAPSHOT_SHA256: ${{ needs.source-evidence.outputs.snapshot_sha256 }}
+          EXPECTED_MANIFEST_SHA256: ${{ needs.source-evidence.outputs.snapshot_manifest_sha256 }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import english_snapshot160_train_once as worker
+          pins = worker.read_json('automation/english_snapshot160_training_pins.json')
+          worker.execution_guard(pins, worker.read_json(os.environ['GITHUB_EVENT_PATH']), os.environ)
+          snapshot = pathlib.Path(os.environ['RUNNER_TEMP']) / 'snapshot160-prepared'
+          verified = worker.verify_snapshot_manifest(snapshot, pins)
+          worker.need(verified['snapshot_sha256'] == pins['snapshot_sha256'] == os.environ['EXPECTED_SNAPSHOT_SHA256'] and
+              verified['manifest_sha256'] == os.environ['EXPECTED_MANIFEST_SHA256'], 'EXACT_AUDITED_HANDOFF_BYTES_AND_COHORT')
+          result = worker.read_json(snapshot / 'RESULT.json')
+          worker.need(result.get('status') == 'PREPARED_SNAPSHOT160_WEAK_RESEARCH' and
+              result.get('minimum', {}).get('passed') is True and
+              result.get('model_calls') == result.get('optimizer_updates') == 0, 'UNMODIFIED_ZERO_MODEL_FIRST_MINIMUM')
+          PYCODE
+      - name: Acquire only the original fixed background, feature assets and upstream license
+        shell: bash
+        timeout-minutes: 15
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/training-input-metadata"
+          gh api repos/jiying2007/kws-data/actions/runs/43538998200 \
+            > "$RUNNER_TEMP/training-input-metadata/librispeech-reference-run.json"
+          jq -e '.status=="completed" and .conclusion=="success" and .head_sha=="5da87fc5785cfa0b5ad26c451fc366b80e3d491b"' \
+            "$RUNNER_TEMP/training-input-metadata/librispeech-reference-run.json"
+          gh api repos/jiying2007/kws-data/actions/artifacts/14090383839 \
+            > "$RUNNER_TEMP/training-input-metadata/librispeech-reference-artifact.json"
+          jq -e '.expired==false and .workflow_run.id==43538998200 and .size_in_bytes==47199 and .digest=="sha256:7f28b4eddbee87435b9dc5b4c44e47a6d6ed200cbf9f4b8688d9b93cabeb4db4"' \
+            "$RUNNER_TEMP/training-input-metadata/librispeech-reference-artifact.json"
+          gh api repos/jiying2007/kws-data/actions/artifacts/14090383839/zip > "$RUNNER_TEMP/librispeech-reference.zip"
+          curl --fail --location --silent --show-error --retry 0 \
+            https://www.openslr.org/resources/12/dev-clean.tar.gz --output "$RUNNER_TEMP/dev-clean.tar.gz"
+          curl --fail --location --silent --show-error --retry 0 \
+            https://raw.githubusercontent.com/dscripka/openWakeWord/368c03716d1e92591906a84949bc477f3a834455/LICENSE \
+            --output "$RUNNER_TEMP/openWakeWord-LICENSE"
+          mkdir "$RUNNER_TEMP/feature-assets"
+          for asset in melspectrogram.onnx embedding_model.onnx; do
+            curl --fail --location --silent --show-error --retry 0 \
+              "https://github.com/dscripka/openWakeWord/releases/download/v0.5.1/$asset" \
+              --output "$RUNNER_TEMP/feature-assets/$asset"
+          done
+          python3 -I -S -B - <<'PYCODE'
+          import hashlib, os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import english_snapshot160_train_once as worker
+          import english_final_embedding_infer as contract
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          expected = {'dev-clean.tar.gz': (worker.old.CORPUS['bytes'], worker.old.CORPUS['sha256']),
+              'librispeech-reference.zip': (worker.old.REFERENCE['zip_bytes'], worker.old.REFERENCE['zip_sha256']),
+              'openWakeWord-LICENSE': contract.UPSTREAM_LICENSE,
+              **{'feature-assets/' + name: value for name, value in contract.ASSETS.items()}}
+          identities = {}
+          for name, (size, digest) in expected.items():
+              path = root / name
+              worker.need(path.is_file() and not path.is_symlink() and path.stat().st_size == size, 'FIXED_DOWNLOAD_SIZE')
+              actual = hashlib.sha256()
+              with path.open('rb') as source:
+                  for chunk in iter(lambda: source.read(1024**2), b''):
+                      actual.update(chunk)
+              worker.need(actual.hexdigest() == digest, 'FIXED_DOWNLOAD_SHA256')
+              identities[name] = {'bytes': size, 'sha256': digest}
+          worker.once(root / 'training-input-metadata/FIXED_INPUT_IDENTITIES.json', identities)
+          PYCODE
+      - name: Install the unchanged CPU training runtime and ARM replay tools
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends gcc-arm-linux-gnueabihf libc6-dev-armhf-cross qemu-user
+          python3 -m venv "$RUNNER_TEMP/snapshot160-train-venv"
+          snapshot_pip="$RUNNER_TEMP/snapshot160-train-venv/bin/pip"
+          trap '"$snapshot_pip" freeze > "$RUNNER_TEMP/training-pip-freeze.txt"' EXIT
+          "$snapshot_pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+          "$snapshot_pip" install --disable-pip-version-check 'numpy==1.26.4' 'soundfile==0.13.1' 'onnx==1.17.0' 'onnxruntime==1.20.1'
+          gcc --version > "$RUNNER_TEMP/host-compiler.txt"
+          arm-linux-gnueabihf-gcc --version > "$RUNNER_TEMP/arm-compiler.txt"
+          qemu-arm --version > "$RUNNER_TEMP/qemu-version.txt"
+      - name: Execute the exact saved snapshot, second minimum and one 96-update experiment
+        id: train
+        shell: bash
+        timeout-minutes: 88
+        run: |
+          set -euo pipefail
+          set +e
+          timeout --signal=TERM --kill-after=30s 87m "$RUNNER_TEMP/snapshot160-train-venv/bin/python" -I -B \
+            automation/english_snapshot160_train_once.py --execute \
+            --pins automation/english_snapshot160_training_pins.json \
+            --snapshot "$RUNNER_TEMP/snapshot160-prepared" \
+            --pipeline-source "$GITHUB_WORKSPACE/pipeline-source" \
+            --corpus-archive "$RUNNER_TEMP/dev-clean.tar.gz" \
+            --reference-zip "$RUNNER_TEMP/librispeech-reference.zip" \
+            --assets "$RUNNER_TEMP/feature-assets" --output "$RUNNER_TEMP/training-result"
+          snapshot_train_exit=$?
+          set -e
+          SNAPSHOT_COMMAND_EXIT="$snapshot_train_exit" python3 -I -S -B - <<'PYCODE'
+          import os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import english_snapshot160_train_once as worker
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          trained = root / 'training-result'
+          code = int(os.environ['SNAPSHOT_COMMAND_EXIT'])
+          status = 'UNKNOWN_AFTER_TRAINING_STARTED' if (trained / 'TRAINING_STARTED.json').exists() else 'NO_OPTIMIZER_START_RECEIPT'
+          updates = 'UNKNOWN_AFTER_TRAINING_STARTED' if (trained / 'TRAINING_STARTED.json').exists() else 0
+          result = None
+          try:
+              if (trained / 'RESULT.json').is_file():
+                  result = worker.read_json(trained / 'RESULT.json')
+                  status, updates = result.get('status'), result.get('optimizer_updates')
+          finally:
+              worker.once(root / 'TRAIN_COMMAND_EXIT.json', {'returncode': code, 'status': status,
+                  'optimizer_updates': updates, 'retry_count': 0,
+                  'feature_and_replay_accounting': 'SAVED_RESULT_AND_STAGE_RECEIPTS' if result is not None else 'UNKNOWN_WITHOUT_TERMINAL_RESULT'})
+          if code:
+              raise SystemExit(0)
+          worker.need(result is not None and result.get('status') == worker.SUCCESS and
+              result.get('optimizer_updates') == 96 and result.get('minimum', {}).get('passed') is True and
+              result.get('new_tts_asr_phone_calls') == 0, 'ONLY_ACTUAL_COMPLETE_SAVED_WEIGHT_RESULT_CAN_PACKAGE')
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write('completed=true\n')
+          PYCODE
+          exit "$snapshot_train_exit"
+      - name: Package and verify the actual snapshot160 research weights without further inference
+        if: success() && steps.train.outputs.completed == 'true'
+        shell: bash
+        timeout-minutes: 3
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_snapshot160_package.py --build \
+            --training-result "$RUNNER_TEMP/training-result" \
+            --pipeline-source "$GITHUB_WORKSPACE/pipeline-source" \
+            --assets "$RUNNER_TEMP/feature-assets" \
+            --upstream-license "$RUNNER_TEMP/openWakeWord-LICENSE" \
+            --output "$RUNNER_TEMP/training-result/english-snapshot160-embedding-research-bundle"
+          python3 -I -S -B automation/english_final_embedding_infer.py \
+            --bundle "$RUNNER_TEMP/training-result/english-snapshot160-embedding-research-bundle" --verify-only
+      - name: Retain actual weights, both minimum checks and all partial training evidence
+        if: always()
+        timeout-minutes: 5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: snapshot160-weak-embedding-research-${{ github.run_id }}
+          path: ${{ runner.temp }}/training-result/
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain runtime, exact fixed-asset identities and actual command exit accounting
+        if: always()
+        timeout-minutes: 3
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: snapshot160-weak-embedding-runtime-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/training-pip-freeze.txt
+            ${{ runner.temp }}/host-compiler.txt
+            ${{ runner.temp }}/arm-compiler.txt
+            ${{ runner.temp }}/qemu-version.txt
+            ${{ runner.temp }}/training-input-metadata/
+            ${{ runner.temp }}/TRAIN_COMMAND_EXIT.json
+          retention-days: 30
+          if-no-files-found: warn
