@@ -158,3 +158,75 @@ jobs:
           path: ${{ runner.temp }}/three-asr-summary.json
           retention-days: 30
           if-no-files-found: error
+  independent-phones:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'e844bfbff4d579397eb93de0f2e27bf38fe1af8a'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      actions: read
+    env:
+      OMP_NUM_THREADS: '4'
+      MKL_NUM_THREADS: '4'
+      OPENBLAS_NUM_THREADS: '1'
+      TOKENIZERS_PARALLELISM: 'false'
+      HF_HUB_DISABLE_TELEMETRY: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Bind the completed ASR stage and unchanged source audio
+        shell: bash
+        timeout-minutes: 5
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/runs/43802227932 |
+            jq -e '.status=="completed" and .conclusion=="success" and .run_attempt==1 and .head_sha=="e844bfbff4d579397eb93de0f2e27bf38fe1af8a"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14196731830 |
+            jq -e '.expired==false and .workflow_run.id==43802227932 and .digest=="sha256:d2d22f1d68d3a62e15e6856398fee2f5d8bbe17502c16706a0bb6c426acd791d"'
+          gh api repos/jiying2007/kws-data/actions/runs/43793684582 |
+            jq -e '.status=="completed" and .conclusion=="success" and .run_attempt==1 and .head_sha=="5273e92135f71245dca531221f2f51f1415113c7"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14193452864 |
+            jq -e '.expired==false and .workflow_run.id==43793684582 and .digest=="sha256:e737354ad8ed69d511f061781f5b6cc3c86ff1ea70ba9c72084c5ac4cd1c738f"'
+          gh api repos/jiying2007/kws-data/actions/artifacts/14193452864/zip > "$RUNNER_TEMP/source.zip"
+          python3 -I -S -B automation/english_ipa_qwen17_final_ipa_probe_once.py --source-zip "$RUNNER_TEMP/source.zip"
+      - name: Install the existing pinned CPU phoneme observer
+        shell: bash
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/phone-venv"
+          pip="$RUNNER_TEMP/phone-venv/bin/pip"
+          "$pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+          "$pip" install --disable-pip-version-check 'transformers==4.46.3' 'huggingface-hub==0.36.2' 'safetensors==0.4.5' 'numpy==1.26.4'
+          "$pip" freeze > "$RUNNER_TEMP/phone-pip-freeze.txt"
+      - name: Observe four original WAVs with no target hints or retries
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 14m "$RUNNER_TEMP/phone-venv/bin/python" -I -B \
+            automation/english_ipa_qwen17_final_ipa_probe_once.py \
+            --source-zip "$RUNNER_TEMP/source.zip" \
+            --output "$RUNNER_TEMP/phone-result" --execute-phones
+      - name: Retain independent observations and execution receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: final-ipa-qwen17-independent-phones-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/phone-result/summary.json
+            ${{ runner.temp }}/phone-result/started.json
+            ${{ runner.temp }}/phone-result/model-lock.json
+            ${{ runner.temp }}/phone-result/observation-*/*.json
+            ${{ runner.temp }}/phone-pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn
