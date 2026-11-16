@@ -1,0 +1,98 @@
+name: Independent CTC phoneme observations on stress-aligned Piper v4 16 probes once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-ipa-piper-v4-independent-ctc-once.yml
+      - .github/triggers/english-ipa-piper-v4-independent-ctc-20261116.json
+      - automation/english_piper_v4_ipa_ctc_once.py
+      - automation/test_english_piper_v4_ipa_ctc_once.py
+  push:
+    branches: [main]
+    paths:
+      - .github/triggers/english-ipa-piper-v4-independent-ctc-20261116.json
+permissions:
+  contents: read
+concurrency:
+  group: english-ipa-piper-v4-independent-ctc-20261116-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify CTC phone observer without model downloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_piper_v4_ipa_ctc_once.py -v
+            python3 -I -S -B "${args[@]}" automation/english_piper_v4_ipa_ctc_once.py
+          done
+  observe:
+    needs: source-contract
+    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      OMP_NUM_THREADS: "4"
+      MKL_NUM_THREADS: "4"
+      OPENBLAS_NUM_THREADS: "1"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify exact immutable Piper artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/jiying2007/kws-data/actions/runs/43898728142/artifacts" |
+            jq -e '[.artifacts[] | select(.id==14240252131 and
+              .name=="english-ipa-piper-probe-v3-43898728142" and
+              .digest=="sha256:9a611676829195c8ac07c07e50705cd8e98822703c60ab66e21ee5be03567193"
+              and .expired==false)] | length==1'
+      - name: Download unchanged Piper WAVs
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-ipa-piper-probe-v3-43898728142
+          run-id: 43898728142
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/piper-source
+      - name: Install exact CPU phoneme model runtime
+        timeout-minutes: 30
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/ipa-venv"
+          venv="$RUNNER_TEMP/ipa-venv/bin"
+          "$venv/pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu"
+          "$venv/pip" install --disable-pip-version-check "transformers==4.46.3" "huggingface-hub==0.36.2" "safetensors==0.4.5" "numpy==1.26.4"
+          "$venv/pip" freeze > "$RUNNER_TEMP/ipa-installed-packages.txt"
+      - name: Run exactly sixteen audio-only phoneme forwards
+        timeout-minutes: 120
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/ipa-venv/bin/python" -I -B automation/english_piper_v4_ipa_ctc_once.py \
+            --execute --source-parent "$RUNNER_TEMP/piper-source" \
+            --output "$RUNNER_TEMP/piper-ipa-result"
+      - name: Upload only machine phone observations and package identity
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-ipa-piper-v4-independent-ctc-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/piper-ipa-result/result.json
+            ${{ runner.temp }}/piper-ipa-result/model-lock.json
+            ${{ runner.temp }}/ipa-installed-packages.txt
+          retention-days: 30
+          if-no-files-found: warn
