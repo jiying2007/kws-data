@@ -69,7 +69,7 @@ def source_cells(parent):
     need(lock.get("repo")=="rhasspy/piper-voices" and
          lock.get("revision")=="de3dcfdf1912bb49726dc4aa11c26017ce2ac62a" and
          lock.get("model_sha256")=="9127a559e11603f10b366d1a20ac7426826081dbc521de4c2420c57728d73f0f" and
-         lock.get("engine_version")=="1.8.0","PIPER_LOCK")
+         lock.get("engine_version")=="1.8.0" and lock.get("speaker_ids")==SPEAKERS,"PIPER_LOCK")
     plan=read(root/"source-plan.json")
     need(plan.get("schema")=="english-ipa-piper-phoneme-probe-v4" and
          plan.get("model_revision")==lock["revision"] and plan.get("model_sha256")==lock["model_sha256"] and
