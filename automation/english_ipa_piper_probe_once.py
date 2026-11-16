@@ -68,10 +68,9 @@ def load_model(root):
       "config_md5":md5(cb),"config_bytes":len(cb),"speaker_count":cfg["num_speakers"],
       "speaker_ids":{"p3922":0,"p8699":1},"dataset":"LibriTTS train-clean-360",
       "dataset_license":"CC-BY-4.0","attribution_required":True}
-def synthesize(model_path,cell):
+def synthesize(voice,cell):
     import numpy as np
-    from piper import PiperVoice,SynthesisConfig
-    voice=PiperVoice.load(str(model_path))
+    from piper import SynthesisConfig
     raw="[[ "+cell["raw_espeak_ipa"]+" ]]"
     phonemes=voice.phonemize(raw)
     flattened=[p for sentence in phonemes for p in sentence]
@@ -128,6 +127,8 @@ def execute(output):
     try:
         need(version("piper-tts")==PIPER_VERSION,"PIPER_RUNTIME_VERSION")
         model,config,lock=load_model(runner)
+        from piper import PiperVoice
+        voice=PiperVoice.load(str(model))
         (output/"model-lock.json").write_text(json.dumps({
           "schema":"english-ipa-piper-model-lock-v1","repo":REPO,"revision":REV,
           "license":"CC-BY-4.0","engine":"piper-tts","engine_version":PIPER_VERSION,
@@ -147,7 +148,7 @@ def execute(output):
               "training_admitted":False},indent=2)+"\n")
             result["attempts"]+=1
             try:
-                pcm,rate,metrics=synthesize(model,cell)
+                pcm,rate,metrics=synthesize(voice,cell)
                 assets=write_audio(folder,pcm,rate)
                 (folder/"completed.json").write_text(json.dumps({
                   "schema":POLICY,"cell_id":cid,"phrase":cell["phrase"],
