@@ -112,6 +112,8 @@ def run_provider(provider,source_parent,out):
          os.environ.get("GITHUB_RUN_ATTEMPT")=="1","PROTECTED_MAIN_ATTEMPT_ONE")
     verify_trigger()
     root,plan,cells=source_cells(source_parent)
+    source_generation_status=read(root/"result.json").get("status")
+    source_aggregate_status_mismatch=source_generation_status!="COMPLETE"
     out=Path(out).resolve()
     blind.private_path(out,"PRIVATE_OUTPUT")
     need(out.parent.is_dir() and not out.exists(),"CREATE_ONLY_OUTPUT")
@@ -122,7 +124,10 @@ def run_provider(provider,source_parent,out):
       "provider_id":provider_id,"model_id":model_id,"model_revision_sha":revision,
       "source_run_id":SOURCE_RUN_ID,"source_artifact_id":SOURCE_ARTIFACT_ID,
       "source_artifact_sha256":SOURCE_ARTIFACT_SHA256,"call_budget":CELLS_PER_PROVIDER,
-      "training_admitted":False,"human_gold":False,"retry_count":0})
+      "training_admitted":False,"human_gold":False,"retry_count":0,
+      "source_generation_status":source_generation_status,
+      "source_cell_closure_complete":True,
+      "source_aggregate_status_mismatch":source_aggregate_status_mismatch})
     model_root=out/"private-model"
     model_root.mkdir(mode=0o700)
     rows=[]
@@ -174,7 +179,10 @@ def run_provider(provider,source_parent,out):
       "model_revision_sha":revision,"source_run_id":SOURCE_RUN_ID,
       "source_artifact_id":SOURCE_ARTIFACT_ID,"source_artifact_sha256":SOURCE_ARTIFACT_SHA256,
       "asr_attempts":len(rows),"completed_asr":complete,"model_load_error_type":load_error,
-      "rows":rows,"training_admitted":False,"human_gold":False,"pronunciation_verified":False}
+      "rows":rows,"source_generation_status":source_generation_status,
+      "source_cell_closure_complete":True,
+      "source_aggregate_status_mismatch":source_aggregate_status_mismatch,
+      "training_admitted":False,"human_gold":False,"pronunciation_verified":False}
     media._once(out/"summary.json",summary)
     return summary
 
@@ -190,7 +198,10 @@ def combine(results_parent,source_parent,out):
         summary=read(folder/"summary.json")
         need(summary.get("schema")==POLICY and summary.get("status")=="COMPLETE" and
              summary.get("provider")==provider and summary.get("asr_attempts")==CELLS_PER_PROVIDER and
-             summary.get("completed_asr")==CELLS_PER_PROVIDER and summary.get("training_admitted") is False,
+             summary.get("completed_asr")==CELLS_PER_PROVIDER and
+             summary.get("source_cell_closure_complete") is True and
+             summary.get("source_generation_status") in ("COMPLETE","INCOMPLETE_NO_RETRY") and
+             summary.get("training_admitted") is False,
              "PROVIDER_INCOMPLETE")
         for cid in target:
             native=read(folder/"cells"/cid/"native.json")
@@ -215,6 +226,9 @@ def combine(results_parent,source_parent,out):
     summary={"schema":POLICY,"status":"THREE_ASR_COMPLETE_REVIEW_REQUIRED",
       "source_run_id":SOURCE_RUN_ID,"source_artifact_id":SOURCE_ARTIFACT_ID,
       "providers":list(PROVIDERS),"asr_calls":MAX_CALLS,"cells":result,
+      "source_generation_status":read(source_cells(source_parent)[0]/"result.json").get("status"),
+      "source_cell_closure_complete":True,
+      "source_aggregate_status_mismatch":read(source_cells(source_parent)[0]/"result.json").get("status")!="COMPLETE",
       "machine_consensus_is_not_acoustic_gold":True,"human_gold":False,"training_admitted":False}
     (out/"three-asr-summary.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2)+"\n")
     print(json.dumps(summary,ensure_ascii=False,sort_keys=True))
