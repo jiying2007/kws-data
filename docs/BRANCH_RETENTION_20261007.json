@@ -232,7 +232,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2162,
+  "expected_tracked_files": 2163,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -370,7 +370,8 @@
     "automation/verify_snapshot160_frontend_once.py",
     "research/english_snapshot160_delivery/README.md",
     "research/english_snapshot160_delivery/read_c_trace.py",
-    "research/english_snapshot160_delivery/test_read_c_trace.py"
+    "research/english_snapshot160_delivery/test_read_c_trace.py",
+    ".github/triggers/english-ipa-piper-phoneme-probe-v3-20261116.json"
   ],
   "baseline_files": [
     {
@@ -27151,6 +27152,20 @@
         "source_only_job_unchanged": true,
         "all_previous_registration_history_unchanged": true
       }
+    },
+    {
+      "campaign": "english-ipa-piper-final-image-probe-v3-stress-aligned-20261116",
+      "source_commit": "eb6aa230b415cd9596bfdd1a84dc37447b052ad5",
+      "paths": [
+        ".github/triggers/english-ipa-piper-phoneme-probe-v3-20261116.json",
+        ".github/workflows/english-ipa-piper-probe-once.yml",
+        "automation/english_ipa_piper_probe_once.py",
+        "automation/test_english_ipa_piper_probe_once.py",
+        "docs/ENGLISH_IPA_PHONEME_TTS_RESEARCH_20261116.md"
+      ],
+      "previous_manifest_git_blob_sha1": "1af1cb2821323972972091d3f384e9f82f0947a1",
+      "scope": "Four one-shot Piper raw-phoneme probes for final image-confirmed American readings Mero /heɪ ˈmiːroʊ/ and Vosen /heɪ ˈvoʊzən/, with light/unstressed Hey and primary stress on the name. v2 outputs remain immutable historical evidence.",
+      "rationale": "Review against the owner's pronunciation reference showed Hey is marked light while the name's first syllable carries stress. v2 used a stress marker on Hey; v3 removes it while retaining long /iː/ for Mero and voiced /z/ for Vosen. Exactly four new Piper calls, no retries, no ASR, no training or qualification."
     }
   ]
 }
