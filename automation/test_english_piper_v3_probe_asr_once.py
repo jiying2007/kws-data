@@ -8,6 +8,7 @@ class PiperAsrContract(unittest.TestCase):
  def test_trigger(self):
   x=a.verify_trigger()
   self.assertEqual(x["source_artifact_id"],14235001433)
+  self.assertEqual(x["binding_revision"],2)
  def test_provider_roster(self):
   self.assertEqual(a.PROVIDERS,("qwen","whisper","parakeet"))
   self.assertEqual(a.MAX_CALLS,12)
