@@ -1,164 +1,315 @@
-"""One-shot pronunciation-controlled Qwen 1.7B English KWS probe; no training/admission."""
+"""Consume the completed Qwen17 probe once; no regeneration or label admission.
+
+The original generator is retained at SOURCE_HEAD. This live successor reuses
+its exact four WAVs and the existing three pinned blind-ASR backends.
+"""
 from __future__ import annotations
-import argparse, hashlib, json, os, shutil, sys
+
+import argparse
+import hashlib
+import io
+import json
+import os
 from pathlib import Path
-from importlib.metadata import version
+import stat
+import sys
+import wave
+import zipfile
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-import english_qwen_capture as capture
-import multilingual_campaign as market
+HERE = Path(__file__).resolve().parent
+TRIGGER = HERE.parent / '.github/triggers/english-ipa-qwen17-final-ipa-20261116.json'
+POLICY = 'english-ipa-qwen17-final-ipa-probe-v1'
+ASR_POLICY = 'english-final-ipa-qwen17-blind-asr-v1'
+MODEL = 'Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice'
+REV = '0c0e3051f131929182e2c023b9537f8b1c68adfe'
+SOURCE_HEAD = '5273e92135f71245dca531221f2f51f1415113c7'
+SOURCE_RUN = 43793684582
+SOURCE_ARTIFACT = 14193452864
+SOURCE_SHA = 'e737354ad8ed69d511f061781f5b6cc3c86ff1ea70ba9c72084c5ac4cd1c738f'
+LOCK_SHA = 'be0906da0f79d8af218e2cbbdd269992c428232dd8bb96cdca8359d337396da7'
+BACKEND_BLOB = 'f3bf07e6237dfaeebf7a92d49a821ac0efcdc09b'
+PROVIDERS = ('qwen', 'whisper', 'parakeet')
+# Cell, requested phrase, preset, frame count, original WAV SHA, PCM SHA.
+ROSTER = (
+ ('enipa-6f78627d1f7517b32f22603a', 'Hey Mero', 'aiden', 20480,
+  'dcc263af734f33f563c5cb6f71687d67a8b94bd8e882b36684042b31202c200a',
+  '5959b0ffbfdeaaa9689e6328006f990155134802945fd964f28018c8cce0e723'),
+ ('enipa-abdd93d1968b502793ca8548', 'Hey Mero', 'ryan', 16640,
+  '92c71d03069e699c85e448066163b8e682944d3147cfc877f646c3162a8e1804',
+  '700cf60dcc34f12d88a59e2e8252767f001fb3ec9a6ab5fb7e5124d756facad0'),
+ ('enipa-2166f344d7858e6c40de6ea6', 'Hey Vosen', 'aiden', 11520,
+  'd4d72b357d5078d77c96c31b94f9fc41e010c17e850e92be5ddc4904adec7aee',
+  '1aa87c92786698d3ce5d6e41b68ff4e64271e61d45370ab51d71f60a1b26cc10'),
+ ('enipa-2dd614fa331bb5096e46466a', 'Hey Vosen', 'ryan', 17920,
+  'afa1160bc7e8c18f225522eddac72b10e79613b233490c11810f7185174398a5',
+  '8cacc21ac162941025156f6134e7d88261b7856d35716e2931c778792d1fb812'),
+)
+IPAS = {'Hey Mero': '/heɪ ˈmiːroʊ/', 'Hey Vosen': '/heɪ ˈvoʊzən/'}
+FALSE_FLAGS = {'training_admitted': False, 'human_gold': False,
+               'pronunciation_verified': False, 'model_promotion_allowed': False}
 
-POLICY="english-ipa-qwen17-final-ipa-probe-v1"
-TRIGGER=Path(__file__).resolve().parents[1]/".github/triggers/english-ipa-qwen17-final-ipa-20261116.json"
-MODEL="Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice"
-REV="0c0e3051f131929182e2c023b9537f8b1c68adfe"
-MAX_MODEL_BYTES=6*1024**3
-MAX_DISK_RESERVE=1024**3
 
-def sha(b): return hashlib.sha256(b).hexdigest()
-def need(ok,msg):
-    if not ok: raise ValueError(msg)
+def need(ok, reason):
+    if not ok:
+        raise ValueError(reason)
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def unique(pairs):
+    out = {}
+    for key, value in pairs:
+        need(key not in out, 'DUPLICATE_JSON_KEY')
+        out[key] = value
+    return out
+
+
+def loads(raw):
+    return json.loads(raw, object_pairs_hook=unique,
+                      parse_constant=lambda _: (_ for _ in ()).throw(ValueError('NONFINITE_JSON')))
+
+
+def regular(path, limit):
+    path = Path(path)
+    need(not any(p.is_symlink() for p in (path, *path.parents)), 'SYMLINK_PATH')
+    need(path.is_file() and stat.S_ISREG(path.stat().st_mode)
+         and path.stat().st_size <= limit, 'FILE_OR_SIZE')
+    with path.open('rb') as src:
+        data = src.read(limit + 1)
+    need(len(data) <= limit, 'FILE_SIZE_CHANGED')
+    return data
+
+
+def once(path, value):
+    raw = (json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False) + '\n').encode()
+    with Path(path).open('xb') as dst:
+        dst.write(raw)
+        dst.flush()
+        os.fsync(dst.fileno())
+
+
 def read_trigger():
-    x=market.read(TRIGGER)
-    expected = [
-      {"phrase":"Hey Mero","ipa":"/heɪ ˈmiːroʊ/","speaker":"aiden",
-       "instruction":"Pronounce the name Mero exactly as /miːroʊ/, with a long stressed /iː/ vowel in its first syllable, not /ɪ/. Keep the phrase natural."},
-      {"phrase":"Hey Mero","ipa":"/heɪ ˈmiːroʊ/","speaker":"ryan",
-       "instruction":"Pronounce the name Mero exactly as /miːroʊ/, with a long stressed /iː/ vowel in its first syllable, not /ɪ/. Keep the phrase natural."},
-      {"phrase":"Hey Vosen","ipa":"/heɪ ˈvoʊzən/","speaker":"aiden",
-       "instruction":"Pronounce the name Vosen exactly as /voʊzən/, with a voiced /z/ in the middle, not an unvoiced /s/. Keep the phrase natural."},
-      {"phrase":"Hey Vosen","ipa":"/heɪ ˈvoʊzən/","speaker":"ryan",
-       "instruction":"Pronounce the name Vosen exactly as /voʊzən/, with a voiced /z/ in the middle, not an unvoiced /s/. Keep the phrase natural."}
-    ]
-    need(x.get("schema")==POLICY and x.get("model_id")==MODEL and
-         x.get("model_revision")==REV and x.get("model_license")=="Apache-2.0" and
-         x.get("voices")==["aiden","ryan"] and x.get("cells")==expected and
-         x.get("max_calls")==4 and x.get("asr_calls")==0 and
-         x.get("training_admitted") is False and x.get("human_gold") is False and
-         x.get("qualification_allowed") is False and x.get("no_retry") is True,
-         "TRIGGER_IDENTITY_OR_PRONUNCIATION_DRIFT")
+    x = loads(regular(TRIGGER, 16384))
+    need(x.get('schema') == POLICY and x.get('model_id') == MODEL and
+         x.get('model_revision') == REV and x.get('max_calls') == 4 and
+         x.get('asr_calls') == 0 and x.get('no_retry') is True and
+         x.get('training_admitted') is False and x.get('human_gold') is False,
+         'ORIGINAL_TRIGGER_IDENTITY')
+    need([(c['phrase'], c['speaker'], c['ipa']) for c in x['cells']] ==
+         [(r[1], r[2], IPAS[r[1]]) for r in ROSTER], 'ORIGINAL_TARGET_ROSTER')
     return x
 
-def materialize(root):
-    from huggingface_hub import HfApi, snapshot_download
-    info=HfApi().model_info(repo_id=MODEL,revision=REV,files_metadata=True,token=False)
-    need(info.sha==REV and info.private is False and not getattr(info,"gated",False),
-         "UPSTREAM_MODEL_REVISION_OR_ACCESS")
-    sizes=[getattr(f,"size",None) for f in (info.siblings or [])]
-    need(sizes and all(type(n) is int and n>=0 for n in sizes) and
-         sum(sizes)<=MAX_MODEL_BYTES, "MODEL_SIZE_BUDGET")
-    need(shutil.disk_usage(root).free>=sum(sizes)+MAX_DISK_RESERVE,
-         "MODEL_DISK_BUDGET")
-    folder=root/"model"
-    need(not folder.exists(),"MODEL_DOWNLOAD_ONCE")
-    folder.mkdir(mode=0o700)
-    path=snapshot_download(repo_id=MODEL,revision=REV,local_dir=str(folder),token=False)
-    need(Path(path).resolve()==folder.resolve(),"MODEL_PATH")
-    cache=folder/".cache"
-    if cache.exists():
-        need(cache.is_dir() and not cache.is_symlink(),"MODEL_CACHE")
-        shutil.rmtree(cache)
-    rows=[]
-    for f in sorted(folder.rglob("*")):
-        need(not f.is_symlink(),"MODEL_SYMLINK")
-        if f.is_file() and ".cache" not in f.relative_to(folder).parts:
-            n,h=capture.media()._safe_file(f,limit=MAX_MODEL_BYTES)
-            rows.append({"path":f.relative_to(folder).as_posix(),"bytes":n,"sha256":h})
-    need(rows and sum(x["bytes"] for x in rows)<=MAX_MODEL_BYTES,"MODEL_SNAPSHOT")
-    return folder,{"schema":"english-ipa-qwen17-model-lock-v1","model_id":MODEL,
-                   "revision":REV,"license":"Apache-2.0","files":rows}
 
-class Backend:
-    def __init__(self,folder):
-        self.folder=folder
-        self.model=None
-    def synthesize(self,cell):
-        import torch
-        from qwen_tts import Qwen3TTSModel
-        if self.model is None:
-            torch.set_num_threads(min(4,os.cpu_count() or 1))
-            self.model=Qwen3TTSModel.from_pretrained(
-                str(self.folder),device_map="cpu",dtype=torch.bfloat16,
-                attn_implementation="sdpa")
-        torch.manual_seed(int(sha(cell["cell_id"].encode())[:12],16))
-        wavs,rate=self.model.generate_custom_voice(
-            text=cell["phrase"],language="English",speaker=cell["speaker"].title(),
-            instruct=cell["instruction"],do_sample=False)
-        need(len(wavs)==1,"ONE_WAV_PER_CELL")
-        return wavs[0],int(rate)
+def source_cells(path):
+    """Authenticate before returning any bytes; never extract arbitrary members."""
+    raw = regular(path, 1024 * 1024)
+    need(sha(raw) == SOURCE_SHA, 'SOURCE_ZIP_SHA')
+    prefix = 'en-ipa-probe/'
+    names = {prefix + x for x in ('started.json', 'result.json', 'model-lock.json', 'source-plan.json')}
+    names.add('en-ipa-pip-freeze.txt')
+    for row in ROSTER:
+        names.update(prefix + 'cells/' + row[0] + '/' + x for x in
+                     ('audio-16k.wav', 'native-f32.wav', 'started.json', 'completed.json'))
+    with zipfile.ZipFile(io.BytesIO(raw)) as z:
+        infos = z.infolist()
+        need(len(infos) == len(names) and {i.filename for i in infos} == names and
+             all(not i.is_dir() and not i.flag_bits & 1 and
+                 stat.S_IFMT(i.external_attr >> 16) in (0, stat.S_IFREG)
+                 and i.file_size <= 1024 * 1024 for i in infos) and
+             sum(i.file_size for i in infos) <= 4 * 1024 * 1024, 'SOURCE_MEMBER_SET')
+        summary = loads(z.read(prefix + 'result.json'))
+        plan = loads(z.read(prefix + 'source-plan.json'))
+        started = loads(z.read(prefix + 'started.json'))
+        lock_raw = z.read(prefix + 'model-lock.json')
+        lock = loads(lock_raw)
+        need(summary.get('schema') == POLICY and summary.get('status') == 'COMPLETE' and
+             summary.get('attempts') == summary.get('completed') == 4 and
+             summary.get('asr_calls') == 0 and summary.get('training_admitted') is False and
+             summary.get('human_gold') is False, 'SOURCE_TERMINAL_STATUS')
+        need(str(started.get('run_id')) == str(SOURCE_RUN) and
+             started.get('source_sha') == SOURCE_HEAD and sha(lock_raw) == LOCK_SHA and
+             lock.get('model_id') == MODEL and lock.get('revision') == REV and
+             plan.get('model') == MODEL and plan.get('revision') == REV and
+             plan.get('model_lock_sha256') == LOCK_SHA and
+             summary.get('model_lock_sha256') == LOCK_SHA and
+             plan.get('training_admitted') is False and plan.get('human_gold') is False,
+             'SOURCE_MODEL_OR_RUN_BINDING')
+        need(len(plan['cells']) == len(summary['rows']) == 4, 'SOURCE_ROW_COUNT')
+        need(len({c['cell_id'] for c in plan['cells']}) == 4 and
+             len({c['cell_id'] for c in summary['rows']}) == 4, 'SOURCE_DUPLICATE_CELL')
+        plans = {c['cell_id']: c for c in plan['cells']}
+        reports = {c['cell_id']: c for c in summary['rows']}
+        need(set(plans) == set(reports) == {r[0] for r in ROSTER}, 'SOURCE_CELL_SET')
+        output = []
+        for cid, phrase, speaker, frames, wav_sha, pcm_sha in ROSTER:
+            folder = prefix + 'cells/' + cid + '/'
+            receipt = loads(z.read(folder + 'completed.json'))
+            need(plans[cid]['phrase'] == receipt.get('phrase') == phrase and
+                 plans[cid]['speaker'] == receipt.get('speaker') == speaker and
+                 plans[cid]['ipa'] == receipt.get('ipa_target') == IPAS[phrase] and
+                 receipt.get('cell_id') == cid and receipt.get('training_admitted') is False and
+                 receipt.get('human_gold') is False and receipt.get('pronunciation_verified') is False,
+                 'SOURCE_CELL_RECEIPT')
+            wav = z.read(folder + 'audio-16k.wav')
+            audio = receipt['audio']
+            with wave.open(io.BytesIO(wav), 'rb') as w:
+                need((w.getnchannels(), w.getsampwidth(), w.getframerate(),
+                      w.getnframes(), w.getcomptype()) == (1, 2, 16000, frames, 'NONE'), 'WAV_GEOMETRY')
+                pcm = w.readframes(frames)
+            need(len(pcm) == frames * 2 and sha(wav) == wav_sha == audio['wav_sha256'] ==
+                 reports[cid]['wav_sha256'] and sha(pcm) == pcm_sha == audio['pcm_sha256'] ==
+                 reports[cid]['pcm_sha256'] and len(wav) == audio['wav_bytes'] and
+                 frames == audio['audio_frames'] and reports[cid]['status'] == 'GENERATED_UNADMITTED',
+                 'SOURCE_WAV_PCM_BINDING')
+            need(sha(z.read(folder + 'native-f32.wav')) == audio['native_sha256'], 'NATIVE_WAV_BINDING')
+            output.append((cid, wav, frames, wav_sha))
+    return output
 
-def execute(out):
-    trigger=read_trigger()
-    need(os.environ.get("GITHUB_REPOSITORY")=="jiying2007/kws-data" and
-         os.environ.get("GITHUB_REF")=="refs/heads/main" and
-         os.environ.get("GITHUB_RUN_ATTEMPT")=="1","MAIN_ATTEMPT_ONE_ONLY")
-    need(out.is_absolute() and out.parent.is_dir() and not out.exists() and
-         not any(p.is_symlink() for p in (out,out.parent,*out.parent.parents)),
-         "CREATE_ONLY_PRIVATE_OUTPUT")
-    out.mkdir(mode=0o700)
-    runner=capture.media()
-    runner._once(out/"started.json",{"schema":POLICY,"status":"started",
-      "source_sha":os.environ.get("GITHUB_SHA"),"run_id":os.environ.get("GITHUB_RUN_ID"),
-      "trigger_sha256":sha(TRIGGER.read_bytes()),"max_calls":4,"no_retry":True,
-      "training_admitted":False,"human_gold":False})
-    result={"schema":POLICY,"status":"FAILED_NO_RETRY","attempts":0,"completed":0}
+
+def execution_guard(event, env):
+    """Only the first protected-main successor push can consume this campaign."""
+    need(env.get('GITHUB_REPOSITORY') == 'jiying2007/kws-data' and
+         env.get('GITHUB_EVENT_NAME') == 'push' and env.get('GITHUB_REF') == 'refs/heads/main' and
+         env.get('GITHUB_RUN_ATTEMPT') == '1' and
+         event.get('before') == SOURCE_HEAD and event.get('after') == env.get('GITHUB_SHA') and
+         event.get('after') not in (None, SOURCE_HEAD) and
+         event.get('repository', {}).get('full_name') == 'jiying2007/kws-data' and
+         event.get('repository', {}).get('private') is False, 'ONE_SUCCESSOR_PUSH_ONLY')
+
+
+def capture(provider, source_zip, output, *, backend=None):
+    need(provider in PROVIDERS, 'PROVIDER')
+    cells = source_cells(source_zip)
+    output = Path(output)
+    need(output.is_absolute() and output.parent.is_dir() and not output.exists() and
+         not any(p.is_symlink() for p in (output, *output.parents)), 'CREATE_ONLY_OUTPUT')
+    if backend is None:
+        event = loads(regular(Path(os.environ['GITHUB_EVENT_PATH']), 8 * 1024 * 1024))
+        execution_guard(event, os.environ)
+    output.mkdir(mode=0o700)
+    once(output / 'started.json', {'schema': ASR_POLICY, 'provider': provider,
+         'source_zip_sha256': SOURCE_SHA, 'source_run_id': SOURCE_RUN,
+         'github_sha': os.environ.get('GITHUB_SHA'), 'run_id': os.environ.get('GITHUB_RUN_ID'),
+         'call_budget': 4, 'retry_count': 0, 'test_backend': backend is not None, **FALSE_FLAGS})
+    model_root = output / 'model'
+    model_root.mkdir(mode=0o700)
+    injected_backend = backend is not None
+    attempts, rows, failure = 0, [], None
+    provenance = None
     try:
-        folder,lock=materialize(out)
-        runner._once(out/"model-lock.json",lock)
-        model_lock_sha=sha((out/"model-lock.json").read_bytes())
-        plan=[]
-        for i,c in enumerate(trigger["cells"]):
-            row=dict(c)
-            row["cell_id"]="enipa-"+sha(json.dumps({"i":i,"cell":c,"revision":REV},
-                                      sort_keys=True,separators=(",",":")).encode())[:24]
-            row["model_lock_sha256"]=model_lock_sha
-            plan.append(row)
-        runner._once(out/"source-plan.json",{"schema":POLICY,"model":MODEL,
-          "revision":REV,"model_lock_sha256":model_lock_sha,"cells":plan,
-          "training_admitted":False,"human_gold":False,"qualification_allowed":False})
-        backend=Backend(folder)
-        rows=[]
-        for cell in plan:
-            d=out/"cells"/cell["cell_id"]
-            d.mkdir(parents=True,mode=0o700)
-            runner._once(d/"started.json",{"schema":POLICY,"cell_id":cell["cell_id"],
-              "attempts":1,"retry_count":0,"training_admitted":False})
-            result["attempts"]+=1
+        if backend is None:
+            source = regular(HERE / 'english_seven_voice_asr_once.py', 128 * 1024)
+            need(hashlib.sha1(b'blob ' + str(len(source)).encode() + b'\0' + source).hexdigest()
+                 == BACKEND_BLOB, 'REUSED_BACKEND_SOURCE_CHANGED')
+            sys.path.insert(0, str(HERE))
+            import english_seven_voice_asr_once as seven
+            provenance = list(seven.PROVENANCE[provider])
+            backend = seven._load(provider, model_root)
+        for i, (cid, wav, frames, wav_sha) in enumerate(cells):
+            folder = output / ('observation-%02d' % i)
+            folder.mkdir(mode=0o700)
+            # Decoder sees an anonymous WAV, never target text, IPA or another transcript.
+            audio_path = folder / 'audio.wav'
+            with audio_path.open('xb') as dst:
+                dst.write(wav)
+            once(folder / 'started.json', {'cell_id': cid, 'wav_sha256': wav_sha, 'attempt': 1})
+            attempts += 1
             try:
-                samples,rate=backend.synthesize(cell)
-                metrics=runner.quality(samples,rate)
-                audio=runner._write_waves(d,samples,rate,metrics)
-                runner._once(d/"completed.json",{"schema":POLICY,"cell_id":cell["cell_id"],
-                  "phrase":cell["phrase"],"ipa_target":cell["ipa"],
-                  "instruction":cell["instruction"],"speaker":cell["speaker"],
-                  "audio":audio,"technical":metrics,"pronunciation_verified":False,
-                  "human_gold":False,"training_admitted":False})
-                rows.append({"cell_id":cell["cell_id"],"status":"GENERATED_UNADMITTED",
-                             "wav_sha256":audio["wav_sha256"],"pcm_sha256":audio["pcm_sha256"]})
-                result["completed"]+=1
-            except Exception as e:
-                runner._once(d/"failed.json",{"schema":POLICY,"cell_id":cell["cell_id"],
-                  "status":"FAILED_NO_RETRY","error_type":type(e).__name__,
-                  "training_admitted":False})
-                rows.append({"cell_id":cell["cell_id"],"status":"FAILED_NO_RETRY"})
-        result.update({"status":"COMPLETE" if result["completed"]==4 else "INCOMPLETE_NO_RETRY",
-          "rows":rows,"model_lock_sha256":model_lock_sha,"qwen_tts_version":version("qwen-tts"),
-          "asr_calls":0,"training_admitted":False,"human_gold":False})
-    except BaseException as e:
-        result.update({"error_type":type(e).__name__,"training_admitted":False})
-    runner._once(out/"result.json",result)
+                text = backend(audio_path, folder)
+                need(type(text) is str and text.strip() and len(text) <= 512 and
+                     not any(ord(c) < 32 for c in text), 'ASR_TEXT_INVALID')
+                row = {'cell_id': cid, 'wav_sha256': wav_sha, 'frames': frames,
+                       'status': 'COMPLETE', 'text': text, 'decoder_completed': True}
+                once(folder / 'completed.json', {**row, **FALSE_FLAGS})
+            except Exception as exc:
+                row = {'cell_id': cid, 'wav_sha256': wav_sha, 'status': 'FAILED_NO_RETRY',
+                       'error_type': type(exc).__name__}
+                once(folder / 'failed.json', row)
+            finally:
+                audio_path.unlink()
+            rows.append(row)
+    except Exception as exc:
+        failure = type(exc).__name__
+    finally:
+        completed = sum(r['status'] == 'COMPLETE' for r in rows)
+        result = {'schema': ASR_POLICY, 'status': 'COMPLETE' if completed == 4 and failure is None
+                  else 'INCOMPLETE_NO_RETRY', 'provider': provider, 'provenance': provenance,
+                  'source_run_id': SOURCE_RUN, 'source_artifact_id': SOURCE_ARTIFACT,
+                  'source_zip_sha256': SOURCE_SHA, 'asr_attempts': attempts, 'completed_asr': completed,
+                  'error_type': failure, 'retry_count': 0, 'source_audio_count': 4,
+                  'test_backend': injected_backend, 'rows': rows, **FALSE_FLAGS}
+        once(output / 'summary.json', result)
     return result
 
+
+def combine(parent, output):
+    """Join authenticated observations; spelling agreement never grants training."""
+    parent, output = Path(parent), Path(output)
+    need(not output.exists(), 'COMBINED_CREATE_ONLY')
+    inputs, observations = {}, {}
+    for provider in PROVIDERS:
+        raw = regular(parent / provider / 'summary.json', 65536)
+        value = loads(raw)
+        need(value.get('schema') == ASR_POLICY and value.get('provider') == provider and
+             value.get('source_run_id') == SOURCE_RUN and value.get('source_artifact_id') == SOURCE_ARTIFACT and
+             value.get('source_zip_sha256') == SOURCE_SHA and value.get('status') == 'COMPLETE' and
+             value.get('asr_attempts') == value.get('completed_asr') == 4 and
+             value.get('test_backend') is False and
+             all(value.get(k) is False for k in FALSE_FLAGS), 'ASR_SUMMARY_IDENTITY')
+        rows = value.get('rows', [])
+        need(len(rows) == 4 and len({r['cell_id'] for r in rows}) == 4, 'ASR_ROWS')
+        by_id = {r['cell_id']: r for r in rows}
+        need(set(by_id) == {r[0] for r in ROSTER}, 'ASR_CELL_SET')
+        for cid, _, _, frames, wav_sha, _ in ROSTER:
+            row = by_id[cid]
+            need(row.get('wav_sha256') == wav_sha and row.get('frames') == frames and
+                 row.get('status') == 'COMPLETE' and row.get('decoder_completed') is True and
+                 type(row.get('text')) is str and bool(row['text'].strip()), 'ASR_ROW_BINDING')
+            observations.setdefault(cid, {})[provider] = row['text']
+        inputs[provider] = sha(raw)
+    result = {'schema': ASR_POLICY, 'status': 'THREE_ASR_COMPLETE_REVIEW_REQUIRED',
+              'source_run_id': SOURCE_RUN, 'source_artifact_id': SOURCE_ARTIFACT,
+              'source_zip_sha256': SOURCE_SHA, 'input_summary_sha256': inputs,
+              'asr_calls': 12, 'cells': [
+                  {'cell_id': r[0], 'requested_phrase': r[1], 'target_ipa': IPAS[r[1]],
+                   'source_preset': r[2], 'wav_sha256': r[4], 'transcripts': observations[r[0]],
+                   'acoustic_review': 'PENDING', **FALSE_FLAGS} for r in ROSTER],
+              'machine_observations_are_not_acoustic_gold': True, **FALSE_FLAGS}
+    once(output, result)
+    return result
+
+
 def main(argv=None):
-    p=argparse.ArgumentParser()
-    p.add_argument("--output",type=Path,required=True)
-    p.add_argument("--execute",action="store_true")
-    a=p.parse_args(argv)
-    if not a.execute:
+    cli = argparse.ArgumentParser(description=__doc__)
+    cli.add_argument('--output', type=Path)
+    cli.add_argument('--source-zip', type=Path)
+    cli.add_argument('--provider', choices=PROVIDERS)
+    cli.add_argument('--combine', type=Path)
+    cli.add_argument('--execute', action='store_true', help='Retired TTS mode; always rejected')
+    cli.add_argument('--execute-asr', action='store_true')
+    args = cli.parse_args(argv)
+    need(not args.execute, 'TTS_ALREADY_CONSUMED_DO_NOT_REGENERATE')
+    if args.combine:
+        need(args.output is not None and not args.execute_asr and args.provider is None,
+             'COMBINE_ARGUMENTS')
+        result = combine(args.combine, args.output)
+    elif args.execute_asr:
+        need(args.provider is not None and args.source_zip is not None and args.output is not None,
+             'ASR_ARGUMENTS')
+        result = capture(args.provider, args.source_zip, args.output)
+    elif args.source_zip:
+        need(args.provider is None, 'SOURCE_VERIFY_ONLY')
+        cells = source_cells(args.source_zip)
+        result = {'status': 'EXACT_FOUR_WAVS_VERIFIED_NO_MODEL', 'source_audio_count': len(cells),
+                  'asr_calls': 0, **FALSE_FLAGS}
+    else:
         read_trigger()
-        print("PLAN_VALID_NO_MODEL_OR_AUDIO_EXECUTION")
-        return 0
-    execute(a.output)
-    return 0
-if __name__=="__main__":
+        result = {'status': 'SOURCE_CONTRACT_ONLY', 'asr_calls': 0, **FALSE_FLAGS}
+    print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+    return 2 if result.get('status') == 'INCOMPLETE_NO_RETRY' else 0
+
+
+if __name__ == '__main__':
     raise SystemExit(main())
