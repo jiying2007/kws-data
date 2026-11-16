@@ -17,6 +17,8 @@ class ProbeAsrTests(__import__("unittest").TestCase):
  def test_trigger_is_exactly_pinned(self):
   self.assertEqual(a.verify_trigger()["source_artifact_sha256"],
     "35fc9ef1a76c5056d3c8307a87f9372f4d3f67412223d39c24fbc7724ee9b788")
+ def test_execution_generation_is_explicit(self):
+  self.assertEqual(a.verify_trigger()["execution_generation"],2)
  def test_three_asr_is_not_gold(self):
   self.assertEqual(a.SOURCE_ARTIFACT_SHA256,
     "35fc9ef1a76c5056d3c8307a87f9372f4d3f67412223d39c24fbc7724ee9b788")
