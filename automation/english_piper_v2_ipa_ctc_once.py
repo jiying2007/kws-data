@@ -17,7 +17,7 @@ import english63_independent_ipa as ipa
 POLICY="english-ipa-piper-v2-independent-ctc-observation-v1"
 SOURCE_RUN_ID=43789385672
 SOURCE_ARTIFACT_ID=14191228436
-SOURCE_ARTIFACT_NAME="english-ipa-piper-probe-43789385672"
+SOURCE_ARTIFACT_NAME="english-ipa-piper-probe-v2-43789385672"
 SOURCE_ARTIFACT_SHA256="8ab7ff273ce5ee98e4c4bd83f43fd80b82c7ae03ac89449ded93a4cd61bedc61"
 MODEL_ID=ipa.MODEL_ID
 MODEL_REV=ipa.MODEL_REV
