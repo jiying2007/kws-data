@@ -7,6 +7,11 @@ on:
       - automation/english_ipa_piper_probe_once.py
       - automation/test_english_ipa_piper_probe_once.py
       - docs/ENGLISH_IPA_PHONEME_TTS_RESEARCH_20261116.md
+      - .github/workflows/english-ipa-piper-v4-probe-once.yml
+      - .github/triggers/english-ipa-piper-phoneme-probe-v4-20261116.json
+      - automation/english_ipa_piper_probe_v4_once.py
+      - automation/test_english_ipa_piper_probe_v4_once.py
+      - docs/ENGLISH_IPA_PIPER_V4_MULTI_SPEAKER_20261116.md
   push:
     branches: [main]
     paths:
@@ -33,6 +38,7 @@ jobs:
             args=()
             case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
             python3 -I -S -B "${args[@]}" automation/test_english_ipa_piper_probe_once.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_ipa_piper_probe_v4_once.py -v
             python3 -I -S -B "${args[@]}" automation/english_ipa_piper_probe_once.py --output /tmp/not-created
           done
   generate:
