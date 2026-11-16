@@ -2,7 +2,7 @@
 import sys,unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-import english_piper_probe_asr_once as a
+import english_piper_v2_probe_asr_once as a
 
 class PiperAsrContract(unittest.TestCase):
  def test_trigger(self):
