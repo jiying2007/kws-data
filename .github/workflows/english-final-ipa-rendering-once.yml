@@ -1,0 +1,200 @@
+name: English final IPA rendering with automatic blind observations once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-final-ipa-rendering-once.yml
+      - automation/english_final_ipa_rendering_once.py
+      - automation/test_english_final_ipa_rendering_once.py
+  push:
+    branches: [main]
+    paths:
+      - automation/english_final_ipa_rendering_once.py
+permissions:
+  contents: read
+concurrency:
+  group: english-final-ipa-rendering-20261116-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '4'
+  MKL_NUM_THREADS: '4'
+  OPENBLAS_NUM_THREADS: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify fixed rendering recipe and stage isolation without models
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_final_ipa_rendering_once.py -v
+            python3 -I -S -B "${args[@]}" automation/english_final_ipa_rendering_once.py
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  generate:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'b0810b837c8c31d66bfbfeb1181e7b7585b12f21'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Install the existing pinned Qwen 1.7B CPU runtime
+        shell: bash
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/tts-venv"
+          pip="$RUNNER_TEMP/tts-venv/bin/pip"
+          "$pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu'
+          "$pip" install --disable-pip-version-check 'qwen-tts==0.1.1' 'huggingface-hub==0.36.2'
+          "$pip" freeze > "$RUNNER_TEMP/tts-pip-freeze.txt"
+      - name: Generate four explicitly rendered new cells without retries
+        shell: bash
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 19m "$RUNNER_TEMP/tts-venv/bin/python" -I -B \
+            automation/english_final_ipa_rendering_once.py --generate \
+            --output "$RUNNER_TEMP/render-source"
+      - name: Retain the unique generated audio and exact source receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: final-ipa-rendering-source-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/render-source/started.json
+            ${{ runner.temp }}/render-source/source-plan.json
+            ${{ runner.temp }}/render-source/model-lock.json
+            ${{ runner.temp }}/render-source/result.json
+            ${{ runner.temp }}/render-source/cells/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain generation runtime versions
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: final-ipa-rendering-tts-runtime-${{ github.run_id }}
+          path: ${{ runner.temp }}/tts-pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn
+  observe:
+    needs: generate
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        provider: [qwen, whisper, parakeet, phones]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      PROVIDER: ${{ matrix.provider }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Download only this successful generation stage
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: final-ipa-rendering-source-${{ github.run_id }}
+          path: ${{ runner.temp }}/render-source
+      - name: Install one existing pinned observer runtime
+        shell: bash
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/observe-venv"
+          pip="$RUNNER_TEMP/observe-venv/bin/pip"
+          if [ "$PROVIDER" = parakeet ]; then
+            "$pip" install --disable-pip-version-check 'huggingface-hub==0.36.2' 'hf-xet==1.2.0'
+          elif [ "$PROVIDER" = phones ]; then
+            "$pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+            "$pip" install --disable-pip-version-check 'transformers==4.46.3' 'huggingface-hub==0.36.2' 'safetensors==0.4.5' 'numpy==1.26.4'
+          else
+            "$pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu'
+            if [ "$PROVIDER" = qwen ]; then
+              "$pip" install --disable-pip-version-check 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2'
+            else
+              "$pip" install --disable-pip-version-check 'openai-whisper==20250625'
+            fi
+          fi
+          "$pip" freeze > "$RUNNER_TEMP/observer-pip-freeze.txt"
+      - name: Observe four anonymous original WAVs once
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 14m "$RUNNER_TEMP/observe-venv/bin/python" -I -B \
+            automation/english_final_ipa_rendering_once.py --observe "$PROVIDER" \
+            --source-parent "$RUNNER_TEMP/render-source" --output "$RUNNER_TEMP/render-observations"
+      - name: Preserve observer receipts and runtime versions
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: final-ipa-rendering-${{ matrix.provider }}-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/render-observations/summary.json
+            ${{ runner.temp }}/render-observations/started.json
+            ${{ runner.temp }}/render-observations/model-lock.json
+            ${{ runner.temp }}/render-observations/observation-*/*.json
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Preserve observer runtime versions
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: final-ipa-rendering-runtime-${{ matrix.provider }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/observer-pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn
+  combine:
+    needs: observe
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: final-ipa-rendering-qwen-${{ github.run_id }}
+          path: ${{ runner.temp }}/observations/qwen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: final-ipa-rendering-whisper-${{ github.run_id }}
+          path: ${{ runner.temp }}/observations/whisper
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: final-ipa-rendering-parakeet-${{ github.run_id }}
+          path: ${{ runner.temp }}/observations/parakeet
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: final-ipa-rendering-phones-${{ github.run_id }}
+          path: ${{ runner.temp }}/observations/phones
+      - name: Join exact-source evidence without granting training admission
+        run: >-
+          python3 -I -S -B automation/english_final_ipa_rendering_once.py
+          --combine "${{ runner.temp }}/observations"
+          --output "${{ runner.temp }}/rendering-review.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: final-ipa-rendering-review-${{ github.run_id }}
+          path: ${{ runner.temp }}/rendering-review.json
+          retention-days: 30
+          if-no-files-found: error

@@ -96,3 +96,58 @@ Phoneme observations have single-narrator/domain bias and remain machine
 evidence. They cannot grant acoustic gold, pronunciation verification,
 training admission or model promotion. Simulated backends are explicitly
 marked. Formal KWS training, independent evaluation and SSC305 remain pending.
+
+## Observed phonemes and the next concrete data correction
+
+Independent phoneme run `43808456802` completed all four real forwards, with
+zero new TTS, ASR or optimizer calls. Its artifact `14199511253` has ZIP SHA-256
+`cbdcaba3ba1c7dfa64dc825942887c3467d18c8349a323ee2f9c5be6717d446b`.
+An independent byte-verified readback returned:
+
+| Canonical phrase / voice | Raw machine tokens |
+|---|---|
+| Hey Mero / Aiden | eɪ p ɛ ɹ oʊ z |
+| Hey Mero / Ryan | ə m ɛ ɹ ə l |
+| Hey Vosen / Aiden | oʊ v oʊ z ə n |
+| Hey Vosen / Ryan | eɪ eɪ v oʊ z ɪ n |
+
+The fixed observer's vocabulary expresses the tense vowel as `i`, with no
+length or stress tokens. The corresponding segmental comparison targets are
+`h eɪ m i ɹ oʊ` and `h eɪ v oʊ z ə n`; the lack of a literal `iː` token is not
+itself a mismatch. Both Mero observations nevertheless contain `ɛ`, not `i`.
+Vosen has support for voiced `z`, but remaining prefix/vowel differences and
+prosody are unresolved. No row is admitted or relabelled as a trusted negative.
+
+The next finite experiment changes the text sent to the same pinned TTS
+backend, not the user's names or pronunciation targets:
+
+| Canonical phrase | New synthesis text | Target unchanged |
+|---|---|---|
+| Hey Mero | Hey Meero. | /heɪ ˈmiːroʊ/ |
+| Hey Vosen | Hey Vozen. | /heɪ ˈvoʊzən/ |
+
+`english_final_ipa_rendering_once.py` declares exactly these two renderings
+for Aiden and Ryan, with light Hey and first-syllable name stress requested.
+Its new `enrender-` cell identities keep the actual synthesis text distinct
+from the canonical phrase. The old four WAVs and observations remain unchanged.
+
+The new workflow performs one connected execution: four new synthesis calls,
+then four audio-only calls per existing observer (three ASR providers plus the
+phoneme observer), then an exact-source combined review artifact. Each stage
+consumes only its successful same-run predecessor. The run, source commit,
+recipe, code, source plan, model lock and each WAV/PCM identity are bound in
+the receipts. No provider receives the desired phrase or another transcript.
+The maximum is four TTS plus twelve ASR plus four phoneme calls, with no retry,
+no prompt/seed sweep and at most two simultaneous observer jobs.
+
+Both Python and workflow require the first public-main successor push whose
+`before` is `b0810b837c8c31d66bfbfeb1181e7b7585b12f21`, attempt 1. Original
+campaign guards are unchanged. Synthetic tests cannot become real source or
+combined evidence. A failed or interrupted stage retains its receipts and
+blocks automatic consumption. A complete combined result still grants no
+formal training, human gold, pronunciation approval or model promotion.
+
+This experiment addresses the observed Mero vowel conflict directly. Expansion
+to a separate source-split research training batch depends on the observed
+usefulness of these renderings; four probe clips are not a training dataset
+or evidence of final FAR/FRR/SSC305 completion.
