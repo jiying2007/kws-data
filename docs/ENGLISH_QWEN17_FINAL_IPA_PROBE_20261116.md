@@ -55,6 +55,44 @@ not duplicate audio or model assets. A successful summary still has
 The target includes light Hey and first-syllable name stress, which ASR spelling
 alone cannot validate. No broad accent rejection or invented negative labels.
 
-Twenty offline artificial-byte tests pass in normal, -O and -OO modes. A separate
-real-ZIP readback passes without a model call. These tests do not claim real ASR
-success. Formal KWS training, independent evaluation and SSC305 remain pending.
+## Completed blind ASR and independent phoneme continuation
+
+The blind ASR stage completed in run `43802227932` at commit
+`e844bfbff4d579397eb93de0f2e27bf38fe1af8a`: each of Qwen3-ASR, Whisper-small
+and Parakeet completed four calls, twelve in total. The combined artifact
+`14196731830` has ZIP SHA-256
+`d2d22f1d68d3a62e15e6856398fee2f5d8bbe17502c16706a0bb6c426acd791d`.
+An independent ZIP readback recovered these exact observations:
+
+| Requested phrase / preset | Qwen3-ASR | Whisper-small | Parakeet |
+|---|---|---|---|
+| Hey Mero / Aiden | Hey Mero. | Hey, Marrow! | Hey Merrow said. |
+| Hey Mero / Ryan | Hey, Mero. | Hey, Mero! | Ei mero! |
+| Hey Vosen / Aiden | Hey, Vosin. | Hey, Rosen. | Hey Vosin. |
+| Hey Vosen / Ryan | Hey, Vozin. | Hey, Vosin! | Hey Vozin |
+
+Spelling differences do not establish incorrect or correct acoustics. In
+particular, no ASR transcript proves the required long /iː/, medial /z/, or
+light Hey. The four original WAVs therefore continue into the existing
+independent phoneme observer, without another TTS or ASR call.
+
+The observer reuses `english63_independent_ipa.py` (Git blob
+`016df0222bf74f356399c30a9d7049b6ba5d4480`) and the pinned
+`bookbot/wav2vec2-ljspeech-gruut` revision
+`7be1e6f27c8163ce790688d62fd9ce1731177c2e`, with safetensors SHA-256
+`9bc8cd20e1348fc384ba4b9cd60a5c761dbb3f0b7071d1bdc33331ed1b358f29`.
+It receives anonymous original audio only, with no target, transcript, voice
+or split hints. At most four forwards are allowed, once per source WAV, with
+no retries. Per-cell receipts, raw tokens, stressless tokens, source hashes,
+the model lock and runtime package versions are retained.
+
+This is a separate, reviewed execution stage: both the workflow and Python
+require the first public-main successor push whose `before` commit is
+`e844bfbff4d579397eb93de0f2e27bf38fe1af8a`, attempt 1. The older TTS and ASR
+execution guards remain unchanged and cannot replay on this push. A moved
+base or failed/unknown execution is not permission to weaken those guards.
+
+Phoneme observations have single-narrator/domain bias and remain machine
+evidence. They cannot grant acoustic gold, pronunciation verification,
+training admission or model promotion. Simulated backends are explicitly
+marked. Formal KWS training, independent evaluation and SSC305 remain pending.

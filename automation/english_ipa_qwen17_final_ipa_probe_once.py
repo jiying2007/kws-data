@@ -1,7 +1,7 @@
 """Consume the completed Qwen17 probe once; no regeneration or label admission.
 
-The original generator is retained at SOURCE_HEAD. This live successor reuses
-its exact four WAVs and the existing three pinned blind-ASR backends.
+The original generator is retained at SOURCE_HEAD. Successors reuse its exact
+four WAVs for separately bounded blind-ASR and independent phoneme observations.
 """
 from __future__ import annotations
 
@@ -11,6 +11,7 @@ import io
 import json
 import os
 from pathlib import Path
+import shutil
 import stat
 import sys
 import wave
@@ -28,6 +29,12 @@ SOURCE_ARTIFACT = 14193452864
 SOURCE_SHA = 'e737354ad8ed69d511f061781f5b6cc3c86ff1ea70ba9c72084c5ac4cd1c738f'
 LOCK_SHA = 'be0906da0f79d8af218e2cbbdd269992c428232dd8bb96cdca8359d337396da7'
 BACKEND_BLOB = 'f3bf07e6237dfaeebf7a92d49a821ac0efcdc09b'
+PHONE_POLICY = 'english-final-ipa-qwen17-independent-phones-v1'
+PHONE_PREDECESSOR = 'e844bfbff4d579397eb93de0f2e27bf38fe1af8a'
+PHONE_BACKEND_BLOB = '016df0222bf74f356399c30a9d7049b6ba5d4480'
+PHONE_MODEL = 'bookbot/wav2vec2-ljspeech-gruut'
+PHONE_REV = '7be1e6f27c8163ce790688d62fd9ce1731177c2e'
+PHONE_WEIGHTS_SHA = '9bc8cd20e1348fc384ba4b9cd60a5c761dbb3f0b7071d1bdc33331ed1b358f29'
 PROVIDERS = ('qwen', 'whisper', 'parakeet')
 # Cell, requested phrase, preset, frame count, original WAV SHA, PCM SHA.
 ROSTER = (
@@ -281,6 +288,113 @@ def combine(parent, output):
     return result
 
 
+def phone_execution_guard(event, env):
+    """The new phoneme operation has its own first-successor bound, not an ASR replay."""
+    need(env.get('GITHUB_REPOSITORY') == 'jiying2007/kws-data' and
+         env.get('GITHUB_EVENT_NAME') == 'push' and env.get('GITHUB_REF') == 'refs/heads/main' and
+         env.get('GITHUB_RUN_ATTEMPT') == '1' and
+         event.get('before') == PHONE_PREDECESSOR and
+         event.get('after') == env.get('GITHUB_SHA') and
+         event.get('after') not in (None, PHONE_PREDECESSOR) and
+         event.get('repository', {}).get('full_name') == 'jiying2007/kws-data' and
+         event.get('repository', {}).get('private') is False,
+         'PHONE_ONE_SUCCESSOR_PUSH_ONLY')
+
+
+def capture_phones(source_zip, output, *, backend=None):
+    """Four verified anonymous WAVs, one phone-model load, no target input or retries.
+
+    The injected callable is exclusively an offline test seam. Its output is
+    explicitly simulated and cannot be confused with completed real inference.
+    """
+    cells = source_cells(source_zip)
+    need(len(cells) == 4, 'PHONE_SOURCE_COUNT')
+    output = Path(output)
+    need(output.is_absolute() and output.parent.is_dir() and not output.exists() and
+         not any(p.is_symlink() for p in (output, *output.parents)), 'CREATE_ONLY_OUTPUT')
+    injected_backend = backend is not None
+    if not injected_backend:
+        event = loads(regular(Path(os.environ['GITHUB_EVENT_PATH']), 8 * 1024 * 1024))
+        phone_execution_guard(event, os.environ)
+    output.mkdir(mode=0o700)
+    identity = {'schema': PHONE_POLICY, 'source_run_id': SOURCE_RUN,
+                'source_artifact_id': SOURCE_ARTIFACT, 'source_zip_sha256': SOURCE_SHA,
+                'model_id': PHONE_MODEL, 'model_revision': PHONE_REV,
+                'model_safetensors_sha256': PHONE_WEIGHTS_SHA,
+                'test_backend': injected_backend, 'call_budget': 4, 'retry_count': 0,
+                'source_audio_count': 4, 'machine_observation_only': True,
+                'new_tts_calls': 0, 'new_asr_calls': 0,
+                'new_kws_model_forwards': 0, 'new_optimizer_steps': 0, **FALSE_FLAGS}
+    once(output / 'started.json', {**identity, 'github_sha': os.environ.get('GITHUB_SHA'),
+                                 'run_id': os.environ.get('GITHUB_RUN_ID')})
+    model_root = output / 'private-model'
+    attempts, rows, failure, model_manifest = 0, [], None, None
+    try:
+        if not injected_backend:
+            source = regular(HERE / 'english63_independent_ipa.py', 128 * 1024)
+            need(hashlib.sha1(b'blob ' + str(len(source)).encode() + b'\0' + source).hexdigest()
+                 == PHONE_BACKEND_BLOB, 'REUSED_PHONE_BACKEND_SOURCE_CHANGED')
+            sys.path.insert(0, str(HERE))
+            import english63_independent_ipa as ipa
+            need((ipa.MODEL_ID, ipa.MODEL_REV, ipa.WEIGHTS_SHA256) ==
+                 (PHONE_MODEL, PHONE_REV, PHONE_WEIGHTS_SHA), 'PHONE_BACKEND_MODEL_IDENTITY')
+            model_root.mkdir(mode=0o700)
+            processor, model, torch, asset = ipa.load_model_from_pinned_assets(model_root)
+            model_manifest = asset['manifest_sha256']
+            once(output / 'model-lock.json', asset)
+            backend = lambda wav: ipa.predict_phone(wav, processor, model, torch)
+        for i, (cid, wav, frames, wav_sha) in enumerate(cells):
+            need(attempts < 4, 'PHONE_FORWARD_BUDGET')
+            folder = output / ('observation-%02d' % i)
+            folder.mkdir(mode=0o700)
+            audio_path = folder / 'audio.wav'
+            with audio_path.open('xb') as dst:
+                dst.write(wav)
+            row = {'cell_id': cid, 'wav_sha256': wav_sha, 'frames': frames,
+                   'test_backend': injected_backend, 'target_is_not_passed_to_model': True,
+                   **FALSE_FLAGS}
+            once(folder / 'started.json', {**row, 'attempt': 1})
+            attempts += 1
+            try:
+                # Only the WAV path reaches the decoder; target metadata is joined later.
+                raw_tokens, phone_tokens, observed_frames = backend(audio_path)
+                need(type(observed_frames) is int and observed_frames == frames,
+                     'PHONE_FRAME_BINDING')
+                need(all(type(tokens) is list and 2 <= len(tokens) <= 300 and
+                         all(type(t) is str and 0 < len(t) <= 20 and
+                             not any(ord(c) < 32 for c in t) for t in tokens)
+                         for tokens in (raw_tokens, phone_tokens)), 'PHONE_TOKEN_SHAPE')
+                row.update(status='COMPLETE', raw_ipa_tokens=raw_tokens,
+                           stressless_phone_tokens=phone_tokens, decoder_completed=True)
+                once(folder / 'completed.json', row)
+            except BaseException as exc:
+                row.update(status='FAILED_NO_RETRY', error_type=type(exc).__name__)
+                once(folder / 'failed.json', row)
+                if not isinstance(exc, Exception):
+                    raise
+            finally:
+                rows.append(row)
+                audio_path.unlink()
+    except BaseException as exc:
+        failure = type(exc).__name__
+        if not isinstance(exc, Exception):
+            raise
+    finally:
+        completed = sum(r.get('status') == 'COMPLETE' for r in rows)
+        status = 'COMPLETE' if completed == 4 and failure is None else 'INCOMPLETE_NO_RETRY'
+        if injected_backend and status == 'COMPLETE':
+            status = 'SIMULATED_COMPLETE'
+        result = {**identity, 'status': status, 'phoneme_attempts': attempts,
+                  'completed_phonemes': completed, 'error_type': failure,
+                  'model_manifest_sha256': model_manifest, 'rows': rows,
+                  'limitations': ['Single-narrator/Gruut model domain bias',
+                                  'Machine phonemes do not establish pronunciation or prosodic gold']}
+        once(output / 'summary.json', result)
+        if model_root.exists():
+            shutil.rmtree(model_root)
+    return result
+
+
 def main(argv=None):
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument('--output', type=Path)
@@ -289,16 +403,23 @@ def main(argv=None):
     cli.add_argument('--combine', type=Path)
     cli.add_argument('--execute', action='store_true', help='Retired TTS mode; always rejected')
     cli.add_argument('--execute-asr', action='store_true')
+    cli.add_argument('--execute-phones', action='store_true')
     args = cli.parse_args(argv)
     need(not args.execute, 'TTS_ALREADY_CONSUMED_DO_NOT_REGENERATE')
+    need(not (args.execute_asr and args.execute_phones), 'EXCLUSIVE_EXECUTION_MODE')
     if args.combine:
-        need(args.output is not None and not args.execute_asr and args.provider is None,
+        need(args.output is not None and not args.execute_asr and not args.execute_phones and
+             args.provider is None,
              'COMBINE_ARGUMENTS')
         result = combine(args.combine, args.output)
     elif args.execute_asr:
         need(args.provider is not None and args.source_zip is not None and args.output is not None,
              'ASR_ARGUMENTS')
         result = capture(args.provider, args.source_zip, args.output)
+    elif args.execute_phones:
+        need(args.provider is None and args.source_zip is not None and args.output is not None,
+             'PHONE_ARGUMENTS')
+        result = capture_phones(args.source_zip, args.output)
     elif args.source_zip:
         need(args.provider is None, 'SOURCE_VERIFY_ONLY')
         cells = source_cells(args.source_zip)

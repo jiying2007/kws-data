@@ -1,4 +1,4 @@
-"""Offline artificial-byte tests; never execute an ASR/TTS model or network."""
+"""Offline artificial-byte tests; never execute ASR, TTS, phoneme models or network."""
 import contextlib
 import io
 import json
@@ -259,6 +259,131 @@ class ProbeTests(unittest.TestCase):
         self.assertIn("github.event.before == '" + probe.SOURCE_HEAD + "'", text)
         self.assertIn('needs: blind-asr', text)
         self.assertIn('github.run_attempt == 1', text)
+
+    def test_phone_guard_is_a_distinct_exact_public_main_successor(self):
+        env = {'GITHUB_REPOSITORY': 'jiying2007/kws-data', 'GITHUB_EVENT_NAME': 'push',
+               'GITHUB_REF': 'refs/heads/main', 'GITHUB_RUN_ATTEMPT': '1', 'GITHUB_SHA': 'a' * 40}
+        event = {'before': probe.PHONE_PREDECESSOR, 'after': 'a' * 40,
+                 'repository': {'full_name': 'jiying2007/kws-data', 'private': False}}
+        self.assertEqual(probe.PHONE_PREDECESSOR, 'e844bfbff4d579397eb93de0f2e27bf38fe1af8a')
+        probe.phone_execution_guard(event, env)
+        for key, value in [('GITHUB_RUN_ATTEMPT', '2'), ('GITHUB_REF', 'refs/heads/other'),
+                           ('GITHUB_EVENT_NAME', 'pull_request'), ('GITHUB_REPOSITORY', 'fork/repo'),
+                           ('GITHUB_SHA', 'b' * 40)]:
+            with self.subTest(key=key), self.assertRaisesRegex(ValueError, 'PHONE_ONE_SUCCESSOR'):
+                probe.phone_execution_guard(event, {**env, key: value})
+        for change in [{'before': probe.SOURCE_HEAD}, {'before': '0' * 40}, {'after': None},
+                       {'repository': {'full_name': 'jiying2007/kws-data', 'private': True}}]:
+            with self.subTest(change=change), self.assertRaisesRegex(ValueError, 'PHONE_ONE_SUCCESSOR'):
+                probe.phone_execution_guard({**event, **change}, env)
+        with self.assertRaisesRegex(ValueError, 'ONE_SUCCESSOR_PUSH_ONLY'):
+            probe.execution_guard(event, env)
+
+    def test_four_phone_calls_use_only_original_anonymous_wavs(self):
+        seen = []
+        def backend(wav):
+            self.assertEqual(wav.name, 'audio.wav')
+            self.assertRegex(wav.parent.name, r'^observation-0[0-3]$')
+            seen.append(probe.sha(wav.read_bytes()))
+            with wave.open(str(wav), 'rb') as src:
+                frames = src.getnframes()
+            return ['h', 'ˈeɪ'], ['h', 'eɪ'], frames
+        with fixture() as path:
+            output = path.parent / 'phones'
+            result = probe.capture_phones(path, output, backend=backend)
+            self.assertEqual(result['status'], 'SIMULATED_COMPLETE')
+            self.assertEqual((result['phoneme_attempts'], result['completed_phonemes']), (4, 4))
+            self.assertEqual(seen, [r[4] for r in probe.ROSTER])
+            self.assertTrue(result['test_backend'])
+            self.assertTrue(all(result[k] is False for k in probe.FALSE_FLAGS))
+            self.assertEqual(result['new_tts_calls'], 0)
+            self.assertEqual(result['new_asr_calls'], 0)
+            self.assertEqual(result['new_optimizer_steps'], 0)
+            self.assertFalse(list(output.rglob('*.wav')))
+            self.assertEqual(len(list(output.glob('observation-*/completed.json'))), 4)
+            self.assertEqual(len(list(output.glob('observation-*/started.json'))), 4)
+            self.assertEqual(json.loads((output / 'summary.json').read_bytes()), result)
+            with self.assertRaisesRegex(ValueError, 'CREATE_ONLY_OUTPUT'):
+                probe.capture_phones(path, output, backend=backend)
+            self.assertEqual(len(seen), 4)
+
+    def test_phone_partial_failure_retains_receipts_without_retry(self):
+        calls = []
+        def backend(wav):
+            calls.append(wav)
+            if len(calls) == 2:
+                raise RuntimeError('invented fixture failure')
+            return ['h', 'eɪ'], ['h', 'eɪ'], 80
+        with fixture() as path:
+            output = path.parent / 'phones'
+            result = probe.capture_phones(path, output, backend=backend)
+            self.assertEqual(len(calls), 4)
+            self.assertEqual(result['status'], 'INCOMPLETE_NO_RETRY')
+            self.assertEqual((result['phoneme_attempts'], result['completed_phonemes']), (4, 3))
+            self.assertEqual(len(list(output.glob('observation-*/failed.json'))), 1)
+            self.assertEqual(result['rows'][1]['error_type'], 'RuntimeError')
+            self.assertFalse(list(output.rglob('*.wav')))
+
+    def test_phone_interruption_records_unknown_completion_and_stops(self):
+        calls = []
+        def backend(wav):
+            calls.append(wav)
+            raise KeyboardInterrupt()
+        with fixture() as path:
+            output = path.parent / 'phones'
+            with self.assertRaises(KeyboardInterrupt):
+                probe.capture_phones(path, output, backend=backend)
+            result = json.loads((output / 'summary.json').read_bytes())
+            self.assertEqual((result['phoneme_attempts'], result['completed_phonemes']), (1, 0))
+            self.assertEqual(result['status'], 'INCOMPLETE_NO_RETRY')
+            self.assertEqual(result['error_type'], 'KeyboardInterrupt')
+            self.assertEqual(len(calls), 1)
+            self.assertEqual(len(list(output.glob('observation-*/failed.json'))), 1)
+
+    def test_phone_invalid_frame_or_tokens_do_not_count_as_completion(self):
+        for result in [(['h', 'eɪ'], ['h', 'eɪ'], 79),
+                       (['h', '\n'], ['h', 'eɪ'], 80),
+                       ('not a token list', ['h', 'eɪ'], 80)]:
+            with self.subTest(result=result), fixture() as path:
+                observed = probe.capture_phones(path, path.parent / 'phones', backend=lambda _: result)
+                self.assertEqual(observed['phoneme_attempts'], 4)
+                self.assertEqual(observed['completed_phonemes'], 0)
+                self.assertEqual(observed['status'], 'INCOMPLETE_NO_RETRY')
+
+    def test_phone_bad_source_and_budget_rejected_before_backend(self):
+        calls = []
+        with fixture() as path:
+            path.write_bytes(path.read_bytes() + b'corrupt')
+            with self.assertRaisesRegex(ValueError, 'SOURCE_ZIP_SHA'):
+                probe.capture_phones(path, path.parent / 'phones', backend=lambda p: calls.append(p))
+            self.assertEqual(calls, [])
+            self.assertFalse((path.parent / 'phones').exists())
+        with fixture() as path:
+            cells = probe.source_cells(path)
+            with patch.object(probe, 'source_cells', return_value=cells + cells[:1]):
+                with self.assertRaisesRegex(ValueError, 'PHONE_SOURCE_COUNT'):
+                    probe.capture_phones(path, path.parent / 'phones', backend=lambda p: calls.append(p))
+            self.assertEqual(calls, [])
+
+    def test_phone_real_mode_enforces_gate_before_creating_output_or_loading_models(self):
+        with fixture() as path:
+            event_file = path.parent / 'event.json'
+            event_file.write_text(json.dumps({'before': probe.SOURCE_HEAD}))
+            with patch.dict('os.environ', {'GITHUB_EVENT_PATH': str(event_file)}, clear=True):
+                with self.assertRaisesRegex(ValueError, 'PHONE_ONE_SUCCESSOR_PUSH_ONLY'):
+                    probe.capture_phones(path, path.parent / 'phones')
+            self.assertFalse((path.parent / 'phones').exists())
+
+    def test_phone_partial_cli_and_exclusive_modes(self):
+        with patch.object(probe, 'capture_phones', return_value={'status': 'INCOMPLETE_NO_RETRY'}):
+            self.assertEqual(probe.main(['--source-zip', '/tmp/source', '--output', '/tmp/result',
+                                         '--execute-phones']), 2)
+        for argv in [['--execute-asr', '--execute-phones'],
+                     ['--execute-phones', '--provider', 'qwen', '--source-zip', '/tmp/source',
+                      '--output', '/tmp/result'],
+                     ['--combine', '/tmp/sources', '--execute-phones', '--output', '/tmp/result']]:
+            with self.subTest(argv=argv), self.assertRaises(ValueError):
+                probe.main(argv)
 
 
 if __name__ == '__main__':
