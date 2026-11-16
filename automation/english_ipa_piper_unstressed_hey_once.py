@@ -19,9 +19,9 @@ MAX_CALLS=4
 TRIGGER=Path(__file__).resolve().parents[1]/".github/triggers/english-ipa-piper-unstressed-hey-20261116.json"
 EXPECTED_CELLS=[
  {"phrase":"Hey Mero","ipa":"/heɪ ˈmɪəroʊ/","raw_espeak_ipa":"heɪ mˈɪəɹoʊ","speaker_id":0,"source_speaker_id":"p3922"},
- {"phrase":"Hey Mero","ipa":"/heɪ ˈmɪəroʊ/","raw_espeak_ipa":"hˈeɪ mˈɪəɹoʊ","speaker_id":1,"source_speaker_id":"p8699"},
+ {"phrase":"Hey Mero","ipa":"/heɪ ˈmɪəroʊ/","raw_espeak_ipa":"heɪ mˈɪəɹoʊ","speaker_id":1,"source_speaker_id":"p8699"},
  {"phrase":"Hey Vosen","ipa":"/heɪ ˈvoʊsən/","raw_espeak_ipa":"heɪ vˈoʊsən","speaker_id":0,"source_speaker_id":"p3922"},
- {"phrase":"Hey Vosen","ipa":"/heɪ ˈvoʊsən/","raw_espeak_ipa":"hˈeɪ vˈoʊsən","speaker_id":1,"source_speaker_id":"p8699"}
+ {"phrase":"Hey Vosen","ipa":"/heɪ ˈvoʊsən/","raw_espeak_ipa":"heɪ vˈoʊsən","speaker_id":1,"source_speaker_id":"p8699"}
 ]
 def need(ok,msg):
     if not ok: raise ValueError(msg)
