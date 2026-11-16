@@ -232,7 +232,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2163,
+  "expected_tracked_files": 2168,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -371,7 +371,12 @@
     "research/english_snapshot160_delivery/README.md",
     "research/english_snapshot160_delivery/read_c_trace.py",
     "research/english_snapshot160_delivery/test_read_c_trace.py",
-    ".github/triggers/english-ipa-piper-phoneme-probe-v3-20261116.json"
+    ".github/triggers/english-ipa-piper-phoneme-probe-v3-20261116.json",
+    ".github/triggers/english-ipa-piper-v3-three-asr-20261116.json",
+    ".github/workflows/english-ipa-piper-v3-three-asr-once.yml",
+    "automation/english_piper_v3_probe_asr_once.py",
+    "automation/test_english_piper_v3_probe_asr_once.py",
+    "docs/ENGLISH_PIPER_V3_THREE_ASR_20261116.md"
   ],
   "baseline_files": [
     {
@@ -27166,6 +27171,20 @@
       "previous_manifest_git_blob_sha1": "1af1cb2821323972972091d3f384e9f82f0947a1",
       "scope": "Four one-shot Piper raw-phoneme probes for final image-confirmed American readings Mero /heɪ ˈmiːroʊ/ and Vosen /heɪ ˈvoʊzən/, with light/unstressed Hey and primary stress on the name. v2 outputs remain immutable historical evidence.",
       "rationale": "Review against the owner's pronunciation reference showed Hey is marked light while the name's first syllable carries stress. v2 used a stress marker on Hey; v3 removes it while retaining long /iː/ for Mero and voiced /z/ for Vosen. Exactly four new Piper calls, no retries, no ASR, no training or qualification."
+    },
+    {
+      "campaign": "english-piper-v3-three-blind-asr-20261116",
+      "source_commit": "543ffe1a1343d5581c6ee62dae46ecae0b16ff0c",
+      "paths": [
+        ".github/triggers/english-ipa-piper-v3-three-asr-20261116.json",
+        ".github/workflows/english-ipa-piper-v3-three-asr-once.yml",
+        "automation/english_piper_v3_probe_asr_once.py",
+        "automation/test_english_piper_v3_probe_asr_once.py",
+        "docs/ENGLISH_PIPER_V3_THREE_ASR_20261116.md"
+      ],
+      "previous_manifest_git_blob_sha1": "a14c591f58d4df6ed68fc936bf493991681482f5",
+      "scope": "Exactly twelve blind ASR calls (four stress-aligned Piper v3 WAVs × Qwen3-ASR, Whisper-small and Parakeet TDT v3), source-verified by immutable run/artifact/ZIP/WAV/PCM identities; no retries, training, human gold or qualification.",
+      "rationale": "The four v3 samples were generated once with light/unstressed Hey and first-syllable stress on Mero/Vosen. v2 was superseded for stress placement. The independent blind screen must consume only exact v3 WAV bytes and must not reuse old v2 transcripts or CTC observations."
     }
   ]
 }
