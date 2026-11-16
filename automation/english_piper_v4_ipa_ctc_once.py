@@ -39,7 +39,7 @@ def write_once(path,data):
     path.chmod(0o600)
 
 def verify_trigger():
-    expected={"schema":POLICY,"source_run_id":SOURCE_RUN_ID,
+    expected={"schema":POLICY,"binding_revision":2,"source_run_id":SOURCE_RUN_ID,
       "source_artifact_id":SOURCE_ARTIFACT_ID,"source_artifact_name":SOURCE_ARTIFACT_NAME,
       "source_artifact_sha256":SOURCE_ARTIFACT_SHA256,"model_id":MODEL_ID,
       "model_revision":MODEL_REV,"model_safetensors_sha256":MODEL_SHA256,

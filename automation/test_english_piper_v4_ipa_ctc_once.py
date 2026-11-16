@@ -48,6 +48,7 @@ class PiperV4IpaCtcTests(unittest.TestCase):
   t=p.verify_trigger()
   self.assertEqual(t["source_artifact_id"],14240252131)
   self.assertEqual(t["max_new_phoneme_forwards"],16)
+  self.assertEqual(t["binding_revision"],2)
  def test_sixteen_source_cells_verify_hashes_and_roster(self):
   with tempfile.TemporaryDirectory() as tmp:
    root=fixture(Path(tmp))
