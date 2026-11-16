@@ -32,7 +32,7 @@ def verify_trigger():
     expected={"schema":POLICY,"binding_revision":1,"source_run_id":SOURCE_RUN_ID,
       "source_artifact_id":SOURCE_ARTIFACT_ID,"source_artifact_name":SOURCE_ARTIFACT_NAME,
       "source_artifact_sha256":SOURCE_ARTIFACT_SHA256,"providers":list(PROVIDERS),
-      "max_calls":MAX_CALLS,"retry_count":0,"training_admitted":False,
+      "max_calls":MAX_CALLS,"cells_per_provider":CELLS_PER_PROVIDER,"retry_count":0,"training_admitted":False,
       "human_gold":False,"pronunciation_verified":False}
     need(read(TRIGGER)==expected,"TRIGGER_DRIFT")
     return expected
