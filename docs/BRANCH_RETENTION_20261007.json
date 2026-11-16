@@ -232,8 +232,8 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2149,
-  "expected_retained_files": 2026,
+  "expected_tracked_files": 2150,
+  "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
     ".github/research-v4/background-continuation-request.template.json",
@@ -21581,9 +21581,9 @@
     {
       "path": ".github/workflows/english63-gigaspeech-vendor-canary.yml",
       "mode": "100644",
-      "git_blob_sha1": "7b387d7e325e8209266890dffec4374bea080ace",
-      "bytes": 4400,
-      "source_commit": "69ce3ab930eeff11a4e0835281999fcf4626c2fd"
+      "git_blob_sha1": "8b2a037fd8b3449eb8ae92347a92ca0775b02b30",
+      "bytes": 4416,
+      "source_commit": "ff66c1e1f72b749e0ad363ee998fe7a7d1e30785"
     },
     {
       "path": "automation/english63_zh_en_mero_only.py",
@@ -21633,6 +21633,13 @@
       "git_blob_sha1": "eacdfa291140948afd6128da6512d0c291eceb0a",
       "bytes": 1388,
       "source_commit": "31430a3aff12e9397656b4c91a9212dd0af60632"
+    },
+    {
+      "path": "research/workflow-history/20261116/english63-gigaspeech-vendor-canary.yml",
+      "mode": "100644",
+      "git_blob_sha1": "7b387d7e325e8209266890dffec4374bea080ace",
+      "bytes": 4400,
+      "source_commit": "ff66c1e1f72b749e0ad363ee998fe7a7d1e30785"
     }
   ],
   "source_registration_history": [
@@ -27074,6 +27081,64 @@
       "previous_manifest_git_blob_sha1": "c76824847a477dd3118158121565bc8a8e0765ea",
       "scope": "Four one-shot Piper raw-phoneme probes for final image-confirmed American readings Mero /heɪ ˈmiːroʊ/ and Vosen /heɪ ˈvoʊzən/. Old-IPA artifacts remain immutable and unadmitted.",
       "rationale": "User image dated 2026-11-16 supersedes previous readings. New v2 trigger and runner use long /iː/ and voiced /z/, four calls, no retries, no ASR, no training, no qualification."
+    },
+    {
+      "campaign": "english-consumed-vendor-pr-replay-prevention-20261116",
+      "source_commit": "ff66c1e1f72b749e0ad363ee998fe7a7d1e30785",
+      "base_commit": "e042ac84afebc19c82186039addd5d334eed7a32",
+      "paths": [
+        ".github/workflows/english63-gigaspeech-vendor-canary.yml",
+        "research/workflow-history/20261116/english63-gigaspeech-vendor-canary.yml"
+      ],
+      "previous_manifest_git_blob_sha1": "33a34617859999a74bdb5f549ba5f2caa05358ef",
+      "scope": "Disable only the already-consumed vendor model job on future PR events; retain source checks and the complete previous workflow bytes.",
+      "rationale": "PR154 changed the closed retention inventory and exposed the old workflow path filter: it unexpectedly ran the two original vendor examples again. This narrowing prevents later data/training PRs from repeating those validated inputs. No source model, target rule or historical result is changed.",
+      "observed_unintended_run": {
+        "run_id": 43864190168,
+        "job_id": 133288531592,
+        "head_sha": "e042ac84afebc19c82186039addd5d334eed7a32",
+        "event": "pull_request",
+        "conclusion": "success",
+        "step": "Actual vendor test_wavs/0.wav and 1.wav with official test_keywords.txt"
+      },
+      "files": [
+        {
+          "path": ".github/workflows/english63-gigaspeech-vendor-canary.yml",
+          "before": {
+            "path": ".github/workflows/english63-gigaspeech-vendor-canary.yml",
+            "mode": "100644",
+            "git_blob_sha1": "7b387d7e325e8209266890dffec4374bea080ace",
+            "bytes": 4400,
+            "source_commit": "69ce3ab930eeff11a4e0835281999fcf4626c2fd"
+          },
+          "after": {
+            "path": ".github/workflows/english63-gigaspeech-vendor-canary.yml",
+            "mode": "100644",
+            "git_blob_sha1": "8b2a037fd8b3449eb8ae92347a92ca0775b02b30",
+            "bytes": 4416,
+            "source_commit": "ff66c1e1f72b749e0ad363ee998fe7a7d1e30785"
+          }
+        },
+        {
+          "path": "research/workflow-history/20261116/english63-gigaspeech-vendor-canary.yml",
+          "after": {
+            "path": "research/workflow-history/20261116/english63-gigaspeech-vendor-canary.yml",
+            "mode": "100644",
+            "git_blob_sha1": "7b387d7e325e8209266890dffec4374bea080ace",
+            "bytes": 4400,
+            "source_commit": "ff66c1e1f72b749e0ad363ee998fe7a7d1e30785"
+          },
+          "original_path": ".github/workflows/english63-gigaspeech-vendor-canary.yml",
+          "original_source_commit": "69ce3ab930eeff11a4e0835281999fcf4626c2fd"
+        }
+      ],
+      "validation": {
+        "new_model_calls_for_registration": 0,
+        "original_workflow_bytes_retained": true,
+        "model_job_now_unconditionally_skipped": true,
+        "source_only_job_unchanged": true,
+        "all_previous_registration_history_unchanged": true
+      }
     }
   ]
 }
