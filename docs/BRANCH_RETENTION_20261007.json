@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2183,
+  "expected_tracked_files": 2188,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -392,15 +392,20 @@
     ".github/workflows/english-ipa-piper-v4-three-asr-once.yml",
     "automation/english_piper_v4_probe_asr_once.py",
     "automation/test_english_piper_v4_probe_asr_once.py",
-    "docs/ENGLISH_PIPER_V4_THREE_ASR_20261116.md"
+    "docs/ENGLISH_PIPER_V4_THREE_ASR_20261116.md",
+    ".github/triggers/english-ipa-piper-v4-independent-ctc-20261116.json",
+    ".github/workflows/english-ipa-piper-v4-independent-ctc-once.yml",
+    "automation/english_piper_v4_ipa_ctc_once.py",
+    "automation/test_english_piper_v4_ipa_ctc_once.py",
+    "docs/ENGLISH_PIPER_V4_PHONEME_OBSERVER_20261116.md"
   ],
   "baseline_files": [
     {
       "path": ".github/workflows/assets.yml",
       "mode": "100644",
-      "bytes": 3629,
-      "git_blob_sha1": "48f264167be89914b0c194b128164027ed2ad3b2",
-      "source_commit": "36e2c68a5009e6e8857a63fbc2f283ae5921f5eb"
+      "bytes": 4170,
+      "git_blob_sha1": "6398804bf8ea817e6f85c22d0f90269f1b3fb91e",
+      "source_commit": "0b101338fe1580f79c77ae3dbdd27863118d75da"
     },
     {
       "path": ".gitignore",
@@ -3749,9 +3754,9 @@
     {
       "path": ".github/workflows/assets.yml",
       "mode": "100644",
-      "bytes": 3629,
-      "git_blob_sha1": "48f264167be89914b0c194b128164027ed2ad3b2",
-      "source_commit": "36e2c68a5009e6e8857a63fbc2f283ae5921f5eb"
+      "bytes": 4170,
+      "git_blob_sha1": "6398804bf8ea817e6f85c22d0f90269f1b3fb91e",
+      "source_commit": "0b101338fe1580f79c77ae3dbdd27863118d75da"
     },
     {
       "path": ".github/workflows/auto-tts-voice-clone-20261102.yml",
@@ -27243,6 +27248,20 @@
       "previous_manifest_git_blob_sha1": "4f4c10cd6ed88f58b9a66bb27b332c201062d2a9",
       "scope": "Exactly 48 blind ASR calls: 16 v4 Piper WAVs × Qwen3-ASR, Whisper-small and Parakeet TDT v3. The immutable source ZIP has 16/16 complete per-cell receipts but its aggregate result status is mislabeled INCOMPLETE_NO_RETRY due a v3 constant left in the v4 generator; the ASR worker accepts this only after checking 16/16 attempts, 16/16 completed receipts, plan/model-lock hashes, all WAV/PCM hashes and exact speaker/phrase roster. No TTS retry or regeneration.",
       "rationale": "All 16 original v4 audio cells were generated successfully in run 43898728142. The workflow failed only because aggregate status compared completed==4 instead of 16. This ASR stage preserves that original run failure, documents the mismatch, and uses independent source-closure checks rather than rewriting the source artifact. No training admission, human gold or pronunciation qualification is granted."
+    },
+    {
+      "campaign": "english-piper-v4-independent-ctc-observer-20261116",
+      "source_commit": "8688384af2aab35e651874b572cf82d72d21ac94",
+      "paths": [
+        ".github/triggers/english-ipa-piper-v4-independent-ctc-20261116.json",
+        ".github/workflows/english-ipa-piper-v4-independent-ctc-once.yml",
+        "automation/english_piper_v4_ipa_ctc_once.py",
+        "automation/test_english_piper_v4_ipa_ctc_once.py",
+        "docs/ENGLISH_PIPER_V4_PHONEME_OBSERVER_20261116.md"
+      ],
+      "previous_manifest_git_blob_sha1": "56d33b322edbdb6da8ab65f7291634dbc4815d84",
+      "scope": "Exactly 16 audio-only independent phoneme-model forwards over the 16 source-hash-verified Piper v4 WAVs. The original aggregate result status mismatch is accepted only after 16/16 cell receipts, model-lock/source-plan hashes, WAV/PCM hashes and exact speaker roster are verified. No new TTS, ASR, KWS inference, training or promotion.",
+      "rationale": "V4 generation completed all 16 cell attempts and receipts; the aggregate terminal status remains INCOMPLETE_NO_RETRY due the stale four-cell count. This observer uses immutable source bytes and independent closure checks, and keeps all phone observations machine-only/non-gold."
     }
   ]
 }
