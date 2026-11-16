@@ -28,7 +28,7 @@ def sha(raw): return hashlib.sha256(raw).hexdigest()
 def read(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 def verify_trigger():
-    expected={"schema":POLICY,"source_run_id":SOURCE_RUN_ID,
+    expected={"schema":POLICY,"binding_revision":2,"source_run_id":SOURCE_RUN_ID,
       "source_artifact_id":SOURCE_ARTIFACT_ID,"source_artifact_name":SOURCE_ARTIFACT_NAME,
       "source_artifact_sha256":SOURCE_ARTIFACT_SHA256,"providers":list(PROVIDERS),
       "max_calls":MAX_CALLS,"retry_count":0,"training_admitted":False,

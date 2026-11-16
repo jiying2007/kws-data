@@ -15,6 +15,10 @@ The earlier Piper v2 probe marked Hey with primary stress and is superseded for 
 - Four WAVs: two phrases × two pinned LibriTTS speakers; exact source WAV/PCM hashes and model lock are verified before decoding.
 - Piper 1.8.0; pinned LibriTTS-high model revision and CC-BY-4.0 dataset attribution are preserved.
 
+## Source-pin correction
+
+The first main ASR workflow attempt stopped at the pre-download identity check because the workflow YAML still contained the v2 source run/artifact/digest. All provider jobs made zero ASR calls. The workflow pins were corrected to the exact v3 artifact; binding revision 2 records the deliberate fresh first-main attempt. No audio or TTS was regenerated.
+
 ## Blind screen
 
 Exactly four WAVs × three independent recognizers (Qwen3-ASR, Whisper-small, Parakeet TDT v3): maximum 12 calls, one attempt per provider/cell, no retries. Each recognizer receives only the WAV, never the target phrase, IPA, speaker ID or another transcript.
