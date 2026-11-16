@@ -232,7 +232,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2168,
+  "expected_tracked_files": 2173,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -376,7 +376,12 @@
     ".github/workflows/english-ipa-piper-v3-three-asr-once.yml",
     "automation/english_piper_v3_probe_asr_once.py",
     "automation/test_english_piper_v3_probe_asr_once.py",
-    "docs/ENGLISH_PIPER_V3_THREE_ASR_20261116.md"
+    "docs/ENGLISH_PIPER_V3_THREE_ASR_20261116.md",
+    ".github/triggers/english-ipa-piper-v3-independent-ctc-20261116.json",
+    ".github/workflows/english-ipa-piper-v3-independent-ctc-once.yml",
+    "automation/english_piper_v3_ipa_ctc_once.py",
+    "automation/test_english_piper_v3_ipa_ctc_once.py",
+    "docs/ENGLISH_PIPER_V3_PHONEME_OBSERVER_20261116.md"
   ],
   "baseline_files": [
     {
@@ -27185,6 +27190,20 @@
       "previous_manifest_git_blob_sha1": "a14c591f58d4df6ed68fc936bf493991681482f5",
       "scope": "Exactly twelve blind ASR calls (four stress-aligned Piper v3 WAVs × Qwen3-ASR, Whisper-small and Parakeet TDT v3), source-verified by immutable run/artifact/ZIP/WAV/PCM identities; no retries, training, human gold or qualification.",
       "rationale": "The four v3 samples were generated once with light/unstressed Hey and first-syllable stress on Mero/Vosen. v2 was superseded for stress placement. The independent blind screen must consume only exact v3 WAV bytes and must not reuse old v2 transcripts or CTC observations."
+    },
+    {
+      "campaign": "english-piper-v3-independent-ctc-observer-20261116",
+      "source_commit": "da8cfc9a2184dcd65e198a6a961600cfdac5d7d9",
+      "paths": [
+        ".github/triggers/english-ipa-piper-v3-independent-ctc-20261116.json",
+        ".github/workflows/english-ipa-piper-v3-independent-ctc-once.yml",
+        "automation/english_piper_v3_ipa_ctc_once.py",
+        "automation/test_english_piper_v3_ipa_ctc_once.py",
+        "docs/ENGLISH_PIPER_V3_PHONEME_OBSERVER_20261116.md"
+      ],
+      "previous_manifest_git_blob_sha1": "e9d41cd80c1b755ee3428b117ba076d17661e236",
+      "scope": "Exactly four independent phoneme-model forwards over the four source-hash-verified Piper v3 PCM16 WAVs. Model receives audio only; target phrase, IPA, speaker identity and ASR transcripts are not supplied. No new TTS/ASR/KWS forwards, training or promotion.",
+      "rationale": "The v3 blind ASR observations include spelling variants and nearphone disagreement. A separately pinned audio-only phoneme observer provides a second machine evidence family for independent review, while remaining explicitly non-gold and non-admitting."
     }
   ]
 }
