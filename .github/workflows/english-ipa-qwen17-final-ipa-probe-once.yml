@@ -1,0 +1,82 @@
+name: English final-IPA Qwen 1.7B pronunciation probe once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-ipa-qwen17-final-ipa-probe-once.yml
+      - .github/triggers/english-ipa-qwen17-final-ipa-20261116.json
+      - automation/english_ipa_qwen17_final_ipa_probe_once.py
+      - automation/test_english_ipa_qwen17_final_ipa_probe_once.py
+  push:
+    branches: [main]
+    paths:
+      - .github/triggers/english-ipa-qwen17-final-ipa-20261116.json
+permissions:
+  contents: read
+concurrency:
+  group: english-ipa-qwen17-probe-20261115-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Source-only fixed pronunciation contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_ipa_qwen17_final_ipa_probe_once.py -v
+            python3 -I -S -B "${args[@]}" automation/english_ipa_qwen17_final_ipa_probe_once.py --output /tmp/not-created
+          done
+  generate-pronunciation-probes:
+    needs: source-contract
+    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    permissions:
+      contents: read
+    env:
+      OMP_NUM_THREADS: "4"
+      MKL_NUM_THREADS: "4"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      HF_HUB_DISABLE_XET: "0"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Install pinned CPU runtime
+        shell: bash
+        timeout-minutes: 30
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/en-ipa-venv"
+          "$RUNNER_TEMP/en-ipa-venv/bin/pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu" "torchaudio==2.9.1+cpu"
+          "$RUNNER_TEMP/en-ipa-venv/bin/pip" install --disable-pip-version-check "qwen-tts==0.1.1" "huggingface-hub==0.36.2"
+          "$RUNNER_TEMP/en-ipa-venv/bin/pip" freeze > "$RUNNER_TEMP/en-ipa-pip-freeze.txt"
+      - name: Generate exactly four pronunciation probes without retries
+        shell: bash
+        timeout-minutes: 110
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/en-ipa-venv/bin/python" -B automation/english_ipa_qwen17_final_ipa_probe_once.py --output "$RUNNER_TEMP/en-ipa-probe" --execute
+      - name: Retain audio and exact receipts for manual acoustic review
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-ipa-qwen17-final-ipa-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/en-ipa-probe/started.json
+            ${{ runner.temp }}/en-ipa-probe/result.json
+            ${{ runner.temp }}/en-ipa-probe/model-lock.json
+            ${{ runner.temp }}/en-ipa-probe/source-plan.json
+            ${{ runner.temp }}/en-ipa-probe/cells/
+            ${{ runner.temp }}/en-ipa-pip-freeze.txt
+          retention-days: 30
+          if-no-files-found: warn
