@@ -1,0 +1,140 @@
+name: Three blind ASR families on final-IPA Piper v2 probes once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-ipa-piper-v2-three-asr-once.yml
+      - .github/triggers/english-ipa-piper-v2-three-asr-20261116.json
+      - automation/english_piper_v2_probe_asr_once.py
+      - automation/test_english_piper_v2_probe_asr_once.py
+  push:
+    branches: [main]
+    paths:
+      - .github/triggers/english-ipa-piper-v2-three-asr-20261116.json
+permissions:
+  contents: read
+concurrency:
+  group: english-ipa-piper-v2-three-asr-20261116-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify exact Piper ASR contract without models
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_piper_v2_probe_asr_once.py -v
+          done
+  asr:
+    needs: source-contract
+    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        provider: [qwen, whisper, parakeet]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify exact Piper artifact identity before download
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/jiying2007/kws-data/actions/runs/43789385672/artifacts" |
+            jq -e '[.artifacts[] | select(.id==14191228436 and
+              .name=="english-ipa-piper-probe-v2-43789385672" and
+              .digest=="sha256:8ab7ff273ce5ee98e4c4bd83f43fd80b82c7ae03ac89449ded93a4cd61bedc61"
+              and .expired==false)] | length==1'
+      - name: Download immutable Piper audio
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-ipa-piper-probe-v2-43789385672
+          run-id: 43789385672
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/piper-source
+      - name: Install pinned ASR runtime
+        shell: bash
+        timeout-minutes: 30
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/asr-venv"
+          if [ "${{ matrix.provider }}" = qwen ]; then
+            "$RUNNER_TEMP/asr-venv/bin/pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu" "torchaudio==2.9.1+cpu"
+            "$RUNNER_TEMP/asr-venv/bin/pip" install --disable-pip-version-check "qwen-asr==0.0.6" "huggingface-hub==0.36.2"
+          elif [ "${{ matrix.provider }}" = whisper ]; then
+            "$RUNNER_TEMP/asr-venv/bin/pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu "torch==2.9.1+cpu" "torchaudio==2.9.1+cpu"
+            "$RUNNER_TEMP/asr-venv/bin/pip" install --disable-pip-version-check "openai-whisper==20250625" "huggingface-hub==0.36.2"
+          else
+            "$RUNNER_TEMP/asr-venv/bin/pip" install --disable-pip-version-check "huggingface-hub==0.36.2"
+          fi
+      - name: Run exactly four blind Piper transcriptions
+        shell: bash
+        timeout-minutes: 55
+        env:
+          OMP_NUM_THREADS: "4"
+          MKL_NUM_THREADS: "4"
+          TOKENIZERS_PARALLELISM: "false"
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/asr-bundle"
+          "$RUNNER_TEMP/asr-venv/bin/python" -I -B automation/english_piper_v2_probe_asr_once.py \
+            --provider "${{ matrix.provider }}" \
+            --source-parent "$RUNNER_TEMP/piper-source" \
+            --output "$RUNNER_TEMP/asr-bundle/${{ matrix.provider }}"
+      - name: Upload blind provider observations
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-ipa-piper-v2-asr-${{ matrix.provider }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/asr-bundle/
+          retention-days: 30
+          if-no-files-found: warn
+  combine:
+    needs: asr
+    if: always() && github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          pattern: english-ipa-piper-v2-asr-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/asr-results
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-ipa-piper-probe-v2-43789385672
+          run-id: 43789385672
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/piper-source
+      - name: Combine completed blind transcripts
+        if: ${{ needs.asr.result == 'success' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_piper_v2_probe_asr_once.py \
+            --combine "$RUNNER_TEMP/asr-results" \
+            --combine-source "$RUNNER_TEMP/piper-source" \
+            --combined-output "$RUNNER_TEMP/asr-combined"
+      - name: Upload combined machine-only result
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-ipa-piper-v2-three-asr-summary-${{ github.run_id }}
+          path: ${{ runner.temp }}/asr-combined/
+          retention-days: 30
+          if-no-files-found: warn
