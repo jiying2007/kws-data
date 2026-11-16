@@ -2,7 +2,7 @@
 import sys,unittest,ast
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-import english_ipa_piper_probe_once as p
+import english_ipa_piper_unstressed_hey_once as p
 
 class PiperProbeTests(unittest.TestCase):
  def test_exact_fixed_roster(self):
@@ -12,7 +12,9 @@ class PiperProbeTests(unittest.TestCase):
     {("Hey Mero",0),("Hey Mero",1),("Hey Vosen",0),("Hey Vosen",1)})
  def test_exact_raw_ipa_strings(self):
   self.assertEqual(p.EXPECTED_CELLS[0]["raw_espeak_ipa"],"heɪ mˈɪəɹoʊ")
+  self.assertEqual(p.EXPECTED_CELLS[1]["raw_espeak_ipa"],"heɪ mˈɪəɹoʊ")
   self.assertEqual(p.EXPECTED_CELLS[2]["raw_espeak_ipa"],"heɪ vˈoʊsən")
+  self.assertEqual(p.EXPECTED_CELLS[3]["raw_espeak_ipa"],"heɪ vˈoʊsən")
  def test_no_training_or_asr(self):
   self.assertEqual(p.MAX_CALLS,4)
   self.assertEqual(p.PIPER_VERSION,"1.8.0")
