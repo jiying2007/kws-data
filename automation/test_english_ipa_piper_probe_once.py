@@ -13,6 +13,11 @@ class PiperProbeTests(unittest.TestCase):
  def test_exact_raw_ipa_strings(self):
   self.assertEqual(p.EXPECTED_CELLS[0]["raw_espeak_ipa"],"hˈeɪ mˈiːɹoʊ")
   self.assertEqual(p.EXPECTED_CELLS[2]["raw_espeak_ipa"],"hˈeɪ vˈoʊzən")
+ def test_final_image_pronunciation_targets(self):
+  self.assertEqual(p.EXPECTED_CELLS[0]["ipa"],"/heɪ ˈmiːroʊ/")
+  self.assertEqual(p.EXPECTED_CELLS[0]["raw_espeak_ipa"],"hˈeɪ mˈiːɹoʊ")
+  self.assertEqual(p.EXPECTED_CELLS[2]["ipa"],"/heɪ ˈvoʊzən/")
+  self.assertEqual(p.EXPECTED_CELLS[2]["raw_espeak_ipa"],"hˈeɪ vˈoʊzən")
  def test_no_training_or_asr(self):
   self.assertEqual(p.MAX_CALLS,4)
   self.assertEqual(p.PIPER_VERSION,"1.8.0")
