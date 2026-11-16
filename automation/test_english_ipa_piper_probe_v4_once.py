@@ -9,7 +9,7 @@ class PiperV4ProbeTests(unittest.TestCase):
   t=p.verify_trigger()
   self.assertEqual(len(p.EXPECTED_CELLS),16)
   self.assertEqual(len(p.SPEAKERS),8)
-  self.assertEqual({x["speaker_id"] for x in p.SPEAKERS},{2,3,4,5,6,7,8,9})
+  self.assertEqual({x["id"] for x in p.SPEAKERS},{2,3,4,5,6,7,8,9})
   self.assertEqual({x["source_speaker_id"] for x in p.SPEAKERS},
    {"p4535","p6701","p3638","p922","p2531","p1638","p8848","p6544"})
   self.assertEqual({(x["phrase"],x["speaker_id"]) for x in p.EXPECTED_CELLS},
