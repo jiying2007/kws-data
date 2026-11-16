@@ -10,7 +10,7 @@ def fixture(root):
  probe.mkdir(parents=True)
  lock={"repo":"rhasspy/piper-voices","revision":"de3dcfdf1912bb49726dc4aa11c26017ce2ac62a",
        "model_sha256":"9127a559e11603f10b366d1a20ac7426826081dbc521de4c2420c57728d73f0f",
-       "engine_version":"1.8.0","speaker_count":904}
+       "engine_version":"1.8.0","speaker_count":904,"speaker_ids":p.SPEAKERS}
  plan={"schema":"english-ipa-piper-phoneme-probe-v4","model_revision":lock["revision"],
        "model_sha256":lock["model_sha256"],"training_admitted":False,"human_gold":False,
        "pronunciation_verified":False,"cells":[]}
