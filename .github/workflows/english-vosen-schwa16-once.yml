@@ -1,0 +1,393 @@
+name: English Vosen schwa16 new-request observations once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-vosen-schwa16-once.yml
+      - automation/vosen_schwa16_recipe.py
+      - automation/vosen_schwa16_once.py
+      - automation/test_vosen_schwa16.py
+      - automation/english_vosen_schwa16_pins.json
+      - docs/ENGLISH_SCHWA16_SNAPSHOT160_EXECUTION_20261116.md
+  push:
+    branches: [main]
+    paths:
+      - automation/english_vosen_schwa16_pins.json
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-vosen-schwa16-20261116-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '4'
+  MKL_NUM_THREADS: '4'
+  OPENBLAS_NUM_THREADS: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      execution_enabled: ${{ steps.contract.outputs.execution_enabled }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - name: Check the new requests, unchanged old records and finite first observers without models
+        id: contract
+        shell: bash
+        timeout-minutes: 7
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_vosen_schwa16.py -v
+            python3 -I -S -B "${args[@]}" automation/vosen_schwa16_once.py --source-check \
+              --pins automation/english_vosen_schwa16_pins.json
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import vosen_schwa16_once as worker
+          pins = json.loads(pathlib.Path('automation/english_vosen_schwa16_pins.json').read_bytes())
+          worker.validate_pins(pins)
+          if type(pins.get('enabled')) is not bool:
+              raise ValueError('EXPLICIT_EXECUTION_ENABLE_BOOLEAN')
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write('execution_enabled=' + str(pins['enabled']).lower() + '\n')
+          PYCODE
+  generate:
+    needs: source-contract
+    if: >-
+      needs.source-contract.outputs.execution_enabled == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 && github.event.before == '393b03e41eff68ce91a1943b18b3da9641378515'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    outputs:
+      source_ready: ${{ steps.readback.outputs.source_ready }}
+      source_ledger_sha256: ${{ steps.readback.outputs.source_ledger_sha256 }}
+      valid_count: ${{ steps.readback.outputs.valid_count }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - name: Enforce the exact first-main source guard before installing any runtime
+        id: guard
+        shell: bash
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain)"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import vosen_schwa16_once as worker
+          pins = json.loads(pathlib.Path('automation/english_vosen_schwa16_pins.json').read_bytes())
+          event = json.loads(pathlib.Path(os.environ['GITHUB_EVENT_PATH']).read_bytes())
+          worker.execution_guard(pins, os.environ, event)
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'schwa16-generation-runtime'
+          root.mkdir(mode=0o700)
+          with (root / 'PREFLIGHT_STARTED.json').open('x', encoding='utf-8') as output:
+              json.dump({'run_id': os.environ['GITHUB_RUN_ID'], 'github_sha': os.environ['GITHUB_SHA'],
+                  'run_attempt': 1, 'phase': 'BEFORE_RUNTIME_INSTALLATION',
+                  'model_calls_at_start': 0, 'maximum_new_tts_calls': 16,
+                  'new_asr_calls': 0, 'new_phone_calls': 0, 'optimizer_updates': 0,
+                  'no_retry': True}, output, sort_keys=True)
+          PYCODE
+      - name: Install the same pinned Qwen 1.7B CPU runtime
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/schwa16-tts-venv"
+          schwa_pip="$RUNNER_TEMP/schwa16-tts-venv/bin/pip"
+          trap '"$schwa_pip" freeze > "$RUNNER_TEMP/schwa16-generation-runtime/pip-freeze.txt"' EXIT
+          "$schwa_pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu'
+          "$schwa_pip" install --disable-pip-version-check 'qwen-tts==0.1.1' 'huggingface-hub==0.36.2'
+      - name: Attempt the sixteen genuinely new instruction requests once
+        id: generation
+        shell: bash
+        timeout-minutes: 62
+        run: |
+          set -euo pipefail
+          set +e
+          timeout --signal=TERM --kill-after=30s 61m "$RUNNER_TEMP/schwa16-tts-venv/bin/python" -I -B \
+            automation/vosen_schwa16_once.py --generate \
+            --pins automation/english_vosen_schwa16_pins.json \
+            --output "$RUNNER_TEMP/schwa16-source"
+          schwa_generation_exit=$?
+          set -e
+          SCHWA_COMMAND_EXIT="$schwa_generation_exit" python3 -I -S -B - <<'PYCODE'
+          import hashlib, json, os, pathlib
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          result_path = root / 'schwa16-source/result.json'
+          result = None
+          result_sha = None
+          if result_path.is_file() and not result_path.is_symlink():
+              raw = result_path.read_bytes()
+              result_sha = hashlib.sha256(raw).hexdigest()
+              result = json.loads(raw)
+          with (root / 'schwa16-generation-runtime/COMMAND_EXIT.json').open('x', encoding='utf-8') as output:
+              json.dump({'returncode': int(os.environ['SCHWA_COMMAND_EXIT']),
+                  'saved_result_sha256': result_sha, 'saved_result': result,
+                  'accounting': 'SAVED_TERMINAL_RESULT' if result is not None else 'UNKNOWN_WITHOUT_TERMINAL_RESULT',
+                  'retry_count': 0}, output, sort_keys=True)
+          PYCODE
+          exit "$schwa_generation_exit"
+      - name: Verify the terminal sixteen-row ledger before allowing any first observers
+        id: readback
+        if: always() && steps.guard.outcome == 'success'
+        shell: bash
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'PYCODE'
+          import hashlib, json, os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import vosen_schwa16_once as worker
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          pins = json.loads(pathlib.Path('automation/english_vosen_schwa16_pins.json').read_bytes())
+          report = {'phase': 'PURE_TERMINAL_SOURCE_READBACK', 'model_calls': 0, 'retry_count': 0}
+          try:
+              evidence = worker.source_evidence(root / 'schwa16-source', pins)
+              ledger = evidence['ledger']
+              if ledger.get('source_denominator') != 16 or ledger.get('test_backend') is not False:
+                  raise ValueError('EXACT_REAL_SIXTEEN_SOURCE_DENOMINATOR')
+              count = len(evidence['valid'])
+              if ledger.get('valid_count') != count or not 0 <= count <= 16:
+                  raise ValueError('ACTUAL_VALID_SOURCE_COUNT')
+              digest = hashlib.sha256((root / 'schwa16-source/SOURCE_LEDGER.json').read_bytes()).hexdigest()
+              report.update(status='TERMINAL_SOURCE_READBACK_COMPLETE', source_ready=count > 0,
+                  valid_count=count, source_denominator=16, source_ledger_sha256=digest)
+              with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+                  output.write('source_ready=' + str(count > 0).lower() + '\nvalid_count=' + str(count) +
+                      '\nsource_ledger_sha256=' + digest + '\n')
+          except BaseException as error:
+              report.update(status='SOURCE_NOT_READY', source_ready=False, error_type=type(error).__name__)
+              raise
+          finally:
+              with (root / 'schwa16-generation-runtime/SOURCE_READBACK.json').open('x', encoding='utf-8') as output:
+                  json.dump(report, output, sort_keys=True)
+          PYCODE
+      - name: Retain all original new audio and partial generation receipts
+        if: always()
+        timeout-minutes: 4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: schwa16-source
+          path: ${{ runner.temp }}/schwa16-source/
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain generation preflight, runtime and actual exit accounting
+        if: always()
+        timeout-minutes: 2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: schwa16-generation-runtime
+          path: ${{ runner.temp }}/schwa16-generation-runtime/
+          retention-days: 30
+          if-no-files-found: warn
+  observe:
+    needs: [source-contract, generate]
+    if: >-
+      always() && needs.source-contract.result == 'success' &&
+      needs.source-contract.outputs.execution_enabled == 'true' && needs.generate.outputs.source_ready == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 && github.event.before == '393b03e41eff68ce91a1943b18b3da9641378515'
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        provider: [qwen, whisper, parakeet, phones]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      PROVIDER: ${{ matrix.provider }}
+      SOURCE_LEDGER_SHA256: ${{ needs.generate.outputs.source_ledger_sha256 }}
+      SOURCE_VALID_COUNT: ${{ needs.generate.outputs.valid_count }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - name: Enforce the same first-main guard before reading or installing observer inputs
+        shell: bash
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain)"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import vosen_schwa16_once as worker
+          pins = json.loads(pathlib.Path('automation/english_vosen_schwa16_pins.json').read_bytes())
+          worker.execution_guard(pins, os.environ, json.loads(pathlib.Path(os.environ['GITHUB_EVENT_PATH']).read_bytes()))
+          (pathlib.Path(os.environ['RUNNER_TEMP']) / 'schwa16-observer-runtime').mkdir(mode=0o700)
+          PYCODE
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          name: schwa16-source
+          path: ${{ runner.temp }}/schwa16-source
+      - name: Recheck the exact terminal source handoff without models
+        shell: bash
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'PYCODE'
+          import hashlib, json, os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import vosen_schwa16_once as worker
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'schwa16-source'
+          pins = json.loads(pathlib.Path('automation/english_vosen_schwa16_pins.json').read_bytes())
+          evidence = worker.source_evidence(root, pins)
+          digest = hashlib.sha256((root / 'SOURCE_LEDGER.json').read_bytes()).hexdigest()
+          if digest != os.environ['SOURCE_LEDGER_SHA256'] or len(evidence['valid']) != int(os.environ['SOURCE_VALID_COUNT']) or not evidence['valid']:
+              raise ValueError('EXACT_VERIFIED_SOURCE_HANDOFF')
+          PYCODE
+      - name: Install one original fixed CPU observer runtime
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/schwa16-observe-venv"
+          schwa_pip="$RUNNER_TEMP/schwa16-observe-venv/bin/pip"
+          trap '"$schwa_pip" freeze > "$RUNNER_TEMP/schwa16-observer-runtime/pip-freeze.txt"' EXIT
+          if [ "$PROVIDER" = parakeet ]; then
+            "$schwa_pip" install --disable-pip-version-check 'huggingface-hub==0.36.2' 'hf-xet==1.2.0'
+          elif [ "$PROVIDER" = phones ]; then
+            "$schwa_pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+            "$schwa_pip" install --disable-pip-version-check 'transformers==4.46.3' 'huggingface-hub==0.36.2' 'numpy==1.26.4'
+          else
+            "$schwa_pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu'
+            if [ "$PROVIDER" = qwen ]; then
+              "$schwa_pip" install --disable-pip-version-check 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2'
+            else
+              "$schwa_pip" install --disable-pip-version-check 'openai-whisper==20250625'
+            fi
+          fi
+      - name: Make only this provider's first observations of the valid new WAVs
+        shell: bash
+        timeout-minutes: 17
+        run: |
+          set -euo pipefail
+          set +e
+          timeout --signal=TERM --kill-after=30s 16m "$RUNNER_TEMP/schwa16-observe-venv/bin/python" -I -B \
+            automation/vosen_schwa16_once.py --observe "$PROVIDER" \
+            --source-root "$RUNNER_TEMP/schwa16-source" \
+            --pins automation/english_vosen_schwa16_pins.json \
+            --output "$RUNNER_TEMP/observer-$PROVIDER"
+          schwa_observer_exit=$?
+          set -e
+          SCHWA_COMMAND_EXIT="$schwa_observer_exit" python3 -I -S -B - <<'PYCODE'
+          import hashlib, json, os, pathlib
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          path = root / ('observer-' + os.environ['PROVIDER']) / 'summary.json'
+          summary = None
+          digest = None
+          if path.is_file() and not path.is_symlink():
+              raw = path.read_bytes()
+              digest = hashlib.sha256(raw).hexdigest()
+              summary = json.loads(raw)
+          with (root / 'schwa16-observer-runtime/COMMAND_EXIT.json').open('x', encoding='utf-8') as output:
+              json.dump({'provider': os.environ['PROVIDER'], 'returncode': int(os.environ['SCHWA_COMMAND_EXIT']),
+                  'saved_summary_sha256': digest, 'saved_summary': summary,
+                  'accounting': 'SAVED_TERMINAL_SUMMARY' if summary is not None else 'UNKNOWN_WITHOUT_TERMINAL_SUMMARY',
+                  'retry_count': 0}, output, sort_keys=True)
+          PYCODE
+          exit "$schwa_observer_exit"
+      - name: Retain actual first-observer receipts including partial failures
+        if: always()
+        timeout-minutes: 3
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: schwa16-observer-${{ matrix.provider }}
+          path: ${{ runner.temp }}/observer-${{ matrix.provider }}/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain observer runtime and actual exit accounting
+        if: always()
+        timeout-minutes: 2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: schwa16-runtime-observer-${{ matrix.provider }}
+          path: ${{ runner.temp }}/schwa16-observer-runtime/
+          retention-days: 30
+          if-no-files-found: warn
+  combine:
+    needs: [source-contract, generate, observe]
+    if: >-
+      always() && needs.source-contract.result == 'success' &&
+      needs.source-contract.outputs.execution_enabled == 'true' && needs.generate.outputs.source_ready == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 && github.event.before == '393b03e41eff68ce91a1943b18b3da9641378515'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 2
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          name: schwa16-source
+          path: ${{ runner.temp }}/schwa16-source
+      - name: Collect available new observer artifacts without hiding a missing provider
+        continue-on-error: true
+        timeout-minutes: 5
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          pattern: schwa16-observer-*
+          path: ${{ runner.temp }}/schwa16-observer-download
+          merge-multiple: false
+      - name: Reconstruct the new sixteen-row terminal observation ledger without models
+        shell: bash
+        timeout-minutes: 3
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import vosen_schwa16_once as worker
+          pins = json.loads(pathlib.Path('automation/english_vosen_schwa16_pins.json').read_bytes())
+          worker.execution_guard(pins, os.environ, json.loads(pathlib.Path(os.environ['GITHUB_EVENT_PATH']).read_bytes()))
+          root = pathlib.Path(os.environ['RUNNER_TEMP'])
+          observers = root / 'schwa16-observers'
+          observers.mkdir(mode=0o700)
+          for provider in ('qwen', 'whisper', 'parakeet', 'phones'):
+              source = root / 'schwa16-observer-download' / ('schwa16-observer-' + provider)
+              if source.exists():
+                  if not source.is_dir() or source.is_symlink():
+                      raise ValueError('REGULAR_OBSERVER_ARTIFACT_DIRECTORY')
+                  source.rename(observers / ('observer-' + provider))
+          (root / 'schwa16-combined').mkdir(mode=0o700)
+          PYCODE
+          python3 -I -S -B automation/vosen_schwa16_once.py \
+            --combine "$RUNNER_TEMP/schwa16-observers" \
+            --source-root "$RUNNER_TEMP/schwa16-source" \
+            --pins automation/english_vosen_schwa16_pins.json \
+            --output "$RUNNER_TEMP/schwa16-combined/schwa16-combined.json"
+      - name: Retain the full new denominator and each provider's actual terminal state
+        if: always()
+        timeout-minutes: 4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: schwa16-combined-${{ github.run_id }}
+          path: ${{ runner.temp }}/schwa16-combined/
+          retention-days: 30
+          if-no-files-found: warn
