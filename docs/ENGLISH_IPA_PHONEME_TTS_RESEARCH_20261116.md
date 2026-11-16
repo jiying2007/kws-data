@@ -18,9 +18,13 @@ The Qwen3-TTS CustomVoice API exposes an optional free-text instruction, not a h
 
 The chosen model is not the LibriTTS-R voice that was fine-tuned from Lessac. It is the separate LibriTTS high voice explicitly described as trained from scratch on train-clean-360.
 
+## Stress alignment correction
+
+The v2 raw phoneme probe used an explicit primary stress marker on the word Hey. The image specifies Hey as light/unstressed and the name's first syllable as stressed. Therefore v2 is retained as historical evidence but is not the final stress-aligned target. The v3 probe uses raw eSpeak sequences without a stress mark on Hey: heɪ mˈiːɹoʊ and heɪ vˈoʊzən.
+
 ## Superseded probe notice
 
-The earlier four-cell Piper probe and its ASR consumer were generated against the now-superseded readings /heɪ ˈmɪəroʊ/ and /heɪ ˈvoʊsən/. Those WAVs remain immutable historical evidence and are not positives for the current standard. The new v2 probe below uses the image-confirmed readings only.
+The earlier four-cell Piper probe and its ASR consumer were generated against the now-superseded readings /heɪ ˈmɪəroʊ/ and /heɪ ˈvoʊsən/. Those WAVs remain immutable historical evidence and are not positives for the current standard. The v2 probe used the right segmental vowels/consonants but placed primary stress on Hey; it is superseded for the image's prosodic target. The v3 probe is the final stress-aligned variant.
 
 ## Fixed four-cell probe v2
 
