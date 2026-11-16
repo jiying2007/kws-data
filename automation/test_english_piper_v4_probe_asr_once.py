@@ -29,6 +29,10 @@ class PiperV4AsrContract(unittest.TestCase):
   self.assertIs(d["training_admitted"],False)
   self.assertIs(d["human_gold"],False)
   self.assertIs(d["pronunciation_verified"],False)
+  source=Path(a.__file__).read_text(encoding="utf-8")
+  self.assertIn('summary.get("status") in ("COMPLETE","INCOMPLETE_NO_RETRY")',source)
+  self.assertIn("source_cell_closure_complete",source)
+  self.assertIn("source_aggregate_status_mismatch",source)
  def test_cli_parser(self):
   with self.assertRaises(SystemExit) as e:a.main(["--help"])
   self.assertEqual(e.exception.code,0)
