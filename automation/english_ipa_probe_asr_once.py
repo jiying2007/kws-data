@@ -39,7 +39,7 @@ def verify_trigger():
       "compact_artifact_name":COMPACT_ARTIFACT_NAME,
       "compact_artifact_sha256":COMPACT_ARTIFACT_SHA256,
       "providers":list(PROVIDERS),"max_calls":MAX_CALLS,"retry_count":0,
-      "training_admitted":False,"human_gold":False,"pronunciation_verified":False}
+      "training_admitted":False,"human_gold":False,"pronunciation_verified":False,"execution_generation":2}
     need(market.read(TRIGGER)==expected,"TRIGGER_POLICY_DRIFT")
     return expected
 
