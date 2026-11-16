@@ -203,3 +203,176 @@ TTS/ASR/bookbot guards remain unchanged. No new synthesis, ASR, KWS inference
 or optimizer update is authorized by this stage. Partial failures retain
 receipts and exit unsuccessfully. All gold, pronunciation, admission and
 promotion flags stay false, including if the new model agrees with a target.
+
+## Actual eight-WAV XLSR result and bounded-usefulness decision
+
+[Independent XLSR run `43812073656`](https://github.com/jiying2007/kws-data/actions/runs/43812073656)
+completed all eight declared forwards on the unchanged four original and four
+rendered WAVs. It made zero new TTS, ASR or optimizer calls. Artifact
+`14200951947` has ZIP SHA-256
+`c7d8f1ce717218ca1490cd57d253a95ba95a9dca2c46e33a41cd9f61a40ae03d`.
+The original `summary.json` bytes have SHA-256
+`737ea6cf45ee9c5d32765771b6f9c84bc3a467174f994c222505b9e6e9886983`;
+the original model-lock bytes have SHA-256
+`71a30ee3d506cd10911a531c7a97918757ad7c924fbb01316e0f126fc0dffce1`.
+Byte-verified artifact readback recovered the following raw CTC tokens:
+
+| Source rendering | Canonical phrase | Preset | Raw XLSR tokens |
+|---|---|---|---|
+| Original Mero | Hey Mero | Aiden | `h eɪ m ɛ ɹ ɔ` |
+| Original Mero | Hey Mero | Ryan | `e m e r o` |
+| Rendered Meero | Hey Mero | Aiden | `eɪ m i ɹ oʊ` |
+| Rendered Meero | Hey Mero | Ryan | `h e m i ɹ o` |
+| Original Vosen | Hey Vosen | Aiden | `eɪ v oː z ə n` |
+| Original Vosen | Hey Vosen | Ryan | `h eɪ v oː z ɪ n` |
+| Rendered Vozen | Hey Vosen | Aiden | `p eɪ v oː z ə n` |
+| Rendered Vozen | Hey Vosen | Ryan | `h eɪ v oː z ɪ n` |
+
+For the two paired synthetic presets, the Mero spelling correction changes the
+observed name-vowel category from original `ɛ`/`e` to rendered `i` in both cases.
+This is directional machine acoustic evidence that the Meero rendering is useful
+for a bounded follow-on experiment. It does not establish the required long
+`iː`, first-syllable stress, light Hey, or acceptable whole-phrase pronunciation.
+The XLSR inventory contains both `i` and `iː`; these observations are retained as
+`i`, without adding a length or stress claim. Earlier contradictory bookbot
+observations remain part of the record and are not overwritten.
+
+Both Vosen spellings produce medial `z`. The paired Vozen results show no
+observed improvement: Ryan's token sequence is unchanged and Aiden's rendered
+sequence adds an initial `p`. Consequently the new recipe retains original
+Vosen spelling while selecting Meero for Mero. The original and rendered pilot
+audio is unchanged. Neither `oː` versus target `oʊ` nor Ryan's `ɪ` versus target
+`ə` is silently accepted as a verified pronunciation variant.
+
+The frozen decision is `USEFUL_FOR_WEAK_RESEARCH`, limited to one new
+requested-intent data experiment. Its basis is the paired Mero vowel-category
+improvement and the absence of a Vosen rendering gain. It is not a pronunciation
+pass, an acoustic-gold decision, or satisfaction of the pronunciation-specific
+positive-admission gate. The original rendering review used by this decision
+is the exact ZIP member, SHA-256
+`ebd3cccae358a4dcd2f439984a2d96fa124ee70c195d6f777420c70c454a269e`;
+a locally reformatted JSON is not substituted for those evidence bytes.
+
+## Declared 144-cell requested-intent experiment — execution pending
+
+The next experiment is declared in
+[`final144_recipe.py`](../automation/final144_recipe.py),
+[`final144_runner.py`](../automation/final144_runner.py), and
+[`final144_execution_pins.json`](../automation/final144_execution_pins.json).
+It has not produced a completed 144-cell dataset or a trained successor at this
+documentation stage. The global recipe SHA-256 is
+`d1fe7973324bf35f9fcd1c20472786e121c18bb3e4bdbe8967953a0f88243b83`.
+
+The canonical names and American targets remain Hey Mero `/heɪ ˈmiːroʊ/` and
+Hey Vosen `/heɪ ˈvoʊzən/`. Synthesis text uses Meero and original Vosen, with
+eight fixed natural delivery variants for each name. Every preset also receives
+eight declared ordinary sentences, with no nearphone-negative intent. This
+gives 24 cells per preset and 144 new cell identities:
+
+| Source role | Synthetic presets | Wake-intent cells | Ordinary-intent cells | Total |
+|---|---|---:|---:|---:|
+| Train | Aiden, Dylan, Eric, Serena | 64 | 32 | 96 |
+| Development | Ryan, Vivian | 32 | 16 | 48 |
+| Total | Six presets | 96 | 48 | 144 |
+
+Preset ancestry defines the source-family split. Aiden and Ryan were exposed in
+the pilot; none of these presets is an independent human speaker or a locked
+confirmation source. Canonical phrase, actual synthesis request, source family,
+role, variant and requested-intent class remain separate fields. Ordinary
+sentences are weak background intents, not trusted-negative acoustic labels.
+
+Generation uses nine fixed consecutive partitions of 16 cells, with at most two
+jobs running together. Each job invokes the existing
+`english_qwen_capture.capture(..., max_calls=16)` once. The global ceiling is
+144 TTS calls; each cell has one actual attempt and no retry. A failed or
+started-but-unknown cell remains consumed. A missing or partial partition does
+not authorize a replacement call or a new cell ID to fill the quota.
+
+All nine partitions must be complete before any observer runs. Their original
+partition plans, plan-locks and receipts remain intact. Verification binds the
+same run, head, code, recipe and execution pins; requires identical TTS
+model-lock bytes across partitions; and checks every original WAV, decoded PCM,
+native-audio receipt and source role. It does not rewrite the nine plan-locks as
+one global plan. The four observers then consume the same authenticated PCM:
+144 calls each for Qwen3-ASR, Whisper-small, Parakeet and XLSR, for maxima of
+**432 new ASR calls and 144 new XLSR forwards**. No observer receives the desired
+text or another model's transcript. Old pilot TTS and observations are not
+replayed by this experiment.
+
+The source and observation stages are create-only, attempt-1 protected-main
+operations. Incomplete sources or observer summaries block automatic downstream
+consumption. All four complete 144-row summaries must bind to the same source
+cells; their original byte hashes are retained as a four-summary manifest, not
+misreported as the hash of a single ZIP artifact. Runtime versions, model locks,
+raw observations and per-cell started/completed/failed receipts are retained.
+
+## Frozen weak-intent selection and research-only head work
+
+[`english_final144_embedding_once.py`](../automation/english_final144_embedding_once.py)
+declares the selection policy, whose canonical SHA-256 is
+`27a18716b5c0e7f29a937eeedde085917c04d4d45f30db0d9115dc3c881a9fd5`.
+The feature/head implementation is reviewed in
+[kws-pipeline PR #823](https://github.com/jiying2007/kws-pipeline/pull/823).
+This is a separate requested-intent experiment, not a claim that current-target
+pronunciation-specific positive admission has passed.
+
+A wake-intent row requires at least two of the three ASR outputs to contain
+exactly normalized `hey` plus a predeclared spelling: `mero`, `miro`, or `meero`
+for Mero; `vosen`, `vosin`, or `vozin` for Vosen. Normalization only removes
+straight/curly apostrophes, lowercases, and extracts ASCII alphanumeric tokens.
+The same row must also contain the corresponding contiguous XLSR core:
+
+| Weak requested intent | Required raw-token core |
+|---|---|
+| Mero | `m` + one of `i`, `iː` + one of `ɹ`, `r` + one of `oʊ`, `oː`, `o` |
+| Vosen | `v` + one of `oʊ`, `oː` + `z ə n` |
+
+These alternatives are a frozen machine-support screen for intent research;
+they do not broaden the user's accepted pronunciation set. In particular,
+Vosen `z ɪ n` does not satisfy this policy's required `z ə n`, even if ASR spells
+the name as Vosin or Vozin. A Mero `i` can support a weak requested-intent class
+without becoming evidence of verified `iː`, duration or stress.
+
+An ordinary-intent row requires two exact normalized requested-sentence
+transcripts and neither target phone core. Unknown, conflicting or unmatched
+rows are quarantined; an uncertain wake candidate never becomes a negative.
+The full 144-row source denominator, exclusions, raw observations and source
+hashes remain visible. No selected row becomes human gold or a trusted negative.
+
+Minimum evidence is checked twice: first after source/PCM deduplication, then
+again after actual frontend/window geometry exclusions. At both checks, each
+word requires at least eight train rows from at least two train source families,
+and two development rows from at least one development source family. Ordinary
+synthetic intents require at least eight train rows and two development rows.
+Real read-speech background cannot substitute for these ordinary-intent minima.
+Failure of either check stops before optimizer updates. Unsupported long clips
+or feature windows are recorded as exclusions, without trimming away part of a
+wake clip or generating replacement samples.
+
+The declared background pool uses the authenticated, previously exposed 517
+LibriSpeech clips from 40 real speakers. Deterministic speaker assignment keeps
+30 speakers in train and 10 in development; at most 16 seconds of original PCM
+per speaker form 40 disclosed read-speech tracks. Background prefixes and
+context come only from the matching role, with exact source spans retained.
+These constructed read-speech splices are not independent household continuous
+negative gold. They add no invented silence and do not provide phonetic or
+word-end annotations.
+
+If all data and geometry gates pass, the worker will use the fixed frozen
+embedding and train one small causal head with seed `20261116` and exactly
+96 optimizer updates. Development data does not tune the configuration,
+threshold, epoch count or stopping point. The research event rule is fixed at
+probability 0.80, three consecutive confirmations and thirteen embedding steps
+of cooldown; it remains uncalibrated. Saved actual weights and feature streams
+will then be reopened for numerical/event replay in host C and ARM under QEMU.
+That parity scope is the saved causal **head only**. It does not establish ARM
+parity for the full audio frontend or embedding backbone, or execution on
+SSC305 hardware.
+
+All formal-training admission, human-gold, trusted-negative, pronunciation,
+qualification and promotion flags remain false. Vowel length, stress and Hey
+acoustics remain unverified. Independent FAR/FRR, word-end latency and SSC305
+audio-chain/resource/stability measurements are `NOT_RUN`. Actual batch/run
+identities, generated counts, eligible/excluded counts, optimizer completion,
+saved weights and parity outcomes must be added from the future worker's
+terminal artifacts; none is claimed by this declaration.
