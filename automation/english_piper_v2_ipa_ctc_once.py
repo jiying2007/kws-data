@@ -75,8 +75,11 @@ def source_cells(parent):
     cells=plan.get("cells")
     expected={(phrase,speaker) for phrase in PHRASES for speaker in SPEAKERS}
     need(type(cells) is list and len(cells)==4 and
-         {(c.get("phrase"),c.get("source_speaker_id")) for c in cells}==expected,
-         "PIPER_PLAN_ROSTER")
+         {(c.get("phrase"),c.get("source_speaker_id")) for c in cells}==expected and
+         all(c.get("ipa")==PHRASES[c.get("phrase")] and
+             c.get("raw_espeak_ipa")=={"Hey Mero":"hˈeɪ mˈiːɹoʊ","Hey Vosen":"hˈeɪ vˈoʊzən"}[c.get("phrase")] and
+             c.get("speaker_id")==SPEAKERS[c.get("source_speaker_id")] for c in cells),
+         "PIPER_PLAN_ROSTER_OR_FINAL_IPA")
     folders=list((root/"cells").iterdir())
     need(len(folders)==4 and all(x.is_dir() and not x.is_symlink() for x in folders),
          "PIPER_CELL_DIRS")
