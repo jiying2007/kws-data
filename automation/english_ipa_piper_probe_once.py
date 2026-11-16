@@ -4,7 +4,7 @@ import argparse, hashlib, json, os, shutil, wave
 from importlib.metadata import version
 from pathlib import Path
 
-POLICY="english-ipa-piper-phoneme-probe-v1"
+POLICY="english-ipa-piper-phoneme-probe-v2"
 REPO="rhasspy/piper-voices"
 REV="de3dcfdf1912bb49726dc4aa11c26017ce2ac62a"
 MODEL_REL="en/en_US/libritts/high/en_US-libritts-high.onnx"
@@ -16,12 +16,12 @@ CONFIG_MD5="cb1564bb779f3b1f87e2de778adeb669"
 PIPER_VERSION="1.8.0"
 MAX_MODEL_BYTES=150*1024**2
 MAX_CALLS=4
-TRIGGER=Path(__file__).resolve().parents[1]/".github/triggers/english-ipa-piper-phoneme-probe-20261116.json"
+TRIGGER=Path(__file__).resolve().parents[1]/".github/triggers/english-ipa-piper-phoneme-probe-v2-20261116.json"
 EXPECTED_CELLS=[
- {"phrase":"Hey Mero","ipa":"/heɪ ˈmɪəroʊ/","raw_espeak_ipa":"hˈeɪ mˈɪəɹoʊ","speaker_id":0,"source_speaker_id":"p3922"},
- {"phrase":"Hey Mero","ipa":"/heɪ ˈmɪəroʊ/","raw_espeak_ipa":"hˈeɪ mˈɪəɹoʊ","speaker_id":1,"source_speaker_id":"p8699"},
- {"phrase":"Hey Vosen","ipa":"/heɪ ˈvoʊsən/","raw_espeak_ipa":"hˈeɪ vˈoʊsən","speaker_id":0,"source_speaker_id":"p3922"},
- {"phrase":"Hey Vosen","ipa":"/heɪ ˈvoʊsən/","raw_espeak_ipa":"hˈeɪ vˈoʊsən","speaker_id":1,"source_speaker_id":"p8699"}
+ {"phrase":"Hey Mero","ipa":"/heɪ ˈmiːroʊ/","raw_espeak_ipa":"hˈeɪ mˈiːɹoʊ","speaker_id":0,"source_speaker_id":"p3922"},
+ {"phrase":"Hey Mero","ipa":"/heɪ ˈmiːroʊ/","raw_espeak_ipa":"hˈeɪ mˈiːɹoʊ","speaker_id":1,"source_speaker_id":"p8699"},
+ {"phrase":"Hey Vosen","ipa":"/heɪ ˈvoʊzən/","raw_espeak_ipa":"hˈeɪ vˈoʊzən","speaker_id":0,"source_speaker_id":"p3922"},
+ {"phrase":"Hey Vosen","ipa":"/heɪ ˈvoʊzən/","raw_espeak_ipa":"hˈeɪ vˈoʊzən","speaker_id":1,"source_speaker_id":"p8699"}
 ]
 def need(ok,msg):
     if not ok: raise ValueError(msg)
