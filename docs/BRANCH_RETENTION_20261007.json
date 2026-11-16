@@ -226,13 +226,14 @@
   ],
   "baseline_changes": [
     "README.md",
-    "tests/test_dataset_integrity.py"
+    "tests/test_dataset_integrity.py",
+    ".github/workflows/assets.yml"
   ],
   "baseline_change_reasons": {
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2173,
+  "expected_tracked_files": 2178,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -381,15 +382,20 @@
     ".github/workflows/english-ipa-piper-v3-independent-ctc-once.yml",
     "automation/english_piper_v3_ipa_ctc_once.py",
     "automation/test_english_piper_v3_ipa_ctc_once.py",
-    "docs/ENGLISH_PIPER_V3_PHONEME_OBSERVER_20261116.md"
+    "docs/ENGLISH_PIPER_V3_PHONEME_OBSERVER_20261116.md",
+    ".github/triggers/english-ipa-piper-phoneme-probe-v4-20261116.json",
+    ".github/workflows/english-ipa-piper-v4-probe-once.yml",
+    "automation/english_ipa_piper_probe_v4_once.py",
+    "automation/test_english_ipa_piper_probe_v4_once.py",
+    "docs/ENGLISH_IPA_PIPER_V4_MULTI_SPEAKER_20261116.md"
   ],
   "baseline_files": [
     {
       "path": ".github/workflows/assets.yml",
       "mode": "100644",
-      "bytes": 2643,
-      "git_blob_sha1": "81d70458b33253000cf2837ac7fa71eefb3ae29b",
-      "source_commit": "d9a1f3171bceae45908bc8ac84045d3bca23f43f"
+      "bytes": 3200,
+      "git_blob_sha1": "dce8e901c1bd6a1775a45252c3f4b3aaea9d4057",
+      "source_commit": "02f9e1fee89f1a4d195bbe3af4e02e0aeb558ab3"
     },
     {
       "path": ".gitignore",
@@ -3738,9 +3744,9 @@
     {
       "path": ".github/workflows/assets.yml",
       "mode": "100644",
-      "bytes": 2643,
-      "git_blob_sha1": "81d70458b33253000cf2837ac7fa71eefb3ae29b",
-      "source_commit": "d9a1f3171bceae45908bc8ac84045d3bca23f43f"
+      "bytes": 3200,
+      "git_blob_sha1": "dce8e901c1bd6a1775a45252c3f4b3aaea9d4057",
+      "source_commit": "02f9e1fee89f1a4d195bbe3af4e02e0aeb558ab3"
     },
     {
       "path": ".github/workflows/auto-tts-voice-clone-20261102.yml",
@@ -27204,6 +27210,20 @@
       "previous_manifest_git_blob_sha1": "e9d41cd80c1b755ee3428b117ba076d17661e236",
       "scope": "Exactly four independent phoneme-model forwards over the four source-hash-verified Piper v3 PCM16 WAVs. Model receives audio only; target phrase, IPA, speaker identity and ASR transcripts are not supplied. No new TTS/ASR/KWS forwards, training or promotion.",
       "rationale": "The v3 blind ASR observations include spelling variants and nearphone disagreement. A separately pinned audio-only phoneme observer provides a second machine evidence family for independent review, while remaining explicitly non-gold and non-admitting."
+    },
+    {
+      "campaign": "english-piper-v4-eight-new-speakers-20261116",
+      "source_commit": "8b82c0ff1e27ad754f1a1c16d7f40310b8b65787",
+      "paths": [
+        ".github/triggers/english-ipa-piper-phoneme-probe-v4-20261116.json",
+        ".github/workflows/english-ipa-piper-v4-probe-once.yml",
+        "automation/english_ipa_piper_probe_v4_once.py",
+        "automation/test_english_ipa_piper_probe_v4_once.py",
+        "docs/ENGLISH_IPA_PIPER_V4_MULTI_SPEAKER_20261116.md"
+      ],
+      "previous_manifest_git_blob_sha1": "1585d7f791216a722527a508d7b6d932559d9c11",
+      "scope": "Sixteen new Piper v4 raw-phoneme WAVs: two owner-confirmed American wake targets × eight previously unused LibriTTS train-clean-360 speaker IDs p4535/p6701/p3638/p922/p2531/p1638/p8848/p6544. v3 speakers p3922/p8699 are not regenerated. Exactly 16 calls, no retries, no ASR/CTC/training or qualification.",
+      "rationale": "V3 blind ASR and independent phone observations did not admit any sample as a positive. V4 broadens speaker-family coverage while preserving exact IPA/stress, pinned model/config, source-speaker map, WAV/PCM hashes and CC-BY-4.0 attribution. Machine agreement remains non-gold; formal training admission stays false."
     }
   ]
 }
