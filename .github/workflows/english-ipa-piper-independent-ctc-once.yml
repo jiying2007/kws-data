@@ -36,7 +36,7 @@ jobs:
           done
   observe:
     needs: source-contract
-    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    if: false # Superseded old-IPA Piper CTC observer; v3 requires a separately pinned observer
     runs-on: ubuntu-24.04
     timeout-minutes: 150
     env:
