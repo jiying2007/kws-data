@@ -1,0 +1,81 @@
+name: English train-only teacher retention once
+on:
+  pull_request:
+    paths:
+      - automation/english_teacher_retention_once.py
+      - automation/english_teacher_retention_plan.json
+      - automation/test_english_teacher_retention.py
+      - .github/workflows/english-teacher-retention-once.yml
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-teacher-retention-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-teacher-retention-20261117-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Check separate frozen recipe and train-only teacher constraints
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_teacher_retention_once.py
+          python3 -B -m unittest discover -s automation -p 'test_english_teacher_retention.py' -v
+          git diff --exit-code
+  retention-training:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == 'df4f870baf178dcf0121fca661b5692ebbd5cca9'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Execute fixed teacher retention and unchanged regression once
+        timeout-minutes: 21
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+          NUMEXPR_NUM_THREADS: '1'
+          PYTHONHASHSEED: '20261117'
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_teacher_retention_once.py --execute \
+            --output "$RUNNER_TEMP/english-teacher-retention"
+      - name: Retain actual weights, teacher cache, predictions and partial receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-teacher-retention-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-teacher-retention/evidence/
+            ${{ runner.temp }}/english-teacher-retention/source/
+            ${{ runner.temp }}/english-teacher-retention/inputs/
+            ${{ runner.temp }}/english-teacher-retention/cache/
+            ${{ runner.temp }}/english-teacher-retention/predictions/
+            ${{ runner.temp }}/english-teacher-retention/runtime/
+            ${{ runner.temp }}/english-teacher-retention/models/
+            ${{ runner.temp }}/english-teacher-retention/STARTED.json
+            ${{ runner.temp }}/english-teacher-retention/MANIFEST.json
+          retention-days: 30
+          include-hidden-files: true
+          if-no-files-found: warn
