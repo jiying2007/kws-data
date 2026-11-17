@@ -1,0 +1,214 @@
+{
+  "configuration": {
+    "candidate_use": "UNKNOWN_ACOUSTIC_REVIEW_ONLY",
+    "channels": 1,
+    "chunk_samples": 320,
+    "classes": [
+      "background",
+      "Hey Vosen",
+      "Hey Mero"
+    ],
+    "confirm_embeddings": 3,
+    "cooldown_embeddings": 13,
+    "embedding_hop_samples": 1280,
+    "eof_padding_samples": 0,
+    "first_embedding_sample": 16000,
+    "first_ready_sample": 35200,
+    "fresh_stream_per_original": true,
+    "history": 16,
+    "maximum_candidates_per_source": 2,
+    "maximum_candidates_total": 32,
+    "model": {
+      "bytes": 197908,
+      "sha256": "d3e39adf72495034de0405abb997b76744885f91868eccfa97ba09b929bc63e4"
+    },
+    "profile": "UNCHANGED_HISTORICAL_PROFILE_NO_IPA_RELABEL",
+    "proposal_post_samples": 16000,
+    "proposal_pre_samples": 38400,
+    "proposal_threshold": 0.5,
+    "resets_inside_original": 0,
+    "sample_rate": 16000,
+    "sample_width": 2,
+    "threshold_float32": 0.800000011920929,
+    "tie_policy": "lowest_class_id"
+  },
+  "dependency_command_argv": {
+    "dependency-apt-install-tools": [
+      "sudo",
+      "-n",
+      "env",
+      "DEBIAN_FRONTEND=noninteractive",
+      "NEEDRESTART_MODE=a",
+      "apt-get",
+      "-o",
+      "Acquire::Retries=0",
+      "-o",
+      "Dpkg::Use-Pty=0",
+      "install",
+      "--no-install-recommends",
+      "-y",
+      "ffmpeg",
+      "gcc",
+      "binutils"
+    ],
+    "dependency-apt-update": [
+      "sudo",
+      "-n",
+      "env",
+      "DEBIAN_FRONTEND=noninteractive",
+      "NEEDRESTART_MODE=a",
+      "apt-get",
+      "-o",
+      "Acquire::Retries=0",
+      "-o",
+      "Dpkg::Use-Pty=0",
+      "update"
+    ]
+  },
+  "expected_retained_source_summary": {
+    "aggregate_maximum_model_processes": 32,
+    "artifact": {
+      "artifact_id": 14317913716,
+      "bytes": 16339221,
+      "head_sha": "cb6baa703f46451af73ec2cc0f85edfd1b159874",
+      "name": "english-hardneg-natural32-recovery-44060185229",
+      "run_id": 44060185229,
+      "sha256": "3b7a4ff6a59ba397eebac59a4f89feba8cc075a4f8881c9d531a3739bc1ec9a7"
+    },
+    "chapter_transcript_files": 27,
+    "closed_manifest": true,
+    "compute_execution_attempt": 1,
+    "configuration_sha256": "13ff76c46b35d8d1c427bc237cfc3153771f281379ad86df8203f685aa2e7af4",
+    "expanded_history_copied": false,
+    "formal_training_admitted": false,
+    "human_gold": false,
+    "manifest_sha256": "f4bee5d2d80cd26e5bd58f661644198e9550329b288d3bdb557f5d7bb60132e6",
+    "model_promotion_allowed": false,
+    "nested_first_artifact": {
+      "artifact_id": 14317102541,
+      "bytes": 4257652,
+      "head_sha": "d4edc97e4efb5612d16018f5cdeb42002d9eedfa",
+      "name": "english-hardneg-natural32-44057968882",
+      "run_id": 44057968882,
+      "sha256": "514b70f69470620612d6ea3dfa84a53369468d0f86a659863a4301c108266e12"
+    },
+    "nested_first_closed_manifest": false,
+    "nested_first_omission": {
+      "source/.github/workflows/english-hardneg-natural32-once.yml": {
+        "bytes": 4423,
+        "sha256": "2709d3cb7197624ca35e270974cd43bee2132d931d28dc109dda00d98b084d88"
+      }
+    },
+    "nested_first_proof_recomputed": true,
+    "new_corpus_downloads": 0,
+    "new_runtime_retry_count": 0,
+    "new_tar_reads": 0,
+    "pcm_payloads_verified": 0,
+    "pcm_validation": "PENDING_FIRST_DECODE",
+    "prior_build_total": 0,
+    "prior_decode_total": 0,
+    "prior_model_total": 0,
+    "prior_trace_total": 0,
+    "pronunciation_verified": false,
+    "qualification_allowed": false,
+    "retained_payload_files": 291,
+    "roster_source_base": "61e524e89c86950ef8e284ecaf18fddf82d11ca1",
+    "schema": "english-hardneg-natural32-retained-once-v1/retained-source-proof",
+    "second_descendants_found": false,
+    "second_failure": "FFMPEG_VERSION_ENOENT_BEFORE_ANY_DECODE",
+    "second_supervisor_timed_out": false,
+    "second_supervisor_wall_seconds": 537.4946303590001,
+    "second_zip_preserved_unchanged": true,
+    "selected_flac_files": 32,
+    "selected_frames_from_streaminfo": 3270080,
+    "selected_transcript_files": 32,
+    "source_archive_acquisitions": 2,
+    "status": "VERIFIED_RETAINED_ORIGINALS_ZERO_PRIOR_COMPUTE",
+    "training_admitted": false,
+    "trusted_negative": false,
+    "workflow_execution_sequence": 3
+  },
+  "files": {
+    ".github/workflows/english-hardneg-natural32-retained-once.yml": {
+      "bytes": 5153,
+      "sha256": "74b2cbca53f2fb759c6dc7f32dd5ea395e387838bc8f38e34f97a9fedcbf60fb"
+    },
+    "automation/english_hardneg_natural32_retained_once.py": {
+      "bytes": 74795,
+      "sha256": "29e8678870c69e36469c754bd3eaf9fc06d49560a97f4aefc03a85041a48772b"
+    },
+    "automation/english_hardneg_natural32_retained_plan.json": {
+      "bytes": 7948,
+      "sha256": "800f8dfa8679c04389e23a87f1b2ad83e69fc409209eae03e15cc8f472e3694e"
+    }
+  },
+  "main_before": "cb6baa703f46451af73ec2cc0f85edfd1b159874",
+  "retained_source_identity": {
+    "artifact_id": 14317913716,
+    "bytes": 16339221,
+    "head_sha": "cb6baa703f46451af73ec2cc0f85edfd1b159874",
+    "name": "english-hardneg-natural32-recovery-44060185229",
+    "run_id": 44060185229,
+    "sha256": "3b7a4ff6a59ba397eebac59a4f89feba8cc075a4f8881c9d531a3739bc1ec9a7"
+  },
+  "roster_source_base": "61e524e89c86950ef8e284ecaf18fddf82d11ca1",
+  "source_pins": {
+    ".github/workflows/english-hardneg-natural32-once.yml": {
+      "bytes": 4423,
+      "sha256": "2709d3cb7197624ca35e270974cd43bee2132d931d28dc109dda00d98b084d88"
+    },
+    ".github/workflows/english-hardneg-natural32-recovery-once.yml": {
+      "bytes": 4987,
+      "sha256": "f5a369afeec687921cefb1e5fd6d215031cba8e2ae61d6f53632c59df505f113"
+    },
+    "automation/english_coverage_fullpcm_once.py": {
+      "bytes": 44356,
+      "sha256": "70a9ae5c36191a75f58e8819ac4e6e12f3f7e464e5891d1b1e5fdc648e9ae422"
+    },
+    "automation/english_hardneg_natural32_once.py": {
+      "bytes": 52013,
+      "sha256": "5bab9b90862671e7532a20e0d6a0f70dd3bd19fd4e954268476285b6366885c8"
+    },
+    "automation/english_hardneg_natural32_plan.json": {
+      "bytes": 5492,
+      "sha256": "9e8877374da85cc3ff77ecc9d1bb7225bf327719f197515ecb967622078e4811"
+    },
+    "automation/english_hardneg_natural32_recovery_once.py": {
+      "bytes": 64683,
+      "sha256": "56fb6ed780cf569b994bb46f35b4b5909a15837ef90818ea5388c550694e62ae"
+    },
+    "automation/english_hardneg_natural32_recovery_plan.json": {
+      "bytes": 6782,
+      "sha256": "81cb7eff374225ee948d2f44acc2a18c5785b729a496ff0638a81fc2f5a79e56"
+    },
+    "automation/test_english_hardneg_natural32.py": {
+      "bytes": 20705,
+      "sha256": "2dbeafbb74f94885856630e3e3530c0a30a0f4555cf2b0c64f7179d6156cdded"
+    },
+    "automation/test_english_hardneg_natural32_recovery.py": {
+      "bytes": 10069,
+      "sha256": "d26fef97f7eceb8d360ad78520957508ec1aac1515df27c4d1f52352b32c0351"
+    },
+    "research/english_coverage_fullpcm_20261117/src/ekws_stream_trace.c": {
+      "bytes": 17194,
+      "sha256": "30e2b78629fa4a22a3c029ffd3322608a77e9d1399cadc6c9ad6976ea78413fc"
+    },
+    "research/english_coverage_fullpcm_20261117/src/ekws_stream_trace.h": {
+      "bytes": 2290,
+      "sha256": "2baee6272f0d17102a3ed035a76102da87614e997dc41f6b33a2c92177971639"
+    },
+    "research/english_hardneg_natural32_20261117/mine_saved_scores.py": {
+      "bytes": 18201,
+      "sha256": "82325ea6eacfe418140639021eda29c4fd778764157c00cf29fca8d2ba90181a"
+    },
+    "research/english_hardneg_natural32_20261117/natural32-roster.json": {
+      "bytes": 56281,
+      "sha256": "31457faf8efd0cf77629c1a6f8de67bc101190eb118bcfe9ac2f256acca41239"
+    },
+    "research/english_hardneg_natural32_20261117/prepare_natural32.py": {
+      "bytes": 12145,
+      "sha256": "49d3bcc12c7507eb6d620a1344586665b8d0733f6dbac1f1356384fe35be7f5e"
+    }
+  },
+  "worker_sha256": "29e8678870c69e36469c754bd3eaf9fc06d49560a97f4aefc03a85041a48772b"
+}
