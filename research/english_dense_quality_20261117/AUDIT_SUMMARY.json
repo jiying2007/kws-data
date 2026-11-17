@@ -1,0 +1,328 @@
+{
+  "cached_embedding_rows": {
+    "clean": 10354,
+    "snr10": 2804,
+    "snr5": 2649
+  },
+  "cached_streams": {
+    "clean": 117,
+    "snr10": 76,
+    "snr5": 71
+  },
+  "class_mapping": {
+    "Hey Mero": 2,
+    "Hey Vosen": 1,
+    "background": 0
+  },
+  "counts": {
+    "head_case_passes_completed": 264,
+    "head_case_passes_started": 264,
+    "head_ready_outputs": 11847,
+    "new_embedding_calls_completed": 0,
+    "new_embedding_calls_started": 0,
+    "new_training_frontend_calls": 0,
+    "new_tts_asr_phone_calls": 0,
+    "onnx_forward_completed": 0,
+    "onnx_forward_started": 0,
+    "optimizer_updates_completed": 96,
+    "optimizer_updates_started": 96,
+    "retry_count": 0,
+    "torch_forward_calls_completed": 576,
+    "torch_forward_calls_started": 576
+  },
+  "development_conditions_already_exposed": true,
+  "exact_result_member": {
+    "bytes": 16762,
+    "member": "evidence/RESULT.json",
+    "sha256": "6f2d83384810cae6e91e17a9d359c6564c206f9d43d022d8d2abece334a36e81"
+  },
+  "fallback_if_gate_fails": "KEEP_PREVIOUS_AUG96_HEAD_AND_STOP_SAME_POOL_SEARCH",
+  "formal_training_admitted": false,
+  "frozen_auditor_sha256": "c0b91dc1b8f22b3daf600a2acb7bb1958ceb829aed3a1893b622cab72e405acd",
+  "full_audit_report": {
+    "bytes": 210695,
+    "filename": "independent-dense-audit.json",
+    "sha256": "561b55f7f84074a14847102e983c12c6244d430f4ebba0066ab053d744e8c994"
+  },
+  "gradient_density_is_hypothesis_not_established_failure_cause": true,
+  "head_logit_weight_correspondence_independently_recomputed": false,
+  "head_sha": "3b356d3e6ed14cd4c408f94ae44411967f49a2e5",
+  "high_training_window_scores_prove_development_cause": false,
+  "human_gold": false,
+  "independent_far": "NOT_RUN",
+  "independent_frr": "NOT_RUN",
+  "independent_source_count_increment": 0,
+  "last_additional_objective_arm": true,
+  "model_forward_numerics_recomputed": false,
+  "model_promotion_allowed": false,
+  "new_audio_mixes_by_this_auditor": 0,
+  "new_head_c_numeric_parity": "NOT_RUN",
+  "new_model_calls_by_this_auditor": 0,
+  "new_trace_checks": [
+    {
+      "case_passes": 117,
+      "frames": 10354,
+      "maximum_softmax_probability_error": 0.0,
+      "name": "dense-clean",
+      "ready_outputs": 8599
+    },
+    {
+      "case_passes": 76,
+      "frames": 2804,
+      "maximum_softmax_probability_error": 0.0,
+      "name": "dense-snr10",
+      "ready_outputs": 1664
+    },
+    {
+      "case_passes": 71,
+      "frames": 2649,
+      "maximum_softmax_probability_error": 0.0,
+      "name": "dense-snr5",
+      "ready_outputs": 1584
+    }
+  ],
+  "normalization": {
+    "mean96": {
+      "byte_identical": true,
+      "bytes": 384,
+      "candidate_sha256": "f18bab0592f26745a330559f4a9a2ba23af7c8130a1e6fb51419152c40286dc3",
+      "sha256": "f18bab0592f26745a330559f4a9a2ba23af7c8130a1e6fb51419152c40286dc3"
+    },
+    "scale96": {
+      "byte_identical": true,
+      "bytes": 384,
+      "candidate_sha256": "72d57a11b6fe3faacafc4ab221eb364c97ec30b9ba590e5ee7353d6a8f7a6ccb",
+      "sha256": "72d57a11b6fe3faacafc4ab221eb364c97ec30b9ba590e5ee7353d6a8f7a6ccb"
+    }
+  },
+  "paired_summary": {
+    "clean/development/0": {
+      "cases": 26,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "clean/development/1": {
+      "cases": 3,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "clean/development/2": {
+      "cases": 8,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "clean/train/0": {
+      "cases": 62,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "clean/train/1": {
+      "cases": 8,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "clean/train/2": {
+      "cases": 10,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "snr10/development/0": {
+      "cases": 16,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "snr10/development/1": {
+      "cases": 3,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "snr10/development/2": {
+      "cases": 8,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "snr10/train/0": {
+      "cases": 32,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "snr10/train/1": {
+      "cases": 7,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "snr10/train/2": {
+      "cases": 10,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "snr5/development/0": {
+      "cases": 16,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "snr5/development/1": {
+      "cases": 3,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "snr5/development/2": {
+      "cases": 8,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "snr5/train/0": {
+      "cases": 32,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "snr5/train/1": {
+      "cases": 6,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    },
+    "snr5/train/2": {
+      "cases": 6,
+      "new_event_error_cases": 0,
+      "regressed": 0,
+      "rescued": 0
+    }
+  },
+  "phases": {
+    "all_frontend_counters_zero": true,
+    "candidate_frozen_phase": 3,
+    "evaluation_start_phase": 4,
+    "phases": 6,
+    "source_and_receipt_order_not_external_runtime_attestation": true
+  },
+  "portable_export_bytes_verified": true,
+  "pronunciation_verified": false,
+  "qualification_allowed": false,
+  "quality_artifact": {
+    "bytes": 8556668,
+    "sha256": "9b2a6cfde7c12ccf31bcc018cf7df76e0b3722cdbe0609efb67195edb2e83747"
+  },
+  "quality_gain_guaranteed": false,
+  "research_gate": {
+    "accepted": false,
+    "decision": "RESEARCH_CANDIDATE_REJECTED",
+    "model_promotion_allowed": false,
+    "new_event_error_cases": 0,
+    "paired_case_regressions": 0,
+    "qualification_allowed": false,
+    "reasons": [
+      "NO_SNR10_DEVELOPMENT_MISS_RESCUED"
+    ],
+    "snr10_development_rescues": 0,
+    "snr5_development_positive_coverage": {
+      "1": 3,
+      "2": 8
+    }
+  },
+  "reused_trace_checks": [
+    {
+      "case_passes": 117,
+      "frames": 10354,
+      "maximum_softmax_probability_error": 0.0,
+      "name": "candidate-clean",
+      "new_model_calls": 0,
+      "ready_outputs": 8599
+    },
+    {
+      "case_passes": 76,
+      "frames": 2804,
+      "maximum_softmax_probability_error": 0.0,
+      "name": "candidate-snr10",
+      "new_model_calls": 0,
+      "ready_outputs": 1664
+    },
+    {
+      "case_passes": 71,
+      "frames": 2649,
+      "maximum_softmax_probability_error": 0.0,
+      "name": "aug96-snr5",
+      "new_model_calls": 0,
+      "ready_outputs": 1584
+    },
+    {
+      "case_passes": 71,
+      "frames": 2649,
+      "maximum_softmax_probability_error": 0.0,
+      "name": "baseline-snr5",
+      "new_model_calls": 0,
+      "ready_outputs": 1584
+    }
+  ],
+  "run_id": "44033745273",
+  "same_source_condition_is_not_independent_audio": true,
+  "schema": "independent-dense-quality-audit-v1",
+  "selection_kind": "PUBLIC_SUMMARY_WITH_PINNED_COMPLETE_AUDIT",
+  "source_contract": {
+    "dense_positive_mean_ce_checked": true,
+    "local_numerical_loss_or_gradient_execution": false,
+    "no_frontend_or_decoder_imports": true,
+    "same_background_loss_data_geometry_optimizer_checked": true,
+    "source_sha256": "b429096c68cfe1f51c4eb07e98d9c13396f35c1f903ba5f15974c2b7a121b4c4",
+    "static_inspection_only": true
+  },
+  "source_copy_bindings": 37,
+  "source_incumbent_zip": {
+    "bytes": 32878537,
+    "sha256": "acc6def807b1dd5728111beba4801352d8de9cb453e530f2270005254f44fa15"
+  },
+  "source_temporal_cache_zip": {
+    "bytes": 17980402,
+    "sha256": "6a1e38febf22b76a7cf2227362e51f783d5ad524b2d81b5677c22edc6dccc631"
+  },
+  "source_training_zip": {
+    "bytes": 61290521,
+    "sha256": "2aa398cd11b787342d91c056fed188d8e3607929da9fdaf873451b5cf05b07f1"
+  },
+  "ssc305": "NOT_RUN",
+  "status": "SAVED_DENSE_EVIDENCE_VERIFIED",
+  "subsequent_same_pool_loss_seed_threshold_search_allowed": false,
+  "supervisor_wall_seconds": 11.378772148000053,
+  "training_admitted": false,
+  "training_draws": {
+    "bag_forwards": 576,
+    "development_draws": 0,
+    "same_as_completed_control": true,
+    "semantic_sha256": "5a5c6b14a1d3696119c46721bbcd831852b2f3932b6fe72f2346daf17514ad5f",
+    "snr5_draws": 0,
+    "steps": 96
+  },
+  "trusted_negative": false,
+  "weights": {
+    "baseline": {
+      "bytes": 199356,
+      "sha256": "6d7677b674f4a5e324aa916c5b777792b641fdfd61af8edc2f4e490275d600c4"
+    },
+    "candidate": {
+      "bytes": 199356,
+      "sha256": "353d15bf230680f294a67dc13461012cbe63becada9fc274aee13038be559464"
+    },
+    "control": {
+      "bytes": 199356,
+      "sha256": "cdceab93cd6d3d36bff62980e8c7d2a95896ad32ecc88cae04fa232393e3e9e7"
+    }
+  },
+  "word_end_latency": "NOT_MEASURED",
+  "worker_manifest_files": 85
+}

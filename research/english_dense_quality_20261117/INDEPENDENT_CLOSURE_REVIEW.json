@@ -1,0 +1,130 @@
+{
+  "cases_with_new_event_error_categories": 0,
+  "decision": "KEEP_EXISTING_AUG96_RESEARCH_HEAD; KEEP_DENSE_AND_TEMPORAL_AS_REJECTED_DIAGNOSTIC_ARTIFACTS; STOP_SAME_POOL_OBJECTIVE_SEARCH",
+  "dense_candidate": {
+    "bytes": 199356,
+    "sha256": "353d15bf230680f294a67dc13461012cbe63becada9fc274aee13038be559464"
+  },
+  "development_and_snr5_conditions_already_exposed": true,
+  "development_observed_weak_intent_metrics": {
+    "clean": {
+      "Hey Mero": {
+        "matched_weak_intent_cases": 8,
+        "observed_weak_intent_cases": 8
+      },
+      "Hey Vosen": {
+        "matched_weak_intent_cases": 3,
+        "observed_weak_intent_cases": 3
+      }
+    },
+    "snr10": {
+      "Hey Mero": {
+        "matched_weak_intent_cases": 6,
+        "observed_weak_intent_cases": 8
+      },
+      "Hey Vosen": {
+        "matched_weak_intent_cases": 2,
+        "observed_weak_intent_cases": 3
+      }
+    },
+    "snr5": {
+      "Hey Mero": {
+        "matched_weak_intent_cases": 5,
+        "observed_weak_intent_cases": 8
+      },
+      "Hey Vosen": {
+        "matched_weak_intent_cases": 1,
+        "observed_weak_intent_cases": 3
+      }
+    }
+  },
+  "event_clock_changes": [
+    {
+      "condition": "clean",
+      "dense_event": {
+        "keyword": 2,
+        "sample": 54400
+      },
+      "id": "enfinal144-66d2ba1c908c2398f4f00e04",
+      "interpretation": "CONSTRUCTED_STREAM_EVENT_CLOCK_NOT_WORD_END_LATENCY",
+      "reference_event": {
+        "keyword": 2,
+        "sample": 53120
+      },
+      "role": "development",
+      "shift_ms": 80.0,
+      "weak_class": 2
+    }
+  ],
+  "finite_observation_no_event_interpretation": "CENSORED_NOT_FRR",
+  "formal_training_admitted": false,
+  "future_frames_inferred": false,
+  "head_sha": "3b356d3e6ed14cd4c408f94ae44411967f49a2e5",
+  "human_gold": false,
+  "independent_audit_reexecuted": false,
+  "independent_far": "NOT_RUN",
+  "independent_frr": "NOT_RUN",
+  "independent_source_count_increment": 0,
+  "last_additional_objective_arm": true,
+  "model_promotion_allowed": false,
+  "new_head_c_numeric_parity": "NOT_RUN",
+  "new_model_calls_by_this_review": 0,
+  "no_event_by_original_eof_interpretation": "CENSORED_NOT_FRR",
+  "overall_quality_gain_established": false,
+  "paired_cases_by_condition": {
+    "clean": 117,
+    "snr10": 76,
+    "snr5": 71
+  },
+  "primary_control": "AUG96",
+  "primary_paired_cases": 264,
+  "prior_temporal_read_speech_event_removed": true,
+  "pronunciation_verified": false,
+  "qualification_allowed": false,
+  "quality_artifact": {
+    "bytes": 8556668,
+    "sha256": "9b2a6cfde7c12ccf31bcc018cf7df76e0b3722cdbe0609efb67195edb2e83747"
+  },
+  "regressed_cases": 0,
+  "removing_temporal_regression_is_gain_over_aug96": false,
+  "rescued_cases": 0,
+  "research_gate": {
+    "accepted": false,
+    "decision": "RESEARCH_CANDIDATE_REJECTED",
+    "model_promotion_allowed": false,
+    "new_event_error_cases": 0,
+    "paired_case_regressions": 0,
+    "qualification_allowed": false,
+    "reasons": [
+      "NO_SNR10_DEVELOPMENT_MISS_RESCUED"
+    ],
+    "snr10_development_rescues": 0,
+    "snr5_development_positive_coverage": {
+      "1": 3,
+      "2": 8
+    }
+  },
+  "retained_research_head": {
+    "bytes": 199356,
+    "sha256": "cdceab93cd6d3d36bff62980e8c7d2a95896ad32ecc88cae04fa232393e3e9e7"
+  },
+  "review_scope": "READ_SAVED_ZIP_EVENTS_METRICS_WEIGHTS_IDENTITIES_AND_REPORTS_ONLY",
+  "reviewed_saved_audit": {
+    "bytes": 210695,
+    "sha256": "561b55f7f84074a14847102e983c12c6244d430f4ebba0066ab053d744e8c994"
+  },
+  "reviewed_saved_comparison": {
+    "bytes": 2189694,
+    "sha256": "81d502bd6aa9313a8fc99b86ec4b4d4101cd530d25788a58720ce802dd4b96fc"
+  },
+  "run_id": "44033745273",
+  "schema": "independent-final-dense-closure-review-v1",
+  "ssc305": "NOT_RUN",
+  "status": "REVIEWED_STOP_WITH_AUG96_RETAINED",
+  "subsequent_same_pool_loss_seed_threshold_search_allowed": false,
+  "three_conditions_are_independent_samples": false,
+  "training_admitted": false,
+  "training_window_success_proves_failure_root_cause": false,
+  "trusted_negative": false,
+  "word_end_latency": "NOT_MEASURED"
+}

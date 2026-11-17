@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2310,
+  "expected_tracked_files": 2315,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -519,7 +519,12 @@
     "research/english_temporal_quality_20261117/PAIRED_REVIEW.json",
     "research/english_temporal_quality_20261117/RESULT.json",
     "research/english_temporal_quality_20261117/RESULTS_zh.md",
-    "research/english_temporal_quality_20261117/review/compare_temporal.py"
+    "research/english_temporal_quality_20261117/review/compare_temporal.py",
+    "research/english_dense_quality_20261117/AUDIT_SUMMARY.json",
+    "research/english_dense_quality_20261117/INDEPENDENT_CLOSURE_REVIEW.json",
+    "research/english_dense_quality_20261117/PAIRED_REVIEW.json",
+    "research/english_dense_quality_20261117/RESULT.json",
+    "research/english_dense_quality_20261117/RESULTS_zh.md"
   ],
   "baseline_files": [
     {
@@ -28400,6 +28405,57 @@
         }
       ],
       "rationale": "Close the completed temporal objective as rejected, preserve its full source and gates, and register one final same-budget dense CE arm that reuses all features and controls with zero frontend calls and no subsequent same-pool search."
+    },
+    {
+      "campaign": "english-dense-quality-results-20261117",
+      "source_commit": "e1a1aa97f52ff664c32cc6e3b50122bde26fcb6a",
+      "base_commit": "3b356d3e6ed14cd4c408f94ae44411967f49a2e5",
+      "previous_manifest_git_blob_sha1": "b7215f5d5eeae8ae369f37ee81053d9076b3da82",
+      "paths": [
+        "research/english_dense_quality_20261117/AUDIT_SUMMARY.json",
+        "research/english_dense_quality_20261117/INDEPENDENT_CLOSURE_REVIEW.json",
+        "research/english_dense_quality_20261117/PAIRED_REVIEW.json",
+        "research/english_dense_quality_20261117/RESULT.json",
+        "research/english_dense_quality_20261117/RESULTS_zh.md"
+      ],
+      "files": [
+        {
+          "path": "research/english_dense_quality_20261117/AUDIT_SUMMARY.json",
+          "mode": "100644",
+          "bytes": 9076,
+          "sha256": "9294881671615236d9f625cf99fc58b0eefdbbe7bf07286b80e296cfc05b95c9",
+          "git_blob_sha1": "29fd53e6ab2d5ffea5c7d57c9fed325302bd8968"
+        },
+        {
+          "path": "research/english_dense_quality_20261117/INDEPENDENT_CLOSURE_REVIEW.json",
+          "mode": "100644",
+          "bytes": 4084,
+          "sha256": "f30e22a5e0c015a3d365fbd69e8d8ae87d3d9805c74df96be5fa6bdf92b080d4",
+          "git_blob_sha1": "93b177c8c94471d87de555c672f68c7cc6e68c17"
+        },
+        {
+          "path": "research/english_dense_quality_20261117/PAIRED_REVIEW.json",
+          "mode": "100644",
+          "bytes": 83868,
+          "sha256": "37fe855a6fb0656dc1d3931fbc14893dbe432205119d4d2ae730d2e858211cc3",
+          "git_blob_sha1": "8e7d535f38c2d092493a83396d3449697eea92ee"
+        },
+        {
+          "path": "research/english_dense_quality_20261117/RESULT.json",
+          "mode": "100644",
+          "bytes": 16762,
+          "sha256": "6f2d83384810cae6e91e17a9d359c6564c206f9d43d022d8d2abece334a36e81",
+          "git_blob_sha1": "9c0b549be4e0d506450b9053ed8246fc11c02a0f"
+        },
+        {
+          "path": "research/english_dense_quality_20261117/RESULTS_zh.md",
+          "mode": "100644",
+          "bytes": 9421,
+          "sha256": "0f38638ad25d60c98062560411b59868999b5fcba35124609a3ab21d4209cc97",
+          "git_blob_sha1": "a9d8275cc9f6a29b40598382e745f99e6c14e82d"
+        }
+      ],
+      "rationale": "Close completed final dense CE comparison with immutable result, independent evidence and strict rejected candidate decision; retain aug96 and stop same-pool search."
     }
   ]
 }
