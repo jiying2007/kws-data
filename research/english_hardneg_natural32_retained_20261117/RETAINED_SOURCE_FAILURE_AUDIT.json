@@ -1,0 +1,1499 @@
+{
+  "acquisition": {
+    "corpus_bytes_and_sha256_receipt": {
+      "actual": {
+        "bytes": 337926286,
+        "sha256": "76f87d090650617fca0cac8f88b9416e0ebf80350acb97b343a85fa903728ab3"
+      },
+      "retry_count": 0,
+      "source": {
+        "bytes": 337926286,
+        "sha256": "76f87d090650617fca0cac8f88b9416e0ebf80350acb97b343a85fa903728ab3",
+        "url": "https://www.openslr.org/resources/12/dev-clean.tar.gz"
+      }
+    },
+    "corpus_command_seconds": 517.931449793,
+    "corpus_download_succeeded": true,
+    "dependency_probe_launch_failed": "ffmpeg executable absent",
+    "dependency_probe_returncode": null,
+    "full_corpus_tar_retained": false
+  },
+  "aggregate_compute": {
+    "build_attempts": 0,
+    "completed_validated_traces": 0,
+    "decode_attempts": 0,
+    "model_attempts": 0,
+    "model_budget_remaining": 32,
+    "observed_embedding_rows": 0,
+    "observed_ready_rows": 0
+  },
+  "api_verification": "Root separately verified the second API identity; this auditor performs no network call.",
+  "artifact": {
+    "artifact_id": 14317913716,
+    "bytes": 16339221,
+    "head_sha": "cb6baa703f46451af73ec2cc0f85edfd1b159874",
+    "run_id": "44060185229",
+    "sha256": "3b7a4ff6a59ba397eebac59a4f89feba8cc075a4f8881c9d531a3739bc1ec9a7"
+  },
+  "audit_completed": true,
+  "audit_execution": {
+    "artifact_modified": false,
+    "audio_decodes_executed": 0,
+    "compiler_calls": 0,
+    "models_executed": 0,
+    "network_calls": 0,
+    "subprocess_calls": 0
+  },
+  "auditor": {
+    "bytes": 24973,
+    "sha256": "e7702f4f7858438a92545d09cefd7e208ee86555c147a5b54d41e3f2bd9cbfbf"
+  },
+  "first_execution": {
+    "all_command_kinds_are_null": true,
+    "build_attempts": 0,
+    "command_pairs": 11,
+    "completed_validated_traces": 0,
+    "decode_attempts": 0,
+    "descendants_found": false,
+    "global_deadline_reached": false,
+    "model_attempts": 0,
+    "run_binding": {
+      "event": "push",
+      "head_sha": "d4edc97e4efb5612d16018f5cdeb42002d9eedfa",
+      "main_before": "61e524e89c86950ef8e284ecaf18fddf82d11ca1",
+      "public_repository": true,
+      "repository": "jiying2007/kws-data",
+      "run_attempt": 1,
+      "run_id": "44057968882"
+    },
+    "stage_pairs": 3,
+    "start_exit_pairs": [
+      {
+        "argv": [
+          "curl",
+          "--fail",
+          "--location",
+          "--proto",
+          "=https",
+          "--proto-redir",
+          "=https",
+          "--connect-timeout",
+          "20",
+          "--max-time",
+          "300",
+          "--retry",
+          "0",
+          "--silent",
+          "--show-error",
+          "https://www.openslr.org/resources/12/dev-clean.tar.gz"
+        ],
+        "error": "ValueError:COMMAND_NONZERO_EXIT",
+        "kind": null,
+        "returncode": 28,
+        "tag": "corpus-download",
+        "wall_seconds": 300.04594356099994
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/runs/44057968882"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "current-run",
+        "wall_seconds": 2.089213868999998
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14310138100"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "quality-artifact",
+        "wall_seconds": 0.25122813799999477
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/runs/44042856615"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "quality-run",
+        "wall_seconds": 0.30195109000000286
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14310138100/zip"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "quality-zip",
+        "wall_seconds": 0.9027707440000015
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14285590605"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "sdk-artifact",
+        "wall_seconds": 0.2512556570000015
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/runs/43984579132"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "sdk-run",
+        "wall_seconds": 0.2513661839999983
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14285590605/zip"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "sdk-zip",
+        "wall_seconds": 0.6023721749999993
+      },
+      {
+        "argv": null,
+        "error": null,
+        "kind": null,
+        "returncode": null,
+        "tag": "stage-authenticate-artifacts",
+        "wall_seconds": 4.7755991750000035
+      },
+      {
+        "argv": null,
+        "error": "ValueError:ValueError:COMMAND_NONZERO_EXIT",
+        "kind": null,
+        "returncode": null,
+        "tag": "stage-select-original-corpus",
+        "wall_seconds": 300.046339187
+      },
+      {
+        "argv": null,
+        "error": null,
+        "kind": null,
+        "returncode": null,
+        "tag": "stage-source-binding",
+        "wall_seconds": 2.0910651840000014
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14225893574"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "training-artifact",
+        "wall_seconds": 0.2515334960000004
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/runs/43867764366"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "training-run",
+        "wall_seconds": 0.3515762309999957
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14225893574/zip"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "training-zip",
+        "wall_seconds": 1.1032919019999952
+      }
+    ],
+    "supervisor_wall_seconds": 307.016853929,
+    "zero_compute_verified": true
+  },
+  "manifest": {
+    "closed_set": true,
+    "declared_and_verified_payload_members": 291,
+    "extra": [],
+    "hidden_workflows_retained": [
+      "prior-failure/supplemental-source/.github/workflows/english-hardneg-natural32-once.yml",
+      "source/.github/workflows/english-hardneg-natural32-once.yml",
+      "source/.github/workflows/english-hardneg-natural32-recovery-once.yml"
+    ],
+    "identity": {
+      "bytes": 43588,
+      "sha256": "f4bee5d2d80cd26e5bd58f661644198e9550329b288d3bdb557f5d7bb60132e6"
+    },
+    "missing": [],
+    "zip_files_including_manifest": 292
+  },
+  "nested_first_failure": {
+    "identical_proof_copies": true,
+    "original_closed_manifest": false,
+    "original_zip": {
+      "bytes": 4257652,
+      "sha256": "514b70f69470620612d6ea3dfa84a53369468d0f86a659863a4301c108266e12"
+    },
+    "retained_files_byte_identical": 85,
+    "saved_API_run_and_artifact_fields_verified": true,
+    "separate_supplement_retained": true,
+    "sole_original_omission": {
+      "source/.github/workflows/english-hardneg-natural32-once.yml": {
+        "bytes": 4423,
+        "sha256": "2709d3cb7197624ca35e270974cd43bee2132d931d28dc109dda00d98b084d88"
+      }
+    }
+  },
+  "quality_boundary": {
+    "candidates_produced": false,
+    "formal_training_admitted": false,
+    "human_gold": false,
+    "independent_far": "NOT_MEASURED",
+    "independent_frr": "NOT_MEASURED",
+    "model_promotion_allowed": false,
+    "pronunciation_verified": false,
+    "qualification_allowed": false,
+    "quality_improvement_claim": false,
+    "scan_completed": false,
+    "training_admitted": false,
+    "trusted_negative": false,
+    "verified_negative_seconds": 0
+  },
+  "retained_sources": {
+    "actual_PCM_hashes_recomputed": 0,
+    "chapter_transcripts": 27,
+    "flac_hashes_verified": 32,
+    "historical_expected_PCM_hash_bindings_verified": 32,
+    "originals": 32,
+    "originals_excluded_as_previously_consumed": 114,
+    "overlap_with_excluded_originals": 0,
+    "per_source": [
+      {
+        "chapter_transcript": {
+          "bytes": 2228,
+          "path": "selectedinputs/transcript-sources/1272-135031.trans.txt",
+          "sha256": "c50a3d23bf0ef5c32fc19e58c5dd490d5091f1828cf2e253329e04c6430c073a"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "17d85d9fa8fc0e91ca6123710a7b3af5aee704bddb58867ad7a7827033b00b84",
+        "flac": {
+          "bytes": 97534,
+          "sha256": "293af6add35a8f87e03f4ec59ef6e23538293c6fc8be45346dd17f6a69cc7f1f"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-5ca7d4f96507274401bb156b",
+        "source_member": "LibriSpeech/dev-clean/1272/135031/1272-135031-0020.flac",
+        "source_role": "train",
+        "speaker_id": "1272",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 74400,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 65,
+          "sha256": "74d5fc2a681cb5a2cb50d1d2e0b6b6eee6e6288380c052a5e8596c315bdf28af"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 2556,
+          "path": "selectedinputs/transcript-sources/1988-24833.trans.txt",
+          "sha256": "a648a7eb1d0e25c782b0b52a3a401ea6121ce9d9967ec8aed696663bc6149a20"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "89683b0aa4a8221de5224b3fe0d7471dd2e29379904eaeb9f21703f59e3384ae",
+        "flac": {
+          "bytes": 49769,
+          "sha256": "9bb52cf781f71a7f39efcdbd4c89c060500689df93032999f20ca59706da9ef3"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-3f20dfef9f30a759ce2e5dd0",
+        "source_member": "LibriSpeech/dev-clean/1988/24833/1988-24833-0022.flac",
+        "source_role": "train",
+        "speaker_id": "1988",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 44240,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 47,
+          "sha256": "3da5799e1375dc61e3533273bdcf25833c132aa5db18e80ca08bd44d54f6b96b"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 7679,
+          "path": "selectedinputs/transcript-sources/2086-149220.trans.txt",
+          "sha256": "7d97cca850153fb50232744247fc83ea8b8618ef00535005d318e7c1474b2cb6"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "f40d0b011cea4e1fc5112674e10b8ca5fa5b15bc5e9d05cd5ecc3ee1338b18d9",
+        "flac": {
+          "bytes": 59475,
+          "sha256": "5b89ce36a228b0cd4344e241bb9e6efdc4e9128d285e00977768311338312257"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-5832a5a923416fd926b3c2da",
+        "source_member": "LibriSpeech/dev-clean/2086/149220/2086-149220-0047.flac",
+        "source_role": "train",
+        "speaker_id": "2086",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 62720,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 55,
+          "sha256": "81071dfe6fb9716a120f153254b678e8fa5765c5a0b314c3320160880754e97a"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 3834,
+          "path": "selectedinputs/transcript-sources/1673-143397.trans.txt",
+          "sha256": "026c3b8ede6fc87fe75e7b7e225e40403592725b0a68448b5ec18010218b160e"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "8f8c0f453090c096e2cb9295174707a2f348bea6d0f518eddeca7f71faea1563",
+        "flac": {
+          "bytes": 132133,
+          "sha256": "7eb067916d8de6c048f8edc89020f2494866db1c6da1046183ca2360bad1b7c8"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-69d227137a59ed59e6be751f",
+        "source_member": "LibriSpeech/dev-clean/1673/143397/1673-143397-0013.flac",
+        "source_role": "train",
+        "speaker_id": "1673",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 106800,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 114,
+          "sha256": "e3359ad8c8c17bcd1fb630aac664b5dd478a0800c41229728e06a3df832034b6"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 7526,
+          "path": "selectedinputs/transcript-sources/3000-15664.trans.txt",
+          "sha256": "7d07118986940b982e96839df3ef733940fb35aac0bc4307b4d2735a2088252c"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "33db28b66de292fabca8d4bc2e5d037dd6b21d2a75175c1cadd1ec88acc07448",
+        "flac": {
+          "bytes": 93672,
+          "sha256": "8bfbd87c1279174988e1004a59d9594b729ed5ec3668a0578f62c7a34e82fd31"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-ea5ccde841410381dd7b1877",
+        "source_member": "LibriSpeech/dev-clean/3000/15664/3000-15664-0039.flac",
+        "source_role": "train",
+        "speaker_id": "3000",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 76080,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 68,
+          "sha256": "2c20a95694e6ba84012f1b5641db00bfea03e4d0c0d16092db82a9f3fccc69be"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 3166,
+          "path": "selectedinputs/transcript-sources/5895-34629.trans.txt",
+          "sha256": "47b9eb99ce0ff7bedd61a3fd5b8e95d63d7e1529ea1a169b2ced6d57c5103a72"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "4a1407e981dea60c41628b20030c4856a6abb7d626339a5807cdc38f0757bb78",
+        "flac": {
+          "bytes": 146315,
+          "sha256": "d226354a1aa012c6267ff27f36a9589b68333c96dff58ea30356b9bc3bd21870"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-904ce173c031378bc944c04c",
+        "source_member": "LibriSpeech/dev-clean/5895/34629/5895-34629-0015.flac",
+        "source_role": "train",
+        "speaker_id": "5895",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 114720,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 111,
+          "sha256": "5bde3a600a7db79ea8ffa1ea3c7fa1f18f8761c372dd69fee08ff3044b3adf24"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 3362,
+          "path": "selectedinputs/transcript-sources/2035-152373.trans.txt",
+          "sha256": "0710b1310fcff07af8cc002baae0af4a6b91ca76b2dcd35467812c0bc1013c7d"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "54f8cf2b6a34f0dc60dd299eeef132bfb491a474ac3b49ab1588385426f17ffc",
+        "flac": {
+          "bytes": 133672,
+          "sha256": "c9da34f841dcd6a2dd34f31e3df350314b512b03446f2fb0c104e039971a9693"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-30d4fab328671543e2240f1c",
+        "source_member": "LibriSpeech/dev-clean/2035/152373/2035-152373-0004.flac",
+        "source_role": "train",
+        "speaker_id": "2035",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 117440,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 102,
+          "sha256": "477e5ebf71ec2519b70bf05f949d1c320673e24d1c79d7d8e30907fc095e7f94"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 3042,
+          "path": "selectedinputs/transcript-sources/7976-110523.trans.txt",
+          "sha256": "80c2e2b96a39655a17c8733dac9693f66d0bb6da37304e235f490bd34eb520bd"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "b40b318bafc145fa9086e65b2131a23dedaef317a459bda23504f8dd40256844",
+        "flac": {
+          "bytes": 115301,
+          "sha256": "7bac01c753e65f05c574523903f3315dc4d9f4900e601e8f1e37a5ec974ddb0c"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-2edb8ff99387fcae1281fa83",
+        "source_member": "LibriSpeech/dev-clean/7976/110523/7976-110523-0009.flac",
+        "source_role": "train",
+        "speaker_id": "7976",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 107600,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 110,
+          "sha256": "f81685dee2e6b4322402ebb44cbb91fc580cdb71f7ef7ccd49b7fc13e8826f06"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 5297,
+          "path": "selectedinputs/transcript-sources/2902-9006.trans.txt",
+          "sha256": "79b1a8317dca02a4bf8ece0fd6b5669d13876a810527393bd2e18e6373e419ac"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "5bd7a9b4b818035ed642be28363f1cbabb433dd09899b37c4f6a52ed9170b5bd",
+        "flac": {
+          "bytes": 83045,
+          "sha256": "b264155ec30552d79846122cacd0705a321f8a86f9e278ef6e357b4103678917"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-f5285e7ff90614b34b4032ce",
+        "source_member": "LibriSpeech/dev-clean/2902/9006/2902-9006-0011.flac",
+        "source_role": "train",
+        "speaker_id": "2902",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 69200,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 54,
+          "sha256": "99d58a485c13967914f4d14bf58103fcb1885f0661505ed094985ccdd7ea7730"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 2649,
+          "path": "selectedinputs/transcript-sources/5694-64038.trans.txt",
+          "sha256": "b13ab1be07226feb1928c60b6eea2e79264e4ebe8f0e7323d38e761a685f147c"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "fcb2906373a152249da4e3b6476ecc2e83bdaa7136accfc46da08c395c2f2323",
+        "flac": {
+          "bytes": 178543,
+          "sha256": "e5a7fadee41207908d2d1ba970b7319d9cc8652a6af99186dfc1dd85f550a521"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-1a0b86b4d83ea3d5f67db653",
+        "source_member": "LibriSpeech/dev-clean/5694/64038/5694-64038-0004.flac",
+        "source_role": "train",
+        "speaker_id": "5694",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 153280,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 157,
+          "sha256": "e4b0ae49787f06fb0b91cb1b230c2d0485bb1ccdc425c6b23d37971bc96d0e62"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 8088,
+          "path": "selectedinputs/transcript-sources/422-122949.trans.txt",
+          "sha256": "788550ffacea5566b1c2c2a46a77f2266ca682667d3fb9522b80ac37be14e5cc"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "eb4f5c81f65eb70c2c5ef33a9c7931e8582e4c92f78d61d50214641fb0e5d69c",
+        "flac": {
+          "bytes": 98896,
+          "sha256": "49fa5ff5e1db2dfe9d3f802c607848c8c22f7e34dcea9e9fd793a675414d8525"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-d82ebe355342804e61ed2ea6",
+        "source_member": "LibriSpeech/dev-clean/422/122949/422-122949-0016.flac",
+        "source_role": "train",
+        "speaker_id": "422",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 80240,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 71,
+          "sha256": "81abc9a703d30103f12f5b342625a2028c7af179ef2dc7f49d4064d4e2bba41c"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 2666,
+          "path": "selectedinputs/transcript-sources/174-168635.trans.txt",
+          "sha256": "8f3d668c7fe3424768864588b579a43b2da012503b152e0e0b42ca14a30ed5e4"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "815957b8c355e4a89b0e4e02364431dbbbd5a5bfcb9b8b4f197873b231faf045",
+        "flac": {
+          "bytes": 79606,
+          "sha256": "9ed2d027acf86791758758d36facf5c700c485532765436df68b9219576a4c8a"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-17a77c9232b8d6c0e2555424",
+        "source_member": "LibriSpeech/dev-clean/174/168635/174-168635-0022.flac",
+        "source_role": "train",
+        "speaker_id": "174",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 69360,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 45,
+          "sha256": "e0f0436fc33fdcbfdbf240eb0efa3f131f9b9f5e07e22f4ed3d718362a13a121"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 1736,
+          "path": "selectedinputs/transcript-sources/8297-275156.trans.txt",
+          "sha256": "f8b2e0d8ec3d8c07a9cc6ecb39c85a6023b5794feaa3042e717cd9672dea01c5"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "e070f103bb3e489ae94830a61f2d620066dd6f345d6aa10dd4fefbf0a02d1157",
+        "flac": {
+          "bytes": 143566,
+          "sha256": "a571b4140b78ade97659aa8293c98a62a23b77fb7eccbba7f90d65f1bcaa2fce"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-a8b6ba18291b7b0ea167167f",
+        "source_member": "LibriSpeech/dev-clean/8297/275156/8297-275156-0002.flac",
+        "source_role": "train",
+        "speaker_id": "8297",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 127040,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 115,
+          "sha256": "d862a6f4fea9268ff7a372f3bfef38ad72d94d1e24572de6ecce22f63a5e7e95"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 9425,
+          "path": "selectedinputs/transcript-sources/777-126732.trans.txt",
+          "sha256": "7c441abbb23e50ec048f5e41cefc1ba0932b68dba7b117c7ea0cca1e9822dd4d"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "9cac4539803c99812b4360786f7df273f574b72efe58d286e5a2251789bb2dc8",
+        "flac": {
+          "bytes": 49781,
+          "sha256": "c666abfe00cca8e4a72b3b7cf18bf39465cedbdcf4cfe80e9c84f5d085d4aa89"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-26c0f48c98dae548ebc4e51c",
+        "source_member": "LibriSpeech/dev-clean/777/126732/777-126732-0054.flac",
+        "source_role": "train",
+        "speaker_id": "777",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 48480,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 57,
+          "sha256": "0c853314ac6580d23979d3fb1cde6078fe538522f2367877a54cac55d861d926"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 7944,
+          "path": "selectedinputs/transcript-sources/1919-142785.trans.txt",
+          "sha256": "f850d77b2ca6945b26add7d2979ece24a046398fbaf84038749b0b7f847bc8aa"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "5507c5886e9772ee6a50d482fa3fbce14e761afb48cee975435adb7556c284dc",
+        "flac": {
+          "bytes": 190969,
+          "sha256": "45e83840b23feb23583f8ac6ad717a1c04701e888ad2983054b340428ec3404b"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-20e124449969c6cb836dc372",
+        "source_member": "LibriSpeech/dev-clean/1919/142785/1919-142785-0020.flac",
+        "source_role": "train",
+        "speaker_id": "1919",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 149440,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 132,
+          "sha256": "56435f39a65ab984a74ebef0a6ae7d3e5f2ba3e8f1357602d5c95cb3ba8e2dee"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 2721,
+          "path": "selectedinputs/transcript-sources/7850-73752.trans.txt",
+          "sha256": "fcbec527bf3f6241c4c401010dd25dfe54e07aa766b827734e70d8dca3f52a3e"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "a770538bbf433d6fd9c26bb4adf92911688c1bf0ff92ac38a918a7e427ebf22f",
+        "flac": {
+          "bytes": 113406,
+          "sha256": "3ac66c67d38f624b48ddbcc78d04c396396e3d0d19e8f3a4ba219d3e743ad78c"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-d88148a134e2724b84deaa13",
+        "source_member": "LibriSpeech/dev-clean/7850/73752/7850-73752-0017.flac",
+        "source_role": "train",
+        "speaker_id": "7850",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 95520,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 84,
+          "sha256": "40e67e080187c950519681fe65c7f07335ba87701f13581fbebd0cd7be49a677"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 1217,
+          "path": "selectedinputs/transcript-sources/652-130737.trans.txt",
+          "sha256": "80be2321bb7b74a3b74f6a8eb2d44f27f63c8fa61a02d39b77bd2af2a1acfab5"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "7ee74f976b9ac855a41f35271e943858cf509fffa7468d894f0ee08712ad0844",
+        "flac": {
+          "bytes": 94341,
+          "sha256": "3f7b658202e3c8b9a840e943d59d9ef341397645032dbe9a04b2519caef6aaad"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-1ae22cb107fd8a546ced8cd8",
+        "source_member": "LibriSpeech/dev-clean/652/130737/652-130737-0006.flac",
+        "source_role": "train",
+        "speaker_id": "652",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 77760,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 74,
+          "sha256": "bb02cb58ca0d0fcd7bc77e18feb326fa53e990e8565cf0e4262c7b4f7af69a36"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 8215,
+          "path": "selectedinputs/transcript-sources/3170-137482.trans.txt",
+          "sha256": "3e933f7c8a24323ff0df16ef6e33a88e33700dd1ba2bee8a34ee32e6bf2b2c10"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "1d098a037bc72d84741781eae7a14b87cc894891995c3e2806a1ab67799accb3",
+        "flac": {
+          "bytes": 216790,
+          "sha256": "d2b1101f07d2d1d354f68e809249792de82794cf4ea06b469a7aa2ac66909a1e"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-3a5e6b5613dc10fa4eda499e",
+        "source_member": "LibriSpeech/dev-clean/3170/137482/3170-137482-0023.flac",
+        "source_role": "train",
+        "speaker_id": "3170",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 196640,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 195,
+          "sha256": "a0b52e24ba8a7f22b0b6be315fd2d525bfc5d4cad60f47752636c6c2f7c20057"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 4150,
+          "path": "selectedinputs/transcript-sources/3536-8226.trans.txt",
+          "sha256": "9653bc7d450ef1675ade89921ac910c08ca79871cf714fcde01bf7b7dd509eff"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "15841cd4ed6e3d97549b6e68c33a35831e4fcb38b9eec984dbbd16d62a6b55f9",
+        "flac": {
+          "bytes": 146459,
+          "sha256": "57a3dd992341333c249a829f0e1f5431502db109908910fddc021ac9ac4adf99"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-5319e114ae3affa5ecc15c47",
+        "source_member": "LibriSpeech/dev-clean/3536/8226/3536-8226-0003.flac",
+        "source_role": "train",
+        "speaker_id": "3536",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 127040,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 132,
+          "sha256": "a881ba00a5b5eec36193e7cec3753ff34f7e53c2acfc231f01a852348b0ddc1d"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 2002,
+          "path": "selectedinputs/transcript-sources/8842-302203.trans.txt",
+          "sha256": "c884dd0d37e826b92e52bdb47c6407ca9057a6944a683f48218847a1bbfbfddb"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "693d7ccd6b4384c0ea1de5b586db434395ea76e08524146cff5d8f6c031a28af",
+        "flac": {
+          "bytes": 101024,
+          "sha256": "c16ee29c99d20ab2db9cf05e31fce4d69eda61e9906990beeeaee82b5e3f4031"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-28251557a105f734d1320510",
+        "source_member": "LibriSpeech/dev-clean/8842/302203/8842-302203-0006.flac",
+        "source_role": "train",
+        "speaker_id": "8842",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 84480,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 74,
+          "sha256": "527311cf89b2df4a446f6a172e0716b11faef04451e38a95e833ad7e4bee5291"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 2685,
+          "path": "selectedinputs/transcript-sources/6313-66125.trans.txt",
+          "sha256": "feb83c893ae831d7068b8afa87badbd04dafc117f6870d409d0d9004491f691e"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "a714a9d223e41a33b360cec2328f7df7584c2f4aee89e3228d1c4f433bf84bb6",
+        "flac": {
+          "bytes": 278289,
+          "sha256": "2d89f2570ff6a0c6d0ad563a5985e71d0ea1043eafef72197c22eaa97a7c492a"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-557f24eac9f00c4bf056609a",
+        "source_member": "LibriSpeech/dev-clean/6313/66125/6313-66125-0027.flac",
+        "source_role": "train",
+        "speaker_id": "6313",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 231520,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 268,
+          "sha256": "3bde306ef46ba86a2959176b52c7beec96681afab78104090bdd0ab7a01c701e"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 5762,
+          "path": "selectedinputs/transcript-sources/3752-4944.trans.txt",
+          "sha256": "259498661c612a5ebcad128db02cd779c80028e839e85585c17de7a31c7d8469"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "bccdb1d7301356cc08d4e6ea5e88831c4a132258cd06dd630f83ff579a00b080",
+        "flac": {
+          "bytes": 53994,
+          "sha256": "0395729caec32e974c1b9b5483dcc8ce0c2dad76f663f3bd1c8f0bc3e37181ab"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-42f8fab9c3ada413a4688e6f",
+        "source_member": "LibriSpeech/dev-clean/3752/4944/3752-4944-0003.flac",
+        "source_role": "train",
+        "speaker_id": "3752",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 44160,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 50,
+          "sha256": "5eed02bc4aadd1b68dd53288e5bacddbbdaf20cff047d7b52fccb6f0d0f73d15"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 7502,
+          "path": "selectedinputs/transcript-sources/3576-138058.trans.txt",
+          "sha256": "6c703b88bd6a5359a018257a4fe37df668f1bb83098db81cd3aa3029fdae6ad0"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "70afbd843b7342f92d8ffd5ca3503c9159364465b9f98b9a23ca93b9f8160db0",
+        "flac": {
+          "bytes": 199505,
+          "sha256": "6064b2dcc7de8f0e2e84aaefd4c8a55d1c29352c1b7aeebd4b8740f1e24ff966"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-5b0044b0471d7df5003869f1",
+        "source_member": "LibriSpeech/dev-clean/3576/138058/3576-138058-0027.flac",
+        "source_role": "train",
+        "speaker_id": "3576",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 166320,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 126,
+          "sha256": "1deb5ca70dca3e792f75fc75bbd7cdbe0c65aa018bef323c8c9a60fa9c19112f"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 3445,
+          "path": "selectedinputs/transcript-sources/5536-43363.trans.txt",
+          "sha256": "e11909ba8a000da6e83b8eeb49cd80cb5c21b60525b4a58a5a2f864b6008bd6e"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "abd35290a5cb7182d4e4f7d9843d613ff3f6a86893d781e3f14ce1bc0c073347",
+        "flac": {
+          "bytes": 203372,
+          "sha256": "8948ef87cfddaabcb6837dce4e23a051771471d6966ec9013e4a5336b4f46323"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-56fb1ab73515dd777887cf0d",
+        "source_member": "LibriSpeech/dev-clean/5536/43363/5536-43363-0014.flac",
+        "source_role": "train",
+        "speaker_id": "5536",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 181520,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 203,
+          "sha256": "c0e3cca29c73d0ed79ec9d87eb5317bc333d34eda0fd56e69c22d0d605115375"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 2228,
+          "path": "selectedinputs/transcript-sources/1272-135031.trans.txt",
+          "sha256": "c50a3d23bf0ef5c32fc19e58c5dd490d5091f1828cf2e253329e04c6430c073a"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "519872f29413f32f001b3f3f427f60a85b76a61751caeb4de22db0d409ad4484",
+        "flac": {
+          "bytes": 99754,
+          "sha256": "d3da297f1f6a0f933ce6d778b8dc8fecff4cc7c21616dbd536146e76ebb98fbe"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-d790178b82e5be320d72d069",
+        "source_member": "LibriSpeech/dev-clean/1272/135031/1272-135031-0005.flac",
+        "source_role": "train",
+        "speaker_id": "1272",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 74000,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 65,
+          "sha256": "2c39c51738aacafef3c1fa88d707f639d7837c712d979a337cc08f42d4edc2f1"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 2556,
+          "path": "selectedinputs/transcript-sources/1988-24833.trans.txt",
+          "sha256": "a648a7eb1d0e25c782b0b52a3a401ea6121ce9d9967ec8aed696663bc6149a20"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "f28babcfc5abbd314ea390b6d4f977f52a9431455b4d8a72e38ce87b90e1feac",
+        "flac": {
+          "bytes": 44373,
+          "sha256": "f89ec8a9a13acd35db6a644f9d02fd33e7d1bf1ea0d1bb33c7b920a0dcb23b05"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-312cdfcc9d7f3e77c99b195e",
+        "source_member": "LibriSpeech/dev-clean/1988/24833/1988-24833-0027.flac",
+        "source_role": "train",
+        "speaker_id": "1988",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 40720,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 37,
+          "sha256": "d4164227bc7f02cfaa048914b67a1f24191f2e7c97b94d20d30ae5e9b812e1a6"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 7679,
+          "path": "selectedinputs/transcript-sources/2086-149220.trans.txt",
+          "sha256": "7d97cca850153fb50232744247fc83ea8b8618ef00535005d318e7c1474b2cb6"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "f74e103113f8019366c86a6805018a1b103419de7e9083297a876e16377682fa",
+        "flac": {
+          "bytes": 50885,
+          "sha256": "4bbc500d1ab46644ec532f4fa4df036514cf4607e3c1a82e12d12a8924b139e6"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-ed4d9efe0ff4ac03c66b95b6",
+        "source_member": "LibriSpeech/dev-clean/2086/149220/2086-149220-0042.flac",
+        "source_role": "train",
+        "speaker_id": "2086",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 45440,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 52,
+          "sha256": "e3d234b05974c073df15374e80a01efc8b060a2510ad3954d480887d701c4f9f"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 5011,
+          "path": "selectedinputs/transcript-sources/1673-143396.trans.txt",
+          "sha256": "f1d368f24fe7fab17cb2ca0ab782ef82b3aecbc78adadbc7f74b8a3feeb1447d"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "6f653b488585728552da1c94bd114840665321102342904d1981f3fe41ee531c",
+        "flac": {
+          "bytes": 140370,
+          "sha256": "4ed79242a2ae07800af5673ee5b5451e3ddf0619b978c77a57e70b2b8a3a7d65"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-ef9f69369d2641a374387e2c",
+        "source_member": "LibriSpeech/dev-clean/1673/143396/1673-143396-0015.flac",
+        "source_role": "train",
+        "speaker_id": "1673",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 100880,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 111,
+          "sha256": "60f268001e00f2a915636e47f6a835d24b18002648695652df951c27caacfdcf"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 7526,
+          "path": "selectedinputs/transcript-sources/3000-15664.trans.txt",
+          "sha256": "7d07118986940b982e96839df3ef733940fb35aac0bc4307b4d2735a2088252c"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "386fe0085bdd812c61e644fa1b9307c19f73d8b97bbd1133fc4b4c6859876645",
+        "flac": {
+          "bytes": 45791,
+          "sha256": "3a1b0c23281e33633b5de64265469d7cc98d635ab0e6eba2202bc7b66d2c11f7"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-95203f37fbf4561ed46b6842",
+        "source_member": "LibriSpeech/dev-clean/3000/15664/3000-15664-0030.flac",
+        "source_role": "train",
+        "speaker_id": "3000",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 49120,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 24,
+          "sha256": "2a3f0fbc0fab8becf1866bb90451479170901ecd760ac1fdd415f17e7765e3ec"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 2581,
+          "path": "selectedinputs/transcript-sources/5895-34622.trans.txt",
+          "sha256": "04c383a211658e697dd5bc4dc080ad5b8efb41c8326261da541e3fc6d802b111"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "0707a94d7cb5472f433b95a75922f79e8301bf9205681ef7b74fcf0dc0e0992a",
+        "flac": {
+          "bytes": 165109,
+          "sha256": "8c462e0d9bf4be1850d240e7d908dc470b393471b112feec27bb4b872440f4c5"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-879307cd478dfeaf38a9a451",
+        "source_member": "LibriSpeech/dev-clean/5895/34622/5895-34622-0017.flac",
+        "source_role": "train",
+        "speaker_id": "5895",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 134160,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 120,
+          "sha256": "df2ea4c32203d6f9de3c9d9e04bc2d9441036062b61399548bf609bf471ff004"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 3709,
+          "path": "selectedinputs/transcript-sources/2035-147961.trans.txt",
+          "sha256": "2849dd65b4e4c652fb09b7bedb01865443975bbef2af2ee0105dbb3eda56dc27"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "9d77d6236bd44927284de0ee15a6039db8d38d8c4c52e720308ceae95725804d",
+        "flac": {
+          "bytes": 48885,
+          "sha256": "20998a3a3f5d1634e9234c962bf4adc48c20333bcb564f46a7008e35f219676e"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-e622e252b1b74257ea367631",
+        "source_member": "LibriSpeech/dev-clean/2035/147961/2035-147961-0027.flac",
+        "source_role": "train",
+        "speaker_id": "2035",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 46000,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 12,
+          "sha256": "c34e5b1d6bb8528776f9a0df5b302bf31b1d2b502d123a04f43f2411c6cad6c4"
+        }
+      },
+      {
+        "chapter_transcript": {
+          "bytes": 3042,
+          "path": "selectedinputs/transcript-sources/7976-110523.trans.txt",
+          "sha256": "80c2e2b96a39655a17c8733dac9693f66d0bb6da37304e235f490bd34eb520bd"
+        },
+        "current_coverage_original_source_consumed": false,
+        "expected_pcm_sha256": "9517c28b5f81a187f0727442ac9f513e141ed6c1e9a5e80cafd71cb3ab64ef09",
+        "flac": {
+          "bytes": 197222,
+          "sha256": "e64a4a86ebc60ee9605f74dc60fc22a801395ac7f0dc3e1911f726a80c19bfa7"
+        },
+        "label_status": "UNKNOWN_REVIEW_REQUIRED",
+        "pcm_digest_status": "FROZEN_HISTORICAL_METADATA_ONLY_NO_NEW_PCM_DECODE",
+        "recording_id": "hardneg-natural32-0a5cf5e6c1f4c5f9dfded8a9",
+        "source_member": "LibriSpeech/dev-clean/7976/110523/7976-110523-0010.flac",
+        "source_role": "train",
+        "speaker_id": "7976",
+        "streaminfo": {
+          "bits_per_sample": 16,
+          "channels": 1,
+          "frames": 173760,
+          "sample_rate": 16000
+        },
+        "transcript": {
+          "bytes": 161,
+          "sha256": "0e5b3e0bbd9dda337ebed52f2195b7869702f966467f2102439df7823f3bf7a4"
+        }
+      }
+    ],
+    "roster_sha256": "31457faf8efd0cf77629c1a6f8de67bc101190eb118bcfe9ac2f256acca41239",
+    "sample_frames": 3270080,
+    "selected_transcript_hashes_verified": 32,
+    "source_receipt": {
+      "bytes": 12432,
+      "sha256": "722238e3fefa7adffafb97688fb0c12ba95b2016c1eda5bb3dc82802791deea7"
+    },
+    "source_seconds": 204.38,
+    "speakers": 24,
+    "streaminfo_geometry_verified": 32
+  },
+  "schema": "independent-natural32-retained-source-failure-audit-v1",
+  "second_execution": {
+    "all_command_kinds_are_null": true,
+    "build_attempts": 0,
+    "command_pairs": 15,
+    "completed_validated_traces": 0,
+    "decode_attempts": 0,
+    "descendants_found": false,
+    "global_deadline_reached": false,
+    "model_attempts": 0,
+    "run_binding": {
+      "event": "push",
+      "head_sha": "cb6baa703f46451af73ec2cc0f85edfd1b159874",
+      "main_before": "d4edc97e4efb5612d16018f5cdeb42002d9eedfa",
+      "public_repository": true,
+      "repository": "jiying2007/kws-data",
+      "run_attempt": 1,
+      "run_id": "44060185229"
+    },
+    "stage_pairs": 5,
+    "start_exit_pairs": [
+      {
+        "argv": [
+          "curl",
+          "--fail",
+          "--location",
+          "--proto",
+          "=https",
+          "--proto-redir",
+          "=https",
+          "--connect-timeout",
+          "20",
+          "--max-time",
+          "600",
+          "--retry",
+          "0",
+          "--silent",
+          "--show-error",
+          "https://www.openslr.org/resources/12/dev-clean.tar.gz"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "corpus-download",
+        "wall_seconds": 517.931449793
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/runs/44060185229"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "current-run",
+        "wall_seconds": 2.4968923389999986
+      },
+      {
+        "argv": [
+          "ffmpeg",
+          "-version"
+        ],
+        "error": "FileNotFoundError:[Errno 2] No such file or directory: 'ffmpeg'",
+        "kind": null,
+        "returncode": null,
+        "tag": "ffmpeg-version",
+        "wall_seconds": 0.0008230160000266551
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14317102541"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "prior-failure-artifact",
+        "wall_seconds": 0.25141447499999714
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/runs/44057968882"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "prior-failure-run",
+        "wall_seconds": 0.301495727999999
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14317102541/zip"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "prior-failure-zip",
+        "wall_seconds": 2.056579604999996
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14310138100"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "quality-artifact",
+        "wall_seconds": 0.3019613130000067
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/runs/44042856615"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "quality-run",
+        "wall_seconds": 0.3520492250000018
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14310138100/zip"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "quality-zip",
+        "wall_seconds": 4.262545745000011
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14285590605"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "sdk-artifact",
+        "wall_seconds": 0.25163591100000815
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/runs/43984579132"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "sdk-run",
+        "wall_seconds": 0.35192341700000895
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14285590605/zip"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "sdk-zip",
+        "wall_seconds": 2.2568147080000074
+      },
+      {
+        "argv": null,
+        "error": null,
+        "kind": null,
+        "returncode": null,
+        "tag": "stage-authenticate-artifacts",
+        "wall_seconds": 13.091625959999995
+      },
+      {
+        "argv": null,
+        "error": "ValueError:FileNotFoundError:[Errno 2] No such file or directory: 'ffmpeg'",
+        "kind": null,
+        "returncode": null,
+        "tag": "stage-decode-originals",
+        "wall_seconds": 0.0010216169999921476
+      },
+      {
+        "argv": null,
+        "error": null,
+        "kind": null,
+        "returncode": null,
+        "tag": "stage-select-original-corpus",
+        "wall_seconds": 519.074362918
+      },
+      {
+        "argv": null,
+        "error": null,
+        "kind": null,
+        "returncode": null,
+        "tag": "stage-source-binding",
+        "wall_seconds": 2.4991384739999987
+      },
+      {
+        "argv": null,
+        "error": null,
+        "kind": null,
+        "returncode": null,
+        "tag": "stage-verify-prior-acquisition-failure",
+        "wall_seconds": 2.6959197959999983
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14225893574"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "training-artifact",
+        "wall_seconds": 0.30170217300000246
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/runs/43867764366"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "training-run",
+        "wall_seconds": 0.30155602499999645
+      },
+      {
+        "argv": [
+          "gh",
+          "api",
+          "repos/jiying2007/kws-data/actions/artifacts/14225893574/zip"
+        ],
+        "error": null,
+        "kind": null,
+        "returncode": 0,
+        "tag": "training-zip",
+        "wall_seconds": 4.212694806000002
+      }
+    ],
+    "supervisor_wall_seconds": 537.4946303590001,
+    "zero_compute_verified": true
+  },
+  "status": "VERIFIED_RETAINED_ORIGINALS_WITH_ZERO_AGGREGATE_COMPUTE"
+}
