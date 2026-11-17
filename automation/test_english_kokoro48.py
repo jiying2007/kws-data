@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import ast
 import copy
+import importlib.util
 import json
 from pathlib import Path
 import sys
@@ -48,7 +49,8 @@ class Kokoro48Tests(unittest.TestCase):
         for key, value in (("maximum_tts_calls", 49), ("maximum_calls_per_observer", 49),
             ("maximum_total_model_calls", 289), ("retry_count", 1), ("new_kws_calls", 1),
             ("training_allowed", True), ("training_snapshot_allowed", True), ("diagnostic_only", False),
-            ("generation_deadline_seconds", 1800), ("recipe_sha256", "0" * 64)):
+            ("generation_deadline_seconds", 1800), ("recipe_sha256", "0" * 64),
+            ("native_affine_contract_sha256", "0" * 64)):
             plan = self.plan(); plan[key] = value
             with self.subTest(key=key), self.assertRaises(ValueError):
                 w.validate_plan(plan)
@@ -262,6 +264,76 @@ class Kokoro48Tests(unittest.TestCase):
             for name in ("../outside", "/absolute", "a/../b", "a//b", "a\\b"):
                 with self.subTest(name=name), self.assertRaises(ValueError):
                     w.within(root, name)
+
+    def mock_weight_packet(self, root):
+        """Use the generator's fake tensors to test its actual JSON handoff."""
+        path = Path(__file__).with_name("test_english_kokoro48_generate.py")
+        spec = importlib.util.spec_from_file_location("kokoro48_consumer_mock_generator", path)
+        fixtures = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(fixtures)
+        original_module, original_name = fixtures.FakeNativeNorm.__module__, fixtures.FakeNativeNorm.__name__
+        fixtures.FakeNativeNorm.__module__, fixtures.FakeNativeNorm.__name__ = "torch.nn.modules.instancenorm", "InstanceNorm1d"
+        try:
+            model, checkpoint = fixtures.native_affine_fixture()
+            for values in checkpoint.values():
+                for value in values.values():
+                    value.dtype = "torch.float32"
+            proof = fixtures.g._strict_checkpoint_readback(model, checkpoint, fixtures.NATIVE_FAKE_TORCH,
+                output=root, native_adain_type=fixtures.FakeNativeAdaIN)
+        finally:
+            fixtures.FakeNativeNorm.__module__, fixtures.FakeNativeNorm.__name__ = original_module, original_name
+        summary_path = "source/weight-diagnostics/SUMMARY.json"
+        contract = w.weight_contract()
+        return {"weight_loading": proof, "weight_contract": contract["schema"],
+            "native_affine_contract": contract, "native_affine_contract_sha256": w.digest(contract),
+            "weight_diagnostics": summary_path,
+            "weight_diagnostics_sha256": w.sha((root / summary_path).read_bytes())}
+
+    def rewrite_mock_component(self, root, lock, change):
+        """Rehash deliberately tampered temporary fixtures, never real evidence."""
+        summary_path = root / lock["weight_diagnostics"]
+        summary = json.loads(summary_path.read_bytes())
+        record = next(r for r in summary["component_records"] if r["component"] == "decoder")
+        path = root / record["path"]
+        document = json.loads(path.read_bytes())
+        change(document)
+        raw = (json.dumps(document, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode()
+        path.write_bytes(raw)
+        record.update(bytes=len(raw), sha256=w.sha(raw))
+        raw_summary = (json.dumps(summary, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode()
+        summary_path.write_bytes(raw_summary)
+        lock["weight_diagnostics_sha256"] = w.sha(raw_summary)
+
+    def test_generator_mock_packet_and_consumer_keep_548_688_140_separate(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); lock = self.mock_weight_packet(root)
+            w.verify_weight_diagnostics(root, lock)
+            self.assertEqual(sum(r["checkpoint_key_count"] for r in lock["weight_loading"]), 548)
+            self.assertEqual(sum(r["native_key_count"] for r in lock["weight_loading"]), 688)
+            self.assertEqual(sum(r["verified_native_neutral_affine_key_count"] for r in lock["weight_loading"]), 140)
+            self.assertFalse({"torch", "numpy", "kokoro", "transformers"} & set(sys.modules))
+
+    def test_rehashed_packet_cannot_erase_actual_native_missing_keys(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); lock = self.mock_weight_packet(root)
+            self.rewrite_mock_component(root, lock, lambda d: d.update(missing_in_checkpoint=[]))
+            with self.assertRaisesRegex(ValueError, "REAL_NATIVE_KEY_DIFFERENCE"):
+                w.verify_weight_diagnostics(root, lock)
+
+    def test_rehashed_packet_cannot_claim_unverified_neutral_value(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); lock = self.mock_weight_packet(root)
+            self.rewrite_mock_component(root, lock,
+                lambda d: d["neutral_affine_checks"][0]["parameters"][0].update(exact_neutral_value=False))
+            with self.assertRaisesRegex(ValueError, "ALL_NATIVE_AFFINE_VALUES_EXACTLY_NEUTRAL"):
+                w.verify_weight_diagnostics(root, lock)
+
+    def test_rehashed_packet_cannot_skip_one_closed_native_site(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); lock = self.mock_weight_packet(root)
+            self.rewrite_mock_component(root, lock, lambda d: d["neutral_affine_checks"].pop())
+            with self.assertRaisesRegex(ValueError, "CLOSED_NATIVE_AFFINE_SITES"):
+                w.verify_weight_diagnostics(root, lock)
 
 
 if __name__ == "__main__":

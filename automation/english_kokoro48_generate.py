@@ -26,6 +26,125 @@ recipe = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(recipe)
 SCHEMA = "english-kokoro48-generation-v1"
 
+# Exact native-only AdaIN affine sites observed in public run 44122224557.
+# Every admitted value is read back against its neutral value; none is written.
+_NATIVE_AFFINE_CONTRACT = {'actual_diagnostic_artifact_sha256': '88e22b8cb7f2d9b410030063b385ba3894a7ca24e05d27f32a07dec42f352b1e',
+ 'actual_diagnostic_run': '44122224557',
+ 'checkpoint_key_counts': {'bert': 25,
+                           'bert_encoder': 2,
+                           'decoder': 375,
+                           'predictor': 122,
+                           'text_encoder': 24},
+ 'generic_missing_key_allowance': False,
+ 'kokoro_version': '0.9.4',
+ 'model_sha256': '496dba118d1a58f5f3db2efc88dbdc216e0483fc89fe6e47ee1f2c53f18ad1e4',
+ 'native_extra_scalar_count': 46612,
+ 'native_extra_tensor_count': 140,
+ 'native_type': 'torch.nn.modules.instancenorm.InstanceNorm1d',
+ 'norm_count': 70,
+ 'norms': {'decoder': {'decode.0.norm1.norm': 1090,
+                       'decode.0.norm2.norm': 1024,
+                       'decode.1.norm1.norm': 1090,
+                       'decode.1.norm2.norm': 1024,
+                       'decode.2.norm1.norm': 1090,
+                       'decode.2.norm2.norm': 1024,
+                       'decode.3.norm1.norm': 1090,
+                       'decode.3.norm2.norm': 512,
+                       'encode.norm1.norm': 514,
+                       'encode.norm2.norm': 1024,
+                       'generator.noise_res.0.adain1.0.norm': 256,
+                       'generator.noise_res.0.adain1.1.norm': 256,
+                       'generator.noise_res.0.adain1.2.norm': 256,
+                       'generator.noise_res.0.adain2.0.norm': 256,
+                       'generator.noise_res.0.adain2.1.norm': 256,
+                       'generator.noise_res.0.adain2.2.norm': 256,
+                       'generator.noise_res.1.adain1.0.norm': 128,
+                       'generator.noise_res.1.adain1.1.norm': 128,
+                       'generator.noise_res.1.adain1.2.norm': 128,
+                       'generator.noise_res.1.adain2.0.norm': 128,
+                       'generator.noise_res.1.adain2.1.norm': 128,
+                       'generator.noise_res.1.adain2.2.norm': 128,
+                       'generator.resblocks.0.adain1.0.norm': 256,
+                       'generator.resblocks.0.adain1.1.norm': 256,
+                       'generator.resblocks.0.adain1.2.norm': 256,
+                       'generator.resblocks.0.adain2.0.norm': 256,
+                       'generator.resblocks.0.adain2.1.norm': 256,
+                       'generator.resblocks.0.adain2.2.norm': 256,
+                       'generator.resblocks.1.adain1.0.norm': 256,
+                       'generator.resblocks.1.adain1.1.norm': 256,
+                       'generator.resblocks.1.adain1.2.norm': 256,
+                       'generator.resblocks.1.adain2.0.norm': 256,
+                       'generator.resblocks.1.adain2.1.norm': 256,
+                       'generator.resblocks.1.adain2.2.norm': 256,
+                       'generator.resblocks.2.adain1.0.norm': 256,
+                       'generator.resblocks.2.adain1.1.norm': 256,
+                       'generator.resblocks.2.adain1.2.norm': 256,
+                       'generator.resblocks.2.adain2.0.norm': 256,
+                       'generator.resblocks.2.adain2.1.norm': 256,
+                       'generator.resblocks.2.adain2.2.norm': 256,
+                       'generator.resblocks.3.adain1.0.norm': 128,
+                       'generator.resblocks.3.adain1.1.norm': 128,
+                       'generator.resblocks.3.adain1.2.norm': 128,
+                       'generator.resblocks.3.adain2.0.norm': 128,
+                       'generator.resblocks.3.adain2.1.norm': 128,
+                       'generator.resblocks.3.adain2.2.norm': 128,
+                       'generator.resblocks.4.adain1.0.norm': 128,
+                       'generator.resblocks.4.adain1.1.norm': 128,
+                       'generator.resblocks.4.adain1.2.norm': 128,
+                       'generator.resblocks.4.adain2.0.norm': 128,
+                       'generator.resblocks.4.adain2.1.norm': 128,
+                       'generator.resblocks.4.adain2.2.norm': 128,
+                       'generator.resblocks.5.adain1.0.norm': 128,
+                       'generator.resblocks.5.adain1.1.norm': 128,
+                       'generator.resblocks.5.adain1.2.norm': 128,
+                       'generator.resblocks.5.adain2.0.norm': 128,
+                       'generator.resblocks.5.adain2.1.norm': 128,
+                       'generator.resblocks.5.adain2.2.norm': 128},
+           'predictor': {'F0.0.norm1.norm': 512,
+                         'F0.0.norm2.norm': 512,
+                         'F0.1.norm1.norm': 512,
+                         'F0.1.norm2.norm': 256,
+                         'F0.2.norm1.norm': 256,
+                         'F0.2.norm2.norm': 256,
+                         'N.0.norm1.norm': 512,
+                         'N.0.norm2.norm': 512,
+                         'N.1.norm1.norm': 512,
+                         'N.1.norm2.norm': 256,
+                         'N.2.norm1.norm': 256,
+                         'N.2.norm2.norm': 256}},
+ 'official_istftnet_sha256': 'eb45e18d73d09e5a42801dedf16b6e3fb07d9741a142cd48fb8ebc1f68c11f26',
+ 'parameter_mutation_allowed': False,
+ 'parent_type': 'kokoro.istftnet.AdaIN1d',
+ 'required_affine': True,
+ 'required_bias_value': 0.0,
+ 'required_device': 'cpu',
+ 'required_dtype': 'torch.float32',
+ 'required_eps': 1e-05,
+ 'required_momentum': 0.1,
+ 'required_track_running_stats': False,
+ 'required_weight_value': 1.0,
+ 'schema': 'kokoro-v1_0-native-neutral-adain-v1',
+ 'torch_version': '2.9.1+cpu'}
+
+
+def native_affine_contract():
+    return json.loads(json.dumps(_NATIVE_AFFINE_CONTRACT))
+
+
+def expected_native_extra_keys(component=None):
+    result = []
+    for name, paths in sorted(_NATIVE_AFFINE_CONTRACT["norms"].items()):
+        if component is not None and name != component:
+            continue
+        for path in sorted(paths):
+            for suffix in ("bias", "weight"):
+                result.append((name + "." if component is None else "") + path + "." + suffix)
+    return result
+
+
+def native_affine_contract_sha256():
+    return recipe.digest(native_affine_contract())
+
 
 def need(condition, code):
     if not condition:
@@ -198,15 +317,76 @@ def _module_inventory(module, torch):
     return {"named_parameters": parameters, "named_buffers": buffers}
 
 
-def _strict_checkpoint_readback(model, checkpoint, torch, *, output=None):
+def _native_affine_readback(module, component, loaded, torch, native_adain_type):
+    """Read only the fixed native AdaIN sites; never repair or reload a value."""
+    checks = []
+    for path, channels in sorted(_NATIVE_AFFINE_CONTRACT["norms"].get(component, {}).items()):
+        check = {"path": path, "num_features": channels, "passed": False,
+            "parameters_mutated": False, "error": None}
+        try:
+            parent_path = path.rsplit('.', 1)[0]
+            parent = module.get_submodule(parent_path)
+            norm = module.get_submodule(path)
+            check.update(parent_path=parent_path,
+                parent_type=type(parent).__module__ + '.' + type(parent).__name__,
+                norm_type=type(norm).__module__ + '.' + type(norm).__name__)
+            need(type(parent) is native_adain_type and parent.norm is norm
+                and type(norm) is torch.nn.InstanceNorm1d, "EXACT_NATIVE_ADAIN_PARENT_AND_NORM_TYPE")
+            attributes = {name: getattr(norm, name) for name in
+                ("num_features", "affine", "track_running_stats", "eps", "momentum", "training")}
+            check.update(attributes=attributes, parent_training=parent.training)
+            need(type(norm.num_features) is int and norm.num_features == channels
+                and norm.affine is True and norm.track_running_stats is False
+                and type(norm.eps) is float and norm.eps == 1e-5
+                and type(norm.momentum) is float and norm.momentum == 0.1
+                and norm.training is False and parent.training is False,
+                "EXACT_NATIVE_ADAIN_NEUTRAL_CONFIGURATION")
+            check["running_buffers_are_none"] = {name: getattr(norm, name) is None
+                for name in ("running_mean", "running_var", "num_batches_tracked")}
+            need(set(norm._buffers) == {"running_mean", "running_var", "num_batches_tracked"}
+                and all(check["running_buffers_are_none"].values()), "NATIVE_ADAIN_NO_RUNNING_STATISTICS")
+            need(set(norm._parameters) == {"weight", "bias"}, "NATIVE_ADAIN_EXACT_AFFINE_PARAMETERS")
+            values = []
+            for suffix, neutral_value in (("weight", 1), ("bias", 0)):
+                value, key = getattr(norm, suffix), path + "." + suffix
+                stored = loaded[key]
+                description = _tensor_description(value, torch)
+                stored_description = _tensor_description(stored, torch)
+                record = {"key": key, "required_neutral_value": neutral_value,
+                    "parameter": description, "state_dict": stored_description,
+                    "exact_neutral_value": False, "state_dict_value_equal": False}
+                values.append(record)
+                check["parameters"] = values
+                need(type(value) is torch.nn.Parameter and description["is_tensor"]
+                    and stored_description["is_tensor"] and tuple(value.shape) == (channels,)
+                    and tuple(stored.shape) == (channels,)
+                    and value.dtype == stored.dtype == torch.float32
+                    and value.device.type == stored.device.type == "cpu", "NATIVE_ADAIN_EXACT_PARAMETER_METADATA")
+                expected = torch.ones_like(value) if neutral_value else torch.zeros_like(value)
+                record["exact_neutral_value"] = bool(torch.equal(value, expected))
+                record["state_dict_value_equal"] = bool(torch.equal(stored, value))
+                need(record["exact_neutral_value"] and record["state_dict_value_equal"],
+                    "NATIVE_ADAIN_PARAMETER_NOT_NEUTRAL")
+            check["passed"] = True
+        except Exception as exc:
+            check["error"] = {"type": type(exc).__name__, "code": str(exc)[:300]}
+        checks.append(check)
+    return checks
+
+
+def _strict_checkpoint_readback(model, checkpoint, torch, *, output=None, native_adain_type=None):
     """Upstream has a strict=False fallback; never accept it as load proof."""
     expected_components = {"bert", "bert_encoder", "predictor", "text_encoder", "decoder"}
     need(type(checkpoint) is dict and set(checkpoint) == expected_components, "CHECKPOINT_COMPONENT_CLOSURE")
+    native_contract = native_adain_type is not None
+    if native_contract:
+        need(native_adain_type.__module__ + '.' + native_adain_type.__name__ ==
+            _NATIVE_AFFINE_CONTRACT["parent_type"], "PINNED_NATIVE_ADAIN_CLASS")
     components, diagnostics, component_records = [], [], []
     for name in sorted(expected_components):
         diagnostic = {"schema": SCHEMA + "/checkpoint-component", "component": name,
             "passed": False, "error": None, "tensor_values_reloaded": False,
-            "model_forward_calls": 0, "allowed_key_exceptions": []}
+            "model_forward_calls": 0, "allowed_key_exceptions": [], "neutral_affine_checks": []}
         try:
             module = getattr(model, name)
             loaded = module.state_dict()
@@ -240,16 +420,28 @@ def _strict_checkpoint_readback(model, checkpoint, torch, *, output=None):
                     "exact_value_equal": bool(torch.equal(left, right)) if comparable else False})
             diagnostic["common_key_comparisons"] = comparisons
             diagnostic["mismatched_common_keys"] = [r["key"] for r in comparisons if not r["exact_value_equal"]]
-            need(set(state) == set(loaded), "CHECKPOINT_EXACT_KEYS")
+            extra_keys = set(expected_native_extra_keys(name)) if native_contract else set()
+            diagnostic["allowed_key_exceptions"] = sorted(extra_keys)
+            need(not set(state).intersection(extra_keys) and set(state) | extra_keys == set(loaded),
+                "CHECKPOINT_EXACT_KEYS")
             need(not diagnostic["mismatched_common_keys"], "CHECKPOINT_EXACT_TENSOR_READBACK")
+            if native_contract:
+                need(len(state) == _NATIVE_AFFINE_CONTRACT["checkpoint_key_counts"][name],
+                    "EXACT_PINNED_CHECKPOINT_COMPONENT_KEY_COUNT")
+                checks = _native_affine_readback(module, name, loaded, torch, native_adain_type)
+                diagnostic["neutral_affine_checks"] = checks
+                failed_checks = [r for r in checks if not r["passed"]]
+                need(not failed_checks, failed_checks[0]["error"]["code"] if failed_checks else "NATIVE_ADAIN_NEUTRAL_PROOF")
             diagnostic["passed"] = True
-            components.append({"component": name, "key_count": len(state), "mapping": mapping,
-                               "all_keys_shapes_dtypes_values_equal": True})
+            components.append({"component": name, "checkpoint_key_count": len(state),
+                "native_key_count": len(loaded), "mapping": mapping,
+                "all_checkpoint_keys_shapes_dtypes_values_equal": True,
+                "verified_native_neutral_affine_key_count": len(extra_keys)})
         except Exception as exc:
             diagnostic["error"] = {"type": type(exc).__name__, "code": str(exc)[:300]}
         diagnostics.append(diagnostic)
-        # Save every component before rejecting the whole model. No mapping
-        # exception, strict=False reload, tensor mutation or inference is used.
+        # Save every component before rejecting the whole model. No generic
+        # key allowance, strict=False reload, tensor mutation or inference is used.
         if output is not None:
             relative = "source/weight-diagnostics/" + name + ".json"
             path = Path(output) / relative
@@ -264,7 +456,14 @@ def _strict_checkpoint_readback(model, checkpoint, torch, *, output=None):
             "failed_components": [r["component"] for r in diagnostics if not r["passed"]],
             "component_files": ["source/weight-diagnostics/" + r["component"] + ".json" for r in diagnostics],
             "component_records": component_records,
-            "model_forward_calls": 0, "tensor_values_reloaded": False, "allowed_key_exceptions": []})
+            "weight_contract": _NATIVE_AFFINE_CONTRACT["schema"] if native_contract else "checkpoint-exact-only",
+            "native_affine_contract_sha256": native_affine_contract_sha256() if native_contract else None,
+            "checkpoint_tensor_count": sum(len(r.get("normalized_keys", [])) for r in diagnostics),
+            "exact_checkpoint_tensor_count": sum(sum(c["exact_value_equal"] for c in r.get("common_key_comparisons", [])) for r in diagnostics),
+            "native_tensor_count": sum(len(r.get("loaded_state_keys", [])) for r in diagnostics),
+            "verified_native_neutral_affine_tensor_count": 2 * sum(sum(c["passed"] for c in r["neutral_affine_checks"]) for r in diagnostics),
+            "model_forward_calls": 0, "tensor_values_reloaded": False,
+            "allowed_key_exceptions": expected_native_extra_keys() if native_contract else []})
     if not passed:
         failed = next(r for r in diagnostics if not r["passed"])
         raise ValueError(failed["error"]["code"])
@@ -285,6 +484,7 @@ def _load_native(output, asset_root):
         os.environ[key] = "1"
     import torch
     from kokoro import KModel
+    from kokoro.istftnet import AdaIN1d
     torch.set_num_threads(recipe.SYNTHESIS["torch_threads"])
     torch.set_num_interop_threads(1)
     torch.set_float32_matmul_precision("highest")
@@ -298,7 +498,8 @@ def _load_native(output, asset_root):
         "constructor_and_runtime_transforms_returned": True, "model_instances": 1,
         "model_forward_calls": 0, "checkpoint_proof_pending": True})
     checkpoint = torch.load(asset_root / recipe.MODEL["model_path"], map_location="cpu", weights_only=True)
-    component_proof = _strict_checkpoint_readback(model, checkpoint, torch, output=output)
+    component_proof = _strict_checkpoint_readback(model, checkpoint, torch, output=output,
+        native_adain_type=AdaIN1d)
     del checkpoint
     config = json.loads(regular(asset_root / "config.json", recipe.MODEL["config_bytes"]))
     need(model.vocab == config["vocab"] and model.context_length == 512, "EXACT_NATIVE_VOCAB_CONTEXT")
@@ -316,6 +517,9 @@ def _load_native(output, asset_root):
         "package": recipe.PACKAGE, "package_download": wheel_receipt,
         "installed_package_files": package_files, "runtime_versions": versions,
         "weight_loading": component_proof, "all_component_weights_verified": True,
+        "weight_contract": _NATIVE_AFFINE_CONTRACT["schema"],
+        "native_affine_contract": native_affine_contract(),
+        "native_affine_contract_sha256": native_affine_contract_sha256(),
         "weight_diagnostics": "source/weight-diagnostics/SUMMARY.json",
         "weight_diagnostics_sha256": sha(regular(output / "source/weight-diagnostics/SUMMARY.json", 1024 * 1024)),
         "voice_pack_shapes": {k: list(v.shape) for k, v in packs.items()},

@@ -52,11 +52,18 @@ def packet(output, *, passed=True):
     summary = {'fixture_only': True, 'schema': h.g.SCHEMA+'/checkpoint-readback',
         'passed': passed, 'component_count': 5, 'passed_components': 5-len(failed),
         'failed_components': failed, 'component_files': [r['path'] for r in records],
-        'component_records': records, 'allowed_key_exceptions': []}
+        'component_records': records, 'allowed_key_exceptions': h.g.expected_native_extra_keys(),
+        'weight_contract': h.g.native_affine_contract()['schema'],
+        'native_affine_contract_sha256': h.g.native_affine_contract_sha256(),
+        'checkpoint_tensor_count': 548, 'exact_checkpoint_tensor_count': 548,
+        'native_tensor_count': 688, 'verified_native_neutral_affine_tensor_count': 140 if passed else 24}
     digest = h.g.once(output/'source/weight-diagnostics/SUMMARY.json', summary)
     if passed:
         h.g.once(output/'source/MODEL_LOCK.json', {'fixture_only': True,
             'all_component_weights_verified': True,
+            'weight_contract': h.g.native_affine_contract()['schema'],
+            'native_affine_contract': h.g.native_affine_contract(),
+            'native_affine_contract_sha256': h.g.native_affine_contract_sha256(),
             'weight_diagnostics': 'source/weight-diagnostics/SUMMARY.json',
             'weight_diagnostics_sha256': digest})
 
@@ -66,6 +73,20 @@ def unused_forward(*args, **kwargs):
 
 
 class PublicGuard(unittest.TestCase):
+    def test_neutral_affine_proof_requires_all_counts_and_exact_keys(self):
+        with tempfile.TemporaryDirectory(prefix='initialization-proof-fixture-') as temporary:
+            output = Path(temporary)
+            packet(output)
+            summary = json.loads((output/'source/weight-diagnostics/SUMMARY.json').read_text())
+            self.assertTrue(h.verified_proof(summary))
+            changes = (('checkpoint_tensor_count', 547), ('exact_checkpoint_tensor_count', 547),
+                ('native_tensor_count', 687), ('verified_native_neutral_affine_tensor_count', 138),
+                ('allowed_key_exceptions', []), ('native_affine_contract_sha256', '0'*64),
+                ('weight_contract', 'checkpoint-exact-only'))
+            for key, value in changes:
+                with self.subTest(key=key):
+                    self.assertFalse(h.verified_proof({**summary, key: value}))
+
     def test_only_public_same_repository_first_pr_is_allowed(self):
         env = environment('/fixture/event.json')
         h.allowed_event(env, event())

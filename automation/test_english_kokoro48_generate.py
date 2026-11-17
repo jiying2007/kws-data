@@ -368,6 +368,212 @@ class CheckpointCompleteness(unittest.TestCase):
             self.assertEqual(detail['allowed_key_exceptions'], [])
 
 
+class FakeParameter(FakeTensor):
+    def __init__(self, value, channels):
+        super().__init__(value)
+        self.shape = (channels,)
+        self.dtype = 'torch.float32'
+
+
+class FakeNativeNorm:
+    def __init__(self, channels):
+        self.num_features = channels
+        self.affine = True
+        self.track_running_stats = False
+        self.eps = 1e-5
+        self.momentum = 0.1
+        self.training = False
+        self.running_mean = self.running_var = self.num_batches_tracked = None
+        self.weight, self.bias = FakeParameter(1, channels), FakeParameter(0, channels)
+        self._parameters = {'weight': self.weight, 'bias': self.bias}
+        self._buffers = dict.fromkeys(('running_mean', 'running_var', 'num_batches_tracked'))
+        self._non_persistent_buffers_set = set()
+    def named_buffers(self, **kwargs):
+        return []
+
+
+class FakeNativeAdaIN:
+    def __init__(self, norm):
+        self.norm = norm
+        self.training = False
+        self._non_persistent_buffers_set = set()
+    def named_buffers(self, **kwargs):
+        return []
+
+
+# Fake classes only: these attribute strings exercise the native-type guard
+# without importing Kokoro/PyTorch, constructing a real model, or using tensors.
+FakeNativeAdaIN.__module__, FakeNativeAdaIN.__name__ = 'kokoro.istftnet', 'AdaIN1d'
+
+
+def fake_uniform_like(value, neutral):
+    target = FakeTensor(neutral)
+    target.shape, target.dtype = value.shape, value.dtype
+    return target
+
+
+NATIVE_FAKE_TORCH = SimpleNamespace(Tensor=FakeTensor,
+    nn=SimpleNamespace(Parameter=FakeParameter, InstanceNorm1d=FakeNativeNorm),
+    float32='torch.float32', equal=lambda a, b: a.value == b.value,
+    ones_like=lambda value: fake_uniform_like(value, 1),
+    zeros_like=lambda value: fake_uniform_like(value, 0))
+
+
+class FullFakeModule(FakeModule):
+    def __init__(self, values, paths):
+        super().__init__(values)
+        self.children = {}
+        for path, channels in paths.items():
+            norm = FakeNativeNorm(channels)
+            self.children[path] = norm
+            self.children[path.rsplit('.', 1)[0]] = FakeNativeAdaIN(norm)
+            self.values[path+'.weight'] = norm.weight
+            self.values[path+'.bias'] = norm.bias
+    def get_submodule(self, path):
+        return self.children[path]
+    def named_modules(self, **kwargs):
+        return [('', self), *sorted(self.children.items())]
+
+
+def native_affine_fixture():
+    # Counts and neutral-site paths match the contract; original tensor names
+    # and scalar values are explicitly fake, never represented as model data.
+    contract = g.native_affine_contract()
+    checkpoint, modules = {}, {}
+    for component, count in contract['checkpoint_key_counts'].items():
+        values = {'fixture_original_'+str(i): FakeTensor(i) for i in range(count)}
+        checkpoint[component] = {'module.'+k: v for k, v in values.items()}
+        modules[component] = FullFakeModule(values, contract['norms'].get(component, {}))
+    return SimpleNamespace(**modules), checkpoint
+
+
+class NativeAffineCompatibility(unittest.TestCase):
+    def readback(self, model, checkpoint, **kwargs):
+        return g._strict_checkpoint_readback(model, checkpoint, NATIVE_FAKE_TORCH,
+            native_adain_type=FakeNativeAdaIN, **kwargs)
+
+    def test_exact_observed_path_and_channel_contract_is_closed(self):
+        contract = g.native_affine_contract()
+        self.assertEqual({k: len(v) for k, v in contract['norms'].items()}, {'decoder': 58, 'predictor': 12})
+        self.assertEqual(sum(contract['checkpoint_key_counts'].values()), 548)
+        self.assertEqual(len(g.expected_native_extra_keys()), 140)
+        self.assertEqual(sum(2*size for rows in contract['norms'].values() for size in rows.values()), 46612)
+        self.assertEqual(g.native_affine_contract_sha256(), '1522f33d53e88f6b95e57366d020c38ccadb7959b5c05e8f92b2bf1da3e23325')
+        contract['norms']['decoder'].clear()
+        self.assertEqual(len(g.expected_native_extra_keys('decoder')), 116)
+
+    def test_all_original_keys_and_neutral_extras_are_separate_proofs(self):
+        model, checkpoint = native_affine_fixture()
+        with tempfile.TemporaryDirectory(prefix='native-affine-fixture-') as temporary:
+            proof = self.readback(model, checkpoint, output=Path(temporary))
+            summary = json.loads((Path(temporary)/'source/weight-diagnostics/SUMMARY.json').read_text())
+            self.assertEqual(summary['checkpoint_tensor_count'], 548)
+            self.assertEqual(summary['exact_checkpoint_tensor_count'], 548)
+            self.assertEqual(summary['native_tensor_count'], 688)
+            self.assertEqual(summary['verified_native_neutral_affine_tensor_count'], 140)
+            self.assertEqual(summary['allowed_key_exceptions'], g.expected_native_extra_keys())
+            self.assertTrue(all(row['all_checkpoint_keys_shapes_dtypes_values_equal'] for row in proof))
+            self.assertTrue(all('all_keys_shapes_dtypes_values_equal' not in row for row in proof))
+            detail = json.loads((Path(temporary)/'source/weight-diagnostics/decoder.json').read_text())
+            self.assertEqual(detail['missing_in_checkpoint'], g.expected_native_extra_keys('decoder'))
+            self.assertEqual(len(detail['neutral_affine_checks']), 58)
+            self.assertTrue(all(row['passed'] and not row['parameters_mutated'] for row in detail['neutral_affine_checks']))
+            self.assertTrue(all(v['exact_neutral_value'] and v['state_dict_value_equal']
+                for row in detail['neutral_affine_checks'] for v in row['parameters']))
+
+    def test_generic_exact_mode_does_not_ignore_neutral_extra_keys(self):
+        model, checkpoint = native_affine_fixture()
+        with self.assertRaisesRegex(ValueError, 'CHECKPOINT_EXACT_KEYS'):
+            g._strict_checkpoint_readback(model, checkpoint, NATIVE_FAKE_TORCH)
+
+    def test_original_checkpoint_key_or_value_failures_still_reject(self):
+        for mutation in ('missing', 'unexpected', 'value'):
+            model, checkpoint = native_affine_fixture()
+            if mutation == 'missing':
+                del checkpoint['decoder']['module.fixture_original_0']
+            elif mutation == 'unexpected':
+                checkpoint['decoder']['module.fixture_new'] = FakeTensor(0)
+            else:
+                checkpoint['decoder']['module.fixture_original_0'] = FakeTensor(-1)
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                self.readback(model, checkpoint)
+
+    def test_extra_key_set_cannot_expand_shrink_or_be_added_to_checkpoint(self):
+        for mutation in ('expand', 'shrink', 'checkpoint'):
+            model, checkpoint = native_affine_fixture()
+            key = g.expected_native_extra_keys('decoder')[0]
+            if mutation == 'expand':
+                model.decoder.values['fixture_additional.norm.weight'] = FakeParameter(1, 1)
+            elif mutation == 'shrink':
+                del model.decoder.values[key]
+            else:
+                checkpoint['decoder']['module.'+key] = model.decoder.values[key]
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(ValueError, 'CHECKPOINT_EXACT_KEYS'):
+                self.readback(model, checkpoint)
+
+    def test_affine_value_must_be_neutral_without_writing_it(self):
+        for suffix, bad in (('weight', 0.999), ('bias', 0.001), ('weight', float('nan'))):
+            model, checkpoint = native_affine_fixture()
+            path = next(iter(g.native_affine_contract()['norms']['decoder']))
+            norm = model.decoder.get_submodule(path)
+            parameter = getattr(norm, suffix)
+            parameter.value = bad
+            with self.subTest(suffix=suffix, bad=bad), self.assertRaisesRegex(ValueError, 'NATIVE_ADAIN_PARAMETER_NOT_NEUTRAL'):
+                self.readback(model, checkpoint)
+            self.assertIs(getattr(norm, suffix), parameter)
+            if bad == bad:
+                self.assertEqual(parameter.value, bad)
+            else:
+                self.assertNotEqual(parameter.value, parameter.value)
+
+    def test_wrong_configuration_and_running_statistics_reject(self):
+        changes = (('affine', False), ('track_running_stats', True), ('eps', 1e-4),
+            ('momentum', None), ('training', True), ('num_features', 1), ('running_mean', FakeTensor(0)))
+        for attribute, value in changes:
+            model, checkpoint = native_affine_fixture()
+            path = next(iter(g.native_affine_contract()['norms']['decoder']))
+            setattr(model.decoder.get_submodule(path), attribute, value)
+            with self.subTest(attribute=attribute), self.assertRaises(ValueError):
+                self.readback(model, checkpoint)
+
+    def test_wrong_parameter_type_shape_dtype_device_and_state_value_reject(self):
+        for mutation in ('type', 'shape', 'dtype', 'device', 'state'):
+            model, checkpoint = native_affine_fixture()
+            path = next(iter(g.native_affine_contract()['norms']['decoder']))
+            norm = model.decoder.get_submodule(path)
+            if mutation == 'type':
+                norm.weight = fake_uniform_like(norm.weight, 1)
+            elif mutation == 'shape':
+                norm.weight.shape = (norm.num_features+1,)
+            elif mutation == 'dtype':
+                norm.weight.dtype = 'torch.float64'
+            elif mutation == 'device':
+                norm.weight.device = SimpleNamespace(type='cuda')
+            else:
+                model.decoder.values[path+'.weight'] = fake_uniform_like(norm.weight, 0)
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                self.readback(model, checkpoint)
+
+    def test_exact_native_classes_are_required_even_for_neutral_values(self):
+        class NormSubclass(FakeNativeNorm):
+            pass
+        class ParentSubclass(FakeNativeAdaIN):
+            pass
+        for mutation in ('norm', 'parent', 'parent_training'):
+            model, checkpoint = native_affine_fixture()
+            path = next(iter(g.native_affine_contract()['norms']['decoder']))
+            parent_path = path.rsplit('.', 1)[0]
+            parent = model.decoder.get_submodule(parent_path)
+            if mutation == 'norm':
+                parent.norm.__class__ = NormSubclass
+            elif mutation == 'parent':
+                parent.__class__ = ParentSubclass
+            else:
+                parent.training = True
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                self.readback(model, checkpoint)
+
+
 class RuntimeDependencyRepair(unittest.TestCase):
     def test_only_runtime_versions_changed_from_actual_unstarted_requests(self):
         # Canonical digests read from run 44114592216 source/RECIPE.json.

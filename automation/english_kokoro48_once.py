@@ -163,6 +163,22 @@ def observer_identity(provider):
     return {k: row[k] for k in ("recognizer_id", "model_family", "model_sha256")} | {"decode_config_sha256": digest(row["decode_config"])}
 
 
+def weight_contract():
+    """Read the source-pinned, explicit native affine roster without a model."""
+    spec = importlib.util.spec_from_file_location("kokoro48_saved_weight_contract", HERE / "english_kokoro48_generate.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    contract = module.native_affine_contract()
+    need(contract.get("schema") == "kokoro-v1_0-native-neutral-adain-v1"
+         and contract.get("model_sha256") == recipe.MODEL["model_sha256"]
+         and contract.get("generic_missing_key_allowance") is False
+         and contract.get("parameter_mutation_allowed") is False
+         and contract.get("norm_count") == 70 and contract.get("native_extra_tensor_count") == 140
+         and sum(len(paths) for paths in contract["norms"].values()) == 70,
+         "CLOSED_NATIVE_AFFINE_CONTRACT")
+    return contract
+
+
 def validate_plan(plan, *, check_sources=True):
     need(type(plan) is dict and plan.get("schema") == SCHEMA and type(plan.get("enabled")) is bool, "PLAN_SCHEMA_ENABLE")
     need(all(type(plan.get(key)) is int for key in ("maximum_tts_calls", "maximum_calls_per_observer",
@@ -171,6 +187,7 @@ def validate_plan(plan, *, check_sources=True):
     frozen = recipe.recipe()
     need(plan.get("campaign_id") == frozen.get("campaign_id") == recipe.CAMPAIGN_ID, "CAMPAIGN_ID")
     need(plan.get("recipe_sha256") == digest(frozen), "RECIPE_PIN")
+    need(plan.get("native_affine_contract_sha256") == digest(weight_contract()), "NATIVE_AFFINE_CONTRACT_PIN")
     need(plan.get("zero_forward_checkpoint_recovery") == RECOVERY, "EXACT_ZERO_FORWARD_CHECKPOINT_RECOVERY")
     need(plan.get("maximum_tts_calls") == plan.get("maximum_calls_per_observer") == 48
          and plan.get("maximum_total_model_calls") == 288 and plan.get("retry_count") == 0
@@ -377,6 +394,113 @@ def verify_generation_audio(root, expected, receipt, vocab):
             "crop_end_native_sample", "crop_native_samples", "sample_rate", "channels", "sample_width")}
 
 
+def verify_weight_diagnostics(root, lock):
+    """Validate saved exact checkpoint and native neutral-value evidence separately."""
+    contract = weight_contract()
+    contract_sha = digest(contract)
+    counts = contract["checkpoint_key_counts"]
+    extras = {name: sorted(path + "." + suffix for path in contract["norms"].get(name, {})
+        for suffix in ("bias", "weight")) for name in counts}
+    qualified = sorted(name + "." + key for name in counts for key in extras[name])
+    need(lock.get("weight_contract") == contract["schema"]
+         and lock.get("native_affine_contract") == contract
+         and lock.get("native_affine_contract_sha256") == contract_sha,
+         "SOURCE_NATIVE_AFFINE_CONTRACT")
+    proof = lock.get("weight_loading")
+    need(type(proof) is list and len(proof) == 5 and {r["component"] for r in proof} == set(counts),
+         "CHECKPOINT_COMPONENT_PROOF_CLOSURE")
+    components = {r["component"]: r for r in proof}
+    for name, count in counts.items():
+        row = components[name]
+        need(row.get("checkpoint_key_count") == count
+             and row.get("native_key_count") == count + len(extras[name])
+             and row.get("verified_native_neutral_affine_key_count") == len(extras[name])
+             and row.get("all_checkpoint_keys_shapes_dtypes_values_equal") is True
+             and row.get("mapping") == "strip_exact_module_dot_prefix"
+             and "all_keys_shapes_dtypes_values_equal" not in row,
+             "SEPARATE_CHECKPOINT_AND_NATIVE_PROOF")
+    summary_path = "source/weight-diagnostics/SUMMARY.json"
+    raw_summary = regular(within(root, summary_path))
+    summary = loads(raw_summary)
+    need(lock.get("weight_diagnostics") == summary_path
+         and lock.get("weight_diagnostics_sha256") == sha(raw_summary)
+         and summary.get("passed") is True and summary.get("component_count") == 5
+         and summary.get("passed_components") == 5 and summary.get("failed_components") == []
+         and summary.get("model_forward_calls") == 0 and summary.get("tensor_values_reloaded") is False
+         and summary.get("weight_contract") == contract["schema"]
+         and summary.get("native_affine_contract_sha256") == contract_sha
+         and summary.get("checkpoint_tensor_count") == summary.get("exact_checkpoint_tensor_count") == 548
+         and summary.get("native_tensor_count") == 688
+         and summary.get("verified_native_neutral_affine_tensor_count") == 140
+         and summary.get("allowed_key_exceptions") == qualified,
+         "EXACT_CHECKPOINT_AND_CLOSED_NEUTRAL_SUMMARY")
+    records = summary.get("component_records")
+    need(type(records) is list and len(records) == 5
+         and {r["component"] for r in records} == set(components)
+         and summary.get("component_files") == [r["path"] for r in records], "WEIGHT_DIAGNOSTIC_CLOSURE")
+    for record in records:
+        name = record["component"]
+        need(record.get("path") == "source/weight-diagnostics/" + name + ".json"
+             and record.get("passed") is True, "WEIGHT_DIAGNOSTIC_COMPONENT_PATH")
+        raw = regular(within(root, record["path"]))
+        need(len(raw) == record.get("bytes") and sha(raw) == record.get("sha256"), "WEIGHT_DIAGNOSTIC_COMPONENT_BYTES")
+        diagnostic = loads(raw)
+        keys, native = diagnostic.get("normalized_keys"), diagnostic.get("loaded_state_keys")
+        comparisons = diagnostic.get("common_key_comparisons")
+        need(diagnostic.get("component") == name and diagnostic.get("passed") is True
+             and diagnostic.get("error") is None
+             and diagnostic.get("allowed_key_exceptions") == extras[name]
+             and diagnostic.get("model_forward_calls") == 0 and diagnostic.get("tensor_values_reloaded") is False
+             and diagnostic.get("missing_in_checkpoint") == extras[name]
+             and diagnostic.get("unexpected_in_checkpoint") == diagnostic.get("mismatched_common_keys") == []
+             and type(keys) is list and len(keys) == len(set(keys)) == counts[name]
+             and type(native) is list and len(native) == len(set(native)) == counts[name] + len(extras[name])
+             and not set(keys).intersection(extras[name]) and set(native) == set(keys) | set(extras[name])
+             and diagnostic.get("source_keys") == ["module." + key for key in keys]
+             and diagnostic.get("mapping") == components[name]["mapping"]
+             and type(comparisons) is list and len(comparisons) == len(keys)
+             and {r["key"] for r in comparisons} == set(keys)
+             and all(r.get("exact_value_equal") is True and r.get("checkpoint") == r.get("loaded")
+                     and r["checkpoint"].get("is_tensor") is True
+                     and r["checkpoint"].get("dtype") == "torch.float32"
+                     and r["checkpoint"].get("device_type") == "cpu" for r in comparisons),
+             "EXACT_548_CHECKPOINT_AND_REAL_NATIVE_KEY_DIFFERENCE")
+        norms = contract["norms"].get(name, {})
+        checks = diagnostic.get("neutral_affine_checks")
+        need(type(checks) is list and len(checks) == len(norms)
+             and {r["path"] for r in checks} == set(norms), "CLOSED_NATIVE_AFFINE_SITES")
+        for check in checks:
+            path = check["path"]
+            channels = norms[path]
+            attributes = check.get("attributes", {})
+            buffers = check.get("running_buffers_are_none", {})
+            need(check.get("passed") is True and check.get("error") is None
+                 and check.get("parameters_mutated") is False
+                 and type(check.get("num_features")) is int and check["num_features"] == channels
+                 and check.get("parent_path") == path.rsplit(".", 1)[0]
+                 and check.get("parent_type") == contract["parent_type"]
+                 and check.get("norm_type") == contract["native_type"]
+                 and check.get("parent_training") is False
+                 and type(attributes.get("num_features")) is int and attributes["num_features"] == channels
+                 and attributes.get("affine") is True and attributes.get("track_running_stats") is False
+                 and attributes.get("training") is False
+                 and type(attributes.get("eps")) is float and attributes["eps"] == contract["required_eps"]
+                 and type(attributes.get("momentum")) is float and attributes["momentum"] == contract["required_momentum"]
+                 and set(buffers) == {"running_mean", "running_var", "num_batches_tracked"}
+                 and all(value is True for value in buffers.values()), "EXACT_NATIVE_AFFINE_CONFIGURATION")
+            parameters = check.get("parameters")
+            need(type(parameters) is list and len(parameters) == 2
+                 and {r["key"] for r in parameters} == {path + ".weight", path + ".bias"},
+                 "EXACT_NATIVE_AFFINE_PARAMETER_PAIR")
+            for parameter in parameters:
+                expected = 1 if parameter["key"].endswith(".weight") else 0
+                metadata = {"is_tensor": True, "shape": [channels], "dtype": "torch.float32", "device_type": "cpu"}
+                need(type(parameter.get("required_neutral_value")) is int and parameter["required_neutral_value"] == expected
+                     and parameter.get("parameter") == parameter.get("state_dict") == metadata
+                     and parameter.get("exact_neutral_value") is True
+                     and parameter.get("state_dict_value_equal") is True, "ALL_NATIVE_AFFINE_VALUES_EXACTLY_NEUTRAL")
+
+
 def verify_source_lock(root):
     lock = read(root / "source/MODEL_LOCK.json")
     need(lock.get("campaign_id") == recipe.CAMPAIGN_ID
@@ -406,48 +530,7 @@ def verify_source_lock(root):
         need(len(raw) == size and sha(raw) == value, "RETAINED_INSTALLED_PACKAGE_BYTES")
     wheel = regular(root / "source/runtime" / recipe.PACKAGE["filename"])
     need(len(wheel) == recipe.PACKAGE["bytes"] and sha(wheel) == recipe.PACKAGE["sha256"], "RETAINED_WHEEL_BYTES")
-    proof = lock.get("weight_loading")
-    need(type(proof) is list and len(proof) == 5 and {r["component"] for r in proof} ==
-         {"bert", "bert_encoder", "predictor", "text_encoder", "decoder"}
-         and all(r.get("all_keys_shapes_dtypes_values_equal") is True
-                 and type(r.get("key_count")) is int and r["key_count"] > 0 for r in proof), "CHECKPOINT_READBACK_PROOF")
-    summary_path = "source/weight-diagnostics/SUMMARY.json"
-    raw_summary = regular(within(root, summary_path))
-    summary = loads(raw_summary)
-    need(lock.get("weight_diagnostics") == summary_path
-         and lock.get("weight_diagnostics_sha256") == sha(raw_summary)
-         and summary.get("passed") is True and summary.get("component_count") == 5
-         and summary.get("passed_components") == 5 and summary.get("failed_components") == []
-         and summary.get("model_forward_calls") == 0 and summary.get("tensor_values_reloaded") is False
-         and summary.get("allowed_key_exceptions") == [], "STRICT_WEIGHT_DIAGNOSTICS_SUMMARY")
-    records = summary.get("component_records")
-    components = {r["component"]: r for r in proof}
-    need(type(records) is list and len(records) == 5
-         and {r["component"] for r in records} == set(components)
-         and summary.get("component_files") == [r["path"] for r in records], "WEIGHT_DIAGNOSTIC_CLOSURE")
-    for record in records:
-        name = record["component"]
-        need(record.get("path") == "source/weight-diagnostics/" + name + ".json"
-             and record.get("passed") is True, "WEIGHT_DIAGNOSTIC_COMPONENT_PATH")
-        raw = regular(within(root, record["path"]))
-        need(len(raw) == record.get("bytes") and sha(raw) == record.get("sha256"), "WEIGHT_DIAGNOSTIC_COMPONENT_BYTES")
-        diagnostic = loads(raw)
-        keys = diagnostic.get("normalized_keys")
-        comparisons = diagnostic.get("common_key_comparisons")
-        need(diagnostic.get("component") == name and diagnostic.get("passed") is True
-             and diagnostic.get("error") is None and diagnostic.get("allowed_key_exceptions") == []
-             and diagnostic.get("model_forward_calls") == 0 and diagnostic.get("tensor_values_reloaded") is False
-             and diagnostic.get("missing_in_checkpoint") == diagnostic.get("unexpected_in_checkpoint") == []
-             and diagnostic.get("mismatched_common_keys") == []
-             and type(keys) is list and len(keys) == len(set(keys)) == components[name]["key_count"]
-             and diagnostic.get("loaded_state_keys") == keys
-             and diagnostic.get("mapping") == components[name]["mapping"]
-             and type(comparisons) is list and len(comparisons) == len(keys)
-             and {r["key"] for r in comparisons} == set(keys)
-             and all(r.get("exact_value_equal") is True and r.get("checkpoint") == r.get("loaded")
-                     and r["checkpoint"].get("is_tensor") is True
-                     and r["checkpoint"].get("device_type") == "cpu" for r in comparisons),
-             "STRICT_WEIGHT_DIAGNOSTIC_COMPONENT_RESULT")
+    verify_weight_diagnostics(root, lock)
     constructed = read(root / "source/MODEL_CONSTRUCTED.json")
     need(constructed.get("constructor_and_runtime_transforms_returned") is True
          and constructed.get("model_instances") == 1 and constructed.get("model_forward_calls") == 0,

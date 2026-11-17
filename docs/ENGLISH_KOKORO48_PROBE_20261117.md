@@ -1,10 +1,16 @@
 # Kokoro48：零前向权重初始化恢复与训练侧探针
 
-本提交先保持计划关闭，只补充真实初始化诊断；尚未修复或放宽权重校验错误。公开 PR 保存实际差异后，再依据证据提交具体修复与唯一前驱绑定，重新通过该提交的完整检查才可合并执行。
+本提交增加固定原生 AdaIN 参数的中立性读回检查，不修改 checkpoint 或构造后的模型参数，也不改变声学设计。计划默认关闭；只有新的公开 PR 初始化实证通过及该提交的完整检查通过后，才可合并执行。源码或模拟测试通过不代表实际权重已经验收。
 
 实际 run `44114592216` 在导入依赖时因 `No module named 'click'` 停止：原始包保留 48 条 NOT_STARTED_NO_RETRY，TTS 前向/返回/完成均为 0；没有逐条 STARTED、模型加载标记或音频，五个观察器全部未开始。原始失败包、UNKNOWN 和旧工作流 guard 原样保留。这是初始化失败，未得到该轮音频质量结论。
 
 后继实际 run `44118893938` 已通过同一生产运行时的安装、`pip check` 和离线导入；生成阶段进入了模型构造，随后在严格 checkpoint 读回时以 `CHECKPOINT_EXACT_KEYS` 拒绝。该次有 `MODEL_LOAD_STARTED.json`，没有已验证的 `MODEL_LOCK.json`；48 条请求仍全部未开始，TTS 前向、返回、完成和五路观察调用均为 0。此阶段不能称为“没有模型加载”，也没有音频质量结果。
+
+公开诊断 run `44122224557`（PR head `8d246340a9486e93d161e3c48731aef7af4e5650`，merge-test `9731cd43f5d8510cf49269858f4264bec1e688fc`）真实构造一次、前向零次。五组件报告中原 checkpoint 的 548 个张量全部与已加载值精确相等；原生状态还包含 decoder 的 116 个和 predictor 的 24 个额外参数。旧诊断只记录这些额外参数的名称、shape 和 dtype，**没有测量其值，不能据此声称中立性已通过**。诊断包完整、模型验收失败的两个结论均保留。
+
+新 `kokoro-v1_0-native-neutral-adain-v1` 契约仅列明这 70 个原生 AdaIN 路径、各自 channels 及 140 个具体 weight/bias 键。实际加载时必须逐项证明：父层和归一化层的精确原生类型、固定配置、无 running statistics、CPU float32、精确 shape、weight 全为 1、bias 全为 0，并与当前 state_dict 一致。不会写入这些值，不接受任意缺失键或近似数值。548 个 checkpoint 张量仍须全部精确匹配；任何原 checkpoint 缺失、额外未知原生键、非中立值或配置不符继续拒绝。
+
+新收据分别记录 `checkpoint_tensor_count=548`、`native_tensor_count=688` 和经实测的中立额外参数计数。原来的 140 项 `missing_in_checkpoint` 必须原样保留，不能清空后假称所有键完全相等。每份逐组件记录、闭合契约及汇总都由 bytes/SHA 绑定，MODEL_LOCK、初始化 helper 和离线来源读回使用同一明确协议。新增计数必须由下一次真实执行产生，当前源码不填入未来通过结果。
 
 本次独立恢复身份为 `kokoro48-zero-forward-checkpoint-recovery-44118893938-v1`。共享 `automation/english_kokoro48_runtime.py` 的安装与导入命令原样保留：固定 `click==8.3.1`、`typer==0.29.1`、`typer-slim==0.24.0` 及全部原运行时版本。公开同仓 PR 的 `runtime-initialize` job 先保存独立导入子收据，再真实构造一次固定模型，逐组件保存 checkpoint keys、缺失/多余项及 shape/dtype/value 比较结果。构造次数、返回次数与前向次数分列，初始化入口不执行 48 条请求、不生成音频。诊断记录完整不等于严格权重验证通过；任何不一致继续拒绝。真实初始化与 exact-head 检查通过、独立证据审阅完成后才合并，实际 PR run/job/artifact/head 收据另存，源码不预填未来标识。
 

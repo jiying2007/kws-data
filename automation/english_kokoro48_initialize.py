@@ -31,6 +31,19 @@ class InitializationInterrupted(BaseException):
     """Abort through readback's Exception handler without retrying a component."""
 
 
+def verified_proof(summary):
+    return (type(summary) is dict and summary.get('passed') is True
+        and summary.get('component_count') == 5 and summary.get('passed_components') == 5
+        and summary.get('failed_components') == []
+        and summary.get('weight_contract') == g.native_affine_contract()['schema']
+        and summary.get('native_affine_contract_sha256') == g.native_affine_contract_sha256()
+        and summary.get('checkpoint_tensor_count') == 548
+        and summary.get('exact_checkpoint_tensor_count') == 548
+        and summary.get('native_tensor_count') == 688
+        and summary.get('verified_native_neutral_affine_tensor_count') == 140
+        and summary.get('allowed_key_exceptions') == g.expected_native_extra_keys())
+
+
 def read_diagnostic_packet(output):
     path = output/'source/weight-diagnostics/SUMMARY.json'
     if not path.is_file():
@@ -104,12 +117,13 @@ def run(output):
         lock = json.loads(g.regular(output/'source/MODEL_LOCK.json', 2 * 1024 * 1024))
         proof, complete = read_diagnostic_packet(output)
         g.need(lock.get('all_component_weights_verified') is True
+            and lock.get('weight_contract') == g.native_affine_contract()['schema']
+            and lock.get('native_affine_contract') == g.native_affine_contract()
+            and lock.get('native_affine_contract_sha256') == g.native_affine_contract_sha256()
             and lock.get('weight_diagnostics') == 'source/weight-diagnostics/SUMMARY.json'
             and lock.get('weight_diagnostics_sha256') == g.sha(g.regular(output/'source/weight-diagnostics/SUMMARY.json', 2 * 1024 * 1024))
             and complete
-            and proof.get('passed') is True and proof.get('component_count') == 5
-            and proof.get('passed_components') == 5 and proof.get('failed_components') == []
-            and proof.get('allowed_key_exceptions') == [], 'EXACT_PRODUCTION_MODEL_PROOF_REQUIRED')
+            and verified_proof(proof), 'EXACT_PRODUCTION_MODEL_PROOF_REQUIRED')
         g.need((output/'source/MODEL_LOAD_STARTED.json').is_file()
             and (output/'source/MODEL_CONSTRUCTED.json').is_file(), 'ONE_RETURNED_CONSTRUCTOR_RECEIPT')
     except BaseException as exc:
@@ -134,9 +148,7 @@ def run(output):
             summary, diagnostic_packet_complete = read_diagnostic_packet(output)
         except Exception as exc:
             summary_read_failure = {'type': type(exc).__name__, 'code': str(exc)[:300]}
-        final_proof_passed = (diagnostic_packet_complete and summary is not None
-            and summary.get('passed') is True and summary.get('passed_components') == 5
-            and summary.get('failed_components') == [] and summary.get('allowed_key_exceptions') == [])
+        final_proof_passed = diagnostic_packet_complete and verified_proof(summary)
         if failure is None and summary_read_failure is None and not final_proof_passed:
             failure = {'type': 'ValueError', 'code': 'FINAL_DIAGNOSTIC_PACKET_NOT_VERIFIED'}
         succeeded = failure is None and cleanup_failure is None and summary_read_failure is None and final_proof_passed
