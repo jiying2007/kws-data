@@ -1,0 +1,93 @@
+name: English natural32 frozen-head research scan once
+on:
+  pull_request:
+    paths:
+      - automation/english_hardneg_natural32_once.py
+      - automation/english_hardneg_natural32_plan.json
+      - automation/test_english_hardneg_natural32.py
+      - research/english_hardneg_natural32_20261117/**
+      - .github/workflows/english-hardneg-natural32-once.yml
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-hardneg-natural32-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-hardneg-natural32-20261117-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Validate pinned source and synthetic failure contracts only
+        run: |
+          set -euo pipefail
+          sha256sum --check <<'PINS'
+          5bab9b90862671e7532a20e0d6a0f70dd3bd19fd4e954268476285b6366885c8  automation/english_hardneg_natural32_once.py
+          9e8877374da85cc3ff77ecc9d1bb7225bf327719f197515ecb967622078e4811  automation/english_hardneg_natural32_plan.json
+          PINS
+          python3 -I -S -B automation/english_hardneg_natural32_once.py --preflight
+          python3 -I -S -B automation/test_english_hardneg_natural32.py -v
+          python3 -I -S -B research/english_hardneg_natural32_20261117/test_mine_saved_scores.py -v
+          python3 -B -m unittest discover -s research/kws_unified_evidence_20261117 -p test_compare_saved.py -v
+          git diff --exit-code
+  natural32-scan:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == '61e524e89c86950ef8e284ecaf18fddf82d11ca1' &&
+      github.event.deleted == false && github.event.forced == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Scan each original once within one supervised process group
+        timeout-minutes: 21
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+          NUMEXPR_NUM_THREADS: '1'
+        run: |
+          set -euo pipefail
+          sha256sum --check <<'PINS'
+          5bab9b90862671e7532a20e0d6a0f70dd3bd19fd4e954268476285b6366885c8  automation/english_hardneg_natural32_once.py
+          9e8877374da85cc3ff77ecc9d1bb7225bf327719f197515ecb967622078e4811  automation/english_hardneg_natural32_plan.json
+          PINS
+          python3 -I -S -B automation/english_hardneg_natural32_once.py --execute \
+            --output "$RUNNER_TEMP/english-hardneg-natural32"
+      - name: Retain selected originals, scores, candidates and partial receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-hardneg-natural32-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-hardneg-natural32/evidence/
+            ${{ runner.temp }}/english-hardneg-natural32/source/
+            ${{ runner.temp }}/english-hardneg-natural32/source-metadata/
+            ${{ runner.temp }}/english-hardneg-natural32/selectedinputs/
+            ${{ runner.temp }}/english-hardneg-natural32/models/
+            ${{ runner.temp }}/english-hardneg-natural32/bin/
+            ${{ runner.temp }}/english-hardneg-natural32/installed-base/
+            ${{ runner.temp }}/english-hardneg-natural32/traces/
+            ${{ runner.temp }}/english-hardneg-natural32/scores/
+            ${{ runner.temp }}/english-hardneg-natural32/candidates/
+            ${{ runner.temp }}/english-hardneg-natural32/STARTED.json
+            ${{ runner.temp }}/english-hardneg-natural32/MANIFEST.json
+          retention-days: 30
+          if-no-files-found: warn

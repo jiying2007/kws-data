@@ -1,0 +1,230 @@
+{
+  "data_commit": "61e524e89c86950ef8e284ecaf18fddf82d11ca1",
+  "existing_tools": {
+    "confidence_bounds": "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/tools/statistical_bounds.py",
+    "development_compare": "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/research/model_comparison/compare.py",
+    "event_matcher": "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/eval/score_events.py",
+    "far_exposure_aggregation": "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/eval/aggregate_far.py"
+  },
+  "formal_ranking_allowed": false,
+  "formal_same_FAR_comparison_requires": [
+    "same-input-audio-and-source-identities",
+    "same-reviewed-target-pronunciation-and-label-policy",
+    "same-split-and-exposure-declarations",
+    "same-event-scoring-and-clock-definition",
+    "frozen-thresholds-from-admitted-selection-policy-without-evaluation-retuning",
+    "credible-independent-negative-exposure-and-per-keyword-positive-denominators"
+  ],
+  "frontend_policy": "different model frontends allowed in complete-system comparison; report frontend identities; do not claim isolated architecture ablation",
+  "historical_pronunciations": {
+    "20261116_image_spec": {
+      "Hey Mero": "/heɪ ˈmiːroʊ/",
+      "Hey Vosen": "/heɪ ˈvoʊzən/"
+    },
+    "current_user_conflict_resolution": "NOT_CHOSEN_BY_THIS_AUDIT",
+    "earlier_spec": {
+      "Hey Mero": "/heɪ ˈmɪəroʊ/",
+      "Hey Vosen": "/heɪ ˈvoʊsən/"
+    },
+    "english63_actual_acoustic_IPA": "UNVERIFIED_DO_NOT_ASSIGN_FROM_SPELLING",
+    "source": "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/configs/research/english-pronunciation-profile-20261115.json"
+  },
+  "models": [
+    {
+      "SSC305": "NOT_RUN",
+      "architecture": "pretrained-FSMN-CTC-tail-adaptation",
+      "checkpoint_sha256": "99ac2239807ce5a93c8723a01df2e53c446f868245caccb2e7809deb6e943571",
+      "data": "96 weak train;34 exposed development;4 unknown zero-loss",
+      "deployment": "Reference64 C SDK and classifier-head INT8 candidates retained; continuous thresholds uncalibrated",
+      "frontend": "16k-80mel-25ms-10ms-left2-right2-400dim-skip3",
+      "id": "zh-R1-DEV-FSMN-20261107",
+      "included_in_current_paired_readback": false,
+      "independent_FAR_FRR": "NOT_RUN",
+      "language": "zh",
+      "metric_unit": "complete-greedy-keyword-sequence-on-whole-recording-not-online-FRR",
+      "numeric_limit": "original FP32-vs-Torch/MKL tolerance FAIL_UNCHANGED; Reference64 separate contract",
+      "observed_development": {
+        "K1_complete": {
+          "matched": 10,
+          "reference_positive": 10
+        },
+        "K2_complete": {
+          "matched": 10,
+          "reference_positive": 10
+        },
+        "full_text_exact": {
+          "matched": 18,
+          "rows": 34
+        },
+        "weak_negative_complete_sequences": {
+          "K1": 0,
+          "K2": 0,
+          "one_vs_rest_denominator_per_word": 24
+        }
+      },
+      "reason": "different-language-target-dataset-metric; source only aggregate not private per-row outputs",
+      "sources": [
+        "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/docs/KWS_V3_FSMN_R1_DEV_20261107.md",
+        "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/docs/KWS_V3_CONFIRMATION_20261110.md"
+      ],
+      "targets": [
+        "你好小窝",
+        "小窝小窝"
+      ],
+      "tensor_state_sha256": "71cf089fe9c163a0c76d394ed8a4e1937856dd831473ad3d2fb59a902be76b58",
+      "weight_evidence": "owner-held-checkpoint-digest-from-pinned-public-report-not-rehashed-in-this-package"
+    },
+    {
+      "architecture": "FSMN-with-three-class-whole-recording-weak-intent-head-NOT-CTC",
+      "frontend": "not-established-by-retained-public-bridge-report",
+      "id": "en-owner-held-FSMN-R0",
+      "included_in_current_paired_readback": false,
+      "language": "en",
+      "metric_unit": "whole-recording-weak-intent-proposal",
+      "observed_development_nearphone_proposals": {
+        "count": 5,
+        "not_false_accepts": true,
+        "rows": 6
+      },
+      "promotion_allowed": false,
+      "reason": "missing-exact-checkpoint-and-per-record-saved-output",
+      "sources": [
+        "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/docs/ENGLISH_RESEARCH_LABEL_BRIDGE_20261113.md"
+      ],
+      "targets": [
+        "Hey Vosen",
+        "Hey Mero"
+      ],
+      "weight_evidence": "not-present-in-inspected-public-source-or-this-package",
+      "weights_sha256": null
+    },
+    {
+      "architecture": "planned-causal-FSMN-CTC",
+      "id": "en-causal-FSMN-CTC-challenger",
+      "included_in_current_paired_readback": false,
+      "language": "en",
+      "reason": "listed-as-challenger-not-an-executed-comparison-arm",
+      "sources": [
+        "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/configs/research/english-pronunciation-profile-20261115.json",
+        "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/docs/ENGLISH_PRETRAINED_BACKBONE_REVIEW_20261115.md"
+      ],
+      "status": "no-executed-weight-and-result-admitted-in-inspected-pinned-main-evidence",
+      "weights_sha256": null
+    },
+    {
+      "architecture": "gru",
+      "data": "original63:30 train/12 exposed development/21 quarantined",
+      "formal_ranking_allowed": false,
+      "frontend": {
+        "hop_ms": 10,
+        "mel_bins": 32,
+        "sample_rate_hz": 16000,
+        "train_normalization_sha256": "bfd660acbc208c902fc371a34f36b112cb8b682e64f84ee9d80bc061f6c586b1",
+        "window_ms": 25
+      },
+      "id": "english63-wholeclip-gru",
+      "included_in_current_paired_readback": true,
+      "independent_FAR_FRR": "NOT_RUN",
+      "language": "en",
+      "metric_unit": "whole_clip_weak_intent_class",
+      "source": "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/research/english63_weak_pilot/RESULT.json",
+      "target_profile_identity": "english63-original-requested-spellings-acoustic-IPA-unverified-20261113",
+      "weight_check": "exact_decoded_NPZ_bytes_SHA256",
+      "weights_sha256": "142a02b4fc0b6c6ec3b404e85bcc5383e17c4551f15341c386c61bf99740d54f"
+    },
+    {
+      "architecture": "dsc_tcn",
+      "data": "original63:30 train/12 exposed development/21 quarantined",
+      "formal_ranking_allowed": false,
+      "frontend": {
+        "hop_ms": 10,
+        "mel_bins": 32,
+        "sample_rate_hz": 16000,
+        "train_normalization_sha256": "bfd660acbc208c902fc371a34f36b112cb8b682e64f84ee9d80bc061f6c586b1",
+        "window_ms": 25
+      },
+      "id": "english63-wholeclip-dsc_tcn",
+      "included_in_current_paired_readback": true,
+      "independent_FAR_FRR": "NOT_RUN",
+      "language": "en",
+      "metric_unit": "whole_clip_weak_intent_class",
+      "source": "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/research/english63_weak_pilot/RESULT.json",
+      "target_profile_identity": "english63-original-requested-spellings-acoustic-IPA-unverified-20261113",
+      "weight_check": "exact_decoded_NPZ_bytes_SHA256",
+      "weights_sha256": "42ed3f8479b30aec4e639e59075beac60ad84e242dbedbb601d2bc362d403971"
+    },
+    {
+      "architecture": "frozen-oWW-embedding96-MLP-16x96-32-3",
+      "data": "77 synthetic sources:50 train/27 exposed development plus40 exposed read-speech tracks:30 train/10 development",
+      "formal_ranking_allowed": false,
+      "frontend": {
+        "embedding_hop_samples": 1280,
+        "features": 96,
+        "first_embedding_sample": 16000,
+        "first_head_sample": 35200,
+        "sample_rate_hz": 16000
+      },
+      "id": "aug96-clean",
+      "included_in_current_paired_readback": true,
+      "independent_FAR_FRR": "NOT_RUN",
+      "language": "en",
+      "metric_unit": "observed_context_weak_event",
+      "source": "https://github.com/jiying2007/kws-data/actions/runs/44042856615",
+      "target_profile_identity": "snapshot160-final-image-20261116-requested-IPA-miːroʊ-voʊzən-unverified-acoustics",
+      "weight_check": "exact_NPZ_member_bytes_SHA256",
+      "weights_sha256": "cdceab93cd6d3d36bff62980e8c7d2a95896ad32ecc88cae04fa232393e3e9e7"
+    },
+    {
+      "architecture": "frozen-oWW-embedding96-MLP-16x96-32-3",
+      "data": "77 synthetic sources:50 train/27 exposed development plus40 exposed read-speech tracks:30 train/10 development",
+      "formal_ranking_allowed": false,
+      "frontend": {
+        "embedding_hop_samples": 1280,
+        "features": 96,
+        "first_embedding_sample": 16000,
+        "first_head_sample": 35200,
+        "sample_rate_hz": 16000
+      },
+      "id": "coverage-clean",
+      "included_in_current_paired_readback": true,
+      "independent_FAR_FRR": "NOT_RUN",
+      "language": "en",
+      "metric_unit": "observed_context_weak_event",
+      "source": "https://github.com/jiying2007/kws-data/actions/runs/44042856615",
+      "target_profile_identity": "snapshot160-final-image-20261116-requested-IPA-miːroʊ-voʊzən-unverified-acoustics",
+      "weight_check": "exact_NPZ_member_bytes_SHA256",
+      "weights_sha256": "75c1d13203f77fcec9b66013bd6fc8c1979cb3397207931eaf31241eeb396a35"
+    }
+  ],
+  "not_equivalent_evidence": [
+    {
+      "architecture": "gru",
+      "continuous_concatenated63_proposals": 66,
+      "id": "english63-online-gru",
+      "included_in_current_paired_readback": false,
+      "isolated_proposals": 34,
+      "metric_unit": "uncalibrated-events-on-exposed-63-clip-replay-not-annotated-independent-FRR-or-FAR",
+      "not_same_weights_as_original_clip_pilot": true,
+      "reason": "public-native-receipt-is-aggregate-parity/resource-evidence; capsule does not contain original online per-row event traces",
+      "source": "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/research/english63_online_c/measured-20261114.json",
+      "weights_sha256": "71f731155a19538b533e4253d2e4b19d5c03328bd26da5263542159df066e623"
+    },
+    {
+      "architecture": "dsc_tcn",
+      "continuous_concatenated63_proposals": 1,
+      "id": "english63-online-dsc_tcn",
+      "included_in_current_paired_readback": false,
+      "isolated_proposals": 7,
+      "metric_unit": "uncalibrated-events-on-exposed-63-clip-replay-not-annotated-independent-FRR-or-FAR",
+      "not_same_weights_as_original_clip_pilot": true,
+      "reason": "public-native-receipt-is-aggregate-parity/resource-evidence; capsule does not contain original online per-row event traces",
+      "source": "https://github.com/jiying2007/kws-pipeline/blob/aec192dd7c5955a7fa2b709564cdacb185a590be/research/english63_online_c/measured-20261114.json",
+      "weights_sha256": "167282c1037a28152bed4afaf49e53a4307bd8d5576a486b41c0a2291fdca935"
+    }
+  ],
+  "numerical_model_execution_in_this_audit": 0,
+  "pipeline_commit": "aec192dd7c5955a7fa2b709564cdacb185a590be",
+  "schema": "kws-model-evidence-inventory-v1",
+  "scope": "existing_identity_and_metric_units_only_no_global_ranking",
+  "weights_relabelled": false
+}
