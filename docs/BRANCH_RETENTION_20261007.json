@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2496,
+  "expected_tracked_files": 2504,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -291,6 +291,7 @@
     ".github/workflows/english-ipa-probe-three-asr-once.yml",
     ".github/workflows/english-ipa-qwen17-final-ipa-probe-once.yml",
     ".github/workflows/english-ipa-qwen17-probe-once.yml",
+    ".github/workflows/english-kokoro48-once.yml",
     ".github/workflows/english-phonetic192-once.yml",
     ".github/workflows/english-quality-snr10-continue-once.yml",
     ".github/workflows/english-quality-snr10-once.yml",
@@ -335,6 +336,10 @@
     "automation/english_ipa_probe_compact_readback.py",
     "automation/english_ipa_qwen17_final_ipa_probe_once.py",
     "automation/english_ipa_qwen17_probe_once.py",
+    "automation/english_kokoro48_generate.py",
+    "automation/english_kokoro48_once.py",
+    "automation/english_kokoro48_plan.json",
+    "automation/english_kokoro48_recipe.py",
     "automation/english_phonetic192_once.py",
     "automation/english_phonetic192_plan.json",
     "automation/english_phonetic192_recipe.py",
@@ -411,6 +416,8 @@
     "automation/test_english_ipa_probe_compact_readback.py",
     "automation/test_english_ipa_qwen17_final_ipa_probe_once.py",
     "automation/test_english_ipa_qwen17_probe_once.py",
+    "automation/test_english_kokoro48.py",
+    "automation/test_english_kokoro48_generate.py",
     "automation/test_english_phonetic192.py",
     "automation/test_english_piper_ipa_ctc_once.py",
     "automation/test_english_piper_probe_asr_once.py",
@@ -465,6 +472,7 @@
     "docs/ENGLISH_CONFIRMED_IPA_TTS_PROBE_20261115.md",
     "docs/ENGLISH_IPA_PHONEME_TTS_RESEARCH_20261116.md",
     "docs/ENGLISH_IPA_PIPER_V4_MULTI_SPEAKER_20261116.md",
+    "docs/ENGLISH_KOKORO48_PROBE_20261117.md",
     "docs/ENGLISH_PHONETIC192_20261117.md",
     "docs/ENGLISH_PIPER_V2_THREE_ASR_20261116.md",
     "docs/ENGLISH_PIPER_V3_PHONEME_OBSERVER_20261116.md",
@@ -30306,6 +30314,81 @@
         }
       ],
       "rationale": "Activate the independent, unconsumed 192-cell direct-phone campaign only after actual policy PR836 merge 011341c8541705a80da93ae423cfdb3d1ac9a82a. Change source plan only at enabled, exact main predecessor and actual admission-policy commit; retain the frozen recipe, 24 untouched sources, observer limits and admission rules. Correct one future SDK README phrase to identify natural32 as natural-audio event regression with unreviewed content UNKNOWN, and update only its assembler byte pin. Trainer, full-PCM and SDK execution remain disabled. No first-batch artifact is relabeled or replayed."
+    },
+    {
+      "campaign": "english-kokoro48-short-carrier-train-only-probe-20261117",
+      "source_commit": "00ba78c68df14b127fa96afedd95856a6a64889a",
+      "base_commit": "8b591ace9e426971749e099a001f124137c3f29c",
+      "previous_manifest_git_blob_sha1": "441426b724dc8e1fdf9b349e22e53f6d5796fb49",
+      "paths": [
+        ".github/workflows/english-kokoro48-once.yml",
+        "automation/english_kokoro48_recipe.py",
+        "automation/english_kokoro48_generate.py",
+        "automation/english_kokoro48_once.py",
+        "automation/english_kokoro48_plan.json",
+        "automation/test_english_kokoro48.py",
+        "automation/test_english_kokoro48_generate.py",
+        "docs/ENGLISH_KOKORO48_PROBE_20261117.md"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-kokoro48-once.yml",
+          "mode": "100644",
+          "bytes": 14234,
+          "sha256": "80e5ed67fdf5f4ed516906ff4f3f9064580c46feb33893051c759f7c28cfa9d3",
+          "git_blob_sha1": "fcf6ff07dd3bec337595b969f6e3de13fef9d0e1"
+        },
+        {
+          "path": "automation/english_kokoro48_recipe.py",
+          "mode": "100644",
+          "bytes": 12098,
+          "sha256": "0b9a7d3e6c44fb950202e81eb4842b5c526991eb9be8cf557308cebffeca796f",
+          "git_blob_sha1": "7ab1c3b6e86483cdbc51fe4a469470ca9a556168"
+        },
+        {
+          "path": "automation/english_kokoro48_generate.py",
+          "mode": "100644",
+          "bytes": 24932,
+          "sha256": "69ecdf870e644e2e1a008c38dfb579d669f596bdd8db84bbbc44e082a0b5d59c",
+          "git_blob_sha1": "3d8ba64c9d2902c314392e2f7456616cb0e81637"
+        },
+        {
+          "path": "automation/english_kokoro48_once.py",
+          "mode": "100644",
+          "bytes": 57609,
+          "sha256": "af4f37d11080206db041eb728afd1a5dc425cb0086b9f27671b7cfdc7f73513f",
+          "git_blob_sha1": "f23340c243d3ada28feeffdae13264cc627e800b"
+        },
+        {
+          "path": "automation/english_kokoro48_plan.json",
+          "mode": "100644",
+          "bytes": 8261,
+          "sha256": "3937c121ef9c75d97330480f23a7e6905f4ce2ca0645a262b4e9764be24e718b",
+          "git_blob_sha1": "5b70be39d5fb964e49a364d33d33e168e4f4c3f4"
+        },
+        {
+          "path": "automation/test_english_kokoro48.py",
+          "mode": "100644",
+          "bytes": 12717,
+          "sha256": "2ade12c1e40ef972c1bbc6eba85bb00e6fbda3c66dd19a5a60342a12303b8eaf",
+          "git_blob_sha1": "30b0cd783874b5be6769a0eef6b1993cb54cbb47"
+        },
+        {
+          "path": "automation/test_english_kokoro48_generate.py",
+          "mode": "100644",
+          "bytes": 16406,
+          "sha256": "9e3fab942cea6dba5f678faf4eeeedeb21e0dd2e6a7617c2d7a512a0d0a296d6",
+          "git_blob_sha1": "8e21b8a5dea7aab144d9ed82d2c1748f45d42127"
+        },
+        {
+          "path": "docs/ENGLISH_KOKORO48_PROBE_20261117.md",
+          "mode": "100644",
+          "bytes": 5095,
+          "sha256": "3371731e961dbd9902aaa9062f795b9fe2f26abad4b9377451eac4a492995236",
+          "git_blob_sha1": "51433cdd13232bb7d8a206ff6682ac17ed7b2bb3"
+        }
+      ],
+      "rationale": "After two observed Piper192 corpora failed frozen balanced-source admission, preregister one new train-only Kokoro48 mechanism probe. Preserve both prior labels and rules. Compare 16 short wake requests with 16 fixed-carrier requests plus 16 ordinary controls, using four disclosed style presets rather than claimed human identities. Bound synthesis to 48 and each of five observers to 48 (288 total top-level attempts), with no retries, old audio or KWS calls. Freeze official assets and direct tokens; retain full native audio and fixed predicted-duration crop. Original three ASR plus XLSR remain reference; LV60 is diagnostic only. Two distinct 3-of-4 continuation criteria may recommend a separate future batch, never training admission or a high-quality model claim. Bind only actual main predecessor to enable the first execution. Existing trainer, quality gates, full-PCM and SDK files are untouched."
     }
   ]
 }
