@@ -1,0 +1,122 @@
+{
+  "backbone_assets": {
+    "embedding_model.onnx": {
+      "bytes": 1326578,
+      "sha256": "70d164290c1d095d1d4ee149bc5e00543250a7316b59f31d056cff7bd3075c1f"
+    },
+    "melspectrogram.onnx": {
+      "bytes": 1087958,
+      "sha256": "ba2b0e0f8b7b875369a2c89cb13360ff53bac436f2895cced9f479fa65eb176f"
+    }
+  },
+  "backbone_runtime_pins": {
+    "causal_embedding.py": "bb623ca627c0394f900638c90eee3a1ec71ff6901fa59713319fd3132de84f37",
+    "weak_embedding_contract.py": "ba9567b0303b1883f4d4834fec2b499abb8697b8fe5773519f07105f5d55388c"
+  },
+  "base_bin": {
+    "bytes": 197908,
+    "sha256": "d3e39adf72495034de0405abb997b76744885f91868eccfa97ba09b929bc63e4"
+  },
+  "base_npz": {
+    "bytes": 199356,
+    "sha256": "75c1d13203f77fcec9b66013bd6fc8c1979cb3397207931eaf31241eeb396a35"
+  },
+  "checkpoint_selection": "NEW_DEVELOPMENT_ONLY_BEFORE_CALIBRATION_AND_LOCKED_TEST",
+  "corpus_combine_job": null,
+  "corpus_policy_pins": {
+    "policy/english_synthetic_silver.py": {
+      "bytes": 20379,
+      "sha256": "1e7b35e581907652fabe70b0aa85a2e38c929f07c1e5a0922cb2177dfd9346e7"
+    },
+    "policy/profile.json": {
+      "bytes": 8591,
+      "sha256": "1b4112a27566d370e513d239ab9649b6c3cab3c8ca495c49c3810619214e4632"
+    }
+  },
+  "corpus_run_conclusion": null,
+  "corpus_source": null,
+  "current_default_model_replaced": false,
+  "enabled": false,
+  "fresh_execution_plan": null,
+  "full_pcm_new_head": "NOT_RUN",
+  "human_recording_prerequisite": false,
+  "main_before": null,
+  "maximum_execution_seconds": 3600,
+  "maximum_expanded_bytes": 1073741824,
+  "maximum_member_bytes": 134217728,
+  "maximum_zip_bytes": 536870912,
+  "native_head_processes": 1,
+  "new_compilations": 0,
+  "new_tts_asr_calls": 0,
+  "numeric_processes": 1,
+  "physical_ssc305_prerequisite": false,
+  "repository": "jiying2007/kws-data",
+  "retry_count": 0,
+  "schema": "english-synthetic192-training-once-v1",
+  "source_pins": {
+    ".github/workflows/english-hardneg-increment-once.yml": {
+      "bytes": 3483,
+      "sha256": "7e5bb73ef255d7ccee314faefa1261eec288d6539eba25066e466b9855c8c050"
+    },
+    ".github/workflows/english-synthetic192-train-once.yml": {
+      "bytes": 3227,
+      "sha256": "253759786c3ad4456a96758841449f798c70c3c4834bf5e7865f9712413b83bd"
+    },
+    "automation/english_coverage_fullpcm_once.py": {
+      "bytes": 44356,
+      "sha256": "70a9ae5c36191a75f58e8819ac4e6e12f3f7e464e5891d1b1e5fdc648e9ae422"
+    },
+    "automation/english_hardneg_increment_once.py": {
+      "bytes": 69681,
+      "sha256": "ac89f4564bb3f93661beb02f01f7766616322a39096c94a4bdac84560f5a9ec1"
+    },
+    "automation/english_hardneg_increment_plan.json": {
+      "bytes": 5207,
+      "sha256": "c6740c63524359d9a1a96335793c2b0edd723b415a648e2a4f4b2ee73f72e15e"
+    },
+    "automation/english_synthetic192_training_core.py": {
+      "bytes": 42877,
+      "sha256": "0896d375f47318adbc42f63835cb85fc77441ae2472d9df8212dfca4dd7e62c0"
+    },
+    "automation/test_english_synthetic192_training.py": {
+      "bytes": 9976,
+      "sha256": "bb4358c5b94b59df9e00801a518b460e9c398c4f68253729a7da8ba501610701"
+    },
+    "research/english_hardneg_increment_20261117/INPUT_PINS.json": {
+      "bytes": 5401,
+      "sha256": "7ca659f27925a5d20b1aeb3d39f66076125bcc4f023270ea8d530b352134465d"
+    },
+    "research/english_hardneg_increment_20261117/OWNER_REVIEW.json": {
+      "bytes": 10313,
+      "sha256": "0bec70e613449d04a744b7f07e2b0257bde7ed749bc82fe3a7800c9ffba7aaba"
+    },
+    "research/english_hardneg_increment_20261117/SOURCE_ADMISSION.json": {
+      "bytes": 112563,
+      "sha256": "5dd9a2c1026112860a97b188dacaebb47b6c53652b68126f17a8d4908b067da9"
+    },
+    "research/english_hardneg_natural32_20261117/natural32-roster.json": {
+      "bytes": 56281,
+      "sha256": "31457faf8efd0cf77629c1a6f8de67bc101190eb118bcfe9ac2f256acca41239"
+    }
+  },
+  "sources": {
+    "natural": {
+      "artifact_id": 14318639588,
+      "bytes": 34035367,
+      "head_sha": "4f998e89d9f344677b8a97fdb78352e42b8cf6bd",
+      "name": "english-hardneg-natural32-retained-44063710088",
+      "run_id": 44063710088,
+      "sha256": "03e2d7e1953ead05736dc2ff1de60c115bc24ee45442a2322886fc3d02050807"
+    },
+    "quality": {
+      "artifact_id": 14310138100,
+      "bytes": 50040751,
+      "head_sha": "4f4d3f15214613c0c3a8f92c871da0b419b3f7f7",
+      "name": "english-coverage-quality-44042856615",
+      "run_id": 44042856615,
+      "sha256": "56b7e9181cc0e8662b00dd1344ef414a1466a668428fec8bc709b600ba8e97e1"
+    }
+  },
+  "trigger": "PUBLIC_MAIN_EXACT_SUCCESSOR_PUSH_RUN_ATTEMPT1",
+  "worker_sha256": "acd61ac10dc2d829e5f0c708c47d0f1b9e8b77429f4ae43845e02635eabaea0e"
+}
