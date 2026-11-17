@@ -1,0 +1,90 @@
+name: English coverage installed full PCM once
+on:
+  pull_request:
+    paths:
+      - automation/english_coverage_fullpcm_once.py
+      - automation/english_coverage_fullpcm_plan.json
+      - automation/test_english_coverage_fullpcm.py
+      - research/english_coverage_fullpcm_20261117/**
+      - research/english_coverage_quality_20261117/INDEPENDENT_AUDIT.json
+      - .github/workflows/english-coverage-fullpcm-once.yml
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-coverage-fullpcm-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-coverage-fullpcm-20261117-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check frozen inputs and source-only failure contracts
+        run: |
+          set -euo pipefail
+          sha256sum --check <<'PINS'
+          70a9ae5c36191a75f58e8819ac4e6e12f3f7e464e5891d1b1e5fdc648e9ae422  automation/english_coverage_fullpcm_once.py
+          db84e938ac5fb84617ae35dd6ae2d80ac4c6248585fad90da309d9840b34a5ce  automation/english_coverage_fullpcm_plan.json
+          PINS
+          python3 -I -S -B automation/english_coverage_fullpcm_once.py
+          python3 -B -m unittest discover -s automation -p 'test_english_coverage_fullpcm.py' -v
+          git diff --exit-code
+  pcm-chain:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == '4f4d3f15214613c0c3a8f92c871da0b419b3f7f7'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Install only the trace-consumer cross compiler and emulator
+        timeout-minutes: 7
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install --no-install-recommends -y gcc-arm-linux-gnueabihf libc6-dev-armhf-cross qemu-user
+      - name: Run five fixed saved PCM cases once on each installed backend
+        timeout-minutes: 21
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+        run: |
+          set -euo pipefail
+          sha256sum --check <<'PINS'
+          70a9ae5c36191a75f58e8819ac4e6e12f3f7e464e5891d1b1e5fdc648e9ae422  automation/english_coverage_fullpcm_once.py
+          db84e938ac5fb84617ae35dd6ae2d80ac4c6248585fad90da309d9840b34a5ce  automation/english_coverage_fullpcm_plan.json
+          PINS
+          python3 -I -S -B automation/english_coverage_fullpcm_once.py --execute \
+            --audit research/english_coverage_quality_20261117/INDEPENDENT_AUDIT.json \
+            --output "$RUNNER_TEMP/english-coverage-fullpcm"
+      - name: Keep actual inputs, traces, installed libraries and partial receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-coverage-fullpcm-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-coverage-fullpcm/evidence/
+            ${{ runner.temp }}/english-coverage-fullpcm/source/
+            ${{ runner.temp }}/english-coverage-fullpcm/inputs/
+            ${{ runner.temp }}/english-coverage-fullpcm/models/
+            ${{ runner.temp }}/english-coverage-fullpcm/bin/
+            ${{ runner.temp }}/english-coverage-fullpcm/installed-base/
+            ${{ runner.temp }}/english-coverage-fullpcm/traces/
+            ${{ runner.temp }}/english-coverage-fullpcm/STARTED.json
+            ${{ runner.temp }}/english-coverage-fullpcm/MANIFEST.json
+          retention-days: 30
+          if-no-files-found: warn
