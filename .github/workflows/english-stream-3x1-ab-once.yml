@@ -1,0 +1,81 @@
+name: English V4.1 ordered 3x1 saved-input A/B once
+on:
+  pull_request:
+    paths:
+      - automation/english_stream_3x1_ab_once.py
+      - automation/test_english_stream_3x1_ab_guards.py
+      - automation/test_english_stream_3x1_ab_trace.py
+      - automation/english_stream_3x1_ab_inputs.json
+      - .github/workflows/english-stream-3x1-ab-once.yml
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-stream-3x1-ab-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-ordered3x1-v41-20261117-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Validate fixed budget and independent synthetic trace fixtures
+        run: |
+          set -euo pipefail
+          python3 -B automation/english_stream_3x1_ab_once.py --plan automation/english_stream_3x1_ab_inputs.json
+          python3 -B -m unittest discover -s automation -p 'test_english_stream_3x1_ab_*.py' -v
+          git diff --exit-code
+  measure:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == '00f3a81524308d8e7f5fc43015a26486de593760'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: data-source
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 342e73655be56d867f7833e6076e16100c429dd0
+          path: performance-source
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Run one bounded arithmetic and full numeric A/B experiment
+        timeout-minutes: 13
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -B data-source/automation/english_stream_3x1_ab_once.py \
+            --plan data-source/automation/english_stream_3x1_ab_inputs.json --execute \
+            --pipeline-root performance-source \
+            --output "$RUNNER_TEMP/english-stream-3x1-ab-v41"
+      - name: Retain actual outputs, numeric traces and failed-stage evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-stream-3x1-ab-v41-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-stream-3x1-ab-v41/evidence/
+            !${{ runner.temp }}/english-stream-3x1-ab-v41/evidence/*-zip.stdout
+            !${{ runner.temp }}/english-stream-3x1-ab-v41/evidence/candidate-member-*.stdout
+            ${{ runner.temp }}/english-stream-3x1-ab-v41/candidate/
+            ${{ runner.temp }}/english-stream-3x1-ab-v41/performance/
+            ${{ runner.temp }}/english-stream-3x1-ab-v41/traces/
+            ${{ runner.temp }}/english-stream-3x1-ab-v41/inputs/
+          retention-days: 30
+          if-no-files-found: warn

@@ -1,0 +1,4276 @@
+{
+  "asr_observations_reused": 189,
+  "audio_rows_reused": 63,
+  "human_gold": false,
+  "independent_human_validation": "NOT_RUN",
+  "nearphone_challenges": 21,
+  "new_model_calls": 0,
+  "note": "Sorting is exploratory attention prioritization, not an acceptance threshold. No audio label or role is changed.",
+  "original_three_asr_run_id": 43246104418,
+  "review_wake_pairs": 14,
+  "role_separation": "First 10 train-candidate pairs are diagnostic review candidates; final 4 development-only pairs are exposed diagnostics, never training or model tuning.",
+  "rows": [
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "de3b0c455e68661ace2d4e0b2eb921c7b62f32986f9e7aa30493ea67c9ff36c0",
+          "normalized": "hey it wasn't",
+          "text": "Hey it wasn't."
+        },
+        "qwen": {
+          "native_sha256": "245aa1129997f611d554c6f1cf707109b12cec9267a3177456edd82037eda26f",
+          "normalized": "hey wilson",
+          "text": "Hey Wilson."
+        },
+        "whisper": {
+          "native_sha256": "a94d1c8015d792d35cc181d24f5b71f3eab5daebf9a7250a7c6299a7a279274f",
+          "normalized": "hey who was it",
+          "text": " Hey, who was it?"
+        }
+      },
+      "cell_id": "en-00909b1119dcef0bb08efe12",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "eɪ",
+        "ɪ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "ipa_tokens": [
+        "h",
+        "eɪ",
+        "ɪ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "03d375d42cf254d94ae5dbde8a2a1a25bd133410f395247c77be461bb5f6a6dd",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Wosen",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-serena",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "serena",
+      "wav_sha256": "94fb0a739a68b13e51745de82ce3382d4e338cc25f04cd49f87f6503d6c80498"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "2ee57df2d65a6c6511ce9bc9ebd1692aca255964a1b34d7a87c1c0261c37f5b0",
+          "normalized": "hey miro",
+          "text": "Hey Miro"
+        },
+        "qwen": {
+          "native_sha256": "04f75933af2784d6ab8a9e814f62568fb1f6da04e09f252aa507895efa87ee12",
+          "normalized": "hey miral",
+          "text": "Hey, Miral."
+        },
+        "whisper": {
+          "native_sha256": "e5a6fe09be3d4479f7e223d25fda317bbf49b8ea97bf31c573c070232e5398b5",
+          "normalized": "hey miro",
+          "text": " Hey, Miro."
+        }
+      },
+      "cell_id": "en-0118aba0ca82235e475cd093",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "i",
+        "ɹ",
+        "ɛ"
+      ],
+      "ipa_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "i",
+        "ɹ",
+        "ɛ"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "e5f0067345fbf8eb805d813cfb4b18628e83e82b0674669ee3f81b7db567ded5",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Miro",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-serena",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "serena",
+      "wav_sha256": "5cec3cf2dd4cc21f051ea86da16283c0a272e9d0a5d56ce599edb3c540e0f792"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "121ec2f7e5dc4474bb59b8eec92879ca53fd0ae4a908357fe3f9fc1897881844",
+          "normalized": "hey who s",
+          "text": "Hey, who s"
+        },
+        "qwen": {
+          "native_sha256": "5af2053bfc6187203541d62f2e4be69699f434ff3849c40a6c3712f6a0a49301",
+          "normalized": "hey watson",
+          "text": "Hey, Watson."
+        },
+        "whisper": {
+          "native_sha256": "fd325bc955db2eb197b448bd2968214867136281dcaf1e2ac5b451a978b2c30c",
+          "normalized": "hey wolfs",
+          "text": " Hey, Wolfs!"
+        }
+      },
+      "cell_id": "en-0662e7eebe9db001e69fe9d1",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "aɪ",
+        "aɪ",
+        "ɔ"
+      ],
+      "ipa_tokens": [
+        "aɪ",
+        "aɪ",
+        "ɔ"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "2e2d2772364dd879021808abbc2c588d382e55685f9637a0d97f79736f4b9ca5",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Wosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-dylan",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "dylan",
+      "wav_sha256": "581614fc0f7a6cad5d2f5aef5bcee9b0e959493f1ff9216b191727fdfd0cd506"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "eaa5b561f7900742088b0d8ff671b6fbd5531f5ca9dfaaf755e0b892af42eb87",
+          "normalized": "hey mero",
+          "text": "Hey, Mero!"
+        },
+        "qwen": {
+          "native_sha256": "5ca1c41f99e5f1f232f80f6be1f740944b141daf0905695b4d7f41582f8a3063",
+          "normalized": "hey mero",
+          "text": "Hey, Mero."
+        },
+        "whisper": {
+          "native_sha256": "8f4203f8fafaf3ba590ac281d531c507735a841fc1a954298471d4861507b875",
+          "normalized": "hey mero",
+          "text": " Hey, Mero!"
+        }
+      },
+      "cell_id": "en-09222b6705484be6fc4980e3",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "eɪ",
+        "m",
+        "eɪ",
+        "m",
+        "ɛ",
+        "ɚ",
+        "l"
+      ],
+      "ipa_tokens": [
+        "eɪ",
+        "m",
+        "eɪ",
+        "m",
+        "ɛ",
+        "ɚ",
+        "l"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "2d813c3d7a8127825dc34030a1cdbad1a4567e019190e25dbdf1837f6bdf093d",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Mero!",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-ono_anna",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "ono_anna",
+      "wav_sha256": "c8767ec9ca0ef33ef37ddab51c5317284d2782de82b10f9c70a49e4ec14a4be4"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "588ad153cbfb6b017e83d83e457a85edda4a0da60ca6682cf352e4f3428cbe48",
+          "normalized": "he miro",
+          "text": "He miro"
+        },
+        "qwen": {
+          "native_sha256": "3116d1aeef00ea3a9487e4d0e4f6977970bf51461058eeba4119c5b178e2b7ef",
+          "normalized": "hey mirror",
+          "text": "Hey, Mirror."
+        },
+        "whisper": {
+          "native_sha256": "de14a9639a38300dc4aa06e521806e60ab2540d3d7b034dcbf6f57da7509b299",
+          "normalized": "hey miro",
+          "text": " Hey, Miro!"
+        }
+      },
+      "cell_id": "en-0b7ab837d82cc11f0975372c",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "k",
+        "m",
+        "ɪ",
+        "ɹ",
+        "ə",
+        "l"
+      ],
+      "ipa_tokens": [
+        "k",
+        "m",
+        "ɪ",
+        "ɹ",
+        "ə",
+        "l"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "38d445923c979921658a76fcc1f8de02a94923bd13e963db34c3adfaa7f4c380",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Miro",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-dylan",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "dylan",
+      "wav_sha256": "c4c2c3d4f396db0f5226653c83e9cc2ff34a1347410a4e48d31980d5015abbc6"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "dcb91b41dd2e5d940d9cf3176fb546ddc6463a710e82920015ec216c0562fcfa",
+          "normalized": "hey can you hear me",
+          "text": "Hey, can you hear me?"
+        },
+        "qwen": {
+          "native_sha256": "748fd8341e69dc4465cd41cf6bc527bbe97af168602a22aca0dbbbd628661a19",
+          "normalized": "hey can you hear me",
+          "text": "Hey, can you hear me?"
+        },
+        "whisper": {
+          "native_sha256": "2b980963ba4ffa39aa35b21ee0779b4534035c53fd8715746f150946e8b171ab",
+          "normalized": "hey can you hear me",
+          "text": " Hey, can you hear me?"
+        }
+      },
+      "cell_id": "en-19f5bada5f41bc45a5be3d13",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "k",
+        "h",
+        "eɪ",
+        "ə",
+        "n",
+        "j",
+        "u",
+        "h",
+        "ɪ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "ipa_tokens": [
+        "h",
+        "k",
+        "h",
+        "eɪ",
+        "ə",
+        "n",
+        "j",
+        "u",
+        "h",
+        "ɪ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "b26c79387af99abe7fc05ed9e7a1e42d5b807c1d1cd5c06e697b244d6f1c4e5c",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "Hey, can you hear me?",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-vivian",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "vivian",
+      "wav_sha256": "daf84f019aeca88d554fa328d74fbbd92d86edec7d881e5be7948377b41fa132"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "ccb5ee556f5628b70b65469d9b47db362c08bb53d78acdcf933dd1425db45368",
+          "normalized": "hey wooden",
+          "text": "Hey Wooden."
+        },
+        "qwen": {
+          "native_sha256": "3730cda380465e382f76e6e225dab0216c4728086a7f0c0c69cae6ddb0a4ec0e",
+          "normalized": "hey wooden",
+          "text": "Hey, Wooden."
+        },
+        "whisper": {
+          "native_sha256": "22b2d125f62ed451db7aba14ed2054d07f4e62694604fa8bbc887d3c2abee75d",
+          "normalized": "hey wooden",
+          "text": " Hey, Wooden!"
+        }
+      },
+      "cell_id": "en-1b8778d3c8627ce0b271b55b",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "p",
+        "eɪ",
+        "ʌ",
+        "d",
+        "ə",
+        "n"
+      ],
+      "ipa_tokens": [
+        "p",
+        "eɪ",
+        "ʌ",
+        "d",
+        "ə",
+        "n"
+      ],
+      "machine_agreement": "ALL_THREE_AGREE_OTHER",
+      "pcm_sha256": "afaf10134bac310e7c564125648f57238835f2455e803ac8775bb4465fe19376",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Vosen",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-serena",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "serena",
+      "wav_sha256": "2fc0ab544c268dd1946473d0210e6703076e19ba2fa8b9cd1ae6a186234ba0c8"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "85681f479b475a4f7e510e7cfaf5c6a1f359370fa5e6b51ad31ac486d4d81b5e",
+          "normalized": "hey rosa",
+          "text": "Hey Rosa."
+        },
+        "qwen": {
+          "native_sha256": "a89197b02cea50ccb7b7db57610a042b4befae3c9e7acfc4e8ee77346ff2f081",
+          "normalized": "hey rosen",
+          "text": "Hey, Rosen."
+        },
+        "whisper": {
+          "native_sha256": "48476a79efddf332a6f3b32edd3f0a8c442f833a81e3bb6909344613bb76eae4",
+          "normalized": "hey rosa",
+          "text": " Hey, Rosa!"
+        }
+      },
+      "cell_id": "en-1b9570bf2d6095d332a754fb",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "h",
+        "eɪ",
+        "ɹ",
+        "oʊ",
+        "z",
+        "ə"
+      ],
+      "ipa_tokens": [
+        "h",
+        "h",
+        "eɪ",
+        "ɹ",
+        "oʊ",
+        "z",
+        "ə"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "bcbcf1ae6b40f644ba041ea49e23fe09b3b080cb164566499ca9aff3372959b2",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Rosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-dylan",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "dylan",
+      "wav_sha256": "3d0feb3f682c3db6f402dfbe1da62ea4b3a8d2b703494659365fcb2525ab9bf5"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "69585c716440329410f1fac68b91dee6511acce2469e83c61c953f5478eb7186",
+          "normalized": "хей воза",
+          "text": "Хей, воза."
+        },
+        "qwen": {
+          "native_sha256": "bbb1b6534594b958974e8626cb7572b17bba5a8e32e84d72c5b6bfe51809c5a5",
+          "normalized": "hey rosa",
+          "text": "Hey, Rosa."
+        },
+        "whisper": {
+          "native_sha256": "aab1fa5135a95cfc327f6fa6377d8fbd920d66752b9ff9a33ae6c0c7d371e36c",
+          "normalized": "hey wasa",
+          "text": " Hey, wasa!"
+        }
+      },
+      "cell_id": "en-20b84148a2356897085bef2d",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "h",
+        "ɔ",
+        "z",
+        "ə"
+      ],
+      "ipa_tokens": [
+        "h",
+        "h",
+        "ɔ",
+        "z",
+        "ə"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "a5b42dff8adc4d7b44479f9376b42838e6e42df0d266aa0e529fcfe79826c393",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Vosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-dylan",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "dylan",
+      "wav_sha256": "e73a2c0870b3bf9bb5360ef9df9fab362ea461e5b63c7a1414a631eb8043ff4a"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "9b51dff4ed1aef3b332bb97ea7c56495d193621121b220866ac4e2fe14ec1d49",
+          "normalized": "hey can you hear me",
+          "text": "Hey, can you hear me?"
+        },
+        "qwen": {
+          "native_sha256": "e551c33752050ace95603fbb895916daf3db766799fb93f50a72a1bc4eb6de8c",
+          "normalized": "hey can you hear me",
+          "text": "Hey, can you hear me?"
+        },
+        "whisper": {
+          "native_sha256": "7d2dce4d9568bac41bf0beab6ad3e04cf8c3a6ee67451b59213cf326cc3901ae",
+          "normalized": "hey can you hear me",
+          "text": " Hey, can you hear me?"
+        }
+      },
+      "cell_id": "en-23981ff4edd7cb74566b8c6a",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "k",
+        "eɪ",
+        "k",
+        "ə",
+        "n",
+        "j",
+        "u",
+        "h",
+        "ɪ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "ipa_tokens": [
+        "h",
+        "k",
+        "eɪ",
+        "k",
+        "ə",
+        "n",
+        "j",
+        "u",
+        "h",
+        "ɪ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "dcfff70f8212a5fdf35151d54d10f380ccceed7519cb4373b0ecbf2e86222a13",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "Hey, can you hear me?",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-sohee",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "sohee",
+      "wav_sha256": "d66156e3441cf88a75975b4660971829d23b83108e43594cc7a7eec765f92ee0"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "f2a51af12ae07d2f1f8a1c1b362404c8aace45fd79ccca79d9b466e1e3ac5d89",
+          "normalized": "hey wilson",
+          "text": "Hey Wilson"
+        },
+        "qwen": {
+          "native_sha256": "75b6a6e44e4d9822ccd9ac89ecdfd83a008945c158530a4d4bb61e2f5380bfd8",
+          "normalized": "hey wilson",
+          "text": "Hey Wilson."
+        },
+        "whisper": {
+          "native_sha256": "1eeca7226a0b5c2bed26d73e178f2a9379155a678f91888c7a1934339ff1f95c",
+          "normalized": "hey wilson",
+          "text": " Hey, Wilson"
+        }
+      },
+      "cell_id": "en-265e85750535b30475157dec",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "eɪ",
+        "æ",
+        "n"
+      ],
+      "ipa_tokens": [
+        "h",
+        "eɪ",
+        "æ",
+        "n"
+      ],
+      "machine_agreement": "ALL_THREE_AGREE_OTHER",
+      "pcm_sha256": "cb932760b7d9a91ee13cec9d2d307b11277d74680c6dc7c94a7a6b42ad65b25a",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Wosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-eric",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "eric",
+      "wav_sha256": "9458cb43b87d65919ede77341db288ebe50ab3030696345d28b1f1206fbe219c"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "c92e56d62cd68b0cfdbf5d21e92d017dd5b49c5860cdd8e3b7b25207f2788621",
+          "normalized": "hey can you hear me",
+          "text": "Hey, can you hear me?"
+        },
+        "qwen": {
+          "native_sha256": "4a1847153d57d786c92a3d776553d832e2e68dab44222ecf361a6b9df132d28f",
+          "normalized": "hey can you hear me",
+          "text": "Hey, can you hear me?"
+        },
+        "whisper": {
+          "native_sha256": "44b41d1a15bbefda06aa06c2c7bba4647ed4ff8466b12400b304ff072239b491",
+          "normalized": "hey can you hear me",
+          "text": " Hey, can you hear me?"
+        }
+      },
+      "cell_id": "en-2b8f52c5b4db7f22eeb02dfc",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "k",
+        "ə",
+        "n",
+        "j",
+        "u",
+        "h",
+        "ɪ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "ipa_tokens": [
+        "k",
+        "ə",
+        "n",
+        "j",
+        "u",
+        "h",
+        "ɪ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "f77f0678de055b1504e8e0611003f622f41fa0d6195e21e7a7779ed477629498",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "Hey, can you hear me?",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-uncle_fu",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "uncle_fu",
+      "wav_sha256": "7507bbbe027f3ce36db7f9975440056ff22d2e7dc93b19f3d4ffba2d0f69f6bb"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "4f06e6a3af2121328fc7af4790c8accea77560dfb8f7920b617e1f76ab938f8e",
+          "normalized": "hey wolsen",
+          "text": "Hey, Wolsen!"
+        },
+        "qwen": {
+          "native_sha256": "90f9cc7ec5b90394d6a52db578937ca058dd4d8592d6c6a0c6db2e7937c42887",
+          "normalized": "hey wilson",
+          "text": "Hey, Wilson."
+        },
+        "whisper": {
+          "native_sha256": "90b7707b9130dbcbe68c21741bff8e7b9ff6725cb76f0faaaf4fdffef2a6d303",
+          "normalized": "hey wilson",
+          "text": " Hey, Wilson!"
+        }
+      },
+      "cell_id": "en-2c56f692a31083da3cd5cf4f",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "p",
+        "oʊ",
+        "ɹ",
+        "oʊ",
+        "ə",
+        "n"
+      ],
+      "ipa_tokens": [
+        "p",
+        "oʊ",
+        "ɹ",
+        "oʊ",
+        "ə",
+        "n"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "e62f3489d4566f0e20ff4da512f72c77cb337424944b822b078f35a9b7cd5f9a",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Vosen!",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-vivian",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "vivian",
+      "wav_sha256": "db2752533f007bc588fe5c79a0b2c9fca0e918560b9b3324a86b54eefe870e11"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "ca6c222fd3c4ba88c2e4673098db735f551ce191d54771126a8db425bfc10b99",
+          "normalized": "heh fazer",
+          "text": "Heh, Fazer!"
+        },
+        "qwen": {
+          "native_sha256": "eed49470e4ea08aee439be08b8a5e26575260c97272c5552f009aaa0bc202c5e",
+          "normalized": "hey verizon",
+          "text": "Hey, Verizon."
+        },
+        "whisper": {
+          "native_sha256": "8dcebff2ae715a3dfa97df9866cb656522f71463ad72e65496097884c07f250a",
+          "normalized": "hey there's a",
+          "text": " Hey, there's a..."
+        }
+      },
+      "cell_id": "en-2e0b9e74354dfac6a49aed78",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "z",
+        "ə"
+      ],
+      "ipa_tokens": [
+        "h",
+        "z",
+        "ə"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "03757f4544772a88f84f1a7780972befe4b0c0b5135a3a6e3b83fc15ee72f923",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Vosen!",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-dylan",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "dylan",
+      "wav_sha256": "c40d2cdfaf4fef063789c7ec6042aa8d0f939b30138bc0ccbe75ccbb3bd4a48a"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "89bb3cb3576c6cc6342e4c15b44bc0477f6a461390eddedf30674adb23d5c051",
+          "normalized": "hey rosen",
+          "text": "Hey Rosen!"
+        },
+        "qwen": {
+          "native_sha256": "2d25f3537daffdf70b02fc0c495ca52b135e7bb1b53531717b0790b44c82fea5",
+          "normalized": "hey rosen",
+          "text": "Hey Rosen."
+        },
+        "whisper": {
+          "native_sha256": "b293cbab2efd1539fd6fa0fa09e563fd8054da47494d1868cd5d16ede5f33f8f",
+          "normalized": "hey rosen",
+          "text": " Hey, Rosen!"
+        }
+      },
+      "cell_id": "en-36e757e143f7951be745fc69",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "eɪ",
+        "ɹ",
+        "oʊ",
+        "z",
+        "ɪ",
+        "n"
+      ],
+      "ipa_tokens": [
+        "h",
+        "eɪ",
+        "ɹ",
+        "oʊ",
+        "z",
+        "ɪ",
+        "n"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "0215f2eb0999604b754f38107f559de76082b1f440f468eeed6b9f7d74e2824f",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Rosen",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-serena",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "serena",
+      "wav_sha256": "b12c6ef1dbf8a57272d1cbc9e386c1c0ad0a9f0157670e90610e7c58dea3b38a"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "3527545c9bedaedf490028e363778bdcdb1e4e3c1f758631e1bc70f811200d73",
+          "normalized": "what time is it",
+          "text": "What time is it?"
+        },
+        "qwen": {
+          "native_sha256": "9217f92f1d1369356276fd8b04dc7df4427ed91edce74474dd41a35e8673a176",
+          "normalized": "what time is it",
+          "text": "What time is it?"
+        },
+        "whisper": {
+          "native_sha256": "2a6d4d912675dfe48226a8a87220c582d5b997f374a14ddfe1f6ebd3a404ee74",
+          "normalized": "what time is it",
+          "text": " What time is it?"
+        }
+      },
+      "cell_id": "en-38dc2ad84cf5705bfd1f8607",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "w",
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɪ",
+        "t"
+      ],
+      "ipa_tokens": [
+        "w",
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɪ",
+        "t"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "dce148d1c2478090adc78ff5a5478254999a7e18189fa1d74eecf3c704279e0c",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "What time is it?",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-vivian",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "vivian",
+      "wav_sha256": "3baffa7dc6e6411fb219073b0e0a0ae6528649361a618006cc89bea8ef9fadcc"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "26c74baf4ad0d81c378ec4c4db26ccd2647dd4c5005714b129aafd61305c1d83",
+          "normalized": "heh can you hear me",
+          "text": "Heh, can you hear me?"
+        },
+        "qwen": {
+          "native_sha256": "4f8694cbe3e962f5bfef045bea82962bb8c519413c2b69616a39051f535b4c17",
+          "normalized": "hey can you hear me",
+          "text": "Hey, can you hear me?"
+        },
+        "whisper": {
+          "native_sha256": "07d8b3b90569e17c58e19ac3cf519b2915260549356864ce8fbfe8a30e71f32d",
+          "normalized": "can you hear me",
+          "text": " Can you hear me?"
+        }
+      },
+      "cell_id": "en-3c27784d3cd320b4141a36c6",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "k",
+        "k",
+        "æ",
+        "n",
+        "j",
+        "u",
+        "h",
+        "ɪ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "ipa_tokens": [
+        "k",
+        "k",
+        "æ",
+        "n",
+        "j",
+        "u",
+        "h",
+        "ɪ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "9bd4705865344fbdaf7b909df7d1a3e7bc78c78242ba94f75a9f48116097f8cc",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "Hey, can you hear me?",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-dylan",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "dylan",
+      "wav_sha256": "ea1bca52d0e08ccd38dad22ec5a7d0c7490a90cad0947bbbbb61e94474b48477"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "4aa1395835bb858bd18c8bd1df3c177c985b42ca60361d39b0bd9df5cc60caf5",
+          "normalized": "what time is it",
+          "text": "What time is it?"
+        },
+        "qwen": {
+          "native_sha256": "4ce6f24b5b5cf15d5972c6d440382fd133ec58648803459125e115c5c4b2a045",
+          "normalized": "what time is it",
+          "text": "What time is it?"
+        },
+        "whisper": {
+          "native_sha256": "404085d1571436e8de060505c871ea706e425c8ea110a236a2dbecc8517da93e",
+          "normalized": "what time is it",
+          "text": " What time is it?"
+        }
+      },
+      "cell_id": "en-3fdb4b64eaf86c92b5fdc23b",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɪ",
+        "t"
+      ],
+      "ipa_tokens": [
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɪ",
+        "t"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "eed6ea5094b3843ff1658e9d56437cd5496bd378da91b6e7adc8ef3d77c90f45",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "What time is it?",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-dylan",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "dylan",
+      "wav_sha256": "8f8b9188f94cbc0b673abf2d4aa2bd90262bda495e539d70fa6601025c374b86"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "4ed65d4c0ad659375204012d3c0004c52eb71d45786a28d7b31db93a8c1d8383",
+          "normalized": "hey can you hear me",
+          "text": "Hey, can you hear me?"
+        },
+        "qwen": {
+          "native_sha256": "04e940856c0205e7be2e246991f374f4bfd2b17df47525db14729affb8a5acfe",
+          "normalized": "hey can you hear me",
+          "text": "Hey, can you hear me?"
+        },
+        "whisper": {
+          "native_sha256": "1f2ec2cbb425d67ff8b5c7c45bda240ea09830e3bd4f82b3990f30cc9e62ed8a",
+          "normalized": "hey can you hear me",
+          "text": " Hey, can you hear me?"
+        }
+      },
+      "cell_id": "en-561c53672a982a1e084c51d7",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "k",
+        "n",
+        "ʊ",
+        "m",
+        "j",
+        "u",
+        "h",
+        "ɪ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "ipa_tokens": [
+        "h",
+        "k",
+        "n",
+        "ʊ",
+        "m",
+        "j",
+        "u",
+        "h",
+        "ɪ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "940b8f9dec7e165b54bcdf902410d41889490e22c911bb96c63d6fe6ca739546",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "Hey, can you hear me?",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-ono_anna",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "ono_anna",
+      "wav_sha256": "4b01a1bc7bd30078cbf645fb4403929457419d6af6b0d1064fdd35754e48c462"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "fee26581a26a33daa8d65f7bbb57ae7338d979395a85a5c41c27a2f47885f816",
+          "normalized": "hey bossen",
+          "text": "Hey Bossen!"
+        },
+        "qwen": {
+          "native_sha256": "8dc1265da06567844c7ced7b27672514144a0aeca9c38ced72018bef7c4b05fa",
+          "normalized": "hey bossin",
+          "text": "Hey, bossin."
+        },
+        "whisper": {
+          "native_sha256": "1d6840d4090624fd4b40dcec80b84d152565d4a43520d31d65b8a6c7ed24587d",
+          "normalized": "hey bossen",
+          "text": " Hey, bossen!"
+        }
+      },
+      "cell_id": "en-5b2a92401d2ba9888bd342d7",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "k",
+        "eɪ",
+        "k",
+        "b",
+        "ʌ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "ipa_tokens": [
+        "k",
+        "eɪ",
+        "k",
+        "b",
+        "ʌ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "3189de06d3158218ab632234e1721b74f1c2a34913857b4178caa756aaf9a2ac",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Vosen!",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-eric",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "eric",
+      "wav_sha256": "9afaa3e758750af57abf8456c214f9e6ac3996a0455518f66c8c0eb8e2d29bd8"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "543d3d0deb979beb3401d56768204357c1e0fc937a1a67fc9eaf16c6f49c066f",
+          "normalized": "hey mayle",
+          "text": "Hey Mayle."
+        },
+        "qwen": {
+          "native_sha256": "fc3210fd0a74890d09c95bfd0e3b088dc81c7b2368bb26f83e231625fea11439",
+          "normalized": "hey miro",
+          "text": "Hey, Miro."
+        },
+        "whisper": {
+          "native_sha256": "def678441e0560a478bb2d072c3b3feef8a9bcc3e68ef6b42dd6175b824b946d",
+          "normalized": "hey meryl",
+          "text": " Hey, Meryl."
+        }
+      },
+      "cell_id": "en-5e11f812cab40cb9d6917db2",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "p",
+        "h",
+        "eɪ",
+        "m",
+        "ə",
+        "ə",
+        "l"
+      ],
+      "ipa_tokens": [
+        "p",
+        "h",
+        "eɪ",
+        "m",
+        "ə",
+        "ə",
+        "l"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "c931505940963240ba3211ce04775b850dd64aab8f26bc5ab7b5bc547282d6bb",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Mero",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-vivian",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "vivian",
+      "wav_sha256": "d3fb15ed54043627fe7b0a6bf75bc50ab762a807f51e09147f3299ed065018df"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "4d641f538135f2bc402094cab3b6a5bbb445c1af6ed8a3f51d61068908bc58f7",
+          "normalized": "hey bosan",
+          "text": "Hey Bosan."
+        },
+        "qwen": {
+          "native_sha256": "2fbc7782a61f79dca1151f585d0ebe7168d08c0ac13e9e41bed5e04e4e49a75c",
+          "normalized": "hibou san",
+          "text": "Hibou San."
+        },
+        "whisper": {
+          "native_sha256": "97f4565fd56cdc94739b2ecaba7dd7e8e9d3b8daaae177f1dbcac8e2540e8237",
+          "normalized": "hey bossen",
+          "text": " Hey bossen"
+        }
+      },
+      "cell_id": "en-600f565d0c5d16506cd90fc3",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "i",
+        "b",
+        "oʊ",
+        "s",
+        "ɛ",
+        "n"
+      ],
+      "ipa_tokens": [
+        "h",
+        "i",
+        "b",
+        "oʊ",
+        "s",
+        "ɛ",
+        "n"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "f8c2a5ae44dbb047fc961904804f94046b896e83fb44868003bc3acd84d1dedd",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Vosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-sohee",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "sohee",
+      "wav_sha256": "8eb884081d334b7987f2bc0c449952de1e24ce00e87853c35e53352083f6d884"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "9df96bf88a7cb20df9c05f2dc093068b004df5994d2d622fa9ae60bb1bd09826",
+          "normalized": "hey meryl",
+          "text": "Hey Meryl."
+        },
+        "qwen": {
+          "native_sha256": "f4521a633bbed9df0a4b7a58295aba1d656c348ee86475d89f6398394bda633c",
+          "normalized": "hey miro",
+          "text": "Hey, Miro."
+        },
+        "whisper": {
+          "native_sha256": "5b17d35670e66f1fb3be45ba18c28edb810ec67e5d0e7a66beddd8eb97996e3c",
+          "normalized": "hey miro",
+          "text": " Hey Miro!"
+        }
+      },
+      "cell_id": "en-616abc6a8e624301aac3fed9",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "i",
+        "ɚ",
+        "l"
+      ],
+      "ipa_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "i",
+        "ɚ",
+        "l"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "b799615b3f18d97b2b385617050942b2a6b81da58f8614aa258d0d2a60f6b6c1",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Miro",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-vivian",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "vivian",
+      "wav_sha256": "7e807ff07773ad8717bfd6894bde3e42fb52b9a8d48f7306e078bca6f3ce4727"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "e36a48fd28888177373d3456200832b2a8a7f8c5357d4f32cc36e5f1d16700da",
+          "normalized": "hey was een",
+          "text": "Hey, was een!"
+        },
+        "qwen": {
+          "native_sha256": "6cfdb486a4aac782f5d193b88951acaa2efb794d45e73799a9193b35eee1ae47",
+          "normalized": "hey wasn't",
+          "text": "Hey, wasn't"
+        },
+        "whisper": {
+          "native_sha256": "10ea7430621b1a25a2598cf510285d03d3528b8eecc3fa822c9e080e28e15e9c",
+          "normalized": "hey vosin",
+          "text": " Hey, Vosin!"
+        }
+      },
+      "cell_id": "en-631f4fda148a0d021a64cf7b",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "eɪ",
+        "n",
+        "ɑ",
+        "ə",
+        "n"
+      ],
+      "ipa_tokens": [
+        "eɪ",
+        "n",
+        "ɑ",
+        "ə",
+        "n"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "e30209e7eb896240aa45b438cc7533c34bbd11c7f38db4099283b690d7fe7aec",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Vosen!",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-ono_anna",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "ono_anna",
+      "wav_sha256": "d7d224136b37ba98fa3b19853ddb3f4db2dc59c4aded09e5ccbeaec9dec9d933"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "6a3106bd3889e7eb341f9dd30a27feb00759d19ac6c83924513340ad15bdb6c7",
+          "normalized": "hey wozen",
+          "text": "Hey Wozen"
+        },
+        "qwen": {
+          "native_sha256": "1a86f41b64cc4b9f7890798847f66c1769a18a4a4811713a3708d3cfee2534f2",
+          "normalized": "hey watson",
+          "text": "Hey, Watson."
+        },
+        "whisper": {
+          "native_sha256": "a0acf7be12d4cfc74e6bdceab35d6186f6825c00ffa6db7b4cf41e4a51594a94",
+          "normalized": "hey wozen",
+          "text": " Hey, Wozen!"
+        }
+      },
+      "cell_id": "en-66a302338bb93b10582f57f6",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "eɪ",
+        "h",
+        "ɔ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "ipa_tokens": [
+        "eɪ",
+        "h",
+        "ɔ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "df0fb003595b0e863745f6199883e0c494d6247f781ac4f7e8e7af2e9fb6dfd8",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Vosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-eric",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "eric",
+      "wav_sha256": "ba771d9033f62cf1c327dc3fc633881bc461a4012095aff2d2ca7cabf7584b09"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "e793cc6aa5b787817dcde83831967497acbf06f0be6da6591573f31775bf4e55",
+          "normalized": "heh meryl",
+          "text": "Heh, Meryl!"
+        },
+        "qwen": {
+          "native_sha256": "430680e1ec7d023297dc078e0f68cf0eb5def497e60c2c9fe4291c465796a55b",
+          "normalized": "ha ha merrill",
+          "text": "Ha ha, Merrill."
+        },
+        "whisper": {
+          "native_sha256": "5d1fa3611c3e6a13916bc608a74908c8c54a35562b09855478d885bf12f0c89b",
+          "normalized": "heh hey meryl",
+          "text": " Heh, hey, Meryl."
+        }
+      },
+      "cell_id": "en-6af5dd69b909ba54f064963b",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "m",
+        "oʊ",
+        "ɪ",
+        "ɹ",
+        "ə",
+        "l"
+      ],
+      "ipa_tokens": [
+        "m",
+        "oʊ",
+        "ɪ",
+        "ɹ",
+        "ə",
+        "l"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "4df69e877cddcb2659036f596e984f35515771e35bd905ae7db26d72f219a024",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Mero!",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-uncle_fu",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "uncle_fu",
+      "wav_sha256": "0f9a82229a3307bec7a6307352121a258274b3f7767efc6b9fc7eb95cdeffa13"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "0188d7f7f42955016918831e0ea022f043203a1ee51bd483e7be695d562fbf43",
+          "normalized": "хей восса",
+          "text": "Хей, восса."
+        },
+        "qwen": {
+          "native_sha256": "f87a6c93930266b8eae7e0719158f80103aed081805c6225b78f4cc37dc9ac56",
+          "normalized": "hey watson",
+          "text": "Hey, Watson."
+        },
+        "whisper": {
+          "native_sha256": "f823a0bc83cb3dca22877eecc945bca7a191c5e96f2e8c5679b1d1a3cc1efcba",
+          "normalized": "hey wass",
+          "text": " Hey, wass'"
+        }
+      },
+      "cell_id": "en-6b4f3ec7165124620a71d74d",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "l",
+        "i",
+        "w",
+        "ɔ",
+        "s",
+        "ə",
+        "n"
+      ],
+      "ipa_tokens": [
+        "l",
+        "i",
+        "w",
+        "ɔ",
+        "s",
+        "ə",
+        "n"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "988141b1fcd06784e6589e7976a81dda4ee851472bd442ab9501fde438c743ea",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Vosen",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-uncle_fu",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "uncle_fu",
+      "wav_sha256": "85ed694daa08ea0d2eea77d86246c54f52bc5e766d5c787392db0329271a76f6"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "5d0ba3cc7b08f63f58ec04c06610c86359068ed4e0dde1626466ed2f6f179e6b",
+          "normalized": "what time is it",
+          "text": "What time is it?"
+        },
+        "qwen": {
+          "native_sha256": "1ef55cb08f98c9b95a8ee3119889b56366adbb3776686d31c917cb2ab8457581",
+          "normalized": "what time is it",
+          "text": "What time is it?"
+        },
+        "whisper": {
+          "native_sha256": "568a6c23b72d77a4624382201d11f463687a981b1450751c987f95954a27fabc",
+          "normalized": "what time is it",
+          "text": " What time is it?"
+        }
+      },
+      "cell_id": "en-71b1cbb47d069cfada05c474",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɪ",
+        "t"
+      ],
+      "ipa_tokens": [
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɪ",
+        "t"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "5c7d25ba5bba823978e2e577f79aedb0d66982a500300011e38d103227b36de6",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "What time is it?",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-eric",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "eric",
+      "wav_sha256": "202280b49d9fe878101f870d1869465612ce3a3d89940619493a3990c2272c45"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "8491e3015041ec581e84e068842da1450b05bc8612116d754fcb688fe69c314f",
+          "normalized": "what time is it",
+          "text": "What time is it?"
+        },
+        "qwen": {
+          "native_sha256": "d4bbb4d1af2036dd609d6a66f05c06fadedd3292a53a27160080dfaa8c13aae6",
+          "normalized": "what time is it",
+          "text": "What time is it?"
+        },
+        "whisper": {
+          "native_sha256": "b1a98feda1a4ce25a0332b0317769f81bc8c413abfac9f36623019f762cd4076",
+          "normalized": "what time is it",
+          "text": " What time is it?"
+        }
+      },
+      "cell_id": "en-76b63bd5971415358694f3ae",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "w",
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɪ",
+        "t"
+      ],
+      "ipa_tokens": [
+        "w",
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɪ",
+        "t"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "e08fc10fefaf6b1e2df33952858ade8bebd7f6f92c15bd8aeaabeb92896fbfa9",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "What time is it?",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-sohee",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "sohee",
+      "wav_sha256": "196f29506018b80f2322fffe3463de378f8b6e1179f627bd5967445089aef63f"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "825a448b946c470b6a4b9a5afc34e073775738fcb3b8e7ab349c031ec4904d34",
+          "normalized": "a hey rosen",
+          "text": "A hey, Rosen."
+        },
+        "qwen": {
+          "native_sha256": "80f2f2732cb302894e46b4ecd8eeaf962c2437fbe9cf6c9e4738caae412bb79a",
+          "normalized": "hey rosen",
+          "text": "Hey, Rosen."
+        },
+        "whisper": {
+          "native_sha256": "92ab47697f09eefa28469d4f28dce43a7010dfcfc2a67321a73303af504f54a4",
+          "normalized": "hey rosen",
+          "text": " Hey, Rosen!"
+        }
+      },
+      "cell_id": "en-772cc0c4e16df53f591eebea",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "oʊ",
+        "ɛ",
+        "h",
+        "eɪ",
+        "ɹ",
+        "z",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "ipa_tokens": [
+        "oʊ",
+        "ɛ",
+        "h",
+        "eɪ",
+        "ɹ",
+        "z",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "f02fd428199d3d7b26a0b43de970c0dddab7ca1c9578c859253aceb5a7581ef7",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Rosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-eric",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "eric",
+      "wav_sha256": "1b09c80500b1cc66430317c5050c487b5eca53193b10669f66381f7646fbc64b"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "ac816f43614e8af94d5c3ebe8736d1ebbc95d1e941ffb9bedd95ce1d970006c8",
+          "normalized": "hey wozin",
+          "text": "Hey Wozin."
+        },
+        "qwen": {
+          "native_sha256": "7218ad1fa221bbcdc4fc609b87a644721469f600844a6f06358565409c8cc127",
+          "normalized": "hey wilson",
+          "text": "Hey Wilson."
+        },
+        "whisper": {
+          "native_sha256": "f3f172b09d0105065f9e305fa7a76a51a4b512874b7b4959422521ba06a4655b",
+          "normalized": "hey wozen",
+          "text": " Hey Wozen!"
+        }
+      },
+      "cell_id": "en-7837d0eeeccba2cd9dfa1940",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "i",
+        "w",
+        "ə",
+        "z",
+        "ə",
+        "n"
+      ],
+      "ipa_tokens": [
+        "h",
+        "i",
+        "w",
+        "ə",
+        "z",
+        "ə",
+        "n"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "11ac54dbeb023b9c5c897898da3bc1511ff906bb7624e761b1ef5ea8858b886f",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Wosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-vivian",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "vivian",
+      "wav_sha256": "0d9782342e04bbda54a5fca7bac90dd34d3b6649bb3b0b0382813ca76a5f2e57"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "0a3cfeeafe30bb2657745e5b858629df3c31461d5f76f71ae3c10be237cf6cb4",
+          "normalized": "hey mero",
+          "text": "Hey Mero"
+        },
+        "qwen": {
+          "native_sha256": "d9022125237c4349807b86c91982d975fa5fd7cdbb997d72688bfdc7451e1518",
+          "normalized": "hey merrill",
+          "text": "Hey, Merrill."
+        },
+        "whisper": {
+          "native_sha256": "fe4000feae6b76f9ba4da858cae44321ef9dc403e230f8cac3fddc4de400f044",
+          "normalized": "hey meryl",
+          "text": " Hey, Meryl."
+        }
+      },
+      "cell_id": "en-7bf087cdc987da7621cbda03",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "n",
+        "h",
+        "eɪ",
+        "m",
+        "ɪ",
+        "ɹ",
+        "i",
+        "l"
+      ],
+      "ipa_tokens": [
+        "h",
+        "n",
+        "h",
+        "eɪ",
+        "m",
+        "ɪ",
+        "ɹ",
+        "i",
+        "l"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "ad3165c5ab33b5fe1ac53e4756feb4d5650d6509cdd507a40b9d113c281ce4fd",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Mero",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-dylan",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "dylan",
+      "wav_sha256": "f16b61b1ceeb5d1c5f2f716962efe39933ac22bbb055e9078b8e15edf848c878"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "60fff74732c8669666f0f83204150a47da593c11ac81235d86d04d78ff35193a",
+          "normalized": "hey meryl",
+          "text": "Hey, Meryl!"
+        },
+        "qwen": {
+          "native_sha256": "8f1634ec28d7f7c034978eaa9322478b645df9d97bf0d3ff289815caa37c1aba",
+          "normalized": "hey miro",
+          "text": "Hey, Miro."
+        },
+        "whisper": {
+          "native_sha256": "50d01c97bf7dd8f2b5aae52dbf70eed7cb7a63a15014da8c769544fcd940fc21",
+          "normalized": "hey meryl",
+          "text": " Hey, Meryl!"
+        }
+      },
+      "cell_id": "en-7f19ada0494ae743115db6bb",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "eɪ",
+        "ɛ",
+        "ɹ",
+        "ə",
+        "l"
+      ],
+      "ipa_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "eɪ",
+        "ɛ",
+        "ɹ",
+        "ə",
+        "l"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "381b743db48d1f71b8127a4694b0d4c2f7bd40461026f547317c6e3299be46fe",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Mero!",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-serena",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "serena",
+      "wav_sha256": "63c728903bcdb9fa5d6c8c06be9f55413f79bbbf8fef6ec61114302ecf06f1e1"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "f26274cddadedacd9754d67a68dcafd2b79b3bd8095ac580af8959abbb68ffe1",
+          "normalized": "хей вот зень",
+          "text": "Хей, вот зень"
+        },
+        "qwen": {
+          "native_sha256": "c243b7c3ea55871dc792a0d488247b0098002bf173b62d060d3712bd4d68fe41",
+          "normalized": "hey wilson",
+          "text": "Hey, Wilson."
+        },
+        "whisper": {
+          "native_sha256": "250c60406f1bd73b56e31d02988e1a6ee39d3223f881dd64843a816c8be04aa6",
+          "normalized": "hey woosin",
+          "text": " Hey, Woosin!"
+        }
+      },
+      "cell_id": "en-848ba7e032ece0e2edd672e3",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "oʊ",
+        "h",
+        "n",
+        "eɪ",
+        "z",
+        "ɪ"
+      ],
+      "ipa_tokens": [
+        "h",
+        "oʊ",
+        "h",
+        "n",
+        "eɪ",
+        "z",
+        "ɪ"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "12b0ab945edd4c46bfea876fb0caab3940cd1df06db7e7cd6d2864e212919684",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Wosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-ono_anna",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "ono_anna",
+      "wav_sha256": "ec5cbea01b70abc7a7e16448a0fa17e3e988bbb9c38db3d9f441d572a6a7f344"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "4c4b2c71446c34d16c1ac71c28125d64fb4fb49160a7dbc062a70ef359756ee7",
+          "normalized": "hey you wasn't",
+          "text": "Hey, you wasn't."
+        },
+        "qwen": {
+          "native_sha256": "0436ac760ad0d8f34270230d9b16dbbc9f0971598f5ca63e6aaca0d2fa4c9d20",
+          "normalized": "hey watson",
+          "text": "Hey Watson."
+        },
+        "whisper": {
+          "native_sha256": "a968691289a4668ccabe53a94aa4bfc8dc316609058e583d70ba2b264825ce7d",
+          "normalized": "hey what's up",
+          "text": " Hey, what's up?"
+        }
+      },
+      "cell_id": "en-849efd3affed4ed9d0b1cf4d",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "u",
+        "w",
+        "ə",
+        "z",
+        "ɛ",
+        "n"
+      ],
+      "ipa_tokens": [
+        "h",
+        "u",
+        "w",
+        "ə",
+        "z",
+        "ɛ",
+        "n"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "6d7967c0d56ea36741a13ad96a9d29cd4517af0fe8dc900b2d543b5c7460e275",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Vosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-vivian",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "vivian",
+      "wav_sha256": "a799cffecfd4e505c78a4e960e74f3912f8118b601145400301eb29f2323b4a6"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "836fdbd68710eef94944992995c3eb209132ddd310269fd10d5441e70c05ec39",
+          "normalized": "hei mero",
+          "text": "Hei, Mero!"
+        },
+        "qwen": {
+          "native_sha256": "8c7d6a994a85cb29f9919f9b0d106b17bc744c55e7436bffb4fa0552d596bcb6",
+          "normalized": "hey mero",
+          "text": "Hey, Mero."
+        },
+        "whisper": {
+          "native_sha256": "ba81f6722819de417ade51f9d1e4429bfc3300ecea301017312f64c83fdd9e65",
+          "normalized": "hey manro",
+          "text": " Hey, manro!"
+        }
+      },
+      "cell_id": "en-85fa95925c392bbc6abf8f20",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "m",
+        "æ",
+        "ɹ"
+      ],
+      "ipa_tokens": [
+        "m",
+        "æ",
+        "ɹ"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "ddd81966fdab5c7a55489e1f7a5d1d5da4c8470dd794035af3556a479812a96e",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Mero!",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-eric",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "eric",
+      "wav_sha256": "36d007699d61484cb002bd1838e26375c19dcadf0bbbca3fb2f5587a82095980"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "9dfccf9bd1dae58d96c039253cf16595440dbd40598e5393058cec95cca82a9a",
+          "normalized": "hey can you hear me",
+          "text": "Hey, can you hear me?"
+        },
+        "qwen": {
+          "native_sha256": "6528fd583a7a7b4104034397f55c6341c44ad21bb085cbe2a69d6150e8ca39ee",
+          "normalized": "hey can you hear me",
+          "text": "Hey, can you hear me?"
+        },
+        "whisper": {
+          "native_sha256": "292cb8ed5ff29e4f81c9da668a50bcff248ed25d1ed5ee82caada0cdfb8fd829",
+          "normalized": "hey can you hear me",
+          "text": " Hey, can you hear me?"
+        }
+      },
+      "cell_id": "en-8666fb01e1e91f380b62d961",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "k",
+        "eɪ",
+        "æ",
+        "n",
+        "j",
+        "u",
+        "h",
+        "ɪ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "ipa_tokens": [
+        "k",
+        "eɪ",
+        "æ",
+        "n",
+        "j",
+        "u",
+        "h",
+        "ɪ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "c101e4cc6ac28a3da2c94a68bb7cc3b5f964f45b821e35097aedd59464cdf8cb",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "Hey, can you hear me?",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-eric",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "eric",
+      "wav_sha256": "524d148b475ff455233f5016c18c8a9df41826e69f87d7370920a0d176107cfe"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "d5509ca24293294e9c9f946a324356a9dcb9b50a4847fc76ae860eb015ed838b",
+          "normalized": "hey merrill",
+          "text": "Hey, Merrill"
+        },
+        "qwen": {
+          "native_sha256": "2ef725139e3eea7f7fda33056455c55e7d22ee0ebd511056f52acd84312a51e5",
+          "normalized": "hey merrill",
+          "text": "Hey, Merrill."
+        },
+        "whisper": {
+          "native_sha256": "d3bc5f5a2831f8c56113f6915ff6c10a24a64e7c0f3e2a34ba4f42b9174047d3",
+          "normalized": "hey meryl",
+          "text": " Hey, Meryl."
+        }
+      },
+      "cell_id": "en-8ed1540c9784e17dc1386be7",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "k",
+        "t͡ʃ",
+        "eɪ",
+        "m",
+        "eɪ",
+        "m",
+        "l"
+      ],
+      "ipa_tokens": [
+        "k",
+        "t͡ʃ",
+        "eɪ",
+        "m",
+        "eɪ",
+        "m",
+        "l"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "5e8b98973bb09def0c5d87782ea254ccd4d174e248003ce8c99342e6e932c708",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Mero!",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-vivian",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "vivian",
+      "wav_sha256": "acadc02389428b0251215b77f80515715deb75c18bb01bc0a6b75b5abd08ae68"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "0ff35d396a7c2089f7d51c74744e90deff3dd159f6a66eac568106d2210e5853",
+          "normalized": "hey what then",
+          "text": "Hey, what then?"
+        },
+        "qwen": {
+          "native_sha256": "765cd671f9837d060ab49e49ee050386fd791d0370742a04f12f33e63045ddc6",
+          "normalized": "hey wouldn't",
+          "text": "Hey, wouldn't"
+        },
+        "whisper": {
+          "native_sha256": "36740e68fc723ec09d7b31b810e15210a1e63d356f9022b2d37f360a038c41cb",
+          "normalized": "hey wooden",
+          "text": " Hey, wooden!"
+        }
+      },
+      "cell_id": "en-9098388f9e9549000cf02c52",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "w",
+        "h",
+        "eɪ",
+        "ɪ"
+      ],
+      "ipa_tokens": [
+        "w",
+        "h",
+        "eɪ",
+        "ɪ"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "8c5ae94c31a57427dd32d1a89165d6f0afe5519a26ac465b2fc7f48a4fe649ef",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Wosen",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-uncle_fu",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "uncle_fu",
+      "wav_sha256": "e7a8005fb05d174ba243752df33c3a785b76d38404aaecaced6d3b0c9dc65c11"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "e1eb984a70d10f9559d1f39916ef77a6082e0577d0f1713a77941a7774d2199a",
+          "normalized": "what time is it",
+          "text": "What time is it?"
+        },
+        "qwen": {
+          "native_sha256": "d07a921a6120d4ac1bb5d89fa29c7d99a0e538aa67517feaf86f387ce8b4a848",
+          "normalized": "what time is it",
+          "text": "What time is it?"
+        },
+        "whisper": {
+          "native_sha256": "d5157d997bbce6a5f7464d5d7357586a6fe38dd54edd35949a20b057e2a4775c",
+          "normalized": "what time is it",
+          "text": " What time is it?"
+        }
+      },
+      "cell_id": "en-94b4f61245b9a2752ea3b691",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɪ",
+        "t"
+      ],
+      "ipa_tokens": [
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɪ",
+        "t"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "0d8820cf0bdc9bcd709d17826187cdcd4fa4d3ea98b99a312e07a0500a06abb6",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "What time is it?",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-serena",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "serena",
+      "wav_sha256": "831dc922f5e5d20270f6089b7d697cbdef5f192f92a748c2bb688f2ad38ceaa4"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "e2e74e4a183740a9da8cc84940653264aea68bde69326d6a5db7a3543f23d824",
+          "normalized": "hey merle",
+          "text": "Hey Merle."
+        },
+        "qwen": {
+          "native_sha256": "4506a77e88bd3d3a0af394b9e3331c6da92bb172aadde43b17e7da3ee3da0ba0",
+          "normalized": "hey miro",
+          "text": "Hey Miro."
+        },
+        "whisper": {
+          "native_sha256": "9bcb20bb466c5c29c255ac5f0410cac2b161a2b3c192e47735e34e162937ab22",
+          "normalized": "hey meryl",
+          "text": " Hey, Meryl!"
+        }
+      },
+      "cell_id": "en-968be7ea633e42194fb1951f",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "eɪ",
+        "m",
+        "ɪ",
+        "ɹ",
+        "ə",
+        "l"
+      ],
+      "ipa_tokens": [
+        "eɪ",
+        "m",
+        "ɪ",
+        "ɹ",
+        "ə",
+        "l"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "31fd023b229ab6996d5d4caac5f86d1cd78cf49759aea76af8509a60769ea944",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Mero",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-serena",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "serena",
+      "wav_sha256": "a0aacdda2aec6c46517f39b9251800a1f510eb31012b8feed45f610bfa98a576"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "20e3beb040b123a5ebc509cb451a611c9a84f55530cb8c951b935b84d69925a2",
+          "normalized": "he was in",
+          "text": "He was in."
+        },
+        "qwen": {
+          "native_sha256": "2750cebdbe714d3778ddf42f105611b3a3369638d0d9fa02c180d902df4b5296",
+          "normalized": "he was in",
+          "text": "He was in."
+        },
+        "whisper": {
+          "native_sha256": "102fbacb15f6004eb7d4c41530fccef4cbaf8899555ea0b0d2b0db4124ec617d",
+          "normalized": "he was in",
+          "text": " He was in."
+        }
+      },
+      "cell_id": "en-99528afbb91f32c5ca5d93f4",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "i",
+        "w",
+        "ɪ",
+        "n"
+      ],
+      "ipa_tokens": [
+        "h",
+        "i",
+        "w",
+        "ɪ",
+        "n"
+      ],
+      "machine_agreement": "ALL_THREE_AGREE_OTHER",
+      "pcm_sha256": "4da574c5f10b1bf93abdccca5f697fe40193e0427dc5c1a66427e74e7c8f7004",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Wosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-sohee",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "sohee",
+      "wav_sha256": "a203e78abbe20c983320258aa195731f88c47f7ed4cb196d5378a1e5acb894e7"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "b404cc4dd4313ccd76be9000a191fad50eaa959fa9bb27703230be2c1dae41d6",
+          "normalized": "hey miro",
+          "text": "Hey Miro"
+        },
+        "qwen": {
+          "native_sha256": "0417d5c90c32a90b375372fceaf1a510aa1f701e921e309aff834d90457c93d2",
+          "normalized": "hey miro",
+          "text": "Hey, Miro."
+        },
+        "whisper": {
+          "native_sha256": "99fd80ace2f89826e248f401f4369ace59f3bb8c55731e7f83800a0219204c9d",
+          "normalized": "femiro",
+          "text": " Femiro"
+        }
+      },
+      "cell_id": "en-99e2a852b5e903a75a690851",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "k",
+        "m",
+        "ɹ",
+        "aɪ",
+        "eɪ",
+        "m",
+        "i",
+        "ɹ",
+        "ə"
+      ],
+      "ipa_tokens": [
+        "k",
+        "m",
+        "ɹ",
+        "aɪ",
+        "eɪ",
+        "m",
+        "i",
+        "ɹ",
+        "ə"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "17d41c5852ba5562adf896a2e7c49235d9f9c93c37a798ef04f7a87c559eeea9",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Miro",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-uncle_fu",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "uncle_fu",
+      "wav_sha256": "da64738944d3f30bae49baad6e6731f26f516d94c3a56309e1237b0b63852874"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "caa77855c2753e2dee97b38f7188c83058e5597c3682fb4649134b9300e7bf7f",
+          "normalized": "hey rosen",
+          "text": "Hey, Rosen"
+        },
+        "qwen": {
+          "native_sha256": "bacbb0023e016bf15efaf6cde8d3bcb132b41fd0e4f1569b773dd5188b194d94",
+          "normalized": "hey rosen",
+          "text": "Hey, Rosen."
+        },
+        "whisper": {
+          "native_sha256": "036c7261d958bf6e1a0007652bf09eaf8cf80ab73208c4ab29fb9b5eeb4ca7b2",
+          "normalized": "hey rosen",
+          "text": " Hey, Rosen!"
+        }
+      },
+      "cell_id": "en-9bb527e871c5bcaa81bf0939",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "h",
+        "eɪ",
+        "ɹ",
+        "oʊ",
+        "z",
+        "ɛ",
+        "n"
+      ],
+      "ipa_tokens": [
+        "h",
+        "h",
+        "eɪ",
+        "ɹ",
+        "oʊ",
+        "z",
+        "ɛ",
+        "n"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "bf55f202d9f155e93769cbc3e98d5c8d9663bbdcffa5fe3b26d00f2555afa930",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Rosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-ono_anna",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "ono_anna",
+      "wav_sha256": "a8a72186b4bfdf812de5b02fe9d6f558b9bfec7323f85d420618937785e2e305"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "4a1e7477c6262ff0cf617cc4ef391e9675241aaf2098fd98fd196d36069090e2",
+          "normalized": "hey rosen",
+          "text": "Hey Rosen."
+        },
+        "qwen": {
+          "native_sha256": "2bd9e9094cd28b6cc78b2500b0bb182538385038b2ed4f1c1d2314d10448b352",
+          "normalized": "hey rosen",
+          "text": "Hey, Rosen."
+        },
+        "whisper": {
+          "native_sha256": "0e93e29b6b3fdbb78ced8a8315c4713bb92fc3c23901b747836cb488d0b7f549",
+          "normalized": "hey rosen",
+          "text": " Hey, Rosen."
+        }
+      },
+      "cell_id": "en-9d4698ccb8b31f96ed9f5e30",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "ð",
+        "h",
+        "aɪ",
+        "eɪ",
+        "ɹ",
+        "oʊ",
+        "z",
+        "ɑ",
+        "n"
+      ],
+      "ipa_tokens": [
+        "ð",
+        "h",
+        "aɪ",
+        "eɪ",
+        "ɹ",
+        "oʊ",
+        "z",
+        "ɑ",
+        "n"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "a2df71de017b4aaed4e27b6ec7dc61adbaeb0a0fd1c330813daa95256220602c",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Rosen",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-uncle_fu",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "uncle_fu",
+      "wav_sha256": "0644d37162f8d9d15c33fce19413463abfcaf42fef0c87618a924d37e2ebd0fc"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "0f89267374df785071df78a735aee92b023ff9d4ac88029c9ed2fbd58dd5046d",
+          "normalized": "hey middle",
+          "text": "Hey Middle"
+        },
+        "qwen": {
+          "native_sha256": "da889ea7c84c1c736d3550fb134b7b7c9a8cbd0cc9ca9add613dfa9ac06345ec",
+          "normalized": "hey melo",
+          "text": "Hey, Melo."
+        },
+        "whisper": {
+          "native_sha256": "9ce98c1582653abc596b206b762770079a22ab4f740e032823b6e696bb4eaa15",
+          "normalized": "hey mellow",
+          "text": " Hey, Mellow."
+        }
+      },
+      "cell_id": "en-a1dadbccb534b3f6d838b13e",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "eɪ",
+        "m",
+        "ɪ",
+        "d",
+        "oʊ",
+        "oʊ",
+        "m"
+      ],
+      "ipa_tokens": [
+        "eɪ",
+        "m",
+        "ɪ",
+        "d",
+        "oʊ",
+        "oʊ",
+        "m"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "e61e4bc2578b9f8152fa847ba94e4b01d9d75b6194e261021a7310113a8418bd",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Mero",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-ono_anna",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "ono_anna",
+      "wav_sha256": "4b24098026cdabdec5497723f8cda4c7a12cff9b17c58bb39191deb8ea5fbf07"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "1584ed27815a4883c921661c35f606838e5b3c556a9b3b59ce782ac64a82c7bd",
+          "normalized": "hey rosen",
+          "text": "Hey Rosen?"
+        },
+        "qwen": {
+          "native_sha256": "24a414376ac84be401daea18a29e695d43885907396602020db4943feacc4ebd",
+          "normalized": "hey rosen",
+          "text": "Hey Rosen."
+        },
+        "whisper": {
+          "native_sha256": "69625047613dd3157696a7ae30d7508ae040e2734b839c3eda91595709acff69",
+          "normalized": "hey rosen",
+          "text": " Hey, Rosen?"
+        }
+      },
+      "cell_id": "en-b38d7af46e95b44df8d1db98",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "h",
+        "eɪ",
+        "ɹ",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "ipa_tokens": [
+        "h",
+        "h",
+        "eɪ",
+        "ɹ",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "a953d18ec119b9ada4d064e871623ac2a7b1a1cc06a990840f3ddb52317f8feb",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Rosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-vivian",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "vivian",
+      "wav_sha256": "80a94a79a3b9cf1d757d58df085958d8b5a71bfd33567669320ddd18f77f765e"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "8e6513b0c6722058ca2fd2963e30d0e6d3477cc6e58a9289ad972a6ffa7be014",
+          "normalized": "хэй мира",
+          "text": "Хэй, мира."
+        },
+        "qwen": {
+          "native_sha256": "de8fd45c4a20b4449335608b29b596c35d816d1cb2e8792de09f9546283d469d",
+          "normalized": "hey mia",
+          "text": "Hey, Mia."
+        },
+        "whisper": {
+          "native_sha256": "458c724c2ee092290d673a988abf0412a6779889299547a54608f03dd08d51d1",
+          "normalized": "hey mira",
+          "text": " Hey, Mira!"
+        }
+      },
+      "cell_id": "en-b7091fedd2c0faac099d487d",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "p",
+        "m",
+        "p",
+        "i"
+      ],
+      "ipa_tokens": [
+        "p",
+        "m",
+        "p",
+        "i"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "d303a6ba8c58acae166e0c4c22acc441ba683b58be1e8619aa0d6506dc1037b9",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Miro",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-ono_anna",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "ono_anna",
+      "wav_sha256": "07804feeae8088b932f32187445bd96dc0db44ad7f557817c3e2dc48151e7d98"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "51152c6b737275535a5d74451e679e732e9bd87ed2528935af22dc295e584c8d",
+          "normalized": "hey middle",
+          "text": "Hey Middle."
+        },
+        "qwen": {
+          "native_sha256": "7ca72dc78d42f88e892f822d4c4c9e467f9ace12837fa1fb455e1e6bba450124",
+          "normalized": "hey melo",
+          "text": "Hey, Melo."
+        },
+        "whisper": {
+          "native_sha256": "7349d79c85cb7941d411d5a5a0a4d982e00d201b6b1e9de082a05268973225df",
+          "normalized": "hey mellow",
+          "text": " Hey, Mellow."
+        }
+      },
+      "cell_id": "en-c035c946bda134e0f0687e62",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "k",
+        "h",
+        "ɪ",
+        "d",
+        "l"
+      ],
+      "ipa_tokens": [
+        "h",
+        "k",
+        "h",
+        "ɪ",
+        "d",
+        "l"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "f94707d3ce89c2ec77a2ebe7fc1e9f2ebb663217d7f1d318948924a5fbe2ca47",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Mero",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-sohee",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "sohee",
+      "wav_sha256": "35a0eb89aeba3a62b8654da721e8736ab59b96a33a54df108933ab5b7032b1bc"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "e600c3883f63b61d2c4a408d55e7c5232e464857e64e504778eebe608c422848",
+          "normalized": "rimero",
+          "text": "Rimero"
+        },
+        "qwen": {
+          "native_sha256": "69c918ee60fbdca8d053070bbbcb9e6eef065b473dbd2818490c72509625c7d5",
+          "normalized": "hey merrill",
+          "text": "Hey, Merrill."
+        },
+        "whisper": {
+          "native_sha256": "e0e717d2a3c8c17fcdce56c6427bfe595e19dcff659f5d0dd2e9d0952b295193",
+          "normalized": "primero",
+          "text": " Primero."
+        }
+      },
+      "cell_id": "en-c39ad4f1a36d783d9fd076cd",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "k",
+        "k",
+        "l",
+        "eɪ",
+        "æ",
+        "m",
+        "ɛ",
+        "ɹ"
+      ],
+      "ipa_tokens": [
+        "k",
+        "k",
+        "l",
+        "eɪ",
+        "æ",
+        "m",
+        "ɛ",
+        "ɹ"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "e6c8bc02e54f9db0522b8083acf1cdea8f9a85070dccf2973d4a24e8bf4cb898",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Mero",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-uncle_fu",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "uncle_fu",
+      "wav_sha256": "83cb5789b9efc86a009fa30931e3579ebd9059d65e1966a955c0af795c8dbb6d"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "d6a506ab88ecb0274d7695de9d4d135f411dc92dade0f1be8f64f28da04f1a39",
+          "normalized": "hey merrow",
+          "text": "Hey Merrow"
+        },
+        "qwen": {
+          "native_sha256": "6d0e480cd55917ed9610ac6dbd0a5b5edac6a5b146e5bcba3ce0b941cdb5931e",
+          "normalized": "hey mero",
+          "text": "Hey, Mero."
+        },
+        "whisper": {
+          "native_sha256": "d8801e76f10b8a577e788c6fff7e1e3fc062e092157682b59a7c562619ee4c44",
+          "normalized": "hey meryl",
+          "text": " Hey, Meryl!"
+        }
+      },
+      "cell_id": "en-cc02c78acb21b8ba5dd7686e",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "k",
+        "eɪ",
+        "z",
+        "ɛ",
+        "ɹ",
+        "ə",
+        "l"
+      ],
+      "ipa_tokens": [
+        "k",
+        "eɪ",
+        "z",
+        "ɛ",
+        "ɹ",
+        "ə",
+        "l"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "2d1986f51e864891f3da2d08f72608a443efeed4ce537a37e16468c3b1aec6c9",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Mero",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-eric",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "eric",
+      "wav_sha256": "a723693c6bc0ac3cb2be02383b5c068fe189e8f3e6d1c45b40900377336951f8"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "c41ad365d7941d1534c0c398b784e35470c92a934d55263ce809a739718b8563",
+          "normalized": "хэ вода",
+          "text": "Хэ, вода!"
+        },
+        "qwen": {
+          "native_sha256": "8bdbdab469d3fe432ac49b9c2dc58986f25371664cd00b6f1cd187c2c016eab3",
+          "normalized": "hey what's up",
+          "text": "Hey, what's up?"
+        },
+        "whisper": {
+          "native_sha256": "81b80c1c11dc60b3b6dbf1bfd19f00d9b14f70caf0f91a96d2e4a016623bcab7",
+          "normalized": "hey vodan",
+          "text": " Hey, Vodan."
+        }
+      },
+      "cell_id": "en-cc9987f1129c42611547d2fb",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "oʊ",
+        "m",
+        "aɪ",
+        "ɔ",
+        "d"
+      ],
+      "ipa_tokens": [
+        "h",
+        "oʊ",
+        "m",
+        "aɪ",
+        "ɔ",
+        "d"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "c11d576c8fdda37c1b61b9b97866d728d86be5b09010e1bdf5ff6d3f7f7e1826",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Vosen!",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-uncle_fu",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "uncle_fu",
+      "wav_sha256": "100e522ac8eae2e3f05ba6f21f0259726ae68de2ce823cd7e00b817aa6b097ea"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "52567a90817ed53d8517c07329703deab15f3d8054bb27eedde2aec1b002b42f",
+          "normalized": "hey miro",
+          "text": "Hey Miro!"
+        },
+        "qwen": {
+          "native_sha256": "a8b67f4eb8aa7a8431f380e3d4730d106d1bbe89d7596272ce0393e90632ca33",
+          "normalized": "hey milo",
+          "text": "Hey, Milo."
+        },
+        "whisper": {
+          "native_sha256": "f214b91871c3cb19388220d8562a197d77b46b4121345c4d1b8effc2d766f33f",
+          "normalized": "hey miro",
+          "text": " Hey, Miro!"
+        }
+      },
+      "cell_id": "en-d3f157f847c87cd7c707eda1",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "k",
+        "k",
+        "eɪ",
+        "i",
+        "ɹ",
+        "oʊ",
+        "l"
+      ],
+      "ipa_tokens": [
+        "k",
+        "k",
+        "eɪ",
+        "i",
+        "ɹ",
+        "oʊ",
+        "l"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "b1f6ebf60ad534df0876b41c7ef8297ed8e321bc3c917922674d2578e4fc9bba",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Miro",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-eric",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "eric",
+      "wav_sha256": "c1ba3978efff3ef70c21da3c89c5e4f66b777537b1c26f2aba7278efae5f6959"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "74e2c1e8a68cafcc2b19e23a511531e365b60c98d62dbcd24a41e464b15c9922",
+          "normalized": "ooh what time is it",
+          "text": "Ooh, what time is it?"
+        },
+        "qwen": {
+          "native_sha256": "400ae7c43f68078e05c463fa65acff17e17bd0a9ea1c4ed4d3a26554be8f97f3",
+          "normalized": "ooh what time is it",
+          "text": "Ooh, what time is it?"
+        },
+        "whisper": {
+          "native_sha256": "2fef04033d314010579af6c6891638339c396089d6f0220bcfa26008a10d482d",
+          "normalized": "what time is it",
+          "text": " What time is it?"
+        }
+      },
+      "cell_id": "en-d45172aa12d8405194c5518e",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "oʊ",
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɪ",
+        "t"
+      ],
+      "ipa_tokens": [
+        "oʊ",
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɪ",
+        "t"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "42c8967879ad90a4b5f0340bc55d43c236fbcaab6f7e55796324f2f8143040e7",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "What time is it?",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-ono_anna",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "ono_anna",
+      "wav_sha256": "7f0d93cb2b78232a99ce38d7c3f696dd97c65120bd20c660889865d4e6652685"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "1075fe48d5decdfb9c143d78ec4b6add07f5bc044035d553d8be8d086e7ff0f3",
+          "normalized": "hä miro",
+          "text": "Hä, miro!"
+        },
+        "qwen": {
+          "native_sha256": "023fcd18009fbfef690fb99e4e1d1181f9093b15637b09e04796a1f93e08aff8",
+          "normalized": "hey miro",
+          "text": "Hey, Miro."
+        },
+        "whisper": {
+          "native_sha256": "7b3f183dd9c2b03e97e634442c9b846ca105e25813492517bef31ce26c9bc6c6",
+          "normalized": "hey miro",
+          "text": " Hey, Miro."
+        }
+      },
+      "cell_id": "en-d8fcc659b7999fe72a9b0e66",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "k",
+        "k",
+        "i",
+        "d",
+        "ə",
+        "l"
+      ],
+      "ipa_tokens": [
+        "k",
+        "k",
+        "i",
+        "d",
+        "ə",
+        "l"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "e929f6a17574797e4003790965bbbc108409a17efb6f132cfe18c86cf5d05867",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Miro",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-sohee",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "sohee",
+      "wav_sha256": "8ddae1e7b13fd267b25687919e9a3b455e42ff6833edfe3b1fe64718d93247ec"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "6cff09a6ce600befd1124ac9291043408e8ae6fa689244de4ff021f1473eaf3b",
+          "normalized": "hey wo sind",
+          "text": "Hey, wo sind"
+        },
+        "qwen": {
+          "native_sha256": "8be5d3c166cc18e663e80d6080fe61674588f8b019b5e18d3d3d25a21ee91236",
+          "normalized": "hey what's up",
+          "text": "Hey, what's up?"
+        },
+        "whisper": {
+          "native_sha256": "3b02e31186c4eee796659f89eac0b42d6e32d591e858c4fbf1936a6db81ccef0",
+          "normalized": "hey what's up",
+          "text": " Hey, what's up?"
+        }
+      },
+      "cell_id": "en-dfc7727430813d1d5b5ce552",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "oʊ",
+        "h",
+        "eɪ",
+        "u",
+        "z",
+        "n"
+      ],
+      "ipa_tokens": [
+        "h",
+        "oʊ",
+        "h",
+        "eɪ",
+        "u",
+        "z",
+        "n"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "c651417bdb99813e546977410e33387890033b745ad005d8caa49d608e472ba6",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Vosen!",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-sohee",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "sohee",
+      "wav_sha256": "5e36beb4fe4c582f163725ce99a5caf9894b0c054e88a29f1f1f56f9a472ea0f"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "269c5125cdfdafffeb381751a60535e7bf5b540e1ef7f880177079c7652b54f3",
+          "normalized": "hey middle",
+          "text": "Hey, middle"
+        },
+        "qwen": {
+          "native_sha256": "77531bbc9fc168962e71778a1e92d0940a436b579af0fd4d5d0e4dee25acff0a",
+          "normalized": "hey middle",
+          "text": "Hey, middle."
+        },
+        "whisper": {
+          "native_sha256": "6bc8ea2a34ab798ad69b0dc01b7ac8ffe616b7a62a95513058ae0dbc796b22ba",
+          "normalized": "hey meryl",
+          "text": " Hey, Meryl."
+        }
+      },
+      "cell_id": "en-eceac855791f3a887959420f",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "m",
+        "ɪ",
+        "d",
+        "ə",
+        "l"
+      ],
+      "ipa_tokens": [
+        "h",
+        "m",
+        "ɪ",
+        "d",
+        "ə",
+        "l"
+      ],
+      "machine_agreement": "TWO_AGREE_OTHER_OR_REQUEST",
+      "pcm_sha256": "d99122c4820968021a1607b920593a1db136c966446d9819a50e95dc48a57135",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Mero!",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-sohee",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "sohee",
+      "wav_sha256": "d20c0eae7b6b1f9bd91f4476c30477d1f89dd5c5ebce9e38ffcc5c061ec661e0"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "7f364fbea8eb3fa72876aafb5f044fcc69dfd928c739be6bd07d1dcb6c65df80",
+          "normalized": "hey rosen",
+          "text": "Hey, Rosen!"
+        },
+        "qwen": {
+          "native_sha256": "6ed8756336c41d1a6178c142e43f7cf557549afcff866185107e3f428f597416",
+          "normalized": "hey rosen",
+          "text": "Hey, Rosen."
+        },
+        "whisper": {
+          "native_sha256": "e6267e15de50984461fc61f7af8990485f19b21eec4540159ebc3251935fea15",
+          "normalized": "hey rosen",
+          "text": " Hey, Rosen."
+        }
+      },
+      "cell_id": "en-efb0b84d4bed5847539e622c",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "ɹ",
+        "ə",
+        "l",
+        "z",
+        "ɛ",
+        "n"
+      ],
+      "ipa_tokens": [
+        "h",
+        "ɹ",
+        "ə",
+        "l",
+        "z",
+        "ɛ",
+        "n"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "71b0d07d040de3f3244bbcfe2980b5603aa803990f5dd5b96cd83471ce8fead8",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "near_miss",
+      "requested_text": "Hey Rosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-sohee",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "sohee",
+      "wav_sha256": "1aa45f0f4a44d5f6ce3a1108137ef21ed5e959e768192085a94c720b44bb94be"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "4205791085da9946ba822f184ff789cb00dc1b86925f25826200d080019ce0cf",
+          "normalized": "what time is it",
+          "text": "What time is it?"
+        },
+        "qwen": {
+          "native_sha256": "0f4ed8188ca38e4c626b57f51acf240f3d366d2641f652d5ae68af8cddb01124",
+          "normalized": "what time is it",
+          "text": "What time is it?"
+        },
+        "whisper": {
+          "native_sha256": "4d96cccbcb47fb6438dea0212c0095a86ed4c484fb6d9ace71b05cb4823b5ad7",
+          "normalized": "what time is it",
+          "text": " What time is it?"
+        }
+      },
+      "cell_id": "en-f81a1f074268078d4304565c",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "w",
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɛ",
+        "t"
+      ],
+      "ipa_tokens": [
+        "w",
+        "w",
+        "ʌ",
+        "t",
+        "t",
+        "aɪ",
+        "m",
+        "ɪ",
+        "z",
+        "ɛ",
+        "t"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "59eca8c2301c7451e460a6a0332b598630fca2802ad20a1a59df9ea542166acf",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "What time is it?",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-uncle_fu",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "uncle_fu",
+      "wav_sha256": "1bd6cb59b1de4317298cdcfcf32bc807753306985b2b7b138714ea432f1a7c9b"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "7142ced013ef55547da2a288a01775958351f20e4d6444b301ee3239d932e22d",
+          "normalized": "hey vazin",
+          "text": "Hey, Vazin!"
+        },
+        "qwen": {
+          "native_sha256": "31fcc7adc1ad5dcbc31afeb62828494ca4ce27fdbc10d5eb97b9ce8d3655a836",
+          "normalized": "hey verizon",
+          "text": "Hey, Verizon."
+        },
+        "whisper": {
+          "native_sha256": "44937edc3abcb541f1657a0346fa972e47f610a46c115c5b7b1f699d9a52c84f",
+          "normalized": "hey lozen",
+          "text": " Hey, Lozen!"
+        }
+      },
+      "cell_id": "en-f9cb8099b3e0b0e7829fd1a5",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "l",
+        "ʌ",
+        "z",
+        "n"
+      ],
+      "ipa_tokens": [
+        "h",
+        "l",
+        "ʌ",
+        "z",
+        "n"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "42be9c2d540b79188f2b3a526ffa1743431e68fdbfac24b3cbb6698542ff01e5",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Vosen!",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-serena",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "serena",
+      "wav_sha256": "705b65041c2d6094c2a936e4c11446588fc9fdc5c4115031125738d354ac5c8f"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "ed4472759ccfd97fab521601bf796441398afd15020c7247e7cc2a4d6f278d26",
+          "normalized": "hey can you hear me",
+          "text": "Hey, can you hear me?"
+        },
+        "qwen": {
+          "native_sha256": "28b7ea04f21b3ee8369ef525d29efdcbd2eb1175db348a67d096b9f3ada9110c",
+          "normalized": "hey can you hear me",
+          "text": "Hey, can you hear me?"
+        },
+        "whisper": {
+          "native_sha256": "362e9325b949058107718644e5679ac40ddc569e0b5716de174c9b184673ab8f",
+          "normalized": "hey can you hear me",
+          "text": " Hey, can you hear me?"
+        }
+      },
+      "cell_id": "en-fc71d2c572a45060c5f9cfdc",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "k",
+        "ɪ",
+        "ŋ",
+        "ə",
+        "h",
+        "ɛ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "ipa_tokens": [
+        "h",
+        "k",
+        "ɪ",
+        "ŋ",
+        "ə",
+        "h",
+        "ɛ",
+        "ɹ",
+        "m",
+        "i"
+      ],
+      "machine_agreement": "ALL_THREE_MATCH_REQUEST",
+      "pcm_sha256": "7126ab62b05f71b34e8d00f2039ee4cd9410b58b56c7133c7f02e00bc8960967",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": false,
+      "requested_intent": "ordinary_negative",
+      "requested_text": "Hey, can you hear me?",
+      "role": "development-only",
+      "source_family_id": "qwen3-preset-serena",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "serena",
+      "wav_sha256": "63cf3183a50a897793cd66ecb36b8f2c6e196f932e3a60cd2da14f70b42b3055"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "68ca000b3bda8926e7a98d2bb93d1c742a7d1d1939b7dc9b21a823212240944c",
+          "normalized": "heh mira",
+          "text": "Heh, Mira."
+        },
+        "qwen": {
+          "native_sha256": "f4b5442956261ee41bd5825ec5e72e9a5f85d2d842f87e9af7a55a8921d4ade9",
+          "normalized": "hey mirror",
+          "text": "Hey, mirror."
+        },
+        "whisper": {
+          "native_sha256": "b51799711fa813702973ff2baf7eb9ce30183c0f72a473cbe06323cabf808301",
+          "normalized": "hey mero",
+          "text": " Hey, Mero."
+        }
+      },
+      "cell_id": "en-fdcb4338be92a946e4658e14",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "m",
+        "ɛ",
+        "ɹ",
+        "ə"
+      ],
+      "ipa_tokens": [
+        "h",
+        "m",
+        "ɛ",
+        "ɹ",
+        "ə"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "18515b530ae13c75d29fe1c7cb39a5a66af20887975f62663a2ccbae562e6b3d",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey, Mero!",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-dylan",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "dylan",
+      "wav_sha256": "25f5c9b2f35adc1f5e017b7bb8d5a215d8e102fc003e4ae1d63df5fbc49c8734"
+    },
+    {
+      "asr_observations": {
+        "parakeet": {
+          "native_sha256": "8e186dd200c2a5f4a849e662a0eb4f2114f52260cb00c0ae80252a02b290406b",
+          "normalized": "he was in",
+          "text": "He was in."
+        },
+        "qwen": {
+          "native_sha256": "9db6cf5b0757a243c37d87cad6d985c57bdc2647e7a6f939d5e2229772bbbaed",
+          "normalized": "hey watson",
+          "text": "Hey, Watson."
+        },
+        "whisper": {
+          "native_sha256": "e5cb464ddacfe942ef6386222713bf53c8576159b85f6b5820081692e26293a5",
+          "normalized": "hey what's up",
+          "text": " Hey, what's up?"
+        }
+      },
+      "cell_id": "en-ff3bb1e16e10844b62d08308",
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa_raw_tokens": [
+        "h",
+        "i",
+        "w",
+        "ə",
+        "z",
+        "n"
+      ],
+      "ipa_tokens": [
+        "h",
+        "i",
+        "w",
+        "ə",
+        "z",
+        "n"
+      ],
+      "machine_agreement": "THREE_DISAGREE",
+      "pcm_sha256": "df7c83259b73c940f1917d9e93b7a490b94fe935a30bf777a7f917eee3143935",
+      "phonetic_label_authenticated": false,
+      "prioritized_for_human_review_only": true,
+      "requested_intent": "wake",
+      "requested_text": "Hey Vosen",
+      "role": "train-candidate",
+      "source_family_id": "qwen3-preset-ono_anna",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "ono_anna",
+      "wav_sha256": "5d20d437afd1a0547ae9229a34c9440742b23a1450aba2ac07e18f6a938239d5"
+    }
+  ],
+  "schema": "english63-independent-evidence-joined-review-priority-v1",
+  "source_archive_sha256": {
+    "asr": "3786baa9fd3575437a05e97956fafdf3298eac23de2538b485b8342ef4d25133",
+    "dtw": "64efe60c4b8c45cf130b2b55b4be6674f665dbcf7d667548c463dda15d951e18",
+    "ipa": "a70ee89c76bf25f8a0a6b82a5a72c46128782e7f2020fb7655c06845de131be0"
+  },
+  "source_ipa_run_id": 43340235981,
+  "source_payload_sha256": {
+    "asr": "60054a3532491631a47b094ea7ff2bc86ef16530ff510f968bc9edcdd253a9ad",
+    "dtw": "6dfe169bb37a8264e281270c3eb6aaa3d49135a79a2eb6761cffb69b1b5681f4",
+    "ipa": "093e18093a52bffa68aa60082cc490fdc3f9129eb1d60a209c2fef1d29e9e151"
+  },
+  "source_tts_run_id": 43242278962,
+  "status": "MACHINE_EVIDENCE_JOINED_REVIEW_NOT_GOLD",
+  "training_admitted": false,
+  "voice_count_synthetic": 7,
+  "wake_pairs": [
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "Hey, you wasn't.",
+          "punctuated": "Hey, Wolsen!"
+        },
+        "qwen": {
+          "plain": "Hey Watson.",
+          "punctuated": "Hey, Wilson."
+        },
+        "whisper": {
+          "plain": " Hey, what's up?",
+          "punctuated": " Hey, Wilson!"
+        }
+      },
+      "cell_ids": [
+        "en-849efd3affed4ed9d0b1cf4d",
+        "en-2c56f692a31083da3cd5cf4f"
+      ],
+      "diagnostic_review_order": 1,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "vosen_vs_rosen": {
+          "dtw_near_not_farther": false,
+          "dtw_near_to_same_ratio": 1.13852,
+          "ipa_near_not_farther": true,
+          "ipa_near_phone_edit": 4
+        },
+        "vosen_vs_wosen": {
+          "dtw_near_not_farther": true,
+          "dtw_near_to_same_ratio": 0.934406,
+          "ipa_near_not_farther": true,
+          "ipa_near_phone_edit": 2
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Vosen",
+        "Hey, Vosen!"
+      ],
+      "role": "train-candidate",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "h",
+          "u",
+          "w",
+          "ə",
+          "z",
+          "ɛ",
+          "n"
+        ],
+        "punctuated": [
+          "p",
+          "oʊ",
+          "ɹ",
+          "oʊ",
+          "ə",
+          "n"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 6,
+      "source_family_id": "qwen3-preset-vivian",
+      "three_asr_provider_pairs_differ_across_variants": 3,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "vivian",
+      "wake_candidate": "vosen"
+    },
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "Hey Mero",
+          "punctuated": "Heh, Mira."
+        },
+        "qwen": {
+          "plain": "Hey, Merrill.",
+          "punctuated": "Hey, mirror."
+        },
+        "whisper": {
+          "plain": " Hey, Meryl.",
+          "punctuated": " Hey, Mero."
+        }
+      },
+      "cell_ids": [
+        "en-7bf087cdc987da7621cbda03",
+        "en-fdcb4338be92a946e4658e14"
+      ],
+      "diagnostic_review_order": 2,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "mero_vs_miro": {
+          "dtw_near_not_farther": true,
+          "dtw_near_to_same_ratio": 0.732393,
+          "ipa_near_not_farther": true,
+          "ipa_near_phone_edit": 3
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Mero",
+        "Hey, Mero!"
+      ],
+      "role": "train-candidate",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "h",
+          "n",
+          "h",
+          "eɪ",
+          "m",
+          "ɪ",
+          "ɹ",
+          "i",
+          "l"
+        ],
+        "punctuated": [
+          "h",
+          "m",
+          "ɛ",
+          "ɹ",
+          "ə"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 6,
+      "source_family_id": "qwen3-preset-dylan",
+      "three_asr_provider_pairs_differ_across_variants": 3,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "dylan",
+      "wake_candidate": "mero"
+    },
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "Hey Merrow",
+          "punctuated": "Hei, Mero!"
+        },
+        "qwen": {
+          "plain": "Hey, Mero.",
+          "punctuated": "Hey, Mero."
+        },
+        "whisper": {
+          "plain": " Hey, Meryl!",
+          "punctuated": " Hey, manro!"
+        }
+      },
+      "cell_ids": [
+        "en-cc02c78acb21b8ba5dd7686e",
+        "en-85fa95925c392bbc6abf8f20"
+      ],
+      "diagnostic_review_order": 3,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "mero_vs_miro": {
+          "dtw_near_not_farther": false,
+          "dtw_near_to_same_ratio": 1.175319,
+          "ipa_near_not_farther": true,
+          "ipa_near_phone_edit": 4
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Mero",
+        "Hey, Mero!"
+      ],
+      "role": "train-candidate",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "k",
+          "eɪ",
+          "z",
+          "ɛ",
+          "ɹ",
+          "ə",
+          "l"
+        ],
+        "punctuated": [
+          "m",
+          "æ",
+          "ɹ"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 6,
+      "source_family_id": "qwen3-preset-eric",
+      "three_asr_provider_pairs_differ_across_variants": 2,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "eric",
+      "wake_candidate": "mero"
+    },
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "Hey Bosan.",
+          "punctuated": "Hey, wo sind"
+        },
+        "qwen": {
+          "plain": "Hibou San.",
+          "punctuated": "Hey, what's up?"
+        },
+        "whisper": {
+          "plain": " Hey bossen",
+          "punctuated": " Hey, what's up?"
+        }
+      },
+      "cell_ids": [
+        "en-600f565d0c5d16506cd90fc3",
+        "en-dfc7727430813d1d5b5ce552"
+      ],
+      "diagnostic_review_order": 4,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "vosen_vs_rosen": {
+          "dtw_near_not_farther": true,
+          "dtw_near_to_same_ratio": 0.985813,
+          "ipa_near_not_farther": true,
+          "ipa_near_phone_edit": 4
+        },
+        "vosen_vs_wosen": {
+          "dtw_near_not_farther": true,
+          "dtw_near_to_same_ratio": 0.88287,
+          "ipa_near_not_farther": true,
+          "ipa_near_phone_edit": 4
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Vosen",
+        "Hey, Vosen!"
+      ],
+      "role": "train-candidate",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "h",
+          "i",
+          "b",
+          "oʊ",
+          "s",
+          "ɛ",
+          "n"
+        ],
+        "punctuated": [
+          "h",
+          "oʊ",
+          "h",
+          "eɪ",
+          "u",
+          "z",
+          "n"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 5,
+      "source_family_id": "qwen3-preset-sohee",
+      "three_asr_provider_pairs_differ_across_variants": 3,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "sohee",
+      "wake_candidate": "vosen"
+    },
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "Hey Middle",
+          "punctuated": "Hey, Mero!"
+        },
+        "qwen": {
+          "plain": "Hey, Melo.",
+          "punctuated": "Hey, Mero."
+        },
+        "whisper": {
+          "plain": " Hey, Mellow.",
+          "punctuated": " Hey, Mero!"
+        }
+      },
+      "cell_ids": [
+        "en-a1dadbccb534b3f6d838b13e",
+        "en-09222b6705484be6fc4980e3"
+      ],
+      "diagnostic_review_order": 5,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "mero_vs_miro": {
+          "dtw_near_not_farther": false,
+          "dtw_near_to_same_ratio": 1.145965,
+          "ipa_near_not_farther": false,
+          "ipa_near_phone_edit": 6
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Mero",
+        "Hey, Mero!"
+      ],
+      "role": "train-candidate",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "eɪ",
+          "m",
+          "ɪ",
+          "d",
+          "oʊ",
+          "oʊ",
+          "m"
+        ],
+        "punctuated": [
+          "eɪ",
+          "m",
+          "eɪ",
+          "m",
+          "ɛ",
+          "ɚ",
+          "l"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 5,
+      "source_family_id": "qwen3-preset-ono_anna",
+      "three_asr_provider_pairs_differ_across_variants": 3,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "ono_anna",
+      "wake_candidate": "mero"
+    },
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "Hey Wozen",
+          "punctuated": "Hey Bossen!"
+        },
+        "qwen": {
+          "plain": "Hey, Watson.",
+          "punctuated": "Hey, bossin."
+        },
+        "whisper": {
+          "plain": " Hey, Wozen!",
+          "punctuated": " Hey, bossen!"
+        }
+      },
+      "cell_ids": [
+        "en-66a302338bb93b10582f57f6",
+        "en-5b2a92401d2ba9888bd342d7"
+      ],
+      "diagnostic_review_order": 6,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "vosen_vs_rosen": {
+          "dtw_near_not_farther": true,
+          "dtw_near_to_same_ratio": 0.805625,
+          "ipa_near_not_farther": false,
+          "ipa_near_phone_edit": 6
+        },
+        "vosen_vs_wosen": {
+          "dtw_near_not_farther": false,
+          "dtw_near_to_same_ratio": 1.025568,
+          "ipa_near_not_farther": true,
+          "ipa_near_phone_edit": 4
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Vosen",
+        "Hey, Vosen!"
+      ],
+      "role": "train-candidate",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "eɪ",
+          "h",
+          "ɔ",
+          "z",
+          "ə",
+          "n"
+        ],
+        "punctuated": [
+          "k",
+          "eɪ",
+          "k",
+          "b",
+          "ʌ",
+          "z",
+          "ə",
+          "n"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 4,
+      "source_family_id": "qwen3-preset-eric",
+      "three_asr_provider_pairs_differ_across_variants": 3,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "eric",
+      "wake_candidate": "vosen"
+    },
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "He was in.",
+          "punctuated": "Hey, was een!"
+        },
+        "qwen": {
+          "plain": "Hey, Watson.",
+          "punctuated": "Hey, wasn't"
+        },
+        "whisper": {
+          "plain": " Hey, what's up?",
+          "punctuated": " Hey, Vosin!"
+        }
+      },
+      "cell_ids": [
+        "en-ff3bb1e16e10844b62d08308",
+        "en-631f4fda148a0d021a64cf7b"
+      ],
+      "diagnostic_review_order": 7,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "vosen_vs_rosen": {
+          "dtw_near_not_farther": false,
+          "dtw_near_to_same_ratio": 1.024599,
+          "ipa_near_not_farther": false,
+          "ipa_near_phone_edit": 5
+        },
+        "vosen_vs_wosen": {
+          "dtw_near_not_farther": true,
+          "dtw_near_to_same_ratio": 0.997913,
+          "ipa_near_not_farther": false,
+          "ipa_near_phone_edit": 5
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Vosen",
+        "Hey, Vosen!"
+      ],
+      "role": "train-candidate",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "h",
+          "i",
+          "w",
+          "ə",
+          "z",
+          "n"
+        ],
+        "punctuated": [
+          "eɪ",
+          "n",
+          "ɑ",
+          "ə",
+          "n"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 4,
+      "source_family_id": "qwen3-preset-ono_anna",
+      "three_asr_provider_pairs_differ_across_variants": 3,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "ono_anna",
+      "wake_candidate": "vosen"
+    },
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "Hey Mayle.",
+          "punctuated": "Hey, Merrill"
+        },
+        "qwen": {
+          "plain": "Hey, Miro.",
+          "punctuated": "Hey, Merrill."
+        },
+        "whisper": {
+          "plain": " Hey, Meryl.",
+          "punctuated": " Hey, Meryl."
+        }
+      },
+      "cell_ids": [
+        "en-5e11f812cab40cb9d6917db2",
+        "en-8ed1540c9784e17dc1386be7"
+      ],
+      "diagnostic_review_order": 8,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "mero_vs_miro": {
+          "dtw_near_not_farther": false,
+          "dtw_near_to_same_ratio": 1.057967,
+          "ipa_near_not_farther": true,
+          "ipa_near_phone_edit": 3
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Mero",
+        "Hey, Mero!"
+      ],
+      "role": "train-candidate",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "p",
+          "h",
+          "eɪ",
+          "m",
+          "ə",
+          "ə",
+          "l"
+        ],
+        "punctuated": [
+          "k",
+          "t͡ʃ",
+          "eɪ",
+          "m",
+          "eɪ",
+          "m",
+          "l"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 4,
+      "source_family_id": "qwen3-preset-vivian",
+      "three_asr_provider_pairs_differ_across_variants": 2,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "vivian",
+      "wake_candidate": "mero"
+    },
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "Hey Middle.",
+          "punctuated": "Hey, middle"
+        },
+        "qwen": {
+          "plain": "Hey, Melo.",
+          "punctuated": "Hey, middle."
+        },
+        "whisper": {
+          "plain": " Hey, Mellow.",
+          "punctuated": " Hey, Meryl."
+        }
+      },
+      "cell_ids": [
+        "en-c035c946bda134e0f0687e62",
+        "en-eceac855791f3a887959420f"
+      ],
+      "diagnostic_review_order": 9,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "mero_vs_miro": {
+          "dtw_near_not_farther": false,
+          "dtw_near_to_same_ratio": 1.028258,
+          "ipa_near_not_farther": true,
+          "ipa_near_phone_edit": 3
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Mero",
+        "Hey, Mero!"
+      ],
+      "role": "train-candidate",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "h",
+          "k",
+          "h",
+          "ɪ",
+          "d",
+          "l"
+        ],
+        "punctuated": [
+          "h",
+          "m",
+          "ɪ",
+          "d",
+          "ə",
+          "l"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 3,
+      "source_family_id": "qwen3-preset-sohee",
+      "three_asr_provider_pairs_differ_across_variants": 2,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "sohee",
+      "wake_candidate": "mero"
+    },
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "Хей, воза.",
+          "punctuated": "Heh, Fazer!"
+        },
+        "qwen": {
+          "plain": "Hey, Rosa.",
+          "punctuated": "Hey, Verizon."
+        },
+        "whisper": {
+          "plain": " Hey, wasa!",
+          "punctuated": " Hey, there's a..."
+        }
+      },
+      "cell_ids": [
+        "en-20b84148a2356897085bef2d",
+        "en-2e0b9e74354dfac6a49aed78"
+      ],
+      "diagnostic_review_order": 10,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "vosen_vs_rosen": {
+          "dtw_near_not_farther": true,
+          "dtw_near_to_same_ratio": 0.965211,
+          "ipa_near_not_farther": false,
+          "ipa_near_phone_edit": 3
+        },
+        "vosen_vs_wosen": {
+          "dtw_near_not_farther": true,
+          "dtw_near_to_same_ratio": 0.924604,
+          "ipa_near_not_farther": false,
+          "ipa_near_phone_edit": 3
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Vosen",
+        "Hey, Vosen!"
+      ],
+      "role": "train-candidate",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "h",
+          "h",
+          "ɔ",
+          "z",
+          "ə"
+        ],
+        "punctuated": [
+          "h",
+          "z",
+          "ə"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 2,
+      "source_family_id": "qwen3-preset-dylan",
+      "three_asr_provider_pairs_differ_across_variants": 3,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "dylan",
+      "wake_candidate": "vosen"
+    },
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "Rimero",
+          "punctuated": "Heh, Meryl!"
+        },
+        "qwen": {
+          "plain": "Hey, Merrill.",
+          "punctuated": "Ha ha, Merrill."
+        },
+        "whisper": {
+          "plain": " Primero.",
+          "punctuated": " Heh, hey, Meryl."
+        }
+      },
+      "cell_ids": [
+        "en-c39ad4f1a36d783d9fd076cd",
+        "en-6af5dd69b909ba54f064963b"
+      ],
+      "diagnostic_review_order": 11,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "mero_vs_miro": {
+          "dtw_near_not_farther": true,
+          "dtw_near_to_same_ratio": 0.932635,
+          "ipa_near_not_farther": true,
+          "ipa_near_phone_edit": 6
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Mero",
+        "Hey, Mero!"
+      ],
+      "role": "development-only",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "k",
+          "k",
+          "l",
+          "eɪ",
+          "æ",
+          "m",
+          "ɛ",
+          "ɹ"
+        ],
+        "punctuated": [
+          "m",
+          "oʊ",
+          "ɪ",
+          "ɹ",
+          "ə",
+          "l"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 8,
+      "source_family_id": "qwen3-preset-uncle_fu",
+      "three_asr_provider_pairs_differ_across_variants": 3,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "uncle_fu",
+      "wake_candidate": "mero"
+    },
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "Хей, восса.",
+          "punctuated": "Хэ, вода!"
+        },
+        "qwen": {
+          "plain": "Hey, Watson.",
+          "punctuated": "Hey, what's up?"
+        },
+        "whisper": {
+          "plain": " Hey, wass'",
+          "punctuated": " Hey, Vodan."
+        }
+      },
+      "cell_ids": [
+        "en-6b4f3ec7165124620a71d74d",
+        "en-cc9987f1129c42611547d2fb"
+      ],
+      "diagnostic_review_order": 12,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "vosen_vs_rosen": {
+          "dtw_near_not_farther": false,
+          "dtw_near_to_same_ratio": 1.649247,
+          "ipa_near_not_farther": false,
+          "ipa_near_phone_edit": 8
+        },
+        "vosen_vs_wosen": {
+          "dtw_near_not_farther": true,
+          "dtw_near_to_same_ratio": 0.898825,
+          "ipa_near_not_farther": true,
+          "ipa_near_phone_edit": 6
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Vosen",
+        "Hey, Vosen!"
+      ],
+      "role": "development-only",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "l",
+          "i",
+          "w",
+          "ɔ",
+          "s",
+          "ə",
+          "n"
+        ],
+        "punctuated": [
+          "h",
+          "oʊ",
+          "m",
+          "aɪ",
+          "ɔ",
+          "d"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 7,
+      "source_family_id": "qwen3-preset-uncle_fu",
+      "three_asr_provider_pairs_differ_across_variants": 3,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "uncle_fu",
+      "wake_candidate": "vosen"
+    },
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "Hey Wooden.",
+          "punctuated": "Hey, Vazin!"
+        },
+        "qwen": {
+          "plain": "Hey, Wooden.",
+          "punctuated": "Hey, Verizon."
+        },
+        "whisper": {
+          "plain": " Hey, Wooden!",
+          "punctuated": " Hey, Lozen!"
+        }
+      },
+      "cell_ids": [
+        "en-1b8778d3c8627ce0b271b55b",
+        "en-f9cb8099b3e0b0e7829fd1a5"
+      ],
+      "diagnostic_review_order": 13,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "vosen_vs_rosen": {
+          "dtw_near_not_farther": true,
+          "dtw_near_to_same_ratio": 0.830309,
+          "ipa_near_not_farther": true,
+          "ipa_near_phone_edit": 4
+        },
+        "vosen_vs_wosen": {
+          "dtw_near_not_farther": true,
+          "dtw_near_to_same_ratio": 0.724261,
+          "ipa_near_not_farther": true,
+          "ipa_near_phone_edit": 3
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Vosen",
+        "Hey, Vosen!"
+      ],
+      "role": "development-only",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "p",
+          "eɪ",
+          "ʌ",
+          "d",
+          "ə",
+          "n"
+        ],
+        "punctuated": [
+          "h",
+          "l",
+          "ʌ",
+          "z",
+          "n"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 4,
+      "source_family_id": "qwen3-preset-serena",
+      "three_asr_provider_pairs_differ_across_variants": 3,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "serena",
+      "wake_candidate": "vosen"
+    },
+    {
+      "asr_pair_transcripts": {
+        "parakeet": {
+          "plain": "Hey Merle.",
+          "punctuated": "Hey, Meryl!"
+        },
+        "qwen": {
+          "plain": "Hey Miro.",
+          "punctuated": "Hey, Miro."
+        },
+        "whisper": {
+          "plain": " Hey, Meryl!",
+          "punctuated": " Hey, Meryl!"
+        }
+      },
+      "cell_ids": [
+        "en-968be7ea633e42194fb1951f",
+        "en-7f19ada0494ae743115db6bb"
+      ],
+      "diagnostic_review_order": 14,
+      "human_gold": false,
+      "machine_only_priority": true,
+      "nearphone_comparisons": {
+        "mero_vs_miro": {
+          "dtw_near_not_farther": true,
+          "dtw_near_to_same_ratio": 0.898544,
+          "ipa_near_not_farther": false,
+          "ipa_near_phone_edit": 4
+        }
+      },
+      "phonetic_label_authenticated": false,
+      "requested_texts": [
+        "Hey Mero",
+        "Hey, Mero!"
+      ],
+      "role": "development-only",
+      "same_wake_variant_ipa": {
+        "plain": [
+          "eɪ",
+          "m",
+          "ɪ",
+          "ɹ",
+          "ə",
+          "l"
+        ],
+        "punctuated": [
+          "h",
+          "eɪ",
+          "m",
+          "eɪ",
+          "ɛ",
+          "ɹ",
+          "ə",
+          "l"
+        ]
+      },
+      "same_wake_variants_ipa_edit": 3,
+      "source_family_id": "qwen3-preset-serena",
+      "three_asr_provider_pairs_differ_across_variants": 1,
+      "training_admitted": false,
+      "trusted_negative": false,
+      "voice_id": "serena",
+      "wake_candidate": "mero"
+    }
+  ]
+}

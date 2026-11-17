@@ -1,0 +1,293 @@
+{
+  "schema": "english-stream-resource-independent-result-review-v1",
+  "review_status": "MEASUREMENT_EVIDENCE_CONSISTENT_NOT_PERFORMANCE_QUALIFICATION",
+  "run_id": 44000006165,
+  "artifact_id": 14292027025,
+  "artifact_bytes": 4547376,
+  "artifact_sha256": "ce4100bc444cfe99ef18c62e8a1bb17be655c7b57340949049e3abc5867a065f",
+  "review_execution": {
+    "binary_or_model_executions": 0,
+    "downloads": 0,
+    "remote_writes": 0,
+    "read_only_cross_checks": true
+  },
+  "checks": {
+    "all_35_extracted_members_equal_original_zip": true,
+    "sdk_zip_and_consumed_header_library_head_match": true,
+    "benchmark_and_profiler_source_hashes_match_reviewed_sources": true,
+    "saved_executable_hashes_match_results_without_execution": true,
+    "all_recorded_command_returncodes_zero": true,
+    "input_pcm_hashes_sizes_and_fragment_contiguity_match": true,
+    "stdout_json_matches_summary_json": true,
+    "sample_call_output_counts_consistent": true,
+    "warmup_plus_steady_equals_whole_stream": true,
+    "rtf_cpu_and_over_duration_ratios_recomputed": true,
+    "quantiles_order_and_scope_checked": true,
+    "quantiles_independently_recomputed_from_per_call_samples": false,
+    "complete_profile_node_id_op_and_call_counts_match_sdk_export": true,
+    "diagnostic_replay_event_and_counter_parity": true,
+    "diagnostic_logit_parity_checked": false
+  },
+  "pass_accounting": {
+    "baseline_full_stream_replays": 2,
+    "baseline_seconds": 32,
+    "diagnostic_replays_of_first_baseline_input": 1,
+    "additional_diagnostic_replay_seconds": 16,
+    "total_model_input_replay_seconds": 48,
+    "distinct_pcm_input_seconds": 32,
+    "independent_input_seconds": 0,
+    "three_passes_means": "two distinct 16-second baseline streams once each plus one 16-second instrumented replay of the first; not three repeats of the whole baseline"
+  },
+  "input_checks": [
+    {
+      "id": "libri-speaker-1272",
+      "bytes": 512000,
+      "sha256": "a192f737578dd259c447caf07a06a9566326aabd489faa96d4ccfb8854fc33ab",
+      "samples": 256000,
+      "seconds": 16,
+      "fragment_count": 3,
+      "role": "train",
+      "previously_exposed": true,
+      "trusted_negative": false
+    },
+    {
+      "id": "libri-speaker-1462",
+      "bytes": 512000,
+      "sha256": "9a93bc5842da1ad5f3d6af3e9987ec7a157127d0eea6f6d83282df7afe37ffa7",
+      "samples": 256000,
+      "seconds": 16,
+      "fragment_count": 5,
+      "role": "train",
+      "previously_exposed": true,
+      "trusted_negative": false
+    }
+  ],
+  "host": {
+    "machine": "x86_64",
+    "cpu_model": "Intel(R) Xeon(R) 6975P-C",
+    "logical_cpu_count": 4,
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "compiler": "GCC 13.3.0",
+    "ssc305_run": false
+  },
+  "comparison_rows": [
+    {
+      "input": "libri-speaker-1272",
+      "role": "baseline",
+      "input_seconds": 16,
+      "warmup_seconds": 2.2,
+      "steady_seconds": 13.8,
+      "whole_accept_wall_seconds": 26.178067898,
+      "whole_wall_rtf": 1.636129244,
+      "steady_accept_wall_seconds": 23.952581497,
+      "steady_accept_cpu_seconds": 23.95086802,
+      "steady_wall_rtf": 1.735694311,
+      "steady_cpu_seconds_per_audio_second": 1.735570146,
+      "steady_process_cpu_per_accept_wall_second": 0.9999284637858256,
+      "steady_call_p50_ms": 0.00135,
+      "steady_call_p95_ms": 139.488865,
+      "steady_call_p99_ms": 142.124942,
+      "steady_call_max_ms": 147.785464,
+      "steady_calls_over_20ms": 172,
+      "steady_calls": 690,
+      "after_warmup_pss_kib": 3870,
+      "after_stream_pss_kib": 3868,
+      "after_stream_rss_kib": 5984,
+      "process_lifetime_peak_rss_kib": 20360,
+      "process_lifetime_peak_rss_already_at_input_preload": true
+    },
+    {
+      "input": "libri-speaker-1462",
+      "role": "baseline",
+      "input_seconds": 16,
+      "warmup_seconds": 2.2,
+      "steady_seconds": 13.8,
+      "whole_accept_wall_seconds": 26.188925545,
+      "whole_wall_rtf": 1.636807847,
+      "steady_accept_wall_seconds": 23.96870621,
+      "steady_accept_cpu_seconds": 23.966893834,
+      "steady_wall_rtf": 1.736862769,
+      "steady_cpu_seconds_per_audio_second": 1.736731437,
+      "steady_process_cpu_per_accept_wall_second": 0.9999243857393002,
+      "steady_call_p50_ms": 0.001355,
+      "steady_call_p95_ms": 139.774321,
+      "steady_call_p99_ms": 140.283846,
+      "steady_call_max_ms": 151.003086,
+      "steady_calls_over_20ms": 172,
+      "steady_calls": 690,
+      "after_warmup_pss_kib": 3878,
+      "after_stream_pss_kib": 3878,
+      "after_stream_rss_kib": 6032,
+      "process_lifetime_peak_rss_kib": 20360,
+      "process_lifetime_peak_rss_already_at_input_preload": true
+    },
+    {
+      "input": "libri-speaker-1272",
+      "role": "diagnostic_replay",
+      "input_seconds": 16,
+      "warmup_seconds": 2.2,
+      "steady_seconds": 13.8,
+      "whole_accept_wall_seconds": 25.882089842,
+      "whole_wall_rtf": 1.617630615,
+      "steady_accept_wall_seconds": 23.679754795,
+      "steady_accept_cpu_seconds": 23.678545149,
+      "steady_wall_rtf": 1.715924261,
+      "steady_cpu_seconds_per_audio_second": 1.715836605,
+      "steady_process_cpu_per_accept_wall_second": 0.9999489164473842,
+      "steady_call_p50_ms": 0.001303,
+      "steady_call_p95_ms": 138.061627,
+      "steady_call_p99_ms": 138.781491,
+      "steady_call_max_ms": 144.593277,
+      "steady_calls_over_20ms": 172,
+      "steady_calls": 690,
+      "after_warmup_pss_kib": 3896,
+      "after_stream_pss_kib": 3896,
+      "after_stream_rss_kib": 5992,
+      "process_lifetime_peak_rss_kib": 58776,
+      "process_lifetime_peak_rss_already_at_input_preload": true
+    }
+  ],
+  "baseline_aggregate": {
+    "audio_seconds": 32,
+    "steady_audio_seconds": 27.6,
+    "accept_wall_seconds": 52.366993443,
+    "whole_wall_rtf": 1.63646854509375,
+    "steady_accept_wall_seconds": 47.921287707000005,
+    "steady_wall_rtf": 1.7362785401086958,
+    "steady_cpu_seconds_per_audio_second": 1.7361507918115944,
+    "aggregate_p99_ms": null,
+    "aggregate_p99_reason": "Per-call timing samples were not exported; do not average case p99 values."
+  },
+  "counts_per_replay": {
+    "input_samples": 256000,
+    "warmup_samples": 35200,
+    "steady_samples": 220800,
+    "whole_calls": 800,
+    "warmup_calls": 110,
+    "steady_calls": 690,
+    "whole_embeddings": 188,
+    "whole_ready_outputs": 173,
+    "warmup_embeddings": 16,
+    "warmup_ready_outputs": 1,
+    "steady_embeddings": 172,
+    "steady_ready_outputs": 172,
+    "events": 0,
+    "empty_event_digest_fnv1a64": "cbf29ce484222325"
+  },
+  "memory_scope": {
+    "stream_state_bytes": 236328,
+    "workspace_bytes": 528384,
+    "state_plus_workspace_bytes": 764712,
+    "preloaded_pcm_bytes": 512000,
+    "timing_array_bytes": 25600,
+    "state_workspace_input_and_instrumentation_bytes": 1302312,
+    "head_blob_released_before_after_init_snapshot": true,
+    "pss_is_process_snapshot_including_input_and_instrumentation": true,
+    "pss_is_isolated_kws_peak": false,
+    "high_water_rss_is_isolated_kws_peak": false,
+    "high_water_rss_caveat": "Baseline 20,360 KiB and diagnostic 58,776 KiB high-water values already exist before stream allocation and stay unchanged; they cannot attribute a KWS/diagnostic peak or incremental cost."
+  },
+  "diagnostic_profile": {
+    "headline_performance": false,
+    "complete_rows": 81,
+    "groups": [
+      {
+        "graph": "mel",
+        "kind": "nodes_including_finite_value_scans",
+        "row_count": 16,
+        "calls_each": 188,
+        "wall_seconds": 2.557464274,
+        "process_cpu_seconds": 2.557502381
+      },
+      {
+        "graph": "mel",
+        "kind": "graph_validation",
+        "row_count": 1,
+        "calls_each": 188,
+        "wall_seconds": 0.000367719,
+        "process_cpu_seconds": 0.000366211
+      },
+      {
+        "graph": "embedding",
+        "kind": "nodes_including_finite_value_scans",
+        "row_count": 63,
+        "calls_each": 188,
+        "wall_seconds": 23.302036236,
+        "process_cpu_seconds": 23.301960948
+      },
+      {
+        "graph": "embedding",
+        "kind": "graph_validation",
+        "row_count": 1,
+        "calls_each": 188,
+        "wall_seconds": 0.000382787,
+        "process_cpu_seconds": 0.000381955
+      }
+    ],
+    "total_profiled_wall_seconds": 25.860251016,
+    "diagnostic_whole_accept_wall_seconds": 25.882089842,
+    "residual_not_attributed_seconds": 0.021838825999999756,
+    "embedding_nodes_share_of_profiled_time": 0.9010754080299836,
+    "convolution_nodes_wall_seconds": 24.268575895,
+    "convolution_nodes_share_of_profiled_time": 0.938450902119426,
+    "scope": "All 188 graph invocations across warm-up and steady; node operation plus output finite-value scan and clock overhead. Graph validation separate. Input/output outer scans, ring copies, normalization, causal head, callbacks and profiler accounting outside the summed regions as applicable.",
+    "baseline_equivalent_time_inferred": false
+  },
+  "findings_zh": [
+    "测量与完整性成功，性能预算未评估；基线稳态RTF约1.736，当前主机当前实现的串行accept吞吐低于实时音频到达速率。",
+    "CPU秒/音频秒约1.736不是进程CPU利用率173.6%；CPU/accept墙钟约0.9999，约占一个核的运行时间。",
+    "稳态p99约140–142毫秒是320样本/20毫秒喂入调用的服务时间；不是词尾至唤醒事件的延迟，也不是独立神经网络推理的p99。",
+    "每case稳态172/690次调用服务时间大于20毫秒；未做实时节拍或音频队列测试，不能将该计数直接当现场丢帧率。",
+    "所有事件数为0，event digest等于空序列FNV初值；诊断只证实该输入的计数与空事件序列一致，不证明logit或非空事件等价。",
+    "诊断聚合定位卷积占约94%的受测节点区域时间，但它覆盖warm-up和steady且含插桩；不能用作基线headline数值或承诺优化收益。"
+  ],
+  "limitations_zh": [
+    "两条已暴露的LibriSpeech拼接朗读样本；32秒不同输入、48秒总处理时长、独立评估时长0。没有连续自然会话或可信独立负流证据。",
+    "SSC305实板、目标编译器/ABI、麦克风音频链路、板端CPU/内存均未测试，不能从x86主机按比例推断。",
+    "未测FAR/FRR、真实唤醒正例、词尾时间标注、真实实时调度/队列延迟或长期稳定性。",
+    "每输入仅一次基线，没有同配置多轮重复、置信区间、并发压力、温度/频率控制或固定单核绑定。",
+    "仅保存分位数摘要，没有逐调用时延数组，无法独立重算p99或合并两case总体p99。",
+    "PSS/RSS是四个进程快照，包含已预读输入和计时数组；缺少隔离KWS内存峰值和目标板内存预算验收。",
+    "约80微秒init计时只覆盖已准备好内存和权重后的ekws_stream_init，不包括进程启动、加载权重、文件I/O和首次图执行。",
+    "performance_budget_evaluated=false，formal_training_admitted=false，model_promotion_allowed=false。"
+  ],
+  "evidence_files": {
+    "evidence/RESULT.json": {
+      "sha256": "21d098c82e6619968973c30c4bbcc601fbcd71393c9a20340ca707dd7b2203fa",
+      "bytes": 1454
+    },
+    "baseline/RESULT.json": {
+      "sha256": "703fe071ef625ed37a3ba0ad2c8bdfbeabe7bfc522dcf555a4631b7781e62bb7",
+      "bytes": 22759
+    },
+    "diagnostic/VERIFIED.json": {
+      "sha256": "4a1675a7fca8183ec6637d9ed39ae1aa1def350bfaffa2689f99fe6768765c89",
+      "bytes": 3983
+    },
+    "diagnostic/graph-profile.json": {
+      "sha256": "d46090cf9d040f81a47d575d9a00240d5277dc2d28568e5283abddfd9e92a3e2",
+      "bytes": 9271
+    },
+    "inputs/inputs.json": {
+      "sha256": "5018b2f8e2a2553b01970ef70b38d11f52d53b7c57398ce740366922330cea12",
+      "bytes": 5136
+    },
+    "evidence/HOST.json": {
+      "sha256": "aa60246fc3089ada25a2537ee30c570906b3b2bb41391a87b69a6d90f82afa9e",
+      "bytes": 7368
+    },
+    "evidence/PLAN.json": {
+      "sha256": "1603b4c6b904fbae7905ed45e08b0c86a5f6d5a63fe13e44cd3907baffde68b4",
+      "bytes": 4261
+    },
+    "evidence/SOURCE.json": {
+      "sha256": "ada243757b9358fb2e4602d2a5ae0540319919625ba6bd306bbf1de5c897cb17",
+      "bytes": 923
+    }
+  }
+}

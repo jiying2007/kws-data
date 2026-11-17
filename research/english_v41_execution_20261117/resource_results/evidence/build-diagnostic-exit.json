@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "gcc",
+    "-std=c11",
+    "-O2",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-I/home/runner/work/kws-data/kws-data/performance-source/research/english_stream_performance",
+    "-I/home/runner/work/_temp/english-stream-resource-v41/sdk/source/research/english_stream_integration",
+    "-I/home/runner/work/_temp/english-stream-resource-v41/sdk/source/research/english_final_embedding_frontend",
+    "-I/home/runner/work/_temp/english-stream-resource-v41/sdk/source/research/english_final_embedding",
+    "-I/home/runner/work/_temp/english-stream-resource-v41/sdk/generated",
+    "/home/runner/work/kws-data/kws-data/performance-source/research/english_stream_performance/ekws_stream_benchmark.c",
+    "/home/runner/work/kws-data/kws-data/performance-source/research/english_stream_performance/ekws_graph_profile.c",
+    "/home/runner/work/_temp/english-stream-resource-v41/diagnostic/frontend.c",
+    "/home/runner/work/_temp/english-stream-resource-v41/sdk/source/research/english_stream_integration/ekws_research_stream.c",
+    "/home/runner/work/_temp/english-stream-resource-v41/sdk/source/research/english_final_embedding/english_causal_head.c",
+    "/home/runner/work/_temp/english-stream-resource-v41/sdk/generated/fixed_models.c",
+    "-lm",
+    "-lrt",
+    "-o",
+    "/home/runner/work/_temp/english-stream-resource-v41/diagnostic/benchmark"
+  ],
+  "returncode": 0,
+  "error_type": null,
+  "wall_seconds": 1.216908864000004
+}

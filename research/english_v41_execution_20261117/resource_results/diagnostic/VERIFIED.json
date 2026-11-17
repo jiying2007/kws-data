@@ -1,0 +1,124 @@
+{
+  "event_and_counter_parity": true,
+  "logit_parity_checked": false,
+  "instrumented": true,
+  "node_rows": 81,
+  "binary": {
+    "bytes": 2456592,
+    "sha256": "f619d9ce492537dec71a1cb124ad9fa279698fb26d6ef9e54dd93d4f57174542"
+  },
+  "source_copy": {
+    "bytes": 23832,
+    "sha256": "cb26a18153e09bbca14c3468d526a2c6241d03f87edf870757539bfc537fbfc9"
+  },
+  "measurements": {
+    "schema": "english-stream-performance-v1",
+    "passed": true,
+    "measurement_completed": true,
+    "performance_budget_evaluated": false,
+    "abi": 1,
+    "sample_rate_hz": 16000,
+    "score_observer_enabled": false,
+    "chunk_samples": 320,
+    "warmup_samples": 35200,
+    "input_samples": 256000,
+    "input_repetitions": 1,
+    "resets": 0,
+    "eof_padding_samples": 0,
+    "stream_bytes": 236328,
+    "workspace_bytes": 528384,
+    "preloaded_pcm_bytes": 512000,
+    "timing_array_bytes": 25600,
+    "init_wall_seconds": 8.3372e-05,
+    "init_process_cpu_seconds": 8.1778e-05,
+    "warmup": {
+      "samples": 35200,
+      "audio_seconds": 2.2,
+      "calls": 110,
+      "accept_wall_seconds": 2.202335047,
+      "accept_process_cpu_seconds": 2.202128743,
+      "wall_rtf": 1.001061385,
+      "cpu_seconds_per_audio_second": 1.00096761,
+      "call_wall_p50_ms": 0.001253,
+      "call_wall_p95_ms": 137.621756,
+      "call_wall_p99_ms": 138.050168,
+      "call_wall_max_ms": 139.357718,
+      "calls_over_input_duration": 16,
+      "calls_over_input_duration_fraction": 0.145454545
+    },
+    "steady": {
+      "samples": 220800,
+      "audio_seconds": 13.8,
+      "calls": 690,
+      "accept_wall_seconds": 23.679754795,
+      "accept_process_cpu_seconds": 23.678545149,
+      "wall_rtf": 1.715924261,
+      "cpu_seconds_per_audio_second": 1.715836605,
+      "call_wall_p50_ms": 0.001303,
+      "call_wall_p95_ms": 138.061627,
+      "call_wall_p99_ms": 138.781491,
+      "call_wall_max_ms": 144.593277,
+      "calls_over_input_duration": 172,
+      "calls_over_input_duration_fraction": 0.249275362
+    },
+    "whole_stream": {
+      "samples": 256000,
+      "audio_seconds": 16.0,
+      "calls": 800,
+      "accept_wall_seconds": 25.882089842,
+      "accept_process_cpu_seconds": 25.880673892,
+      "wall_rtf": 1.617630615,
+      "cpu_seconds_per_audio_second": 1.617542118,
+      "call_wall_p50_ms": 0.0013,
+      "call_wall_p95_ms": 138.003286,
+      "call_wall_p99_ms": 138.705792,
+      "call_wall_max_ms": 144.593277,
+      "calls_over_input_duration": 188,
+      "calls_over_input_duration_fraction": 0.235
+    },
+    "warmup_output_counts": {
+      "embeddings": 16,
+      "ready_outputs": 1,
+      "events": 0
+    },
+    "steady_output_counts": {
+      "embeddings": 172,
+      "ready_outputs": 172,
+      "events": 0
+    },
+    "embeddings": 188,
+    "ready_outputs": 173,
+    "events": 0,
+    "event_digest_fnv1a64": "cbf29ce484222325",
+    "memory": {
+      "input_resident_before_stream_allocation": {
+        "rss_kib": 2704,
+        "pss_kib": 1084,
+        "process_peak_rss_kib": 58776
+      },
+      "after_init_and_head_blob_release": {
+        "rss_kib": 3060,
+        "pss_kib": 1132,
+        "process_peak_rss_kib": 58776
+      },
+      "after_warmup": {
+        "rss_kib": 5992,
+        "pss_kib": 3896,
+        "process_peak_rss_kib": 58776
+      },
+      "after_stream": {
+        "rss_kib": 5992,
+        "pss_kib": 3896,
+        "process_peak_rss_kib": 58776
+      }
+    },
+    "timing_scope": "accept calls including constant-time event count/digest and clock overhead; excludes input I/O, PCM decoding, memory sampling and report I/O",
+    "memory_scope": "process observations include runner, preloaded input, timing arrays and shared/static code; peak is process lifetime high-water, not isolated KWS peak",
+    "call_quantiles": "nearest-rank; last partial chunk included",
+    "realtime_pacing": false,
+    "word_end_latency_measured": false,
+    "far_frr_measured": false,
+    "ssc305_qualification": false,
+    "model_promotion_allowed": false
+  }
+}
