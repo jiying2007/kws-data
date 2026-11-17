@@ -1,0 +1,1716 @@
+{
+  "decoder_replay_calls": 0,
+  "evaluation_source_previously_exposed": true,
+  "evidence_scope": "previously_exposed_weak_requested_intent_diagnostics",
+  "existing_implementations": {
+    "bounds": "tools/statistical_bounds.py",
+    "event_matcher": "eval/score_events.py",
+    "far_aggregation": "eval/aggregate_far.py",
+    "receipt_compare": "research/model_comparison/compare.py"
+  },
+  "formal_ranking_allowed": false,
+  "human_gold": false,
+  "independent_audio_increment": 0,
+  "limitations": [
+    "SHA/record pairing verifies saved identity, not acoustic label truth.",
+    "Historical source pronunciations are preserved; no current user target is chosen.",
+    "English63 per-record PCM hashes are absent from its public RESULT; original archive identity plus record IDs only.",
+    "SNR variants reuse sources and are separate conditions, not independent examples or FAR exposure.",
+    "Different frontends may be compared as complete systems on genuinely shared data; no architecture-only causal claim.",
+    "No global winner, FRR, FAR confidence, unseen-holdout or SSC305 qualification follows."
+  ],
+  "model_calls": 0,
+  "model_cards": [
+    {
+      "contract": {
+        "class_map": {
+          "Hey Mero": 2,
+          "Hey Vosen": 1,
+          "background": 0
+        },
+        "condition": "original63",
+        "dataset_identity": "c4c3cdfe363317f0b24fbb948183e5cf7ed433e7c2eef9bb46131651c9350007",
+        "label_semantics": "synthetic-requested-intent-not-acoustic-truth",
+        "language": "en",
+        "metric_unit": "whole_clip_weak_intent_class",
+        "scoring_identity": "whole-clip-class-argmax-v1",
+        "target_profile_identity": "english63-original-requested-spellings-acoustic-IPA-unverified-20261113",
+        "threshold_selection_identity": "no-threshold-no-dev-early-stop-48-fixed-updates"
+      },
+      "counts": {
+        "exposed_development/0": {
+          "requested_match": 3,
+          "rows": 4
+        },
+        "exposed_development/1": {
+          "requested_match": 3,
+          "rows": 4
+        },
+        "exposed_development/2": {
+          "requested_match": 4,
+          "rows": 4
+        },
+        "quarantine/None": {
+          "quarantined_target_class_proposals_not_false_accepts": 17,
+          "rows": 21
+        },
+        "train/0": {
+          "requested_match": 10,
+          "rows": 10
+        },
+        "train/1": {
+          "requested_match": 9,
+          "rows": 10
+        },
+        "train/2": {
+          "requested_match": 10,
+          "rows": 10
+        }
+      },
+      "evidence": {
+        "original_tts_zip_sha256": "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc",
+        "per_record_pcm_hashes_present": false,
+        "result_sha256": "ca16154bcc4100749870d264ade8594ccf416001ab66a3397fbc8d32afc94418"
+      },
+      "model": {
+        "architecture": "gru",
+        "frontend": {
+          "hop_ms": 10,
+          "mel_bins": 32,
+          "sample_rate_hz": 16000,
+          "train_normalization_sha256": "bfd660acbc208c902fc371a34f36b112cb8b682e64f84ee9d80bc061f6c586b1",
+          "window_ms": 25
+        },
+        "id": "english63-wholeclip-gru",
+        "weight_check": "exact_decoded_NPZ_bytes_SHA256",
+        "weights_sha256": "142a02b4fc0b6c6ec3b404e85bcc5383e17c4551f15341c386c61bf99740d54f"
+      }
+    },
+    {
+      "contract": {
+        "class_map": {
+          "Hey Mero": 2,
+          "Hey Vosen": 1,
+          "background": 0
+        },
+        "condition": "original63",
+        "dataset_identity": "c4c3cdfe363317f0b24fbb948183e5cf7ed433e7c2eef9bb46131651c9350007",
+        "label_semantics": "synthetic-requested-intent-not-acoustic-truth",
+        "language": "en",
+        "metric_unit": "whole_clip_weak_intent_class",
+        "scoring_identity": "whole-clip-class-argmax-v1",
+        "target_profile_identity": "english63-original-requested-spellings-acoustic-IPA-unverified-20261113",
+        "threshold_selection_identity": "no-threshold-no-dev-early-stop-48-fixed-updates"
+      },
+      "counts": {
+        "exposed_development/0": {
+          "requested_match": 1,
+          "rows": 4
+        },
+        "exposed_development/1": {
+          "requested_match": 1,
+          "rows": 4
+        },
+        "exposed_development/2": {
+          "requested_match": 4,
+          "rows": 4
+        },
+        "quarantine/None": {
+          "quarantined_target_class_proposals_not_false_accepts": 14,
+          "rows": 21
+        },
+        "train/0": {
+          "requested_match": 10,
+          "rows": 10
+        },
+        "train/1": {
+          "requested_match": 9,
+          "rows": 10
+        },
+        "train/2": {
+          "requested_match": 10,
+          "rows": 10
+        }
+      },
+      "evidence": {
+        "original_tts_zip_sha256": "f180004a27ea14c0575f4dd0e2a8476ca048442c76c2dcc186ede6d731cdffcc",
+        "per_record_pcm_hashes_present": false,
+        "result_sha256": "ca16154bcc4100749870d264ade8594ccf416001ab66a3397fbc8d32afc94418"
+      },
+      "model": {
+        "architecture": "dsc_tcn",
+        "frontend": {
+          "hop_ms": 10,
+          "mel_bins": 32,
+          "sample_rate_hz": 16000,
+          "train_normalization_sha256": "bfd660acbc208c902fc371a34f36b112cb8b682e64f84ee9d80bc061f6c586b1",
+          "window_ms": 25
+        },
+        "id": "english63-wholeclip-dsc_tcn",
+        "weight_check": "exact_decoded_NPZ_bytes_SHA256",
+        "weights_sha256": "42ed3f8479b30aec4e639e59075beac60ad84e242dbedbb601d2bc362d403971"
+      }
+    },
+    {
+      "contract": {
+        "class_map": {
+          "Hey Mero": 2,
+          "Hey Vosen": 1,
+          "background": 0
+        },
+        "condition": "clean",
+        "dataset_identity": "53646ce22780e8647e5654334c633a3f4dc8c1dd9a78d0856a1877b99d75b12a",
+        "label_semantics": "synthetic-requested-intent-not-acoustic-truth",
+        "language": "en",
+        "metric_unit": "observed_context_weak_event",
+        "scoring_identity": "53c3f605bc571141a8ae7c49e5ad8dcb07ed46e5d1a8aada9cd9cfb2caf44b11",
+        "target_profile_identity": "snapshot160-final-image-20261116-requested-IPA-miːroʊ-voʊzən-unverified-acoustics",
+        "threshold_selection_identity": "fixed0.8-confirm3-cooldown13-exposed-development-history-no-formal-calibration"
+      },
+      "counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 26,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 3,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 3,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 0,
+          "events": 8,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 8,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 62,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 8,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 8,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/2": {
+          "censored_no_match_not_FRR": 0,
+          "events": 10,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 10,
+          "rows": 10,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "evidence": {
+        "artifact_sha256": "56b7e9181cc0e8662b00dd1344ef414a1466a668428fec8bc709b600ba8e97e1",
+        "event_rule": {
+          "confirm_embeddings": 3,
+          "cooldown_embeddings": 13,
+          "threshold": 0.8
+        },
+        "events_member": "predictions/reused/candidate-clean-events.json",
+        "events_sha256": "400709a4d77f491eec821277cd5e7e734e823a35e57fca9b0dea2d6ecd230d7b",
+        "per_record_pcm_hashes_present": true,
+        "roster_member": "sources/STREAM_ROSTER.json"
+      },
+      "model": {
+        "architecture": "frozen-oWW-embedding96-MLP-16x96-32-3",
+        "frontend": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        },
+        "id": "aug96-clean",
+        "weight_check": "exact_NPZ_member_bytes_SHA256",
+        "weights_sha256": "cdceab93cd6d3d36bff62980e8c7d2a95896ad32ecc88cae04fa232393e3e9e7"
+      }
+    },
+    {
+      "contract": {
+        "class_map": {
+          "Hey Mero": 2,
+          "Hey Vosen": 1,
+          "background": 0
+        },
+        "condition": "clean",
+        "dataset_identity": "53646ce22780e8647e5654334c633a3f4dc8c1dd9a78d0856a1877b99d75b12a",
+        "label_semantics": "synthetic-requested-intent-not-acoustic-truth",
+        "language": "en",
+        "metric_unit": "observed_context_weak_event",
+        "scoring_identity": "53c3f605bc571141a8ae7c49e5ad8dcb07ed46e5d1a8aada9cd9cfb2caf44b11",
+        "target_profile_identity": "snapshot160-final-image-20261116-requested-IPA-miːroʊ-voʊzən-unverified-acoustics",
+        "threshold_selection_identity": "fixed0.8-confirm3-cooldown13-exposed-development-history-no-formal-calibration"
+      },
+      "counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 26,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 3,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 3,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 0,
+          "events": 8,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 8,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 62,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 8,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 8,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/2": {
+          "censored_no_match_not_FRR": 0,
+          "events": 10,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 10,
+          "rows": 10,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "evidence": {
+        "artifact_sha256": "56b7e9181cc0e8662b00dd1344ef414a1466a668428fec8bc709b600ba8e97e1",
+        "event_rule": {
+          "confirm_embeddings": 3,
+          "cooldown_embeddings": 13,
+          "threshold": 0.8
+        },
+        "events_member": "predictions/coverage-clean-events.json",
+        "events_sha256": "838bb2bd09c45ed9f696d3c9285fe1bb44a59184315ddaabbaa668ffee03a245",
+        "per_record_pcm_hashes_present": true,
+        "roster_member": "sources/STREAM_ROSTER.json"
+      },
+      "model": {
+        "architecture": "frozen-oWW-embedding96-MLP-16x96-32-3",
+        "frontend": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        },
+        "id": "coverage-clean",
+        "weight_check": "exact_NPZ_member_bytes_SHA256",
+        "weights_sha256": "75c1d13203f77fcec9b66013bd6fc8c1979cb3397207931eaf31241eeb396a35"
+      }
+    },
+    {
+      "contract": {
+        "class_map": {
+          "Hey Mero": 2,
+          "Hey Vosen": 1,
+          "background": 0
+        },
+        "condition": "snr10",
+        "dataset_identity": "b16f06c5d7b582fa99f8591960def4c0af43bb97547db08851a1edefe99a8465",
+        "label_semantics": "synthetic-requested-intent-not-acoustic-truth",
+        "language": "en",
+        "metric_unit": "observed_context_weak_event",
+        "scoring_identity": "53c3f605bc571141a8ae7c49e5ad8dcb07ed46e5d1a8aada9cd9cfb2caf44b11",
+        "target_profile_identity": "snapshot160-final-image-20261116-requested-IPA-miːroʊ-voʊzən-unverified-acoustics",
+        "threshold_selection_identity": "fixed0.8-confirm3-cooldown13-exposed-development-history-no-formal-calibration"
+      },
+      "counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 16,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 1,
+          "events": 2,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 2,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 2,
+          "events": 6,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 6,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 32,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 7,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 7,
+          "rows": 7,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/2": {
+          "censored_no_match_not_FRR": 0,
+          "events": 10,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 10,
+          "rows": 10,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "evidence": {
+        "artifact_sha256": "56b7e9181cc0e8662b00dd1344ef414a1466a668428fec8bc709b600ba8e97e1",
+        "event_rule": {
+          "confirm_embeddings": 3,
+          "cooldown_embeddings": 13,
+          "threshold": 0.8
+        },
+        "events_member": "predictions/reused/candidate-snr10-events.json",
+        "events_sha256": "b52181cec42cb1d310286af95e75a83cce95688da8ca7e029013ec7ea50e3c70",
+        "per_record_pcm_hashes_present": true,
+        "roster_member": "cache/snr10-roster.json"
+      },
+      "model": {
+        "architecture": "frozen-oWW-embedding96-MLP-16x96-32-3",
+        "frontend": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        },
+        "id": "aug96-snr10",
+        "weight_check": "exact_NPZ_member_bytes_SHA256",
+        "weights_sha256": "cdceab93cd6d3d36bff62980e8c7d2a95896ad32ecc88cae04fa232393e3e9e7"
+      }
+    },
+    {
+      "contract": {
+        "class_map": {
+          "Hey Mero": 2,
+          "Hey Vosen": 1,
+          "background": 0
+        },
+        "condition": "snr10",
+        "dataset_identity": "b16f06c5d7b582fa99f8591960def4c0af43bb97547db08851a1edefe99a8465",
+        "label_semantics": "synthetic-requested-intent-not-acoustic-truth",
+        "language": "en",
+        "metric_unit": "observed_context_weak_event",
+        "scoring_identity": "53c3f605bc571141a8ae7c49e5ad8dcb07ed46e5d1a8aada9cd9cfb2caf44b11",
+        "target_profile_identity": "snapshot160-final-image-20261116-requested-IPA-miːroʊ-voʊzən-unverified-acoustics",
+        "threshold_selection_identity": "fixed0.8-confirm3-cooldown13-exposed-development-history-no-formal-calibration"
+      },
+      "counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 16,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 1,
+          "events": 2,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 2,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 1,
+          "events": 7,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 7,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 32,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 7,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 7,
+          "rows": 7,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/2": {
+          "censored_no_match_not_FRR": 0,
+          "events": 10,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 10,
+          "rows": 10,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "evidence": {
+        "artifact_sha256": "56b7e9181cc0e8662b00dd1344ef414a1466a668428fec8bc709b600ba8e97e1",
+        "event_rule": {
+          "confirm_embeddings": 3,
+          "cooldown_embeddings": 13,
+          "threshold": 0.8
+        },
+        "events_member": "predictions/coverage-snr10-events.json",
+        "events_sha256": "25eaac87cde4b54596fd18cccf51982622b752279f4e0248ead05ce3a28bd353",
+        "per_record_pcm_hashes_present": true,
+        "roster_member": "cache/snr10-roster.json"
+      },
+      "model": {
+        "architecture": "frozen-oWW-embedding96-MLP-16x96-32-3",
+        "frontend": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        },
+        "id": "coverage-snr10",
+        "weight_check": "exact_NPZ_member_bytes_SHA256",
+        "weights_sha256": "75c1d13203f77fcec9b66013bd6fc8c1979cb3397207931eaf31241eeb396a35"
+      }
+    },
+    {
+      "contract": {
+        "class_map": {
+          "Hey Mero": 2,
+          "Hey Vosen": 1,
+          "background": 0
+        },
+        "condition": "snr5",
+        "dataset_identity": "d73fa97176bb5044fb3aafe9eb275cc9da1f9ff6f32308b4ba3b430e5919fa9a",
+        "label_semantics": "synthetic-requested-intent-not-acoustic-truth",
+        "language": "en",
+        "metric_unit": "observed_context_weak_event",
+        "scoring_identity": "53c3f605bc571141a8ae7c49e5ad8dcb07ed46e5d1a8aada9cd9cfb2caf44b11",
+        "target_profile_identity": "snapshot160-final-image-20261116-requested-IPA-miːroʊ-voʊzən-unverified-acoustics",
+        "threshold_selection_identity": "fixed0.8-confirm3-cooldown13-exposed-development-history-no-formal-calibration"
+      },
+      "counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 16,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 2,
+          "events": 1,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 1,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 3,
+          "events": 5,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 5,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 32,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 6,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 6,
+          "rows": 6,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/2": {
+          "censored_no_match_not_FRR": 1,
+          "events": 5,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 5,
+          "rows": 6,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "evidence": {
+        "artifact_sha256": "56b7e9181cc0e8662b00dd1344ef414a1466a668428fec8bc709b600ba8e97e1",
+        "event_rule": {
+          "confirm_embeddings": 3,
+          "cooldown_embeddings": 13,
+          "threshold": 0.8
+        },
+        "events_member": "predictions/reused/aug96-snr5-events.json",
+        "events_sha256": "8697116d6acce336c6526e1bb82caf6e9ef335d906ae75f490e5b7260d064492",
+        "per_record_pcm_hashes_present": true,
+        "roster_member": "cache/snr5-roster.json"
+      },
+      "model": {
+        "architecture": "frozen-oWW-embedding96-MLP-16x96-32-3",
+        "frontend": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        },
+        "id": "aug96-snr5",
+        "weight_check": "exact_NPZ_member_bytes_SHA256",
+        "weights_sha256": "cdceab93cd6d3d36bff62980e8c7d2a95896ad32ecc88cae04fa232393e3e9e7"
+      }
+    },
+    {
+      "contract": {
+        "class_map": {
+          "Hey Mero": 2,
+          "Hey Vosen": 1,
+          "background": 0
+        },
+        "condition": "snr5",
+        "dataset_identity": "d73fa97176bb5044fb3aafe9eb275cc9da1f9ff6f32308b4ba3b430e5919fa9a",
+        "label_semantics": "synthetic-requested-intent-not-acoustic-truth",
+        "language": "en",
+        "metric_unit": "observed_context_weak_event",
+        "scoring_identity": "53c3f605bc571141a8ae7c49e5ad8dcb07ed46e5d1a8aada9cd9cfb2caf44b11",
+        "target_profile_identity": "snapshot160-final-image-20261116-requested-IPA-miːroʊ-voʊzən-unverified-acoustics",
+        "threshold_selection_identity": "fixed0.8-confirm3-cooldown13-exposed-development-history-no-formal-calibration"
+      },
+      "counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 16,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 2,
+          "events": 1,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 1,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 3,
+          "events": 5,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 5,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 32,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 6,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 6,
+          "rows": 6,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/2": {
+          "censored_no_match_not_FRR": 1,
+          "events": 5,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 5,
+          "rows": 6,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "evidence": {
+        "artifact_sha256": "56b7e9181cc0e8662b00dd1344ef414a1466a668428fec8bc709b600ba8e97e1",
+        "event_rule": {
+          "confirm_embeddings": 3,
+          "cooldown_embeddings": 13,
+          "threshold": 0.8
+        },
+        "events_member": "predictions/coverage-snr5-events.json",
+        "events_sha256": "58e0fdbe617ff43f6eb20adba3b2389f0860524ffc6c09de586a441a77196359",
+        "per_record_pcm_hashes_present": true,
+        "roster_member": "cache/snr5-roster.json"
+      },
+      "model": {
+        "architecture": "frozen-oWW-embedding96-MLP-16x96-32-3",
+        "frontend": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        },
+        "id": "coverage-snr5",
+        "weight_check": "exact_NPZ_member_bytes_SHA256",
+        "weights_sha256": "75c1d13203f77fcec9b66013bd6fc8c1979cb3397207931eaf31241eeb396a35"
+      }
+    },
+    {
+      "contract": {
+        "class_map": {
+          "Hey Mero": 2,
+          "Hey Vosen": 1,
+          "background": 0
+        },
+        "condition": "new8",
+        "dataset_identity": "5d22303dec2e4dd7fb6e84b3def93dc1ef51347430e96bea22f2e6d6cb621f3a",
+        "label_semantics": "synthetic-requested-intent-not-acoustic-truth",
+        "language": "en",
+        "metric_unit": "observed_context_weak_event",
+        "scoring_identity": "53c3f605bc571141a8ae7c49e5ad8dcb07ed46e5d1a8aada9cd9cfb2caf44b11",
+        "target_profile_identity": "snapshot160-final-image-20261116-requested-IPA-miːroʊ-voʊzən-unverified-acoustics",
+        "threshold_selection_identity": "fixed0.8-confirm3-cooldown13-exposed-development-history-no-formal-calibration"
+      },
+      "counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 16,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 2,
+          "events": 1,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 1,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 1,
+          "events": 7,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 7,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "evidence": {
+        "artifact_sha256": "56b7e9181cc0e8662b00dd1344ef414a1466a668428fec8bc709b600ba8e97e1",
+        "event_rule": {
+          "confirm_embeddings": 3,
+          "cooldown_embeddings": 13,
+          "threshold": 0.8
+        },
+        "events_member": "predictions/aug96-new8-events.json",
+        "events_sha256": "abb5a4b388194b40a8d6a729a064afd336bb71210ab5d29a57b6f0eec516aca2",
+        "per_record_pcm_hashes_present": true,
+        "roster_member": "cache/new8-roster.json"
+      },
+      "model": {
+        "architecture": "frozen-oWW-embedding96-MLP-16x96-32-3",
+        "frontend": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        },
+        "id": "aug96-new8",
+        "weight_check": "exact_NPZ_member_bytes_SHA256",
+        "weights_sha256": "cdceab93cd6d3d36bff62980e8c7d2a95896ad32ecc88cae04fa232393e3e9e7"
+      }
+    },
+    {
+      "contract": {
+        "class_map": {
+          "Hey Mero": 2,
+          "Hey Vosen": 1,
+          "background": 0
+        },
+        "condition": "new8",
+        "dataset_identity": "5d22303dec2e4dd7fb6e84b3def93dc1ef51347430e96bea22f2e6d6cb621f3a",
+        "label_semantics": "synthetic-requested-intent-not-acoustic-truth",
+        "language": "en",
+        "metric_unit": "observed_context_weak_event",
+        "scoring_identity": "53c3f605bc571141a8ae7c49e5ad8dcb07ed46e5d1a8aada9cd9cfb2caf44b11",
+        "target_profile_identity": "snapshot160-final-image-20261116-requested-IPA-miːroʊ-voʊzən-unverified-acoustics",
+        "threshold_selection_identity": "fixed0.8-confirm3-cooldown13-exposed-development-history-no-formal-calibration"
+      },
+      "counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 16,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 2,
+          "events": 1,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 1,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 1,
+          "events": 7,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 7,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "evidence": {
+        "artifact_sha256": "56b7e9181cc0e8662b00dd1344ef414a1466a668428fec8bc709b600ba8e97e1",
+        "event_rule": {
+          "confirm_embeddings": 3,
+          "cooldown_embeddings": 13,
+          "threshold": 0.8
+        },
+        "events_member": "predictions/coverage-new8-events.json",
+        "events_sha256": "29e94156e94acd95dae02a57bb296971149048f87d03761d9e935c807f5116d9",
+        "per_record_pcm_hashes_present": true,
+        "roster_member": "cache/new8-roster.json"
+      },
+      "model": {
+        "architecture": "frozen-oWW-embedding96-MLP-16x96-32-3",
+        "frontend": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        },
+        "id": "coverage-new8",
+        "weight_check": "exact_NPZ_member_bytes_SHA256",
+        "weights_sha256": "75c1d13203f77fcec9b66013bd6fc8c1979cb3397207931eaf31241eeb396a35"
+      }
+    }
+  ],
+  "observed_pairs": [
+    {
+      "condition": "original63",
+      "exact_paired_records": 63,
+      "formal_ranking_allowed": false,
+      "frontend_difference_is_not_rejection": true,
+      "frontends": {
+        "left": {
+          "hop_ms": 10,
+          "mel_bins": 32,
+          "sample_rate_hz": 16000,
+          "train_normalization_sha256": "bfd660acbc208c902fc371a34f36b112cb8b682e64f84ee9d80bc061f6c586b1",
+          "window_ms": 25
+        },
+        "right": {
+          "hop_ms": 10,
+          "mel_bins": 32,
+          "sample_rate_hz": 16000,
+          "train_normalization_sha256": "bfd660acbc208c902fc371a34f36b112cb8b682e64f84ee9d80bc061f6c586b1",
+          "window_ms": 25
+        }
+      },
+      "identity_sha256": "a60050d0d2189aea7791ed88fa5fd99b72998fa7eb994794cb0b8614e662068b",
+      "inference_calls": 0,
+      "left": "english63-wholeclip-gru",
+      "left_counts": {
+        "exposed_development/0": {
+          "requested_match": 3,
+          "rows": 4
+        },
+        "exposed_development/1": {
+          "requested_match": 3,
+          "rows": 4
+        },
+        "exposed_development/2": {
+          "requested_match": 4,
+          "rows": 4
+        },
+        "quarantine/None": {
+          "quarantined_target_class_proposals_not_false_accepts": 17,
+          "rows": 21
+        },
+        "train/0": {
+          "requested_match": 10,
+          "rows": 10
+        },
+        "train/1": {
+          "requested_match": 9,
+          "rows": 10
+        },
+        "train/2": {
+          "requested_match": 10,
+          "rows": 10
+        }
+      },
+      "metric_unit": "whole_clip_weak_intent_class",
+      "paired_changes": {
+        "exposed_development/0": {
+          "changed_observation_rows": 4,
+          "improved_requested_match": 1,
+          "lost_requested_match": 3
+        },
+        "exposed_development/1": {
+          "changed_observation_rows": 2,
+          "improved_requested_match": 0,
+          "lost_requested_match": 2
+        },
+        "exposed_development/2": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "quarantine/None": {
+          "changed_observation_rows": 3,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "train/0": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "train/1": {
+          "changed_observation_rows": 2,
+          "improved_requested_match": 1,
+          "lost_requested_match": 1
+        },
+        "train/2": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        }
+      },
+      "reasons": [],
+      "right": "english63-wholeclip-dsc_tcn",
+      "right_counts": {
+        "exposed_development/0": {
+          "requested_match": 1,
+          "rows": 4
+        },
+        "exposed_development/1": {
+          "requested_match": 1,
+          "rows": 4
+        },
+        "exposed_development/2": {
+          "requested_match": 4,
+          "rows": 4
+        },
+        "quarantine/None": {
+          "quarantined_target_class_proposals_not_false_accepts": 14,
+          "rows": 21
+        },
+        "train/0": {
+          "requested_match": 10,
+          "rows": 10
+        },
+        "train/1": {
+          "requested_match": 9,
+          "rows": 10
+        },
+        "train/2": {
+          "requested_match": 10,
+          "rows": 10
+        }
+      },
+      "selected_winner": null,
+      "status": "PAIRED_RESEARCH_DIAGNOSTIC"
+    },
+    {
+      "condition": "clean",
+      "exact_paired_records": 117,
+      "formal_ranking_allowed": false,
+      "frontend_difference_is_not_rejection": true,
+      "frontends": {
+        "left": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        },
+        "right": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        }
+      },
+      "identity_sha256": "71447fe9a33b2ae84dd636d42fd6e2ed50c30a8967329304068d29ba0a27ad16",
+      "inference_calls": 0,
+      "left": "aug96-clean",
+      "left_counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 26,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 3,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 3,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 0,
+          "events": 8,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 8,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 62,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 8,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 8,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/2": {
+          "censored_no_match_not_FRR": 0,
+          "events": 10,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 10,
+          "rows": 10,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "metric_unit": "observed_context_weak_event",
+      "paired_changes": {
+        "exposed_development/0": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "exposed_development/1": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "exposed_development/2": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "train/0": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "train/1": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "train/2": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        }
+      },
+      "reasons": [],
+      "right": "coverage-clean",
+      "right_counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 26,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 3,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 3,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 0,
+          "events": 8,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 8,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 62,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 8,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 8,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/2": {
+          "censored_no_match_not_FRR": 0,
+          "events": 10,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 10,
+          "rows": 10,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "selected_winner": null,
+      "status": "PAIRED_RESEARCH_DIAGNOSTIC"
+    },
+    {
+      "condition": "snr10",
+      "exact_paired_records": 76,
+      "formal_ranking_allowed": false,
+      "frontend_difference_is_not_rejection": true,
+      "frontends": {
+        "left": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        },
+        "right": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        }
+      },
+      "identity_sha256": "035d9bcaee9e232a110bdeca1111b8edbc275742f9c0c14f7ff18c6878717cd6",
+      "inference_calls": 0,
+      "left": "aug96-snr10",
+      "left_counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 16,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 1,
+          "events": 2,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 2,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 2,
+          "events": 6,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 6,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 32,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 7,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 7,
+          "rows": 7,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/2": {
+          "censored_no_match_not_FRR": 0,
+          "events": 10,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 10,
+          "rows": 10,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "metric_unit": "observed_context_weak_event",
+      "paired_changes": {
+        "exposed_development/0": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "exposed_development/1": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "exposed_development/2": {
+          "changed_observation_rows": 1,
+          "improved_requested_match": 1,
+          "lost_requested_match": 0
+        },
+        "train/0": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "train/1": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "train/2": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        }
+      },
+      "reasons": [],
+      "right": "coverage-snr10",
+      "right_counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 16,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 1,
+          "events": 2,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 2,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 1,
+          "events": 7,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 7,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 32,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 7,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 7,
+          "rows": 7,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/2": {
+          "censored_no_match_not_FRR": 0,
+          "events": 10,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 10,
+          "rows": 10,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "selected_winner": null,
+      "status": "PAIRED_RESEARCH_DIAGNOSTIC"
+    },
+    {
+      "condition": "snr5",
+      "exact_paired_records": 71,
+      "formal_ranking_allowed": false,
+      "frontend_difference_is_not_rejection": true,
+      "frontends": {
+        "left": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        },
+        "right": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        }
+      },
+      "identity_sha256": "e538cdc7fe8ff51989080a43253992d5e407db38215c46ea5538ceaf2d1fc6e1",
+      "inference_calls": 0,
+      "left": "aug96-snr5",
+      "left_counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 16,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 2,
+          "events": 1,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 1,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 3,
+          "events": 5,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 5,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 32,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 6,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 6,
+          "rows": 6,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/2": {
+          "censored_no_match_not_FRR": 1,
+          "events": 5,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 5,
+          "rows": 6,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "metric_unit": "observed_context_weak_event",
+      "paired_changes": {
+        "exposed_development/0": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "exposed_development/1": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "exposed_development/2": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "train/0": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "train/1": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "train/2": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        }
+      },
+      "reasons": [],
+      "right": "coverage-snr5",
+      "right_counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 16,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 2,
+          "events": 1,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 1,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 3,
+          "events": 5,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 5,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 32,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/1": {
+          "censored_no_match_not_FRR": 0,
+          "events": 6,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 6,
+          "rows": 6,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "train/2": {
+          "censored_no_match_not_FRR": 1,
+          "events": 5,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 5,
+          "rows": 6,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "selected_winner": null,
+      "status": "PAIRED_RESEARCH_DIAGNOSTIC"
+    },
+    {
+      "condition": "new8",
+      "exact_paired_records": 27,
+      "formal_ranking_allowed": false,
+      "frontend_difference_is_not_rejection": true,
+      "frontends": {
+        "left": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        },
+        "right": {
+          "embedding_hop_samples": 1280,
+          "features": 96,
+          "first_embedding_sample": 16000,
+          "first_head_sample": 35200,
+          "sample_rate_hz": 16000
+        }
+      },
+      "identity_sha256": "c56723e8ea529f1165c3c431893c1b75b689acbeb63d679dff374e812bd7a6fb",
+      "inference_calls": 0,
+      "left": "aug96-new8",
+      "left_counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 16,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 2,
+          "events": 1,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 1,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 1,
+          "events": 7,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 7,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "metric_unit": "observed_context_weak_event",
+      "paired_changes": {
+        "exposed_development/0": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "exposed_development/1": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        },
+        "exposed_development/2": {
+          "changed_observation_rows": 0,
+          "improved_requested_match": 0,
+          "lost_requested_match": 0
+        }
+      },
+      "reasons": [],
+      "right": "coverage-new8",
+      "right_counts": {
+        "exposed_development/0": {
+          "events": 0,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "rows": 16,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/1": {
+          "censored_no_match_not_FRR": 2,
+          "events": 1,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 1,
+          "rows": 3,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        },
+        "exposed_development/2": {
+          "censored_no_match_not_FRR": 1,
+          "events": 7,
+          "extra_same_keyword_events": 0,
+          "prefix_events": 0,
+          "requested_match": 7,
+          "rows": 8,
+          "weak_negative_intent_events": 0,
+          "wrong_keyword_events": 0
+        }
+      },
+      "selected_winner": null,
+      "status": "PAIRED_RESEARCH_DIAGNOSTIC"
+    }
+  ],
+  "pipeline_commit": "aec192dd7c5955a7fa2b709564cdacb185a590be",
+  "readback_input": {
+    "capsule_sha256": "0d13167b2139352db23f126ace56a6d6045c8171e2244720dc4d60a5093e877d",
+    "kind": "exact_saved_members_capsule",
+    "manifest_sha256": "ce4e6e8b991d3b28a3eefab7616d690f3a747dea491a940ac3d79f0200e2e083",
+    "original_full_artifact_rechecked_in_this_replay": false,
+    "original_member_bytes_preserved": true
+  },
+  "rejected_cross_cohort_example": {
+    "formal_ranking_allowed": false,
+    "frontend_difference_is_not_rejection": true,
+    "frontends": {
+      "left": {
+        "hop_ms": 10,
+        "mel_bins": 32,
+        "sample_rate_hz": 16000,
+        "train_normalization_sha256": "bfd660acbc208c902fc371a34f36b112cb8b682e64f84ee9d80bc061f6c586b1",
+        "window_ms": 25
+      },
+      "right": {
+        "embedding_hop_samples": 1280,
+        "features": 96,
+        "first_embedding_sample": 16000,
+        "first_head_sample": 35200,
+        "sample_rate_hz": 16000
+      }
+    },
+    "inference_calls": 0,
+    "left": "english63-wholeclip-gru",
+    "reasons": [
+      "unmatched_condition",
+      "unmatched_dataset_identity",
+      "unmatched_exact_record_set_no_implicit_intersection",
+      "unmatched_metric_unit",
+      "unmatched_scoring_identity",
+      "unmatched_target_profile_identity",
+      "unmatched_threshold_selection_identity"
+    ],
+    "right": "coverage-clean",
+    "selected_winner": null,
+    "status": "BLOCKED_INCOMPATIBLE"
+  },
+  "same_FAR_ranking": "NOT_AVAILABLE_NO_COMMON_INDEPENDENT_EVENT_SET",
+  "schema": "kws-existing-saved-evidence-comparison-v1",
+  "statistical_bounds_computed": 0,
+  "status": "READBACK_COMPLETED_RESEARCH_ONLY",
+  "training_calls": 0
+}

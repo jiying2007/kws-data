@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2358,
+  "expected_tracked_files": 2379,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -567,7 +567,28 @@
     "research/english_coverage_fullpcm_20261117/RESULTS_zh.md",
     "research/english_coverage_fullpcm_20261117/DELIVERY_STATIC_INTEGRATION_AUDIT.json",
     "research/english_coverage_fullpcm_20261117/DOCUMENTATION_REVIEW.json",
-    "research/english_coverage_fullpcm_20261117/audit/audit_saved_fullpcm.py"
+    "research/english_coverage_fullpcm_20261117/audit/audit_saved_fullpcm.py",
+    ".github/workflows/english-hardneg-natural32-once.yml",
+    "automation/english_hardneg_natural32_once.py",
+    "automation/english_hardneg_natural32_plan.json",
+    "automation/test_english_hardneg_natural32.py",
+    "research/english_hardneg_natural32_20261117/PROTOCOL_zh.md",
+    "research/english_hardneg_natural32_20261117/SOURCE_MEMBERSHIP_REVIEW.json",
+    "research/english_hardneg_natural32_20261117/UPSTREAM_ADOPTION_zh.md",
+    "research/english_hardneg_natural32_20261117/UPSTREAM_SOURCE_MANIFEST.json",
+    "research/english_hardneg_natural32_20261117/mine_saved_scores.py",
+    "research/english_hardneg_natural32_20261117/natural32-roster.json",
+    "research/english_hardneg_natural32_20261117/prepare_natural32.py",
+    "research/english_hardneg_natural32_20261117/test_mine_saved_scores.py",
+    "research/kws_unified_evidence_20261117/MODEL_INVENTORY.json",
+    "research/kws_unified_evidence_20261117/READBACK.json",
+    "research/kws_unified_evidence_20261117/README_zh.md",
+    "research/kws_unified_evidence_20261117/SOURCE_MANIFEST.json",
+    "research/kws_unified_evidence_20261117/compare_saved.py",
+    "research/kws_unified_evidence_20261117/saved_inputs.zip",
+    "research/kws_unified_evidence_20261117/sources/pipeline/research/model_comparison/compare.py",
+    "research/kws_unified_evidence_20261117/sources/pipeline/tools/source_identity.py",
+    "research/kws_unified_evidence_20261117/test_compare_saved.py"
   ],
   "baseline_files": [
     {
@@ -28876,6 +28897,185 @@
         }
       ],
       "rationale": "Retain actual once-only full PCM run, external artifact receipt, independent saved-trace auditor and its verified result, and static SDK/documentation reviews. No execution-source changes, retraining, new model run or qualification; all earlier source registrations remain unchanged."
+    },
+    {
+      "campaign": "english-hardneg-natural32-and-unified-evidence-20261117",
+      "source_commit": "8fb6050520a57965e652d0b326434eb693f6a8e8",
+      "base_commit": "61e524e89c86950ef8e284ecaf18fddf82d11ca1",
+      "previous_manifest_git_blob_sha1": "3577711aef4624675f80eb2d86917a22338c68c4",
+      "paths": [
+        ".github/workflows/english-hardneg-natural32-once.yml",
+        "automation/english_hardneg_natural32_once.py",
+        "automation/english_hardneg_natural32_plan.json",
+        "automation/test_english_hardneg_natural32.py",
+        "research/english_hardneg_natural32_20261117/PROTOCOL_zh.md",
+        "research/english_hardneg_natural32_20261117/SOURCE_MEMBERSHIP_REVIEW.json",
+        "research/english_hardneg_natural32_20261117/UPSTREAM_ADOPTION_zh.md",
+        "research/english_hardneg_natural32_20261117/UPSTREAM_SOURCE_MANIFEST.json",
+        "research/english_hardneg_natural32_20261117/mine_saved_scores.py",
+        "research/english_hardneg_natural32_20261117/natural32-roster.json",
+        "research/english_hardneg_natural32_20261117/prepare_natural32.py",
+        "research/english_hardneg_natural32_20261117/test_mine_saved_scores.py",
+        "research/kws_unified_evidence_20261117/MODEL_INVENTORY.json",
+        "research/kws_unified_evidence_20261117/READBACK.json",
+        "research/kws_unified_evidence_20261117/README_zh.md",
+        "research/kws_unified_evidence_20261117/SOURCE_MANIFEST.json",
+        "research/kws_unified_evidence_20261117/compare_saved.py",
+        "research/kws_unified_evidence_20261117/saved_inputs.zip",
+        "research/kws_unified_evidence_20261117/sources/pipeline/research/model_comparison/compare.py",
+        "research/kws_unified_evidence_20261117/sources/pipeline/tools/source_identity.py",
+        "research/kws_unified_evidence_20261117/test_compare_saved.py"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-hardneg-natural32-once.yml",
+          "mode": "100644",
+          "bytes": 4423,
+          "sha256": "2709d3cb7197624ca35e270974cd43bee2132d931d28dc109dda00d98b084d88",
+          "git_blob_sha1": "9d6781f506a7814422866b760d0087446a16c575"
+        },
+        {
+          "path": "automation/english_hardneg_natural32_once.py",
+          "mode": "100644",
+          "bytes": 52013,
+          "sha256": "5bab9b90862671e7532a20e0d6a0f70dd3bd19fd4e954268476285b6366885c8",
+          "git_blob_sha1": "0b53f48a32e977c63e9408d1115739e82054e8e6"
+        },
+        {
+          "path": "automation/english_hardneg_natural32_plan.json",
+          "mode": "100644",
+          "bytes": 5492,
+          "sha256": "9e8877374da85cc3ff77ecc9d1bb7225bf327719f197515ecb967622078e4811",
+          "git_blob_sha1": "7af5ceafa20ae1af77ba8cb953f7dbcef78f3346"
+        },
+        {
+          "path": "automation/test_english_hardneg_natural32.py",
+          "mode": "100644",
+          "bytes": 20705,
+          "sha256": "2dbeafbb74f94885856630e3e3530c0a30a0f4555cf2b0c64f7179d6156cdded",
+          "git_blob_sha1": "e571f5362b778226e95d329b92cfdb22106d3afe"
+        },
+        {
+          "path": "research/english_hardneg_natural32_20261117/PROTOCOL_zh.md",
+          "mode": "100644",
+          "bytes": 5395,
+          "sha256": "89062eab9a21ac1513893583cb2db2bba1d0706bd89dbad463e3582b1085da6d",
+          "git_blob_sha1": "abf401028792f786946caa39b866cedca2d783a1"
+        },
+        {
+          "path": "research/english_hardneg_natural32_20261117/SOURCE_MEMBERSHIP_REVIEW.json",
+          "mode": "100644",
+          "bytes": 477,
+          "sha256": "cb4eac8cc35146fb99526e7a27dd5c4e9f83e7db5c16bd80cbf8ba890498cca2",
+          "git_blob_sha1": "e3e9702b602eda20e7a1bac82de5648239c98653"
+        },
+        {
+          "path": "research/english_hardneg_natural32_20261117/UPSTREAM_ADOPTION_zh.md",
+          "mode": "100644",
+          "bytes": 3429,
+          "sha256": "2c165ce74bd0ef383ef53385e308197163864c55c665765f8de22b42ac148d96",
+          "git_blob_sha1": "e15bd39264d56219e9127a0a9aedef93026aeabe"
+        },
+        {
+          "path": "research/english_hardneg_natural32_20261117/UPSTREAM_SOURCE_MANIFEST.json",
+          "mode": "100644",
+          "bytes": 7651,
+          "sha256": "3657bc7edde07b1177f9591a806ef8c3eb9c166ee108d5165f0feb92726ec633",
+          "git_blob_sha1": "8898c6e5118582de401000a724baeca45572b998"
+        },
+        {
+          "path": "research/english_hardneg_natural32_20261117/mine_saved_scores.py",
+          "mode": "100644",
+          "bytes": 18201,
+          "sha256": "82325ea6eacfe418140639021eda29c4fd778764157c00cf29fca8d2ba90181a",
+          "git_blob_sha1": "050170858b89c9679396573af0fd543d7828fa29"
+        },
+        {
+          "path": "research/english_hardneg_natural32_20261117/natural32-roster.json",
+          "mode": "100644",
+          "bytes": 56281,
+          "sha256": "31457faf8efd0cf77629c1a6f8de67bc101190eb118bcfe9ac2f256acca41239",
+          "git_blob_sha1": "19fbd7a68575634b4f41f5143067b17116d8772a"
+        },
+        {
+          "path": "research/english_hardneg_natural32_20261117/prepare_natural32.py",
+          "mode": "100644",
+          "bytes": 12145,
+          "sha256": "49d3bcc12c7507eb6d620a1344586665b8d0733f6dbac1f1356384fe35be7f5e",
+          "git_blob_sha1": "f7ac1be09d485651ec4d2fe129b77742619a54f3"
+        },
+        {
+          "path": "research/english_hardneg_natural32_20261117/test_mine_saved_scores.py",
+          "mode": "100644",
+          "bytes": 11365,
+          "sha256": "bb8bc84892643efd53c37240c2782e67e3b647e76d2267f6503b36e0b68284ce",
+          "git_blob_sha1": "4563312f38d42f688afb1ebf948bfccd98a78dc6"
+        },
+        {
+          "path": "research/kws_unified_evidence_20261117/MODEL_INVENTORY.json",
+          "mode": "100644",
+          "bytes": 11328,
+          "sha256": "3d1a0cd9eb5f20b566590f067575260e37c69a1d275c3f386ad92adb22cb823b",
+          "git_blob_sha1": "31f63120ce723c8fcac7194de385e28f3f508239"
+        },
+        {
+          "path": "research/kws_unified_evidence_20261117/READBACK.json",
+          "mode": "100644",
+          "bytes": 56840,
+          "sha256": "77a5a05681c07f6f4011da7eac08010bd5716ecf2be72c9731f4b665b331b226",
+          "git_blob_sha1": "9139beb082b1e66f7f5989976475ecfdfeaecaa2"
+        },
+        {
+          "path": "research/kws_unified_evidence_20261117/README_zh.md",
+          "mode": "100644",
+          "bytes": 5485,
+          "sha256": "7a361f7996a80a9297326d9112dfe560bd0d1be1c776b8381c36a1c9b2f778a0",
+          "git_blob_sha1": "ae3e95c78c6d554c8d8ea5dd3d1b97cca9c214e8"
+        },
+        {
+          "path": "research/kws_unified_evidence_20261117/SOURCE_MANIFEST.json",
+          "mode": "100644",
+          "bytes": 9181,
+          "sha256": "ce4e6e8b991d3b28a3eefab7616d690f3a747dea491a940ac3d79f0200e2e083",
+          "git_blob_sha1": "4538eae411a1c08a89a6d306e1d7b46cda160bb6"
+        },
+        {
+          "path": "research/kws_unified_evidence_20261117/compare_saved.py",
+          "mode": "100644",
+          "bytes": 23071,
+          "sha256": "dd62a8af5e1c9f22edd9cc02020e435181af4da68d51ed17fa16b055fd4bed05",
+          "git_blob_sha1": "48b01b33980590b580e435561ef838cc1987ca84"
+        },
+        {
+          "path": "research/kws_unified_evidence_20261117/saved_inputs.zip",
+          "mode": "100644",
+          "bytes": 602328,
+          "sha256": "0d13167b2139352db23f126ace56a6d6045c8171e2244720dc4d60a5093e877d",
+          "git_blob_sha1": "79f55dde1ea0221dcb00fb93a26469de2e0132e4"
+        },
+        {
+          "path": "research/kws_unified_evidence_20261117/sources/pipeline/research/model_comparison/compare.py",
+          "mode": "100644",
+          "bytes": 9565,
+          "sha256": "6558bd0b80a1b5d3af066cc940d5e87103ae656ba869469ca7335676b64c711d",
+          "git_blob_sha1": "3627a5324bc39caa41f0d73c3944d1a016a7a349"
+        },
+        {
+          "path": "research/kws_unified_evidence_20261117/sources/pipeline/tools/source_identity.py",
+          "mode": "100644",
+          "bytes": 1289,
+          "sha256": "fad7b9daefc5f865e9c064655253e79c0c0e0d055b861d2444796c1b3abcd2b1",
+          "git_blob_sha1": "b8ca1e90df0903f843c93d2444ae78eaf044c747"
+        },
+        {
+          "path": "research/kws_unified_evidence_20261117/test_compare_saved.py",
+          "mode": "100644",
+          "bytes": 7111,
+          "sha256": "6664963af98a3a67712c071020309e09d4359bfad90a2d0ff93292547cc70a47",
+          "git_blob_sha1": "d422c91c79d6b83f776085fd9c088fff9cd2f6f9"
+        }
+      ],
+      "rationale": "Add one frozen native scan of 32 previously exposed natural training-pool originals not consumed by the current coverage model, producing unreviewed acoustic candidates only. Retain exact saved-result comparisons for five compatible research groups without new inference. Preserve every earlier retained/source-registration byte, fixed pronunciation identities and non-qualification boundaries."
     }
   ]
 }
