@@ -126,6 +126,27 @@ class Contracts(unittest.TestCase):
         for altered in ({'conclusion': 'failure'}, {'status': 'in_progress'}, {'run_id': 124}, {'head_sha': 'b'*40}):
             with self.assertRaises(ValueError): w.verify_combine_job(dict(job, **altered), plan)
 
+    def test_old_generic_corpus_cannot_enter_new_phonetic_intake(self):
+        old_corpus = {'schema': 'english-synthetic192-corpus-v1'}
+        old_plan = {'schema': 'english-synthetic192-execution-v1'}
+        old_recipe = {'schema': 'english-synthetic192-recipe-v1'}
+        with self.assertRaisesRegex(ValueError, 'EXACT_NEW_PHONETIC_SOURCE_DESIGN'):
+            w.verify_fresh_source_design(old_corpus, old_plan, old_plan, old_recipe, {})
+
+    def test_all_campaign_markers_are_required_before_byte_checks(self):
+        design = w.FRESH_SOURCE['campaign_id']
+        corpus = {'campaign_id': design, 'source_design_id': design}
+        plan = {'campaign_id': design, 'silver_admission': {'source_design_id': design}}
+        recipe = {'campaign_id': design}
+        variations = [({'campaign_id': 'legacy', 'source_design_id': design}, plan, recipe),
+            ({'campaign_id': design, 'source_design_id': 'legacy'}, plan, recipe),
+            (corpus, {'campaign_id': 'legacy', 'silver_admission': {'source_design_id': design}}, recipe),
+            (corpus, {'campaign_id': design, 'silver_admission': {'source_design_id': 'legacy'}}, recipe),
+            (corpus, plan, {'campaign_id': 'legacy'})]
+        for changed_corpus, changed_plan, changed_recipe in variations:
+            with self.assertRaisesRegex(ValueError, 'EXACT_NEW_PHONETIC_SOURCE_DESIGN'):
+                w.verify_fresh_source_design(changed_corpus, changed_plan, changed_plan, changed_recipe, {})
+
     def test_partial_numeric_receipt_has_actual_not_planned_counts(self):
         def failed_core(output, helper, progress, save_progress):
             progress['new_embedding_calls_started'] = 2

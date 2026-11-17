@@ -32,8 +32,17 @@ HELPER_PATH = 'automation/english_hardneg_increment_once.py'
 HELPER_PIN = {'bytes': 69681, 'sha256': 'ac89f4564bb3f93661beb02f01f7766616322a39096c94a4bdac84560f5a9ec1'}
 ORIGINAL_PLAN_PATH = 'automation/english_hardneg_increment_plan.json'
 POLICY_PINS = {
-    'policy/english_synthetic_silver.py': {'bytes': 20379, 'sha256': '1e7b35e581907652fabe70b0aa85a2e38c929f07c1e5a0922cb2177dfd9346e7'},
+    'policy/english_synthetic_silver.py': {'bytes': 22786, 'sha256': 'fde516d9f1f2457cdb0047e8d8aee6a667c68fa6ea21f83d22f135e4bc9069da'},
     'policy/profile.json': {'bytes': 8591, 'sha256': '1b4112a27566d370e513d239ab9649b6c3cab3c8ca495c49c3810619214e4632'}}
+FRESH_SOURCE = {
+    'campaign_id': 'piper-libritts-direct-34-57-v1',
+    'workflow_path': '.github/workflows/english-phonetic192-once.yml',
+    'artifact_prefix': 'english-phonetic192-corpus-',
+    'policy_source_path': 'training/english_phonetic_silver.py',
+    'admission_rule_id': 'english-synthetic-machine-admission-v2',
+    'admission_rules_sha256': '0a02fbef84f3de275b67908038a9fcd5c91a579138ce65d47037dffa48c60383',
+    'recipe_sha256': '07d1d702ec76f41a2becfac19e6600ba5eb5b14480852e8c0f37df53c36fbadd',
+    'recipe_code_sha256': '928045eb6390716154bee8ddce34cf3347d06d720e66f2a8e3861af33402cdc6'}
 BACKBONE_PINS = {
     'causal_embedding.py': 'bb623ca627c0394f900638c90eee3a1ec71ff6901fa59713319fd3132de84f37',
     'weak_embedding_contract.py': 'ba9567b0303b1883f4d4834fec2b499abb8697b8fe5773519f07105f5d55388c'}
@@ -78,6 +87,7 @@ def expected_plan(worker_sha, source_pins, *, main_before=None, enabled=False,
         'base_npz': frozen.BASE_NPZ, 'base_bin': frozen.BASE_BIN,
         'corpus_source': corpus_source, 'fresh_execution_plan': fresh_execution_plan,
         'corpus_run_conclusion': corpus_run_conclusion, 'corpus_combine_job': corpus_combine_job,
+        'fresh_source_contract': FRESH_SOURCE,
         'corpus_policy_pins': POLICY_PINS, 'backbone_runtime_pins': BACKBONE_PINS,
         'backbone_assets': ASSETS, 'maximum_execution_seconds': MAXIMUM_SECONDS,
         'maximum_zip_bytes': MAX_ZIP, 'maximum_expanded_bytes': MAX_EXPANDED,
@@ -101,6 +111,8 @@ def workflow_contract(raw, plan):
 
 
 def source_preflight(plan):
+    need(all(re.fullmatch('[0-9a-f]{64}', FRESH_SOURCE[k] or '') for k in ('recipe_sha256', 'recipe_code_sha256')),
+        'EXACT_PHONETIC_SOURCE_RECIPE_PINS_REQUIRED')
     pins = plan.get('source_pins', {})
     original = loads(regular(ROOT/ORIGINAL_PLAN_PATH))
     need(all(original['source_pins'].get(k) == v for k, v in frozen.SOURCE_PINS.items()), 'IMMUTABLE_HISTORICAL_SOURCE_CLOSURE')
@@ -118,6 +130,7 @@ def source_preflight(plan):
         need(all(type(source[k]) is int and source[k] > 0 for k in ('run_id', 'artifact_id', 'bytes'))
             and source['bytes'] <= MAX_ZIP and re.fullmatch('[0-9a-f]{40}', source['head_sha'])
             and re.fullmatch('[0-9a-f]{64}', source['sha256']), 'CORPUS_METADATA_PIN_TYPES')
+        need(source['name'] == FRESH_SOURCE['artifact_prefix']+str(source['run_id']), 'PHONETIC_CORPUS_ARTIFACT_REQUIRED')
         need(type(cp) is dict and set(cp) == {'bytes', 'sha256'} and type(cp['bytes']) is int
             and 0 < cp['bytes'] <= MAX_MEMBER and re.fullmatch('[0-9a-f]{64}', cp['sha256']), 'FROZEN_SOURCE_EXECUTION_PLAN')
         need(plan.get('corpus_run_conclusion') in ('success', 'failure'), 'COMPLETED_SOURCE_RUN_CONCLUSION')
@@ -178,7 +191,12 @@ def extract_fresh(archive_path, destination, plan):
         put(destination/'FILES.json', z.read('FILES.json'))
     for name, pin in POLICY_PINS.items(): need(identity(regular(destination/name)) == pin, 'FIXED_SYNTHETIC_ADMISSION_POLICY')
     need(identity(regular(destination/'EXECUTION_PLAN.json')) == plan['fresh_execution_plan'], 'SOURCE_JOB_PLAN_IDENTITY')
+    need(regular(destination/'EXECUTION_PLAN.json') == regular(destination/'source/EXECUTION_PLAN.json'),
+        'SOURCE_PLAN_ORIGINAL_BYTES_IDENTICAL')
     corpus = loads(regular(destination/'CORPUS_MANIFEST.json')); result = loads(regular(destination/'RESULT.json'))
+    verify_fresh_source_design(corpus, loads(regular(destination/'EXECUTION_PLAN.json')),
+        loads(regular(destination/'source/EXECUTION_PLAN.json')), loads(regular(destination/'source/RECIPE.json')),
+        loads(regular(destination/'policy/IDENTITY.json')))
     need(result.get('schema') == 'english-synthetic192-execution-v1' and result.get('stage') == 'combine'
         and result.get('status') == 'MACHINE_EVIDENCE_PACKET_RETAINED', 'COMPLETED_SOURCE_OBSERVATION_PACKET')
     for record in (corpus, result):
@@ -192,6 +210,31 @@ def extract_fresh(archive_path, destination, plan):
     saved = loads(regular(destination/'ADMISSION.json'))
     need(regenerated == saved and saved['training_snapshot_allowed'] is True, 'RECOMPUTED_MACHINE_ADMISSION')
     return saved
+
+
+def verify_fresh_source_design(corpus, source_plan, original_plan, recipe, policy_identity):
+    design = FRESH_SOURCE['campaign_id']
+    need(corpus.get('campaign_id') == corpus.get('source_design_id') == design
+        and source_plan.get('campaign_id') == design
+        and source_plan.get('silver_admission', {}).get('source_design_id') == design
+        and recipe.get('campaign_id') == design, 'EXACT_NEW_PHONETIC_SOURCE_DESIGN')
+    need(source_plan.get('silver_admission', {}).get('rule_id') == FRESH_SOURCE['admission_rule_id']
+        and source_plan.get('silver_admission', {}).get('rules_sha256') == FRESH_SOURCE['admission_rules_sha256'],
+        'EXACT_PROSPECTIVE_PHONETIC_RULES')
+    need(source_plan == original_plan and source_plan.get('enabled') is True
+        and source_plan.get('schema') == 'english-synthetic192-execution-v1'
+        and source_plan.get('recipe_sha256') == FRESH_SOURCE['recipe_sha256']
+        and source_plan.get('recipe_code_sha256') == FRESH_SOURCE['recipe_code_sha256']
+        and sha(json.dumps(recipe, ensure_ascii=False, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()) == FRESH_SOURCE['recipe_sha256'],
+        'EXACT_ORIGINAL_PHONETIC_SOURCE_RECIPE')
+    contract = source_plan.get('admission_contract', {})
+    need(contract == policy_identity and contract.get('repository') == 'jiying2007/kws-pipeline'
+        and re.fullmatch('[0-9a-f]{40}', contract.get('commit') or '')
+        and contract.get('module_path') == FRESH_SOURCE['policy_source_path']
+        and contract.get('profile_path') == 'configs/research/english-pronunciation-profile-20261115.json'
+        and contract.get('module_sha256') == POLICY_PINS['policy/english_synthetic_silver.py']['sha256']
+        and contract.get('profile_sha256') == POLICY_PINS['policy/profile.json']['sha256'],
+        'EXACT_NEW_PHONETIC_POLICY_IDENTITY')
 
 
 def verify_combine_job(job, plan):
@@ -210,6 +253,7 @@ def result_boundary(binding):
         'current_default_model_replaced': False, 'human_gold': False,
         'strong_english_fsmn_ctc': False, 'ssc305_qualification': False,
         'model_promotion_allowed': False,
+        'source_design_id': FRESH_SOURCE['campaign_id'],
         'physical_ssc305_prerequisite': False, 'human_recording_prerequisite': False,
         'full_pcm_new_head': 'NOT_RUN', 'arm_new_head': 'NOT_RUN', 'ssc305': 'NOT_RUN',
         'independent_real_far': 'NOT_MEASURED', 'independent_real_frr': 'NOT_MEASURED'}
@@ -260,6 +304,8 @@ def child(args, plan, old_admission):
             prepared = frozen.prepare_saved_inputs(ROOT, quality, natural, old_admission, output)
             corpus_zip = runner.download('synthetic192', pin=plan['corpus_source'],
                 expected_conclusion=plan['corpus_run_conclusion'])
+            corpus_run = loads(regular(output/'evidence/synthetic192-run.stdout'))
+            need(corpus_run.get('path') == FRESH_SOURCE['workflow_path'], 'EXACT_NEW_PHONETIC_SOURCE_WORKFLOW')
             combine = loads(regular(runner.command('synthetic192-combine-job', ['gh', 'api',
                 'repos/'+REPO+'/actions/jobs/'+str(plan['corpus_combine_job']['job_id'])], auth=True)))
             combine = verify_combine_job(combine, plan)
