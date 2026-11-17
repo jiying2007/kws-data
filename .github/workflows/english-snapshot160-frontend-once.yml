@@ -1,4 +1,6 @@
-name: English snapshot160 saved-head full C composition once
+name: English snapshot160 installed streaming SDK once
+# The prior fullchain experiment is consumed. Its workers, pins and artifacts stay immutable.
+# This successor verifies the installed wrapper; it never executes the old binaries or exporter.
 on:
   pull_request:
     paths:
@@ -10,203 +12,416 @@ on:
   push:
     branches: [main]
     paths:
-      - automation/snapshot160_frontend_pins.json
+      - .github/workflows/english-snapshot160-frontend-once.yml
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: english-snapshot160-fullchain-20261116-${{ github.event_name }}
+  group: english-installed-sdk-20261117-${{ github.event_name }}
   cancel-in-progress: false
 jobs:
   source-contract:
     if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
-    outputs:
-      execution_enabled: ${{ steps.contract.outputs.execution_enabled }}
-      main_before: ${{ steps.contract.outputs.main_before }}
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        timeout-minutes: 2
         with:
           persist-credentials: false
-      - name: Validate only invented bytes, saved-reference composition contract and frozen pins
-        id: contract
+      - name: Retain numerical source checks and test the new installed-SDK worker without models
         shell: bash
-        timeout-minutes: 5
         run: |
           set -euo pipefail
-          for mode in normal optimized stripped; do
-            args=()
-            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
-            python3 -I -S -B "${args[@]}" automation/test_verify_snapshot160_frontend_once.py -v
-            python3 -I -S -B "${args[@]}" automation/verify_snapshot160_frontend_once.py
-            python3 -I -S -B "${args[@]}" research/english_snapshot160_delivery/test_read_c_trace.py -v
-          done
-          python3 -I -S -B - <<'PYCODE'
-          import os, pathlib, sys
-          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
-          import verify_snapshot160_frontend_once as worker
-          pins = worker.read_json('automation/snapshot160_frontend_pins.json')
-          worker.validate_pins(pins)
-          if pins['enabled']:
-              worker.need(worker.sha(worker.regular(worker.__file__)) == pins['worker_code_sha256'],
-                  'EXACT_REVIEWED_FULLCHAIN_WORKER')
-          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
-              output.write('execution_enabled=' + str(pins['enabled']).lower() + '\n')
-              output.write('main_before=' + (pins['main_before'] or '') + '\n')
-          PYCODE
+          python3 -I -S -B - <<'CHECK'
+          import ast, os, pathlib, subprocess, sys, textwrap
+          raw = pathlib.Path('.github/workflows/english-snapshot160-frontend-once.yml').read_text()
+          marker = '          # SDK_WORKER_BEGIN\n'
+          end = '          # SDK_WORKER_END\n'
+          body = textwrap.dedent(raw.split(marker, 1)[1].split(end, 1)[0])
+          ast.parse(body)
+          path = pathlib.Path(os.environ['RUNNER_TEMP']) / 'sdk-worker-source-check.py'
+          path.write_text(body)
+          for flags in ([], ['-O'], ['-OO']):
+              subprocess.run([sys.executable, '-I', '-S', '-B', *flags, str(path), '--self-test'], check=True)
+              for test in ('automation/test_verify_snapshot160_frontend_once.py',
+                           'research/english_snapshot160_delivery/test_read_c_trace.py'):
+                  subprocess.run([sys.executable, '-I', '-S', '-B', *flags, test, '-v'], check=True)
+          CHECK
+          python3 -I -S -B tools/verify_branch_retention.py
           test -z "$(git status --porcelain)"
-  verify-snapshot160-fullchain:
+  verify-installed-sdk:
     needs: source-contract
     if: >-
-      needs.source-contract.outputs.execution_enabled == 'true' &&
       github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
       github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
-      github.event.before == needs.source-contract.outputs.main_before
+      github.event.before == '748c8e942ea82dac96fd47cd4135bde2f2fb4c5b'
     runs-on: ubuntu-24.04
-    timeout-minutes: 70
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        timeout-minutes: 2
         with:
           path: data-source
           persist-credentials: false
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        timeout-minutes: 2
         with:
           repository: jiying2007/kws-pipeline
-          ref: 6ed95e5ffcb680d2b9c68778c14289025eeefebd
-          path: verified-pipeline
+          ref: 0da45f762e614bb77973497bcb1032c9ab79349d
+          path: sdk-pipeline
           persist-credentials: false
-      - name: Guard then acquire the exact saved training and completed mel artifacts once
-        working-directory: data-source
+      - name: Verify source, build and install once per backend, then use each installed runner once
         shell: bash
-        timeout-minutes: 12
+        timeout-minutes: 30
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          python3 -I -S -B - <<'PYCODE'
-          import os, pathlib, subprocess, sys, time
-          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
-          import verify_snapshot160_frontend_once as worker
-          pins = worker.read_json('automation/snapshot160_frontend_pins.json')
-          evidence = pathlib.Path(os.environ['RUNNER_TEMP']) / 'snapshot160-fullchain-evidence'
-          evidence.mkdir(mode=0o700)
-          worker.once(evidence / 'WORKFLOW_STARTED.json', {'schema': worker.SCHEMA, 'profile': worker.PROFILE,
-              'run_id': os.environ['GITHUB_RUN_ID'], 'github_sha': os.environ['GITHUB_SHA'],
-              'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'], 'plan_sha256': worker.FIXED_PLAN_SHA,
-              'pins_sha256': worker.sha(worker.canonical(pins)),
-              'worker_code_sha256': worker.sha(worker.regular(worker.__file__)),
-              'phase': 'ACQUISITION_BEFORE_ANY_C_BUILD_OR_HEAD_REFERENCE', 'no_retry': True,
-              'c_process_attempts_at_start': 0, 'new_onnx_session_runs_at_start': 0})
-          try:
-              worker.execution_guard(pins, os.environ, worker.read_json(os.environ['GITHUB_EVENT_PATH']),
-                  worker.sha(worker.regular(worker.__file__)))
-              with (evidence / 'DOWNLOAD_ATTEMPTS.jsonl').open('x', encoding='utf-8') as journal:
-                  def fetch(endpoint, destination, maximum, expected=None, headers=(), timeout=150):
-                      item = {'endpoint': endpoint, 'file': destination.name, 'maximum_bytes': maximum,
-                          'expected_sha256': expected, 'retry_count': 0}
-                      def record(status, **extra):
-                          journal.write(worker.canonical({**item, 'status': status, **extra}).decode() + '\n')
-                          journal.flush(); os.fsync(journal.fileno())
-                      record('STARTED'); clock = time.monotonic()
-                      try:
-                          with destination.open('xb') as output:
-                              subprocess.run(['gh', 'api', endpoint, *headers], stdout=output,
-                                  stderr=subprocess.PIPE, check=True, timeout=timeout)
-                          raw = worker.regular(destination, maximum)
-                          worker.need(expected is None or len(raw) == maximum and worker.sha(raw) == expected,
-                              'EXACT_DOWNLOADED_ARTIFACT_BYTES')
-                      except BaseException as error:
-                          record('FAILED_OR_INTERRUPTED_NO_RETRY', error_type=type(error).__name__,
-                              elapsed_seconds=time.monotonic() - clock)
-                          raise
-                      record('COMPLETE', bytes=len(raw), sha256=worker.sha(raw),
-                          elapsed_seconds=time.monotonic() - clock)
-                  for prefix, pin, repository in (('training', pins['head_training'], worker.REPOSITORY),
-                                                  ('mel', pins['mel'], 'jiying2007/kws-pipeline')):
-                      fetch('repos/' + repository + '/actions/runs/' + pin['run_id'],
-                          evidence / (prefix + '-run.json'), 4 * 1024**2, timeout=60)
-                      fetch('repos/' + repository + '/actions/artifacts/' + str(pin['artifact_id']),
-                          evidence / (prefix + '-artifact.json'), 4 * 1024**2, timeout=60)
-                      worker.api_identity(worker.read_json(evidence / (prefix + '-run.json')),
-                          worker.read_json(evidence / (prefix + '-artifact.json')), pin, repository)
-                      fetch('repos/' + repository + '/actions/artifacts/' + str(pin['artifact_id']) + '/zip',
-                          evidence / (prefix + '.zip'), pin['zip_bytes'], pin['zip_sha256'])
-                  fetch('repos/dscripka/openWakeWord/contents/LICENSE?ref=368c03716d1e92591906a84949bc477f3a834455',
-                      evidence / 'openWakeWord-LICENSE', worker.UPSTREAM_LICENSE['bytes'],
-                      worker.UPSTREAM_LICENSE['sha256'], ('-H', 'Accept: application/vnd.github.raw+json'), timeout=60)
-              worker.once(evidence / 'ACQUIRED_INPUTS.json', {'training': pins['head_training'], 'mel': pins['mel'],
-                  'phase': 'ACQUISITION_COMPLETE_BEFORE_ANY_C_BUILD_OR_HEAD_REFERENCE',
-                  'separate_upstream_onnx_downloads': 0, 'new_ort_inference_calls': 0,
-                  'saved_training_archive_contains_onnx': None,
-                  'archive_onnx_scope': 'archive members are retained evidence; source preflight records their identities without inference',
-                  'c_process_attempts_at_acquisition_end': 0, 'optimizer_updates': 0, 'new_tts_asr_phone_calls': 0})
-          except BaseException as error:
-              worker.once(evidence / 'ACQUISITION_FAILURE.json', {'status': 'FAILED_NO_RETRY',
-                  'phase': 'ACQUISITION_BEFORE_ANY_C_BUILD_OR_HEAD_REFERENCE',
-                  'error_type': type(error).__name__, 'reason': str(error)[:1000],
-                  'c_process_attempts_at_acquisition_end': 0, 'new_onnx_session_runs': 0, 'retry_count': 0})
-              raise
-          PYCODE
-      - name: Install only NumPy for saved-head math and the two C toolchains
-        shell: bash
-        timeout-minutes: 12
-        run: |
-          set -euo pipefail
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends python3-venv gcc-arm-linux-gnueabihf libc6-dev-armhf-cross qemu-user
-          python3 -m venv "$RUNNER_TEMP/snapshot160-fullchain-venv"
-          "$RUNNER_TEMP/snapshot160-fullchain-venv/bin/pip" install --disable-pip-version-check --retries 0 'numpy==1.26.4'
-          "$RUNNER_TEMP/snapshot160-fullchain-venv/bin/pip" freeze > "$RUNNER_TEMP/snapshot160-fullchain-evidence/pip-freeze.txt"
-          gcc --version > "$RUNNER_TEMP/snapshot160-fullchain-evidence/host-compiler.txt"
-          arm-linux-gnueabihf-gcc --version > "$RUNNER_TEMP/snapshot160-fullchain-evidence/arm-compiler.txt"
-          qemu-arm --version > "$RUNNER_TEMP/snapshot160-fullchain-evidence/qemu-version.txt"
-      - name: Attach the saved head and run only six full C cases against existing references
-        working-directory: data-source
-        shell: bash
-        timeout-minutes: 32
-        run: |
-          set -euo pipefail
-          set +e
-          timeout --signal=TERM --kill-after=30s 31m "$RUNNER_TEMP/snapshot160-fullchain-venv/bin/python" -I -B \
-            automation/verify_snapshot160_frontend_once.py --execute \
-            --pins "$GITHUB_WORKSPACE/data-source/automation/snapshot160_frontend_pins.json" \
-            --pipeline-source "$GITHUB_WORKSPACE/verified-pipeline" \
-            --training-zip "$RUNNER_TEMP/snapshot160-fullchain-evidence/training.zip" \
-            --mel-zip "$RUNNER_TEMP/snapshot160-fullchain-evidence/mel.zip" \
-            --training-run-json "$RUNNER_TEMP/snapshot160-fullchain-evidence/training-run.json" \
-            --training-artifact-json "$RUNNER_TEMP/snapshot160-fullchain-evidence/training-artifact.json" \
-            --mel-run-json "$RUNNER_TEMP/snapshot160-fullchain-evidence/mel-run.json" \
-            --mel-artifact-json "$RUNNER_TEMP/snapshot160-fullchain-evidence/mel-artifact.json" \
-            --upstream-license "$RUNNER_TEMP/snapshot160-fullchain-evidence/openWakeWord-LICENSE" \
-            --output "$RUNNER_TEMP/snapshot160-fullchain-result"
-          composition_exit=$?
-          set -e
-          COMPOSITION_COMMAND_EXIT="$composition_exit" python3 -I -S -B - <<'PYCODE'
-          import os, pathlib, sys
-          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
-          import verify_snapshot160_frontend_once as worker
-          root = pathlib.Path(os.environ['RUNNER_TEMP']); result = root / 'snapshot160-fullchain-result'
-          worker.once(root / 'snapshot160-fullchain-evidence/COMMAND_EXIT.json', {
-              'returncode': int(os.environ['COMPOSITION_COMMAND_EXIT']), 'retry_count': 0,
-              'result_receipt_present': (result / 'RESULT.json').is_file(),
-              'failure_receipt_present': (result / 'FAILURE.json').is_file(),
-              'missing_terminal_receipt_means': 'UNKNOWN_INTERRUPTED_C_OR_HEAD_ATTEMPTS_REQUIRE_STARTED_LEDGER',
-              'new_onnx_session_runs': 0, 'optimizer_updates': 0, 'new_tts_asr_phone_calls': 0})
-          PYCODE
-          exit "$composition_exit"
-      - name: Preserve runnable research C, source, saved weights, references and partial receipts
+          python3 -I -S -B - --execute <<'PYSDK'
+          # SDK_WORKER_BEGIN
+          """One new installed-SDK integration, not a replay of the consumed fullchain run."""
+          import hashlib, json, math, os, pathlib, shutil, stat, struct, subprocess, sys, tempfile, time, unittest, zipfile
+          P = pathlib.Path
+          REPO = 'jiying2007/kws-data'
+          BASE = '748c8e942ea82dac96fd47cd4135bde2f2fb4c5b'
+          PIPELINE = '0da45f762e614bb77973497bcb1032c9ab79349d'
+          PLAN_SHA = '4082b7f0c432ac4f0818eefb36d78a4eb7f8e3ae0036302e2a50033b2aec5882'
+          PIN = dict(run_id=43870247038, artifact_id=14227417193,
+              artifact_name='english-snapshot160-fullchain-43870247038',
+              github_sha='377fa5d40051b83de6989a509eeac9a4cda2e71a', zip_bytes=143719337,
+              zip_sha256='8fb05e26839c6fdd41b0df02c00fbc0d89d84095b7ef2cf8cbeba93171a36303',
+              manifest_sha256='f7c82c131f103f43ae470aed78627af5ff2902966701e45c772e07bb3d3773e5',
+              result_sha256='0ec722aeecc9845672bc69ca9acbe5eecbb7edfc6861184c8a66bd12e89ba0b7',
+              head_binary_sha256='acbf6bd314ab8b458ae2175b6268b306ed0102d7ffc68c1b6ffde87af1c41174')
+          FLAGS = dict.fromkeys(('formal_training_admitted','human_gold','model_promotion_allowed',
+              'pronunciation_verified','qualification_allowed','ssc305_qualification','training_admitted',
+              'trusted_negative','kws_model_delivered'), False)
+          CASES = ('zero','sine400','lcg14')
+          PREFIX = 'snapshot160-fullchain-result/'
+
+          def need(ok, reason):
+              if not ok: raise ValueError(reason)
+
+          def sha(raw): return hashlib.sha256(raw).hexdigest()
+          def canonical(value): return json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=False,allow_nan=False).encode()
+          def pairs(items):
+              d={}
+              for k,v in items:
+                  need(k not in d,'DUPLICATE_JSON_KEY'); d[k]=v
+              return d
+
+          def loads(raw):
+              return json.loads(raw,object_pairs_hook=pairs,parse_constant=lambda x: (_ for _ in ()).throw(ValueError('NONFINITE_JSON')))
+
+          def once(path, value):
+              with P(path).open('xb') as f:
+                  f.write(canonical(value)+b'\n'); f.flush(); os.fsync(f.fileno())
+
+          def identity(path):
+              path=P(path); need(path.is_file() and not path.is_symlink(),'REGULAR_FILE')
+              with path.open('rb') as f: digest=hashlib.file_digest(f,'sha256').hexdigest()
+              return {'bytes':path.stat().st_size,'sha256':digest}
+
+          def guard(env,event):
+              need(env.get('GITHUB_ACTIONS')=='true' and env.get('GITHUB_REPOSITORY')==REPO and
+                   env.get('GITHUB_EVENT_NAME')=='push' and env.get('GITHUB_REF')=='refs/heads/main' and
+                   env.get('GITHUB_RUN_ATTEMPT')=='1' and env.get('GITHUB_RUN_ID','').isdigit() and
+                   event.get('ref')=='refs/heads/main' and event.get('before')==BASE and
+                   event.get('after')==env.get('GITHUB_SHA') and event.get('after')!=BASE and
+                   event.get('repository',{}).get('full_name')==REPO and
+                   event.get('repository',{}).get('private') is False,'FIRST_PUBLIC_MAIN_SUCCESSOR_ONLY')
+
+          def api_check(run,art):
+              need(run.get('id')==PIN['run_id'] and run.get('head_sha')==PIN['github_sha'] and
+                   run.get('head_branch')=='main' and run.get('event')=='push' and
+                   run.get('run_attempt')==1 and run.get('status')=='completed' and
+                   run.get('conclusion')=='success' and run.get('repository',{}).get('full_name')==REPO and
+                   run.get('repository',{}).get('private') is False,'SOURCE_RUN_IDENTITY')
+              need(art.get('id')==PIN['artifact_id'] and art.get('name')==PIN['artifact_name'] and
+                   art.get('size_in_bytes')==PIN['zip_bytes'] and art.get('digest')=='sha256:'+PIN['zip_sha256'] and
+                   art.get('expired') is False and art.get('workflow_run',{}).get('id')==PIN['run_id'] and
+                   art.get('workflow_run',{}).get('head_sha')==PIN['github_sha'],'SOURCE_ARTIFACT_IDENTITY')
+
+          def safe_members(z):
+              members={}; total=0
+              for info in z.infolist():
+                  n=info.filename; q=pathlib.PurePosixPath(n); mode=(info.external_attr>>16)&0xffff
+                  need(n and '\\' not in n and not q.is_absolute() and '..' not in q.parts and
+                       n==q.as_posix() and n not in members and not info.is_dir() and
+                       (not stat.S_IFMT(mode) or stat.S_ISREG(mode)) and
+                       not info.flag_bits&1 and 0<=info.file_size<=160*1024**2,'UNSAFE_ZIP_MEMBER')
+                  total+=info.file_size; need(total<=320*1024**2 and len(members)<128,'ZIP_BUDGET')
+                  members[n]=info
+              return members
+
+          def extract_archive(path,out):
+              need(identity(path)=={'bytes':PIN['zip_bytes'],'sha256':PIN['zip_sha256']},'EXACT_FULLCHAIN_ZIP')
+              with zipfile.ZipFile(path) as z:
+                  members=safe_members(z)
+                  raw=z.read(PREFIX+'MANIFEST.json'); need(sha(raw)==PIN['manifest_sha256'],'MANIFEST_DIGEST')
+                  manifest=loads(raw); files=manifest['files']
+                  actual={n[len(PREFIX):] for n in members if n.startswith(PREFIX)}
+                  need(actual==set(files)|{'MANIFEST.json'},'CLOSED_FULLCHAIN_INVENTORY')
+                  for name,item in files.items():
+                      raw=z.read(PREFIX+name)
+                      need(len(raw)==item['bytes'] and sha(raw)==item['sha256'],'FULLCHAIN_MEMBER:'+name)
+                  result_raw=z.read(PREFIX+'RESULT.json')
+                  need(sha(result_raw)==PIN['result_sha256'],'RESULT_DIGEST')
+                  result=loads(result_raw)
+                  need(result.get('passed') is True and result.get('status')=='EXECUTED_FULLCHAIN_WITHIN_FIXED_LIMITS'
+                       and result.get('test_backend') is False and str(result.get('run_id'))==str(PIN['run_id'])
+                       and str(result.get('run_attempt'))=='1' and result.get('github_sha')==PIN['github_sha']
+                       and all(result.get(k) is False for k in FLAGS),'SOURCE_SUCCESS_AND_BOUNDARY')
+                  head=z.read(PREFIX+'causal-head.bin')
+                  need(len(head)==197908 and sha(head)==PIN['head_binary_sha256'],'HEAD_DIGEST')
+                  out.mkdir(mode=0o700)
+                  # Never extract or execute the consumed original binaries or nested experiment ZIPs.
+                  names={'MANIFEST.json','RESULT.json','SOURCE_BINDING.json','causal-head.bin'}
+                  names|={n for n in files if n.startswith(('generated/','licenses/'))}
+                  names|={c+'/'+f for c in CASES for f in ('input.pcm','native.bin','arm.bin')}
+                  for n in sorted(names):
+                      dest=out/n; dest.parent.mkdir(parents=True,exist_ok=True)
+                      dest.write_bytes(z.read(PREFIX+n))
+              return files
+
+          def stage4(raw):
+              need(raw[:8]==b'EFFTR01\0','TRACE_MAGIC'); pos=8; rows=[]
+              for i in range(26):
+                  for stage,count in ((1,3104),(2,2432),(3,96),(4,8)):
+                      need(pos+16+4*count<=len(raw),'TRACE_TRUNCATED')
+                      a,b,clock=struct.unpack_from('<IIQ',raw,pos);pos+=16
+                      need((a,b,clock)==(stage,count,16000+1280*i),'TRACE_GEOMETRY')
+                      if stage==4:
+                          f=struct.unpack_from('<8f',raw,pos); bits=struct.unpack_from('<8I',raw,pos)
+                          need(all(math.isfinite(x) for x in f) and f[0]==float(i>=15) and
+                               f[1] in (0.0,1.0,2.0),'TRACE_HEAD')
+                          rows.append(dict(available_after_sample=clock,ready=int(f[0]),keyword_id=int(f[1]),
+                              logit_bits=list(bits[2:5]),probability_bits=list(bits[5:8])))
+                      pos+=4*count
+              need(pos==len(raw),'TRACE_TRAILING');return rows
+
+          def verify_report(r,root,backend):
+              need(r.get('schema')=='english-stream-integration-v1' and r.get('passed') is True and
+                   r.get('new_ort_inference_calls')==0 and all(r.get(k) is False for k in FLAGS if k!='kws_model_delivered'),
+                   'INSTALLED_RUNNER_STATUS')
+              need(type(r.get('stream_bytes')) is int and 0<r['stream_bytes']<1024**2 and
+                   r.get('workspace_bytes')==528384 and len(r.get('cases',[]))==3,'INSTALLED_MEMORY_AND_CASES')
+              for index,(name,case) in enumerate(zip(CASES,r['cases'])):
+                  origin=48000 if index==2 else 0
+                  expected=stage4((root/name/(backend+'.bin')).read_bytes())
+                  expected=[{**x,'available_after_sample':x['available_after_sample']+origin} for x in expected]
+                  need(case.get('recording')==name and case.get('passed') is True and
+                       case.get('input_origin_sample')==origin and case.get('accepted_samples')==48000 and
+                       case.get('compared_scores')==26 and case.get('scores')==expected and
+                       case.get('cumulative_embeddings')==26*(index+1) and
+                       case.get('cumulative_ready_outputs')==11*(index+1) and
+                       case.get('next_input_sample')==origin+48000 and case.get('poisoned')==0,
+                       'EXACT_SAVED_SCORE_OR_COUNTERS:'+name)
+                  wall=case.get('accept_wall_seconds');need(type(wall) in (int,float) and math.isfinite(wall) and wall>=0,'TIMING')
+                  events=[x for x in expected if x['keyword_id']]
+                  need(len(case.get('events',[]))==len(events),'CALLBACK_COUNT')
+                  for e,x in zip(case['events'],events):
+                      need(e.get('recording')==name and e.get('keyword_id')==x['keyword_id'] and
+                           e.get('available_after_sample')==x['available_after_sample'] and
+                           e.get('input_origin_sample')==origin and
+                           abs(e.get('time_s')-(x['available_after_sample']-origin)/16000)<=1e-9 and
+                           struct.unpack('<I',struct.pack('<f',e['confidence']))[0]==x['probability_bits'][x['keyword_id']],
+                           'CALLBACK_IDENTITY')
+
+          class Contracts(unittest.TestCase):
+              def test_guard(self):
+                  env={'GITHUB_ACTIONS':'true','GITHUB_REPOSITORY':REPO,'GITHUB_EVENT_NAME':'push',
+                       'GITHUB_REF':'refs/heads/main','GITHUB_RUN_ATTEMPT':'1','GITHUB_RUN_ID':'123','GITHUB_SHA':'a'*40}
+                  event={'ref':env['GITHUB_REF'],'before':BASE,'after':env['GITHUB_SHA'],
+                         'repository':{'full_name':REPO,'private':False}}
+                  guard(env,event)
+                  for k,v in [('GITHUB_EVENT_NAME','pull_request'),('GITHUB_RUN_ATTEMPT','2'),('GITHUB_REF','refs/heads/fork')]:
+                      with self.assertRaises(ValueError):guard({**env,k:v},event)
+                  with self.assertRaises(ValueError):guard(env,{**event,'before':'b'*40})
+                  with self.assertRaises(ValueError):guard(env,{**event,'repository':{'full_name':REPO,'private':True}})
+              def test_json(self):
+                  for s in ('{"x":1,"x":2}','{"x":NaN}'):
+                      with self.assertRaises(ValueError):loads(s)
+              def test_zip_names_and_links(self):
+                  import io
+                  for n,mode in [('../bad',0),('/bad',0),('a\\b',0),('a/../b',0),('link',stat.S_IFLNK|0o777)]:
+                      f=io.BytesIO()
+                      with zipfile.ZipFile(f,'w') as z:
+                          i=zipfile.ZipInfo(n);i.external_attr=mode<<16;z.writestr(i,b'x')
+                      with zipfile.ZipFile(f) as z,self.assertRaises(ValueError):safe_members(z)
+              def test_trace(self):
+                  raw=bytearray(b'EFFTR01\0')
+                  for i in range(26):
+                      for stage,count in ((1,3104),(2,2432),(3,96),(4,8)):
+                          v=[0.0]*count
+                          if stage==4:v[0]=float(i>=15)
+                          raw.extend(struct.pack('<IIQ',stage,count,16000+1280*i)+struct.pack('<%df'%count,*v))
+                  self.assertEqual(len(stage4(raw)),26)
+                  for bad in (raw[:-1],raw+b'x',b'badmagic'+raw[8:]):
+                      with self.assertRaises(ValueError):stage4(bad)
+              def test_source_api_identity(self):
+                  run={'id':PIN['run_id'],'head_sha':PIN['github_sha'],'head_branch':'main','event':'push',
+                       'run_attempt':1,'status':'completed','conclusion':'success','repository':{'full_name':REPO,'private':False}}
+                  art={'id':PIN['artifact_id'],'name':PIN['artifact_name'],'size_in_bytes':PIN['zip_bytes'],
+                       'digest':'sha256:'+PIN['zip_sha256'],'expired':False,
+                       'workflow_run':{'id':PIN['run_id'],'head_sha':PIN['github_sha']}}
+                  api_check(run,art)
+                  for k,v in [('name','wrong'),('digest','sha256:'+'0'*64),('expired',True),('id',0)]:
+                      with self.assertRaises(ValueError):api_check(run,{**art,k:v})
+                  with self.assertRaises(ValueError):api_check({**run,'conclusion':'failure'},art)
+              def test_report_requires_all_scores(self):
+                  report={'schema':'english-stream-integration-v1','passed':True,'new_ort_inference_calls':0,
+                          'stream_bytes':300000,'workspace_bytes':528384,'cases':[{}]*3,**FLAGS}
+                  with self.assertRaises((ValueError,FileNotFoundError)):verify_report(report,P('/absent'),'native')
+              def test_create_only(self):
+                  with tempfile.TemporaryDirectory() as t:
+                      p=P(t)/'receipt';once(p,{'x':1})
+                      with self.assertRaises(FileExistsError):once(p,{'x':2})
+              def test_report_rejects_unmeasured_or_promoted(self):
+                  for r in ({},{'schema':'english-stream-integration-v1','passed':True,'human_gold':True}):
+                      with self.assertRaises(ValueError):verify_report(r,P('/absent'),'native')
+
+          def execute():
+              root=P(os.environ['RUNNER_TEMP'])/'english-installed-sdk';root.mkdir(mode=0o700)
+              evidence=root/'evidence';evidence.mkdir();started=time.monotonic()
+              pipeline=P(os.environ['GITHUB_WORKSPACE'])/'sdk-pipeline'
+              data=P(os.environ['GITHUB_WORKSPACE'])/'data-source'
+              attempts={'native':{'build':0,'inference':0},'arm':{'build':0,'inference':0}}
+              state={'schema':'english-installed-sdk-execution-v1','status':'FAILED_NO_RETRY',
+                     'run_id':os.environ.get('GITHUB_RUN_ID'),'github_sha':os.environ.get('GITHUB_SHA'),
+                     'source_commit':PIPELINE,'source_fullchain':PIN,'accounting':attempts,
+                     'new_ort_inference_calls':0,'tts_asr_phone_calls':0,'optimizer_updates':0,
+                     'real_audio_cases':0,'retry_count':0,**FLAGS}
+              once(evidence/'STARTED.json',state)
+              def command(label,args,limit=60,api=False):
+                  need(time.monotonic()-started<1800,'OVERALL_DEADLINE')
+                  once(evidence/(label+'-started.json'),{'command':list(map(str,args)),'timeout_seconds':limit,'retry_count':0})
+                  env=dict(os.environ)
+                  if not api:
+                      for key in ('GH_TOKEN','GITHUB_TOKEN','ACTIONS_RUNTIME_TOKEN'):env.pop(key,None)
+                  t=time.monotonic();code=None;error=None
+                  try:
+                      with (evidence/(label+'.stdout')).open('xb') as out,(evidence/(label+'.stderr')).open('xb') as err:
+                          p=subprocess.run(list(map(str,args)),stdout=out,stderr=err,env=env,
+                              timeout=min(limit,max(1,1800-(time.monotonic()-started))),check=False)
+                          code=p.returncode
+                  except BaseException as e:
+                      error=type(e).__name__;raise
+                  finally:
+                      once(evidence/(label+'-exit.json'),{'returncode':code,'exception':error,'wall_seconds':time.monotonic()-t,'retry_count':0})
+                  need(code==0,'COMMAND_FAILED:'+label)
+                  return evidence/(label+'.stdout')
+              try:
+                  guard(os.environ,loads(P(os.environ['GITHUB_EVENT_PATH']).read_bytes()))
+                  need(subprocess.check_output(['git','-C',str(data),'rev-parse','HEAD']).decode().strip()==os.environ['GITHUB_SHA'],'DATA_SHA')
+                  need(subprocess.check_output(['git','-C',str(pipeline),'rev-parse','HEAD']).decode().strip()==PIPELINE,'PIPELINE_SHA')
+                  component=pipeline/'research/english_stream_integration'
+                  plan=loads((component/'integration_plan.json').read_bytes())
+                  need(sha(canonical(plan))==PLAN_SHA,'FROZEN_INTEGRATION_PLAN')
+                  once(evidence/'PLAN.json',plan)
+                  once(evidence/'SOURCE.json',{'component_commit':PIPELINE,'plan_sha256':PLAN_SHA,
+                       'files':{p.name:identity(p) for p in sorted(component.iterdir()) if p.is_file()}})
+                  api='repos/'+REPO+'/actions/'
+                  run=loads(command('source-run',['gh','api',api+'runs/'+str(PIN['run_id'])],api=True).read_bytes())
+                  art=loads(command('source-artifact',['gh','api',api+'artifacts/'+str(PIN['artifact_id'])],api=True).read_bytes())
+                  api_check(run,art)
+                  archive=command('source-zip',['gh','api',api+'artifacts/'+str(PIN['artifact_id'])+'/zip'],180,api=True)
+                  full=root/'fullchain';extract_archive(archive,full)
+                  archive.unlink() # Only this private downloaded copy, after verified extraction; remote/original stays immutable.
+                  for cmd in [('host-compiler',['gcc','--version']),('cmake-version',['cmake','--version'])]:command(*cmd)
+                  command('apt-update',['sudo','apt-get','update','-qq'],120)
+                  command('apt-tools',['sudo','apt-get','install','-y','--no-install-recommends',
+                          'gcc-arm-linux-gnueabihf','libc6-dev-armhf-cross','qemu-user'],240)
+                  command('arm-compiler',['arm-linux-gnueabihf-gcc','--version'])
+                  command('qemu-version',['qemu-arm','--version'])
+                  reports={}
+                  for backend in ('native','arm'):
+                      b=root/('build-'+backend);dest=root/('sdk-'+backend)
+                      args=['cmake','-S',component,'-B',b,'-DKWS_ENABLE_ENGLISH_RESEARCH_STREAM=ON',
+                            '-DEKWS_PIPELINE_SOURCE='+str(pipeline),'-DEKWS_GENERATED_SOURCE_DIR='+str(full/'generated'),
+                            '-DEKWS_UPSTREAM_LICENSE='+str(full/'licenses/openWakeWord-LICENSE'),
+                            '-DCMAKE_INSTALL_PREFIX='+str(dest),'-DCMAKE_INSTALL_LIBDIR=lib','-DCMAKE_BUILD_TYPE=Release']
+                      if backend=='arm':args+=['-DCMAKE_SYSTEM_NAME=Linux','-DCMAKE_SYSTEM_PROCESSOR=arm',
+                          '-DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc','-DEKWS_STATIC_RUNNER=ON']
+                      attempts[backend]['build']=1;t=time.monotonic()
+                      once(evidence/(backend+'-build-session-started.json'),{'build_session':1,'maximum_seconds':300})
+                      for suffix,cmd in [('configure',args),('build',['cmake','--build',b,'--parallel','2']),
+                                         ('install',['cmake','--install',b])]:
+                          command(backend+'-'+suffix,cmd,max(1,300-(time.monotonic()-t)))
+                      need(time.monotonic()-t<=300,'BUILD_SESSION_DEADLINE')
+                      installed={p.relative_to(dest).as_posix():identity(p) for p in sorted(dest.rglob('*')) if p.is_file()}
+                      need(identity(dest/'bin/ekws_pcm_stream')==identity(b/'ekws_pcm_stream'),'INSTALLED_RUNNER_BYTES')
+                      need(identity(dest/'lib/libekws_research_stream.a')==identity(b/'libekws_research_stream.a'),'INSTALLED_LIBRARY_BYTES')
+                      need(identity(dest/'include/ekws_research_stream.h')==identity(component/'ekws_research_stream.h'),'INSTALLED_HEADER_BYTES')
+                      need('KwsEnglishResearch::stream' in (dest/'lib/cmake/KwsEnglishResearch/KwsEnglishResearchTargets.cmake').read_text(),'EXPORTED_NAMESPACE')
+                      for f in ('openWakeWord-LICENSE','kws-pipeline-LICENSE'):
+                          need(identity(dest/'share/KwsEnglishResearch/licenses'/f)==identity(full/'licenses'/f),'INSTALLED_LICENSE')
+                      once(evidence/(backend+'-INSTALL.json'),installed)
+                      args=[dest/'bin/ekws_pcm_stream','--verify-cached',full/'causal-head.bin']
+                      for c in CASES:args += [full/c/'input.pcm',full/c/(backend+'.bin')]
+                      if backend=='arm':args=['qemu-arm',*args]
+                      attempts[backend]['inference']=1
+                      report=loads(command(backend+'-installed-inference',args,900).read_bytes())
+                      verify_report(report,full,backend);reports[backend]=report
+                      once(evidence/(backend+'-VERIFIED.json'),{'passed':True,'samples':144000,'embeddings':78,
+                           'ready_outputs':33,'score_bit_comparisons':468,'actual_report':report,**FLAGS})
+                      # Model copy is outside library RSS; intended application may release blob after init.
+                      (dest/'models').mkdir();shutil.copyfile(full/'causal-head.bin',dest/'models/causal-head.bin')
+                  state.update(status='INSTALLED_NATIVE_AND_ARM_SDK_VERIFIED',passed=True,
+                               installed_sdk_software_verified=True,backends={k:{'stream_bytes':r['stream_bytes'],
+                               'workspace_bytes':r['workspace_bytes'],
+                               'accept_wall_seconds':sum(c['accept_wall_seconds'] for c in r['cases'])} for k,r in reports.items()})
+                  state['word_end_latency']='NOT_MEASURED';state['far_frr']='NOT_MEASURED';state['ssc305']='NOT_RUN'
+                  source=root/'source';source.mkdir()
+                  for rel in ('research/english_stream_integration','research/english_final_embedding'):
+                      shutil.copytree(pipeline/rel,source/rel)
+                  for rel in ('research/english_mel_specialization/fixed_frontend_mel.c',
+                              'research/english_final_embedding_frontend/fixed_frontend.h','LICENSE'):
+                      target=source/rel;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(pipeline/rel,target)
+                  shutil.copytree(full/'generated',root/'generated')
+                  shutil.copytree(full/'licenses',root/'licenses')
+                  (root/'README.txt').write_text(
+                      'English snapshot160 research streaming SDK.\n'
+                      'Native and ARM/QEMU installed-binary verification results are in evidence/RESULT.json.\n'
+                      'Class 1: Hey Vosen; class 2: Hey Mero. PCM16 mono 16000 Hz; no EOF padding.\n'
+                      'SSC305 hardware, real microphone, independent FAR/FRR and word-end latency: NOT RUN.\n'
+                      'Rebuild: cmake -S source/research/english_stream_integration -B BUILD '
+                      '-DKWS_ENABLE_ENGLISH_RESEARCH_STREAM=ON -DEKWS_GENERATED_SOURCE_DIR=<ABS>/generated '
+                      '-DEKWS_UPSTREAM_LICENSE=<ABS>/licenses/openWakeWord-LICENSE '
+                      '-DCMAKE_INSTALL_PREFIX=<ABS>/INSTALL\n'
+                      'Then cmake --build BUILD --parallel 2; cmake --install BUILD.\n'
+                      'Run installed runner: INSTALL/bin/ekws_pcm_stream sdk-native/models/causal-head.bin recording_id < input.pcm\n'
+                      'ARM package is arm-linux-gnueabihf, not an assertion of SSC305 BSP ABI compatibility.\n'
+                      'Original 0.8 threshold, 3 confirmations and 13-embedding cooldown are unchanged.\n', encoding='utf-8')
+                  once(evidence/'RESULT.json',state)
+              except BaseException as error:
+                  state.update(status='FAILED_NO_RETRY',passed=False,error_type=type(error).__name__,reason=str(error)[:1000])
+                  once(evidence/'FAILURE.json',state);raise
+              finally:
+                  files={p.relative_to(root).as_posix():identity(p) for p in sorted(root.rglob('*'))
+                         if p.is_file() and not p.is_symlink() and p.relative_to(root).parts[0] in ('evidence','sdk-native','sdk-arm','source','generated','licenses','README.txt')}
+                  once(root/'MANIFEST.json',{'schema':'english-installed-sdk-bundle-v1','files':files,**FLAGS})
+              print(json.dumps(state,sort_keys=True))
+
+          if __name__=='__main__':
+              if sys.argv[1:]==['--self-test']:
+                  unittest.main(argv=[sys.argv[0]],exit=True)
+              elif sys.argv[1:]==['--execute']:
+                  execute()
+              else: raise SystemExit('Explicit --self-test or --execute required')
+          # SDK_WORKER_END
+          PYSDK
+      - name: Retain SDK binaries, sources, weights, licenses and terminal or partial execution evidence
         if: always()
-        timeout-minutes: 7
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: english-snapshot160-fullchain-${{ github.run_id }}
+          name: english-snapshot160-installed-sdk-${{ github.run_id }}
           path: |
-            ${{ runner.temp }}/snapshot160-fullchain-result/
-            ${{ runner.temp }}/snapshot160-fullchain-evidence/
-          compression-level: 0
+            ${{ runner.temp }}/english-installed-sdk/evidence/
+            ${{ runner.temp }}/english-installed-sdk/sdk-native/
+            ${{ runner.temp }}/english-installed-sdk/sdk-arm/
+            ${{ runner.temp }}/english-installed-sdk/source/
+            ${{ runner.temp }}/english-installed-sdk/generated/
+            ${{ runner.temp }}/english-installed-sdk/licenses/
+            ${{ runner.temp }}/english-installed-sdk/README.txt
+            ${{ runner.temp }}/english-installed-sdk/MANIFEST.json
           retention-days: 30
           if-no-files-found: warn
