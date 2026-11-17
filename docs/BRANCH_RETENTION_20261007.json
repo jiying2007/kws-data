@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2279,
+  "expected_tracked_files": 2283,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -488,7 +488,11 @@
     "automation/test_english_quality_snr10_continue_guards.py",
     "automation/test_english_quality_snr10_continue_proof.py",
     "automation/test_english_quality_snr10_continue_review.py",
-    "research/english_quality_snr10_20261117/SOURCE_RECOVERY.md"
+    "research/english_quality_snr10_20261117/SOURCE_RECOVERY.md",
+    "research/english_quality_snr10_20261117/AUDIT_SUMMARY.json",
+    "research/english_quality_snr10_20261117/PAIRED_REVIEW.json",
+    "research/english_quality_snr10_20261117/RESULT.json",
+    "research/english_quality_snr10_20261117/RESULTS_zh.md"
   ],
   "baseline_files": [
     {
@@ -28080,6 +28084,49 @@
         }
       ],
       "rationale": "Authenticate the consumed 14-member source-failure artifact before one official mirror acquisition and the first numerical execution of the unchanged fixed 10 dB research protocol; retain the original forty PCM tracks and all prior once source identities."
+    },
+    {
+      "campaign": "english-snr10-measured-paired-quality-results-20261117",
+      "source_commit": "a10a1b2f5bba09556b35ee33af6645a9473ef791",
+      "base_commit": "453128e605498cae2482c76b19745b2204d9fd79",
+      "previous_manifest_git_blob_sha1": "a24aaa20ab1f950c08182767db5327fe4d5297de",
+      "paths": [
+        "research/english_quality_snr10_20261117/AUDIT_SUMMARY.json",
+        "research/english_quality_snr10_20261117/PAIRED_REVIEW.json",
+        "research/english_quality_snr10_20261117/RESULT.json",
+        "research/english_quality_snr10_20261117/RESULTS_zh.md"
+      ],
+      "files": [
+        {
+          "path": "research/english_quality_snr10_20261117/AUDIT_SUMMARY.json",
+          "mode": "100644",
+          "bytes": 17385,
+          "sha256": "6d00bcea7e80bd0dfc11de427cea0acbaf0a78e1a0af875d5078f7399348b366",
+          "git_blob_sha1": "671493956be0822d80d1e2f486c15636e8ee1129"
+        },
+        {
+          "path": "research/english_quality_snr10_20261117/PAIRED_REVIEW.json",
+          "mode": "100644",
+          "bytes": 64254,
+          "sha256": "5f75aca0c68b021dcba6c74f77da9123a8d18fc2cbb41639996c924a5d2b55b5",
+          "git_blob_sha1": "ab54aed1fc13017efd55c61dec6ba1d5ca3aca04"
+        },
+        {
+          "path": "research/english_quality_snr10_20261117/RESULT.json",
+          "mode": "100644",
+          "bytes": 9871,
+          "sha256": "e39879af7bdb123a9e6567d560bb0cd7d448f1f44cf53474e00bce3247770d68",
+          "git_blob_sha1": "22452709d53cf616e0cc014e369f2c29d367e151"
+        },
+        {
+          "path": "research/english_quality_snr10_20261117/RESULTS_zh.md",
+          "mode": "100644",
+          "bytes": 6699,
+          "sha256": "94e88574d9115301a6923a24dad8b4316f61993bcd0e705daa8490edc459ada2",
+          "git_blob_sha1": "4b0c37d9dc312b39305afae0f2352774e232c3e1"
+        }
+      ],
+      "rationale": "Publish the actual fixed-protocol result, independently checked PCM and logits-to-event evidence, correct Vosen/Mero class mapping, exclusions and paired quality decisions. Retain the research candidate without changing models, workflows, thresholds, qualification flags or consumed execution sources."
     }
   ]
 }
