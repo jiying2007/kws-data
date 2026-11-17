@@ -1,9 +1,9 @@
 {
   "campaign_id": "kokoro-v1_0-four-presets-short-carrier48-v1",
   "diagnostic_only": true,
-  "enabled": true,
+  "enabled": false,
   "generation_deadline_seconds": 900,
-  "generator_code_sha256": "69ecdf870e644e2e1a008c38dfb579d669f596bdd8db84bbbc44e082a0b5d59c",
+  "generator_code_sha256": "f81e661c6fadfaed0837a41cb0f2c71d4a7ee4f65e57e3fe0a88bf32aa23c207",
   "helper_sha256": {
     "automation/english_blind_asr.py": "e232cb219cabcc3877366bc446e5180d203d43b094695dba18fddee9b584669e",
     "automation/english_final_ipa_xlsr_once.py": "716928f7707fc662f62e59a988c0c264123be301abac4c23fe835bc09c052b3a",
@@ -25,6 +25,7 @@
     "research/auto-tts-voice-clone-20261102/campaign.py": "55f07e3604ac72a6ff912f25dc86f706678c6bb7661714b3dec3c1646e8d766f",
     "research/auto-tts-voice-clone-20261102/runner.py": "df3e8858e25f041ecbc1ef7f10e7b7715722ad7ad8a2f5e53f120c172d3d40c1"
   },
+  "initializer_code_sha256": "70d8e1e95134e8a99c71b8a21bd6c2b3d8f7683af7bd70a28d0a55ebf91bcf8a",
   "lv60_files": {
     "config.json": {
       "bytes": 1856,
@@ -55,7 +56,7 @@
   "maximum_total_model_calls": 288,
   "maximum_tts_calls": 48,
   "new_kws_calls": 0,
-  "next_main_before": "64404e9ebf6a38c6ce674345c6904548f33b7079",
+  "next_main_before": null,
   "observation_deadline_seconds": 3600,
   "observers": {
     "parakeet": {
@@ -190,38 +191,41 @@
   "schema": "english-kokoro48-execution-v1",
   "training_allowed": false,
   "training_snapshot_allowed": false,
-  "worker_sha256": "e8b44a491be1255e5ad506f99b2238fc743ae0e5481d080abb45856c02c5197f",
-  "zero_call_runtime_recovery": {
+  "worker_sha256": "fc744ec7ec07e0da9644c64f0e0ddc03bf97ed74aaabbfb6c5e22e1048e3c33b",
+  "zero_forward_checkpoint_recovery": {
+    "acoustic_requests_unchanged": true,
     "artifacts": {
       "probe": {
-        "bytes": 2690447,
-        "id": 14341299389,
-        "name": "english-kokoro48-probe-44114592216",
-        "sha256": "d2d21d11ad56f9fb45cbe15272a7d0dbb74c1a2cc07e5e828cdc072a530fa083"
+        "bytes": 7851552,
+        "id": 14344293045,
+        "name": "english-kokoro48-probe-44118893938",
+        "sha256": "9dabf73f7ba3588827785b31d71319435def90ad7c04ca5bab2f2fef0005fa3a"
       },
       "runtime": {
-        "bytes": 6609,
-        "id": 14342038028,
+        "bytes": 16045,
+        "id": 14342639905,
         "name": "kokoro48-generation-runtime",
-        "sha256": "2966990e1c34e801c50a7f83c2e38444fd2906b9b832d47254ff1fabb45fc550"
+        "sha256": "89f1130f26176defebd2bd91ae2c3e00f5efac2ec047f692a5a7e811ee57a196"
       },
       "source": {
-        "bytes": 2451122,
-        "id": 14342765906,
+        "bytes": 7607189,
+        "id": 14344442264,
         "name": "kokoro48-source",
-        "sha256": "dd63cc088ae627a340e9e5528e896fe331abd783d6a6000bc9834616ab78f825"
+        "sha256": "f7b004a0123f425e9d70cef80180b11b7949931c0c84bbae49ffc8a68e58957b"
       }
     },
     "automatic_retry": false,
     "ordered_request_roster_sha256": "507b40976f8219189655f75fc466375f8a66f9cd2ae9a671a7fa1f7a51a39c3e",
+    "original_recovery_id": "kokoro48-zero-call-runtime-recovery-44114592216-v1",
     "previous_audio_replayed": 0,
-    "previous_head_sha": "64404e9ebf6a38c6ce674345c6904548f33b7079",
-    "previous_recipe_sha256": "c5f207b5ecc59fa845ac77a8f6083ebab3f7d5eb87a31b6cfd4460d99dba880f",
-    "previous_run_id": 44114592216,
+    "previous_checkpoint_verified": false,
+    "previous_head_sha": "ef128ea00e350bf42392a3c9bc02d15f691528da",
+    "previous_model_construction_stage_reached": true,
+    "previous_recipe_sha256": "e104a64717ea195b5e7544285e07fa66441be24f3d7cdc9ea8493050cd715a83",
+    "previous_run_id": 44118893938,
     "previous_workflow": ".github/workflows/english-kokoro48-once.yml",
-    "recovery_id": "kokoro48-zero-call-runtime-recovery-44114592216-v1",
+    "recovery_id": "kokoro48-zero-forward-checkpoint-recovery-44118893938-v1",
     "repository": "jiying2007/kws-data",
-    "required_previous_model_attempts": 0,
-    "runtime_only_change": true
+    "required_previous_forward_attempts": 0
   }
 }

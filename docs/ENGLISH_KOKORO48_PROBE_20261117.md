@@ -1,12 +1,18 @@
-# Kokoro48：零调用运行时恢复与训练侧探针
+# Kokoro48：零前向权重初始化恢复与训练侧探针
+
+本提交先保持计划关闭，只补充真实初始化诊断；尚未修复或放宽权重校验错误。公开 PR 保存实际差异后，再依据证据提交具体修复与唯一前驱绑定，重新通过该提交的完整检查才可合并执行。
 
 实际 run `44114592216` 在导入依赖时因 `No module named 'click'` 停止：原始包保留 48 条 NOT_STARTED_NO_RETRY，TTS 前向/返回/完成均为 0；没有逐条 STARTED、模型加载标记或音频，五个观察器全部未开始。原始失败包、UNKNOWN 和旧工作流 guard 原样保留。这是初始化失败，未得到该轮音频质量结论。
 
-本次 `kokoro48-zero-call-runtime-recovery-44114592216-v1` 只修运行时：补固定 `click==8.3.1`，同时显式固定原实际 `typer==0.29.1`、`typer-slim==0.24.0`。共享 `automation/english_kokoro48_runtime.py` 同时供公开同仓 PR 的 runtime-import job 和 production 使用，安装同一组依赖，再执行 `pip check` 与离线 `from kokoro import KModel`，不构造模型、不下载模型权重、不前向。PR 导入检查通过后才合并执行。
+后继实际 run `44118893938` 已通过同一生产运行时的安装、`pip check` 和离线导入；生成阶段进入了模型构造，随后在严格 checkpoint 读回时以 `CHECKPOINT_EXACT_KEYS` 拒绝。该次有 `MODEL_LOAD_STARTED.json`，没有已验证的 `MODEL_LOCK.json`；48 条请求仍全部未开始，TTS 前向、返回、完成和五路观察调用均为 0。此阶段不能称为“没有模型加载”，也没有音频质量结果。
 
-首次合成前必须下载并逐字校验原 source/runtime/probe 三个真实 artifact（14342765906、14342038028、14341299389）的固定大小及 SHA256，重新检查真实 run/head、48 个请求/种子/音素/预设不变、所有前向为 0、无任何音频/捕获/模型加载标记、原参考政策字节不变；不会重新判定旧 UNKNOWN。完整旧 ZIP 与恢复核验收据保存在新包中。源码只允许从实际旧 head `64404e9ebf6a38c6ce674345c6904548f33b7079` 的一个精确主线后继执行，attempt 1；不能只把前驱改成别的提交重复消费这一恢复身份。默认 plan 关闭，没有自动重试或循环恢复。
+本次独立恢复身份为 `kokoro48-zero-forward-checkpoint-recovery-44118893938-v1`。共享 `automation/english_kokoro48_runtime.py` 的安装与导入命令原样保留：固定 `click==8.3.1`、`typer==0.29.1`、`typer-slim==0.24.0` 及全部原运行时版本。公开同仓 PR 的 `runtime-initialize` job 先保存独立导入子收据，再真实构造一次固定模型，逐组件保存 checkpoint keys、缺失/多余项及 shape/dtype/value 比较结果。构造次数、返回次数与前向次数分列，初始化入口不执行 48 条请求、不生成音频。诊断记录完整不等于严格权重验证通过；任何不一致继续拒绝。真实初始化与 exact-head 检查通过、独立证据审阅完成后才合并，实际 PR run/job/artifact/head 收据另存，源码不预填未来标识。
 
-以下声学设计、48 个请求身份、两个模式、参考规则和 288 次模型尝试总预算均未变化。整体 recipe SHA 因运行时版本声明变化而如实更新。
+首次合成前必须下载并逐字校验最新 source/runtime/probe 三个真实 artifact（14344442264、14342639905、14344293045）的固定大小及 SHA256，核验真实 run/head、48 个请求/种子/音素/预设不变、TTS 和观察前向均为 0、无逐条 STARTED/音频/捕获/已接受 MODEL_LOCK。旧 `MODEL_LOAD_STARTED` 与已通过的导入子收据必须存在；包内第一次失败的三个原始 ZIP 及恢复收据也逐字保留和核验。不会重新判定两轮旧 UNKNOWN。
+
+源码只允许从实际旧 head `ef128ea00e350bf42392a3c9bc02d15f691528da` 的一个精确主线后继执行，attempt 1；不能只改前驱重复消费恢复身份。默认 plan 关闭，没有自动重试或循环恢复。主线生成器仍只在原 `_load_native` 中构造一次模型，首次 TTS 前向前重新严格核验并保存真实 MODEL_LOCK，不增加一次生产预构造。
+
+以下声学设计、48 个请求身份、两个模式、参考规则、运行时版本和 288 次前向尝试总预算均未变化。PR 的一次模型初始化单独计数，不是 TTS 前向或音频样本。
 
 ## 冻结范围
 
@@ -41,6 +47,6 @@ LV60 来自官方固定 revision 的六份资产，首次真实下载逐一核�
 
 ## 执行与产物
 
-`english-kokoro48-once.yml` 只接受 public main 的精确下一次 push、attempt 1。默认 plan 关闭；真实前驱提交和代码/配方 pins 审阅齐全后才可启用。PR 运行 stdlib source/fixture 与无模型实例化的实际 runtime-import 检查；主线执行顺序为 source contract → generation → 五路独立 observation → combine，观察失败仍保留可用捕获并在 combine 显式记缺失。
+`english-kokoro48-once.yml` 只接受 public main 的精确下一次 push、attempt 1。默认 plan 关闭；真实前驱提交和代码/配方 pins 审阅齐全后才可启用。PR 运行 stdlib source/fixture，以及含一次真实模型构造、零前向的 `runtime-initialize` 检查；安装/导入与初始化证据分开上传，失败也保留诊断。主线执行顺序为 source contract → generation → 五路独立 observation → combine，观察失败仍保留可用捕获并在 combine 显式记缺失。
 
 最终 artifact 为 `english-kokoro48-probe-<run_id>`，包含完整来源、`CORPUS_MANIFEST.json`、`MACHINE_EVIDENCE.json`、`PROBE_ANALYSIS.json`、固定参考模块/档案、所有阶段收据与 `FILES.json`。combine 绿色只表示诊断包已保存。任何实际计数、通过预设、时长或声学改善都必须来自此次真实执行，源码不填入未来结果。

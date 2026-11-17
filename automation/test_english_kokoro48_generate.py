@@ -59,10 +59,25 @@ class FakeTensor:
 FAKE_TORCH = SimpleNamespace(Tensor=FakeTensor, equal=lambda a, b: a.value == b.value)
 
 
+class FakeModule:
+    def __init__(self, values):
+        self.values = dict(values)
+        self.buffers = {}
+        self._non_persistent_buffers_set = set()
+    def state_dict(self):
+        return dict(self.values)
+    def named_parameters(self, **kwargs):
+        return list(self.values.items())
+    def named_modules(self, **kwargs):
+        return [('', self)]
+    def named_buffers(self, **kwargs):
+        return list(self.buffers.items())
+
+
 def checkpoint_fixture():
     checkpoint = {name: {"weight": FakeTensor(index)}
         for index, name in enumerate(("bert", "bert_encoder", "predictor", "text_encoder", "decoder"))}
-    model = SimpleNamespace(**{name: SimpleNamespace(state_dict=lambda values=values: values)
+    model = SimpleNamespace(**{name: FakeModule(values)
                              for name, values in checkpoint.items()})
     return model, checkpoint
 
@@ -305,6 +320,52 @@ class CheckpointCompleteness(unittest.TestCase):
                 checkpoint['bert']['module.other'] = FakeTensor(1)
             with self.assertRaises(ValueError):
                 g._strict_checkpoint_readback(model, checkpoint, FAKE_TORCH)
+
+    def test_key_failure_preserves_all_five_component_diagnostics(self):
+        model, checkpoint = checkpoint_fixture()
+        checkpoint['bert']['fixture_unexpected'] = FakeTensor(7)
+        with tempfile.TemporaryDirectory(prefix='checkpoint-fixture-') as tmp:
+            with self.assertRaisesRegex(ValueError, 'CHECKPOINT_EXACT_KEYS'):
+                g._strict_checkpoint_readback(model, checkpoint, FAKE_TORCH, output=Path(tmp))
+            summary = json.loads((Path(tmp)/'source/weight-diagnostics/SUMMARY.json').read_text())
+            self.assertEqual(summary['component_count'], 5)
+            self.assertEqual(summary['passed_components'], 4)
+            self.assertEqual(summary['failed_components'], ['bert'])
+            self.assertFalse(summary['passed'])
+            self.assertEqual(len(summary['component_records']), 5)
+            for record in summary['component_records']:
+                raw = (Path(tmp)/record['path']).read_bytes()
+                self.assertEqual(record['sha256'], g.sha(raw))
+                self.assertEqual(record['bytes'], len(raw))
+            detail = json.loads((Path(tmp)/'source/weight-diagnostics/bert.json').read_text())
+            self.assertEqual(detail['unexpected_in_checkpoint'], ['fixture_unexpected'])
+            self.assertEqual(detail['missing_in_checkpoint'], [])
+            self.assertTrue(detail['common_key_comparisons'][0]['exact_value_equal'])
+            self.assertEqual(detail['allowed_key_exceptions'], [])
+
+    def test_value_mismatch_is_retained_and_never_reloaded(self):
+        model, checkpoint = checkpoint_fixture()
+        checkpoint['decoder']['weight'] = FakeTensor(-99)
+        with tempfile.TemporaryDirectory(prefix='checkpoint-fixture-') as tmp:
+            with self.assertRaisesRegex(ValueError, 'CHECKPOINT_EXACT_TENSOR_READBACK'):
+                g._strict_checkpoint_readback(model, checkpoint, FAKE_TORCH, output=Path(tmp))
+            detail = json.loads((Path(tmp)/'source/weight-diagnostics/decoder.json').read_text())
+            self.assertEqual(detail['mismatched_common_keys'], ['weight'])
+            self.assertFalse(detail['tensor_values_reloaded'])
+            self.assertEqual(model.decoder.values['weight'].value, 4)
+
+    def test_nonpersistent_buffer_inventory_is_not_a_key_exception(self):
+        model, checkpoint = checkpoint_fixture()
+        model.bert.buffers['fixture_buffer'] = FakeTensor(3)
+        model.bert._non_persistent_buffers_set.add('fixture_buffer')
+        checkpoint['bert']['fixture_buffer'] = FakeTensor(3)
+        with tempfile.TemporaryDirectory(prefix='checkpoint-fixture-') as tmp:
+            with self.assertRaisesRegex(ValueError, 'CHECKPOINT_EXACT_KEYS'):
+                g._strict_checkpoint_readback(model, checkpoint, FAKE_TORCH, output=Path(tmp))
+            detail = json.loads((Path(tmp)/'source/weight-diagnostics/bert.json').read_text())
+            self.assertFalse(detail['named_buffers'][0]['persistent'])
+            self.assertEqual(detail['unexpected_in_checkpoint'], ['fixture_buffer'])
+            self.assertEqual(detail['allowed_key_exceptions'], [])
 
 
 class RuntimeDependencyRepair(unittest.TestCase):

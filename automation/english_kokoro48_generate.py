@@ -179,31 +179,95 @@ def _installed_runtime(output):
     return versions, package_files
 
 
-def _strict_checkpoint_readback(model, checkpoint, torch):
+def _tensor_description(value, torch):
+    if not isinstance(value, torch.Tensor):
+        return {"is_tensor": False, "type": type(value).__name__}
+    return {"is_tensor": True, "shape": list(value.shape), "dtype": str(value.dtype),
+            "device_type": value.device.type}
+
+
+def _module_inventory(module, torch):
+    parameters = [{"key": key, **_tensor_description(value, torch)}
+        for key, value in module.named_parameters(recurse=True, remove_duplicate=False)]
+    buffers = []
+    for prefix, child in module.named_modules(remove_duplicate=False):
+        for key, value in child.named_buffers(recurse=False, remove_duplicate=False):
+            buffers.append({"key": (prefix + "." if prefix else "") + key,
+                "persistent": key not in child._non_persistent_buffers_set,
+                **_tensor_description(value, torch)})
+    return {"named_parameters": parameters, "named_buffers": buffers}
+
+
+def _strict_checkpoint_readback(model, checkpoint, torch, *, output=None):
     """Upstream has a strict=False fallback; never accept it as load proof."""
     expected_components = {"bert", "bert_encoder", "predictor", "text_encoder", "decoder"}
     need(type(checkpoint) is dict and set(checkpoint) == expected_components, "CHECKPOINT_COMPONENT_CLOSURE")
-    components = []
+    components, diagnostics, component_records = [], [], []
     for name in sorted(expected_components):
-        source = checkpoint[name]
-        need(hasattr(source, "items") and source, "CHECKPOINT_COMPONENT_MAPPING")
-        keys = list(source)
-        need(all(type(k) is str for k in keys), "CHECKPOINT_KEY_STRINGS")
-        if all(k.startswith("module.") for k in keys):
-            state = {k[7:]: value for k, value in source.items()}
-            mapping = "strip_exact_module_dot_prefix"
-        else:
-            need(not any(k.startswith("module.") for k in keys), "NO_MIXED_CHECKPOINT_PREFIXES")
-            state = dict(source)
-            mapping = "identity"
-        loaded = getattr(model, name).state_dict()
-        need(set(state) == set(loaded), "CHECKPOINT_EXACT_KEYS")
-        for key, value in state.items():
-            need(isinstance(value, torch.Tensor) and value.device.type == "cpu" and
-                 value.shape == loaded[key].shape and value.dtype == loaded[key].dtype and
-                 torch.equal(value, loaded[key]), "CHECKPOINT_EXACT_TENSOR_READBACK")
-        components.append({"component": name, "key_count": len(state), "mapping": mapping,
-                           "all_keys_shapes_dtypes_values_equal": True})
+        diagnostic = {"schema": SCHEMA + "/checkpoint-component", "component": name,
+            "passed": False, "error": None, "tensor_values_reloaded": False,
+            "model_forward_calls": 0, "allowed_key_exceptions": []}
+        try:
+            module = getattr(model, name)
+            loaded = module.state_dict()
+            diagnostic["loaded_state_keys"] = sorted(loaded)
+            diagnostic.update(_module_inventory(module, torch))
+            source = checkpoint[name]
+            need(hasattr(source, "items") and source, "CHECKPOINT_COMPONENT_MAPPING")
+            keys = list(source)
+            need(all(type(k) is str for k in keys), "CHECKPOINT_KEY_STRINGS")
+            diagnostic["source_keys"] = sorted(keys)
+            if all(k.startswith("module.") for k in keys):
+                state = {k[7:]: value for k, value in source.items()}
+                mapping = "strip_exact_module_dot_prefix"
+            else:
+                need(not any(k.startswith("module.") for k in keys), "NO_MIXED_CHECKPOINT_PREFIXES")
+                state = dict(source)
+                mapping = "identity"
+            diagnostic.update(mapping=mapping, normalized_keys=sorted(state),
+                missing_in_checkpoint=sorted(set(loaded)-set(state)),
+                unexpected_in_checkpoint=sorted(set(state)-set(loaded)))
+            diagnostic["checkpoint_tensors"] = [{"key": key, **_tensor_description(value, torch)}
+                for key, value in sorted(state.items())]
+            comparisons = []
+            for key in sorted(set(state).intersection(loaded)):
+                left, right = state[key], loaded[key]
+                a, b = _tensor_description(left, torch), _tensor_description(right, torch)
+                comparable = (a["is_tensor"] and b["is_tensor"] and
+                    a["device_type"] == b["device_type"] == "cpu" and
+                    left.shape == right.shape and left.dtype == right.dtype)
+                comparisons.append({"key": key, "checkpoint": a, "loaded": b,
+                    "exact_value_equal": bool(torch.equal(left, right)) if comparable else False})
+            diagnostic["common_key_comparisons"] = comparisons
+            diagnostic["mismatched_common_keys"] = [r["key"] for r in comparisons if not r["exact_value_equal"]]
+            need(set(state) == set(loaded), "CHECKPOINT_EXACT_KEYS")
+            need(not diagnostic["mismatched_common_keys"], "CHECKPOINT_EXACT_TENSOR_READBACK")
+            diagnostic["passed"] = True
+            components.append({"component": name, "key_count": len(state), "mapping": mapping,
+                               "all_keys_shapes_dtypes_values_equal": True})
+        except Exception as exc:
+            diagnostic["error"] = {"type": type(exc).__name__, "code": str(exc)[:300]}
+        diagnostics.append(diagnostic)
+        # Save every component before rejecting the whole model. No mapping
+        # exception, strict=False reload, tensor mutation or inference is used.
+        if output is not None:
+            relative = "source/weight-diagnostics/" + name + ".json"
+            path = Path(output) / relative
+            digest = once(path, diagnostic)
+            component_records.append({"component": name, "path": relative,
+                "bytes": path.stat().st_size, "sha256": digest, "passed": diagnostic["passed"]})
+    passed = len(components) == len(expected_components)
+    if output is not None:
+        once(Path(output) / "source/weight-diagnostics/SUMMARY.json", {
+            "schema": SCHEMA + "/checkpoint-readback", "passed": passed,
+            "component_count": len(diagnostics), "passed_components": len(components),
+            "failed_components": [r["component"] for r in diagnostics if not r["passed"]],
+            "component_files": ["source/weight-diagnostics/" + r["component"] + ".json" for r in diagnostics],
+            "component_records": component_records,
+            "model_forward_calls": 0, "tensor_values_reloaded": False, "allowed_key_exceptions": []})
+    if not passed:
+        failed = next(r for r in diagnostics if not r["passed"])
+        raise ValueError(failed["error"]["code"])
     return components
 
 
@@ -230,8 +294,11 @@ def _load_native(output, asset_root):
          "forward_attempts": 0, "local_files_only": True})
     model = KModel(repo_id=recipe.MODEL["repository"], config=str(asset_root / "config.json"),
                    model=str(asset_root / recipe.MODEL["model_path"]), disable_complex=False).to("cpu").float().eval()
+    once(output / "source/MODEL_CONSTRUCTED.json", {"schema": SCHEMA + "/constructed",
+        "constructor_and_runtime_transforms_returned": True, "model_instances": 1,
+        "model_forward_calls": 0, "checkpoint_proof_pending": True})
     checkpoint = torch.load(asset_root / recipe.MODEL["model_path"], map_location="cpu", weights_only=True)
-    component_proof = _strict_checkpoint_readback(model, checkpoint, torch)
+    component_proof = _strict_checkpoint_readback(model, checkpoint, torch, output=output)
     del checkpoint
     config = json.loads(regular(asset_root / "config.json", recipe.MODEL["config_bytes"]))
     need(model.vocab == config["vocab"] and model.context_length == 512, "EXACT_NATIVE_VOCAB_CONTEXT")
@@ -249,6 +316,8 @@ def _load_native(output, asset_root):
         "package": recipe.PACKAGE, "package_download": wheel_receipt,
         "installed_package_files": package_files, "runtime_versions": versions,
         "weight_loading": component_proof, "all_component_weights_verified": True,
+        "weight_diagnostics": "source/weight-diagnostics/SUMMARY.json",
+        "weight_diagnostics_sha256": sha(regular(output / "source/weight-diagnostics/SUMMARY.json", 1024 * 1024)),
         "voice_pack_shapes": {k: list(v.shape) for k, v in packs.items()},
         "preset_mixing": False, "runtime_g2p_calls": 0, "device": "cpu", "dtype": "float32",
         "human_speaker_identity_claimed": False, "forward_attempts_at_lock": 0}

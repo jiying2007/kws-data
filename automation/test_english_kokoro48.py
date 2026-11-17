@@ -59,8 +59,8 @@ class Kokoro48Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "FROZEN_REFERENCE"):
             w.validate_plan(plan)
 
-    def test_all_three_source_modules_and_helpers_are_pinned(self):
-        for key in ("worker_sha256", "recipe_code_sha256", "generator_code_sha256", "runtime_installer_sha256"):
+    def test_all_source_modules_and_helpers_are_pinned(self):
+        for key in ("worker_sha256", "recipe_code_sha256", "generator_code_sha256", "runtime_installer_sha256", "initializer_code_sha256"):
             plan = self.plan(); plan[key] = "0" * 64
             with self.subTest(key=key), self.assertRaisesRegex(ValueError, "SOURCE_PIN"):
                 w.validate_plan(plan)
@@ -103,7 +103,7 @@ class Kokoro48Tests(unittest.TestCase):
                 "retry_count": 0, "training_allowed": False, "diagnostic_only": True})
             proof = {"fixture_only": "no runtime or model"}
             w.once(root / "RECOVERY_RECEIPT.json", proof)
-            with patch.object(w, "verify_zero_call_recovery", return_value=proof):
+            with patch.object(w, "verify_zero_forward_recovery", return_value=proof):
                 corpus = w.source_readback(root, plan)
             self.assertEqual(len(corpus["rows"]), 48)
             self.assertEqual(corpus["valid_count"], 0)
@@ -233,8 +233,8 @@ class Kokoro48Tests(unittest.TestCase):
         plan = self.plan(); plan.update(enabled=True, next_main_before="a" * 40)
         with self.assertRaisesRegex(ValueError, "ONE_RECOVERY_FIXED_PREDECESSOR"):
             w.validate_plan(plan)
-        plan = self.plan(); plan["zero_call_runtime_recovery"]["previous_run_id"] += 1
-        with self.assertRaisesRegex(ValueError, "EXACT_ZERO_CALL_RUNTIME_RECOVERY"):
+        plan = self.plan(); plan["zero_forward_checkpoint_recovery"]["previous_run_id"] += 1
+        with self.assertRaisesRegex(ValueError, "EXACT_ZERO_FORWARD_CHECKPOINT_RECOVERY"):
             w.validate_plan(plan)
 
     def test_recovery_does_not_accept_a_claim_instead_of_actual_archive_bytes(self):
@@ -243,12 +243,15 @@ class Kokoro48Tests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "EXACT_PREVIOUS_API_ARCHIVE"):
                 w.recovery_archive(p, "source")
         with self.assertRaises((ValueError, KeyError)):
-            w.verify_zero_call_documents({}, {}, {})
+            w.verify_zero_forward_documents({}, {}, {})
 
-    def test_frozen_request_identity_survives_runtime_fix(self):
+    def test_frozen_requests_and_construction_boundary_survive_checkpoint_recovery(self):
         roster = [{k: row[k] for k in ("id", "request_sha256")} for row in r.recipe()["rows"]]
         self.assertEqual(w.digest(roster), w.RECOVERY["ordered_request_roster_sha256"])
-        self.assertEqual(w.RECOVERY["required_previous_model_attempts"], 0)
+        self.assertEqual(w.RECOVERY["required_previous_forward_attempts"], 0)
+        self.assertTrue(w.RECOVERY["previous_model_construction_stage_reached"])
+        self.assertFalse(w.RECOVERY["previous_checkpoint_verified"])
+        self.assertEqual(w.RECOVERY["original_recovery_id"], w.ORIGINAL_RUNTIME_RECOVERY["recovery_id"])
         self.assertFalse(w.RECOVERY["automatic_retry"])
 
     def test_create_once_and_safe_paths(self):

@@ -1,4 +1,4 @@
-name: English Kokoro48 zero-call runtime recovery and probe once
+name: English Kokoro48 checkpoint recovery and probe once
 on:
   pull_request:
     paths:
@@ -6,6 +6,8 @@ on:
       - automation/english_kokoro48_recipe.py
       - automation/english_kokoro48_generate.py
       - automation/english_kokoro48_runtime.py
+      - automation/english_kokoro48_initialize.py
+      - automation/test_english_kokoro48_initialize.py
       - automation/test_english_kokoro48_generate.py
       - automation/english_kokoro48_once.py
       - automation/english_kokoro48_plan.json
@@ -48,6 +50,7 @@ jobs:
             case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
             python3 -I -S -B "${args[@]}" automation/test_english_kokoro48.py -v
             python3 -I -S -B "${args[@]}" automation/test_english_kokoro48_generate.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_kokoro48_initialize.py -v
             python3 -I -S -B "${args[@]}" automation/english_kokoro48_once.py \
               --plan automation/english_kokoro48_plan.json --source-check
           done
@@ -59,13 +62,13 @@ jobs:
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
               stream.write('enabled=' + str(plan['enabled']).lower() + '\n')
           PYCODE
-  runtime-import:
+  runtime-initialize:
     needs: source-contract
     if: >-
       github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
       github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 28
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -78,12 +81,30 @@ jobs:
           python3 -I -S -B automation/english_kokoro48_runtime.py \
             --venv "$RUNNER_TEMP/k48-pr-runtime-venv" \
             --output "$RUNNER_TEMP/k48-pr-runtime-proof"
+      - name: Construct the fixed model once and verify every checkpoint component without forward
+        shell: bash
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 11m "$RUNNER_TEMP/k48-pr-runtime-venv/bin/python" -I -B \
+            automation/english_kokoro48_initialize.py \
+            --output "$RUNNER_TEMP/k48-pr-initialization-proof"
       - name: Retain import-only runtime evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: kokoro48-runtime-import-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/k48-pr-runtime-proof/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain actual initialization and strict checkpoint diagnostics
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kokoro48-runtime-initialize-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/k48-pr-initialization-proof/
+            !${{ runner.temp }}/k48-pr-initialization-proof/private-model/**
           retention-days: 30
           if-no-files-found: warn
   generate:
@@ -112,7 +133,7 @@ jobs:
           python3 -I -S -B automation/english_kokoro48_once.py \
             --plan automation/english_kokoro48_plan.json --guard \
             > "$RUNNER_TEMP/k48-generation-runtime/GUARD.json"
-      - name: Fetch the three exact previous zero-call archives
+      - name: Fetch the three exact previous zero-forward archives and retained recovery chain
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
@@ -125,7 +146,7 @@ jobs:
           folder = pathlib.Path(os.environ['RUNNER_TEMP']) / 'k48-recovery'
           folder.mkdir(mode=0o700)
           for kind in ('source', 'runtime', 'probe'):
-              pin = plan['zero_call_runtime_recovery']['artifacts'][kind]
+              pin = plan['zero_forward_checkpoint_recovery']['artifacts'][kind]
               if type(pin['id']) is not int:
                   raise ValueError('PINNED_ARTIFACT_ID')
               with (folder / (kind + '.zip')).open('xb') as stream:
@@ -133,7 +154,7 @@ jobs:
                       stdout=stream, check=True, timeout=60)
           PYCODE
           python3 -I -S -B automation/english_kokoro48_once.py \
-            --plan automation/english_kokoro48_plan.json --verify-zero-call-recovery \
+            --plan automation/english_kokoro48_plan.json --verify-zero-forward-recovery \
             --recovery-source "$RUNNER_TEMP/k48-recovery/source.zip" \
             --recovery-runtime "$RUNNER_TEMP/k48-recovery/runtime.zip" \
             --recovery-probe "$RUNNER_TEMP/k48-recovery/probe.zip" \
