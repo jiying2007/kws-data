@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2434,
+  "expected_tracked_files": 2451,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -643,7 +643,24 @@
     "research/kws_unified_evidence_20261117/test_compare_saved.py",
     "tests/test_branch_retention.py",
     "tests/test_research_publication_boundary.py",
-    "tools/verify_branch_retention.py"
+    "tools/verify_branch_retention.py",
+    ".github/workflows/english-teacher-retention-once.yml",
+    "automation/english_teacher_retention_once.py",
+    "automation/english_teacher_retention_plan.json",
+    "automation/test_english_teacher_retention.py",
+    "research/english_hardneg_increment_20261117/EXECUTION_RECEIPT.json",
+    "research/english_hardneg_increment_20261117/HEAD_NATIVE_PARITY.json",
+    "research/english_hardneg_increment_20261117/INDEPENDENT_AUDIT.json",
+    "research/english_hardneg_increment_20261117/PAIRED_REGRESSION.json",
+    "research/english_hardneg_increment_20261117/RESULT.json",
+    "research/english_hardneg_increment_20261117/RESULTS_zh.md",
+    "research/english_hardneg_increment_20261117/REVIEWED_FIT.json",
+    "research/english_hardneg_increment_20261117/SUPERVISOR_EXIT.json",
+    "research/english_hardneg_increment_20261117/TRAINING.json",
+    "research/english_hardneg_increment_20261117/audit/audit_saved_artifact.py",
+    "research/english_hardneg_increment_20261117/models/incremental-head.bin",
+    "research/english_hardneg_increment_20261117/models/incremental-head.npz",
+    "research/english_teacher_retention_20261117/PROTOCOL_zh.md"
   ],
   "baseline_files": [
     {
@@ -29615,6 +29632,153 @@
         }
       ],
       "rationale": "Append the project owner's explicit no-wake-word review for exactly nine immutable candidate windows, bind the original review packet and full receptive-field source audit, and admit 134 saved 16x96 inputs from eight sources to one fixed research head increment. Freeze 96 updates, original six terms plus one source-balanced negative term, unchanged normalizers, 323 saved-stream candidate replays and one existing native-head consumer replay. Preserve all prior evidence and default weights. No new audio, frontend, TTS, ASR, compiler, parameter sweep, retry, independent FAR/FRR or SSC305 qualification; a failed regression retains weights but rejects promotion."
+    },
+    {
+      "campaign": "english-teacher-retention-and-rejected-increment-20261117",
+      "source_commit": "ce319e9e2fae3f73a3997d133f193616dc68e395",
+      "base_commit": "df4f870baf178dcf0121fca661b5692ebbd5cca9",
+      "previous_manifest_git_blob_sha1": "921060a22e137d37f94b8cfdf0eb7293769b33ce",
+      "paths": [
+        ".github/workflows/english-teacher-retention-once.yml",
+        "automation/english_teacher_retention_once.py",
+        "automation/english_teacher_retention_plan.json",
+        "automation/test_english_teacher_retention.py",
+        "research/english_hardneg_increment_20261117/EXECUTION_RECEIPT.json",
+        "research/english_hardneg_increment_20261117/HEAD_NATIVE_PARITY.json",
+        "research/english_hardneg_increment_20261117/INDEPENDENT_AUDIT.json",
+        "research/english_hardneg_increment_20261117/PAIRED_REGRESSION.json",
+        "research/english_hardneg_increment_20261117/RESULT.json",
+        "research/english_hardneg_increment_20261117/RESULTS_zh.md",
+        "research/english_hardneg_increment_20261117/REVIEWED_FIT.json",
+        "research/english_hardneg_increment_20261117/SUPERVISOR_EXIT.json",
+        "research/english_hardneg_increment_20261117/TRAINING.json",
+        "research/english_hardneg_increment_20261117/audit/audit_saved_artifact.py",
+        "research/english_hardneg_increment_20261117/models/incremental-head.bin",
+        "research/english_hardneg_increment_20261117/models/incremental-head.npz",
+        "research/english_teacher_retention_20261117/PROTOCOL_zh.md"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-teacher-retention-once.yml",
+          "mode": "100644",
+          "bytes": 3433,
+          "sha256": "188a32bdc613420b206254338e479e290083b40fb1d704ea6a2f9aded74abde7",
+          "git_blob_sha1": "617d09f04d95ee19522566d9a33c2eaa1a450050"
+        },
+        {
+          "path": "automation/english_teacher_retention_once.py",
+          "mode": "100644",
+          "bytes": 37735,
+          "sha256": "4d68d6db2fb10c3cf66ff73de30cd4b5f138a41e17948834e269ff83d70750de",
+          "git_blob_sha1": "3048ad3c14e7c0f70570c6a5f2c6ff3eefed09c5"
+        },
+        {
+          "path": "automation/english_teacher_retention_plan.json",
+          "mode": "100644",
+          "bytes": 5264,
+          "sha256": "040bc8f37b4e39032e2d5a55aee4fa1a5567247f362b9b497a58b842cf2edb85",
+          "git_blob_sha1": "0dbb60daf4cdc61e3e7fcdd4e526c459eab3d730"
+        },
+        {
+          "path": "automation/test_english_teacher_retention.py",
+          "mode": "100644",
+          "bytes": 6566,
+          "sha256": "03aab83554551a1e257b1022ca4c51acabb309639aec6c4ef45311da01af1d93",
+          "git_blob_sha1": "75c8b55c833b3aac17fe9050893f449721844e25"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/EXECUTION_RECEIPT.json",
+          "mode": "100644",
+          "bytes": 568,
+          "sha256": "8260a548df783827b6a18b61d8af2df784836decdb12649079034e1430d0aa91",
+          "git_blob_sha1": "58b72949ae559bfea9eb10d04e7da27124075f7f"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/HEAD_NATIVE_PARITY.json",
+          "mode": "100644",
+          "bytes": 8863,
+          "sha256": "53a50aed46088d19c996d395433aaa9de090ad706bdb314ba7f038972a29be16",
+          "git_blob_sha1": "4786e350f57bd58a923564e4342f3fca36d62e44"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/INDEPENDENT_AUDIT.json",
+          "mode": "100644",
+          "bytes": 10544,
+          "sha256": "b25f884f677f3e44ca853ecc993f01042ab9724b154d702d8bcbdfeedb2d6fc3",
+          "git_blob_sha1": "cabbea030e50a2c3dad4cf78b6b8d1a0d99dbd73"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/PAIRED_REGRESSION.json",
+          "mode": "100644",
+          "bytes": 72988,
+          "sha256": "93082ec49c9e0d61719df05a3703934eec092ca5fe81b8d59906ab8835ba67ae",
+          "git_blob_sha1": "5874fe64cac26b00b63ef64ded1fead53c61b7ff"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/RESULT.json",
+          "mode": "100644",
+          "bytes": 2806,
+          "sha256": "da95a6a8c915a8ef4c898306ab460176ad076ff9877ee7185a1bf34754e96000",
+          "git_blob_sha1": "7025b11da0ead051863354c5fc4d471b7688b516"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/RESULTS_zh.md",
+          "mode": "100644",
+          "bytes": 3130,
+          "sha256": "8b810d90f971d7722e8cf3b9dc5cafdfec1a066865d6af5e13d270ad344fc9ea",
+          "git_blob_sha1": "69e9b298e269d37c0418f2fe4e5499ffbd001976"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/REVIEWED_FIT.json",
+          "mode": "100644",
+          "bytes": 55669,
+          "sha256": "51b8cdfa521e2c50fae02b1abe89143d7edf61a0433a90d2bb26254112f28f5d",
+          "git_blob_sha1": "fdf64a1701f336aa1ed9246d78c14ab554b227a9"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/SUPERVISOR_EXIT.json",
+          "mode": "100644",
+          "bytes": 503,
+          "sha256": "ef1e98a8a9bbc2605987439f0ce9dccfa5a171a45a7740d5bc2066eed659a284",
+          "git_blob_sha1": "4b41fb9f7e9021369097c43f772b464d36a4d809"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/TRAINING.json",
+          "mode": "100644",
+          "bytes": 73777,
+          "sha256": "f450e5bfc2f2e935a9eca0e36c68c36095dff8f41a43dbe0cbb031a9c8d084f9",
+          "git_blob_sha1": "39d4eb9c093e5036f41be31947d96fb0b9dd8aec"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/audit/audit_saved_artifact.py",
+          "mode": "100644",
+          "bytes": 15121,
+          "sha256": "892b4b8b6b129fe7ea1bded7a6fccaefe8128ffdcd7aeeb974c3f29f60a1a6ee",
+          "git_blob_sha1": "4adef1f50c1dd3cecb00fbf809904580eed86dd5"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/models/incremental-head.bin",
+          "mode": "100644",
+          "bytes": 197908,
+          "sha256": "e8078325eb69eaa2513e54f4af18d694362a2b1a202c1ca58fe02aaca03dc51c",
+          "git_blob_sha1": "dc04081f082649015dd722f842f4712e71f84b78"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/models/incremental-head.npz",
+          "mode": "100644",
+          "bytes": 199356,
+          "sha256": "af46cbbab21aab9b32c9e5d80dc1c375202870f83656e13a3d075bea0e405839",
+          "git_blob_sha1": "5754f41d6b913825905616476ec05728b85a2b3b"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/PROTOCOL_zh.md",
+          "mode": "100644",
+          "bytes": 4190,
+          "sha256": "4c336ad4e6c1eee774a76c778697668a8ccfc6d23b8ac97c9989e8e611578410",
+          "git_blob_sha1": "8a9778c87570dc45630729bbbcf6f4359be42801"
+        }
+      ],
+      "rationale": "Preserve actual rejected 96-update head weights and independent saved-byte audit; register a distinct train-only frozen-teacher response-retention mechanism with exactly 225 teacher bags, 672 student forwards and 96 updates. Reuse original inputs, fixed regression and native gates; no old run retry, threshold change, new audio, independent quality claim or SSC305 qualification."
     }
   ]
 }
