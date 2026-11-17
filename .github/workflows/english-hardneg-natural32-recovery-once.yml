@@ -1,0 +1,98 @@
+name: English natural32 source acquisition recovery once
+on:
+  pull_request:
+    paths:
+      - automation/english_hardneg_natural32_recovery_once.py
+      - automation/english_hardneg_natural32_recovery_plan.json
+      - automation/test_english_hardneg_natural32.py
+      - automation/test_english_hardneg_natural32_recovery.py
+      - research/english_hardneg_natural32_recovery_20261117/**
+      - research/english_hardneg_natural32_20261117/**
+      - .github/workflows/english-hardneg-natural32-recovery-once.yml
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-hardneg-natural32-recovery-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-hardneg-natural32-recovery-20261117-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Validate pinned source and synthetic failure contracts only
+        run: |
+          set -euo pipefail
+          sha256sum --check <<'PINS'
+          56fb6ed780cf569b994bb46f35b4b5909a15837ef90818ea5388c550694e62ae  automation/english_hardneg_natural32_recovery_once.py
+          81cb7eff374225ee948d2f44acc2a18c5785b729a496ff0638a81fc2f5a79e56  automation/english_hardneg_natural32_recovery_plan.json
+          PINS
+          python3 -I -S -B automation/english_hardneg_natural32_recovery_once.py --preflight
+          python3 -I -S -B automation/test_english_hardneg_natural32.py -v
+          python3 -I -S -B automation/test_english_hardneg_natural32_recovery.py -v
+          python3 -I -S -B research/english_hardneg_natural32_20261117/test_mine_saved_scores.py -v
+          python3 -B -m unittest discover -s research/kws_unified_evidence_20261117 -p test_compare_saved.py -v
+          git diff --exit-code
+  natural32-recovery-scan:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == 'd4edc97e4efb5612d16018f5cdeb42002d9eedfa' &&
+      github.event.deleted == false && github.event.forced == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Scan each original once within one supervised process group
+        timeout-minutes: 21
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+          NUMEXPR_NUM_THREADS: '1'
+        run: |
+          set -euo pipefail
+          sha256sum --check <<'PINS'
+          56fb6ed780cf569b994bb46f35b4b5909a15837ef90818ea5388c550694e62ae  automation/english_hardneg_natural32_recovery_once.py
+          81cb7eff374225ee948d2f44acc2a18c5785b729a496ff0638a81fc2f5a79e56  automation/english_hardneg_natural32_recovery_plan.json
+          PINS
+          python3 -I -S -B automation/english_hardneg_natural32_recovery_once.py --execute \
+            --output "$RUNNER_TEMP/english-hardneg-natural32-recovery"
+      - name: Retain selected originals, scores, candidates and partial receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-hardneg-natural32-recovery-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-hardneg-natural32-recovery/prior-failure/
+            ${{ runner.temp }}/english-hardneg-natural32-recovery/evidence/
+            ${{ runner.temp }}/english-hardneg-natural32-recovery/source/
+            ${{ runner.temp }}/english-hardneg-natural32-recovery/source-metadata/
+            ${{ runner.temp }}/english-hardneg-natural32-recovery/selectedinputs/
+            ${{ runner.temp }}/english-hardneg-natural32-recovery/models/
+            ${{ runner.temp }}/english-hardneg-natural32-recovery/bin/
+            ${{ runner.temp }}/english-hardneg-natural32-recovery/installed-base/
+            ${{ runner.temp }}/english-hardneg-natural32-recovery/traces/
+            ${{ runner.temp }}/english-hardneg-natural32-recovery/scores/
+            ${{ runner.temp }}/english-hardneg-natural32-recovery/candidates/
+            ${{ runner.temp }}/english-hardneg-natural32-recovery/STARTED.json
+            ${{ runner.temp }}/english-hardneg-natural32-recovery/MANIFEST.json
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: warn
