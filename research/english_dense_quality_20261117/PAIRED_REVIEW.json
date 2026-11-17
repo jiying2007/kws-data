@@ -1,0 +1,2359 @@
+{
+  "alias_basis": {
+    "all_eleven_original_development_aliases_checked": true,
+    "prior_paired_review_sha256": "1cd425a924ddff0ef6881c0ec8206c4d508f52334fb9159be642a7a1654996b6"
+  },
+  "class_mapping": {
+    "0": "background_or_negative_intent",
+    "1": "Hey Vosen",
+    "2": "Hey Mero"
+  },
+  "closure_decision": {
+    "candidate_accepted": false,
+    "formal_model_promotion_allowed": false,
+    "last_additional_objective_arm": true,
+    "rejected_dense_head_identity": {
+      "bytes": 199356,
+      "sha256": "353d15bf230680f294a67dc13461012cbe63becada9fc274aee13038be559464"
+    },
+    "retained_research_head": "AUG96",
+    "retained_research_head_identity": {
+      "bytes": 199356,
+      "sha256": "cdceab93cd6d3d36bff62980e8c7d2a95896ad32ecc88cae04fa232393e3e9e7"
+    },
+    "same_pool_additional_epochs_allowed": false,
+    "stop_same_pool_search_in": [
+      "loss",
+      "seed",
+      "threshold",
+      "epochs"
+    ],
+    "subsequent_same_pool_loss_seed_threshold_search_allowed": false
+  },
+  "complete_role_class_event_aggregates_source": "RESULT.json",
+  "denominators": {
+    "clean_cases": 117,
+    "development_positive_source_cases": 11,
+    "eligible_snr5_cases": 71,
+    "evaluated_case_conditions": 264,
+    "excluded_snr5_cases": 6,
+    "independent_source_count_increment": 0,
+    "new_frontend_calls": 0,
+    "planned_snr5_cases": 77,
+    "snr10_cases": 76,
+    "snr5_previously_exposed": true
+  },
+  "derived_primary_retention": {
+    "criteria": {
+      "all_conditions_no_per_case_event_error_increase": true,
+      "clean_no_previously_correct_case_regression": true,
+      "snr10_at_least_one_rescued_development_miss": false,
+      "snr10_no_previously_correct_case_regression": true,
+      "snr5_both_development_keywords_present": true,
+      "snr5_no_previously_correct_case_regression": true
+    },
+    "formal_promotion_allowed": false,
+    "passed": false,
+    "reference": "AUG96_ONLY"
+  },
+  "descriptive_triplet_scope_contract": {
+    "cross_case_or_missing_frame_triplets_allowed": false,
+    "does_not_account_for_cooldown_or_prior_events": true,
+    "full_observed_ready": "All stored ready outputs within the original observed stream.",
+    "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+    "original_clip_supported_head_outputs": "Only exact original FEATURE_EVIDENCE head_instance_ends.",
+    "unobserved_future_frames": "NOT_INFERRED",
+    "word_end_latency": "NOT_MEASURED"
+  },
+  "development_positive_summary": [
+    {
+      "case_alias": "DEV-MERO-01",
+      "conditions": {
+        "clean": {
+          "aug96": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9999744892120361,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9999293088912964,
+            "triplet_min_original_clip_supported": 0.9999293088912964
+          },
+          "dense": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9999741315841675,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9999274611473083,
+            "triplet_min_original_clip_supported": 0.9999274611473083
+          }
+        },
+        "snr10": {
+          "aug96": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9998565912246704,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9996087551116943,
+            "triplet_min_original_clip_supported": 0.9996087551116943
+          },
+          "dense": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9998553991317749,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9996150135993958,
+            "triplet_min_original_clip_supported": 0.9996150135993958
+          }
+        },
+        "snr5": {
+          "aug96": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9987560510635376,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9949296116828918,
+            "triplet_min_original_clip_supported": 0.9949296116828918
+          },
+          "dense": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.998778760433197,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9948289394378662,
+            "triplet_min_original_clip_supported": 0.9948289394378662
+          }
+        }
+      },
+      "id": "enfinal144-8c88701e96689dfa5325d59a",
+      "keyword": "Hey Mero",
+      "source_binding": {
+        "case_id_sha256": "a95110ec3af7587022825a775d62f1c281efb7dfc3ae0012d5b0aa49b208e69f",
+        "id": "enfinal144-8c88701e96689dfa5325d59a",
+        "role": "development",
+        "source_pcm_sha256": "7348be432dbd8e13b7797aba09341de090aa818e4aa9c9abd1d73b6fb8bc67f2",
+        "stream_roster_index": 87,
+        "weak_class": 2
+      },
+      "weak_class": 2
+    },
+    {
+      "case_alias": "DEV-MERO-02",
+      "conditions": {
+        "clean": {
+          "aug96": {
+            "eligible_frame_count": 6,
+            "event_minus_clip_eof_ms": [
+              80.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 6,
+            "matched": true,
+            "max_expected_probability": 0.9999394416809082,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9998511672019958,
+            "triplet_min_original_clip_supported": 0.9998511672019958
+          },
+          "dense": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9999389052391052,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.999849796295166,
+            "triplet_min_original_clip_supported": 0.999849796295166
+          }
+        },
+        "snr10": {
+          "aug96": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9996702075004578,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9994778633117676,
+            "triplet_min_original_clip_supported": 0.9994778633117676
+          },
+          "dense": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9996663331985474,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9994696974754333,
+            "triplet_min_original_clip_supported": 0.9994696974754333
+          }
+        },
+        "snr5": {
+          "aug96": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9976885914802551,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9960057139396667,
+            "triplet_min_original_clip_supported": 0.9960057139396667
+          },
+          "dense": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9976760745048523,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9959410429000854,
+            "triplet_min_original_clip_supported": 0.9959410429000854
+          }
+        }
+      },
+      "id": "enfinal144-66d2ba1c908c2398f4f00e04",
+      "keyword": "Hey Mero",
+      "source_binding": {
+        "case_id_sha256": "1292e32ef08e974e05f83818888a82b82dd6c829659d7a636a3c0fc6ff3fdd32",
+        "id": "enfinal144-66d2ba1c908c2398f4f00e04",
+        "role": "development",
+        "source_pcm_sha256": "9a0d5b42c50e1ffa7e4f318b7ea2b34a524ada59b7dee727af0b8e0ff827412d",
+        "stream_roster_index": 88,
+        "weak_class": 2
+      },
+      "weak_class": 2
+    },
+    {
+      "case_alias": "DEV-MERO-03",
+      "conditions": {
+        "clean": {
+          "aug96": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9994334578514099,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9968147277832031,
+            "triplet_min_original_clip_supported": 0.9968147277832031
+          },
+          "dense": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9994156360626221,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9968143701553345,
+            "triplet_min_original_clip_supported": 0.9968143701553345
+          }
+        },
+        "snr10": {
+          "aug96": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9995654225349426,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9963545799255371,
+            "triplet_min_original_clip_supported": 0.9963545799255371
+          },
+          "dense": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.999555230140686,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9963780045509338,
+            "triplet_min_original_clip_supported": 0.9963780045509338
+          }
+        },
+        "snr5": {
+          "aug96": {
+            "eligible_frame_count": 3,
+            "event_minus_clip_eof_ms": [
+              320.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 3,
+            "matched": true,
+            "max_expected_probability": 0.982353150844574,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9375839233398438,
+            "triplet_min_original_clip_supported": 0.9375839233398438
+          },
+          "dense": {
+            "eligible_frame_count": 3,
+            "event_minus_clip_eof_ms": [
+              320.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 3,
+            "matched": true,
+            "max_expected_probability": 0.9817065596580505,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9382331967353821,
+            "triplet_min_original_clip_supported": 0.9382331967353821
+          }
+        }
+      },
+      "id": "enfinal144-8af3e72998c16cf0c2378e6f",
+      "keyword": "Hey Mero",
+      "source_binding": {
+        "case_id_sha256": "7e1c1f27ab70c2e959a1fd0eceb0d526119d1f1e0f336bc9b072175f1789e308",
+        "id": "enfinal144-8af3e72998c16cf0c2378e6f",
+        "role": "development",
+        "source_pcm_sha256": "2a72b18b0bee4e267cc0e03fd028827c0be1e93330fa62230628e6ec67c780ec",
+        "stream_roster_index": 89,
+        "weak_class": 2
+      },
+      "weak_class": 2
+    },
+    {
+      "case_alias": "DEV-VOSEN-01",
+      "conditions": {
+        "clean": {
+          "aug96": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 1,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9998687505722046,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9996280670166016,
+            "triplet_min_original_clip_supported": 0.9996280670166016
+          },
+          "dense": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 1,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9998718500137329,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9996315836906433,
+            "triplet_min_original_clip_supported": 0.9996315836906433
+          }
+        },
+        "snr10": {
+          "aug96": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 1,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9991252422332764,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9966936111450195,
+            "triplet_min_original_clip_supported": 0.9966936111450195
+          },
+          "dense": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 1,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9991375803947449,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9966877698898315,
+            "triplet_min_original_clip_supported": 0.9966877698898315
+          }
+        },
+        "snr5": {
+          "aug96": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 1,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9991512894630432,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9963041543960571,
+            "triplet_min_original_clip_supported": 0.9963041543960571
+          },
+          "dense": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 1,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9991503357887268,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9962608218193054,
+            "triplet_min_original_clip_supported": 0.9962608218193054
+          }
+        }
+      },
+      "id": "enfinal144-141349b6a5ed3f6bae6a8c64",
+      "keyword": "Hey Vosen",
+      "source_binding": {
+        "case_id_sha256": "138e6404485fe22e32a282579f8a5e7dbb815564290652f2f236bd6c7558da63",
+        "id": "enfinal144-141349b6a5ed3f6bae6a8c64",
+        "role": "development",
+        "source_pcm_sha256": "0937a6e81fadce8ff06a72e3f37bc15e05dfdff2a306e90638d127fd55e91652",
+        "stream_roster_index": 90,
+        "weak_class": 1
+      },
+      "weak_class": 1
+    },
+    {
+      "case_alias": "DEV-VOSEN-02",
+      "conditions": {
+        "clean": {
+          "aug96": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 1,
+                "sample": 55680
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9935436248779297,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9880437850952148,
+            "triplet_min_original_clip_supported": 0.9880437850952148
+          },
+          "dense": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 1,
+                "sample": 55680
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9936520457267761,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9881499409675598,
+            "triplet_min_original_clip_supported": 0.9881499409675598
+          }
+        },
+        "snr10": {
+          "aug96": {
+            "eligible_frame_count": 1,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 1,
+            "matched": false,
+            "max_expected_probability": 0.8006529211997986,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.756199836730957,
+            "triplet_min_original_clip_supported": 0.6936614513397217
+          },
+          "dense": {
+            "eligible_frame_count": 0,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 0,
+            "matched": false,
+            "max_expected_probability": 0.7976936101913452,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.7568507194519043,
+            "triplet_min_original_clip_supported": 0.6952840685844421
+          }
+        },
+        "snr5": {
+          "aug96": {
+            "eligible_frame_count": 0,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 0,
+            "matched": false,
+            "max_expected_probability": 0.35645970702171326,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.21397757530212402,
+            "triplet_min_original_clip_supported": 0.21397757530212402
+          },
+          "dense": {
+            "eligible_frame_count": 0,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 0,
+            "matched": false,
+            "max_expected_probability": 0.35605576634407043,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.21880395710468292,
+            "triplet_min_original_clip_supported": 0.21880395710468292
+          }
+        }
+      },
+      "id": "enfinal144-899f0b4f1eb91bc7d265b647",
+      "keyword": "Hey Vosen",
+      "source_binding": {
+        "case_id_sha256": "9c20b419aead30d601331c25afb4c313d4eecc425a7a9d0480be17ca75f1f6b9",
+        "id": "enfinal144-899f0b4f1eb91bc7d265b647",
+        "role": "development",
+        "source_pcm_sha256": "986cc3d2f8a9d06d6dcf34d4f401d13fb5c16201c0d0a4b1ce71630fca453568",
+        "stream_roster_index": 91,
+        "weak_class": 1
+      },
+      "weak_class": 1
+    },
+    {
+      "case_alias": "DEV-VOSEN-03",
+      "conditions": {
+        "clean": {
+          "aug96": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 1,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9989500641822815,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9974268078804016,
+            "triplet_min_original_clip_supported": 0.9974268078804016
+          },
+          "dense": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 1,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9989346265792847,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9974445700645447,
+            "triplet_min_original_clip_supported": 0.9974445700645447
+          }
+        },
+        "snr10": {
+          "aug96": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 1,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.988953173160553,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9745153784751892,
+            "triplet_min_original_clip_supported": 0.9745153784751892
+          },
+          "dense": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 1,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9886902570724487,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9739846587181091,
+            "triplet_min_original_clip_supported": 0.9739846587181091
+          }
+        },
+        "snr5": {
+          "aug96": {
+            "eligible_frame_count": 0,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 0,
+            "matched": false,
+            "max_expected_probability": 0.643753170967102,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.5087862014770508,
+            "triplet_min_original_clip_supported": 0.5087862014770508
+          },
+          "dense": {
+            "eligible_frame_count": 0,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 0,
+            "matched": false,
+            "max_expected_probability": 0.6459957361221313,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.5072648525238037,
+            "triplet_min_original_clip_supported": 0.5072648525238037
+          }
+        }
+      },
+      "id": "enfinal144-c16ecd5a55ad6e4e9ccff5c7",
+      "keyword": "Hey Vosen",
+      "source_binding": {
+        "case_id_sha256": "1117f96a292fc52e3411e537398e25c02d2b5c57226bf266e744473d627fa78b",
+        "id": "enfinal144-c16ecd5a55ad6e4e9ccff5c7",
+        "role": "development",
+        "source_pcm_sha256": "703013cebd1293edea58240d32901c01a42ba423a2014373bcf3c2a4f923f488",
+        "stream_roster_index": 92,
+        "weak_class": 1
+      },
+      "weak_class": 1
+    },
+    {
+      "case_alias": "DEV-MERO-04",
+      "conditions": {
+        "clean": {
+          "aug96": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.986413300037384,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9812918901443481,
+            "triplet_min_original_clip_supported": 0.9812918901443481
+          },
+          "dense": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.985824465751648,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9815429449081421,
+            "triplet_min_original_clip_supported": 0.9815429449081421
+          }
+        },
+        "snr10": {
+          "aug96": {
+            "eligible_frame_count": 3,
+            "event_minus_clip_eof_ms": [
+              320.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 55680
+              }
+            ],
+            "longest_eligible_streak": 3,
+            "matched": true,
+            "max_expected_probability": 0.9452124834060669,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9016146659851074,
+            "triplet_min_original_clip_supported": 0.9016146659851074
+          },
+          "dense": {
+            "eligible_frame_count": 3,
+            "event_minus_clip_eof_ms": [
+              320.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 55680
+              }
+            ],
+            "longest_eligible_streak": 3,
+            "matched": true,
+            "max_expected_probability": 0.9442542195320129,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.8997344374656677,
+            "triplet_min_original_clip_supported": 0.8997344374656677
+          }
+        },
+        "snr5": {
+          "aug96": {
+            "eligible_frame_count": 0,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 0,
+            "matched": false,
+            "max_expected_probability": 0.5210551619529724,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.34788426756858826,
+            "triplet_min_original_clip_supported": 0.34788426756858826
+          },
+          "dense": {
+            "eligible_frame_count": 0,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 0,
+            "matched": false,
+            "max_expected_probability": 0.5116690993309021,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.34443625807762146,
+            "triplet_min_original_clip_supported": 0.34443625807762146
+          }
+        }
+      },
+      "id": "enfinal144-a0976f1f5f7b334993a7b4a6",
+      "keyword": "Hey Mero",
+      "source_binding": {
+        "case_id_sha256": "5f2c9c9e3a7f988f97c739946a0e46f8ad4c1baf0e8b31c37f3a1a90e7b65c5c",
+        "id": "enfinal144-a0976f1f5f7b334993a7b4a6",
+        "role": "development",
+        "source_pcm_sha256": "0241affd23716a91271ff98b5d09cdda26fc2704f3fd7e857187f3bd113183bf",
+        "stream_roster_index": 101,
+        "weak_class": 2
+      },
+      "weak_class": 2
+    },
+    {
+      "case_alias": "DEV-MERO-05",
+      "conditions": {
+        "clean": {
+          "aug96": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9812771677970886,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9463148713111877,
+            "triplet_min_original_clip_supported": 0.9394912719726562
+          },
+          "dense": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9810076951980591,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9469446539878845,
+            "triplet_min_original_clip_supported": 0.9378618001937866
+          }
+        },
+        "snr10": {
+          "aug96": {
+            "eligible_frame_count": 2,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 1,
+            "matched": false,
+            "max_expected_probability": 0.8403958082199097,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.6982322931289673,
+            "triplet_min_original_clip_supported": 0.6982322931289673
+          },
+          "dense": {
+            "eligible_frame_count": 2,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 1,
+            "matched": false,
+            "max_expected_probability": 0.8374613523483276,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.6928582191467285,
+            "triplet_min_original_clip_supported": 0.6928582191467285
+          }
+        },
+        "snr5": {
+          "aug96": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9405532479286194,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9197593331336975,
+            "triplet_min_original_clip_supported": 0.9197593331336975
+          },
+          "dense": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 54400
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9391968846321106,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9178261160850525,
+            "triplet_min_original_clip_supported": 0.9178261160850525
+          }
+        }
+      },
+      "id": "enfinal144-5602dd573b0afb64e36b51b2",
+      "keyword": "Hey Mero",
+      "source_binding": {
+        "case_id_sha256": "1534437b74cdb254d6d860c7c05b27562622b3620b27276490c534dd73919289",
+        "id": "enfinal144-5602dd573b0afb64e36b51b2",
+        "role": "development",
+        "source_pcm_sha256": "3204b743b78360f8b2b743db64c51c6c421aeaf2fab255bfff2a143fe075e3b5",
+        "stream_roster_index": 102,
+        "weak_class": 2
+      },
+      "weak_class": 2
+    },
+    {
+      "case_alias": "DEV-MERO-06",
+      "conditions": {
+        "clean": {
+          "aug96": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9985623359680176,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9886956214904785,
+            "triplet_min_original_clip_supported": 0.9886956214904785
+          },
+          "dense": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9985498785972595,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9883301854133606,
+            "triplet_min_original_clip_supported": 0.9883301854133606
+          }
+        },
+        "snr10": {
+          "aug96": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9963555335998535,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9648153185844421,
+            "triplet_min_original_clip_supported": 0.9648153185844421
+          },
+          "dense": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9963380098342896,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9636931419372559,
+            "triplet_min_original_clip_supported": 0.9636931419372559
+          }
+        },
+        "snr5": {
+          "aug96": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9873184561729431,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9230237007141113,
+            "triplet_min_original_clip_supported": 0.9230237007141113
+          },
+          "dense": {
+            "eligible_frame_count": 4,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 53120
+              }
+            ],
+            "longest_eligible_streak": 4,
+            "matched": true,
+            "max_expected_probability": 0.9872928857803345,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9211147427558899,
+            "triplet_min_original_clip_supported": 0.9211147427558899
+          }
+        }
+      },
+      "id": "enfinal144-4ea8ef8e5ef11eadcfc863b9",
+      "keyword": "Hey Mero",
+      "source_binding": {
+        "case_id_sha256": "3aa14bbae17ce2e1aae2d86969b85cd043de58591dec65b1ba86a88d739a931f",
+        "id": "enfinal144-4ea8ef8e5ef11eadcfc863b9",
+        "role": "development",
+        "source_pcm_sha256": "078f5ab975df1d9cbc34b7e5427623f6f30828b51319221e01bb8b932550451c",
+        "stream_roster_index": 103,
+        "weak_class": 2
+      },
+      "weak_class": 2
+    },
+    {
+      "case_alias": "DEV-MERO-07",
+      "conditions": {
+        "clean": {
+          "aug96": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 55680
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9988155961036682,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9953106641769409,
+            "triplet_min_original_clip_supported": 0.9953106641769409
+          },
+          "dense": {
+            "eligible_frame_count": 5,
+            "event_minus_clip_eof_ms": [
+              160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 55680
+              }
+            ],
+            "longest_eligible_streak": 5,
+            "matched": true,
+            "max_expected_probability": 0.9987765550613403,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9952353239059448,
+            "triplet_min_original_clip_supported": 0.9952353239059448
+          }
+        },
+        "snr10": {
+          "aug96": {
+            "eligible_frame_count": 0,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 0,
+            "matched": false,
+            "max_expected_probability": 0.5534249544143677,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.1089891642332077,
+            "triplet_min_original_clip_supported": 0.1089891642332077
+          },
+          "dense": {
+            "eligible_frame_count": 0,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 0,
+            "matched": false,
+            "max_expected_probability": 0.5576081871986389,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.1095474362373352,
+            "triplet_min_original_clip_supported": 0.1095474362373352
+          }
+        },
+        "snr5": {
+          "aug96": {
+            "eligible_frame_count": 0,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 0,
+            "matched": false,
+            "max_expected_probability": 0.153397798538208,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.07410621643066406,
+            "triplet_min_original_clip_supported": 0.0033111548982560635
+          },
+          "dense": {
+            "eligible_frame_count": 0,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 0,
+            "matched": false,
+            "max_expected_probability": 0.1496461033821106,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.076079823076725,
+            "triplet_min_original_clip_supported": 0.0034562493674457073
+          }
+        }
+      },
+      "id": "enfinal144-a5a700f0030bd649e0d17ae0",
+      "keyword": "Hey Mero",
+      "source_binding": {
+        "case_id_sha256": "94c3c01b09e34e922c8fc732b449a69e878fd742798b772ff183006666b77b51",
+        "id": "enfinal144-a5a700f0030bd649e0d17ae0",
+        "role": "development",
+        "source_pcm_sha256": "f86ae491992879a19b390fb248adbdab0bd268d7b712a5b2229544cd527383ab",
+        "stream_roster_index": 104,
+        "weak_class": 2
+      },
+      "weak_class": 2
+    },
+    {
+      "case_alias": "DEV-MERO-08",
+      "conditions": {
+        "clean": {
+          "aug96": {
+            "eligible_frame_count": 9,
+            "event_minus_clip_eof_ms": [
+              -160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 55680
+              }
+            ],
+            "longest_eligible_streak": 9,
+            "matched": true,
+            "max_expected_probability": 0.9998950362205505,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9998075366020203,
+            "triplet_min_original_clip_supported": 0.9989672303199768
+          },
+          "dense": {
+            "eligible_frame_count": 9,
+            "event_minus_clip_eof_ms": [
+              -160.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 55680
+              }
+            ],
+            "longest_eligible_streak": 9,
+            "matched": true,
+            "max_expected_probability": 0.9998937845230103,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.9998000860214233,
+            "triplet_min_original_clip_supported": 0.9989458322525024
+          }
+        },
+        "snr10": {
+          "aug96": {
+            "eligible_frame_count": 3,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 62080
+              }
+            ],
+            "longest_eligible_streak": 3,
+            "matched": true,
+            "max_expected_probability": 0.9479849934577942,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.827309250831604,
+            "triplet_min_original_clip_supported": 0.827309250831604
+          },
+          "dense": {
+            "eligible_frame_count": 3,
+            "event_minus_clip_eof_ms": [
+              240.0
+            ],
+            "events": [
+              {
+                "keyword": 2,
+                "sample": 62080
+              }
+            ],
+            "longest_eligible_streak": 3,
+            "matched": true,
+            "max_expected_probability": 0.949088454246521,
+            "no_matching_event_status": null,
+            "research_error": false,
+            "triplet_min_full_observed_ready": 0.8298840522766113,
+            "triplet_min_original_clip_supported": 0.8298840522766113
+          }
+        },
+        "snr5": {
+          "aug96": {
+            "eligible_frame_count": 0,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 0,
+            "matched": false,
+            "max_expected_probability": 0.5133726000785828,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.2280215173959732,
+            "triplet_min_original_clip_supported": 0.2280215173959732
+          },
+          "dense": {
+            "eligible_frame_count": 0,
+            "event_minus_clip_eof_ms": [],
+            "events": [],
+            "longest_eligible_streak": 0,
+            "matched": false,
+            "max_expected_probability": 0.5206228494644165,
+            "no_matching_event_status": "CENSORED_AT_OBSERVED_END_NOT_FRR",
+            "research_error": true,
+            "triplet_min_full_observed_ready": 0.23108072578907013,
+            "triplet_min_original_clip_supported": 0.23108072578907013
+          }
+        }
+      },
+      "id": "enfinal144-d692d0ef9dc69703364b9640",
+      "keyword": "Hey Mero",
+      "source_binding": {
+        "case_id_sha256": "1673506672fab9eefc0497785267ae1ecc61e9434921ee2ebac3c93b5f62ec35",
+        "id": "enfinal144-d692d0ef9dc69703364b9640",
+        "role": "development",
+        "source_pcm_sha256": "2a67746ad789824a06346010e38b723c8fa33abb034ed4e221561502ff332bd7",
+        "stream_roster_index": 105,
+        "weak_class": 2
+      },
+      "weak_class": 2
+    }
+  ],
+  "development_triplet_changes_aug96_to_dense": {
+    "full_observed_ready": {
+      "clean": {
+        "cases": 11,
+        "decreased": 6,
+        "equal": 0,
+        "increased": 5
+      },
+      "snr10": {
+        "cases": 11,
+        "decreased": 6,
+        "equal": 0,
+        "increased": 5
+      },
+      "snr5": {
+        "cases": 11,
+        "decreased": 7,
+        "equal": 0,
+        "increased": 4
+      }
+    },
+    "original_clip_supported_head_outputs": {
+      "clean": {
+        "cases": 11,
+        "decreased": 7,
+        "equal": 0,
+        "increased": 4
+      },
+      "snr10": {
+        "cases": 11,
+        "decreased": 6,
+        "equal": 0,
+        "increased": 5
+      },
+      "snr5": {
+        "cases": 11,
+        "decreased": 7,
+        "equal": 0,
+        "increased": 4
+      }
+    }
+  },
+  "excluded_snr5_cases": [
+    {
+      "case_alias": "TRAIN-MERO-01",
+      "clipped_samples": 0,
+      "condition_training_allowed": false,
+      "fade_samples": 0,
+      "gain_on_signal": 1.0,
+      "id": "enfinal144-811b3dced5c01654a5a77a3b",
+      "independent_source_count_increment": 0,
+      "noise_gain": 0.860725475640914,
+      "noise_pcm_sha256": "b47b5cacd5f5b7f57f3031c8145a5ec0b9e6dc99470c0d18d509974f2d670464",
+      "noise_power": 13452343.180228366,
+      "noise_role": "train",
+      "noise_start_sample": 12110,
+      "noise_track": "libri-speaker-1272",
+      "noise_track_pcm_sha256": "a192f737578dd259c447caf07a06a9566326aabd489faa96d4ccfb8854fc33ab",
+      "original_combined_pcm_sha256": "472be942efbe3f0ab5f19a39fc50162148d1ff7ef0489c5a40c74e07a0078a55",
+      "previous_snr10_receipt_sha256": "da8ad92b3845ac90c0a4e7cfca024eba40bd0de5e90c99e60e8ad6b3d9fa7843",
+      "role": "train",
+      "samples": 16640,
+      "scored_as_success_or_failure": false,
+      "signal_power": 31515721.402764425,
+      "snr_definition": "full-original-clip-rms-before-mixture",
+      "source_family_id": "qwen3-preset-aiden",
+      "source_pcm_sha256": "4917f309fe80dc7bb89c82d09354ecf69972b7b33933b7ed65c7b719defe2e31",
+      "status": "MIX_HEADROOM_EXCLUDED",
+      "target_snr_db": 5.0,
+      "unbounded_peak": 33658,
+      "weak_class": 2
+    },
+    {
+      "case_alias": "TRAIN-MERO-02",
+      "clipped_samples": 0,
+      "condition_training_allowed": false,
+      "fade_samples": 0,
+      "gain_on_signal": 1.0,
+      "id": "enfinal144-31103bd6c2d15cc9524c983d",
+      "independent_source_count_increment": 0,
+      "noise_gain": 175.5037374486034,
+      "noise_pcm_sha256": "3a43306e45b9d3eff8a7cdaef8f2903737db94b4d26e83bac86a3d8cd451a7e1",
+      "noise_power": 469.09765625,
+      "noise_role": "train",
+      "noise_start_sample": 133863,
+      "noise_track": "libri-speaker-3170",
+      "noise_track_pcm_sha256": "cfb201a76abcc5fa329abebc60a90262b53103938f0e5ba1ef4e82a79af38cd9",
+      "original_combined_pcm_sha256": "f8b3269f874dd0fd28d0f74eb2bcee8cd24a2a7f255294d5274edfd38d30ec14",
+      "previous_snr10_receipt_sha256": "a0c6cc1946e2bf45b81978d3fbc766e4c59f6f48367e5bf2d6fcd600cbaf1e2b",
+      "role": "train",
+      "samples": 12800,
+      "scored_as_success_or_failure": false,
+      "signal_power": 45691561.68234375,
+      "snr_definition": "full-original-clip-rms-before-mixture",
+      "source_family_id": "qwen3-preset-aiden",
+      "source_pcm_sha256": "df79cbd0873b5d17ccd800941d4319a01eb16ef2a0ef702e8587394e6fb284dc",
+      "status": "MIX_HEADROOM_EXCLUDED",
+      "target_snr_db": 5.0,
+      "unbounded_peak": 36678,
+      "weak_class": 2
+    },
+    {
+      "case_alias": "TRAIN-MERO-03",
+      "clipped_samples": 0,
+      "condition_training_allowed": false,
+      "fade_samples": 0,
+      "gain_on_signal": 1.0,
+      "id": "enfinal144-21b4acf1de1d4410494a482e",
+      "independent_source_count_increment": 0,
+      "noise_gain": 1.7487883386345684,
+      "noise_pcm_sha256": "533815d510a60bbf877efad8fa14f64ff2c018d919d4b32d4874fc9d5be20ee0",
+      "noise_power": 4941786.012421875,
+      "noise_role": "train",
+      "noise_start_sample": 150877,
+      "noise_track": "libri-speaker-3853",
+      "noise_track_pcm_sha256": "d21ef7dee7424b8cf9b956d37abbcf89ce5b7127eef3e6541686f3227c90175a",
+      "original_combined_pcm_sha256": "8cb29e71e44c3dcfd9ef552f29da58e3ad7b0349708a198cff2e5f214f83003d",
+      "previous_snr10_receipt_sha256": "b7626b1de5e24903b94ede42dc50b4e206c9424b30710c8bbe44e9e6ffd37e7a",
+      "role": "train",
+      "samples": 12800,
+      "scored_as_success_or_failure": false,
+      "signal_power": 47792355.20460937,
+      "snr_definition": "full-original-clip-rms-before-mixture",
+      "source_family_id": "qwen3-preset-aiden",
+      "source_pcm_sha256": "d4b63fb50f758df2d2dc1633d5d3c8bf34e6c9050c9db44ac0c333cfe4b530cc",
+      "status": "MIX_HEADROOM_EXCLUDED",
+      "target_snr_db": 5.0,
+      "unbounded_peak": 40605,
+      "weak_class": 2
+    },
+    {
+      "case_alias": "TRAIN-VOSEN-01",
+      "clipped_samples": 0,
+      "condition_training_allowed": false,
+      "fade_samples": 0,
+      "gain_on_signal": 1.0,
+      "id": "enfinal144-a3b759f521c897588fc0bc11",
+      "independent_source_count_increment": 0,
+      "noise_gain": 1.204863778096289,
+      "noise_pcm_sha256": "e53d38825aac061570c4366b2da4c1ec2a4df1ffe6fe1bcd493aaf7faad48a06",
+      "noise_power": 8147538.883515625,
+      "noise_role": "train",
+      "noise_start_sample": 6148,
+      "noise_track": "libri-speaker-5536",
+      "noise_track_pcm_sha256": "e3a78e70534f86e850fb7459aaf0b78b63cb15d15ab896c2f7911948e0cf7175",
+      "original_combined_pcm_sha256": "36b691635eb3d4d2678e87c520119a8a25bb3a548d378583dbca1805fdc1b924",
+      "previous_snr10_receipt_sha256": "923aa47c401302654da978d93f84f9ade3dd9477deeb80ba3c30e5742b3348c8",
+      "role": "train",
+      "samples": 12800,
+      "scored_as_success_or_failure": false,
+      "signal_power": 37402647.00015625,
+      "snr_definition": "full-original-clip-rms-before-mixture",
+      "source_family_id": "qwen3-preset-aiden",
+      "source_pcm_sha256": "55a63b636a68cf73fe21173d68a2c93079cce6f91192e5fc07bf4fe68a5aea5b",
+      "status": "MIX_HEADROOM_EXCLUDED",
+      "target_snr_db": 5.0,
+      "unbounded_peak": 36215,
+      "weak_class": 1
+    },
+    {
+      "case_alias": "TRAIN-MERO-07",
+      "clipped_samples": 0,
+      "condition_training_allowed": false,
+      "fade_samples": 0,
+      "gain_on_signal": 1.0,
+      "id": "enfinal144-fb214edd2e574f7deb5225af",
+      "independent_source_count_increment": 0,
+      "noise_gain": 5.051602891638403,
+      "noise_pcm_sha256": "151a416f35de8131dbee011bab85250d7e311b3c92f6b6ab38a68367682a44b9",
+      "noise_power": 86448.02992788462,
+      "noise_role": "train",
+      "noise_start_sample": 176328,
+      "noise_track": "libri-speaker-2412",
+      "noise_track_pcm_sha256": "3344fb3247b58cb4426a75bc08782a52314e1bf9e6bd211a9fb35768885a259b",
+      "original_combined_pcm_sha256": "6086a7d036d1d149d53553053c334d7bf61a5df3dfc48ddfa450bbf05778e55e",
+      "previous_snr10_receipt_sha256": "27b20dfed7b30661681aeb91b2a0d684bec338605590f87cf0ad417e5c8877e7",
+      "role": "train",
+      "samples": 16640,
+      "scored_as_success_or_failure": false,
+      "signal_power": 6976113.002524039,
+      "snr_definition": "full-original-clip-rms-before-mixture",
+      "source_family_id": "qwen3-preset-eric",
+      "source_pcm_sha256": "fdfe8042971608d1f7880feb056bc29b9d9989de97de8fefc25a698f0453a741",
+      "status": "MIX_HEADROOM_EXCLUDED",
+      "target_snr_db": 5.0,
+      "unbounded_peak": 35130,
+      "weak_class": 2
+    },
+    {
+      "case_alias": "TRAIN-VOSEN-06",
+      "clipped_samples": 0,
+      "condition_training_allowed": false,
+      "fade_samples": 0,
+      "gain_on_signal": 1.0,
+      "id": "envosenschwa16-7608b6fa0de2a7228879590c",
+      "independent_source_count_increment": 0,
+      "noise_gain": 3.13372366924934,
+      "noise_pcm_sha256": "1d08aca1f9f4b61636f476c502eea91d8381147758d95b7bd824bb1bae4b6a7d",
+      "noise_power": 1157560.5143229167,
+      "noise_role": "train",
+      "noise_start_sample": 90122,
+      "noise_track": "libri-speaker-2412",
+      "noise_track_pcm_sha256": "3344fb3247b58cb4426a75bc08782a52314e1bf9e6bd211a9fb35768885a259b",
+      "original_combined_pcm_sha256": "d912ae2dc060da3d496147d6940a489cee727b02e15e0f75289a929cfc1b0498",
+      "previous_snr10_receipt_sha256": "b589c67ffb65c638fb7d3b22ebd00b78c85852cc613e8465ace26e36c8590582",
+      "role": "train",
+      "samples": 11520,
+      "scored_as_success_or_failure": false,
+      "signal_power": 35947202.638628475,
+      "snr_definition": "full-original-clip-rms-before-mixture",
+      "source_family_id": "qwen3-preset-aiden",
+      "source_pcm_sha256": "c96d73803b015512c434a6e64029cf72a7f6afbc82d657c393c26607f100e1b0",
+      "status": "MIX_HEADROOM_EXCLUDED",
+      "target_snr_db": 5.0,
+      "unbounded_peak": 35272,
+      "weak_class": 1
+    }
+  ],
+  "failed_temporal_artifact": {
+    "bytes": 17980402,
+    "sha256": "6a1e38febf22b76a7cf2227362e51f783d5ad524b2d81b5677c22edc6dccc631"
+  },
+  "failed_temporal_is_primary_control": false,
+  "formal_training_admitted": false,
+  "full_comparison_report": {
+    "bytes": 2189694,
+    "filename": "DENSE_COMPARISON.json",
+    "sha256": "81d502bd6aa9313a8fc99b86ec4b4d4101cd530d25788a58720ce802dd4b96fc"
+  },
+  "head_sha": "3b356d3e6ed14cd4c408f94ae44411967f49a2e5",
+  "human_gold": false,
+  "independent_far": "NOT_RUN",
+  "independent_frr": "NOT_RUN",
+  "limitations": [
+    "主对照固定为aug96；相对失败temporal的修复只作旁证。",
+    "同一批原来源、开发模式和5dB结果已经暴露；这不是新的独立测试集。",
+    "11个开发正意图仍是原弱标签；三条件不计为33个独立样本。",
+    "没有词尾标注；事件仅相对原clipEOF，未出现事件保持观察窗口删失。",
+    "三帧min→max只描述保存概率，不执行确认门或推断冷却、未来帧与音素根因。",
+    "背景和普通负意图trusted_negative=false；计数不代表独立自然FAR。",
+    "正式训练准入、模型晋级和产品SDK替换不由本报告授予。",
+    "本轮是最后一个同池目标函数比较；不据其结果继续搜索loss、seed或阈值。"
+  ],
+  "model_promotion_allowed": false,
+  "new_audio_decodes_or_mixes_by_this_review": 0,
+  "new_model_calls_by_this_review": 0,
+  "new_probability_computations_by_this_review": 0,
+  "optional_training_artifact": {
+    "bytes": 61290521,
+    "sha256": "2aa398cd11b787342d91c056fed188d8e3607929da9fdaf873451b5cf05b07f1"
+  },
+  "previous_aug96_artifact": {
+    "bytes": 32878537,
+    "sha256": "acc6def807b1dd5728111beba4801352d8de9cb453e530f2270005254f44fa15"
+  },
+  "previous_read_speech_regression_case": {
+    "case_alias": "DEV-READ-SPEECH-06",
+    "id": "libri-speaker-5338",
+    "models": {
+      "aug96": {
+        "events": [],
+        "mero_full_ready_triplet": {
+          "best_consecutive_triplet_min_probability": 0.7793222665786743,
+          "best_triplet_min_minus_threshold": -0.02067774534225464,
+          "best_triplet_samples": [
+            228480,
+            229760,
+            231040
+          ],
+          "best_triplet_stored_target_probabilities": [
+            0.8978644609451294,
+            0.7793222665786743,
+            0.8218079805374146
+          ],
+          "consecutive_triplets_at_threshold": 0,
+          "consecutive_triplets_observed": 171,
+          "cross_case_or_missing_frame_triplets_allowed": false,
+          "does_not_account_for_cooldown_or_prior_events": true,
+          "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+          "scope": "FULL_OBSERVED_READY_OUTPUTS"
+        },
+        "prior_trigger_triplet_mero_probabilities": [
+          0.8978644609451294,
+          0.7793222665786743,
+          0.8218079805374146
+        ]
+      },
+      "dense": {
+        "events": [],
+        "mero_full_ready_triplet": {
+          "best_consecutive_triplet_min_probability": 0.7815930843353271,
+          "best_triplet_min_minus_threshold": -0.018406927585601807,
+          "best_triplet_samples": [
+            228480,
+            229760,
+            231040
+          ],
+          "best_triplet_stored_target_probabilities": [
+            0.8979498147964478,
+            0.7815930843353271,
+            0.8194242119789124
+          ],
+          "consecutive_triplets_at_threshold": 0,
+          "consecutive_triplets_observed": 171,
+          "cross_case_or_missing_frame_triplets_allowed": false,
+          "does_not_account_for_cooldown_or_prior_events": true,
+          "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+          "scope": "FULL_OBSERVED_READY_OUTPUTS"
+        },
+        "prior_trigger_triplet_mero_probabilities": [
+          0.8979498147964478,
+          0.7815930843353271,
+          0.8194242119789124
+        ]
+      },
+      "failed_temporal": {
+        "events": [
+          {
+            "keyword": 2,
+            "sample": 231040
+          }
+        ],
+        "mero_full_ready_triplet": {
+          "best_consecutive_triplet_min_probability": 0.8389828205108643,
+          "best_triplet_min_minus_threshold": 0.0389828085899353,
+          "best_triplet_samples": [
+            228480,
+            229760,
+            231040
+          ],
+          "best_triplet_stored_target_probabilities": [
+            0.9098040461540222,
+            0.8389828205108643,
+            0.8447303175926208
+          ],
+          "consecutive_triplets_at_threshold": 1,
+          "consecutive_triplets_observed": 171,
+          "cross_case_or_missing_frame_triplets_allowed": false,
+          "does_not_account_for_cooldown_or_prior_events": true,
+          "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+          "scope": "FULL_OBSERVED_READY_OUTPUTS"
+        },
+        "prior_trigger_triplet_mero_probabilities": [
+          0.9098040461540222,
+          0.8389828205108643,
+          0.8447303175926208
+        ]
+      }
+    },
+    "prior_event_sample": 231040,
+    "prior_event_stream_seconds": 14.44,
+    "prior_temporal_event_keyword": {
+      "index": 2,
+      "name": "Hey Mero"
+    },
+    "prior_trigger_triplet_samples": [
+      228480,
+      229760,
+      231040
+    ],
+    "role": "development",
+    "source_kind": "exposed-read-speech-splice",
+    "trusted_negative": false
+  },
+  "primary_aug96_to_dense_summary": {
+    "clean": {
+      "cases": 117,
+      "cases_with_event_error_increase": 0,
+      "development_misses_rescued": 0,
+      "event_clock_is_not_word_end_latency": true,
+      "regressed": 0,
+      "rescued": 0,
+      "single_matching_event_clock_shift_ms_histogram": {
+        "0.0": 28,
+        "80.0": 1
+      }
+    },
+    "snr10": {
+      "cases": 76,
+      "cases_with_event_error_increase": 0,
+      "development_misses_rescued": 0,
+      "event_clock_is_not_word_end_latency": true,
+      "regressed": 0,
+      "rescued": 0,
+      "single_matching_event_clock_shift_ms_histogram": {
+        "0.0": 25
+      }
+    },
+    "snr5": {
+      "cases": 71,
+      "cases_with_event_error_increase": 0,
+      "development_misses_rescued": 0,
+      "event_clock_is_not_word_end_latency": true,
+      "regressed": 0,
+      "rescued": 0,
+      "single_matching_event_clock_shift_ms_histogram": {
+        "0.0": 17
+      }
+    }
+  },
+  "primary_control": "AUG96",
+  "primary_error_case_changes": [],
+  "primary_observed_event_sequence_changes": [
+    {
+      "candidate": {
+        "clip_eof_sample": 51840,
+        "clip_start_sample": 35200,
+        "event_count": 1,
+        "event_minus_clip_eof_ms": [
+          160.0
+        ],
+        "events": [
+          {
+            "keyword": 2,
+            "sample": 54400
+          }
+        ],
+        "extra_same_keyword_events": 0,
+        "id": "enfinal144-66d2ba1c908c2398f4f00e04",
+        "keyword": "Hey Mero",
+        "matched": true,
+        "matching_event_samples": [
+          54400
+        ],
+        "no_matching_event_in_observed_context": false,
+        "no_matching_event_status": null,
+        "observation_end_minus_clip_eof_ms": 320.0,
+        "observed_samples": 56960,
+        "prefix_events": 0,
+        "research_error": false,
+        "role": "development",
+        "weak_class": 2,
+        "weak_negative_intent_events": 0,
+        "word_end_latency": "NOT_MEASURED",
+        "wrong_keyword_events": 0
+      },
+      "candidate_model": "dense",
+      "case_alias": "DEV-MERO-02",
+      "condition": "clean",
+      "development_miss_rescued": false,
+      "event_clock_interpretation": "SAME_CONSTRUCTED_STREAM_EVENT_CLOCK_NOT_WORD_END_LATENCY",
+      "event_error_categories_increased": [],
+      "event_shift_status": "ONE_MATCHING_EVENT_EACH",
+      "id": "enfinal144-66d2ba1c908c2398f4f00e04",
+      "keyword": "Hey Mero",
+      "observed_event_sequence_changed": true,
+      "reference": {
+        "clip_eof_sample": 51840,
+        "clip_start_sample": 35200,
+        "event_count": 1,
+        "event_minus_clip_eof_ms": [
+          80.0
+        ],
+        "events": [
+          {
+            "keyword": 2,
+            "sample": 53120
+          }
+        ],
+        "extra_same_keyword_events": 0,
+        "id": "enfinal144-66d2ba1c908c2398f4f00e04",
+        "keyword": "Hey Mero",
+        "matched": true,
+        "matching_event_samples": [
+          53120
+        ],
+        "no_matching_event_in_observed_context": false,
+        "no_matching_event_status": null,
+        "observation_end_minus_clip_eof_ms": 320.0,
+        "observed_samples": 56960,
+        "prefix_events": 0,
+        "research_error": false,
+        "role": "development",
+        "weak_class": 2,
+        "weak_negative_intent_events": 0,
+        "word_end_latency": "NOT_MEASURED",
+        "wrong_keyword_events": 0
+      },
+      "reference_model": "aug96",
+      "regressed": false,
+      "rescued": false,
+      "role": "development",
+      "single_matching_event_shift_ms": 80.0,
+      "weak_class": 2
+    }
+  ],
+  "pronunciation_verified": false,
+  "qualification_allowed": false,
+  "quality_artifact": {
+    "bytes": 8556668,
+    "sha256": "9b2a6cfde7c12ccf31bcc018cf7df76e0b3722cdbe0609efb67195edb2e83747"
+  },
+  "reported_primary_retention": {
+    "criteria": {
+      "all_conditions_no_per_case_event_error_increase": true,
+      "clean_no_previously_correct_case_regression": true,
+      "snr10_at_least_one_rescued_development_miss": false,
+      "snr10_no_previously_correct_case_regression": true,
+      "snr5_both_development_keywords_present": true,
+      "snr5_no_previously_correct_case_regression": true
+    },
+    "formal_promotion_allowed": false,
+    "formal_training_admitted": false,
+    "human_gold": false,
+    "model_promotion_allowed": false,
+    "passed": false,
+    "pronunciation_verified": false,
+    "qualification_allowed": false,
+    "reference": "PREVIOUS_AUGMENTED_96_UPDATE_HEAD",
+    "status": "FAILED_RESEARCH_RETENTION_GATE_DIAGNOSTIC_ONLY",
+    "training_admitted": false,
+    "trusted_negative": false
+  },
+  "run_id": "44033745273",
+  "schema": "english-dense-saved-predictions-comparison-v1",
+  "secondary_error_case_changes": [
+    {
+      "candidate": {
+        "clip_eof_sample": null,
+        "clip_start_sample": null,
+        "event_count": 0,
+        "event_minus_clip_eof_ms": [],
+        "events": [],
+        "extra_same_keyword_events": 0,
+        "id": "libri-speaker-5338",
+        "keyword": "background_or_negative_intent",
+        "matched": false,
+        "matching_event_samples": [],
+        "no_matching_event_in_observed_context": false,
+        "no_matching_event_status": null,
+        "observation_end_minus_clip_eof_ms": null,
+        "observed_samples": 256000,
+        "prefix_events": 0,
+        "research_error": false,
+        "role": "development",
+        "weak_class": 0,
+        "weak_negative_intent_events": 0,
+        "word_end_latency": "NOT_MEASURED",
+        "wrong_keyword_events": 0
+      },
+      "candidate_model": "dense",
+      "case_alias": "DEV-READ-SPEECH-06",
+      "condition": "clean",
+      "development_miss_rescued": false,
+      "event_clock_interpretation": "SAME_CONSTRUCTED_STREAM_EVENT_CLOCK_NOT_WORD_END_LATENCY",
+      "event_error_categories_increased": [],
+      "event_shift_status": "NOT_COMPARABLE_SINGLE_EVENT",
+      "id": "libri-speaker-5338",
+      "keyword": "background_or_negative_intent",
+      "observed_event_sequence_changed": true,
+      "reference": {
+        "clip_eof_sample": null,
+        "clip_start_sample": null,
+        "event_count": 1,
+        "event_minus_clip_eof_ms": [],
+        "events": [
+          {
+            "keyword": 2,
+            "sample": 231040
+          }
+        ],
+        "extra_same_keyword_events": 0,
+        "id": "libri-speaker-5338",
+        "keyword": "background_or_negative_intent",
+        "matched": false,
+        "matching_event_samples": [],
+        "no_matching_event_in_observed_context": false,
+        "no_matching_event_status": null,
+        "observation_end_minus_clip_eof_ms": null,
+        "observed_samples": 256000,
+        "prefix_events": 0,
+        "research_error": true,
+        "role": "development",
+        "weak_class": 0,
+        "weak_negative_intent_events": 1,
+        "word_end_latency": "NOT_MEASURED",
+        "wrong_keyword_events": 0
+      },
+      "reference_model": "failed_temporal",
+      "regressed": false,
+      "rescued": true,
+      "role": "development",
+      "single_matching_event_shift_ms": null,
+      "weak_class": 0
+    }
+  ],
+  "secondary_temporal_to_dense_summary": {
+    "clean": {
+      "cases": 117,
+      "cases_with_event_error_increase": 0,
+      "development_misses_rescued": 0,
+      "event_clock_is_not_word_end_latency": true,
+      "regressed": 0,
+      "rescued": 1,
+      "single_matching_event_clock_shift_ms_histogram": {
+        "0.0": 26,
+        "80.0": 3
+      }
+    },
+    "snr10": {
+      "cases": 76,
+      "cases_with_event_error_increase": 0,
+      "development_misses_rescued": 0,
+      "event_clock_is_not_word_end_latency": true,
+      "regressed": 0,
+      "rescued": 0,
+      "single_matching_event_clock_shift_ms_histogram": {
+        "0.0": 23,
+        "80.0": 2
+      }
+    },
+    "snr5": {
+      "cases": 71,
+      "cases_with_event_error_increase": 0,
+      "development_misses_rescued": 0,
+      "event_clock_is_not_word_end_latency": true,
+      "regressed": 0,
+      "rescued": 0,
+      "single_matching_event_clock_shift_ms_histogram": {
+        "0.0": 15,
+        "80.0": 2
+      }
+    }
+  },
+  "selection_kind": "PUBLIC_COMPARISON_SUMMARY_WITH_ALL_PRIMARY_EVENT_CHANGES_AND_PINNED_FULL_REPORT",
+  "status": "SAVED_DENSE_PREDICTIONS_COMPARED_NO_MODEL_EXECUTION",
+  "three_unresolved_snr10_development_miss_triplets": [
+    {
+      "case_alias": "DEV-VOSEN-02",
+      "condition": "snr10",
+      "id": "enfinal144-899f0b4f1eb91bc7d265b647",
+      "models": {
+        "aug96": {
+          "full_observed_ready": {
+            "best_consecutive_triplet_min_probability": 0.756199836730957,
+            "best_triplet_min_minus_threshold": -0.043800175189971924,
+            "best_triplet_samples": [
+              53120,
+              54400,
+              55680
+            ],
+            "best_triplet_stored_target_probabilities": [
+              0.7856758832931519,
+              0.8006529211997986,
+              0.756199836730957
+            ],
+            "consecutive_triplets_at_threshold": 0,
+            "consecutive_triplets_observed": 17,
+            "cross_case_or_missing_frame_triplets_allowed": false,
+            "does_not_account_for_cooldown_or_prior_events": true,
+            "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+            "scope": "FULL_OBSERVED_READY_OUTPUTS"
+          },
+          "original_clip_supported_head_outputs": {
+            "best_consecutive_triplet_min_probability": 0.6936614513397217,
+            "best_triplet_min_minus_threshold": -0.10633856058120728,
+            "best_triplet_samples": [
+              54400,
+              55680,
+              56960
+            ],
+            "best_triplet_stored_target_probabilities": [
+              0.8006529211997986,
+              0.756199836730957,
+              0.6936614513397217
+            ],
+            "consecutive_triplets_at_threshold": 0,
+            "consecutive_triplets_observed": 2,
+            "cross_case_or_missing_frame_triplets_allowed": false,
+            "does_not_account_for_cooldown_or_prior_events": true,
+            "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+            "scope": "ORIGINAL_FEATURE_EVIDENCE_HEAD_INSTANCE_ENDS"
+          }
+        },
+        "dense": {
+          "full_observed_ready": {
+            "best_consecutive_triplet_min_probability": 0.7568507194519043,
+            "best_triplet_min_minus_threshold": -0.04314929246902466,
+            "best_triplet_samples": [
+              53120,
+              54400,
+              55680
+            ],
+            "best_triplet_stored_target_probabilities": [
+              0.7809093594551086,
+              0.7976936101913452,
+              0.7568507194519043
+            ],
+            "consecutive_triplets_at_threshold": 0,
+            "consecutive_triplets_observed": 17,
+            "cross_case_or_missing_frame_triplets_allowed": false,
+            "does_not_account_for_cooldown_or_prior_events": true,
+            "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+            "scope": "FULL_OBSERVED_READY_OUTPUTS"
+          },
+          "original_clip_supported_head_outputs": {
+            "best_consecutive_triplet_min_probability": 0.6952840685844421,
+            "best_triplet_min_minus_threshold": -0.10471594333648682,
+            "best_triplet_samples": [
+              54400,
+              55680,
+              56960
+            ],
+            "best_triplet_stored_target_probabilities": [
+              0.7976936101913452,
+              0.7568507194519043,
+              0.6952840685844421
+            ],
+            "consecutive_triplets_at_threshold": 0,
+            "consecutive_triplets_observed": 2,
+            "cross_case_or_missing_frame_triplets_allowed": false,
+            "does_not_account_for_cooldown_or_prior_events": true,
+            "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+            "scope": "ORIGINAL_FEATURE_EVIDENCE_HEAD_INSTANCE_ENDS"
+          }
+        }
+      }
+    },
+    {
+      "case_alias": "DEV-MERO-05",
+      "condition": "snr10",
+      "id": "enfinal144-5602dd573b0afb64e36b51b2",
+      "models": {
+        "aug96": {
+          "full_observed_ready": {
+            "best_consecutive_triplet_min_probability": 0.6982322931289673,
+            "best_triplet_min_minus_threshold": -0.10176771879196167,
+            "best_triplet_samples": [
+              51840,
+              53120,
+              54400
+            ],
+            "best_triplet_stored_target_probabilities": [
+              0.8080595135688782,
+              0.6982322931289673,
+              0.7348509430885315
+            ],
+            "consecutive_triplets_at_threshold": 0,
+            "consecutive_triplets_observed": 15,
+            "cross_case_or_missing_frame_triplets_allowed": false,
+            "does_not_account_for_cooldown_or_prior_events": true,
+            "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+            "scope": "FULL_OBSERVED_READY_OUTPUTS"
+          },
+          "original_clip_supported_head_outputs": {
+            "best_consecutive_triplet_min_probability": 0.6982322931289673,
+            "best_triplet_min_minus_threshold": -0.10176771879196167,
+            "best_triplet_samples": [
+              51840,
+              53120,
+              54400
+            ],
+            "best_triplet_stored_target_probabilities": [
+              0.8080595135688782,
+              0.6982322931289673,
+              0.7348509430885315
+            ],
+            "consecutive_triplets_at_threshold": 0,
+            "consecutive_triplets_observed": 2,
+            "cross_case_or_missing_frame_triplets_allowed": false,
+            "does_not_account_for_cooldown_or_prior_events": true,
+            "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+            "scope": "ORIGINAL_FEATURE_EVIDENCE_HEAD_INSTANCE_ENDS"
+          }
+        },
+        "dense": {
+          "full_observed_ready": {
+            "best_consecutive_triplet_min_probability": 0.6928582191467285,
+            "best_triplet_min_minus_threshold": -0.10714179277420044,
+            "best_triplet_samples": [
+              51840,
+              53120,
+              54400
+            ],
+            "best_triplet_stored_target_probabilities": [
+              0.8066530227661133,
+              0.6928582191467285,
+              0.7306062579154968
+            ],
+            "consecutive_triplets_at_threshold": 0,
+            "consecutive_triplets_observed": 15,
+            "cross_case_or_missing_frame_triplets_allowed": false,
+            "does_not_account_for_cooldown_or_prior_events": true,
+            "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+            "scope": "FULL_OBSERVED_READY_OUTPUTS"
+          },
+          "original_clip_supported_head_outputs": {
+            "best_consecutive_triplet_min_probability": 0.6928582191467285,
+            "best_triplet_min_minus_threshold": -0.10714179277420044,
+            "best_triplet_samples": [
+              51840,
+              53120,
+              54400
+            ],
+            "best_triplet_stored_target_probabilities": [
+              0.8066530227661133,
+              0.6928582191467285,
+              0.7306062579154968
+            ],
+            "consecutive_triplets_at_threshold": 0,
+            "consecutive_triplets_observed": 2,
+            "cross_case_or_missing_frame_triplets_allowed": false,
+            "does_not_account_for_cooldown_or_prior_events": true,
+            "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+            "scope": "ORIGINAL_FEATURE_EVIDENCE_HEAD_INSTANCE_ENDS"
+          }
+        }
+      }
+    },
+    {
+      "case_alias": "DEV-MERO-07",
+      "condition": "snr10",
+      "id": "enfinal144-a5a700f0030bd649e0d17ae0",
+      "models": {
+        "aug96": {
+          "full_observed_ready": {
+            "best_consecutive_triplet_min_probability": 0.1089891642332077,
+            "best_triplet_min_minus_threshold": -0.6910108476877213,
+            "best_triplet_samples": [
+              53120,
+              54400,
+              55680
+            ],
+            "best_triplet_stored_target_probabilities": [
+              0.24076254665851593,
+              0.2029234766960144,
+              0.1089891642332077
+            ],
+            "consecutive_triplets_at_threshold": 0,
+            "consecutive_triplets_observed": 17,
+            "cross_case_or_missing_frame_triplets_allowed": false,
+            "does_not_account_for_cooldown_or_prior_events": true,
+            "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+            "scope": "FULL_OBSERVED_READY_OUTPUTS"
+          },
+          "original_clip_supported_head_outputs": {
+            "best_consecutive_triplet_min_probability": 0.1089891642332077,
+            "best_triplet_min_minus_threshold": -0.6910108476877213,
+            "best_triplet_samples": [
+              54400,
+              55680,
+              56960
+            ],
+            "best_triplet_stored_target_probabilities": [
+              0.2029234766960144,
+              0.1089891642332077,
+              0.15461274981498718
+            ],
+            "consecutive_triplets_at_threshold": 0,
+            "consecutive_triplets_observed": 2,
+            "cross_case_or_missing_frame_triplets_allowed": false,
+            "does_not_account_for_cooldown_or_prior_events": true,
+            "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+            "scope": "ORIGINAL_FEATURE_EVIDENCE_HEAD_INSTANCE_ENDS"
+          }
+        },
+        "dense": {
+          "full_observed_ready": {
+            "best_consecutive_triplet_min_probability": 0.1095474362373352,
+            "best_triplet_min_minus_threshold": -0.6904525756835938,
+            "best_triplet_samples": [
+              53120,
+              54400,
+              55680
+            ],
+            "best_triplet_stored_target_probabilities": [
+              0.2370166927576065,
+              0.19899806380271912,
+              0.1095474362373352
+            ],
+            "consecutive_triplets_at_threshold": 0,
+            "consecutive_triplets_observed": 17,
+            "cross_case_or_missing_frame_triplets_allowed": false,
+            "does_not_account_for_cooldown_or_prior_events": true,
+            "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+            "scope": "FULL_OBSERVED_READY_OUTPUTS"
+          },
+          "original_clip_supported_head_outputs": {
+            "best_consecutive_triplet_min_probability": 0.1095474362373352,
+            "best_triplet_min_minus_threshold": -0.6904525756835938,
+            "best_triplet_samples": [
+              54400,
+              55680,
+              56960
+            ],
+            "best_triplet_stored_target_probabilities": [
+              0.19899806380271912,
+              0.1095474362373352,
+              0.15700489282608032
+            ],
+            "consecutive_triplets_at_threshold": 0,
+            "consecutive_triplets_observed": 2,
+            "cross_case_or_missing_frame_triplets_allowed": false,
+            "does_not_account_for_cooldown_or_prior_events": true,
+            "interpretation": "DESCRIPTIVE_MIN_MAX_OF_STORED_PROBABILITIES_NOT_A_MODEL_OR_EVENT_GATE_REEXECUTION",
+            "scope": "ORIGINAL_FEATURE_EVIDENCE_HEAD_INSTANCE_ENDS"
+          }
+        }
+      }
+    }
+  ],
+  "threshold_searches_by_this_review": 0,
+  "training_admitted": false,
+  "trusted_negative": false,
+  "word_end_latency": "NOT_MEASURED"
+}
