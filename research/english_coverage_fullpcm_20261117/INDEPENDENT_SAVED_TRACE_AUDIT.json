@@ -1,0 +1,668 @@
+{
+  "all_five_reference_extractions_and_pcm_bytes_verified": true,
+  "artifact": {
+    "bytes": 13172135,
+    "sha256": "ad5494d3a7456d9c7e1fcd51fec727fa9d9a377a508459db6f88af5256170ba6"
+  },
+  "auditor_sha256": "7ad69f90bbc0746b67f953c417fde5623d4b80acf8eb58e8dcafadfa7bde0627",
+  "candidate_binary": {
+    "bytes": 197908,
+    "sha256": "d3e39adf72495034de0405abb997b76744885f91868eccfa97ba09b929bc63e4"
+  },
+  "candidate_npz": {
+    "bytes": 199356,
+    "sha256": "75c1d13203f77fcec9b66013bd6fc8c1979cb3397207931eaf31241eeb396a35"
+  },
+  "compilers_or_c_model_processes_by_auditor": 0,
+  "consumer_build_start_exit_pairs": 2,
+  "distinct_previously_exposed_pcm_seconds": 18.04,
+  "embeddings_per_backend": 168,
+  "events_per_backend": 3,
+  "expected_external_binding": true,
+  "expected_head": "95aec73b0ac8b58fa74e62df35c3e443107619b1",
+  "expected_run": "44049954828",
+  "formal_training_admitted": false,
+  "full_pcm_process_start_exit_pairs": 10,
+  "human_gold": false,
+  "independent_acoustic_evaluation": false,
+  "independent_far": "NOT_RUN",
+  "independent_frr": "NOT_RUN",
+  "kws_model_delivered": false,
+  "manifest_members_verified": 173,
+  "model_forward_reexecutions_by_auditor": 0,
+  "model_promotion_allowed": false,
+  "new_onnx_calls_by_auditor": 0,
+  "new_training_or_mixing_by_auditor": 0,
+  "numeric_totals": {
+    "embedding": {
+      "atol": 0.001,
+      "elements": 32256,
+      "max_abs_error": 9.918212890625e-05,
+      "rtol": 0.0002,
+      "violations": 0
+    },
+    "logits": {
+      "atol": 0.003,
+      "elements": 1008,
+      "max_abs_error": 7.271766662597656e-06,
+      "rtol": 0.0002,
+      "violations": 0
+    },
+    "probabilities": {
+      "atol": 0.0005,
+      "elements": 1008,
+      "max_abs_error": 1.7285346984863281e-06,
+      "rtol": 0.0,
+      "violations": 0
+    }
+  },
+  "original_saved_reference_members": {
+    "runtime/CASE_MAP.json": "7d7f64e7f0c1b7950fe7e1af19a74c82319f38f0d61cf4a159e37354d7b1ac3a",
+    "runtime/head-stream.bin": "614bb845016bbf7e3ea87a859972659e71628acc8b1e968e69577e8c117df72a",
+    "runtime/reference-frames.jsonl": "b50484d125c0492bd43f2e01e473124e6a8104192f824fd5917aa7ae1c4a5f07"
+  },
+  "paired_backends": [
+    {
+      "case_id": "encov-new8-7ec79719666821c08c694dde",
+      "exact_native_arm_events_and_states": true,
+      "whole_trace_bitexact": true
+    },
+    {
+      "case_id": "encov-new8-69e0f996e6049f0d58d78d65",
+      "exact_native_arm_events_and_states": true,
+      "whole_trace_bitexact": true
+    },
+    {
+      "case_id": "encov-new8-28b17376eefb7d7a62334bab",
+      "exact_native_arm_events_and_states": true,
+      "whole_trace_bitexact": true
+    },
+    {
+      "case_id": "encov-new8-1556744d0babcec74d18c76c",
+      "exact_native_arm_events_and_states": true,
+      "whole_trace_bitexact": true
+    },
+    {
+      "case_id": "enfinal144-5602dd573b0afb64e36b51b2",
+      "exact_native_arm_events_and_states": true,
+      "whole_trace_bitexact": true
+    }
+  ],
+  "performance_measured": false,
+  "plan_sha256": "fd4fe7fe456eea2dab03bfc56362c4aa6311f86e28dfe98837ec398af750799f",
+  "pronunciation_verified": false,
+  "qualification_allowed": false,
+  "ready_outputs_per_backend": 93,
+  "reference_source_quality_zip": {
+    "bytes": 50040751,
+    "sha256": "56b7e9181cc0e8662b00dd1344ef414a1466a668428fec8bc709b600ba8e97e1"
+  },
+  "replay_pcm_seconds": 36.08,
+  "reports": [
+    {
+      "backend": "native",
+      "case_id": "encov-new8-7ec79719666821c08c694dde",
+      "condition": "new8",
+      "embedding_records": 31,
+      "end": [
+        54400,
+        31,
+        31,
+        16,
+        1,
+        170
+      ],
+      "events": [
+        [
+          2,
+          54400
+        ]
+      ],
+      "exact_clock_ready_keyword": true,
+      "exact_end": true,
+      "exact_events": true,
+      "input_pcm_sha256": "4295f2257a0ce0b1495e55685e1366bde41bc52974cb1f489b826b1fc8593643",
+      "numeric": {
+        "embedding": {
+          "atol": 0.001,
+          "elements": 2976,
+          "max_abs_error": 6.4849853515625e-05,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "logits": {
+          "atol": 0.003,
+          "elements": 93,
+          "max_abs_error": 2.86102294921875e-06,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "probabilities": {
+          "atol": 0.0005,
+          "elements": 93,
+          "max_abs_error": 6.556510925292969e-07,
+          "passed": true,
+          "rtol": 0.0,
+          "violations": 0
+        }
+      },
+      "observed_samples": 54400,
+      "passed": true,
+      "ready_outputs": 16,
+      "trace": {
+        "bytes": 14328,
+        "sha256": "e98060961864cce06cd23420ec63ff2c51ac070ed55a271d88189fc2981679ec"
+      }
+    },
+    {
+      "backend": "native",
+      "case_id": "encov-new8-69e0f996e6049f0d58d78d65",
+      "condition": "new8",
+      "embedding_records": 33,
+      "end": [
+        56960,
+        33,
+        33,
+        18,
+        1,
+        178
+      ],
+      "events": [
+        [
+          1,
+          55680
+        ]
+      ],
+      "exact_clock_ready_keyword": true,
+      "exact_end": true,
+      "exact_events": true,
+      "input_pcm_sha256": "5d764e3f68c46b3cb049ebf2e4e5b8acb56d4598c2fa54eb374b104e71c5be8d",
+      "numeric": {
+        "embedding": {
+          "atol": 0.001,
+          "elements": 3168,
+          "max_abs_error": 8.0108642578125e-05,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "logits": {
+          "atol": 0.003,
+          "elements": 99,
+          "max_abs_error": 4.5299530029296875e-06,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "probabilities": {
+          "atol": 0.0005,
+          "elements": 99,
+          "max_abs_error": 1.7285346984863281e-06,
+          "passed": true,
+          "rtol": 0.0,
+          "violations": 0
+        }
+      },
+      "observed_samples": 56960,
+      "passed": true,
+      "ready_outputs": 18,
+      "trace": {
+        "bytes": 15244,
+        "sha256": "9f8269a5a70a3aa7ca6871a2708f2a5eab51362ed02f6921af98aa47278a0655"
+      }
+    },
+    {
+      "backend": "native",
+      "case_id": "encov-new8-28b17376eefb7d7a62334bab",
+      "condition": "new8",
+      "embedding_records": 34,
+      "end": [
+        58240,
+        34,
+        34,
+        19,
+        0,
+        182
+      ],
+      "events": [],
+      "exact_clock_ready_keyword": true,
+      "exact_end": true,
+      "exact_events": true,
+      "input_pcm_sha256": "ada5d3fea5aea3083880edb6b5a77abf38c52358bbe5535f8b774e4bba5c2a42",
+      "numeric": {
+        "embedding": {
+          "atol": 0.001,
+          "elements": 3264,
+          "max_abs_error": 7.2479248046875e-05,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "logits": {
+          "atol": 0.003,
+          "elements": 102,
+          "max_abs_error": 7.271766662597656e-06,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "probabilities": {
+          "atol": 0.0005,
+          "elements": 102,
+          "max_abs_error": 8.344650268554688e-07,
+          "passed": true,
+          "rtol": 0.0,
+          "violations": 0
+        }
+      },
+      "observed_samples": 58240,
+      "passed": true,
+      "ready_outputs": 19,
+      "trace": {
+        "bytes": 15665,
+        "sha256": "9998caffd80caae4bbd90d5bfdc8d9a2bb79bd39f9b1859dbcdcb689d7542a59"
+      }
+    },
+    {
+      "backend": "native",
+      "case_id": "encov-new8-1556744d0babcec74d18c76c",
+      "condition": "new8",
+      "embedding_records": 38,
+      "end": [
+        63360,
+        38,
+        38,
+        23,
+        0,
+        198
+      ],
+      "events": [],
+      "exact_clock_ready_keyword": true,
+      "exact_end": true,
+      "exact_events": true,
+      "input_pcm_sha256": "247bc5b97ad44be4ed56a6d3654debec405a191ed0ed9aae810ee642b177854f",
+      "numeric": {
+        "embedding": {
+          "atol": 0.001,
+          "elements": 3648,
+          "max_abs_error": 9.918212890625e-05,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "logits": {
+          "atol": 0.003,
+          "elements": 114,
+          "max_abs_error": 4.76837158203125e-06,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "probabilities": {
+          "atol": 0.0005,
+          "elements": 114,
+          "max_abs_error": 3.5762786865234375e-07,
+          "passed": true,
+          "rtol": 0.0,
+          "violations": 0
+        }
+      },
+      "observed_samples": 63360,
+      "passed": true,
+      "ready_outputs": 23,
+      "trace": {
+        "bytes": 17497,
+        "sha256": "285ea92cb1c733baff62ce84c06db1196734810d1a31ae5db5391ca9c166ff9d"
+      }
+    },
+    {
+      "backend": "native",
+      "case_id": "enfinal144-5602dd573b0afb64e36b51b2",
+      "condition": "snr10",
+      "embedding_records": 32,
+      "end": [
+        55680,
+        32,
+        32,
+        17,
+        1,
+        174
+      ],
+      "events": [
+        [
+          2,
+          54400
+        ]
+      ],
+      "exact_clock_ready_keyword": true,
+      "exact_end": true,
+      "exact_events": true,
+      "input_pcm_sha256": "c21fb94514ec0b9efaf8383664a1c6c9a28e65d96d090ff05ca80379d89bb95e",
+      "numeric": {
+        "embedding": {
+          "atol": 0.001,
+          "elements": 3072,
+          "max_abs_error": 7.390975952148438e-05,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "logits": {
+          "atol": 0.003,
+          "elements": 96,
+          "max_abs_error": 7.152557373046875e-06,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "probabilities": {
+          "atol": 0.0005,
+          "elements": 96,
+          "max_abs_error": 9.5367431640625e-07,
+          "passed": true,
+          "rtol": 0.0,
+          "violations": 0
+        }
+      },
+      "observed_samples": 55680,
+      "passed": true,
+      "ready_outputs": 17,
+      "trace": {
+        "bytes": 14786,
+        "sha256": "b4736d148693fd16470d65b89da937e1f4e42604ac1e52b54efadfffc31ea314"
+      }
+    },
+    {
+      "backend": "arm",
+      "case_id": "encov-new8-7ec79719666821c08c694dde",
+      "condition": "new8",
+      "embedding_records": 31,
+      "end": [
+        54400,
+        31,
+        31,
+        16,
+        1,
+        170
+      ],
+      "events": [
+        [
+          2,
+          54400
+        ]
+      ],
+      "exact_clock_ready_keyword": true,
+      "exact_end": true,
+      "exact_events": true,
+      "input_pcm_sha256": "4295f2257a0ce0b1495e55685e1366bde41bc52974cb1f489b826b1fc8593643",
+      "numeric": {
+        "embedding": {
+          "atol": 0.001,
+          "elements": 2976,
+          "max_abs_error": 6.4849853515625e-05,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "logits": {
+          "atol": 0.003,
+          "elements": 93,
+          "max_abs_error": 2.86102294921875e-06,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "probabilities": {
+          "atol": 0.0005,
+          "elements": 93,
+          "max_abs_error": 6.556510925292969e-07,
+          "passed": true,
+          "rtol": 0.0,
+          "violations": 0
+        }
+      },
+      "observed_samples": 54400,
+      "passed": true,
+      "ready_outputs": 16,
+      "trace": {
+        "bytes": 14328,
+        "sha256": "e98060961864cce06cd23420ec63ff2c51ac070ed55a271d88189fc2981679ec"
+      }
+    },
+    {
+      "backend": "arm",
+      "case_id": "encov-new8-69e0f996e6049f0d58d78d65",
+      "condition": "new8",
+      "embedding_records": 33,
+      "end": [
+        56960,
+        33,
+        33,
+        18,
+        1,
+        178
+      ],
+      "events": [
+        [
+          1,
+          55680
+        ]
+      ],
+      "exact_clock_ready_keyword": true,
+      "exact_end": true,
+      "exact_events": true,
+      "input_pcm_sha256": "5d764e3f68c46b3cb049ebf2e4e5b8acb56d4598c2fa54eb374b104e71c5be8d",
+      "numeric": {
+        "embedding": {
+          "atol": 0.001,
+          "elements": 3168,
+          "max_abs_error": 8.0108642578125e-05,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "logits": {
+          "atol": 0.003,
+          "elements": 99,
+          "max_abs_error": 4.5299530029296875e-06,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "probabilities": {
+          "atol": 0.0005,
+          "elements": 99,
+          "max_abs_error": 1.7285346984863281e-06,
+          "passed": true,
+          "rtol": 0.0,
+          "violations": 0
+        }
+      },
+      "observed_samples": 56960,
+      "passed": true,
+      "ready_outputs": 18,
+      "trace": {
+        "bytes": 15244,
+        "sha256": "9f8269a5a70a3aa7ca6871a2708f2a5eab51362ed02f6921af98aa47278a0655"
+      }
+    },
+    {
+      "backend": "arm",
+      "case_id": "encov-new8-28b17376eefb7d7a62334bab",
+      "condition": "new8",
+      "embedding_records": 34,
+      "end": [
+        58240,
+        34,
+        34,
+        19,
+        0,
+        182
+      ],
+      "events": [],
+      "exact_clock_ready_keyword": true,
+      "exact_end": true,
+      "exact_events": true,
+      "input_pcm_sha256": "ada5d3fea5aea3083880edb6b5a77abf38c52358bbe5535f8b774e4bba5c2a42",
+      "numeric": {
+        "embedding": {
+          "atol": 0.001,
+          "elements": 3264,
+          "max_abs_error": 7.2479248046875e-05,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "logits": {
+          "atol": 0.003,
+          "elements": 102,
+          "max_abs_error": 7.271766662597656e-06,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "probabilities": {
+          "atol": 0.0005,
+          "elements": 102,
+          "max_abs_error": 8.344650268554688e-07,
+          "passed": true,
+          "rtol": 0.0,
+          "violations": 0
+        }
+      },
+      "observed_samples": 58240,
+      "passed": true,
+      "ready_outputs": 19,
+      "trace": {
+        "bytes": 15665,
+        "sha256": "9998caffd80caae4bbd90d5bfdc8d9a2bb79bd39f9b1859dbcdcb689d7542a59"
+      }
+    },
+    {
+      "backend": "arm",
+      "case_id": "encov-new8-1556744d0babcec74d18c76c",
+      "condition": "new8",
+      "embedding_records": 38,
+      "end": [
+        63360,
+        38,
+        38,
+        23,
+        0,
+        198
+      ],
+      "events": [],
+      "exact_clock_ready_keyword": true,
+      "exact_end": true,
+      "exact_events": true,
+      "input_pcm_sha256": "247bc5b97ad44be4ed56a6d3654debec405a191ed0ed9aae810ee642b177854f",
+      "numeric": {
+        "embedding": {
+          "atol": 0.001,
+          "elements": 3648,
+          "max_abs_error": 9.918212890625e-05,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "logits": {
+          "atol": 0.003,
+          "elements": 114,
+          "max_abs_error": 4.76837158203125e-06,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "probabilities": {
+          "atol": 0.0005,
+          "elements": 114,
+          "max_abs_error": 3.5762786865234375e-07,
+          "passed": true,
+          "rtol": 0.0,
+          "violations": 0
+        }
+      },
+      "observed_samples": 63360,
+      "passed": true,
+      "ready_outputs": 23,
+      "trace": {
+        "bytes": 17497,
+        "sha256": "285ea92cb1c733baff62ce84c06db1196734810d1a31ae5db5391ca9c166ff9d"
+      }
+    },
+    {
+      "backend": "arm",
+      "case_id": "enfinal144-5602dd573b0afb64e36b51b2",
+      "condition": "snr10",
+      "embedding_records": 32,
+      "end": [
+        55680,
+        32,
+        32,
+        17,
+        1,
+        174
+      ],
+      "events": [
+        [
+          2,
+          54400
+        ]
+      ],
+      "exact_clock_ready_keyword": true,
+      "exact_end": true,
+      "exact_events": true,
+      "input_pcm_sha256": "c21fb94514ec0b9efaf8383664a1c6c9a28e65d96d090ff05ca80379d89bb95e",
+      "numeric": {
+        "embedding": {
+          "atol": 0.001,
+          "elements": 3072,
+          "max_abs_error": 7.390975952148438e-05,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "logits": {
+          "atol": 0.003,
+          "elements": 96,
+          "max_abs_error": 7.152557373046875e-06,
+          "passed": true,
+          "rtol": 0.0002,
+          "violations": 0
+        },
+        "probabilities": {
+          "atol": 0.0005,
+          "elements": 96,
+          "max_abs_error": 9.5367431640625e-07,
+          "passed": true,
+          "rtol": 0.0,
+          "violations": 0
+        }
+      },
+      "observed_samples": 55680,
+      "passed": true,
+      "ready_outputs": 17,
+      "trace": {
+        "bytes": 14786,
+        "sha256": "b4736d148693fd16470d65b89da937e1f4e42604ac1e52b54efadfffc31ea314"
+      }
+    }
+  ],
+  "rescued_pcm_source_incumbent_zip": {
+    "bytes": 32878537,
+    "sha256": "acc6def807b1dd5728111beba4801352d8de9cb453e530f2270005254f44fa15"
+  },
+  "retry_count": 0,
+  "schema": "english-coverage-fullpcm-independent-saved-trace-audit-v1",
+  "ssc305": "NOT_RUN",
+  "ssc305_qualification": false,
+  "status": "VERIFIED",
+  "supervisor_success_no_live_descendants": true,
+  "training_admitted": false,
+  "trusted_negative": false,
+  "unique_saved_10db_mero_rescue_verified": true,
+  "word_end_latency": "NOT_MEASURED",
+  "worker_sha256": "70a9ae5c36191a75f58e8819ac4e6e12f3f7e464e5891d1b1e5fdc648e9ae422"
+}
