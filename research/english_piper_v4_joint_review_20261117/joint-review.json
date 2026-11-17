@@ -1,0 +1,1321 @@
+{
+  "counts_by_phrase": {
+    "Hey Mero": {
+      "formal_usable_dev": 0,
+      "formal_usable_train": 0,
+      "independent_evaluation": 0,
+      "phone_segment_matches_ignoring_stress_length": 0,
+      "saved_asr_observations": 24,
+      "saved_phone_observations": 8,
+      "source_rows": 8,
+      "source_voice_families": 8,
+      "trusted_negative": 0,
+      "uncertain_review_required": 8
+    },
+    "Hey Vosen": {
+      "formal_usable_dev": 0,
+      "formal_usable_train": 0,
+      "independent_evaluation": 0,
+      "phone_segment_matches_ignoring_stress_length": 1,
+      "saved_asr_observations": 24,
+      "saved_phone_observations": 8,
+      "source_rows": 8,
+      "source_voice_families": 8,
+      "trusted_negative": 0,
+      "uncertain_review_required": 8
+    }
+  },
+  "human_gold": false,
+  "input_archives": {
+    "asr": {
+      "artifact_id": 14241685973,
+      "bytes": 1449,
+      "file": "piper_v4_asr_summary.zip",
+      "run_id": 43900153196,
+      "sha256": "00f8c92482303f236c7c1f9cfa0a84fecad5645b8b465fb4ce53e5c5f64eb3e0"
+    },
+    "parakeet": {
+      "artifact_id": 14240557844,
+      "bytes": 23379,
+      "file": "piper_v4_asr_parakeet.zip",
+      "run_id": 43900153196,
+      "sha256": "8d629df169b4057f155352a0c20028cb30ed5d9660bb4d5ab03118b8e1510c19"
+    },
+    "phones": {
+      "artifact_id": 14284288812,
+      "bytes": 4641,
+      "file": "piper_v4_phones.zip",
+      "run_id": 43985775171,
+      "sha256": "a0da3a19b1c301111d3c03ced029f3b133073538d72c3688ec554293a70df6ab"
+    },
+    "qwen": {
+      "artifact_id": 14241431616,
+      "bytes": 22882,
+      "file": "piper_v4_asr_qwen.zip",
+      "run_id": 43900153196,
+      "sha256": "60e4a79d11b6974dd83a6aa387305f02aeb0c119d3a6406bfb36612dc6f02c41"
+    },
+    "source": {
+      "artifact_id": 14240252131,
+      "bytes": 655892,
+      "file": "piper_v4_source.zip",
+      "run_id": 43898728142,
+      "sha256": "9a611676829195c8ac07c07e50705cd8e98822703c60ab66e21ee5be03567193"
+    },
+    "whisper": {
+      "artifact_id": 14241077857,
+      "bytes": 23226,
+      "file": "piper_v4_asr_whisper.zip",
+      "run_id": 43900153196,
+      "sha256": "58a3ee6d8a771ba305717df7a8e07d8128d47b1ae070d1c6f8e410d83f804435"
+    }
+  },
+  "input_manifest_sha256": "198d77d4d1ae0579493444b46b908aa4ed5f8e99f9807ae4dc7201e25591c91b",
+  "limitations": [
+    "Machine segment agreement does not verify stress, duration or acoustic truth.",
+    "Spelling disagreement does not establish a negative label.",
+    "Source plan assigns no train/development split; rows are exposed diagnostic material.",
+    "No word-end annotation or verified one-second real post-word context exists.",
+    "No formal training can start from this batch until evidence-backed labels and grouped roles exist."
+  ],
+  "new_asr_calls": 0,
+  "new_kws_forwards": 0,
+  "new_phone_forwards": 0,
+  "new_tts_calls": 0,
+  "observer_representation": {
+    "can_emit_length_mark": false,
+    "can_emit_lexical_stress": false,
+    "cannot_verify": [
+      "vowel duration",
+      "lexical stress",
+      "naturalness",
+      "acoustic truth"
+    ],
+    "i_and_small_capital_i_are_distinct": true,
+    "model_id": "bookbot/wav2vec2-ljspeech-gruut",
+    "model_manifest_sha256": "ee23bce44adb8bc0fc2944ba1ba0c644e442c60e6075b36d1f7dfa1d8d10cf80",
+    "model_revision": "7be1e6f27c8163ce790688d62fd9ce1731177c2e",
+    "rhotic_symbol": "ɹ",
+    "target_projection": "iː -> i; target r notation -> ɹ; stress excluded from segment comparison.",
+    "vocab_bytes": 509,
+    "vocab_sha256": "f8fb8fa1768ddf44c3ba04248be4dce226a7d9779bef329a825ba572720eb388",
+    "vocab_size_without_added_specials": 43,
+    "vocabulary_source": "https://huggingface.co/bookbot/wav2vec2-ljspeech-gruut/blob/main/vocab.json",
+    "vocabulary_verification": "Official displayed JSON reconstructed to exact original asset size/SHA256."
+  },
+  "optimizer_updates": 0,
+  "pronunciation_verified": false,
+  "rows": [
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [],
+      "asr_native_sha256": {
+        "parakeet": "5ecbd381a8d4dbfa139ddc1f2e2558151226348b7bfd8b3244adb6d59fa60505",
+        "qwen": "9ca0ef232d35e0e5593a8a73b16150e2af36808e0ea9d3ee4a31beca3a69796e",
+        "whisper": "b178a1ab6504d48aa7d52f033d6d244dbdc56f211f87305100f49d6214b97389"
+      },
+      "asr_normalized": {
+        "parakeet": "hey vozen",
+        "qwen": "hey boson",
+        "whisper": "hey bosun"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "Hey Vozen.",
+        "qwen": "Hey, Boson.",
+        "whisper": " Hey, Bosun."
+      },
+      "cell_id": "pipa-177b98ee9e82610fa085349f",
+      "duration_seconds": 0.696625,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 11146,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈvoʊzən/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "72fb73506911accccc60365c67b512b5ac7a92adaab8d42bf55a684e6548a73d",
+      "phone_raw_tokens": [
+        "p",
+        "h",
+        "ə",
+        "n"
+      ],
+      "phone_segment_edit_distance": 5,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "p",
+        "h",
+        "ə",
+        "n"
+      ],
+      "phrase": "Hey Vosen",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ vˈoʊzən",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p2531",
+      "source_split": null,
+      "speaker": "p2531",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-177b98ee9e82610fa085349f/audio-16k.wav",
+      "wav_sha256": "6f9b93ed385e0db602b0b2902123bd2642c4e3d8ca419f80981ff957130c146f",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [],
+      "asr_native_sha256": {
+        "parakeet": "1a3eddec6f9e57c2fe4867ad291d3b4c4025d49d41ecba3eec17fab78d7e97cb",
+        "qwen": "ed6101c8e5820cc3db064dac3436ee306af32f62b41a82abe98b3a30d15ec5fe",
+        "whisper": "7eb118622f243e74314b61e923d73d09952665ca777727bc64fc3ce35694bfab"
+      },
+      "asr_normalized": {
+        "parakeet": "hamiro",
+        "qwen": "hemiro",
+        "whisper": "hey miro"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "Hamiro",
+        "qwen": "Hemiro.",
+        "whisper": " Hey, Miro."
+      },
+      "cell_id": "pipa-1ecb227904078eb1024393d3",
+      "duration_seconds": 0.6385625,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 10217,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈmiːroʊ/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "580af5362714dd3170357f1b062a058fed1f93b4213c4ed99a356595283e92a0",
+      "phone_raw_tokens": [
+        "ɛ",
+        "n",
+        "i",
+        "ɹ",
+        "oʊ",
+        "h"
+      ],
+      "phone_segment_edit_distance": 4,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "ɛ",
+        "n",
+        "i",
+        "ɹ",
+        "oʊ",
+        "h"
+      ],
+      "phrase": "Hey Mero",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ mˈiːɹoʊ",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "i",
+        "ɹ",
+        "oʊ"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p6544",
+      "source_split": null,
+      "speaker": "p6544",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-1ecb227904078eb1024393d3/audio-16k.wav",
+      "wav_sha256": "cc14d6506dfd7978d2c9ab69dea0d2b4f39f44fa5f20274a4c12b3585fbe0255",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [
+        "parakeet"
+      ],
+      "asr_native_sha256": {
+        "parakeet": "eb0a4a581cdfb2d79037132c03b31020ad4d6cac4714431661731c18be44aceb",
+        "qwen": "4c7d6a26eb60b49744c2dbd692b0f42d4173c0c92fc49c395da197c2f26b8590",
+        "whisper": "41a4cb4304aab2c2b7b311a462a7ae767156022d9ddfd635b0d6c1bd85e6db3b"
+      },
+      "asr_normalized": {
+        "parakeet": "hey vosen",
+        "qwen": "hey vosin",
+        "whisper": "hey vozen"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "Hey Vosen.",
+        "qwen": "Hey, Vosin.",
+        "whisper": " Hey, Vozen."
+      },
+      "cell_id": "pipa-3960cf77262be4ee102e6511",
+      "duration_seconds": 0.685,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 10960,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈvoʊzən/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "fa43730d28e9f8031971eca927031830572a9dcadd9d73f0ca8cb94b416a22a8",
+      "phone_raw_tokens": [
+        "h",
+        "ɛ",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "phone_segment_edit_distance": 2,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "h",
+        "ɛ",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "phrase": "Hey Vosen",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ vˈoʊzən",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p3638",
+      "source_split": null,
+      "speaker": "p3638",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-3960cf77262be4ee102e6511/audio-16k.wav",
+      "wav_sha256": "d9c76b005e8a5083e6f1a25381781d7d9e357f6383f78bf7c807f6e2b3a26326",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [],
+      "asr_native_sha256": {
+        "parakeet": "67b573c76e1fafcb1c9439f8bc511e7ccfede73a0fd83c8b84534ed61ef37d48",
+        "qwen": "6d5d2768bb6616bdfbfa365af14b1c37aee4f7215eff2f2cd86e8c581db4e473",
+        "whisper": "a59b07a0ff4005c33fd64fa78cb0a75c4288525e7f3521cce7a35c5d388bc5e3"
+      },
+      "asr_normalized": {
+        "parakeet": "ivozen",
+        "qwen": "evosan",
+        "whisper": "have ozen"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "Ivozen.",
+        "qwen": "Evosan.",
+        "whisper": " Have ozen."
+      },
+      "cell_id": "pipa-5e94b4745d5045f93ca6eea9",
+      "duration_seconds": 0.627,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 10032,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈvoʊzən/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "3db957e49eb92733dfb7cd2582db7eeee2f4812a7b1356c19a5b51b3decf90f0",
+      "phone_raw_tokens": [
+        "eɪ",
+        "ɛ",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "phone_segment_edit_distance": 2,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "eɪ",
+        "ɛ",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "phrase": "Hey Vosen",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ vˈoʊzən",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p8848",
+      "source_split": null,
+      "speaker": "p8848",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-5e94b4745d5045f93ca6eea9/audio-16k.wav",
+      "wav_sha256": "76fa6af77b6ef7b26b10186222927b7939f7790c51c8312acb8fbe35eeeeadf7",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [],
+      "asr_native_sha256": {
+        "parakeet": "038cd157285c9f0f190ecc4a6e42ad309b0c758a7519f4dce577cd7df8e05da4",
+        "qwen": "93a29ad98b6428674690e65f5919e0aa46fade56717e46a4a2323147b2c2a275",
+        "whisper": "8c1ce7646ab9bd2074644af396631aea3d6b091bf07bbd7eec1bcb2a153f6fb6"
+      },
+      "asr_normalized": {
+        "parakeet": "himiro",
+        "qwen": "himuro",
+        "whisper": "himiro"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "Himiro.",
+        "qwen": "Himuro.",
+        "whisper": " Himiro."
+      },
+      "cell_id": "pipa-66877ea76ea850b19a08285c",
+      "duration_seconds": 0.510875,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 8174,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈmiːroʊ/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "25c7edf324c061ec63e455f8bf16bb6eecbf35ffaa61db9b62cf132b6bd1d7ff",
+      "phone_raw_tokens": [
+        "k",
+        "ə",
+        "n",
+        "ɪ",
+        "ɹ",
+        "oʊ"
+      ],
+      "phone_segment_edit_distance": 4,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "k",
+        "ə",
+        "n",
+        "ɪ",
+        "ɹ",
+        "oʊ"
+      ],
+      "phrase": "Hey Mero",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ mˈiːɹoʊ",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "i",
+        "ɹ",
+        "oʊ"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p6701",
+      "source_split": null,
+      "speaker": "p6701",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-66877ea76ea850b19a08285c/audio-16k.wav",
+      "wav_sha256": "b325c3f1f0806485f1ecbbe5c91ceecc8405027b3d2623ee7cf49f27a1fc7611",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [],
+      "asr_native_sha256": {
+        "parakeet": "27917207915a47ad6fc36c4a8cd697f7b3f932a34435a4742b30a5c621c65ed9",
+        "qwen": "e544a7e2d52bc412a701d50f3c9a29dffd14c288e2d78331a1e40f768fb15b60",
+        "whisper": "72ea638e5ec2f9bd211d5327bfe1439dfb259877e41a963c9f8807ffef025e5d"
+      },
+      "asr_normalized": {
+        "parakeet": "hey vozen",
+        "qwen": "hey vosin",
+        "whisper": "hey volzin"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "Hey Vozen.",
+        "qwen": "Hey, Vosin.",
+        "whisper": " Hey, Volzin."
+      },
+      "cell_id": "pipa-77a0d88a8f80d13db0c0c751",
+      "duration_seconds": 0.6618125,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 10589,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈvoʊzən/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "860fdc032fb737a41a70dda09297de6e510fd5ad06fd78494c862574aa7af622",
+      "phone_raw_tokens": [
+        "eɪ",
+        "ɛ",
+        "v",
+        "z",
+        "v",
+        "ə",
+        "n"
+      ],
+      "phone_segment_edit_distance": 4,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "eɪ",
+        "ɛ",
+        "v",
+        "z",
+        "v",
+        "ə",
+        "n"
+      ],
+      "phrase": "Hey Vosen",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ vˈoʊzən",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p1638",
+      "source_split": null,
+      "speaker": "p1638",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-77a0d88a8f80d13db0c0c751/audio-16k.wav",
+      "wav_sha256": "d5baa1e1792399aaa2cc423eacb455b83f5d4ae9b891ac4e9deb406180c80fff",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [],
+      "asr_native_sha256": {
+        "parakeet": "710f984597d13afff073978f063243cb98a5e4ec0ac2a6b65ba115281b41575b",
+        "qwen": "726fe34a401d7d38a8edf666dbb27d94809f4d692762029f05f7219d239ed5fb",
+        "whisper": "b72bb44da9e1d782f8d2bb3b300d94c38a178b1808faa4ede741b8da02e005e6"
+      },
+      "asr_normalized": {
+        "parakeet": "a mural",
+        "qwen": "hey miro",
+        "whisper": "a mural"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "A mural.",
+        "qwen": "Hey, Miro.",
+        "whisper": " a mural."
+      },
+      "cell_id": "pipa-9423ed3046bfa1ee325df02c",
+      "duration_seconds": 0.6385625,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 10217,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈmiːroʊ/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "35a0ac000b0ba3ad4b98f3605df28f824335cd07bcf67371860947a6a67e4407",
+      "phone_raw_tokens": [
+        "ə",
+        "m"
+      ],
+      "phone_segment_edit_distance": 5,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "ə",
+        "m"
+      ],
+      "phrase": "Hey Mero",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ mˈiːɹoʊ",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "i",
+        "ɹ",
+        "oʊ"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p1638",
+      "source_split": null,
+      "speaker": "p1638",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-9423ed3046bfa1ee325df02c/audio-16k.wav",
+      "wav_sha256": "f2ad4bea0a738408be2b516b0994d4756e03c4311169fdf8202c48534b329389",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [],
+      "asr_native_sha256": {
+        "parakeet": "150c07cc115b3933f9697924362be577884747718c73b66a7c31d55e6161aa71",
+        "qwen": "916f9c7000f6ac6203213d0d4f3001ac89ba654d6cc23ae062eac53da9cdaf1a",
+        "whisper": "19f2bbd73d18bcf44b3374821590967f3057f4d6f53d4f984e1813c565695432"
+      },
+      "asr_normalized": {
+        "parakeet": "a mirror",
+        "qwen": "a mural",
+        "whisper": "a mural"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "A mirror.",
+        "qwen": "A mural.",
+        "whisper": " a mural."
+      },
+      "cell_id": "pipa-967c1385b0b63269627c17f6",
+      "duration_seconds": 0.5805,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 9288,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈmiːroʊ/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "69eef62adbda58b53ae3fba31b6f6e9129a0a308649fe405291d2c7078d452ea",
+      "phone_raw_tokens": [
+        "k",
+        "m",
+        "ɛ",
+        "ɹ",
+        "oʊ"
+      ],
+      "phone_segment_edit_distance": 3,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "k",
+        "m",
+        "ɛ",
+        "ɹ",
+        "oʊ"
+      ],
+      "phrase": "Hey Mero",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ mˈiːɹoʊ",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "i",
+        "ɹ",
+        "oʊ"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p8848",
+      "source_split": null,
+      "speaker": "p8848",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-967c1385b0b63269627c17f6/audio-16k.wav",
+      "wav_sha256": "4262bd67455c66c1c294decc57e130ce5b909f515c2ecc98683d1d9326ef922b",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [],
+      "asr_native_sha256": {
+        "parakeet": "21cca6eb643c6d091f763119b6972d8c7bc627fee64ab80e17bd8d5513ff7f61",
+        "qwen": "ff82a1a579ec7900a9005222d39d0f85a03a26dcbaa22158e5e0625305d2b7aa",
+        "whisper": "9c3e9a0b94652e4c75d31aebf1d0c6e559c5ed07a89c477caf9e670069be5c17"
+      },
+      "asr_normalized": {
+        "parakeet": "hey bozen",
+        "qwen": "hey vosin",
+        "whisper": "hey bosun"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "Hey Bozen.",
+        "qwen": "Hey, Vosin.",
+        "whisper": " Hey, Bosun."
+      },
+      "cell_id": "pipa-98b400b35e31380fa1d8a752",
+      "duration_seconds": 0.627,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 10032,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈvoʊzən/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "9ebf195b0bea5c65a7be1ab6dd0ea75b89529a1a8db8acb59c12550ec851c560",
+      "phone_raw_tokens": [
+        "h",
+        "ɛ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "phone_segment_edit_distance": 1,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "h",
+        "ɛ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "phrase": "Hey Vosen",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ vˈoʊzən",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p6701",
+      "source_split": null,
+      "speaker": "p6701",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-98b400b35e31380fa1d8a752/audio-16k.wav",
+      "wav_sha256": "6f3c29e38c3e5c7ffcb77394ac53cc7d64a38df82b25741af644c156f08b3c92",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [
+        "parakeet"
+      ],
+      "asr_native_sha256": {
+        "parakeet": "22d97b0c68294c93562aa0bcffe3e951a13f67de8a90f5849a2283fb61d84ff5",
+        "qwen": "e3e19ebac9c46e1c4d34bac0ee028b74a0aa659795b4bf60f010cb906287d2f4",
+        "whisper": "ce73d0bc6a998b6789b0de7f43105270484fe30a3cdac5ecaad73b7abc1ab8f3"
+      },
+      "asr_normalized": {
+        "parakeet": "hey vosen",
+        "qwen": "hey vosin",
+        "whisper": "hey vosin"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "Hey Vosen.",
+        "qwen": "Hey, Vosin.",
+        "whisper": " Hey, Vosin."
+      },
+      "cell_id": "pipa-a7b495f224fbdd4fc93cde26",
+      "duration_seconds": 0.6618125,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 10589,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈvoʊzən/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "fe5c377b679141472e1a86363d52fe11803a9a2ad313fc76c0a230b70d8b1473",
+      "phone_raw_tokens": [
+        "h",
+        "ɹ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "phone_segment_edit_distance": 1,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "h",
+        "ɹ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "phrase": "Hey Vosen",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ vˈoʊzən",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p4535",
+      "source_split": null,
+      "speaker": "p4535",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-a7b495f224fbdd4fc93cde26/audio-16k.wav",
+      "wav_sha256": "1ad0baf6d5d8c194316e25c071fc764d7e1d16731c11fbd3da4affdf89c26da2",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [],
+      "asr_native_sha256": {
+        "parakeet": "5f2a4254f36bb12573bf57ad73df996e56c4a52cd0222c1d3ea2e822ca6ede58",
+        "qwen": "321007a40c9ddb385895b7ae8d888ec9d0ca0393b1715b90114e34fc1a7d6c61",
+        "whisper": "6ef21d3937efbebae062b30cdb7f03fc71f6449ab97762263926ed74afb5ae86"
+      },
+      "asr_normalized": {
+        "parakeet": "a miro",
+        "qwen": "hey miro",
+        "whisper": "hey miro"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "A miro.",
+        "qwen": "Hey, Miro.",
+        "whisper": " Hey, Miro."
+      },
+      "cell_id": "pipa-bb5418babd40b7f945f3c3f5",
+      "duration_seconds": 0.70825,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 11332,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈmiːroʊ/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "8321d071c5e7e7e30699a4d950f84691be0b744ca9205365ebc74c03a4638625",
+      "phone_raw_tokens": [
+        "m",
+        "ɪ",
+        "ɹ",
+        "oʊ",
+        "l"
+      ],
+      "phone_segment_edit_distance": 4,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "m",
+        "ɪ",
+        "ɹ",
+        "oʊ",
+        "l"
+      ],
+      "phrase": "Hey Mero",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ mˈiːɹoʊ",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "i",
+        "ɹ",
+        "oʊ"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p4535",
+      "source_split": null,
+      "speaker": "p4535",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-bb5418babd40b7f945f3c3f5/audio-16k.wav",
+      "wav_sha256": "8659e6c94ffe9e5b75c2a32c0081dd5840cf3ee16c184f19c689eb5e13e67948",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [
+        "parakeet"
+      ],
+      "asr_native_sha256": {
+        "parakeet": "a39ba205ebc7d32eb27f595f36836543e6b51f0a01225c65e2542c23720f6973",
+        "qwen": "511d38a0937e754e7242f5079a7008f0e0967ce4e58b1853e998065f990eb530",
+        "whisper": "476e393ab6ea6625ce85f427aa798d679dad0bd87cd5e6a565acd1928dccd6a9"
+      },
+      "asr_normalized": {
+        "parakeet": "hey vosen",
+        "qwen": "hey vozan",
+        "whisper": "hey vozen"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "Hey Vosen.",
+        "qwen": "Hey, Vozan.",
+        "whisper": " Hey, Vozen."
+      },
+      "cell_id": "pipa-be007411a56e2dd5ded2d6e1",
+      "duration_seconds": 0.627,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 10032,
+      "hey_segment_prefix_observed": true,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈvoʊzən/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "6c887d37b616f778d2a53bfc1442fd18c68bb7cb998aa7ef4ebff874b41d9119",
+      "phone_raw_tokens": [
+        "h",
+        "eɪ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "phone_segment_edit_distance": 0,
+      "phone_segments_match_ignoring_stress_length": true,
+      "phone_tokens": [
+        "h",
+        "eɪ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "phrase": "Hey Vosen",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ vˈoʊzən",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "review_focus": "SPELLING_VERSUS_PHONETICS",
+      "source_family_id": "piper-libritts-p6544",
+      "source_split": null,
+      "speaker": "p6544",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-be007411a56e2dd5ded2d6e1/audio-16k.wav",
+      "wav_sha256": "66ed60421fbc0c569e9c46f65741d7274e0cc3fd1e43d30504c5cdc001f056cf",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [],
+      "asr_native_sha256": {
+        "parakeet": "bcea73e73609f34f339fadb648d54f4c64d72b31692c08a1953146ad9fa12a2f",
+        "qwen": "c0e612a269751fe666a277cdf09744706f1de551708af35f6a6eb432c7015678",
+        "whisper": "d16039edbaa750c1fff73fbe91b1d02251b3e35a23af34e279bbab0dfebdfdee"
+      },
+      "asr_normalized": {
+        "parakeet": "a vosen",
+        "qwen": "hey vosin",
+        "whisper": "hey vozen"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "A Vosen.",
+        "qwen": "Hey, Vosin.",
+        "whisper": " Hey, Vozen."
+      },
+      "cell_id": "pipa-cd39dd5f8537678b186450d5",
+      "duration_seconds": 0.6618125,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 10589,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈvoʊzən/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "a335f49feef8bcf6d128abd8055f77e2e6b5d241bc5de02ffea8ba132023fd6d",
+      "phone_raw_tokens": [
+        "v",
+        "z",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "phone_segment_edit_distance": 2,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "v",
+        "z",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "phrase": "Hey Vosen",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ vˈoʊzən",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "v",
+        "oʊ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p922",
+      "source_split": null,
+      "speaker": "p922",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-cd39dd5f8537678b186450d5/audio-16k.wav",
+      "wav_sha256": "baa7a28d070a16330e0c61480d21358f91222e54f579caef0ecfc139b21b32ee",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [],
+      "asr_native_sha256": {
+        "parakeet": "fcfacf0b3cfca604f70aa5e94e0ba8cf3b5b32ed4ba02300e51163254ff9af00",
+        "qwen": "75e4dca9cdf0dd46fae86293a62ffd5b0872c14298f9a53ff665624146adab28",
+        "whisper": "08d39bda87b5bf376432c8bcb722945e9c18cf3ab8a3fd3b9dc13869e534dc10"
+      },
+      "asr_normalized": {
+        "parakeet": "himiro",
+        "qwen": "hemiro",
+        "whisper": "hey miro"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "Himiro.",
+        "qwen": "Hemiro.",
+        "whisper": " Hey, Miro."
+      },
+      "cell_id": "pipa-cf625573bf9497d473e204ff",
+      "duration_seconds": 0.60375,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 9660,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈmiːroʊ/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "391d09123affbb1a4365bb533614542c31fca1af1120e02ca3ab4836fc736c50",
+      "phone_raw_tokens": [
+        "k",
+        "ɪ",
+        "ɹ",
+        "ə",
+        "l"
+      ],
+      "phone_segment_edit_distance": 6,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "k",
+        "ɪ",
+        "ɹ",
+        "ə",
+        "l"
+      ],
+      "phrase": "Hey Mero",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ mˈiːɹoʊ",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "i",
+        "ɹ",
+        "oʊ"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p2531",
+      "source_split": null,
+      "speaker": "p2531",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-cf625573bf9497d473e204ff/audio-16k.wav",
+      "wav_sha256": "fafab3626c1015de10b8bd72d5fc8de1abe77ea87ae4806e77fce99c7748ac66",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [],
+      "asr_native_sha256": {
+        "parakeet": "ea39a1c759376e3517ca3714366f4bb93b1b8e524278c310fbb34d1641f5a6b0",
+        "qwen": "63779d265029e3e7984f0616b8fef4e73ecb76cbeccd6a02290991eed833b148",
+        "whisper": "6fc13908e58d3b70b6dc2947d4650910428ccf0c01d90c7db796febf52b41b4d"
+      },
+      "asr_normalized": {
+        "parakeet": "hamiro",
+        "qwen": "hemiro",
+        "whisper": "hey miro"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "Hamiro.",
+        "qwen": "Hemiro.",
+        "whisper": " Hey, Miro."
+      },
+      "cell_id": "pipa-d3fd7c5c4106b6b0eb94c178",
+      "duration_seconds": 0.6618125,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 10589,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈmiːroʊ/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "41c39df80d916eca770553a70bf640f70bdc631ee13bc21a5457580d16ca4829",
+      "phone_raw_tokens": [
+        "eɪ",
+        "m",
+        "ɛ",
+        "ɹ",
+        "oʊ"
+      ],
+      "phone_segment_edit_distance": 2,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "eɪ",
+        "m",
+        "ɛ",
+        "ɹ",
+        "oʊ"
+      ],
+      "phrase": "Hey Mero",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ mˈiːɹoʊ",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "i",
+        "ɹ",
+        "oʊ"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p3638",
+      "source_split": null,
+      "speaker": "p3638",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-d3fd7c5c4106b6b0eb94c178/audio-16k.wav",
+      "wav_sha256": "78ae6e61f2bd00c7b15e3808e69423de04e14038461bfad225a40c287d5484b2",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    },
+    {
+      "allowed_use": [
+        "pronunciation_review",
+        "engineering_pcm_replay"
+      ],
+      "asr_exact_spelling_providers": [],
+      "asr_native_sha256": {
+        "parakeet": "edbfb6644d2c0aafa364c14915cbf4079edc0e3478b30c1da4c125a1092b1169",
+        "qwen": "77baa1ea602cc867d6585f4fcbae5b8c002c3614a4bfe9fdc89744197433d658",
+        "whisper": "826382b0fbfc2909fc651da18f5ce55e29b5f78f3c79ed635affeef15114a62d"
+      },
+      "asr_normalized": {
+        "parakeet": "emiro",
+        "qwen": "emiro",
+        "whisper": "a mural"
+      },
+      "asr_three_way_spelling_agreement": false,
+      "asr_transcripts": {
+        "parakeet": "Emiro.",
+        "qwen": "Emiro.",
+        "whisper": " a mural."
+      },
+      "cell_id": "pipa-d9396896379b8e60093a1a4c",
+      "duration_seconds": 0.5805,
+      "exposed_diagnostic": true,
+      "formal_training_admitted": false,
+      "formal_usable_dev": false,
+      "formal_usable_train": false,
+      "frames": 9288,
+      "hey_segment_prefix_observed": false,
+      "human_gold": false,
+      "independent_evaluation": false,
+      "ipa": "/heɪ ˈmiːroʊ/",
+      "label_status": "UNCERTAIN_REVIEW_REQUIRED",
+      "pcm_sha256": "a7d7aa23d5a6487c2df54ec229909b0e375a20dfb1abefd571292217b16c1a66",
+      "phone_raw_tokens": [
+        "m",
+        "ɛ",
+        "ɹ",
+        "oʊ"
+      ],
+      "phone_segment_edit_distance": 3,
+      "phone_segments_match_ignoring_stress_length": false,
+      "phone_tokens": [
+        "m",
+        "ɛ",
+        "ɹ",
+        "oʊ"
+      ],
+      "phrase": "Hey Mero",
+      "pronunciation_verified": false,
+      "raw_espeak_ipa": "heɪ mˈiːɹoʊ",
+      "reference_segment_tokens": [
+        "h",
+        "eɪ",
+        "m",
+        "i",
+        "ɹ",
+        "oʊ"
+      ],
+      "review_focus": "PHRASE_AND_KEY_PHONEMES",
+      "source_family_id": "piper-libritts-p922",
+      "source_split": null,
+      "speaker": "p922",
+      "training_admitted": false,
+      "trusted_negative": false,
+      "wav_member": "piper-probe-parent/probe/cells/pipa-d9396896379b8e60093a1a4c/audio-16k.wav",
+      "wav_sha256": "94a856c78454da06512df9481f2033b3d0e03545d827be25c7f543d1f1a40c81",
+      "word_end_annotation": null,
+      "word_end_latency_evaluable": false
+    }
+  ],
+  "schema": "english-piper-v4-joint-review-v1",
+  "source_actual_completed_cells": 16,
+  "source_aggregate_status_mismatch_preserved": true,
+  "source_artifact_id": 14240252131,
+  "source_model_lock_sha256": "3651b35f75bb8aec3990fd780a0b3803f10498ae4a612d0d3aae37a574bd3a8c",
+  "source_original_status": "INCOMPLETE_NO_RETRY",
+  "source_plan_sha256": "5a06152a01a7568a405ceb2eddd2fd6fd2384fee77583e55c3917b11d94e5ae1",
+  "source_run_id": 43898728142,
+  "status": "JOIN_COMPLETE_REVIEW_REQUIRED",
+  "total_audio_seconds": 10.170875,
+  "training_admitted": false
+}
