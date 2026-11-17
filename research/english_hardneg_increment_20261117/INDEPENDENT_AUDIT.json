@@ -1,0 +1,403 @@
+{
+  "schema": "independent-saved-increment-audit-v1",
+  "artifact": {
+    "bytes": 20105277,
+    "sha256": "5912bec75bedc33def9c07c6013b497b1999849aec5f6ff54107e70ab5a3acd6"
+  },
+  "artifact_verified": true,
+  "manifest_files_verified": 189,
+  "execution": "SAVED_BYTES_ONLY_ZERO_MODEL_CALLS",
+  "npz_bin_exact": true,
+  "normalization_unchanged": true,
+  "candidate_frozen_before_evaluation": true,
+  "numeric_execution_complete": true,
+  "candidate_accepted": false,
+  "reason": "FIVE_PREVIOUS_MERO_MATCHES_LOST",
+  "regressed_cases": [
+    {
+      "condition": "snr10",
+      "id": "enfinal144-a0976f1f5f7b334993a7b4a6",
+      "role": "development",
+      "weak_class": 2,
+      "prior_matched_intent_lost": true,
+      "prior_correct_case_regressed": true,
+      "event_error_categories_increased": [],
+      "old_events": [
+        {
+          "keyword": 2,
+          "sample": 55680
+        }
+      ],
+      "new_events": [],
+      "old_target_peak": 0.968824028968811,
+      "old_target_max_three_frame_min": 0.9236012101173401,
+      "old_best_three_frame_end_sample": 55680,
+      "new_target_peak": 0.9044559597969055,
+      "new_target_max_three_frame_min": 0.7212600708007812,
+      "new_best_three_frame_end_sample": 55680
+    },
+    {
+      "condition": "snr10",
+      "id": "enfinal144-5602dd573b0afb64e36b51b2",
+      "role": "development",
+      "weak_class": 2,
+      "prior_matched_intent_lost": true,
+      "prior_correct_case_regressed": true,
+      "event_error_categories_increased": [],
+      "old_events": [
+        {
+          "keyword": 2,
+          "sample": 54400
+        }
+      ],
+      "new_events": [],
+      "old_target_peak": 0.8822588324546814,
+      "old_target_max_three_frame_min": 0.8007266521453857,
+      "old_best_three_frame_end_sample": 55680,
+      "new_target_peak": 0.7834777235984802,
+      "new_target_max_three_frame_min": 0.6088585257530212,
+      "new_best_three_frame_end_sample": 55680
+    },
+    {
+      "condition": "snr10",
+      "id": "enfinal144-d692d0ef9dc69703364b9640",
+      "role": "development",
+      "weak_class": 2,
+      "prior_matched_intent_lost": true,
+      "prior_correct_case_regressed": true,
+      "event_error_categories_increased": [],
+      "old_events": [
+        {
+          "keyword": 2,
+          "sample": 60800
+        }
+      ],
+      "new_events": [],
+      "old_target_peak": 0.9704819321632385,
+      "old_target_max_three_frame_min": 0.8844668865203857,
+      "old_best_three_frame_end_sample": 60800,
+      "new_target_peak": 0.9538071751594543,
+      "new_target_max_three_frame_min": 0.7750234007835388,
+      "new_best_three_frame_end_sample": 60800
+    },
+    {
+      "condition": "snr5",
+      "id": "enfinal144-4f4d0814d1cf4dbd8f6f5ad2",
+      "role": "train",
+      "weak_class": 2,
+      "prior_matched_intent_lost": true,
+      "prior_correct_case_regressed": true,
+      "event_error_categories_increased": [],
+      "old_events": [
+        {
+          "keyword": 2,
+          "sample": 65920
+        }
+      ],
+      "new_events": [],
+      "old_target_peak": 0.9730805158615112,
+      "old_target_max_three_frame_min": 0.864134669303894,
+      "old_best_three_frame_end_sample": 65920,
+      "new_target_peak": 0.9540937542915344,
+      "new_target_max_three_frame_min": 0.6944770812988281,
+      "new_best_three_frame_end_sample": 65920
+    },
+    {
+      "condition": "new8",
+      "id": "encov-new8-7d4d980e21ca8b163f958eaa",
+      "role": "development",
+      "weak_class": 2,
+      "prior_matched_intent_lost": true,
+      "prior_correct_case_regressed": true,
+      "event_error_categories_increased": [],
+      "old_events": [
+        {
+          "keyword": 2,
+          "sample": 53120
+        }
+      ],
+      "new_events": [],
+      "old_target_peak": 0.9481898546218872,
+      "old_target_max_three_frame_min": 0.9217747449874878,
+      "old_best_three_frame_end_sample": 54400,
+      "new_target_peak": 0.8671575784683228,
+      "new_target_max_three_frame_min": 0.7810089588165283,
+      "new_best_three_frame_end_sample": 54400
+    }
+  ],
+  "paired_regression_recomputed_exactly": true,
+  "grouped_counts": [
+    {
+      "condition": "clean",
+      "role": "development",
+      "weak_class": 0,
+      "cases": 26,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "clean",
+      "role": "development",
+      "weak_class": 1,
+      "cases": 3,
+      "old_matches": 3,
+      "new_matches": 3,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "clean",
+      "role": "development",
+      "weak_class": 2,
+      "cases": 8,
+      "old_matches": 8,
+      "new_matches": 8,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "clean",
+      "role": "train",
+      "weak_class": 0,
+      "cases": 62,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "clean",
+      "role": "train",
+      "weak_class": 1,
+      "cases": 8,
+      "old_matches": 8,
+      "new_matches": 8,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "clean",
+      "role": "train",
+      "weak_class": 2,
+      "cases": 10,
+      "old_matches": 10,
+      "new_matches": 10,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "new8",
+      "role": "development",
+      "weak_class": 0,
+      "cases": 16,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "new8",
+      "role": "development",
+      "weak_class": 1,
+      "cases": 3,
+      "old_matches": 1,
+      "new_matches": 1,
+      "old_errors": 2,
+      "new_errors": 2
+    },
+    {
+      "condition": "new8",
+      "role": "development",
+      "weak_class": 2,
+      "cases": 8,
+      "old_matches": 7,
+      "new_matches": 6,
+      "old_errors": 1,
+      "new_errors": 2
+    },
+    {
+      "condition": "snr10",
+      "role": "development",
+      "weak_class": 0,
+      "cases": 16,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr10",
+      "role": "development",
+      "weak_class": 1,
+      "cases": 3,
+      "old_matches": 2,
+      "new_matches": 2,
+      "old_errors": 1,
+      "new_errors": 1
+    },
+    {
+      "condition": "snr10",
+      "role": "development",
+      "weak_class": 2,
+      "cases": 8,
+      "old_matches": 7,
+      "new_matches": 4,
+      "old_errors": 1,
+      "new_errors": 4
+    },
+    {
+      "condition": "snr10",
+      "role": "train",
+      "weak_class": 0,
+      "cases": 32,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr10",
+      "role": "train",
+      "weak_class": 1,
+      "cases": 7,
+      "old_matches": 7,
+      "new_matches": 7,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr10",
+      "role": "train",
+      "weak_class": 2,
+      "cases": 10,
+      "old_matches": 10,
+      "new_matches": 10,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr5",
+      "role": "development",
+      "weak_class": 0,
+      "cases": 16,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr5",
+      "role": "development",
+      "weak_class": 1,
+      "cases": 3,
+      "old_matches": 1,
+      "new_matches": 1,
+      "old_errors": 2,
+      "new_errors": 2
+    },
+    {
+      "condition": "snr5",
+      "role": "development",
+      "weak_class": 2,
+      "cases": 8,
+      "old_matches": 5,
+      "new_matches": 5,
+      "old_errors": 3,
+      "new_errors": 3
+    },
+    {
+      "condition": "snr5",
+      "role": "train",
+      "weak_class": 0,
+      "cases": 32,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr5",
+      "role": "train",
+      "weak_class": 1,
+      "cases": 6,
+      "old_matches": 6,
+      "new_matches": 6,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr5",
+      "role": "train",
+      "weak_class": 2,
+      "cases": 6,
+      "old_matches": 5,
+      "new_matches": 4,
+      "old_errors": 1,
+      "new_errors": 2
+    }
+  ],
+  "reviewed_fit": {
+    "old_source_balanced_ce": 0.27059315879515733,
+    "new_source_balanced_ce": 0.017581888696221865,
+    "relative_reduction": 0.9350246370806011,
+    "all_eight_source_ce_decreased": true
+  },
+  "natural32_events": {
+    "old": 0,
+    "new": 0,
+    "independent_far_improvement": false
+  },
+  "native_parity": {
+    "rows": 18982,
+    "max_logit_error": 8.62917480404235e-06,
+    "max_probability_error": 1.3710589599202905e-06,
+    "clock_ready_event_exact": true
+  },
+  "optimizer_updates": 96,
+  "training_bag_forwards": 672,
+  "source_draw_counts": {
+    "hardneg-natural32-2edb8ff99387fcae1281fa83": 12,
+    "hardneg-natural32-30d4fab328671543e2240f1c": 12,
+    "hardneg-natural32-3a5e6b5613dc10fa4eda499e": 12,
+    "hardneg-natural32-56fb1ab73515dd777887cf0d": 12,
+    "hardneg-natural32-5ca7d4f96507274401bb156b": 12,
+    "hardneg-natural32-a8b6ba18291b7b0ea167167f": 12,
+    "hardneg-natural32-ea5ccde841410381dd7b1877": 12,
+    "hardneg-natural32-f5285e7ff90614b34b4032ce": 12
+  },
+  "train_only_saved_confidence_analysis": {
+    "conditions": [
+      "clean",
+      "snr10"
+    ],
+    "role": "train",
+    "bags": 35,
+    "by_class": [
+      {
+        "weak_class": 1,
+        "bags": 15,
+        "bag_mean_decreased": 15,
+        "best_triple_decreased": 15,
+        "mean_old_best_triple": 0.9986552198727926,
+        "mean_new_best_triple": 0.9977951049804688,
+        "max_best_triple_drop": 0.0035248994827270508
+      },
+      {
+        "weak_class": 2,
+        "bags": 20,
+        "bag_mean_decreased": 20,
+        "best_triple_decreased": 20,
+        "mean_old_best_triple": 0.9981946855783462,
+        "mean_new_best_triple": 0.9936375737190246,
+        "max_best_triple_drop": 0.026320457458496094
+      }
+    ],
+    "no_development_or_snr5_new8_used": true
+  },
+  "mechanism_observation": "ALL_LOSSES_ARE_MERO_EVENT_SENSITIVITY; COMPLETE_SUPPORT_NEGATIVE_CE_IMPROVES; NO_EXTRA_EVENT_ERRORS",
+  "causal_limit": "No no-hardnegative continued-training control or saved gradient decomposition; cannot assign sole causality to new loss weighting.",
+  "candidate_not_promoted": true,
+  "no_independent_far_frr_or_ssc305_acceptance": true
+}
