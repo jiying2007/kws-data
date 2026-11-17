@@ -1,0 +1,88 @@
+name: English new acoustic coverage quality once
+on:
+  pull_request:
+    paths:
+      - automation/english_coverage_quality_once.py
+      - automation/english_coverage_quality_data.py
+      - automation/english_coverage_quality_plan.json
+      - automation/test_english_coverage_quality_*.py
+      - research/english_coverage_quality_20261117/**
+      - .github/workflows/english-coverage-quality-once.yml
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-coverage-quality-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-coverage-quality-20261117-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Validate the single coverage arm and independent evidence contracts
+        run: |
+          set -euo pipefail
+          python3 -B automation/english_coverage_quality_once.py --plan automation/english_coverage_quality_plan.json
+          python3 -B -m unittest discover -s automation -p 'test_english_coverage_quality_*.py' -v
+          python3 -B -m unittest discover -s research/english_coverage_quality_20261117/audit -p 'test_*.py' -v
+          python3 -B -m unittest discover -s research/english_coverage_quality_20261117/package -p 'test_*.py' -v
+          git diff --exit-code
+  quality:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == '5521b11f495c5b87d5d2ec0eb2597aa5730ea687'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install the fixed numeric runtime and C replay toolchains
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check --no-input numpy==1.26.4 onnx==1.17.0 onnxruntime==1.20.1
+          python3 -m pip install --disable-pip-version-check --no-input --index-url https://download.pytorch.org/whl/cpu torch==2.9.1+cpu
+          sudo apt-get update -qq
+          sudo apt-get install --no-install-recommends -y gcc-arm-linux-gnueabihf libc6-dev-armhf-cross qemu-user
+      - name: Execute one frozen coverage candidate and native plus ARM head parity
+        timeout-minutes: 16
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+        run: |
+          set -euo pipefail
+          python3 -B automation/english_coverage_quality_once.py \
+            --plan automation/english_coverage_quality_plan.json --execute \
+            --output "$RUNNER_TEMP/english-coverage-quality"
+      - name: Retain actual weights, reused and new features, predictions and partial evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-coverage-quality-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-coverage-quality/evidence/
+            ${{ runner.temp }}/english-coverage-quality/sources/
+            ${{ runner.temp }}/english-coverage-quality/models/
+            ${{ runner.temp }}/english-coverage-quality/cache/
+            ${{ runner.temp }}/english-coverage-quality/predictions/
+            ${{ runner.temp }}/english-coverage-quality/audio/
+            ${{ runner.temp }}/english-coverage-quality/runtime/
+            ${{ runner.temp }}/english-coverage-quality/background_tracks/
+          retention-days: 30
+          if-no-files-found: warn
