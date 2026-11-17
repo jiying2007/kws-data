@@ -1,0 +1,81 @@
+name: English dense CE cache-only quality once
+on:
+  pull_request:
+    paths:
+      - automation/english_dense_quality_once.py
+      - automation/english_dense_quality_plan.json
+      - automation/test_english_dense_quality_*.py
+      - research/english_dense_quality_20261117/**
+      - .github/workflows/english-dense-quality-once.yml
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-dense-quality-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-dense-quality-20261117-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Validate the final fixed loss arm and independent cache audit
+        run: |
+          set -euo pipefail
+          python3 -B automation/english_dense_quality_once.py --plan automation/english_dense_quality_plan.json
+          python3 -B -m unittest discover -s automation -p 'test_english_dense_quality_*.py' -v
+          python3 -B -m unittest discover -s research/english_dense_quality_20261117/audit -p 'test_*.py' -v
+          git diff --exit-code
+  quality:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == 'b4982d7a2f39c4b2647a86cbf96d3701a1123b6a'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install the same fixed head-training runtime
+        timeout-minutes: 7
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check --no-input numpy==1.26.4
+          python3 -m pip install --disable-pip-version-check --no-input --index-url https://download.pytorch.org/whl/cpu torch==2.9.1+cpu
+      - name: Reuse all three caches and execute the final dense CE arm
+        timeout-minutes: 16
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+        run: |
+          set -euo pipefail
+          python3 -B automation/english_dense_quality_once.py \
+            --plan automation/english_dense_quality_plan.json --execute \
+            --output "$RUNNER_TEMP/english-dense-quality"
+      - name: Retain new weights, reused feature identities, all scores and partial evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-dense-quality-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-dense-quality/evidence/
+            ${{ runner.temp }}/english-dense-quality/sources/
+            ${{ runner.temp }}/english-dense-quality/models/
+            ${{ runner.temp }}/english-dense-quality/cache/
+            ${{ runner.temp }}/english-dense-quality/predictions/
+          retention-days: 30
+          if-no-files-found: warn
