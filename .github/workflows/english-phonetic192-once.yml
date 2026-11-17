@@ -1,0 +1,296 @@
+name: English 192 direct-phone new sources and automatic acoustic evidence once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-phonetic192-once.yml
+      - automation/english_phonetic192_recipe.py
+      - automation/english_phonetic192_once.py
+      - automation/english_phonetic192_plan.json
+      - automation/test_english_phonetic192.py
+      - docs/ENGLISH_PHONETIC192_20261117.md
+  push:
+    branches: [main]
+    paths:
+      - automation/english_phonetic192_plan.json
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-phonetic192-20261117-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '4'
+  MKL_NUM_THREADS: '4'
+  OPENBLAS_NUM_THREADS: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      enabled: ${{ steps.source.outputs.enabled }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify the source contract without models
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_phonetic192.py -v
+            python3 -I -S -B "${args[@]}" automation/english_phonetic192_once.py \
+              --plan automation/english_phonetic192_plan.json --source-check
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          plan = json.loads(pathlib.Path('automation/english_phonetic192_plan.json').read_bytes())
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
+              stream.write('enabled=' + str(plan['enabled']).lower() + '\n')
+          PYCODE
+  generate:
+    needs: source-contract
+    if: >-
+      needs.source-contract.outputs.enabled == 'true' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    outputs:
+      source_ready: ${{ steps.readback.outputs.source_ready }}
+      valid_count: ${{ steps.readback.outputs.valid_count }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Enforce the exact enabled main predecessor before runtime installation
+        id: guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain)"
+          mkdir -p "$RUNNER_TEMP/p192-generation-runtime"
+          python3 -I -S -B automation/english_phonetic192_once.py \
+            --plan automation/english_phonetic192_plan.json --guard \
+            > "$RUNNER_TEMP/p192-generation-runtime/GUARD.json"
+      - name: Install the existing pinned Piper CPU runtime
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/p192-tts-venv"
+          "$RUNNER_TEMP/p192-tts-venv/bin/pip" install --disable-pip-version-check \
+            'piper-tts==1.8.0' 'huggingface-hub==0.36.2' 'scipy==1.15.3'
+          "$RUNNER_TEMP/p192-tts-venv/bin/pip" freeze > "$RUNNER_TEMP/p192-generation-runtime/pip-freeze.txt"
+      - name: Synthesize exactly the new source cells once
+        shell: bash
+        timeout-minutes: 17
+        run: |
+          set -euo pipefail
+          set +e
+          timeout --signal=TERM --kill-after=30s 16m "$RUNNER_TEMP/p192-tts-venv/bin/python" -I -B \
+            automation/english_phonetic192_once.py --plan automation/english_phonetic192_plan.json \
+            --generate --output "$RUNNER_TEMP/p192-source"
+          p192_exit=$?
+          set -e
+          P192_EXIT="$p192_exit" python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'p192-generation-runtime/COMMAND_EXIT.json'
+          p.write_text(json.dumps({'returncode': int(os.environ['P192_EXIT']), 'retry_count': 0}) + '\n')
+          PYCODE
+          exit "$p192_exit"
+      - name: Recover the full source denominator from retained receipts
+        id: readback
+        if: always() && steps.guard.outcome == 'success'
+        shell: bash
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_phonetic192_once.py \
+            --plan automation/english_phonetic192_plan.json --read-source \
+            --source "$RUNNER_TEMP/p192-source" --output "$RUNNER_TEMP/p192-generation-runtime/SOURCE_READBACK.json"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          corpus = json.loads((pathlib.Path(os.environ['RUNNER_TEMP']) / 'p192-generation-runtime/SOURCE_READBACK.json').read_bytes())
+          count = corpus['valid_count']
+          if type(count) is not int or not 0 <= count <= 192:
+              raise ValueError('SOURCE_VALID_COUNT')
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
+              stream.write('source_ready=' + str(count > 0).lower() + '\nvalid_count=' + str(count) + '\n')
+          PYCODE
+      - name: Retain every original new source and partial receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: phonetic192-source
+          path: |
+            ${{ runner.temp }}/p192-source/
+            !${{ runner.temp }}/p192-source/private-model/**
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain generation runtime and exit evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: phonetic192-generation-runtime
+          path: ${{ runner.temp }}/p192-generation-runtime/
+          retention-days: 30
+          if-no-files-found: warn
+  observe:
+    needs: [source-contract, generate]
+    if: >-
+      always() && needs.source-contract.result == 'success' && needs.source-contract.outputs.enabled == 'true' &&
+      needs.generate.outputs.source_ready == 'true' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        provider: [qwen, whisper, parakeet, phoneme]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PROVIDER: ${{ matrix.provider }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Enforce the same first-main source identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain)"
+          mkdir -p "$RUNNER_TEMP/p192-observer-runtime"
+          python3 -I -S -B automation/english_phonetic192_once.py \
+            --plan automation/english_phonetic192_plan.json --guard \
+            > "$RUNNER_TEMP/p192-observer-runtime/GUARD.json"
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          name: phonetic192-source
+          path: ${{ runner.temp }}/p192-source
+      - name: Verify original source bytes before observer installation
+        shell: bash
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_phonetic192_once.py \
+            --plan automation/english_phonetic192_plan.json --read-source --source "$RUNNER_TEMP/p192-source"
+      - name: Install one pinned CPU observer runtime
+        shell: bash
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/p192-observer-venv"
+          p192_pip="$RUNNER_TEMP/p192-observer-venv/bin/pip"
+          trap '"$p192_pip" freeze > "$RUNNER_TEMP/p192-observer-runtime/pip-freeze.txt"' EXIT
+          if [ "$PROVIDER" = parakeet ]; then
+            "$p192_pip" install --disable-pip-version-check 'huggingface-hub==0.36.2' 'hf-xet==1.2.0'
+          elif [ "$PROVIDER" = phoneme ]; then
+            "$p192_pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+            "$p192_pip" install --disable-pip-version-check 'transformers==4.46.3' 'huggingface-hub==0.36.2' 'numpy==1.26.4'
+          else
+            "$p192_pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu'
+            if [ "$PROVIDER" = qwen ]; then
+              "$p192_pip" install --disable-pip-version-check 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2'
+            else
+              "$p192_pip" install --disable-pip-version-check 'openai-whisper==20250625'
+            fi
+          fi
+      - name: Observe only the new valid sources once with this blind provider
+        shell: bash
+        timeout-minutes: 63
+        run: |
+          set -euo pipefail
+          set +e
+          timeout --signal=TERM --kill-after=30s 62m "$RUNNER_TEMP/p192-observer-venv/bin/python" -I -B \
+            automation/english_phonetic192_once.py --plan automation/english_phonetic192_plan.json \
+            --observe "$PROVIDER" --source "$RUNNER_TEMP/p192-source" --output "$RUNNER_TEMP/p192-observer"
+          p192_exit=$?
+          set -e
+          P192_EXIT="$p192_exit" python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'p192-observer-runtime/COMMAND_EXIT.json'
+          p.write_text(json.dumps({'provider': os.environ['PROVIDER'], 'returncode': int(os.environ['P192_EXIT']), 'retry_count': 0}) + '\n')
+          PYCODE
+          exit "$p192_exit"
+      - name: Retain blind captures and every partial observation
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: phonetic192-observer-${{ matrix.provider }}
+          path: |
+            ${{ runner.temp }}/p192-observer/
+            !${{ runner.temp }}/p192-observer/private-model/**
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain observer runtime and actual exit
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: phonetic192-runtime-${{ matrix.provider }}
+          path: ${{ runner.temp }}/p192-observer-runtime/
+          retention-days: 30
+          if-no-files-found: warn
+  combine:
+    needs: [source-contract, generate, observe]
+    if: >-
+      always() && needs.source-contract.result == 'success' && needs.source-contract.outputs.enabled == 'true' &&
+      needs.generate.outputs.source_ready == 'true' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Enforce the exact source execution guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_phonetic192_once.py \
+            --plan automation/english_phonetic192_plan.json --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          name: phonetic192-source
+          path: ${{ runner.temp }}/p192-source
+      - name: Collect available first observations with missing providers explicit
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          pattern: phonetic192-observer-*
+          merge-multiple: false
+          path: ${{ runner.temp }}/p192-observers
+      - name: Join byte-bound evidence and apply the pinned automatic admission contract
+        shell: bash
+        timeout-minutes: 6
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/p192-observers"
+          python3 -I -S -B automation/english_phonetic192_once.py \
+            --plan automation/english_phonetic192_plan.json --combine \
+            --source "$RUNNER_TEMP/p192-source" --observers "$RUNNER_TEMP/p192-observers" \
+            --output "$RUNNER_TEMP/p192-corpus"
+      - name: Retain the immutable corpus and automatic labels for separate model training
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-phonetic192-corpus-${{ github.run_id }}
+          path: ${{ runner.temp }}/p192-corpus/
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: warn

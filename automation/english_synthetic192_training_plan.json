@@ -25,8 +25,8 @@
   "corpus_combine_job": null,
   "corpus_policy_pins": {
     "policy/english_synthetic_silver.py": {
-      "bytes": 20379,
-      "sha256": "1e7b35e581907652fabe70b0aa85a2e38c929f07c1e5a0922cb2177dfd9346e7"
+      "bytes": 22786,
+      "sha256": "fde516d9f1f2457cdb0047e8d8aee6a667c68fa6ea21f83d22f135e4bc9069da"
     },
     "policy/profile.json": {
       "bytes": 8591,
@@ -38,6 +38,16 @@
   "current_default_model_replaced": false,
   "enabled": false,
   "fresh_execution_plan": null,
+  "fresh_source_contract": {
+    "admission_rule_id": "english-synthetic-machine-admission-v2",
+    "admission_rules_sha256": "0a02fbef84f3de275b67908038a9fcd5c91a579138ce65d47037dffa48c60383",
+    "artifact_prefix": "english-phonetic192-corpus-",
+    "campaign_id": "piper-libritts-direct-34-57-v1",
+    "policy_source_path": "training/english_phonetic_silver.py",
+    "recipe_code_sha256": "928045eb6390716154bee8ddce34cf3347d06d720e66f2a8e3861af33402cdc6",
+    "recipe_sha256": "07d1d702ec76f41a2becfac19e6600ba5eb5b14480852e8c0f37df53c36fbadd",
+    "workflow_path": ".github/workflows/english-phonetic192-once.yml"
+  },
   "full_pcm_new_head": "NOT_RUN",
   "human_recording_prerequisite": false,
   "main_before": null,
@@ -79,8 +89,8 @@
       "sha256": "0896d375f47318adbc42f63835cb85fc77441ae2472d9df8212dfca4dd7e62c0"
     },
     "automation/test_english_synthetic192_training.py": {
-      "bytes": 9976,
-      "sha256": "bb4358c5b94b59df9e00801a518b460e9c398c4f68253729a7da8ba501610701"
+      "bytes": 11457,
+      "sha256": "8e2eb398a91d7fca2940dfd7d0e7d1b72a5d65321bd17587e44fe87befb1e276"
     },
     "research/english_hardneg_increment_20261117/INPUT_PINS.json": {
       "bytes": 5401,
@@ -118,5 +128,5 @@
     }
   },
   "trigger": "PUBLIC_MAIN_EXACT_SUCCESSOR_PUSH_RUN_ATTEMPT1",
-  "worker_sha256": "acd61ac10dc2d829e5f0c708c47d0f1b9e8b77429f4ae43845e02635eabaea0e"
+  "worker_sha256": "7f0ca61ebc304a4f94fcf85f201cf8e8ad009c559620c005d0bb008ba55417e7"
 }

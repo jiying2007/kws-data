@@ -1,0 +1,393 @@
+{
+  "admission_contract": {
+    "commit": null,
+    "module_git_blob_sha1": "882694ef1cb66dcedd9234cce7c629b29f553a11",
+    "module_path": "training/english_phonetic_silver.py",
+    "module_sha256": "fde516d9f1f2457cdb0047e8d8aee6a667c68fa6ea21f83d22f135e4bc9069da",
+    "profile_git_blob_sha1": "275145f6b9e1d5a6a2bd9f168eb792ad4d61d0a7",
+    "profile_path": "configs/research/english-pronunciation-profile-20261115.json",
+    "profile_sha256": "1b4112a27566d370e513d239ab9649b6c3cab3c8ca495c49c3810619214e4632",
+    "repository": "jiying2007/kws-pipeline"
+  },
+  "campaign_id": "piper-libritts-direct-34-57-v1",
+  "enabled": false,
+  "generation_deadline_seconds": 900,
+  "helper_sha256": {
+    "automation/english_blind_asr.py": "e232cb219cabcc3877366bc446e5180d203d43b094695dba18fddee9b584669e",
+    "automation/english_final_ipa_xlsr_once.py": "716928f7707fc662f62e59a988c0c264123be301abac4c23fe835bc09c052b3a",
+    "automation/english_ipa_qwen17_final_ipa_probe_once.py": "15207db7182e4cb6d85349059b4aff91e721c70e8782fe901d4893f55224be76",
+    "automation/english_ipa_qwen17_probe_once.py": "e5f6bce2e17c3755f7b910d00c84b8d2f3d36ecca3af082c9c62a86cd689b4ed",
+    "automation/english_parakeet_real_once.py": "366cd278f570a37ce68dd20e47e2bee1422daaa109c693ac42ab4bd4c2418881",
+    "automation/english_qwen_asr_real_once.py": "14e8150ee76bf356fad0927e93d20981ccfaf32696beacf871810e26e8ff7990",
+    "automation/english_qwen_asr_sourcefix_once.py": "9a000ed25440980333f11c21eec879b1945d87fa9f3d5e1794fc7090fdc96417",
+    "automation/english_qwen_capture.py": "be99d27dcff84107feca42d648afa863863cd5c9a3ffffaa505d287c29b2104f",
+    "automation/english_qwen_real_once.py": "60e995b4cc39818b8795d8730f1eba81bc57a8bd7c778fc2df040b92f0bca95e",
+    "automation/english_seven_voice_asr_once.py": "17771ca272204771982dbdc8e959f7fd75838b6598e84f09ac5819d8e3c79184",
+    "automation/english_seven_voice_review.py": "05a1968f78e2ae0013b4f9f529a5700817ba49d0ef1fbf77a572d2f6e1373b7b",
+    "automation/english_seven_voice_tts_once.py": "e9dcf10dd94909edc13bf65ebcc31b2f3df6bdc81ab1876c94cbe28ec936ad0e",
+    "automation/english_whisper_real_once.py": "0f455c46061c6e3e4da2eec781234875fe2f59f257f11bacea8105e951593b6d",
+    "automation/multilingual_campaign.py": "3cda7b79d1cf4e00f7b2a4aeff6c254f8b49d2adcf527a5ca51093ef60d1ef4f",
+    "kws_data_contract/__init__.py": "3b3c0ef178e7115b2206e895c19128603272c0d3ad8a22eade280d372f884608",
+    "kws_data_contract/identity.py": "7cb39db2c8fe07e6fada96735bae526c2f442775fc8e4786940add80abbba3e8",
+    "research/auto-tts-voice-clone-20261102/campaign.py": "55f07e3604ac72a6ff912f25dc86f706678c6bb7661714b3dec3c1646e8d766f",
+    "research/auto-tts-voice-clone-20261102/runner.py": "df3e8858e25f041ecbc1ef7f10e7b7715722ad7ad8a2f5e53f120c172d3d40c1"
+  },
+  "maximum_calls_per_observer": 192,
+  "maximum_tts_calls": 192,
+  "new_kws_calls": 0,
+  "next_main_before": null,
+  "observation_deadline_seconds": 3600,
+  "recipe_code_sha256": "928045eb6390716154bee8ddce34cf3347d06d720e66f2a8e3861af33402cdc6",
+  "recipe_sha256": "07d1d702ec76f41a2becfac19e6600ba5eb5b14480852e8c0f37df53c36fbadd",
+  "retry_count": 0,
+  "schema": "english-synthetic192-execution-v1",
+  "silver_admission": {
+    "cells": [
+      {
+        "cell_id": "mero-direct-eh",
+        "pronunciation_hypothesis": "mero-us-eh-v1",
+        "requested_class": 2,
+        "requested_text": "Hey Mero."
+      },
+      {
+        "cell_id": "mero-direct-i",
+        "pronunciation_hypothesis": "mero-us-i-v1",
+        "requested_class": 2,
+        "requested_text": "Hey Mero."
+      },
+      {
+        "cell_id": "vosen-direct-s",
+        "pronunciation_hypothesis": "vosen-us-s-v1",
+        "requested_class": 1,
+        "requested_text": "Hey Vosen."
+      },
+      {
+        "cell_id": "vosen-direct-z",
+        "pronunciation_hypothesis": "vosen-us-z-v1",
+        "requested_class": 1,
+        "requested_text": "Hey Vosen."
+      },
+      {
+        "cell_id": "ordinary-time",
+        "pronunciation_hypothesis": "ordinary-negative-v1",
+        "requested_class": 0,
+        "requested_text": "What time is it?"
+      },
+      {
+        "cell_id": "ordinary-light",
+        "pronunciation_hypothesis": "ordinary-negative-v1",
+        "requested_class": 0,
+        "requested_text": "Please turn on the kitchen light."
+      },
+      {
+        "cell_id": "ordinary-package",
+        "pronunciation_hypothesis": "ordinary-negative-v1",
+        "requested_class": 0,
+        "requested_text": "The package is by the front door."
+      },
+      {
+        "cell_id": "ordinary-window",
+        "pronunciation_hypothesis": "ordinary-negative-v1",
+        "requested_class": 0,
+        "requested_text": "Could you open the window?"
+      }
+    ],
+    "excluded_source_speaker_ids": [
+      "p28",
+      "p64",
+      "p84",
+      "p174",
+      "p176",
+      "p251",
+      "p318",
+      "p339",
+      "p422",
+      "p652",
+      "p777",
+      "p922",
+      "p1272",
+      "p1382",
+      "p1462",
+      "p1463",
+      "p1638",
+      "p1673",
+      "p1919",
+      "p1988",
+      "p1993",
+      "p2035",
+      "p2078",
+      "p2086",
+      "p2277",
+      "p2412",
+      "p2428",
+      "p2531",
+      "p2573",
+      "p2769",
+      "p2803",
+      "p2902",
+      "p3000",
+      "p3081",
+      "p3170",
+      "p3274",
+      "p3307",
+      "p3368",
+      "p3536",
+      "p3576",
+      "p3615",
+      "p3638",
+      "p3752",
+      "p3853",
+      "p3869",
+      "p3922",
+      "p4356",
+      "p4535",
+      "p4899",
+      "p5338",
+      "p5400",
+      "p5536",
+      "p5570",
+      "p5618",
+      "p5694",
+      "p5712",
+      "p5895",
+      "p5909",
+      "p6104",
+      "p6241",
+      "p6295",
+      "p6313",
+      "p6319",
+      "p6345",
+      "p6458",
+      "p6544",
+      "p6701",
+      "p7850",
+      "p7976",
+      "p8297",
+      "p8498",
+      "p8699",
+      "p8842",
+      "p8848"
+    ],
+    "minimum_balanced_groups": {
+      "calibration": 2,
+      "development": 2,
+      "locked-test": 2,
+      "train": 6
+    },
+    "phone_recognizer": {
+      "decode_config_sha256": "2b37c89e02afc6b44b8109a9ae38303eca75411564f53b3d61d86985de5af441",
+      "model_family": "wav2vec2-xlsr",
+      "model_sha256": "04366b6c8d24099ef313cf02f0e58d26f5dddfda16edbfc8eb2c713d94a9f551",
+      "recognizer_id": "phoneme"
+    },
+    "recognizers": [
+      {
+        "decode_config_sha256": "6ef4ab0c3a329ac618980f42a00ebff601c08a768b8f341256b85ffaffb3bca1",
+        "model_family": "qwen3-asr",
+        "model_sha256": "79d6cbd4c98c7bbffe9db2edac07f56cd6637d0d5944b27f6c2b8353840323ea",
+        "recognizer_id": "qwen"
+      },
+      {
+        "decode_config_sha256": "439b51d2e7e5f7ce4ade748a87c3d3e6d5b6b66d2acaec893bfc3bf673af04a7",
+        "model_family": "whisper",
+        "model_sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+        "recognizer_id": "whisper"
+      },
+      {
+        "decode_config_sha256": "c83bcf97f4c3f718264df1ecac8f013a276bdf7024f3ed39b255f85ad4bb9b6d",
+        "model_family": "parakeet-tdt",
+        "model_sha256": "e3880d0aaaaf2c308ea2c35016b2b895c423eb3fda924c1b463d1c19b7f4d32e",
+        "recognizer_id": "parakeet"
+      }
+    ],
+    "rule_id": "english-synthetic-machine-admission-v2",
+    "rules_sha256": "0a02fbef84f3de275b67908038a9fcd5c91a579138ce65d47037dffa48c60383",
+    "source_design_id": "piper-libritts-direct-34-57-v1",
+    "source_groups": [
+      {
+        "role": "train",
+        "source_group_id": "libritts-speaker-3370",
+        "source_speaker_id": "p3370",
+        "source_speaker_index": 34,
+        "voice_family": "piper-libritts-3370"
+      },
+      {
+        "role": "train",
+        "source_group_id": "libritts-speaker-7704",
+        "source_speaker_id": "p7704",
+        "source_speaker_index": 35,
+        "voice_family": "piper-libritts-7704"
+      },
+      {
+        "role": "train",
+        "source_group_id": "libritts-speaker-8506",
+        "source_speaker_id": "p8506",
+        "source_speaker_index": 36,
+        "voice_family": "piper-libritts-8506"
+      },
+      {
+        "role": "train",
+        "source_group_id": "libritts-speaker-8410",
+        "source_speaker_id": "p8410",
+        "source_speaker_index": 37,
+        "voice_family": "piper-libritts-8410"
+      },
+      {
+        "role": "train",
+        "source_group_id": "libritts-speaker-6904",
+        "source_speaker_id": "p6904",
+        "source_speaker_index": 38,
+        "voice_family": "piper-libritts-6904"
+      },
+      {
+        "role": "train",
+        "source_group_id": "libritts-speaker-5655",
+        "source_speaker_id": "p5655",
+        "source_speaker_index": 39,
+        "voice_family": "piper-libritts-5655"
+      },
+      {
+        "role": "train",
+        "source_group_id": "libritts-speaker-2204",
+        "source_speaker_id": "p2204",
+        "source_speaker_index": 40,
+        "voice_family": "piper-libritts-2204"
+      },
+      {
+        "role": "train",
+        "source_group_id": "libritts-speaker-501",
+        "source_speaker_id": "p501",
+        "source_speaker_index": 41,
+        "voice_family": "piper-libritts-501"
+      },
+      {
+        "role": "train",
+        "source_group_id": "libritts-speaker-7314",
+        "source_speaker_id": "p7314",
+        "source_speaker_index": 42,
+        "voice_family": "piper-libritts-7314"
+      },
+      {
+        "role": "train",
+        "source_group_id": "libritts-speaker-1027",
+        "source_speaker_id": "p1027",
+        "source_speaker_index": 43,
+        "voice_family": "piper-libritts-1027"
+      },
+      {
+        "role": "train",
+        "source_group_id": "libritts-speaker-5054",
+        "source_speaker_id": "p5054",
+        "source_speaker_index": 44,
+        "voice_family": "piper-libritts-5054"
+      },
+      {
+        "role": "train",
+        "source_group_id": "libritts-speaker-534",
+        "source_speaker_id": "p534",
+        "source_speaker_index": 45,
+        "voice_family": "piper-libritts-534"
+      },
+      {
+        "role": "development",
+        "source_group_id": "libritts-speaker-2853",
+        "source_speaker_id": "p2853",
+        "source_speaker_index": 46,
+        "voice_family": "piper-libritts-2853"
+      },
+      {
+        "role": "development",
+        "source_group_id": "libritts-speaker-5935",
+        "source_speaker_id": "p5935",
+        "source_speaker_index": 47,
+        "voice_family": "piper-libritts-5935"
+      },
+      {
+        "role": "development",
+        "source_group_id": "libritts-speaker-2404",
+        "source_speaker_id": "p2404",
+        "source_speaker_index": 48,
+        "voice_family": "piper-libritts-2404"
+      },
+      {
+        "role": "development",
+        "source_group_id": "libritts-speaker-7874",
+        "source_speaker_id": "p7874",
+        "source_speaker_index": 49,
+        "voice_family": "piper-libritts-7874"
+      },
+      {
+        "role": "calibration",
+        "source_group_id": "libritts-speaker-816",
+        "source_speaker_id": "p816",
+        "source_speaker_index": 50,
+        "voice_family": "piper-libritts-816"
+      },
+      {
+        "role": "calibration",
+        "source_group_id": "libritts-speaker-2053",
+        "source_speaker_id": "p2053",
+        "source_speaker_index": 51,
+        "voice_family": "piper-libritts-2053"
+      },
+      {
+        "role": "calibration",
+        "source_group_id": "libritts-speaker-8066",
+        "source_speaker_id": "p8066",
+        "source_speaker_index": 52,
+        "voice_family": "piper-libritts-8066"
+      },
+      {
+        "role": "calibration",
+        "source_group_id": "libritts-speaker-16",
+        "source_speaker_id": "p16",
+        "source_speaker_index": 53,
+        "voice_family": "piper-libritts-16"
+      },
+      {
+        "role": "locked-test",
+        "source_group_id": "libritts-speaker-4586",
+        "source_speaker_id": "p4586",
+        "source_speaker_index": 54,
+        "voice_family": "piper-libritts-4586"
+      },
+      {
+        "role": "locked-test",
+        "source_group_id": "libritts-speaker-1923",
+        "source_speaker_id": "p1923",
+        "source_speaker_index": 55,
+        "voice_family": "piper-libritts-1923"
+      },
+      {
+        "role": "locked-test",
+        "source_group_id": "libritts-speaker-2592",
+        "source_speaker_id": "p2592",
+        "source_speaker_index": 56,
+        "voice_family": "piper-libritts-2592"
+      },
+      {
+        "role": "locked-test",
+        "source_group_id": "libritts-speaker-1265",
+        "source_speaker_id": "p1265",
+        "source_speaker_index": 57,
+        "voice_family": "piper-libritts-1265"
+      }
+    ],
+    "supervised_tiers": [
+      "silver",
+      "weak"
+    ],
+    "training_tier_weights": {
+      "silver": 1.0,
+      "weak": 0.5
+    }
+  },
+  "synthesis_config": {
+    "length_scale": 1.2,
+    "noise_scale": 0.333,
+    "noise_w_scale": 0.333,
+    "normalize_audio": false,
+    "volume": 1.0
+  },
+  "worker_sha256": "8db749750a94270dc1e2620c0f7d5815f211c3a69d99322388b223af41ee0ad4"
+}
