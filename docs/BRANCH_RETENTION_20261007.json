@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2507,
+  "expected_tracked_files": 2517,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -291,6 +291,7 @@
     ".github/workflows/english-ipa-probe-three-asr-once.yml",
     ".github/workflows/english-ipa-qwen17-final-ipa-probe-once.yml",
     ".github/workflows/english-ipa-qwen17-probe-once.yml",
+    ".github/workflows/english-kokoro-context32-once.yml",
     ".github/workflows/english-kokoro48-once.yml",
     ".github/workflows/english-phonetic192-once.yml",
     ".github/workflows/english-quality-snr10-continue-once.yml",
@@ -342,6 +343,11 @@
     "automation/english_kokoro48_plan.json",
     "automation/english_kokoro48_recipe.py",
     "automation/english_kokoro48_runtime.py",
+    "automation/english_kokoro_context32_compare.py",
+    "automation/english_kokoro_context32_observe.py",
+    "automation/english_kokoro_context32_once.py",
+    "automation/english_kokoro_context32_plan.json",
+    "automation/english_kokoro_context32_source.py",
     "automation/english_phonetic192_once.py",
     "automation/english_phonetic192_plan.json",
     "automation/english_phonetic192_recipe.py",
@@ -421,6 +427,9 @@
     "automation/test_english_kokoro48.py",
     "automation/test_english_kokoro48_generate.py",
     "automation/test_english_kokoro48_initialize.py",
+    "automation/test_english_kokoro_context32.py",
+    "automation/test_english_kokoro_context32_compare.py",
+    "automation/test_english_kokoro_context32_observe.py",
     "automation/test_english_phonetic192.py",
     "automation/test_english_piper_ipa_ctc_once.py",
     "automation/test_english_piper_probe_asr_once.py",
@@ -476,6 +485,7 @@
     "docs/ENGLISH_IPA_PHONEME_TTS_RESEARCH_20261116.md",
     "docs/ENGLISH_IPA_PIPER_V4_MULTI_SPEAKER_20261116.md",
     "docs/ENGLISH_KOKORO48_PROBE_20261117.md",
+    "docs/ENGLISH_KOKORO_CONTEXT32_DIAGNOSTIC_20261117.md",
     "docs/ENGLISH_PHONETIC192_20261117.md",
     "docs/ENGLISH_PIPER_V2_THREE_ASR_20261116.md",
     "docs/ENGLISH_PIPER_V3_PHONEME_OBSERVER_20261116.md",
@@ -30673,6 +30683,97 @@
         }
       ],
       "rationale": "Actual diagnostic run44122224557 established548 exactly loaded checkpoint tensors and140 additional native affine parameters at70 fixed AdaIN sites. Keep the native model graph and exact pretrained tensor checks. Permit only the observed140 keys after proving each full weight/bias vector is exactly1/0 with fixed path/channel/type/configuration and no running statistics; preserve the real missing-key list and548/688/140 counts. Do not mutate or reload parameters. The same production loader is verified by a public PR initialization-only job with zero forwards; merge requires its actual proof and all exact-head checks. Bind generation only to predecessor ef128ea00e350bf42392a3c9bc02d15f691528da, preserving both prior zero-forward evidence chains and all48 never-started requests. Budgets48TTS plus5x48observers, no retries, diagnostic-only and no training admission remain unchanged. Preserve prior diagnostic registration127 and all retained historical file modes/sizes/blobs."
+    },
+    {
+      "campaign": "english-kokoro-full-context32-diagnostic-20261118",
+      "source_commit": "f7b78a794ccb597f59e18d632ae9d5d6e4c87bc5",
+      "base_commit": "573e807c330f7b55b239220e9380e761bb95f42e",
+      "previous_manifest_git_blob_sha1": "997536dbe06c5937d0d76008e1487d64739d79f5",
+      "paths": [
+        "automation/english_kokoro_context32_source.py",
+        "automation/english_kokoro_context32_once.py",
+        "automation/english_kokoro_context32_observe.py",
+        "automation/english_kokoro_context32_compare.py",
+        "automation/english_kokoro_context32_plan.json",
+        "automation/test_english_kokoro_context32.py",
+        "automation/test_english_kokoro_context32_observe.py",
+        "automation/test_english_kokoro_context32_compare.py",
+        ".github/workflows/english-kokoro-context32-once.yml",
+        "docs/ENGLISH_KOKORO_CONTEXT32_DIAGNOSTIC_20261117.md"
+      ],
+      "files": [
+        {
+          "path": "automation/english_kokoro_context32_source.py",
+          "mode": "100644",
+          "bytes": 26005,
+          "sha256": "8e355666f70342b6cf422deaaa44e541eeaf450d3c0e8327e3f2ed9a825a36f7",
+          "git_blob_sha1": "94210b1faa6b2dfed25025001d7fc55b6f33a45f"
+        },
+        {
+          "path": "automation/english_kokoro_context32_once.py",
+          "mode": "100644",
+          "bytes": 19757,
+          "sha256": "f2f3b01e5b43b2008f71293fd2cccf49b969ebc2fdcd48d284c87091890cd211",
+          "git_blob_sha1": "b8f75a9cc05b12a270140aaffe9b365590381640"
+        },
+        {
+          "path": "automation/english_kokoro_context32_observe.py",
+          "mode": "100644",
+          "bytes": 26656,
+          "sha256": "aa4694b84cfaa88436303ea67a19da02d44be2a7e19e4b3202192a9dcbbeee9a",
+          "git_blob_sha1": "a621a50f23aafd34a6d956675f564e99b9e8f34b"
+        },
+        {
+          "path": "automation/english_kokoro_context32_compare.py",
+          "mode": "100644",
+          "bytes": 32986,
+          "sha256": "131af8474dd61d339efe1748f504fc9593e0da7462f9b0abcea0a2899d78904d",
+          "git_blob_sha1": "55bfece99b669b8e06cb76082ebff520dd210c2b"
+        },
+        {
+          "path": "automation/english_kokoro_context32_plan.json",
+          "mode": "100644",
+          "bytes": 33429,
+          "sha256": "f5bf386a956bce3d1e1bdeee2ebf243026a284ba211d12bc780ca5a3d2a34d9a",
+          "git_blob_sha1": "53f6597c46f93d24ee4abe79f2d7998f868edcd2"
+        },
+        {
+          "path": "automation/test_english_kokoro_context32.py",
+          "mode": "100644",
+          "bytes": 15367,
+          "sha256": "ffd5e73652465e36beb67b33451be06b32b4f8624218893a3dc8ab2409067793",
+          "git_blob_sha1": "df52c230f4b5a629e502285990ec0c825bf54235"
+        },
+        {
+          "path": "automation/test_english_kokoro_context32_observe.py",
+          "mode": "100644",
+          "bytes": 15052,
+          "sha256": "325096d63ff43347e660e9b1365c96009ff6d1d12b8e58c306adb05aa31cb191",
+          "git_blob_sha1": "f4c4fc82035f42e7d49ca0d6eb8e17341d25df8d"
+        },
+        {
+          "path": "automation/test_english_kokoro_context32_compare.py",
+          "mode": "100644",
+          "bytes": 29523,
+          "sha256": "35e9220eac478005f4a04234d07c18449aaf37b148c6aaccea445058628caf15",
+          "git_blob_sha1": "e91f2e08d6055adf8ae235b9e9c994d175d5d547"
+        },
+        {
+          "path": ".github/workflows/english-kokoro-context32-once.yml",
+          "mode": "100644",
+          "bytes": 15018,
+          "sha256": "b2c7034f94d3761ea32c85f05ad7f2e0dc264d6aa12b825d6373262e2b70a9c8",
+          "git_blob_sha1": "8a52c0a132db551ef62338ed0200afa341a509d5"
+        },
+        {
+          "path": "docs/ENGLISH_KOKORO_CONTEXT32_DIAGNOSTIC_20261117.md",
+          "mode": "100644",
+          "bytes": 7536,
+          "sha256": "ead9d134ba35218b0fa76701b870bdb38b6e0fd0ce1021d641936dd65b29941d",
+          "git_blob_sha1": "e76914452d381cafc2e1af1c7885b9e173b89400"
+        }
+      ],
+      "rationale": "Reuse all16 original Kokoro carrier native-full sources without outcome selection, deriving new complete16k PCM views once. Authenticate raw original source/probe ZIPs and completed run44125960085; reject any new PCM matching any of48 previously observed crop hashes. Keep original48 labels, UNKNOWN, STOP and exclusion unchanged. Only two original fixed phone models may consume each new full view once, at most32first forwards and0retries; no TTS,text-ASR,embedding or training calls. Capture processor input,full392logits,allframe IDs and greedy output in the same forward; verify saved values and compare full suffix/fixed convolution-coordinate diagnostics without claiming whole-phrase admission, acoustic gold or observer superiority. Distinguish combined context,normalization,FIR-boundary and convolution-phase effects. Bind execution to the first public main push after573e807c330f7b55b239220e9380e761bb95f42e at attempt1. Preserve all2027retained files and every existing repository path, including the entire consumed Kokoro48 workflow/plan/source."
     }
   ]
 }
