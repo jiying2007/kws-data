@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2295,
+  "expected_tracked_files": 2310,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -504,7 +504,22 @@
     "research/english_temporal_quality_20261117/audit/audit_temporal.py",
     "research/english_temporal_quality_20261117/audit/input_preflight.json",
     "research/english_temporal_quality_20261117/audit/source_review.json",
-    "research/english_temporal_quality_20261117/audit/test_audit_temporal.py"
+    "research/english_temporal_quality_20261117/audit/test_audit_temporal.py",
+    ".github/workflows/english-dense-quality-once.yml",
+    "automation/english_dense_quality_once.py",
+    "automation/english_dense_quality_plan.json",
+    "automation/test_english_dense_quality_contract.py",
+    "research/english_dense_quality_20261117/PROTOCOL_zh.md",
+    "research/english_dense_quality_20261117/audit/audit_dense.py",
+    "research/english_dense_quality_20261117/audit/input_preflight.json",
+    "research/english_dense_quality_20261117/audit/source_review.json",
+    "research/english_dense_quality_20261117/audit/test_audit_dense.py",
+    "research/english_dense_quality_20261117/review/compare_dense.py",
+    "research/english_temporal_quality_20261117/AUDIT_SUMMARY.json",
+    "research/english_temporal_quality_20261117/PAIRED_REVIEW.json",
+    "research/english_temporal_quality_20261117/RESULT.json",
+    "research/english_temporal_quality_20261117/RESULTS_zh.md",
+    "research/english_temporal_quality_20261117/review/compare_temporal.py"
   ],
   "baseline_files": [
     {
@@ -28246,6 +28261,145 @@
         }
       ],
       "rationale": "One fixed temporal-positive-loss candidate reusing all consumed clean and 10 dB evidence, with an evaluation-only fixed 5 dB condition and independent paired event audit; no formal promotion or previous source mutation."
+    },
+    {
+      "campaign": "english-temporal-rejected-results-and-final-dense-ce-once-20261117",
+      "source_commit": "991da58ca979d318c9126dfb4d313bfce45aaea4",
+      "base_commit": "b4982d7a2f39c4b2647a86cbf96d3701a1123b6a",
+      "previous_manifest_git_blob_sha1": "7145b57d9b1bd70462a0a78edb279369c2929b31",
+      "paths": [
+        ".github/workflows/english-dense-quality-once.yml",
+        "automation/english_dense_quality_once.py",
+        "automation/english_dense_quality_plan.json",
+        "automation/english_temporal_quality_once.py",
+        "automation/test_english_dense_quality_contract.py",
+        "research/english_dense_quality_20261117/PROTOCOL_zh.md",
+        "research/english_dense_quality_20261117/audit/audit_dense.py",
+        "research/english_dense_quality_20261117/audit/input_preflight.json",
+        "research/english_dense_quality_20261117/audit/source_review.json",
+        "research/english_dense_quality_20261117/audit/test_audit_dense.py",
+        "research/english_dense_quality_20261117/review/compare_dense.py",
+        "research/english_temporal_quality_20261117/AUDIT_SUMMARY.json",
+        "research/english_temporal_quality_20261117/PAIRED_REVIEW.json",
+        "research/english_temporal_quality_20261117/RESULT.json",
+        "research/english_temporal_quality_20261117/RESULTS_zh.md",
+        "research/english_temporal_quality_20261117/review/compare_temporal.py"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-dense-quality-once.yml",
+          "mode": "100644",
+          "bytes": 3548,
+          "sha256": "2251e1a029696e2e521e0547fba1e196c336502d1fb2b1998e39a58752954d38",
+          "git_blob_sha1": "7e78837c939e0bd27823cfcdf17e2a9fc96a4d85"
+        },
+        {
+          "path": "automation/english_dense_quality_once.py",
+          "mode": "100644",
+          "bytes": 35847,
+          "sha256": "b429096c68cfe1f51c4eb07e98d9c13396f35c1f903ba5f15974c2b7a121b4c4",
+          "git_blob_sha1": "45361ef85b24278ec054a28c3c0cd8cb9d371748"
+        },
+        {
+          "path": "automation/english_dense_quality_plan.json",
+          "mode": "100644",
+          "bytes": 4001,
+          "sha256": "f208351ce90f5e0a35fde4f2de631dbb826d11e6779aa3dc1d262c116148c7e6",
+          "git_blob_sha1": "492a0d296cd74721fa845de25c1f9df665b04762"
+        },
+        {
+          "path": "automation/english_temporal_quality_once.py",
+          "mode": "100644",
+          "bytes": 49450,
+          "sha256": "15389e1101871352e6e7477c893f1dadf019fd57b572fa1388ec53d1dd8b0988",
+          "git_blob_sha1": "66ffce846c652ae117335885fe6175307622fde8"
+        },
+        {
+          "path": "automation/test_english_dense_quality_contract.py",
+          "mode": "100644",
+          "bytes": 14788,
+          "sha256": "80275b9075eb164cd9071963d7ce9a72687ce580956543749210eb9d14d73b1e",
+          "git_blob_sha1": "496570c1ad283c16639d1c81e7de8b2efb13bb9f"
+        },
+        {
+          "path": "research/english_dense_quality_20261117/PROTOCOL_zh.md",
+          "mode": "100644",
+          "bytes": 4432,
+          "sha256": "6bef0f71cc3b96b49281aa872e3b299107a05de38be1312c6576d56dc97b2331",
+          "git_blob_sha1": "d0c032c309c600bf20681ccd56563af72949e399"
+        },
+        {
+          "path": "research/english_dense_quality_20261117/audit/audit_dense.py",
+          "mode": "100644",
+          "bytes": 36900,
+          "sha256": "5c772633ac89773650f7c9c64a224334d9903ff812d8fc82c8e09ecbdc7685e1",
+          "git_blob_sha1": "a495e93bfc6d3bd542c7c40f57a845fe8c292736"
+        },
+        {
+          "path": "research/english_dense_quality_20261117/audit/input_preflight.json",
+          "mode": "100644",
+          "bytes": 8172,
+          "sha256": "20d544bf180e7ff021823f88158a191dd10e7b893ce6a9dd51dc22a14e3f53b9",
+          "git_blob_sha1": "4be35a37578dcfed21d83cd3f95ad1986fbf0422"
+        },
+        {
+          "path": "research/english_dense_quality_20261117/audit/source_review.json",
+          "mode": "100644",
+          "bytes": 1098,
+          "sha256": "24a374fea50885631c307d6c7f2d5a8c6fce70f628fa661805641c225fd9c624",
+          "git_blob_sha1": "8292b7ab6d837c12a75ebb42baf85cee5ee4d9e7"
+        },
+        {
+          "path": "research/english_dense_quality_20261117/audit/test_audit_dense.py",
+          "mode": "100644",
+          "bytes": 7923,
+          "sha256": "da8aaa6022acd195e43b0747b8cf4a05aa8a67b918617e0d9d95d9f015d8e312",
+          "git_blob_sha1": "c7cc697f62706dc283e6bb00b2cf7e5408000fcd"
+        },
+        {
+          "path": "research/english_dense_quality_20261117/review/compare_dense.py",
+          "mode": "100644",
+          "bytes": 21590,
+          "sha256": "16b1ce6c59f33ff0fdb5b6a4564e9bc43270daa60e2d745f8727c2feabaf0bc3",
+          "git_blob_sha1": "2774deb63b39f18d7e2a54f2195d355d3eef8fa7"
+        },
+        {
+          "path": "research/english_temporal_quality_20261117/AUDIT_SUMMARY.json",
+          "mode": "100644",
+          "bytes": 7672,
+          "sha256": "1e361710ca6e77a58ce26162a70233576c70e88e27413aae179c17f26797773c",
+          "git_blob_sha1": "86a2a35cac6fd35f38cd82a32b5dcab12951b3f3"
+        },
+        {
+          "path": "research/english_temporal_quality_20261117/PAIRED_REVIEW.json",
+          "mode": "100644",
+          "bytes": 35391,
+          "sha256": "b8783f417e745f367e622c40180e0061aa28b8f13fed02a431e3c3eb5838ff0d",
+          "git_blob_sha1": "947c63ba3b836beb59cde8198000baea80a3837c"
+        },
+        {
+          "path": "research/english_temporal_quality_20261117/RESULT.json",
+          "mode": "100644",
+          "bytes": 16238,
+          "sha256": "400cdb1c916d54543a2c6dd7c770c17ba5d2f07fa708d20a29b21d2145adc3ff",
+          "git_blob_sha1": "a34a8ad2af7df4fc15edb4691473f2ee0bcd0938"
+        },
+        {
+          "path": "research/english_temporal_quality_20261117/RESULTS_zh.md",
+          "mode": "100644",
+          "bytes": 5496,
+          "sha256": "3717ac07134afa88fcee16f17b54dd193f1a86b4a09bfe8ec348185e8060171f",
+          "git_blob_sha1": "cc01bf69428964a94b264f36926da9a4c870619c"
+        },
+        {
+          "path": "research/english_temporal_quality_20261117/review/compare_temporal.py",
+          "mode": "100644",
+          "bytes": 36956,
+          "sha256": "5dfb3d4eac4de9f8b3b108bb275655792dfe2bf8af10ff4fd330bec9c22553eb",
+          "git_blob_sha1": "480df06eb6845bd81a24512f89a73ed4a3662e08"
+        }
+      ],
+      "rationale": "Close the completed temporal objective as rejected, preserve its full source and gates, and register one final same-budget dense CE arm that reuses all features and controls with zero frontend calls and no subsequent same-pool search."
     }
   ]
 }
