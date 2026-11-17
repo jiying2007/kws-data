@@ -9,11 +9,12 @@ on:
   push:
     branches: [main]
     paths:
-      - .github/triggers/english-ipa-piper-v4-independent-ctc-20261116.json
+      - .github/workflows/english-ipa-piper-v4-independent-ctc-once.yml
 permissions:
   contents: read
+  actions: read
 concurrency:
-  group: english-ipa-piper-v4-independent-ctc-20261116-${{ github.event_name }}
+  group: english-ipa-piper-v4-first-phones-20261117-${{ github.event_name }}
   cancel-in-progress: false
 jobs:
   source-contract:
@@ -24,7 +25,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - name: Verify CTC phone observer without model downloads
+      - name: Verify phone source and single-source acquisition contract without models
         shell: bash
         run: |
           set -euo pipefail
@@ -34,9 +35,36 @@ jobs:
             python3 -I -S -B "${args[@]}" automation/test_english_piper_v4_ipa_ctc_once.py -v
             python3 -I -S -B "${args[@]}" automation/english_piper_v4_ipa_ctc_once.py
           done
+          python3 -I -S -B - <<'CHECK'
+          from pathlib import Path
+          import ast, sys
+          sys.path.insert(0, str(Path('automation').absolute()))
+          import english_piper_v4_ipa_ctc_once as worker
+          pins = worker.verify_trigger()
+          source = Path('.github/workflows/english-ipa-piper-v4-independent-ctc-once.yml').read_text()
+          block = source.split('      - name: Download unchanged Piper WAVs\n',1)[1].split('      - name:',1)[0]
+          expected = {'name':'artifact_name', 'run-id':'run_id'}
+          for key, value in expected.items():
+              expression = '${' + '{ steps.source.outputs.' + value + ' }}'
+              if ('          ' + key + ': ' + expression + '\n') not in block:
+                  raise ValueError('DOWNLOAD_NOT_BOUND_TO_VERIFIED_SOURCE:' + key)
+          if 'english-ipa-piper-probe-v3-' in block or pins['source_artifact_name'] in block:
+              raise ValueError('DUPLICATED_DOWNLOAD_NAME_LITERAL')
+          if pins['source_artifact_name'] != 'english-ipa-piper-probe-v4-' + str(pins['source_run_id']):
+              raise ValueError('SOURCE_NAME_RUN_BINDING')
+          if pins['max_new_phoneme_forwards'] != 16 or pins['binding_revision'] != 2:
+              raise ValueError('UNCHANGED_SCIENTIFIC_BUDGET')
+          print('SINGLE_SOURCE_DOWNLOAD_BINDING_PASS; no model or network calls')
+          CHECK
+          python3 -I -S -B tools/verify_branch_retention.py
   observe:
     needs: source-contract
-    if: github.repository == 'jiying2007/kws-data' && github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    # Both prior main attempts stopped before model installation/forward. This is
+    # the separately reviewed first successor, not a rerun of consumed audio.
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == 'cf6dbed0fb95501111820d7130bfb8ccd90e162b'
     runs-on: ubuntu-24.04
     timeout-minutes: 150
     env:
@@ -49,24 +77,61 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - name: Verify exact immutable Piper artifact
+      - name: Verify exact immutable Piper artifact and publish its only download binding
+        id: source
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
-          gh api "repos/jiying2007/kws-data/actions/runs/43898728142/artifacts" |
-            jq -e '[.artifacts[] | select(.id==14240252131 and
-              .name=="english-ipa-piper-probe-v4-43898728142" and
-              .digest=="sha256:9a611676829195c8ac07c07e50705cd8e98822703c60ab66e21ee5be03567193"
-              and .expired==false)] | length==1'
+          python3 -I -S -B - <<'SOURCE'
+          import json, os, pathlib, subprocess, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import english_piper_v4_ipa_ctc_once as worker
+          pins = worker.verify_trigger()
+          event = json.loads(pathlib.Path(os.environ['GITHUB_EVENT_PATH']).read_bytes())
+          worker.need(os.environ.get('GITHUB_ACTIONS') == 'true' and
+              os.environ.get('GITHUB_REPOSITORY') == 'jiying2007/kws-data' and
+              os.environ.get('GITHUB_EVENT_NAME') == 'push' and os.environ.get('GITHUB_REF') == 'refs/heads/main' and
+              os.environ.get('GITHUB_RUN_ATTEMPT') == '1' and event.get('ref') == 'refs/heads/main' and
+              event.get('before') == 'cf6dbed0fb95501111820d7130bfb8ccd90e162b' and
+              event.get('after') == os.environ.get('GITHUB_SHA') and
+              event.get('repository',{}).get('private') is False, 'EXACT_PUBLIC_MAIN_SUCCESSOR')
+          raw = subprocess.check_output(['gh','api','repos/jiying2007/kws-data/actions/artifacts/' + str(pins['source_artifact_id'])],timeout=60)
+          artifact = json.loads(raw)
+          worker.need(artifact.get('id') == pins['source_artifact_id'] and
+              artifact.get('name') == pins['source_artifact_name'] and
+              artifact.get('digest') == 'sha256:' + pins['source_artifact_sha256'] and
+              artifact.get('expired') is False and artifact.get('size_in_bytes') == 655892 and
+              artifact.get('workflow_run',{}).get('id') == pins['source_run_id'] and
+              artifact.get('workflow_run',{}).get('head_sha') == 'd577b771417f488f3f6367758a4c0864c4850f0d',
+              'EXACT_PIPER_V4_SOURCE_ARTIFACT')
+          with (pathlib.Path(os.environ['RUNNER_TEMP'])/'phone-source-api.json').open('xb') as f:
+              f.write(raw)
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as f:
+              f.write('artifact_name=' + pins['source_artifact_name'] + '\nrun_id=' + str(pins['source_run_id']) + '\n')
+          SOURCE
       - name: Download unchanged Piper WAVs
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
-          name: english-ipa-piper-probe-v3-43898728142
-          run-id: 43898728142
+          name: ${{ steps.source.outputs.artifact_name }}
+          run-id: ${{ steps.source.outputs.run_id }}
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/piper-source
+      - name: Verify all sixteen original WAVs before runtime installation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'READBACK'
+          import json, os, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path('automation').absolute()))
+          import english_piper_v4_ipa_ctc_once as worker
+          root, rows = worker.source_cells(pathlib.Path(os.environ['RUNNER_TEMP'])/'piper-source')
+          with (pathlib.Path(os.environ['RUNNER_TEMP'])/'phone-source-readback.json').open('x',encoding='utf-8') as f:
+              json.dump({'source_count':len(rows),'original_source_status':worker.read(root/'result.json')['status'],
+                  'source_wav_sha256':[r['wav_sha256'] for r in rows], 'model_forwards':0,
+                  'human_gold':False,'training_admitted':False},f,sort_keys=True)
+          READBACK
       - name: Install exact CPU phoneme model runtime
         timeout-minutes: 30
         shell: bash
@@ -93,6 +158,8 @@ jobs:
           path: |
             ${{ runner.temp }}/piper-ipa-result/result.json
             ${{ runner.temp }}/piper-ipa-result/model-lock.json
+            ${{ runner.temp }}/phone-source-api.json
+            ${{ runner.temp }}/phone-source-readback.json
             ${{ runner.temp }}/ipa-installed-packages.txt
           retention-days: 30
           if-no-files-found: warn
