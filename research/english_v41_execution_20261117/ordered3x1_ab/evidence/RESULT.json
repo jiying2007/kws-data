@@ -1,0 +1,573 @@
+{
+  "schema": "english-stream-3x1-ab-execution-v1",
+  "status": "BOUNDED_AB_COMPLETED",
+  "run_id": "44006082197",
+  "github_sha": "b1c8d31bb7c79bca68cca5fd520fd3d05e07f7cb",
+  "pipeline_commit": "342e73655be56d867f7833e6076e16100c429dd0",
+  "sdk": {
+    "run_id": 43984579132,
+    "artifact_id": 14285590605,
+    "name": "english-snapshot160-installed-sdk-43984579132",
+    "head_sha": "cf6dbed0fb95501111820d7130bfb8ccd90e162b",
+    "bytes": 10810227,
+    "sha256": "b6411b7b859fa59147c7cd6091113ce6d83e544b75bc55bafa5726626b2ab511",
+    "manifest_sha256": "09ed60d3f6701837e0e376b58bccefc4c008833c4743d53bef973b5f63d70b09",
+    "result_sha256": "1647eb276f9cd9c0e67dc2e10a86bd5c2e99d621d38dec406207ad8e1705621c"
+  },
+  "resource_source": {
+    "run_id": 44000006165,
+    "artifact_id": 14292027025,
+    "name": "english-stream-resource-v41-44000006165",
+    "head_sha": "00f3a81524308d8e7f5fc43015a26486de593760",
+    "bytes": 4547376,
+    "sha256": "ce4100bc444cfe99ef18c62e8a1bb17be655c7b57340949049e3abc5867a065f"
+  },
+  "model_passes_planned": 8,
+  "model_runner_invocations_started": 8,
+  "verified_model_passes_completed": 8,
+  "actual_model_audio_seconds_verified": 128,
+  "retry_count": 0,
+  "tts_asr_phone_calls": 0,
+  "optimizer_updates": 0,
+  "independent_far_test_hours": 0,
+  "formal_training_admitted": false,
+  "model_promotion_allowed": false,
+  "kws_model_delivered": false,
+  "ssc305": "NOT_RUN",
+  "far_frr": "NOT_MEASURED",
+  "word_end_latency": "NOT_MEASURED",
+  "performance_budget_evaluated": false,
+  "stage": "trace-libri-speaker-1462-baseline",
+  "synthetic_kernel_pairs_passed": 54,
+  "performance_execution_order": [
+    [
+      "libri-speaker-1272",
+      "baseline"
+    ],
+    [
+      "libri-speaker-1272",
+      "candidate"
+    ],
+    [
+      "libri-speaker-1462",
+      "candidate"
+    ],
+    [
+      "libri-speaker-1462",
+      "baseline"
+    ]
+  ],
+  "measurement_completed": true,
+  "pairs": [
+    {
+      "case_id": "libri-speaker-1272",
+      "baseline": {
+        "schema": "english-stream-performance-v1",
+        "passed": true,
+        "measurement_completed": true,
+        "performance_budget_evaluated": false,
+        "abi": 1,
+        "sample_rate_hz": 16000,
+        "score_observer_enabled": false,
+        "chunk_samples": 320,
+        "warmup_samples": 35200,
+        "input_samples": 256000,
+        "input_repetitions": 1,
+        "resets": 0,
+        "eof_padding_samples": 0,
+        "stream_bytes": 236328,
+        "workspace_bytes": 528384,
+        "preloaded_pcm_bytes": 512000,
+        "timing_array_bytes": 25600,
+        "init_wall_seconds": 0.000119987,
+        "init_process_cpu_seconds": 0.000118206,
+        "warmup": {
+          "samples": 35200,
+          "audio_seconds": 2.2,
+          "calls": 110,
+          "accept_wall_seconds": 2.223814232,
+          "accept_process_cpu_seconds": 2.223337955,
+          "wall_rtf": 1.010824651,
+          "cpu_seconds_per_audio_second": 1.010608161,
+          "call_wall_p50_ms": 0.002103,
+          "call_wall_p95_ms": 139.019255,
+          "call_wall_p99_ms": 139.544522,
+          "call_wall_max_ms": 139.789853,
+          "calls_over_input_duration": 16,
+          "calls_over_input_duration_fraction": 0.145454545
+        },
+        "steady": {
+          "samples": 220800,
+          "audio_seconds": 13.8,
+          "calls": 690,
+          "accept_wall_seconds": 23.975681881,
+          "accept_process_cpu_seconds": 23.973723781,
+          "wall_rtf": 1.737368252,
+          "cpu_seconds_per_audio_second": 1.737226361,
+          "call_wall_p50_ms": 0.002414,
+          "call_wall_p95_ms": 139.315732,
+          "call_wall_p99_ms": 140.99352,
+          "call_wall_max_ms": 162.867636,
+          "calls_over_input_duration": 172,
+          "calls_over_input_duration_fraction": 0.249275362
+        },
+        "whole_stream": {
+          "samples": 256000,
+          "audio_seconds": 16.0,
+          "calls": 800,
+          "accept_wall_seconds": 26.199496113,
+          "accept_process_cpu_seconds": 26.197061736,
+          "wall_rtf": 1.637468507,
+          "cpu_seconds_per_audio_second": 1.637316358,
+          "call_wall_p50_ms": 0.002223,
+          "call_wall_p95_ms": 139.297105,
+          "call_wall_p99_ms": 140.773658,
+          "call_wall_max_ms": 162.867636,
+          "calls_over_input_duration": 188,
+          "calls_over_input_duration_fraction": 0.235
+        },
+        "warmup_output_counts": {
+          "embeddings": 16,
+          "ready_outputs": 1,
+          "events": 0
+        },
+        "steady_output_counts": {
+          "embeddings": 172,
+          "ready_outputs": 172,
+          "events": 0
+        },
+        "embeddings": 188,
+        "ready_outputs": 173,
+        "events": 0,
+        "event_digest_fnv1a64": "cbf29ce484222325",
+        "memory": {
+          "input_resident_before_stream_allocation": {
+            "rss_kib": 3688,
+            "pss_kib": 2049,
+            "process_peak_rss_kib": 20364
+          },
+          "after_init_and_head_blob_release": {
+            "rss_kib": 4044,
+            "pss_kib": 2097,
+            "process_peak_rss_kib": 20364
+          },
+          "after_warmup": {
+            "rss_kib": 5988,
+            "pss_kib": 3881,
+            "process_peak_rss_kib": 20364
+          },
+          "after_stream": {
+            "rss_kib": 5988,
+            "pss_kib": 3881,
+            "process_peak_rss_kib": 20364
+          }
+        },
+        "timing_scope": "accept calls including constant-time event count/digest and clock overhead; excludes input I/O, PCM decoding, memory sampling and report I/O",
+        "memory_scope": "process observations include runner, preloaded input, timing arrays and shared/static code; peak is process lifetime high-water, not isolated KWS peak",
+        "call_quantiles": "nearest-rank; last partial chunk included",
+        "realtime_pacing": false,
+        "word_end_latency_measured": false,
+        "far_frr_measured": false,
+        "ssc305_qualification": false,
+        "model_promotion_allowed": false
+      },
+      "candidate": {
+        "schema": "english-stream-performance-v1",
+        "passed": true,
+        "measurement_completed": true,
+        "performance_budget_evaluated": false,
+        "abi": 1,
+        "sample_rate_hz": 16000,
+        "score_observer_enabled": false,
+        "chunk_samples": 320,
+        "warmup_samples": 35200,
+        "input_samples": 256000,
+        "input_repetitions": 1,
+        "resets": 0,
+        "eof_padding_samples": 0,
+        "stream_bytes": 236328,
+        "workspace_bytes": 528384,
+        "preloaded_pcm_bytes": 512000,
+        "timing_array_bytes": 25600,
+        "init_wall_seconds": 0.00012183,
+        "init_process_cpu_seconds": 0.000119879,
+        "warmup": {
+          "samples": 35200,
+          "audio_seconds": 2.2,
+          "calls": 110,
+          "accept_wall_seconds": 1.201862683,
+          "accept_process_cpu_seconds": 1.20164823,
+          "wall_rtf": 0.54630122,
+          "cpu_seconds_per_audio_second": 0.546203741,
+          "call_wall_p50_ms": 0.002113,
+          "call_wall_p95_ms": 75.095281,
+          "call_wall_p99_ms": 75.304355,
+          "call_wall_max_ms": 75.503309,
+          "calls_over_input_duration": 16,
+          "calls_over_input_duration_fraction": 0.145454545
+        },
+        "steady": {
+          "samples": 220800,
+          "audio_seconds": 13.8,
+          "calls": 690,
+          "accept_wall_seconds": 12.975255768,
+          "accept_process_cpu_seconds": 12.973689321,
+          "wall_rtf": 0.940235925,
+          "cpu_seconds_per_audio_second": 0.940122415,
+          "call_wall_p50_ms": 0.002314,
+          "call_wall_p95_ms": 75.305715,
+          "call_wall_p99_ms": 76.646054,
+          "call_wall_max_ms": 97.094241,
+          "calls_over_input_duration": 172,
+          "calls_over_input_duration_fraction": 0.249275362
+        },
+        "whole_stream": {
+          "samples": 256000,
+          "audio_seconds": 16.0,
+          "calls": 800,
+          "accept_wall_seconds": 14.177118451,
+          "accept_process_cpu_seconds": 14.175337551,
+          "wall_rtf": 0.886069903,
+          "cpu_seconds_per_audio_second": 0.885958597,
+          "call_wall_p50_ms": 0.002153,
+          "call_wall_p95_ms": 75.297334,
+          "call_wall_p99_ms": 76.385278,
+          "call_wall_max_ms": 97.094241,
+          "calls_over_input_duration": 188,
+          "calls_over_input_duration_fraction": 0.235
+        },
+        "warmup_output_counts": {
+          "embeddings": 16,
+          "ready_outputs": 1,
+          "events": 0
+        },
+        "steady_output_counts": {
+          "embeddings": 172,
+          "ready_outputs": 172,
+          "events": 0
+        },
+        "embeddings": 188,
+        "ready_outputs": 173,
+        "events": 0,
+        "event_digest_fnv1a64": "cbf29ce484222325",
+        "memory": {
+          "input_resident_before_stream_allocation": {
+            "rss_kib": 3680,
+            "pss_kib": 2045,
+            "process_peak_rss_kib": 20364
+          },
+          "after_init_and_head_blob_release": {
+            "rss_kib": 4036,
+            "pss_kib": 2093,
+            "process_peak_rss_kib": 20364
+          },
+          "after_warmup": {
+            "rss_kib": 5984,
+            "pss_kib": 3871,
+            "process_peak_rss_kib": 20364
+          },
+          "after_stream": {
+            "rss_kib": 5984,
+            "pss_kib": 3871,
+            "process_peak_rss_kib": 20364
+          }
+        },
+        "timing_scope": "accept calls including constant-time event count/digest and clock overhead; excludes input I/O, PCM decoding, memory sampling and report I/O",
+        "memory_scope": "process observations include runner, preloaded input, timing arrays and shared/static code; peak is process lifetime high-water, not isolated KWS peak",
+        "call_quantiles": "nearest-rank; last partial chunk included",
+        "realtime_pacing": false,
+        "word_end_latency_measured": false,
+        "far_frr_measured": false,
+        "ssc305_qualification": false,
+        "model_promotion_allowed": false
+      },
+      "numeric_trace": {
+        "baseline": {
+          "input_samples": 256000,
+          "embeddings": 188,
+          "scores": 188,
+          "ready": 173,
+          "events": 0,
+          "feed_calls": 800,
+          "records": 377,
+          "bytes": 86197,
+          "sha256": "463eb64c5720f5a1322150667d70ff660a641a1892fa366d92be84e7617f5746"
+        },
+        "candidate": {
+          "input_samples": 256000,
+          "embeddings": 188,
+          "scores": 188,
+          "ready": 173,
+          "events": 0,
+          "feed_calls": 800,
+          "records": 377,
+          "bytes": 86197,
+          "sha256": "463eb64c5720f5a1322150667d70ff660a641a1892fa366d92be84e7617f5746"
+        }
+      },
+      "trace_bytes_identical": true,
+      "observed_steady_cpu_speedup": 1.847872504715731,
+      "observed_steady_wall_speedup": 1.847800329310626
+    },
+    {
+      "case_id": "libri-speaker-1462",
+      "baseline": {
+        "schema": "english-stream-performance-v1",
+        "passed": true,
+        "measurement_completed": true,
+        "performance_budget_evaluated": false,
+        "abi": 1,
+        "sample_rate_hz": 16000,
+        "score_observer_enabled": false,
+        "chunk_samples": 320,
+        "warmup_samples": 35200,
+        "input_samples": 256000,
+        "input_repetitions": 1,
+        "resets": 0,
+        "eof_padding_samples": 0,
+        "stream_bytes": 236328,
+        "workspace_bytes": 528384,
+        "preloaded_pcm_bytes": 512000,
+        "timing_array_bytes": 25600,
+        "init_wall_seconds": 0.00012177,
+        "init_process_cpu_seconds": 0.000119768,
+        "warmup": {
+          "samples": 35200,
+          "audio_seconds": 2.2,
+          "calls": 110,
+          "accept_wall_seconds": 2.229325722,
+          "accept_process_cpu_seconds": 2.229101716,
+          "wall_rtf": 1.013329874,
+          "cpu_seconds_per_audio_second": 1.013228053,
+          "call_wall_p50_ms": 0.002113,
+          "call_wall_p95_ms": 139.482012,
+          "call_wall_p99_ms": 139.549291,
+          "call_wall_max_ms": 139.63081,
+          "calls_over_input_duration": 16,
+          "calls_over_input_duration_fraction": 0.145454545
+        },
+        "steady": {
+          "samples": 220800,
+          "audio_seconds": 13.8,
+          "calls": 690,
+          "accept_wall_seconds": 23.985699204,
+          "accept_process_cpu_seconds": 23.983559872,
+          "wall_rtf": 1.738094145,
+          "cpu_seconds_per_audio_second": 1.737939121,
+          "call_wall_p50_ms": 0.002373,
+          "call_wall_p95_ms": 139.473921,
+          "call_wall_p99_ms": 140.710629,
+          "call_wall_max_ms": 155.266408,
+          "calls_over_input_duration": 172,
+          "calls_over_input_duration_fraction": 0.249275362
+        },
+        "whole_stream": {
+          "samples": 256000,
+          "audio_seconds": 16.0,
+          "calls": 800,
+          "accept_wall_seconds": 26.215024926,
+          "accept_process_cpu_seconds": 26.212661588,
+          "wall_rtf": 1.638439058,
+          "cpu_seconds_per_audio_second": 1.638291349,
+          "call_wall_p50_ms": 0.002214,
+          "call_wall_p95_ms": 139.473921,
+          "call_wall_p99_ms": 140.218242,
+          "call_wall_max_ms": 155.266408,
+          "calls_over_input_duration": 188,
+          "calls_over_input_duration_fraction": 0.235
+        },
+        "warmup_output_counts": {
+          "embeddings": 16,
+          "ready_outputs": 1,
+          "events": 0
+        },
+        "steady_output_counts": {
+          "embeddings": 172,
+          "ready_outputs": 172,
+          "events": 0
+        },
+        "embeddings": 188,
+        "ready_outputs": 173,
+        "events": 0,
+        "event_digest_fnv1a64": "cbf29ce484222325",
+        "memory": {
+          "input_resident_before_stream_allocation": {
+            "rss_kib": 2756,
+            "pss_kib": 1091,
+            "process_peak_rss_kib": 20388
+          },
+          "after_init_and_head_blob_release": {
+            "rss_kib": 3112,
+            "pss_kib": 1139,
+            "process_peak_rss_kib": 20388
+          },
+          "after_warmup": {
+            "rss_kib": 6016,
+            "pss_kib": 3885,
+            "process_peak_rss_kib": 20388
+          },
+          "after_stream": {
+            "rss_kib": 6016,
+            "pss_kib": 3885,
+            "process_peak_rss_kib": 20388
+          }
+        },
+        "timing_scope": "accept calls including constant-time event count/digest and clock overhead; excludes input I/O, PCM decoding, memory sampling and report I/O",
+        "memory_scope": "process observations include runner, preloaded input, timing arrays and shared/static code; peak is process lifetime high-water, not isolated KWS peak",
+        "call_quantiles": "nearest-rank; last partial chunk included",
+        "realtime_pacing": false,
+        "word_end_latency_measured": false,
+        "far_frr_measured": false,
+        "ssc305_qualification": false,
+        "model_promotion_allowed": false
+      },
+      "candidate": {
+        "schema": "english-stream-performance-v1",
+        "passed": true,
+        "measurement_completed": true,
+        "performance_budget_evaluated": false,
+        "abi": 1,
+        "sample_rate_hz": 16000,
+        "score_observer_enabled": false,
+        "chunk_samples": 320,
+        "warmup_samples": 35200,
+        "input_samples": 256000,
+        "input_repetitions": 1,
+        "resets": 0,
+        "eof_padding_samples": 0,
+        "stream_bytes": 236328,
+        "workspace_bytes": 528384,
+        "preloaded_pcm_bytes": 512000,
+        "timing_array_bytes": 25600,
+        "init_wall_seconds": 0.000118135,
+        "init_process_cpu_seconds": 0.000116163,
+        "warmup": {
+          "samples": 35200,
+          "audio_seconds": 2.2,
+          "calls": 110,
+          "accept_wall_seconds": 1.200814746,
+          "accept_process_cpu_seconds": 1.200634104,
+          "wall_rtf": 0.545824885,
+          "cpu_seconds_per_audio_second": 0.545742775,
+          "call_wall_p50_ms": 0.002113,
+          "call_wall_p95_ms": 75.057178,
+          "call_wall_p99_ms": 75.352704,
+          "call_wall_max_ms": 75.408787,
+          "calls_over_input_duration": 16,
+          "calls_over_input_duration_fraction": 0.145454545
+        },
+        "steady": {
+          "samples": 220800,
+          "audio_seconds": 13.8,
+          "calls": 690,
+          "accept_wall_seconds": 12.925517272,
+          "accept_process_cpu_seconds": 12.924413693,
+          "wall_rtf": 0.936631686,
+          "cpu_seconds_per_audio_second": 0.936551717,
+          "call_wall_p50_ms": 0.002314,
+          "call_wall_p95_ms": 75.20109,
+          "call_wall_p99_ms": 75.81028,
+          "call_wall_max_ms": 78.93189,
+          "calls_over_input_duration": 172,
+          "calls_over_input_duration_fraction": 0.249275362
+        },
+        "whole_stream": {
+          "samples": 256000,
+          "audio_seconds": 16.0,
+          "calls": 800,
+          "accept_wall_seconds": 14.126332018,
+          "accept_process_cpu_seconds": 14.125047797,
+          "wall_rtf": 0.882895751,
+          "cpu_seconds_per_audio_second": 0.882815487,
+          "call_wall_p50_ms": 0.002223,
+          "call_wall_p95_ms": 75.183079,
+          "call_wall_p99_ms": 75.646163,
+          "call_wall_max_ms": 78.93189,
+          "calls_over_input_duration": 188,
+          "calls_over_input_duration_fraction": 0.235
+        },
+        "warmup_output_counts": {
+          "embeddings": 16,
+          "ready_outputs": 1,
+          "events": 0
+        },
+        "steady_output_counts": {
+          "embeddings": 172,
+          "ready_outputs": 172,
+          "events": 0
+        },
+        "embeddings": 188,
+        "ready_outputs": 173,
+        "events": 0,
+        "event_digest_fnv1a64": "cbf29ce484222325",
+        "memory": {
+          "input_resident_before_stream_allocation": {
+            "rss_kib": 2700,
+            "pss_kib": 1084,
+            "process_peak_rss_kib": 20436
+          },
+          "after_init_and_head_blob_release": {
+            "rss_kib": 3056,
+            "pss_kib": 1132,
+            "process_peak_rss_kib": 20436
+          },
+          "after_warmup": {
+            "rss_kib": 5964,
+            "pss_kib": 3870,
+            "process_peak_rss_kib": 20436
+          },
+          "after_stream": {
+            "rss_kib": 5964,
+            "pss_kib": 3870,
+            "process_peak_rss_kib": 20436
+          }
+        },
+        "timing_scope": "accept calls including constant-time event count/digest and clock overhead; excludes input I/O, PCM decoding, memory sampling and report I/O",
+        "memory_scope": "process observations include runner, preloaded input, timing arrays and shared/static code; peak is process lifetime high-water, not isolated KWS peak",
+        "call_quantiles": "nearest-rank; last partial chunk included",
+        "realtime_pacing": false,
+        "word_end_latency_measured": false,
+        "far_frr_measured": false,
+        "ssc305_qualification": false,
+        "model_promotion_allowed": false
+      },
+      "numeric_trace": {
+        "candidate": {
+          "input_samples": 256000,
+          "embeddings": 188,
+          "scores": 188,
+          "ready": 173,
+          "events": 0,
+          "feed_calls": 800,
+          "records": 377,
+          "bytes": 86197,
+          "sha256": "0a34c5cb4a6f1d0daa804f8e774844306dda31eed3084fd3e047f80350d6b8ef"
+        },
+        "baseline": {
+          "input_samples": 256000,
+          "embeddings": 188,
+          "scores": 188,
+          "ready": 173,
+          "events": 0,
+          "feed_calls": 800,
+          "records": 377,
+          "bytes": 86197,
+          "sha256": "0a34c5cb4a6f1d0daa804f8e774844306dda31eed3084fd3e047f80350d6b8ef"
+        }
+      },
+      "trace_bytes_identical": true,
+      "observed_steady_cpu_speedup": 1.8556787519877789,
+      "observed_steady_wall_speedup": 1.8556858266677807
+    }
+  ],
+  "full_numeric_trace_parity": true,
+  "distinct_previously_exposed_input_seconds": 32,
+  "performance_audio_seconds": 64,
+  "numeric_trace_replay_audio_seconds": 64,
+  "steady_audio_seconds_per_variant": 27.6,
+  "baseline_steady_cpu_seconds_per_audio_second": 1.7375827410507247,
+  "candidate_steady_cpu_seconds_per_audio_second": 0.9383370657246376,
+  "observed_steady_cpu_speedup": 1.8517682019827957,
+  "nonempty_event_sequences_compared": false,
+  "overall_wall_seconds": 176.20700510199998
+}
