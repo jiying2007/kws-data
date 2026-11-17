@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2379,
+  "expected_tracked_files": 2391,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -588,7 +588,19 @@
     "research/kws_unified_evidence_20261117/saved_inputs.zip",
     "research/kws_unified_evidence_20261117/sources/pipeline/research/model_comparison/compare.py",
     "research/kws_unified_evidence_20261117/sources/pipeline/tools/source_identity.py",
-    "research/kws_unified_evidence_20261117/test_compare_saved.py"
+    "research/kws_unified_evidence_20261117/test_compare_saved.py",
+    ".github/workflows/english-hardneg-natural32-recovery-once.yml",
+    "automation/english_hardneg_natural32_recovery_once.py",
+    "automation/english_hardneg_natural32_recovery_plan.json",
+    "automation/test_english_hardneg_natural32_recovery.py",
+    "research/english_hardneg_natural32_recovery_20261117/FAILED_ACQUISITION_AUDIT.json",
+    "research/english_hardneg_natural32_recovery_20261117/FAILED_ARTIFACT_RECEIPT.json",
+    "research/english_hardneg_natural32_recovery_20261117/FAILED_DOWNLOAD.stderr",
+    "research/english_hardneg_natural32_recovery_20261117/FAILED_DOWNLOAD_EXIT.json",
+    "research/english_hardneg_natural32_recovery_20261117/FAILED_RESULT.json",
+    "research/english_hardneg_natural32_recovery_20261117/FAILED_SUPERVISOR_EXIT.json",
+    "research/english_hardneg_natural32_recovery_20261117/PROTOCOL_zh.md",
+    "research/english_hardneg_natural32_recovery_20261117/audit/audit_failed_acquisition.py"
   ],
   "baseline_files": [
     {
@@ -29076,6 +29088,113 @@
         }
       ],
       "rationale": "Add one frozen native scan of 32 previously exposed natural training-pool originals not consumed by the current coverage model, producing unreviewed acoustic candidates only. Retain exact saved-result comparisons for five compatible research groups without new inference. Preserve every earlier retained/source-registration byte, fixed pronunciation identities and non-qualification boundaries."
+    },
+    {
+      "campaign": "english-natural32-acquisition-recovery-20261117",
+      "source_commit": "0b12b5619ececa1156ec9cf0a8096bcae3c3ab77",
+      "base_commit": "d4edc97e4efb5612d16018f5cdeb42002d9eedfa",
+      "previous_manifest_git_blob_sha1": "cd8fb7c60b3e7783214c41f6e7ccdca746bd6b38",
+      "paths": [
+        ".github/workflows/english-hardneg-natural32-recovery-once.yml",
+        "automation/english_hardneg_natural32_recovery_once.py",
+        "automation/english_hardneg_natural32_recovery_plan.json",
+        "automation/test_english_hardneg_natural32_recovery.py",
+        "research/english_hardneg_natural32_recovery_20261117/FAILED_ACQUISITION_AUDIT.json",
+        "research/english_hardneg_natural32_recovery_20261117/FAILED_ARTIFACT_RECEIPT.json",
+        "research/english_hardneg_natural32_recovery_20261117/FAILED_DOWNLOAD.stderr",
+        "research/english_hardneg_natural32_recovery_20261117/FAILED_DOWNLOAD_EXIT.json",
+        "research/english_hardneg_natural32_recovery_20261117/FAILED_RESULT.json",
+        "research/english_hardneg_natural32_recovery_20261117/FAILED_SUPERVISOR_EXIT.json",
+        "research/english_hardneg_natural32_recovery_20261117/PROTOCOL_zh.md",
+        "research/english_hardneg_natural32_recovery_20261117/audit/audit_failed_acquisition.py"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-hardneg-natural32-recovery-once.yml",
+          "mode": "100644",
+          "bytes": 4987,
+          "sha256": "f5a369afeec687921cefb1e5fd6d215031cba8e2ae61d6f53632c59df505f113",
+          "git_blob_sha1": "7cde2c15746da5fe749640f2379522a15fbe5b66"
+        },
+        {
+          "path": "automation/english_hardneg_natural32_recovery_once.py",
+          "mode": "100644",
+          "bytes": 64683,
+          "sha256": "56fb6ed780cf569b994bb46f35b4b5909a15837ef90818ea5388c550694e62ae",
+          "git_blob_sha1": "a0a2e2e2a5cee0c9547fa73f045f9c22903216aa"
+        },
+        {
+          "path": "automation/english_hardneg_natural32_recovery_plan.json",
+          "mode": "100644",
+          "bytes": 6782,
+          "sha256": "81cb7eff374225ee948d2f44acc2a18c5785b729a496ff0638a81fc2f5a79e56",
+          "git_blob_sha1": "98c38b4f4ff5a30d16fca9763aa391a12467c2a9"
+        },
+        {
+          "path": "automation/test_english_hardneg_natural32_recovery.py",
+          "mode": "100644",
+          "bytes": 10069,
+          "sha256": "d26fef97f7eceb8d360ad78520957508ec1aac1515df27c4d1f52352b32c0351",
+          "git_blob_sha1": "a454b049b5b84b92a1b5023ef58fe575ec53729c"
+        },
+        {
+          "path": "research/english_hardneg_natural32_recovery_20261117/FAILED_ACQUISITION_AUDIT.json",
+          "mode": "100644",
+          "bytes": 26375,
+          "sha256": "57635cfbea6fe1e253e067421fa4e916a54886d6b351a49d9f2ccfd17fd52389",
+          "git_blob_sha1": "b19cca3b628e9020ebd57840e50545df35ad2d5d"
+        },
+        {
+          "path": "research/english_hardneg_natural32_recovery_20261117/FAILED_ARTIFACT_RECEIPT.json",
+          "mode": "100644",
+          "bytes": 1323,
+          "sha256": "119c7747e1ae825173971f94f2353c89daf5bf68246be85daa469f63ae0b4152",
+          "git_blob_sha1": "88abe661c0ec682b51f5ddd5ea46a89b90261872"
+        },
+        {
+          "path": "research/english_hardneg_natural32_recovery_20261117/FAILED_DOWNLOAD.stderr",
+          "mode": "100644",
+          "bytes": 104,
+          "sha256": "4eeef76a0ee8d424139325675f3ac5ad1a323451fdb0d8dba46697df918e72b2",
+          "git_blob_sha1": "337dc40bf3cf417ccf8ff645a1b068f76a56a329"
+        },
+        {
+          "path": "research/english_hardneg_natural32_recovery_20261117/FAILED_DOWNLOAD_EXIT.json",
+          "mode": "100644",
+          "bytes": 428,
+          "sha256": "ea8ff44242da0f872f73804b24cdafcb1afb23bb0d110b83b3193e97a1636c27",
+          "git_blob_sha1": "45d844adaa724bc6216bb3f55f53258e34224833"
+        },
+        {
+          "path": "research/english_hardneg_natural32_recovery_20261117/FAILED_RESULT.json",
+          "mode": "100644",
+          "bytes": 1435,
+          "sha256": "f29d1b4af85ca01206e16deaf4344e97ec003537a7a5dcaa95ea92e4a2557f45",
+          "git_blob_sha1": "eb039bcd8aa798d0f83e4545a6939e2ccd6a01f2"
+        },
+        {
+          "path": "research/english_hardneg_natural32_recovery_20261117/FAILED_SUPERVISOR_EXIT.json",
+          "mode": "100644",
+          "bytes": 489,
+          "sha256": "fc742ca8bd55316e716d8c7c8038b44774d76637db530b1faf1e13efefe68779",
+          "git_blob_sha1": "e5cb39cb40e72f7a0f06364b0b01517b3b58f61f"
+        },
+        {
+          "path": "research/english_hardneg_natural32_recovery_20261117/PROTOCOL_zh.md",
+          "mode": "100644",
+          "bytes": 2905,
+          "sha256": "6f54498887aed860ab65c9287e0b65b5fc4bb1887a426a1eaf69ce804f0f8050",
+          "git_blob_sha1": "fe884ca253dfe4f07e9c4dd155797530fd8d0d13"
+        },
+        {
+          "path": "research/english_hardneg_natural32_recovery_20261117/audit/audit_failed_acquisition.py",
+          "mode": "100644",
+          "bytes": 15100,
+          "sha256": "457712bc2f2712c1b9865f7c5bbd7c2055529cb7d6160435adf248fac76a22c1",
+          "git_blob_sha1": "259a3d38fe13be5bf510f4d1db0e10b49e1ca6b0"
+        }
+      ],
+      "rationale": "Retain actual failed acquisition run and independent zero-compute audit, including the sole missing historical workflow upload. Add a separate bounded recovery that first authenticates this failure, preserves every consumed original source, extends only the corpus download to 600 seconds within the unchanged 1200-second total, includes hidden source files in upload, and permits only the original 32 model processes after zero prior compute is proven. No change to audio roster, model, configuration, labels or qualification."
     }
   ]
 }
