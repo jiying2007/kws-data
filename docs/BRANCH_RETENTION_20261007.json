@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2451,
+  "expected_tracked_files": 2469,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -660,7 +660,25 @@
     "research/english_hardneg_increment_20261117/audit/audit_saved_artifact.py",
     "research/english_hardneg_increment_20261117/models/incremental-head.bin",
     "research/english_hardneg_increment_20261117/models/incremental-head.npz",
-    "research/english_teacher_retention_20261117/PROTOCOL_zh.md"
+    "research/english_teacher_retention_20261117/PROTOCOL_zh.md",
+    "automation/package_english_research_sdk.py",
+    "automation/verify_english_research_delivery.py",
+    "research/english_teacher_retention_20261117/api/artifact-14325153459.json",
+    "research/english_teacher_retention_20261117/api/run-44078712196.json",
+    "research/english_teacher_retention_20261117/ARTIFACT_MANIFEST.json",
+    "research/english_teacher_retention_20261117/audit/audit_teacher_artifact.py",
+    "research/english_teacher_retention_20261117/audit/independent_audit_actual.json",
+    "research/english_teacher_retention_20261117/EXECUTION_RECEIPT.json",
+    "research/english_teacher_retention_20261117/HEAD_NATIVE_PARITY.json",
+    "research/english_teacher_retention_20261117/models/retention-head.bin",
+    "research/english_teacher_retention_20261117/models/retention-head.npz",
+    "research/english_teacher_retention_20261117/NATURAL32_PAIRED.json",
+    "research/english_teacher_retention_20261117/PAIRED_REGRESSION.json",
+    "research/english_teacher_retention_20261117/RESULT.json",
+    "research/english_teacher_retention_20261117/RESULTS_zh.md",
+    "research/english_teacher_retention_20261117/REVIEWED_FIT.json",
+    "research/english_teacher_retention_20261117/SUPERVISOR_EXIT.json",
+    "research/english_teacher_retention_20261117/TRAINING.json"
   ],
   "baseline_files": [
     {
@@ -29779,6 +29797,161 @@
         }
       ],
       "rationale": "Preserve actual rejected 96-update head weights and independent saved-byte audit; register a distinct train-only frozen-teacher response-retention mechanism with exactly 225 teacher bags, 672 student forwards and 96 updates. Reuse original inputs, fixed regression and native gates; no old run retry, threshold change, new audio, independent quality claim or SSC305 qualification."
+    },
+    {
+      "campaign": "english-teacher-rejection-and-coverage-sdk-delivery-20261117",
+      "source_commit": "27e99614534babd83dbf473e22875721b25576f8",
+      "base_commit": "ec84d6b4d3edfda79e95a5484e36dee46ddb556a",
+      "previous_manifest_git_blob_sha1": "b529793923b352a0f9db26877f356b900eb173ce",
+      "paths": [
+        "automation/package_english_research_sdk.py",
+        "automation/verify_english_research_delivery.py",
+        "research/english_teacher_retention_20261117/api/artifact-14325153459.json",
+        "research/english_teacher_retention_20261117/api/run-44078712196.json",
+        "research/english_teacher_retention_20261117/ARTIFACT_MANIFEST.json",
+        "research/english_teacher_retention_20261117/audit/audit_teacher_artifact.py",
+        "research/english_teacher_retention_20261117/audit/independent_audit_actual.json",
+        "research/english_teacher_retention_20261117/EXECUTION_RECEIPT.json",
+        "research/english_teacher_retention_20261117/HEAD_NATIVE_PARITY.json",
+        "research/english_teacher_retention_20261117/models/retention-head.bin",
+        "research/english_teacher_retention_20261117/models/retention-head.npz",
+        "research/english_teacher_retention_20261117/NATURAL32_PAIRED.json",
+        "research/english_teacher_retention_20261117/PAIRED_REGRESSION.json",
+        "research/english_teacher_retention_20261117/RESULT.json",
+        "research/english_teacher_retention_20261117/RESULTS_zh.md",
+        "research/english_teacher_retention_20261117/REVIEWED_FIT.json",
+        "research/english_teacher_retention_20261117/SUPERVISOR_EXIT.json",
+        "research/english_teacher_retention_20261117/TRAINING.json"
+      ],
+      "files": [
+        {
+          "path": "automation/package_english_research_sdk.py",
+          "mode": "100644",
+          "bytes": 16401,
+          "sha256": "6d1d398bc7bcfd9ea2c662a887093143204853e049caa1939193b669353a0c23",
+          "git_blob_sha1": "02ef60efc52d82827e7dcdc76f287df778ceb20a"
+        },
+        {
+          "path": "automation/verify_english_research_delivery.py",
+          "mode": "100644",
+          "bytes": 8089,
+          "sha256": "952b39a5a417acaf1c0170601ca02f12ea716c357a89cc2c9be72243122721ad",
+          "git_blob_sha1": "95d28b4b1c1bfe7efef327ad69a6057b27293bc4"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/api/artifact-14325153459.json",
+          "mode": "100644",
+          "bytes": 739,
+          "sha256": "40475d9c9e278094839008e78e00e1162ebefa22cc2112440cb7e065237139bd",
+          "git_blob_sha1": "336d0da903f76c7da0dacab947153faa37cf1212"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/api/run-44078712196.json",
+          "mode": "100644",
+          "bytes": 13697,
+          "sha256": "75699fd9676262614e8be4fbd9d510198f7a06e8226a051aa90171ae52b8c248",
+          "git_blob_sha1": "f91032800a2fb776b78f2cc4f230a3ab11afb915"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/ARTIFACT_MANIFEST.json",
+          "mode": "100644",
+          "bytes": 54237,
+          "sha256": "8142029db6df42a03dad07ffa69bf91e051833b6a6b9f3604692e0dda2150fc9",
+          "git_blob_sha1": "94f3efd2b69b95bb3ce13ce907c2b846c2dd6840"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/audit/audit_teacher_artifact.py",
+          "mode": "100644",
+          "bytes": 30606,
+          "sha256": "b9f6ef4eb6c2138af04825ecf74a3cd154efdff4019f7e0a954031c4b6be62d7",
+          "git_blob_sha1": "b273080b6e387748d447f44b18fd91100d4ed607"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/audit/independent_audit_actual.json",
+          "mode": "100644",
+          "bytes": 9010,
+          "sha256": "b2bdbc4a2c1ed62a5575d1554b8400cbb29ea3137f93dac9ddbe6ba84c2d00b3",
+          "git_blob_sha1": "6dded602bf9cbb1e36c943ca56757b923b3e44a1"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/EXECUTION_RECEIPT.json",
+          "mode": "100644",
+          "bytes": 6508,
+          "sha256": "7b684391c0890d8fd3b8bb672f02674c7e038408105db392f7f7106ae3f91239",
+          "git_blob_sha1": "877c952261ad2c03d1b911e602aa7c73ccf80bd9"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/HEAD_NATIVE_PARITY.json",
+          "mode": "100644",
+          "bytes": 9498,
+          "sha256": "9b95aff3fa50712937a15a2c62f12a119b548e8bf75fb2b178a2cf65e10628e9",
+          "git_blob_sha1": "cb5c76b2a84e9ffef554353541a3539bf3e72e4e"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/models/retention-head.bin",
+          "mode": "100644",
+          "bytes": 197908,
+          "sha256": "1c1600eb6103efd789ffa61698de1c4c5c3579e5fcb189f4f439f5486bc9b815",
+          "git_blob_sha1": "ff37afbefc28fa762bd142b08c69c2248497e044"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/models/retention-head.npz",
+          "mode": "100644",
+          "bytes": 199356,
+          "sha256": "6b824f098ad402396c3811727293f06638a3b42a5b42c155871a8a7d673eb62f",
+          "git_blob_sha1": "7acfe8d0dbe2b7ae2493a964d647660dd385ec7c"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/NATURAL32_PAIRED.json",
+          "mode": "100644",
+          "bytes": 204,
+          "sha256": "df0906ff2f81714553489f1e6f816e3004a19d01ea94f4c81eca7dd634f5f583",
+          "git_blob_sha1": "28707cbba6bc3874a17c33614def728766d3c9f9"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/PAIRED_REGRESSION.json",
+          "mode": "100644",
+          "bytes": 73195,
+          "sha256": "f1b0974ec12db38bf948bda83edf64bbd559c1f6e4af033f0ff15b3220c75e3a",
+          "git_blob_sha1": "1d0ffb734f9bd66a166b92f97fc266fd5871c955"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/RESULT.json",
+          "mode": "100644",
+          "bytes": 3713,
+          "sha256": "3702453f89f01083fcb8a9bd239493c79d6a7f51916671d21f105e1b2f4af8e8",
+          "git_blob_sha1": "ca57a27d5db63940ec9fba71b3bad3a805334d88"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/RESULTS_zh.md",
+          "mode": "100644",
+          "bytes": 6068,
+          "sha256": "c88e32cb15734f73cc60def84086bd19cd1a1312f077bc0a637889cd2854cbe2",
+          "git_blob_sha1": "c551acebdfae4b97ffcb3a4a1fec6b4bc5900c8b"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/REVIEWED_FIT.json",
+          "mode": "100644",
+          "bytes": 55518,
+          "sha256": "12a83d608e2e1c9eae7e8eb54925fc3aa83b744fef8206be4882ed2bed08c7c6",
+          "git_blob_sha1": "622af4fc78754d218e629387b08392a3f5c748af"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/SUPERVISOR_EXIT.json",
+          "mode": "100644",
+          "bytes": 500,
+          "sha256": "6b627f5dfd79a24effa9559674a71fe1400aedbd746f4ea64d6f7e3a2b46a11c",
+          "git_blob_sha1": "5a1987ce7ff050d255e09b7d7c65a1a0f739f15a"
+        },
+        {
+          "path": "research/english_teacher_retention_20261117/TRAINING.json",
+          "mode": "100644",
+          "bytes": 78636,
+          "sha256": "89973957fab0165f4f5299491d0961230e1b75ec8e118f6dc10b0a3a41b39129",
+          "git_blob_sha1": "02b1b337e12d04c5f9e1917e599d6e55e1543b74"
+        }
+      ],
+      "rationale": "Preserve the actual 96-update teacher candidate, its one new development-background Mero event and independent rejection audit; retain coverage as the sole SDK selection with saved-byte reproducible packaging. No new execution workflow, rerun, threshold change, independent acoustic quality claim or SSC305 qualification."
     }
   ]
 }

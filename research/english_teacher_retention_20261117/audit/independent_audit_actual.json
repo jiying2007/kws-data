@@ -1,0 +1,364 @@
+{
+  "schema": "independent-teacher-retention-artifact-audit-v1",
+  "audit_verified": true,
+  "status": "VERIFIED_RESEARCH_REJECTED",
+  "candidate_accepted_for_research": false,
+  "product_model_accepted": false,
+  "model_executions": 0,
+  "network_calls": 0,
+  "method": "INDEPENDENT_STANDARD_LIBRARY_SAVED_BYTE_AND_RECORD_READBACK",
+  "expected": {
+    "artifact_sha256": "adcc6631c7be24ab5c4a46c5f6c4d4035db6a444ac2004dda1022765c05ef549",
+    "run_id": "44078712196",
+    "head_sha": "ec84d6b4d3edfda79e95a5484e36dee46ddb556a",
+    "worker_sha256": "4d68d6db2fb10c3cf66ff73de30cd4b5f138a41e17948834e269ff83d70750de"
+  },
+  "auditor": {
+    "bytes": 30606,
+    "sha256": "b9f6ef4eb6c2138af04825ecf74a3cd154efdff4019f7e0a954031c4b6be62d7"
+  },
+  "artifact": {
+    "bytes": 20285281,
+    "sha256": "adcc6631c7be24ab5c4a46c5f6c4d4035db6a444ac2004dda1022765c05ef549"
+  },
+  "manifest_files_verified": 418,
+  "archive_integrity_verified": true,
+  "binding": {
+    "repository": "jiying2007/kws-data",
+    "run_id": "44078712196",
+    "head_sha": "ec84d6b4d3edfda79e95a5484e36dee46ddb556a",
+    "main_before": "df4f870baf178dcf0121fca661b5692ebbd5cca9",
+    "run_attempt": 1,
+    "event": "push",
+    "public_repository": true
+  },
+  "candidate": {
+    "npz": {
+      "bytes": 199356,
+      "sha256": "6b824f098ad402396c3811727293f06638a3b42a5b42c155871a8a7d673eb62f"
+    },
+    "bin": {
+      "bytes": 197908,
+      "sha256": "1c1600eb6103efd789ffa61698de1c4c5c3579e5fcb189f4f439f5486bc9b815"
+    },
+    "arrays": {
+      "mean96": {
+        "bytes": 384,
+        "sha256": "f18bab0592f26745a330559f4a9a2ba23af7c8130a1e6fb51419152c40286dc3"
+      },
+      "scale96": {
+        "bytes": 384,
+        "sha256": "72d57a11b6fe3faacafc4ab221eb364c97ec30b9ba590e5ee7353d6a8f7a6ccb"
+      },
+      "w1": {
+        "bytes": 196608,
+        "sha256": "cd60ec1d47d425ca87783b2b9296666634b0c1bb7073714f9d3ad3720326cbbe"
+      },
+      "b1": {
+        "bytes": 128,
+        "sha256": "6de15fd07a5c7e46f0667c72f5c71e2eb16d13693f822596839755416131ad97"
+      },
+      "w2": {
+        "bytes": 384,
+        "sha256": "ed7ab1ff3ab1ad9a7872d0c1d674ac150e096da305ed1b3aab7d353610af047e"
+      },
+      "b2": {
+        "bytes": 12,
+        "sha256": "b54205ff7a1557f87250e5295e4d0380a3dd5cba0066b4e69080bd28b3f21c45"
+      }
+    }
+  },
+  "teacher_cache": {
+    "unique_train_bags": 225,
+    "windows": 8370,
+    "development_or_reviewed_inputs": 0,
+    "parameter_identity_verified": true,
+    "maximum_logp_normalization_error": 1.1770264374266759e-07,
+    "loss_arithmetic_max_error": 1.862645149230957e-09,
+    "temperature": 2.0,
+    "weight": 10.0,
+    "cache_contents_verified_without_recomputing_teacher_outputs": true
+  },
+  "gates": {
+    "actual_weights_changed": true,
+    "all_291_case_regression": false,
+    "native_saved_npz_bin_parity": true,
+    "natural32_zero_events": true,
+    "normalization_byte_identical": true,
+    "source_balanced_reviewed_ce_decreased": true
+  },
+  "regression_cases": [
+    {
+      "condition": "clean",
+      "id": "libri-speaker-2078",
+      "role": "development",
+      "weak_class": 0,
+      "prior_matched_intent_lost": false,
+      "prior_correct_case_regressed": true,
+      "event_error_categories_increased": [
+        "weak_negative_intent_events"
+      ],
+      "old_events": [],
+      "new_events": [
+        {
+          "keyword": 2,
+          "sample": 200320
+        }
+      ]
+    }
+  ],
+  "improved_cases": [],
+  "grouped_counts": [
+    {
+      "condition": "clean",
+      "role": "development",
+      "weak_class": 0,
+      "cases": 26,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 1
+    },
+    {
+      "condition": "clean",
+      "role": "development",
+      "weak_class": 1,
+      "cases": 3,
+      "old_matches": 3,
+      "new_matches": 3,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "clean",
+      "role": "development",
+      "weak_class": 2,
+      "cases": 8,
+      "old_matches": 8,
+      "new_matches": 8,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "clean",
+      "role": "train",
+      "weak_class": 0,
+      "cases": 62,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "clean",
+      "role": "train",
+      "weak_class": 1,
+      "cases": 8,
+      "old_matches": 8,
+      "new_matches": 8,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "clean",
+      "role": "train",
+      "weak_class": 2,
+      "cases": 10,
+      "old_matches": 10,
+      "new_matches": 10,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "new8",
+      "role": "development",
+      "weak_class": 0,
+      "cases": 16,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "new8",
+      "role": "development",
+      "weak_class": 1,
+      "cases": 3,
+      "old_matches": 1,
+      "new_matches": 1,
+      "old_errors": 2,
+      "new_errors": 2
+    },
+    {
+      "condition": "new8",
+      "role": "development",
+      "weak_class": 2,
+      "cases": 8,
+      "old_matches": 7,
+      "new_matches": 7,
+      "old_errors": 1,
+      "new_errors": 1
+    },
+    {
+      "condition": "snr10",
+      "role": "development",
+      "weak_class": 0,
+      "cases": 16,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr10",
+      "role": "development",
+      "weak_class": 1,
+      "cases": 3,
+      "old_matches": 2,
+      "new_matches": 2,
+      "old_errors": 1,
+      "new_errors": 1
+    },
+    {
+      "condition": "snr10",
+      "role": "development",
+      "weak_class": 2,
+      "cases": 8,
+      "old_matches": 7,
+      "new_matches": 7,
+      "old_errors": 1,
+      "new_errors": 1
+    },
+    {
+      "condition": "snr10",
+      "role": "train",
+      "weak_class": 0,
+      "cases": 32,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr10",
+      "role": "train",
+      "weak_class": 1,
+      "cases": 7,
+      "old_matches": 7,
+      "new_matches": 7,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr10",
+      "role": "train",
+      "weak_class": 2,
+      "cases": 10,
+      "old_matches": 10,
+      "new_matches": 10,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr5",
+      "role": "development",
+      "weak_class": 0,
+      "cases": 16,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr5",
+      "role": "development",
+      "weak_class": 1,
+      "cases": 3,
+      "old_matches": 1,
+      "new_matches": 1,
+      "old_errors": 2,
+      "new_errors": 2
+    },
+    {
+      "condition": "snr5",
+      "role": "development",
+      "weak_class": 2,
+      "cases": 8,
+      "old_matches": 5,
+      "new_matches": 5,
+      "old_errors": 3,
+      "new_errors": 3
+    },
+    {
+      "condition": "snr5",
+      "role": "train",
+      "weak_class": 0,
+      "cases": 32,
+      "old_matches": 0,
+      "new_matches": 0,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr5",
+      "role": "train",
+      "weak_class": 1,
+      "cases": 6,
+      "old_matches": 6,
+      "new_matches": 6,
+      "old_errors": 0,
+      "new_errors": 0
+    },
+    {
+      "condition": "snr5",
+      "role": "train",
+      "weak_class": 2,
+      "cases": 6,
+      "old_matches": 5,
+      "new_matches": 5,
+      "old_errors": 1,
+      "new_errors": 1
+    }
+  ],
+  "reviewed_fit": {
+    "old_source_balanced_ce": 0.27059315879515733,
+    "new_source_balanced_ce": 0.048414184048506156,
+    "relative_decrease": 0.8210812709971121,
+    "all_eight_sources_improved": true
+  },
+  "natural32_events": {
+    "old": 0,
+    "new": 0,
+    "independent_far_claim": false
+  },
+  "native_parity": {
+    "rows": 18982,
+    "ready_rows": 14137,
+    "max_logit_error": 8.110633545221901e-06,
+    "max_probability_error": 1.1327272644301445e-06,
+    "clock_ready_event_exact": true
+  },
+  "progress": {
+    "candidate_embedding_rows": 18982,
+    "candidate_head_cases_completed": 323,
+    "candidate_head_cases_started": 323,
+    "candidate_ready_rows": 14137,
+    "new_audio_decodes": 0,
+    "new_frontend_calls": 0,
+    "optimizer_updates_completed": 96,
+    "optimizer_updates_started": 96,
+    "teacher_development_forwards": 0,
+    "teacher_reviewed_forwards": 0,
+    "teacher_train_forwards_completed": 225,
+    "teacher_train_forwards_started": 225,
+    "teacher_train_head_windows": 8370,
+    "training_bag_forwards_completed": 672,
+    "training_bag_forwards_started": 672
+  },
+  "default_model_replaced": false,
+  "independent_far": "NOT_MEASURED",
+  "independent_frr": "NOT_MEASURED",
+  "new_full_pcm_chain": "NOT_RUN",
+  "new_arm": "NOT_RUN",
+  "ssc305": "NOT_RUN"
+}
