@@ -39,24 +39,8 @@ PROVIDERS = ("qwen", "whisper", "parakeet", "phoneme", "phoneme_lv60")
 REFERENCE_PROVIDERS = PROVIDERS[:4]
 PRESETS = ("af_bella", "af_sarah", "am_michael", "am_puck")
 MODES = ("short", "carrier")
-RECOVERY = {
-    "recovery_id": "kokoro48-zero-call-runtime-recovery-44114592216-v1",
-    "repository": "jiying2007/kws-data", "previous_run_id": 44114592216,
-    "previous_head_sha": "64404e9ebf6a38c6ce674345c6904548f33b7079",
-    "previous_workflow": ".github/workflows/english-kokoro48-once.yml",
-    "previous_recipe_sha256": "c5f207b5ecc59fa845ac77a8f6083ebab3f7d5eb87a31b6cfd4460d99dba880f",
-    "ordered_request_roster_sha256": "507b40976f8219189655f75fc466375f8a66f9cd2ae9a671a7fa1f7a51a39c3e",
-    "required_previous_model_attempts": 0, "previous_audio_replayed": 0,
-    "automatic_retry": False, "runtime_only_change": True,
-    "artifacts": {
-        "source": {"id": 14342765906, "name": "kokoro48-source", "bytes": 2451122,
-            "sha256": "dd63cc088ae627a340e9e5528e896fe331abd783d6a6000bc9834616ab78f825"},
-        "runtime": {"id": 14342038028, "name": "kokoro48-generation-runtime", "bytes": 6609,
-            "sha256": "2966990e1c34e801c50a7f83c2e38444fd2906b9b832d47254ff1fabb45fc550"},
-        "probe": {"id": 14341299389, "name": "english-kokoro48-probe-44114592216", "bytes": 2690447,
-            "sha256": "d2d21d11ad56f9fb45cbe15272a7d0dbb74c1a2cc07e5e828cdc072a530fa083"},
-    },
-}
+ORIGINAL_RUNTIME_RECOVERY = {'recovery_id': 'kokoro48-zero-call-runtime-recovery-44114592216-v1', 'repository': 'jiying2007/kws-data', 'previous_run_id': 44114592216, 'previous_head_sha': '64404e9ebf6a38c6ce674345c6904548f33b7079', 'previous_workflow': '.github/workflows/english-kokoro48-once.yml', 'previous_recipe_sha256': 'c5f207b5ecc59fa845ac77a8f6083ebab3f7d5eb87a31b6cfd4460d99dba880f', 'ordered_request_roster_sha256': '507b40976f8219189655f75fc466375f8a66f9cd2ae9a671a7fa1f7a51a39c3e', 'required_previous_model_attempts': 0, 'previous_audio_replayed': 0, 'automatic_retry': False, 'runtime_only_change': True, 'artifacts': {'source': {'id': 14342765906, 'name': 'kokoro48-source', 'bytes': 2451122, 'sha256': 'dd63cc088ae627a340e9e5528e896fe331abd783d6a6000bc9834616ab78f825'}, 'runtime': {'id': 14342038028, 'name': 'kokoro48-generation-runtime', 'bytes': 6609, 'sha256': '2966990e1c34e801c50a7f83c2e38444fd2906b9b832d47254ff1fabb45fc550'}, 'probe': {'id': 14341299389, 'name': 'english-kokoro48-probe-44114592216', 'bytes': 2690447, 'sha256': 'd2d21d11ad56f9fb45cbe15272a7d0dbb74c1a2cc07e5e828cdc072a530fa083'}}}
+RECOVERY = {'recovery_id': 'kokoro48-zero-forward-checkpoint-recovery-44118893938-v1', 'repository': 'jiying2007/kws-data', 'previous_run_id': 44118893938, 'previous_head_sha': 'ef128ea00e350bf42392a3c9bc02d15f691528da', 'previous_workflow': '.github/workflows/english-kokoro48-once.yml', 'previous_recipe_sha256': 'e104a64717ea195b5e7544285e07fa66441be24f3d7cdc9ea8493050cd715a83', 'ordered_request_roster_sha256': '507b40976f8219189655f75fc466375f8a66f9cd2ae9a671a7fa1f7a51a39c3e', 'required_previous_forward_attempts': 0, 'previous_model_construction_stage_reached': True, 'previous_checkpoint_verified': False, 'previous_audio_replayed': 0, 'automatic_retry': False, 'acoustic_requests_unchanged': True, 'original_recovery_id': 'kokoro48-zero-call-runtime-recovery-44114592216-v1', 'artifacts': {'source': {'id': 14344442264, 'name': 'kokoro48-source', 'bytes': 7607189, 'sha256': 'f7b004a0123f425e9d70cef80180b11b7949931c0c84bbae49ffc8a68e58957b'}, 'runtime': {'id': 14342639905, 'name': 'kokoro48-generation-runtime', 'bytes': 16045, 'sha256': '89f1130f26176defebd2bd91ae2c3e00f5efac2ec047f692a5a7e811ee57a196'}, 'probe': {'id': 14344293045, 'name': 'english-kokoro48-probe-44118893938', 'bytes': 7851552, 'sha256': '9dabf73f7ba3588827785b31d71319435def90ad7c04ca5bab2f2fef0005fa3a'}}}
 POLICY = {
     "repository": "jiying2007/kws-pipeline",
     "commit": "011341c8541705a80da93ae423cfdb3d1ac9a82a",
@@ -179,6 +163,22 @@ def observer_identity(provider):
     return {k: row[k] for k in ("recognizer_id", "model_family", "model_sha256")} | {"decode_config_sha256": digest(row["decode_config"])}
 
 
+def weight_contract():
+    """Read the source-pinned, explicit native affine roster without a model."""
+    spec = importlib.util.spec_from_file_location("kokoro48_saved_weight_contract", HERE / "english_kokoro48_generate.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    contract = module.native_affine_contract()
+    need(contract.get("schema") == "kokoro-v1_0-native-neutral-adain-v1"
+         and contract.get("model_sha256") == recipe.MODEL["model_sha256"]
+         and contract.get("generic_missing_key_allowance") is False
+         and contract.get("parameter_mutation_allowed") is False
+         and contract.get("norm_count") == 70 and contract.get("native_extra_tensor_count") == 140
+         and sum(len(paths) for paths in contract["norms"].values()) == 70,
+         "CLOSED_NATIVE_AFFINE_CONTRACT")
+    return contract
+
+
 def validate_plan(plan, *, check_sources=True):
     need(type(plan) is dict and plan.get("schema") == SCHEMA and type(plan.get("enabled")) is bool, "PLAN_SCHEMA_ENABLE")
     need(all(type(plan.get(key)) is int for key in ("maximum_tts_calls", "maximum_calls_per_observer",
@@ -187,7 +187,8 @@ def validate_plan(plan, *, check_sources=True):
     frozen = recipe.recipe()
     need(plan.get("campaign_id") == frozen.get("campaign_id") == recipe.CAMPAIGN_ID, "CAMPAIGN_ID")
     need(plan.get("recipe_sha256") == digest(frozen), "RECIPE_PIN")
-    need(plan.get("zero_call_runtime_recovery") == RECOVERY, "EXACT_ZERO_CALL_RUNTIME_RECOVERY")
+    need(plan.get("native_affine_contract_sha256") == digest(weight_contract()), "NATIVE_AFFINE_CONTRACT_PIN")
+    need(plan.get("zero_forward_checkpoint_recovery") == RECOVERY, "EXACT_ZERO_FORWARD_CHECKPOINT_RECOVERY")
     need(plan.get("maximum_tts_calls") == plan.get("maximum_calls_per_observer") == 48
          and plan.get("maximum_total_model_calls") == 288 and plan.get("retry_count") == 0
          and plan.get("old_audio_model_calls") == plan.get("new_kws_calls") == 0, "FINITE_NEW_CALL_BUDGET")
@@ -216,7 +217,8 @@ def validate_plan(plan, *, check_sources=True):
         for key, path in (("worker_sha256", Path(__file__)),
                           ("recipe_code_sha256", Path(recipe.__file__)),
                           ("generator_code_sha256", HERE / "english_kokoro48_generate.py"),
-                          ("runtime_installer_sha256", HERE / "english_kokoro48_runtime.py")):
+                          ("runtime_installer_sha256", HERE / "english_kokoro48_runtime.py"),
+                          ("initializer_code_sha256", HERE / "english_kokoro48_initialize.py")):
             need(plan.get(key) == sha(regular(path, 128 * 1024)), "SOURCE_PIN: " + key)
         helpers = plan.get("helper_sha256")
         need(type(helpers) is dict and len(helpers) == 19, "PINNED_HELPER_CLOSURE")
@@ -261,7 +263,7 @@ def set_deadline(seconds):
 
 def source_stage(plan, output, recovery_source, recovery_runtime, recovery_probe):
     run = execution_guard(plan)
-    proof = verify_zero_call_recovery(plan, recovery_source, recovery_runtime, recovery_probe)
+    proof = verify_zero_forward_recovery(plan, recovery_source, recovery_runtime, recovery_probe)
     output = new_directory(output)
     (output / "recovery").mkdir(mode=0o700)
     for key, path in (("source", recovery_source), ("runtime", recovery_runtime), ("probe", recovery_probe)):
@@ -392,6 +394,113 @@ def verify_generation_audio(root, expected, receipt, vocab):
             "crop_end_native_sample", "crop_native_samples", "sample_rate", "channels", "sample_width")}
 
 
+def verify_weight_diagnostics(root, lock):
+    """Validate saved exact checkpoint and native neutral-value evidence separately."""
+    contract = weight_contract()
+    contract_sha = digest(contract)
+    counts = contract["checkpoint_key_counts"]
+    extras = {name: sorted(path + "." + suffix for path in contract["norms"].get(name, {})
+        for suffix in ("bias", "weight")) for name in counts}
+    qualified = sorted(name + "." + key for name in counts for key in extras[name])
+    need(lock.get("weight_contract") == contract["schema"]
+         and lock.get("native_affine_contract") == contract
+         and lock.get("native_affine_contract_sha256") == contract_sha,
+         "SOURCE_NATIVE_AFFINE_CONTRACT")
+    proof = lock.get("weight_loading")
+    need(type(proof) is list and len(proof) == 5 and {r["component"] for r in proof} == set(counts),
+         "CHECKPOINT_COMPONENT_PROOF_CLOSURE")
+    components = {r["component"]: r for r in proof}
+    for name, count in counts.items():
+        row = components[name]
+        need(row.get("checkpoint_key_count") == count
+             and row.get("native_key_count") == count + len(extras[name])
+             and row.get("verified_native_neutral_affine_key_count") == len(extras[name])
+             and row.get("all_checkpoint_keys_shapes_dtypes_values_equal") is True
+             and row.get("mapping") == "strip_exact_module_dot_prefix"
+             and "all_keys_shapes_dtypes_values_equal" not in row,
+             "SEPARATE_CHECKPOINT_AND_NATIVE_PROOF")
+    summary_path = "source/weight-diagnostics/SUMMARY.json"
+    raw_summary = regular(within(root, summary_path))
+    summary = loads(raw_summary)
+    need(lock.get("weight_diagnostics") == summary_path
+         and lock.get("weight_diagnostics_sha256") == sha(raw_summary)
+         and summary.get("passed") is True and summary.get("component_count") == 5
+         and summary.get("passed_components") == 5 and summary.get("failed_components") == []
+         and summary.get("model_forward_calls") == 0 and summary.get("tensor_values_reloaded") is False
+         and summary.get("weight_contract") == contract["schema"]
+         and summary.get("native_affine_contract_sha256") == contract_sha
+         and summary.get("checkpoint_tensor_count") == summary.get("exact_checkpoint_tensor_count") == 548
+         and summary.get("native_tensor_count") == 688
+         and summary.get("verified_native_neutral_affine_tensor_count") == 140
+         and summary.get("allowed_key_exceptions") == qualified,
+         "EXACT_CHECKPOINT_AND_CLOSED_NEUTRAL_SUMMARY")
+    records = summary.get("component_records")
+    need(type(records) is list and len(records) == 5
+         and {r["component"] for r in records} == set(components)
+         and summary.get("component_files") == [r["path"] for r in records], "WEIGHT_DIAGNOSTIC_CLOSURE")
+    for record in records:
+        name = record["component"]
+        need(record.get("path") == "source/weight-diagnostics/" + name + ".json"
+             and record.get("passed") is True, "WEIGHT_DIAGNOSTIC_COMPONENT_PATH")
+        raw = regular(within(root, record["path"]))
+        need(len(raw) == record.get("bytes") and sha(raw) == record.get("sha256"), "WEIGHT_DIAGNOSTIC_COMPONENT_BYTES")
+        diagnostic = loads(raw)
+        keys, native = diagnostic.get("normalized_keys"), diagnostic.get("loaded_state_keys")
+        comparisons = diagnostic.get("common_key_comparisons")
+        need(diagnostic.get("component") == name and diagnostic.get("passed") is True
+             and diagnostic.get("error") is None
+             and diagnostic.get("allowed_key_exceptions") == extras[name]
+             and diagnostic.get("model_forward_calls") == 0 and diagnostic.get("tensor_values_reloaded") is False
+             and diagnostic.get("missing_in_checkpoint") == extras[name]
+             and diagnostic.get("unexpected_in_checkpoint") == diagnostic.get("mismatched_common_keys") == []
+             and type(keys) is list and len(keys) == len(set(keys)) == counts[name]
+             and type(native) is list and len(native) == len(set(native)) == counts[name] + len(extras[name])
+             and not set(keys).intersection(extras[name]) and set(native) == set(keys) | set(extras[name])
+             and diagnostic.get("source_keys") == ["module." + key for key in keys]
+             and diagnostic.get("mapping") == components[name]["mapping"]
+             and type(comparisons) is list and len(comparisons) == len(keys)
+             and {r["key"] for r in comparisons} == set(keys)
+             and all(r.get("exact_value_equal") is True and r.get("checkpoint") == r.get("loaded")
+                     and r["checkpoint"].get("is_tensor") is True
+                     and r["checkpoint"].get("dtype") == "torch.float32"
+                     and r["checkpoint"].get("device_type") == "cpu" for r in comparisons),
+             "EXACT_548_CHECKPOINT_AND_REAL_NATIVE_KEY_DIFFERENCE")
+        norms = contract["norms"].get(name, {})
+        checks = diagnostic.get("neutral_affine_checks")
+        need(type(checks) is list and len(checks) == len(norms)
+             and {r["path"] for r in checks} == set(norms), "CLOSED_NATIVE_AFFINE_SITES")
+        for check in checks:
+            path = check["path"]
+            channels = norms[path]
+            attributes = check.get("attributes", {})
+            buffers = check.get("running_buffers_are_none", {})
+            need(check.get("passed") is True and check.get("error") is None
+                 and check.get("parameters_mutated") is False
+                 and type(check.get("num_features")) is int and check["num_features"] == channels
+                 and check.get("parent_path") == path.rsplit(".", 1)[0]
+                 and check.get("parent_type") == contract["parent_type"]
+                 and check.get("norm_type") == contract["native_type"]
+                 and check.get("parent_training") is False
+                 and type(attributes.get("num_features")) is int and attributes["num_features"] == channels
+                 and attributes.get("affine") is True and attributes.get("track_running_stats") is False
+                 and attributes.get("training") is False
+                 and type(attributes.get("eps")) is float and attributes["eps"] == contract["required_eps"]
+                 and type(attributes.get("momentum")) is float and attributes["momentum"] == contract["required_momentum"]
+                 and set(buffers) == {"running_mean", "running_var", "num_batches_tracked"}
+                 and all(value is True for value in buffers.values()), "EXACT_NATIVE_AFFINE_CONFIGURATION")
+            parameters = check.get("parameters")
+            need(type(parameters) is list and len(parameters) == 2
+                 and {r["key"] for r in parameters} == {path + ".weight", path + ".bias"},
+                 "EXACT_NATIVE_AFFINE_PARAMETER_PAIR")
+            for parameter in parameters:
+                expected = 1 if parameter["key"].endswith(".weight") else 0
+                metadata = {"is_tensor": True, "shape": [channels], "dtype": "torch.float32", "device_type": "cpu"}
+                need(type(parameter.get("required_neutral_value")) is int and parameter["required_neutral_value"] == expected
+                     and parameter.get("parameter") == parameter.get("state_dict") == metadata
+                     and parameter.get("exact_neutral_value") is True
+                     and parameter.get("state_dict_value_equal") is True, "ALL_NATIVE_AFFINE_VALUES_EXACTLY_NEUTRAL")
+
+
 def verify_source_lock(root):
     lock = read(root / "source/MODEL_LOCK.json")
     need(lock.get("campaign_id") == recipe.CAMPAIGN_ID
@@ -421,11 +530,11 @@ def verify_source_lock(root):
         need(len(raw) == size and sha(raw) == value, "RETAINED_INSTALLED_PACKAGE_BYTES")
     wheel = regular(root / "source/runtime" / recipe.PACKAGE["filename"])
     need(len(wheel) == recipe.PACKAGE["bytes"] and sha(wheel) == recipe.PACKAGE["sha256"], "RETAINED_WHEEL_BYTES")
-    proof = lock.get("weight_loading")
-    need(type(proof) is list and len(proof) == 5 and {r["component"] for r in proof} ==
-         {"bert", "bert_encoder", "predictor", "text_encoder", "decoder"}
-         and all(r.get("all_keys_shapes_dtypes_values_equal") is True
-                 and type(r.get("key_count")) is int and r["key_count"] > 0 for r in proof), "CHECKPOINT_READBACK_PROOF")
+    verify_weight_diagnostics(root, lock)
+    constructed = read(root / "source/MODEL_CONSTRUCTED.json")
+    need(constructed.get("constructor_and_runtime_transforms_returned") is True
+         and constructed.get("model_instances") == 1 and constructed.get("model_forward_calls") == 0,
+         "ACTUAL_MODEL_CONSTRUCTED_BEFORE_FORWARD")
     config = read(root / "source/runtime/config.json")
     vocab = config.get("vocab")
     need(type(vocab) is dict and all(all(c in vocab for c in r["raw_phonemes"]) for r in recipe.recipe()["rows"]), "RETAINED_NATIVE_VOCAB")
@@ -436,7 +545,7 @@ def source_readback(root, plan):
     root = Path(root)
     frozen = recipe.recipe()
     need(read(root / "RECIPE.json") == frozen and read(root / "EXECUTION_PLAN.json") == plan, "SOURCE_RECIPE_OR_PLAN")
-    recovery_proof = verify_zero_call_recovery(plan, root / "recovery/source.zip",
+    recovery_proof = verify_zero_forward_recovery(plan, root / "recovery/source.zip",
         root / "recovery/runtime.zip", root / "recovery/probe.zip")
     need(read(root / "RECOVERY_RECEIPT.json") == recovery_proof, "SOURCE_RECOVERY_RECEIPT_BINDING")
     start = read(root / "STARTED.json")
@@ -528,7 +637,7 @@ def source_readback(root, plan):
             row["generation_status"] = "DUPLICATE_PCM_QUARANTINED"
     return {"schema": "english-kokoro48-source-v1", "run": start["run"], "campaign_id": recipe.CAMPAIGN_ID,
         "recipe_sha256": digest(frozen), "declared_count": 48, "rows": rows,
-        "zero_call_runtime_recovery": {"recovery_id": RECOVERY["recovery_id"], "receipt_sha256": digest(recovery_proof)},
+        "zero_forward_checkpoint_recovery": {"recovery_id": RECOVERY["recovery_id"], "receipt_sha256": digest(recovery_proof)},
         "valid_count": sum(r["generation_status"] == "success" for r in rows),
         "source_attempts": {"started": attempts, "completed": completions, "failed": failures,
             "interrupted_after_start": attempts - completions - failures,
@@ -945,9 +1054,7 @@ def combine(source, observers, plan, output):
     return result
 
 
-def recovery_archive(path, key):
-    expected = RECOVERY["artifacts"][key]
-    raw = regular(path)
+def recovery_bytes(raw, key, expected):
     need(len(raw) == expected["bytes"] and sha(raw) == expected["sha256"], "EXACT_PREVIOUS_API_ARCHIVE: " + key)
     with zipfile.ZipFile(io.BytesIO(raw)) as archive:
         infos = archive.infolist()
@@ -972,16 +1079,51 @@ def recovery_archive(path, key):
     return files
 
 
-def verify_zero_call_documents(source, runtime, probe):
+def recovery_archive(path, key):
+    return recovery_bytes(regular(path), key, RECOVERY["artifacts"][key])
+
+
+def verify_original_recovery_chain(source):
+    """Retain and authenticate the original initialization-failure chain."""
+    chain = {key: recovery_bytes(source["recovery/" + key + ".zip"], key, expected)
+        for key, expected in ORIGINAL_RUNTIME_RECOVERY["artifacts"].items()}
+    proof = loads(source["RECOVERY_RECEIPT.json"])
+    need(proof.get("recovery") == ORIGINAL_RUNTIME_RECOVERY
+         and proof.get("status") == "VERIFIED_PREVIOUS_ZERO_CALLS_REQUESTS_NEVER_STARTED"
+         and proof.get("previous_tts_attempts") == proof.get("previous_observer_attempts") == 0
+         and proof.get("previous_audio_files") == 0 and proof.get("old_unknown_labels_reclassified") is False,
+         "ORIGINAL_RECOVERY_RECEIPT_UNCHANGED")
+    original = loads(chain["source"]["source/RESULT.json"])
+    need(original.get("actual_forward_attempts") == original.get("actual_forward_returns") == original.get("completed") == 0
+         and original.get("error") == {"type": "ModuleNotFoundError", "code": "No module named 'click'"},
+         "ORIGINAL_CHAIN_ZERO_FORWARD")
+    old_rows = loads(chain["source"]["RECIPE.json"])["rows"]
+    need(old_rows == recipe.recipe()["rows"] and len(old_rows) == 48, "ORIGINAL_CHAIN_SAME_REQUESTS")
+    expected = {"source/audio/" + row["id"] + "/FAILED.json" for row in old_rows}
+    need({name for name in chain["source"] if name.startswith("source/audio/")} == expected,
+         "ORIGINAL_CHAIN_NO_SOURCE_START")
+    for files in chain.values():
+        need(not any(name.lower().endswith((".wav", ".pcm", ".f32"))
+             or name.endswith(("/CAPTURE.json", "/COMPLETED.json", "MODEL_LOAD_STARTED.json", "MODEL_LOCK.json"))
+             for name in files), "ORIGINAL_CHAIN_NO_AUDIO_OR_MODEL_CONSTRUCTION")
+    prior_probe = loads(chain["probe"]["RESULT.json"])
+    need(prior_probe.get("total_actual_model_attempts") == 0 and prior_probe.get("training_snapshot_allowed") is False,
+         "ORIGINAL_CHAIN_PROBE_ZERO")
+    return {"recovery_id": ORIGINAL_RUNTIME_RECOVERY["recovery_id"], "artifacts": ORIGINAL_RUNTIME_RECOVERY["artifacts"],
+        "retained_bytes_verified": True, "previous_forward_attempts": 0, "old_labels_reclassified": False}
+
+
+def verify_zero_forward_documents(source, runtime, probe):
     """Inspect saved zero records, never reclassify old UNKNOWN observations."""
     old_run = {"repository": RECOVERY["repository"], "commit": RECOVERY["previous_head_sha"],
         "run_id": str(RECOVERY["previous_run_id"]), "run_attempt": "1", "event": "push"}
+    original_chain = verify_original_recovery_chain(source)
     frozen = recipe.recipe()
     old_recipe = loads(source["RECIPE.json"])
     need(digest(old_recipe) == RECOVERY["previous_recipe_sha256"], "EXACT_PREVIOUS_RECIPE")
     comparable = dict(old_recipe)
     comparable["runtime_versions"] = frozen["runtime_versions"]
-    need(comparable == frozen and old_recipe["rows"] == frozen["rows"], "ONLY_RUNTIME_CHANGED_IDENTICAL_REQUESTS")
+    need(comparable == frozen and old_recipe["rows"] == frozen["rows"], "UNCHANGED_ACOUSTIC_RECIPE_AND_REQUESTS")
     roster = [{k: row[k] for k in ("id", "request_sha256")} for row in old_recipe["rows"]]
     need(len(roster) == 48 and len({r["id"] for r in roster}) == 48
          and digest(roster) == RECOVERY["ordered_request_roster_sha256"], "EXACT_48_UNSTARTED_REQUEST_IDENTITIES")
@@ -989,7 +1131,8 @@ def verify_zero_call_documents(source, runtime, probe):
     need(old_plan.get("reference_contract") == POLICY and old_plan.get("probe_criteria") == PROBE_CRITERIA
          and old_plan.get("observers") == OBSERVERS and old_plan.get("lv60_files") == LV60_FILES
          and old_plan.get("maximum_tts_calls") == old_plan.get("maximum_calls_per_observer") == 48
-         and old_plan.get("maximum_total_model_calls") == 288 and old_plan.get("retry_count") == 0,
+         and old_plan.get("maximum_total_model_calls") == 288 and old_plan.get("retry_count") == 0
+         and old_plan.get("zero_call_runtime_recovery") == ORIGINAL_RUNTIME_RECOVERY,
          "OLD_REFERENCE_RULES_AND_BUDGET_UNCHANGED")
     need(source["RECIPE.json"] == source["source/RECIPE.json"]
          and source["EXECUTION_PLAN.json"] == source["source/EXECUTION_PLAN.json"], "OLD_INNER_OUTER_PLAN_BYTES")
@@ -1003,7 +1146,7 @@ def verify_zero_call_documents(source, runtime, probe):
          and outer.get("valid_count") == 0 and inner.get("actual_forward_returns") == 0
          and inner.get("kws_forward_calls") == inner.get("training_calls") == inner.get("runtime_g2p_calls") == 0
          and inner.get("training_allowed") is False and inner.get("diagnostic_only") is True
-         and inner.get("error") == {"type": "ModuleNotFoundError", "code": "No module named 'click'"}, "ACTUAL_PREVIOUS_ZERO_CALL_INITIALIZATION_FAILURE")
+         and inner.get("error") == {"type": "ValueError", "code": "CHECKPOINT_EXACT_KEYS"}, "ACTUAL_PREVIOUS_ZERO_FORWARD_CHECKPOINT_FAILURE")
     expected_failures = {"source/audio/" + row["id"] + "/FAILED.json" for row in roster}
     need({name for name in source if name.startswith("source/audio/")} == expected_failures,
          "NO_PREVIOUS_CELL_STARTED_OR_AUDIO")
@@ -1015,8 +1158,23 @@ def verify_zero_call_documents(source, runtime, probe):
              and receipt.get("training_allowed") is False, "ALL_48_PREVIOUS_REQUESTS_UNSTARTED")
     for files in (source, runtime, probe):
         need(not any(name.lower().endswith((".wav", ".pcm", ".f32")) or name.endswith(("/CAPTURE.json", "/COMPLETED.json"))
-                     or name.endswith(("MODEL_LOAD_STARTED.json", "MODEL_LOCK.json")) for name in files),
-             "NO_PREVIOUS_AUDIO_CAPTURE_OR_MODEL_CONSTRUCTION")
+                     or name.endswith("MODEL_LOCK.json") for name in files),
+             "NO_PREVIOUS_AUDIO_CAPTURE_OR_ACCEPTED_MODEL_LOCK")
+    loaded = loads(source["source/MODEL_LOAD_STARTED.json"])
+    need(loaded.get("forward_attempts") == 0 and loaded.get("local_files_only") is True
+         and type(loaded.get("assets_verified")) is list and len(loaded["assets_verified"]) == len(recipe.assets()),
+         "PREVIOUS_MODEL_CONSTRUCTION_STAGE_REQUIRED")
+    measured = {a["path"]: a for a in loaded["assets_verified"]}
+    need(len(measured) == len(recipe.assets()) and all(all(measured.get(a["path"], {}).get(k) == v for k, v in a.items())
+         and measured[a["path"]].get("verified") is True and measured[a["path"]].get("download_attempts") == 1
+         for a in recipe.assets()), "PREVIOUS_EXACT_ASSETS_AT_CONSTRUCTION")
+    imports = loads(runtime["installation/IMPORT_RESULT.json"])
+    installation = loads(runtime["installation/RESULT.json"])
+    need(imports.get("status") == installation.get("status") == "IMPORT_ONLY_PASSED"
+         and imports.get("model_instances") == imports.get("model_forward_calls") == 0
+         and imports.get("actual_versions") == old_recipe["runtime_versions"]
+         and all(c.get("returncode") == 0 for c in installation.get("commands", [])),
+         "PREVIOUS_IMPORT_SUCCESS_SEPARATE_FROM_CONSTRUCTION")
     need(loads(runtime["GUARD.json"]) == old_run and loads(runtime["COMMAND_EXIT.json"]) == {"returncode": 2, "retry_count": 0}, "OLD_RUNTIME_EXIT_AND_GUARD")
     final = loads(probe["RESULT.json"])
     corpus = loads(probe["CORPUS_MANIFEST.json"])
@@ -1053,8 +1211,10 @@ def verify_zero_call_documents(source, runtime, probe):
     for name, raw in source.items():
         target = "generation/" + name if name in ("RECIPE.json", "EXECUTION_PLAN.json", "STARTED.json", "RESULT.json") else name
         need(probe.get(target) == raw, "OLD_SOURCE_PROBE_BYTE_BINDING")
-    return {"schema": "english-kokoro48-zero-call-runtime-recovery-v1", "recovery": RECOVERY,
-        "status": "VERIFIED_PREVIOUS_ZERO_CALLS_REQUESTS_NEVER_STARTED", "previous_run": old_run,
+    return {"schema": "english-kokoro48-zero-forward-checkpoint-recovery-v1", "recovery": RECOVERY,
+        "status": "VERIFIED_PREVIOUS_ZERO_FORWARDS_REQUESTS_NEVER_STARTED", "previous_run": old_run,
+        "previous_model_construction_stage_reached": True, "previous_model_lock_verified": False,
+        "original_recovery_chain": original_chain,
         "previous_recipe_sha256": digest(old_recipe), "current_recipe_sha256": digest(frozen),
         "ordered_request_roster_sha256": digest(roster), "same_48_requests_seeds_presets_phones": True,
         "previous_tts_attempts": 0, "previous_observer_attempts": 0, "previous_audio_files": 0,
@@ -1062,12 +1222,12 @@ def verify_zero_call_documents(source, runtime, probe):
         "automatic_retry": False, "training_snapshot_allowed": False}
 
 
-def verify_zero_call_recovery(plan, source_zip, runtime_zip, probe_zip):
-    need(plan.get("zero_call_runtime_recovery") == RECOVERY, "EXACT_ZERO_CALL_RUNTIME_RECOVERY")
+def verify_zero_forward_recovery(plan, source_zip, runtime_zip, probe_zip):
+    need(plan.get("zero_forward_checkpoint_recovery") == RECOVERY, "EXACT_ZERO_FORWARD_CHECKPOINT_RECOVERY")
     source = recovery_archive(source_zip, "source")
     runtime = recovery_archive(runtime_zip, "runtime")
     probe = recovery_archive(probe_zip, "probe")
-    return verify_zero_call_documents(source, runtime, probe)
+    return verify_zero_forward_documents(source, runtime, probe)
 
 
 def main(argv=None):
@@ -1076,7 +1236,7 @@ def main(argv=None):
     actions = parser.add_mutually_exclusive_group(required=True)
     actions.add_argument("--source-check", action="store_true")
     actions.add_argument("--guard", action="store_true")
-    actions.add_argument("--verify-zero-call-recovery", action="store_true")
+    actions.add_argument("--verify-zero-forward-recovery", action="store_true")
     actions.add_argument("--generate", action="store_true")
     actions.add_argument("--read-source", action="store_true")
     actions.add_argument("--observe", choices=PROVIDERS)
@@ -1095,9 +1255,9 @@ def main(argv=None):
             "maximum_total_model_attempts": 288, "training_snapshot_allowed": False}
     elif args.guard:
         result = execution_guard(plan)
-    elif args.verify_zero_call_recovery:
+    elif args.verify_zero_forward_recovery:
         need(all(p is not None for p in (args.recovery_source, args.recovery_runtime, args.recovery_probe)), "THREE_OLD_ARCHIVES_REQUIRED")
-        result = verify_zero_call_recovery(plan, args.recovery_source, args.recovery_runtime, args.recovery_probe)
+        result = verify_zero_forward_recovery(plan, args.recovery_source, args.recovery_runtime, args.recovery_probe)
         if args.output is not None:
             once(args.output, result)
     elif args.generate:
