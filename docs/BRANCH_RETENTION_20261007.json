@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2188,
+  "expected_tracked_files": 2197,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -397,7 +397,16 @@
     ".github/workflows/english-ipa-piper-v4-independent-ctc-once.yml",
     "automation/english_piper_v4_ipa_ctc_once.py",
     "automation/test_english_piper_v4_ipa_ctc_once.py",
-    "docs/ENGLISH_PIPER_V4_PHONEME_OBSERVER_20261116.md"
+    "docs/ENGLISH_PIPER_V4_PHONEME_OBSERVER_20261116.md",
+    ".github/workflows/english-stream-resource-once.yml",
+    "automation/english_piper_v4_joint_review.py",
+    "automation/english_stream_resource_inputs.json",
+    "automation/english_stream_resource_once.py",
+    "automation/test_english_piper_v4_joint_review.py",
+    "automation/test_english_stream_resource_once.py",
+    "docs/ENGLISH_PIPER_V4_JOINT_REVIEW_20261117.md",
+    "research/english_piper_v4_joint_review_20261117/joint-review.csv",
+    "research/english_piper_v4_joint_review_20261117/joint-review.json"
   ],
   "baseline_files": [
     {
@@ -27262,6 +27271,24 @@
       "previous_manifest_git_blob_sha1": "56d33b322edbdb6da8ab65f7291634dbc4815d84",
       "scope": "Exactly 16 audio-only independent phoneme-model forwards over the 16 source-hash-verified Piper v4 WAVs. The original aggregate result status mismatch is accepted only after 16/16 cell receipts, model-lock/source-plan hashes, WAV/PCM hashes and exact speaker roster are verified. No new TTS, ASR, KWS inference, training or promotion.",
       "rationale": "V4 generation completed all 16 cell attempts and receipts; the aggregate terminal status remains INCOMPLETE_NO_RETRY due the stale four-cell count. This observer uses immutable source bytes and independent closure checks, and keeps all phone observations machine-only/non-gold."
+    },
+    {
+      "campaign": "english-v41-joint-review-and-stream-resource-20261117",
+      "source_commit": "1b5f8533a26b71c43b66ceeec20f667dbb531477",
+      "paths": [
+        ".github/workflows/english-stream-resource-once.yml",
+        "automation/english_piper_v4_joint_review.py",
+        "automation/english_stream_resource_inputs.json",
+        "automation/english_stream_resource_once.py",
+        "automation/test_english_piper_v4_joint_review.py",
+        "automation/test_english_stream_resource_once.py",
+        "docs/ENGLISH_PIPER_V4_JOINT_REVIEW_20261117.md",
+        "research/english_piper_v4_joint_review_20261117/joint-review.csv",
+        "research/english_piper_v4_joint_review_20261117/joint-review.json"
+      ],
+      "previous_manifest_git_blob_sha1": "5486ed0439f8e06dc2a1a3338a72243af581b170",
+      "scope": "Register nine current English V4.1 integration files: byte-pinned existing Piper v4 evidence join and its saved JSON/CSV, focused tests, and the separately guarded observer-off full-stream resource workflow and worker. This registration performs no model calls and changes no retained experiment or admission state.",
+      "rationale": "PR #170 added nine tracked files without extending the closed integration inventory. Append exactly the observed files from tree 14b573428a10915839b47c9368a0e3d1b1b80080 and update the tracked count from 2188 to 2197; all 2027 retained rows, 467 baseline rows, prior integration paths and 100 registration records remain unchanged."
     }
   ]
 }
