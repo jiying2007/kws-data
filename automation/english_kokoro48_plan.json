@@ -1,0 +1,193 @@
+{
+  "campaign_id": "kokoro-v1_0-four-presets-short-carrier48-v1",
+  "diagnostic_only": true,
+  "enabled": true,
+  "generation_deadline_seconds": 900,
+  "generator_code_sha256": "69ecdf870e644e2e1a008c38dfb579d669f596bdd8db84bbbc44e082a0b5d59c",
+  "helper_sha256": {
+    "automation/english_blind_asr.py": "e232cb219cabcc3877366bc446e5180d203d43b094695dba18fddee9b584669e",
+    "automation/english_final_ipa_xlsr_once.py": "716928f7707fc662f62e59a988c0c264123be301abac4c23fe835bc09c052b3a",
+    "automation/english_ipa_qwen17_final_ipa_probe_once.py": "15207db7182e4cb6d85349059b4aff91e721c70e8782fe901d4893f55224be76",
+    "automation/english_ipa_qwen17_probe_once.py": "e5f6bce2e17c3755f7b910d00c84b8d2f3d36ecca3af082c9c62a86cd689b4ed",
+    "automation/english_parakeet_real_once.py": "366cd278f570a37ce68dd20e47e2bee1422daaa109c693ac42ab4bd4c2418881",
+    "automation/english_qwen_asr_real_once.py": "14e8150ee76bf356fad0927e93d20981ccfaf32696beacf871810e26e8ff7990",
+    "automation/english_qwen_asr_sourcefix_once.py": "9a000ed25440980333f11c21eec879b1945d87fa9f3d5e1794fc7090fdc96417",
+    "automation/english_qwen_capture.py": "be99d27dcff84107feca42d648afa863863cd5c9a3ffffaa505d287c29b2104f",
+    "automation/english_qwen_real_once.py": "60e995b4cc39818b8795d8730f1eba81bc57a8bd7c778fc2df040b92f0bca95e",
+    "automation/english_seven_voice_asr_once.py": "17771ca272204771982dbdc8e959f7fd75838b6598e84f09ac5819d8e3c79184",
+    "automation/english_seven_voice_review.py": "05a1968f78e2ae0013b4f9f529a5700817ba49d0ef1fbf77a572d2f6e1373b7b",
+    "automation/english_seven_voice_tts_once.py": "e9dcf10dd94909edc13bf65ebcc31b2f3df6bdc81ab1876c94cbe28ec936ad0e",
+    "automation/english_synthetic192_training_core.py": "0896d375f47318adbc42f63835cb85fc77441ae2472d9df8212dfca4dd7e62c0",
+    "automation/english_whisper_real_once.py": "0f455c46061c6e3e4da2eec781234875fe2f59f257f11bacea8105e951593b6d",
+    "automation/multilingual_campaign.py": "3cda7b79d1cf4e00f7b2a4aeff6c254f8b49d2adcf527a5ca51093ef60d1ef4f",
+    "kws_data_contract/__init__.py": "3b3c0ef178e7115b2206e895c19128603272c0d3ad8a22eade280d372f884608",
+    "kws_data_contract/identity.py": "7cb39db2c8fe07e6fada96735bae526c2f442775fc8e4786940add80abbba3e8",
+    "research/auto-tts-voice-clone-20261102/campaign.py": "55f07e3604ac72a6ff912f25dc86f706678c6bb7661714b3dec3c1646e8d766f",
+    "research/auto-tts-voice-clone-20261102/runner.py": "df3e8858e25f041ecbc1ef7f10e7b7715722ad7ad8a2f5e53f120c172d3d40c1"
+  },
+  "lv60_files": {
+    "config.json": {
+      "bytes": 1856,
+      "sha256": "4609fb49b7e1d28aecb2840da1926c40bd915bc6f1120a940afacf7159bbfb13"
+    },
+    "preprocessor_config.json": {
+      "bytes": 212,
+      "sha256": "a2254a5b58f72cd4de3632f8eee64f3f098b7c1402128d2f419e7d00ae13e335"
+    },
+    "pytorch_model.bin": {
+      "bytes": 1263535127,
+      "sha256": "3173bde9e9ce490fa0f989e413c42f25bc1820c020adc1e6b9b87025b3cfcc5e"
+    },
+    "special_tokens_map.json": {
+      "bytes": 85,
+      "sha256": "bb7068de1150661a10b55f9e4b12a0e77af8bf91f5e45e1b58afaf1d0e17f675"
+    },
+    "tokenizer_config.json": {
+      "bytes": 321,
+      "sha256": "1273ec458332cc55226ec596904bae811420755ace7e5d69462b61c4f480b457"
+    },
+    "vocab.json": {
+      "bytes": 4637,
+      "sha256": "d732ab2456c0c017930001dc9af0b41b3b93d25b2eb9740bf9d925508d7d87d0"
+    }
+  },
+  "maximum_calls_per_observer": 48,
+  "maximum_total_model_calls": 288,
+  "maximum_tts_calls": 48,
+  "new_kws_calls": 0,
+  "next_main_before": "8b591ace9e426971749e099a001f124137c3f29c",
+  "observation_deadline_seconds": 3600,
+  "observers": {
+    "parakeet": {
+      "decode_config": {
+        "device": "cpu",
+        "prompt": null,
+        "threads": 4,
+        "timeout_seconds": 180
+      },
+      "model_family": "parakeet-tdt",
+      "model_id": "nvidia/parakeet-tdt-0.6b-v3",
+      "model_revision": "541d1f99c6b0c3cd0b11a95167540bb8edefd82b",
+      "model_sha256": "e3880d0aaaaf2c308ea2c35016b2b895c423eb3fda924c1b463d1c19b7f4d32e",
+      "recognizer_id": "parakeet"
+    },
+    "phoneme": {
+      "decode_config": {
+        "decoder": "ctc-greedy",
+        "device": "cpu",
+        "phonemizer_used": false,
+        "special_tokens_removed": true,
+        "target_input": null,
+        "weights_only": true
+      },
+      "model_family": "wav2vec2-xlsr",
+      "model_id": "facebook/wav2vec2-xlsr-53-espeak-cv-ft",
+      "model_revision": "2c733782da5604684829819a5eb744c193fe9398",
+      "model_sha256": "04366b6c8d24099ef313cf02f0e58d26f5dddfda16edbfc8eb2c713d94a9f551",
+      "recognizer_id": "phoneme"
+    },
+    "phoneme_lv60": {
+      "decode_config": {
+        "decoder": "ctc-greedy",
+        "device": "cpu",
+        "phonemizer_used": false,
+        "special_tokens_removed": true,
+        "target_input": null,
+        "weights_only": true
+      },
+      "model_family": "wav2vec2-lv60",
+      "model_id": "facebook/wav2vec2-lv-60-espeak-cv-ft",
+      "model_revision": "ae45363bf3413b374fecd9dc8bc1df0e24c3b7f4",
+      "model_sha256": "3173bde9e9ce490fa0f989e413c42f25bc1820c020adc1e6b9b87025b3cfcc5e",
+      "recognizer_id": "phoneme_lv60"
+    },
+    "qwen": {
+      "decode_config": {
+        "attention": "sdpa",
+        "batch_size": 1,
+        "context": "",
+        "device": "cpu",
+        "dtype": "float32",
+        "language": "English",
+        "max_new_tokens": 128
+      },
+      "model_family": "qwen3-asr",
+      "model_id": "Qwen/Qwen3-ASR-0.6B",
+      "model_revision": "5eb144179a02acc5e5ba31e748d22b0cf3e303b0",
+      "model_sha256": "79d6cbd4c98c7bbffe9db2edac07f56cd6637d0d5944b27f6c2b8353840323ea",
+      "recognizer_id": "qwen"
+    },
+    "whisper": {
+      "decode_config": {
+        "condition_on_previous_text": false,
+        "device": "cpu",
+        "fp16": false,
+        "initial_prompt": null,
+        "language": "en",
+        "temperature": 0.0
+      },
+      "model_family": "whisper",
+      "model_id": "openai/whisper-small",
+      "model_revision": "31243bad24cc746f07d4c8bfdd2d974872cb1803",
+      "model_sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+      "recognizer_id": "whisper"
+    }
+  },
+  "old_audio_model_calls": 0,
+  "probe_criteria": {
+    "diagnostic_only_providers": [
+      "phoneme_lv60"
+    ],
+    "failure_status": "STOP_DIAGNOSTIC_NO_EXPANSION",
+    "minimum_balanced_presets_per_mode": 3,
+    "minimum_mero_eh_request_with_observed_eh_presets_per_mode": 3,
+    "minimum_positive_support_windows": 3,
+    "mode_preference": [
+      "short",
+      "carrier"
+    ],
+    "ordinary_shared_across_modes": true,
+    "positive_geometry": {
+      "first_end": 16000,
+      "prefix_samples": 38400,
+      "ready_end": 35200,
+      "stride": 1280,
+      "suffix_samples": 16000,
+      "support_left_offset": 31840,
+      "support_right_offset": 128
+    },
+    "reference_providers": [
+      "qwen",
+      "whisper",
+      "parakeet",
+      "phoneme"
+    ],
+    "reference_tiers": [
+      "silver",
+      "weak"
+    ],
+    "success_status": "PROPOSE_SEPARATELY_PREREGISTERED_NEW_BATCH",
+    "training_snapshot_allowed": false
+  },
+  "recipe_code_sha256": "0b9a7d3e6c44fb950202e81eb4842b5c526991eb9be8cf557308cebffeca796f",
+  "recipe_sha256": "c5f207b5ecc59fa845ac77a8f6083ebab3f7d5eb87a31b6cfd4460d99dba880f",
+  "reference_contract": {
+    "commit": "011341c8541705a80da93ae423cfdb3d1ac9a82a",
+    "module_bytes": 22786,
+    "module_git_blob_sha1": "882694ef1cb66dcedd9234cce7c629b29f553a11",
+    "module_path": "training/english_phonetic_silver.py",
+    "module_sha256": "fde516d9f1f2457cdb0047e8d8aee6a667c68fa6ea21f83d22f135e4bc9069da",
+    "profile_bytes": 8591,
+    "profile_git_blob_sha1": "275145f6b9e1d5a6a2bd9f168eb792ad4d61d0a7",
+    "profile_path": "configs/research/english-pronunciation-profile-20261115.json",
+    "profile_sha256": "1b4112a27566d370e513d239ab9649b6c3cab3c8ca495c49c3810619214e4632",
+    "repository": "jiying2007/kws-pipeline",
+    "rule_id": "english-synthetic-machine-admission-v2",
+    "rules_sha256": "0a02fbef84f3de275b67908038a9fcd5c91a579138ce65d47037dffa48c60383"
+  },
+  "retry_count": 0,
+  "schema": "english-kokoro48-execution-v1",
+  "training_allowed": false,
+  "training_snapshot_allowed": false,
+  "worker_sha256": "af4f37d11080206db041eb728afd1a5dc425cb0086b9f27671b7cfdc7f73513f"
+}
