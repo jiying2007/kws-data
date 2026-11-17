@@ -1,0 +1,84 @@
+name: English temporal confirmation quality once
+on:
+  pull_request:
+    paths:
+      - automation/english_temporal_quality_once.py
+      - automation/english_temporal_quality_plan.json
+      - automation/english_temporal_quality_data.py
+      - automation/test_english_temporal_quality_*.py
+      - research/english_temporal_quality_20261117/**
+      - .github/workflows/english-temporal-quality-once.yml
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-temporal-quality-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-temporal-quality-20261117-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check fixed protocol, execution guards and independent evidence fixtures
+        run: |
+          set -euo pipefail
+          python3 -B automation/english_temporal_quality_once.py --plan automation/english_temporal_quality_plan.json
+          python3 -B -m unittest discover -s automation -p 'test_english_temporal_quality_*.py' -v
+          python3 -B -m unittest discover -s research/english_temporal_quality_20261117/audit -p 'test_*.py' -v
+          git diff --exit-code
+  quality:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == 'c4f20fcb9f8b92aa77125c85de393df678ac812f'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install the fixed CPU numeric runtime
+        timeout-minutes: 7
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check --no-input numpy==1.26.4 onnx==1.17.0 onnxruntime==1.20.1
+          python3 -m pip install --disable-pip-version-check --no-input --index-url https://download.pytorch.org/whl/cpu torch==2.9.1+cpu
+      - name: Reuse authenticated evidence and execute the single new objective
+        timeout-minutes: 16
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+        run: |
+          set -euo pipefail
+          python3 -B automation/english_temporal_quality_once.py \
+            --plan automation/english_temporal_quality_plan.json --execute \
+            --output "$RUNNER_TEMP/english-temporal-quality"
+      - name: Retain weights, PCM, cached features, all scores and partial evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-temporal-quality-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-temporal-quality/evidence/
+            ${{ runner.temp }}/english-temporal-quality/sources/
+            ${{ runner.temp }}/english-temporal-quality/models/
+            ${{ runner.temp }}/english-temporal-quality/cache/
+            ${{ runner.temp }}/english-temporal-quality/audio/
+            ${{ runner.temp }}/english-temporal-quality/background_tracks/
+            ${{ runner.temp }}/english-temporal-quality/predictions/
+          retention-days: 30
+          if-no-files-found: warn
