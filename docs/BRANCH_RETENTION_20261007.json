@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2231,
+  "expected_tracked_files": 2266,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -440,7 +440,42 @@
     "research/english_v41_execution_20261117/resource_results/evidence/sdk-artifact-exit.json",
     "research/english_v41_execution_20261117/resource_results/evidence/sdk-run-exit.json",
     "research/english_v41_execution_20261117/resource_results/independent-result-review.json",
-    "research/english_v41_execution_20261117/resource_results/inputs/inputs.json"
+    "research/english_v41_execution_20261117/resource_results/inputs/inputs.json",
+    "research/english_v41_execution_20261117/FINAL_EXECUTION_STATUS.zh-CN.md",
+    "research/english_v41_execution_20261117/ordered3x1_ab/candidate/LICENSE_IDENTITIES.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/candidate/OBJECT_IDENTITIES.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/candidate/SOURCE_COPY.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/candidate/vectorization.txt",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/HOST.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/PLAN.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/RESULT.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/SOURCE.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/build-candidate-frontend-exit.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/kernel-check-exit.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/kernel-check.stdout",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/performance-libri-speaker-1272-baseline-exit.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/performance-libri-speaker-1272-candidate-exit.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/performance-libri-speaker-1462-baseline-exit.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/performance-libri-speaker-1462-candidate-exit.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/specialize-exit.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1272-baseline-exit.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1272-baseline.stdout",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1272-candidate-exit.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1272-candidate.stdout",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1462-baseline-exit.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1462-baseline.stdout",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1462-candidate-exit.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1462-candidate.stdout",
+    "research/english_v41_execution_20261117/ordered3x1_ab/independent/independent-result-review.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/inputs/inputs.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1272-baseline/RESULT.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1272-baseline/libri-speaker-1272.stdout.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1272-candidate/RESULT.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1272-candidate/libri-speaker-1272.stdout.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-baseline/RESULT.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-baseline/libri-speaker-1462.stdout.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-candidate/RESULT.json",
+    "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-candidate/libri-speaker-1462.stdout.json"
   ],
   "baseline_files": [
     {
@@ -27610,6 +27645,302 @@
       "pipeline_optimization_source_commit": "342e73655be56d867f7833e6076e16100c429dd0",
       "resource_run_id": 44000006165,
       "resource_artifact_id": 14292027025
+    },
+    {
+      "campaign": "english-v41-ordered3x1-ab-actual-results-20261117",
+      "source_commit": "60ce21c330f4fb5c4cc619fe4961eb1595cb1517",
+      "base_commit": "b1c8d31bb7c79bca68cca5fd520fd3d05e07f7cb",
+      "previous_manifest_git_blob_sha1": "d52771a43e25520c57ef533097b0160c6ff80ec9",
+      "paths": [
+        "research/english_v41_execution_20261117/FINAL_EXECUTION_STATUS.zh-CN.md",
+        "research/english_v41_execution_20261117/ordered3x1_ab/candidate/LICENSE_IDENTITIES.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/candidate/OBJECT_IDENTITIES.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/candidate/SOURCE_COPY.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/candidate/vectorization.txt",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/HOST.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/PLAN.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/RESULT.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/SOURCE.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/build-candidate-frontend-exit.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/kernel-check-exit.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/kernel-check.stdout",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/performance-libri-speaker-1272-baseline-exit.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/performance-libri-speaker-1272-candidate-exit.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/performance-libri-speaker-1462-baseline-exit.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/performance-libri-speaker-1462-candidate-exit.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/specialize-exit.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1272-baseline-exit.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1272-baseline.stdout",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1272-candidate-exit.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1272-candidate.stdout",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1462-baseline-exit.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1462-baseline.stdout",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1462-candidate-exit.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1462-candidate.stdout",
+        "research/english_v41_execution_20261117/ordered3x1_ab/independent/independent-result-review.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/inputs/inputs.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1272-baseline/RESULT.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1272-baseline/libri-speaker-1272.stdout.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1272-candidate/RESULT.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1272-candidate/libri-speaker-1272.stdout.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-baseline/RESULT.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-baseline/libri-speaker-1462.stdout.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-candidate/RESULT.json",
+        "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-candidate/libri-speaker-1462.stdout.json"
+      ],
+      "files": [
+        {
+          "path": "research/english_v41_execution_20261117/FINAL_EXECUTION_STATUS.zh-CN.md",
+          "mode": "100644",
+          "bytes": 9533,
+          "sha256": "f88a5420330d48fd69301d6ce040f984318106ae723494cce9c26fafdcb586c8",
+          "git_blob_sha1": "5786a2170819ab4c903c08de3d0d9a6bd91052e4"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/candidate/LICENSE_IDENTITIES.json",
+          "mode": "100644",
+          "bytes": 338,
+          "sha256": "f2b140f793832d90a1d85254b353864ebf8a4c2b9cf95f8cda487ebdd71c60e6",
+          "git_blob_sha1": "65ba2b52bb0778d44b2203cb46e4abc0393067be"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/candidate/OBJECT_IDENTITIES.json",
+          "mode": "100644",
+          "bytes": 1690,
+          "sha256": "9ba2e4ec6e739ca8c2957466772e35c60f3a17d2a71e151348ee8f960b26c456",
+          "git_blob_sha1": "a68216cc25cd4e5b9dfdb535c3878a084f038c36"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/candidate/SOURCE_COPY.json",
+          "mode": "100644",
+          "bytes": 1500,
+          "sha256": "3f92525072636e7edee41d5251b29d67ca04fed084481ba875f0294133ffb71c",
+          "git_blob_sha1": "12987bd9b272027f106f3e57a808967bf2652aae"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/candidate/vectorization.txt",
+          "mode": "100644",
+          "bytes": 1096,
+          "sha256": "63f30a945467ac4b78def5c881ef2bf6a53535446d5109740f319bd6b2e33180",
+          "git_blob_sha1": "aa45b5720f23ba50d3da8ae822e8aee54704330a"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/HOST.json",
+          "mode": "100644",
+          "bytes": 6358,
+          "sha256": "140c6d55d7397983777c6dc372e622df6e879c07fbd53bbd505c9b731a041d31",
+          "git_blob_sha1": "469c83b54823e8520ae2e45c0a99300d9a56e8fd"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/PLAN.json",
+          "mode": "100644",
+          "bytes": 821,
+          "sha256": "9c9fb24fd45c1b51455f1ef6ef7cb74f102ab0fed3c1805ce714191c5697c83e",
+          "git_blob_sha1": "256ed62dfb6e1c14748bfc5808637892343de29e"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/RESULT.json",
+          "mode": "100644",
+          "bytes": 20476,
+          "sha256": "03bb70250799a3da7611c59379172f1683e2ad73465ecb9f537b8a19bdef42b3",
+          "git_blob_sha1": "c8f7c8849997d5741a33a0447ca72070a9b855a9"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/SOURCE.json",
+          "mode": "100644",
+          "bytes": 1705,
+          "sha256": "3303b38891f457decf23a0c2e75febb0cb811e870a34c613ac43be97e61a2283",
+          "git_blob_sha1": "17f45d909be42017c9cd65d94fb59860695b8ae9"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/build-candidate-frontend-exit.json",
+          "mode": "100644",
+          "bytes": 806,
+          "sha256": "e7ed418aace5aa469c781bbc4fdf003b101626c35622bdde24c31e5d2cc0a571",
+          "git_blob_sha1": "2328506eba37c3fec248f5a02abe8020a3c87b54"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/kernel-check-exit.json",
+          "mode": "100644",
+          "bytes": 231,
+          "sha256": "ed6aca7ff170d54543793aaabd5d49590d80081f57715118b1730282603ba264",
+          "git_blob_sha1": "a3989f92483ed79d60c6e3679e3e88a154ad1ea6"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/kernel-check.stdout",
+          "mode": "100644",
+          "bytes": 551,
+          "sha256": "ba715c96c09ea137844d3cb99c54dea22ada3614ad64af25aa47bd9c10e96ad5",
+          "git_blob_sha1": "e55324815f7d96c008de230fd32747223360e0c1"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/performance-libri-speaker-1272-baseline-exit.json",
+          "mode": "100644",
+          "bytes": 669,
+          "sha256": "dc3a60e10b0f7bf3ed9a11ff0c2c68fe64f2b40484e2356292abefc0f32a42f9",
+          "git_blob_sha1": "a00d5d551d7de0915ad400691a36a38edd0a985c"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/performance-libri-speaker-1272-candidate-exit.json",
+          "mode": "100644",
+          "bytes": 675,
+          "sha256": "336a072ddd04e89cdb8d07e53e402f70955ce469ff3cf73b8988202927e2946e",
+          "git_blob_sha1": "086667ee7e510c8679c55b3f0014b9825831c95b"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/performance-libri-speaker-1462-baseline-exit.json",
+          "mode": "100644",
+          "bytes": 669,
+          "sha256": "7717482de136cacb61c9a6f636ef84790e6f5778cbc8dcac9e05bad346be598f",
+          "git_blob_sha1": "a776606c9d63322440f3f70fd915dc641ed181f7"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/performance-libri-speaker-1462-candidate-exit.json",
+          "mode": "100644",
+          "bytes": 676,
+          "sha256": "abf2701228fe11be3b2fc88c1d0652d4d69b9f472af4cd26167f903ac2e3c9d7",
+          "git_blob_sha1": "075cd22cedfa05dd3b9bbc4a39087faf7dc0b71c"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/specialize-exit.json",
+          "mode": "100644",
+          "bytes": 776,
+          "sha256": "612e1f5f461feea953c8ccb2d54fcb15b934c5ce011a269f8c2e7872ec4e26b1",
+          "git_blob_sha1": "0ceabdb8de097b02c729253d3d8a0390ab813a87"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1272-baseline-exit.json",
+          "mode": "100644",
+          "bytes": 502,
+          "sha256": "d91d9b926c7d63bda684ed5156d0b62ece5102c4257c910f2c3fd487e6f97909",
+          "git_blob_sha1": "d4d476b50b700b592cb663fe7ccf6fe477e6c8fd"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1272-baseline.stdout",
+          "mode": "100644",
+          "bytes": 566,
+          "sha256": "290bd2b0049fb8aa50d0659143ccb3fd5dc18a493c71136c1e3df774585b30d7",
+          "git_blob_sha1": "d734bce3f895b4122dae9a779e6e3df03c19a345"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1272-candidate-exit.json",
+          "mode": "100644",
+          "bytes": 498,
+          "sha256": "ebd7ec8428f3660a59adb3717150e880c2e1a1966b52aa9ca3ba042c274c24ca",
+          "git_blob_sha1": "a1d7f1af12331854759e773670e735d2e4d09c3e"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1272-candidate.stdout",
+          "mode": "100644",
+          "bytes": 566,
+          "sha256": "290bd2b0049fb8aa50d0659143ccb3fd5dc18a493c71136c1e3df774585b30d7",
+          "git_blob_sha1": "d734bce3f895b4122dae9a779e6e3df03c19a345"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1462-baseline-exit.json",
+          "mode": "100644",
+          "bytes": 501,
+          "sha256": "e70645440a5a6d72d753977c5756b8990180ec4fc82c594bdcb58dfe057a2c5a",
+          "git_blob_sha1": "b3caacc8719a65f7bacdfd94ace64ef7d0dd51a5"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1462-baseline.stdout",
+          "mode": "100644",
+          "bytes": 566,
+          "sha256": "290bd2b0049fb8aa50d0659143ccb3fd5dc18a493c71136c1e3df774585b30d7",
+          "git_blob_sha1": "d734bce3f895b4122dae9a779e6e3df03c19a345"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1462-candidate-exit.json",
+          "mode": "100644",
+          "bytes": 504,
+          "sha256": "cc891ef308f7a11adf05fc78123928ccf273400dfdfedf93e3fa211a2bb869cf",
+          "git_blob_sha1": "cd6166f256e3aa1200b6a92c1ed0489e40829dc2"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/evidence/trace-libri-speaker-1462-candidate.stdout",
+          "mode": "100644",
+          "bytes": 566,
+          "sha256": "290bd2b0049fb8aa50d0659143ccb3fd5dc18a493c71136c1e3df774585b30d7",
+          "git_blob_sha1": "d734bce3f895b4122dae9a779e6e3df03c19a345"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/independent/independent-result-review.json",
+          "mode": "100644",
+          "bytes": 52536,
+          "sha256": "e09b6a6e9d23203a2fc2e9408b4f26e85848c222028a47144d82a2eef3af0103",
+          "git_blob_sha1": "a70470d0e71c6832fd9aba43d826695fccb2c2ed"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/inputs/inputs.json",
+          "mode": "100644",
+          "bytes": 5136,
+          "sha256": "5018b2f8e2a2553b01970ef70b38d11f52d53b7c57398ce740366922330cea12",
+          "git_blob_sha1": "b5d962db66f0df4709432c6d732bc4e11cf055c0"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1272-baseline/RESULT.json",
+          "mode": "100644",
+          "bytes": 12328,
+          "sha256": "f2946af349c9fe94d5c0536db4728864ef0bdd1e5418658245e1c885543bfbc5",
+          "git_blob_sha1": "4a7d7c9312694784f3eef080841c3f1c9b82b824"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1272-baseline/libri-speaker-1272.stdout.json",
+          "mode": "100644",
+          "bytes": 2878,
+          "sha256": "d5a685154ca6fc674c5fae2265e638f4671f563a5193714c978f55f7f8aeb485",
+          "git_blob_sha1": "13df67680c7b170067f525b4c38dc6c097f45daa"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1272-candidate/RESULT.json",
+          "mode": "100644",
+          "bytes": 12331,
+          "sha256": "af08b4b236c9491a79dde43e14ec21e55646570633ad046eec47b97cd14a484a",
+          "git_blob_sha1": "4dd1e07c8b353804fbe064e6df0094bf2010431a"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1272-candidate/libri-speaker-1272.stdout.json",
+          "mode": "100644",
+          "bytes": 2869,
+          "sha256": "71e2cdd281d2b36d7dc4070fa3f7912e7378a148de51ea6e72849811ff3a3de9",
+          "git_blob_sha1": "6ecfc410b3f66c12c6794d3312e384a26622eac0"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-baseline/RESULT.json",
+          "mode": "100644",
+          "bytes": 13745,
+          "sha256": "3ddc66ff9a6dc74d251e39b7a698b7727a30d852694c33dd1e5ff0dcc3b83a67",
+          "git_blob_sha1": "d77b5583eb013eb817fceb9d05124d941c06d6b0"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-baseline/libri-speaker-1462.stdout.json",
+          "mode": "100644",
+          "bytes": 2878,
+          "sha256": "a3d7c6fcbbb8a70bb04943c73fe3cac19a6597b730464ef575022921f200f5bb",
+          "git_blob_sha1": "9fe39d494357fd74e57b83b28725e15cf583acba"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-candidate/RESULT.json",
+          "mode": "100644",
+          "bytes": 13746,
+          "sha256": "27eec39d8aea5ef8414cccb7bbf971098dd646a83fb1677fb7f3fff55e6cd429",
+          "git_blob_sha1": "f07180e041bb6a044fc24d0951c59ea8af4704d3"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-candidate/libri-speaker-1462.stdout.json",
+          "mode": "100644",
+          "bytes": 2869,
+          "sha256": "d47ec27688148636a2310f64e9e97428e0f5f9d817ec85b06f2008735c4126e8",
+          "git_blob_sha1": "b7456fd4829d218342bb9245f1e6495e8463c402"
+        }
+      ],
+      "scope": "Register exactly 33 byte-preserved text members from the completed bounded A/B artifact, its independent saved-result review and a new final execution-status entry. The actual run completed 8/8 model passes and 54 synthetic numeric pairs; this saved-result publication performs no execution and does not change workers, workflows, earlier reports, labels, training admission or hardware qualification.",
+      "rationale": "Preserve the actual same-run host performance and two full byte-identical embedding/head traces with their input, source, compiler, object and invocation evidence. Append only these 35 previously absent paths; retain every old retained/baseline row, prior integration entry and historical registration. CPU speedup is measured on this AMD runner against a fresh same-run baseline; empty event sequences do not establish acoustic accuracy or SSC305 readiness.",
+      "execution_run_id": 44006082197,
+      "execution_artifact_id": 14294576842,
+      "execution_artifact_sha256": "f36222805244d4c724196d3faf9265f776ff020e5478f1a7845ebfd16dda9fe5",
+      "pipeline_source_commit": "342e73655be56d867f7833e6076e16100c429dd0"
     }
   ]
 }
