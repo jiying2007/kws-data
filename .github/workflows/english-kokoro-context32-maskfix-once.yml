@@ -1,0 +1,345 @@
+name: English context32 native int32 first forward once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-kokoro-context32-maskfix-once.yml
+      - automation/english_kokoro_context32_maskfix_source.py
+      - automation/english_kokoro_context32_maskfix_once.py
+      - automation/english_kokoro_context32_maskfix_plan.json
+      - automation/test_english_kokoro_context32_maskfix.py
+      - automation/english_kokoro_context32_mask_observe.py
+      - automation/test_english_kokoro_context32_mask_observe.py
+      - automation/english_kokoro_context32_processor_check.py
+      - automation/test_english_kokoro_context32_processor_check.py
+      - automation/english_kokoro_context32_mask_compare.py
+      - automation/test_english_kokoro_context32_mask_compare.py
+      - docs/ENGLISH_KOKORO_CONTEXT32_MASKFIX_20261118.md
+  push:
+    branches: [main]
+    paths:
+      - automation/english_kokoro_context32_maskfix_plan.json
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-kokoro-context32-maskfix-20261118-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '4'
+  MKL_NUM_THREADS: '4'
+  OPENBLAS_NUM_THREADS: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  CONTEXT32_TORCH_PACKAGE: torch==2.9.1+cpu
+  CONTEXT32_PHONE_PACKAGES: transformers==4.46.3 numpy==1.26.4 huggingface-hub==0.36.2
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      enabled: ${{ steps.contract.outputs.enabled }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify immutable recovery sources and mock interfaces
+        id: contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_kokoro_context32_maskfix.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_kokoro_context32_mask_observe.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_kokoro_context32_processor_check.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_kokoro_context32_mask_compare.py -v
+            python3 -I -S -B "${args[@]}" automation/english_kokoro_context32_maskfix_once.py \
+              --plan automation/english_kokoro_context32_maskfix_plan.json --source-check
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          plan = json.loads(pathlib.Path('automation/english_kokoro_context32_maskfix_plan.json').read_bytes())
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('enabled=' + str(plan['enabled']).lower() + '\n')
+          PYCODE
+  processor-native-smoke:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 &&
+      ((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) ||
+       (github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.source-contract.outputs.enabled == 'true'))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      KWS_CONTEXT32_PROCESSOR_TASK: public-native-int32-smoke-v1
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Install the exact CPU phone runtime
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/context32-maskfix-runtime"
+          python3 -m venv "$RUNNER_TEMP/context32-maskfix-venv"
+          "$RUNNER_TEMP/context32-maskfix-venv/bin/python" -m pip install \
+            --index-url https://download.pytorch.org/whl/cpu "$CONTEXT32_TORCH_PACKAGE" \
+            > "$RUNNER_TEMP/context32-maskfix-runtime/TORCH_INSTALL.log" 2>&1
+          "$RUNNER_TEMP/context32-maskfix-venv/bin/python" -m pip install $CONTEXT32_PHONE_PACKAGES \
+            > "$RUNNER_TEMP/context32-maskfix-runtime/INSTALL.log" 2>&1
+          "$RUNNER_TEMP/context32-maskfix-venv/bin/python" -m pip check \
+            > "$RUNNER_TEMP/context32-maskfix-runtime/PIP_CHECK.log" 2>&1
+          "$RUNNER_TEMP/context32-maskfix-venv/bin/python" -m pip freeze --all \
+            > "$RUNNER_TEMP/context32-maskfix-runtime/PIP_FREEZE.txt"
+      - name: Exercise the real shared processor without weights, model construction or forward
+        shell: bash
+        timeout-minutes: 4
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 3m "$RUNNER_TEMP/context32-maskfix-venv/bin/python" -I -B \
+            automation/english_kokoro_context32_processor_check.py \
+            --output "$RUNNER_TEMP/context32-native-processor-proof"
+      - name: Retain actual processor-only evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: context32-native-processor-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/context32-native-processor-proof/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain processor-only runtime installation evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: context32-native-processor-runtime-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/context32-maskfix-runtime/
+          retention-days: 30
+          if-no-files-found: warn
+  prepare:
+    needs: [source-contract, processor-native-smoke]
+    if: >-
+      needs.source-contract.outputs.enabled == 'true' && needs.processor-native-smoke.result == 'success' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    outputs:
+      source_ready: ${{ steps.readback.outputs.source_ready }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Guard the unique recovery successor before fetching the actual prior packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain)"
+          mkdir "$RUNNER_TEMP/context32-maskfix-prepare-runtime"
+          python3 -I -S -B automation/english_kokoro_context32_maskfix_once.py \
+            --plan automation/english_kokoro_context32_maskfix_plan.json --guard \
+            > "$RUNNER_TEMP/context32-maskfix-prepare-runtime/GUARD.json"
+      - name: Fetch one exact raw prior final ZIP and its actual API identities
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib, subprocess
+          plan = json.loads(pathlib.Path('automation/english_kokoro_context32_maskfix_plan.json').read_bytes())
+          old = plan['recovery']; artifact = old['prior_artifact']
+          folder = pathlib.Path(os.environ['RUNNER_TEMP']) / 'context32-maskfix-inputs'
+          folder.mkdir(mode=0o700)
+          endpoints = {
+              'prior-final.zip': 'repos/jiying2007/kws-data/actions/artifacts/' + str(artifact['id']) + '/zip',
+              'prior-final.artifact.json': 'repos/jiying2007/kws-data/actions/artifacts/' + str(artifact['id']),
+              'prior-run.json': 'repos/jiying2007/kws-data/actions/runs/' + str(old['prior_run_id']),
+              'prior-jobs.json': 'repos/jiying2007/kws-data/actions/runs/' + str(old['prior_run_id']) + '/jobs?filter=all&per_page=100',
+          }
+          for name, endpoint in endpoints.items():
+              with (folder / name).open('xb') as stream:
+                  subprocess.run(['gh', 'api', endpoint], check=True, stdout=stream, timeout=120)
+          PYCODE
+      - name: Verify the terminal zero-forward proof and reuse the existing full PCM without derivation
+        shell: bash
+        timeout-minutes: 12
+        run: |
+          set +e
+          timeout --signal=TERM --kill-after=30s 11m python3 -I -S -B \
+            automation/english_kokoro_context32_maskfix_once.py --plan automation/english_kokoro_context32_maskfix_plan.json \
+            --prepare --inputs "$RUNNER_TEMP/context32-maskfix-inputs" --output "$RUNNER_TEMP/context32-maskfix-source" \
+            > "$RUNNER_TEMP/context32-maskfix-prepare-runtime/COMMAND_STDOUT.json" \
+            2> "$RUNNER_TEMP/context32-maskfix-prepare-runtime/COMMAND_STDERR.log"
+          code=$?
+          CODE="$code" python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'context32-maskfix-prepare-runtime/COMMAND_EXIT.json'
+          p.write_text(json.dumps({'exit_code': int(os.environ['CODE']), 'retry_count': 0, 'new_derivations': 0}) + '\n')
+          PYCODE
+          exit "$code"
+      - name: Read back the immutable existing-input handoff
+        id: readback
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -f "$RUNNER_TEMP/context32-maskfix-source/FILES.json"; then
+            python3 -I -S -B automation/english_kokoro_context32_maskfix_once.py \
+              --plan automation/english_kokoro_context32_maskfix_plan.json --source-readback \
+              --source "$RUNNER_TEMP/context32-maskfix-source" \
+              > "$RUNNER_TEMP/context32-maskfix-prepare-runtime/SOURCE_READBACK.json"
+            echo 'source_ready=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'source_ready=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Retain the one raw prior ZIP and reuse proof
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kokoro-context32-maskfix-source
+          path: ${{ runner.temp }}/context32-maskfix-source/
+          retention-days: 30
+          if-no-files-found: warn
+          compression-level: 6
+      - name: Retain actual reuse command evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kokoro-context32-maskfix-prepare-runtime
+          path: ${{ runner.temp }}/context32-maskfix-prepare-runtime/
+          retention-days: 30
+          if-no-files-found: warn
+  observe:
+    needs: [source-contract, prepare]
+    if: >-
+      needs.prepare.outputs.source_ready == 'true' && needs.source-contract.outputs.enabled == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        provider: [phoneme, phoneme_lv60]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          name: kokoro-context32-maskfix-source
+          path: ${{ runner.temp }}/context32-maskfix-source
+      - name: Verify the independent main guard and immutable input reuse
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_kokoro_context32_maskfix_once.py \
+            --plan automation/english_kokoro_context32_maskfix_plan.json --guard
+          python3 -I -S -B automation/english_kokoro_context32_maskfix_once.py \
+            --plan automation/english_kokoro_context32_maskfix_plan.json --source-readback --source "$RUNNER_TEMP/context32-maskfix-source"
+      - name: Install the exact CPU phone runtime
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/context32-maskfix-runtime"
+          python3 -m venv "$RUNNER_TEMP/context32-maskfix-venv"
+          "$RUNNER_TEMP/context32-maskfix-venv/bin/python" -m pip install \
+            --index-url https://download.pytorch.org/whl/cpu "$CONTEXT32_TORCH_PACKAGE" \
+            > "$RUNNER_TEMP/context32-maskfix-runtime/TORCH_INSTALL.log" 2>&1
+          "$RUNNER_TEMP/context32-maskfix-venv/bin/python" -m pip install $CONTEXT32_PHONE_PACKAGES \
+            > "$RUNNER_TEMP/context32-maskfix-runtime/INSTALL.log" 2>&1
+          "$RUNNER_TEMP/context32-maskfix-venv/bin/python" -m pip check \
+            > "$RUNNER_TEMP/context32-maskfix-runtime/PIP_CHECK.log" 2>&1
+          "$RUNNER_TEMP/context32-maskfix-venv/bin/python" -m pip freeze --all \
+            > "$RUNNER_TEMP/context32-maskfix-runtime/PIP_FREEZE.txt"
+      - name: Perform only the previously unstarted native model forwards
+        shell: bash
+        timeout-minutes: 32
+        run: |
+          set +e
+          timeout --signal=TERM --kill-after=30s 31m "$RUNNER_TEMP/context32-maskfix-venv/bin/python" -I -B \
+            automation/english_kokoro_context32_maskfix_once.py --plan automation/english_kokoro_context32_maskfix_plan.json \
+            --observe '${{ matrix.provider }}' --source "$RUNNER_TEMP/context32-maskfix-source" \
+            --output "$RUNNER_TEMP/context32-maskfix-observer" --assets "$RUNNER_TEMP/context32-maskfix-private-model" \
+            > "$RUNNER_TEMP/context32-maskfix-runtime/COMMAND_STDOUT.json" \
+            2> "$RUNNER_TEMP/context32-maskfix-runtime/COMMAND_STDERR.log"
+          code=$?
+          CODE="$code" python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'context32-maskfix-runtime/COMMAND_EXIT.json'
+          p.write_text(json.dumps({'exit_code': int(os.environ['CODE']), 'retry_count': 0, 'forward_replays': 0}) + '\n')
+          PYCODE
+          exit "$code"
+      - name: Retain all first-forward receipts and numerical evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kokoro-context32-maskfix-observer-${{ matrix.provider }}
+          path: ${{ runner.temp }}/context32-maskfix-observer/
+          retention-days: 30
+          if-no-files-found: warn
+          compression-level: 6
+      - name: Retain runtime and actual command exit
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kokoro-context32-maskfix-runtime-${{ matrix.provider }}
+          path: ${{ runner.temp }}/context32-maskfix-runtime/
+          retention-days: 30
+          if-no-files-found: warn
+  combine:
+    needs: [source-contract, prepare, observe]
+    if: >-
+      always() && needs.source-contract.result == 'success' && needs.source-contract.outputs.enabled == 'true' &&
+      needs.prepare.outputs.source_ready == 'true' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          name: kokoro-context32-maskfix-source
+          path: ${{ runner.temp }}/context32-maskfix-source
+      - name: Collect available first-forward observations with unavailable providers explicit
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          pattern: kokoro-context32-maskfix-observer-*
+          path: ${{ runner.temp }}/context32-maskfix-observers
+          merge-multiple: false
+      - name: Compare saved observations without another processor or model call
+        shell: bash
+        timeout-minutes: 17
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/context32-maskfix-observers"
+          timeout --signal=TERM --kill-after=30s 16m python3 -I -S -B \
+            automation/english_kokoro_context32_maskfix_once.py --plan automation/english_kokoro_context32_maskfix_plan.json \
+            --combine --source "$RUNNER_TEMP/context32-maskfix-source" --observers "$RUNNER_TEMP/context32-maskfix-observers" \
+            --output "$RUNNER_TEMP/context32-maskfix-result"
+      - name: Retain one raw prior packet plus the complete new evidence closure
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-kokoro-context32-maskfix-${{ github.run_id }}
+          path: ${{ runner.temp }}/context32-maskfix-result/
+          retention-days: 30
+          if-no-files-found: warn
+          compression-level: 6
