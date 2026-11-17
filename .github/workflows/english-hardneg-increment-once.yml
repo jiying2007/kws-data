@@ -1,0 +1,81 @@
+name: English reviewed hard-negative head increment once
+on:
+  pull_request:
+    paths:
+      - automation/english_hardneg_increment_once.py
+      - automation/english_hardneg_increment_plan.json
+      - automation/test_english_hardneg_increment.py
+      - research/english_hardneg_increment_20261117/**
+      - .github/workflows/english-hardneg-increment-once.yml
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-hardneg-increment-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-hardneg-increment-20261117-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Validate source, reviewed interval bounds and execution contracts
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_hardneg_increment_once.py --preflight
+          python3 -I -S -B automation/test_english_hardneg_increment.py -v
+          git diff --exit-code
+  reviewed-negative-increment:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == 'c312a6ef2335af0b4d16c17c598693fc95273c0c'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Train one fixed increment and verify saved-stream native head behavior
+        timeout-minutes: 21
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+          NUMEXPR_NUM_THREADS: '1'
+          PYTHONHASHSEED: '20261117'
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_hardneg_increment_once.py --execute \
+            --output "$RUNNER_TEMP/english-hardneg-increment"
+      - name: Retain weights, reviewed inputs, cached predictions and partial receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-hardneg-increment-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-hardneg-increment/evidence/
+            ${{ runner.temp }}/english-hardneg-increment/source/
+            ${{ runner.temp }}/english-hardneg-increment/inputs/
+            ${{ runner.temp }}/english-hardneg-increment/models/
+            ${{ runner.temp }}/english-hardneg-increment/cache/
+            ${{ runner.temp }}/english-hardneg-increment/predictions/
+            ${{ runner.temp }}/english-hardneg-increment/runtime/
+            ${{ runner.temp }}/english-hardneg-increment/STARTED.json
+            ${{ runner.temp }}/english-hardneg-increment/MANIFEST.json
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: warn

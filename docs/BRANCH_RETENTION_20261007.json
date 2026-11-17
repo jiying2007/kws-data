@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2423,
+  "expected_tracked_files": 2434,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -273,6 +273,7 @@
     ".github/workflows/english-dense-quality-once.yml",
     ".github/workflows/english-final-ipa-rendering-once.yml",
     ".github/workflows/english-final144-weak-intent-once.yml",
+    ".github/workflows/english-hardneg-increment-once.yml",
     ".github/workflows/english-hardneg-natural32-once.yml",
     ".github/workflows/english-hardneg-natural32-recovery-once.yml",
     ".github/workflows/english-hardneg-natural32-retained-once.yml",
@@ -314,6 +315,8 @@
     "automation/english_final_embedding_infer.py",
     "automation/english_final_ipa_rendering_once.py",
     "automation/english_final_ipa_xlsr_once.py",
+    "automation/english_hardneg_increment_once.py",
+    "automation/english_hardneg_increment_plan.json",
     "automation/english_hardneg_natural32_once.py",
     "automation/english_hardneg_natural32_plan.json",
     "automation/english_hardneg_natural32_recovery_once.py",
@@ -376,6 +379,7 @@
     "automation/test_english_final144_embedding_once.py",
     "automation/test_english_final_ipa_rendering_once.py",
     "automation/test_english_final_ipa_xlsr_once.py",
+    "automation/test_english_hardneg_increment.py",
     "automation/test_english_hardneg_natural32.py",
     "automation/test_english_hardneg_natural32_recovery.py",
     "automation/test_english_hardneg_natural32_retained.py",
@@ -491,6 +495,13 @@
     "research/english_dense_quality_20261117/audit/source_review.json",
     "research/english_dense_quality_20261117/audit/test_audit_dense.py",
     "research/english_dense_quality_20261117/review/compare_dense.py",
+    "research/english_hardneg_increment_20261117/English_KWS_9_Candidates_Review_20261117.zip",
+    "research/english_hardneg_increment_20261117/INPUT_PINS.json",
+    "research/english_hardneg_increment_20261117/OWNER_REVIEW.json",
+    "research/english_hardneg_increment_20261117/PROTOCOL_zh.md",
+    "research/english_hardneg_increment_20261117/SOURCE_ADMISSION.json",
+    "research/english_hardneg_increment_20261117/STATIC_INPUT_PREFLIGHT.json",
+    "research/english_hardneg_increment_20261117/audit/audit_source_admission.py",
     "research/english_hardneg_natural32_20261117/PROTOCOL_zh.md",
     "research/english_hardneg_natural32_20261117/SOURCE_MEMBERSHIP_REVIEW.json",
     "research/english_hardneg_natural32_20261117/UPSTREAM_ADOPTION_zh.md",
@@ -29505,6 +29516,105 @@
         }
       ],
       "rationale": "Retain the authenticated successful public natural32 scan (run 44063710088), raw result and supervisor receipts, strict 659-payload manifest, nine UNKNOWN review candidates and the frozen portable independent saved-byte auditor. Preserve all prior files and consumed execution sources; no new training, model inference, audio decode, retuning, trusted-negative admission, FAR/FRR claim or SSC305 qualification is introduced by this results-only registration."
+    },
+    {
+      "campaign": "english-owner-reviewed-hardneg-increment-execution-20261117",
+      "source_commit": "da54194e9670e4e01115797fbcd83189830c0501",
+      "base_commit": "c312a6ef2335af0b4d16c17c598693fc95273c0c",
+      "previous_manifest_git_blob_sha1": "7dea0bc64523b3bce7fbac4421d3365ec0e1c796",
+      "paths": [
+        ".github/workflows/english-hardneg-increment-once.yml",
+        "automation/english_hardneg_increment_once.py",
+        "automation/english_hardneg_increment_plan.json",
+        "automation/test_english_hardneg_increment.py",
+        "research/english_hardneg_increment_20261117/INPUT_PINS.json",
+        "research/english_hardneg_increment_20261117/OWNER_REVIEW.json",
+        "research/english_hardneg_increment_20261117/SOURCE_ADMISSION.json",
+        "research/english_hardneg_increment_20261117/audit/audit_source_admission.py",
+        "research/english_hardneg_increment_20261117/STATIC_INPUT_PREFLIGHT.json",
+        "research/english_hardneg_increment_20261117/PROTOCOL_zh.md",
+        "research/english_hardneg_increment_20261117/English_KWS_9_Candidates_Review_20261117.zip"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-hardneg-increment-once.yml",
+          "mode": "100644",
+          "bytes": 3483,
+          "sha256": "7e5bb73ef255d7ccee314faefa1261eec288d6539eba25066e466b9855c8c050",
+          "git_blob_sha1": "7b68fc3b0cd4e65e456d64c5852c8104c49a00db"
+        },
+        {
+          "path": "automation/english_hardneg_increment_once.py",
+          "mode": "100644",
+          "bytes": 69681,
+          "sha256": "ac89f4564bb3f93661beb02f01f7766616322a39096c94a4bdac84560f5a9ec1",
+          "git_blob_sha1": "45f4d3c27ae414d63574a0a31300b1ecdf58da12"
+        },
+        {
+          "path": "automation/english_hardneg_increment_plan.json",
+          "mode": "100644",
+          "bytes": 5207,
+          "sha256": "c6740c63524359d9a1a96335793c2b0edd723b415a648e2a4f4b2ee73f72e15e",
+          "git_blob_sha1": "ba40badab7732260a9a8d4364939d539bf87d480"
+        },
+        {
+          "path": "automation/test_english_hardneg_increment.py",
+          "mode": "100644",
+          "bytes": 16408,
+          "sha256": "e6aab09102b6f544a86846f62a3c658271a595cf841adf3bab4016b7a99fd738",
+          "git_blob_sha1": "35aa857a7abbb457e5187d69e211b7a37e129f36"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/INPUT_PINS.json",
+          "mode": "100644",
+          "bytes": 5401,
+          "sha256": "7ca659f27925a5d20b1aeb3d39f66076125bcc4f023270ea8d530b352134465d",
+          "git_blob_sha1": "ce968f5033bd832405b68e8e4ee83e8adc5e30c6"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/OWNER_REVIEW.json",
+          "mode": "100644",
+          "bytes": 10313,
+          "sha256": "0bec70e613449d04a744b7f07e2b0257bde7ed749bc82fe3a7800c9ffba7aaba",
+          "git_blob_sha1": "9546e891ea94bc634ab0c5f9d4697fce6c824cf0"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/SOURCE_ADMISSION.json",
+          "mode": "100644",
+          "bytes": 112563,
+          "sha256": "5dd9a2c1026112860a97b188dacaebb47b6c53652b68126f17a8d4908b067da9",
+          "git_blob_sha1": "37bb96875587065779abb6e1d85d17407f42198d"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/audit/audit_source_admission.py",
+          "mode": "100644",
+          "bytes": 25273,
+          "sha256": "aa8ece3f11a053430bbef5fe0629976e280f15c2f7c4f0b6aefba30edfcf5f37",
+          "git_blob_sha1": "894c04c163337983fc85bc5e8ff16ac91730bbbc"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/STATIC_INPUT_PREFLIGHT.json",
+          "mode": "100644",
+          "bytes": 264,
+          "sha256": "6c9f431431af41103840b5fe3dfac02995856b68fa3b0c88fc1d5c1c638ac2b6",
+          "git_blob_sha1": "17f55939d7f3bb9a384ec457055d93c4ee7b78fe"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/PROTOCOL_zh.md",
+          "mode": "100644",
+          "bytes": 5306,
+          "sha256": "37eaf68e30e1454cfa7afdbc3787af742f529f947cb7880e42585454e2a74c92",
+          "git_blob_sha1": "58c6fc61767f65cf9a6faa4514a12c843ebbd2be"
+        },
+        {
+          "path": "research/english_hardneg_increment_20261117/English_KWS_9_Candidates_Review_20261117.zip",
+          "mode": "100644",
+          "bytes": 1865208,
+          "sha256": "23ff12e76b2a3c0cf2919f48c16712a374d186c8f5c2ac01af7add7e64005682",
+          "git_blob_sha1": "a6c2c997af23f1bd1d64b1a9251c14f324017e40"
+        }
+      ],
+      "rationale": "Append the project owner's explicit no-wake-word review for exactly nine immutable candidate windows, bind the original review packet and full receptive-field source audit, and admit 134 saved 16x96 inputs from eight sources to one fixed research head increment. Freeze 96 updates, original six terms plus one source-balanced negative term, unchanged normalizers, 323 saved-stream candidate replays and one existing native-head consumer replay. Preserve all prior evidence and default weights. No new audio, frontend, TTS, ASR, compiler, parameter sweep, retry, independent FAR/FRR or SSC305 qualification; a failed regression retains weights but rejects promotion."
     }
   ]
 }
