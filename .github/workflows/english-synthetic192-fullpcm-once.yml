@@ -1,0 +1,99 @@
+name: English synthetic192 retained head full PCM native and ARM once
+on:
+  pull_request:
+    paths:
+      - automation/english_synthetic192_fullpcm_once.py
+      - automation/english_synthetic192_fullpcm_plan.json
+      - automation/test_english_synthetic192_fullpcm.py
+      - .github/workflows/english-synthetic192-fullpcm-once.yml
+      - automation/package_english_synthetic192_sdk.py
+      - automation/verify_english_synthetic192_sdk.py
+      - automation/english_synthetic192_sdk_plan.json
+      - automation/test_english_synthetic192_sdk.py
+      - docs/ENGLISH_SYNTHETIC192_SDK_CONTRACT_20261117.md
+  push:
+    branches: [main]
+    paths:
+      - automation/english_synthetic192_fullpcm_once.py
+      - automation/english_synthetic192_fullpcm_plan.json
+      - .github/workflows/english-synthetic192-fullpcm-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-synthetic192-fullpcm-20261117-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      enabled: ${{ steps.plan.outputs.enabled }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check fixed sources and regression guards without inference
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_synthetic192_fullpcm_once.py
+          python3 -I -S -B automation/test_english_synthetic192_fullpcm.py -v
+          python3 -I -S -B -O automation/test_english_synthetic192_fullpcm.py -v
+          python3 -I -S -B -OO automation/test_english_synthetic192_fullpcm.py -v
+          python3 -I -S -B automation/package_english_synthetic192_sdk.py
+          python3 -I -S -B automation/test_english_synthetic192_sdk.py
+          python3 -I -S -B -O automation/test_english_synthetic192_sdk.py
+          python3 -I -S -B -OO automation/test_english_synthetic192_sdk.py
+          python3 -I -S -B tools/verify_branch_retention.py
+          git diff --exit-code
+      - id: plan
+        name: Read frozen execution state
+        run: |
+          python3 -I -S -B - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          p = json.loads(Path('automation/english_synthetic192_fullpcm_plan.json').read_bytes())
+          print('enabled=' + str(p['enabled']).lower())
+          PY
+  retained-head-fullpcm:
+    needs: source-contract
+    if: >-
+      needs.source-contract.outputs.enabled == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Verify fixed PCM on original installed native and ARM consumers
+        timeout-minutes: 31
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+          NUMEXPR_NUM_THREADS: '1'
+        run: |
+          python3 -I -S -B automation/english_synthetic192_fullpcm_once.py --execute \
+            --output "$RUNNER_TEMP/english-synthetic192-fullpcm"
+      - name: Retain complete or partial numeric evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-synthetic192-fullpcm-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-synthetic192-fullpcm/evidence/
+            ${{ runner.temp }}/english-synthetic192-fullpcm/source/
+            ${{ runner.temp }}/english-synthetic192-fullpcm/inputs/
+            ${{ runner.temp }}/english-synthetic192-fullpcm/models/
+            ${{ runner.temp }}/english-synthetic192-fullpcm/bin/
+            ${{ runner.temp }}/english-synthetic192-fullpcm/traces/
+            ${{ runner.temp }}/english-synthetic192-fullpcm/STARTED.json
+            ${{ runner.temp }}/english-synthetic192-fullpcm/MANIFEST.json
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: warn

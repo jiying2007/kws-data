@@ -1,0 +1,80 @@
+name: English synthetic source expansion convergence once
+on:
+  pull_request:
+    paths:
+      - automation/english_synthetic192_train_once.py
+      - automation/english_synthetic192_training_core.py
+      - automation/english_synthetic192_training_plan.json
+      - automation/test_english_synthetic192_training.py
+      - .github/workflows/english-synthetic192-train-once.yml
+  push:
+    branches: [main]
+    paths:
+      - automation/english_synthetic192_training_plan.json
+      - .github/workflows/english-synthetic192-train-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-synthetic192-training-20261117-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Check the source split, immutable recipe, and disabled execution bindings
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/english_synthetic192_train_once.py --preflight
+            python3 -I -S -B "${args[@]}" automation/test_english_synthetic192_training.py -v
+          done
+          test -z "$(git status --porcelain)"
+  synthetic-training:
+    needs: source-contract
+    if: ${{ false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.12"
+      - name: Train the one fixed source expansion and open the frozen test at most once
+        timeout-minutes: 61
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OMP_NUM_THREADS: "1"
+          OPENBLAS_NUM_THREADS: "1"
+          MKL_NUM_THREADS: "1"
+          NUMEXPR_NUM_THREADS: "1"
+          PYTHONHASHSEED: "20261117"
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_synthetic192_train_once.py --execute \
+            --output "$RUNNER_TEMP/english-synthetic192-training-$GITHUB_RUN_ID"
+      - name: Preserve selected weights, full denominators, synthetic PCM, and partial receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-synthetic192-training-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-synthetic192-training-${{ github.run_id }}/
+            !${{ runner.temp }}/english-synthetic192-training-${{ github.run_id }}/downloads/**
+          include-hidden-files: true
+          compression-level: 6
+          retention-days: 30
+          if-no-files-found: warn
