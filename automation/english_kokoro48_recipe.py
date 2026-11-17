@@ -74,6 +74,10 @@ RUNTIME_VERSIONS = {
     "scipy": "1.15.3", "transformers": "4.46.3", "huggingface-hub": "0.36.2",
     "misaki": "0.9.4", "loguru": "0.7.3", "spacy": "3.7.5",
     "spacy-curated-transformers": "0.2.2", "attrs": "25.3.0",
+    # Typer >=0.26 vendors Click, but spaCy 3.7.5 / weasel 0.4.3 still
+    # import external Click. Keep the observed Typer packages and explicitly
+    # install the Click release retaining both split_arg_string import paths.
+    "click": "8.3.1", "typer": "0.29.1", "typer-slim": "0.24.0",
 }
 
 SYNTHESIS = {

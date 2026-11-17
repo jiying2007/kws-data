@@ -1,6 +1,12 @@
-# Kokoro48：仅训练侧的合成机制探针
+# Kokoro48：零调用运行时恢复与训练侧探针
 
-这是一轮尚待执行的独立诊断。前两批 Piper 192 的原始录音、机器观察、UNKNOWN 和拒收结果保持原样。本探针只决定是否值得另行预注册一批新来源；它不训练 KWS，不更换当前模型，不产生训练快照，也不证明真实 FAR/FRR 或硬件质量。
+实际 run `44114592216` 在导入依赖时因 `No module named 'click'` 停止：原始包保留 48 条 NOT_STARTED_NO_RETRY，TTS 前向/返回/完成均为 0；没有逐条 STARTED、模型加载标记或音频，五个观察器全部未开始。原始失败包、UNKNOWN 和旧工作流 guard 原样保留。这是初始化失败，未得到该轮音频质量结论。
+
+本次 `kokoro48-zero-call-runtime-recovery-44114592216-v1` 只修运行时：补固定 `click==8.3.1`，同时显式固定原实际 `typer==0.29.1`、`typer-slim==0.24.0`。共享 `automation/english_kokoro48_runtime.py` 同时供公开同仓 PR 的 runtime-import job 和 production 使用，安装同一组依赖，再执行 `pip check` 与离线 `from kokoro import KModel`，不构造模型、不下载模型权重、不前向。PR 导入检查通过后才合并执行。
+
+首次合成前必须下载并逐字校验原 source/runtime/probe 三个真实 artifact（14342765906、14342038028、14341299389）的固定大小及 SHA256，重新检查真实 run/head、48 个请求/种子/音素/预设不变、所有前向为 0、无任何音频/捕获/模型加载标记、原参考政策字节不变；不会重新判定旧 UNKNOWN。完整旧 ZIP 与恢复核验收据保存在新包中。源码只允许从实际旧 head `64404e9ebf6a38c6ce674345c6904548f33b7079` 的一个精确主线后继执行，attempt 1；不能只把前驱改成别的提交重复消费这一恢复身份。默认 plan 关闭，没有自动重试或循环恢复。
+
+以下声学设计、48 个请求身份、两个模式、参考规则和 288 次模型尝试总预算均未变化。整体 recipe SHA 因运行时版本声明变化而如实更新。
 
 ## 冻结范围
 
@@ -35,6 +41,6 @@ LV60 来自官方固定 revision 的六份资产，首次真实下载逐一核�
 
 ## 执行与产物
 
-`english-kokoro48-once.yml` 只接受 public main 的精确下一次 push、attempt 1。默认 plan 关闭；真实前驱提交和代码/配方 pins 审阅齐全后才可启用。PR 只运行 stdlib source/fixture 检查；执行顺序为 source contract → generation → 五路独立 observation → combine，观察失败仍保留可用捕获并在 combine 显式记缺失。
+`english-kokoro48-once.yml` 只接受 public main 的精确下一次 push、attempt 1。默认 plan 关闭；真实前驱提交和代码/配方 pins 审阅齐全后才可启用。PR 运行 stdlib source/fixture 与无模型实例化的实际 runtime-import 检查；主线执行顺序为 source contract → generation → 五路独立 observation → combine，观察失败仍保留可用捕获并在 combine 显式记缺失。
 
 最终 artifact 为 `english-kokoro48-probe-<run_id>`，包含完整来源、`CORPUS_MANIFEST.json`、`MACHINE_EVIDENCE.json`、`PROBE_ANALYSIS.json`、固定参考模块/档案、所有阶段收据与 `FILES.json`。combine 绿色只表示诊断包已保存。任何实际计数、通过预设、时长或声学改善都必须来自此次真实执行，源码不填入未来结果。

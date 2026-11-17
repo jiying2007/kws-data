@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2504,
+  "expected_tracked_files": 2505,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -340,6 +340,7 @@
     "automation/english_kokoro48_once.py",
     "automation/english_kokoro48_plan.json",
     "automation/english_kokoro48_recipe.py",
+    "automation/english_kokoro48_runtime.py",
     "automation/english_phonetic192_once.py",
     "automation/english_phonetic192_plan.json",
     "automation/english_phonetic192_recipe.py",
@@ -30389,6 +30390,89 @@
         }
       ],
       "rationale": "After two observed Piper192 corpora failed frozen balanced-source admission, preregister one new train-only Kokoro48 mechanism probe. Preserve both prior labels and rules. Compare 16 short wake requests with 16 fixed-carrier requests plus 16 ordinary controls, using four disclosed style presets rather than claimed human identities. Bound synthesis to 48 and each of five observers to 48 (288 total top-level attempts), with no retries, old audio or KWS calls. Freeze official assets and direct tokens; retain full native audio and fixed predicted-duration crop. Original three ASR plus XLSR remain reference; LV60 is diagnostic only. Two distinct 3-of-4 continuation criteria may recommend a separate future batch, never training admission or a high-quality model claim. Bind only actual main predecessor to enable the first execution. Existing trainer, quality gates, full-PCM and SDK files are untouched."
+    },
+    {
+      "campaign": "english-kokoro48-zero-call-runtime-recovery-20261117",
+      "source_commit": "a0e6299890b41fb874d03473b0418eb50a89b601",
+      "base_commit": "64404e9ebf6a38c6ce674345c6904548f33b7079",
+      "previous_manifest_git_blob_sha1": "59093ced02994e617694f88e15c0a33cb8ba7d66",
+      "paths": [
+        ".github/workflows/english-kokoro48-once.yml",
+        "automation/english_kokoro48_recipe.py",
+        "automation/english_kokoro48_generate.py",
+        "automation/english_kokoro48_runtime.py",
+        "automation/english_kokoro48_once.py",
+        "automation/english_kokoro48_plan.json",
+        "automation/test_english_kokoro48.py",
+        "automation/test_english_kokoro48_generate.py",
+        "docs/ENGLISH_KOKORO48_PROBE_20261117.md"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-kokoro48-once.yml",
+          "mode": "100644",
+          "bytes": 16486,
+          "sha256": "55ec000c5c5fa42aecbdf1e488a6f9208e9acc7793313df7772307dfd3897194",
+          "git_blob_sha1": "55f8e999ddaf912a20a4677a405e9884247f391a"
+        },
+        {
+          "path": "automation/english_kokoro48_recipe.py",
+          "mode": "100644",
+          "bytes": 12389,
+          "sha256": "d010fff7f2144a672265d47367f07ab57732e5549a8c4ca7e9934a084151b369",
+          "git_blob_sha1": "c936a23db961ea8d479756634770b15e6ce51f5e"
+        },
+        {
+          "path": "automation/english_kokoro48_generate.py",
+          "mode": "100644",
+          "bytes": 24932,
+          "sha256": "69ecdf870e644e2e1a008c38dfb579d669f596bdd8db84bbbc44e082a0b5d59c",
+          "git_blob_sha1": "3d8ba64c9d2902c314392e2f7456616cb0e81637"
+        },
+        {
+          "path": "automation/english_kokoro48_runtime.py",
+          "mode": "100644",
+          "bytes": 7000,
+          "sha256": "fb8da71bdd2460700a84224003ea9c15ae0fa2b89cf27d78d5b4008db1ee3b43",
+          "git_blob_sha1": "89d595732451a675568ea8223e018a4acdf4fc97"
+        },
+        {
+          "path": "automation/english_kokoro48_once.py",
+          "mode": "100644",
+          "bytes": 70429,
+          "sha256": "e8b44a491be1255e5ad506f99b2238fc743ae0e5481d080abb45856c02c5197f",
+          "git_blob_sha1": "a7a7a188df69f0907303ceb04464ad7d05cf8391"
+        },
+        {
+          "path": "automation/english_kokoro48_plan.json",
+          "mode": "100644",
+          "bytes": 9684,
+          "sha256": "a0619e8d9a6fcb86ad13e70a74d47c14782429fd870aa2b4a8a6c68acd495b26",
+          "git_blob_sha1": "7b00d74ece7b1b008505f0288b407e837bd001b7"
+        },
+        {
+          "path": "automation/test_english_kokoro48.py",
+          "mode": "100644",
+          "bytes": 15676,
+          "sha256": "595cfe9dd6c284b0008070fcd8ba7ec3d03bb25210854b67add84a4a3f9b43aa",
+          "git_blob_sha1": "385a37a1e60b5e04224217e133c57fdded94c82d"
+        },
+        {
+          "path": "automation/test_english_kokoro48_generate.py",
+          "mode": "100644",
+          "bytes": 19288,
+          "sha256": "a678c0ab1c5c2068f432a0a2d4fa3cad9b6030aeb8c4b76250d4445be1623ea1",
+          "git_blob_sha1": "2a0f7139331107a0e462c080ad168ea129389e78"
+        },
+        {
+          "path": "docs/ENGLISH_KOKORO48_PROBE_20261117.md",
+          "mode": "100644",
+          "bytes": 6546,
+          "sha256": "333d824251e37b59aceb6d42c68299cf66a43f0a4a260f423678e2871a2b0e97",
+          "git_blob_sha1": "b6ea7def6a28ddb7492a3e042c5112c470b55edf"
+        }
+      ],
+      "rationale": "The actual first Kokoro48 run 44114592216 failed before model construction because external Click was absent. All 48 request receipts, all three exact artifact ZIPs and the combined five-observer evidence prove zero model attempts and no generated audio. Add fixed click 8.3.1 and explicitly lock the already-observed Typer versions; preserve every request, seed, voice, phone, crop, reference rule and budget. Use one shared installation, pip-check and offline import-only smoke in public same-repository PR CI and production, with no model construction in the smoke. Bind a distinct recovery identity to the exact old artifacts and the sole actual main predecessor 64404e9ebf6a38c6ce674345c6904548f33b7079. Recompute the zero-call proof before inference; allow only one first-main attempt. The old run and labels remain immutable. This never automatically expands the dataset or admits probe rows to training."
     }
   ]
 }

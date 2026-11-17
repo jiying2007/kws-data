@@ -1,10 +1,11 @@
-name: English Kokoro48 train-only mechanism probe once
+name: English Kokoro48 zero-call runtime recovery and probe once
 on:
   pull_request:
     paths:
       - .github/workflows/english-kokoro48-once.yml
       - automation/english_kokoro48_recipe.py
       - automation/english_kokoro48_generate.py
+      - automation/english_kokoro48_runtime.py
       - automation/test_english_kokoro48_generate.py
       - automation/english_kokoro48_once.py
       - automation/english_kokoro48_plan.json
@@ -58,6 +59,33 @@ jobs:
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
               stream.write('enabled=' + str(plan['enabled']).lower() + '\n')
           PYCODE
+  runtime-import:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Install the production CPU runtime and import KModel without construction
+        shell: bash
+        timeout-minutes: 14
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_kokoro48_runtime.py \
+            --venv "$RUNNER_TEMP/k48-pr-runtime-venv" \
+            --output "$RUNNER_TEMP/k48-pr-runtime-proof"
+      - name: Retain import-only runtime evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kokoro48-runtime-import-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/k48-pr-runtime-proof/
+          retention-days: 30
+          if-no-files-found: warn
   generate:
     needs: source-contract
     if: >-
@@ -84,20 +112,40 @@ jobs:
           python3 -I -S -B automation/english_kokoro48_once.py \
             --plan automation/english_kokoro48_plan.json --guard \
             > "$RUNNER_TEMP/k48-generation-runtime/GUARD.json"
-      - name: Install the pinned Kokoro CPU runtime
+      - name: Fetch the three exact previous zero-call archives
+        env:
+          GH_TOKEN: ${{ github.token }}
         shell: bash
-        timeout-minutes: 15
+        timeout-minutes: 4
         run: |
           set -euo pipefail
-          python3 -m venv "$RUNNER_TEMP/k48-tts-venv"
-          "$RUNNER_TEMP/k48-tts-venv/bin/pip" install --disable-pip-version-check \
-            --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
-          "$RUNNER_TEMP/k48-tts-venv/bin/pip" install --disable-pip-version-check \
-            'https://files.pythonhosted.org/packages/ea/cc/75f41633c75224ba820a4533163bc8b070b6bf25416014074c63284c2d4e/kokoro-0.9.4-py3-none-any.whl#sha256=a129dc6364a286bd6a92c396e9862459d3d3e45f2c15596ed5a94dcee5789efd' \
-            'misaki[en]==0.9.4' 'numpy==1.26.4' 'scipy==1.15.3' \
-            'transformers==4.46.3' 'huggingface-hub==0.36.2' 'loguru==0.7.3' \
-            'spacy==3.7.5' 'spacy-curated-transformers==0.2.2' 'attrs==25.3.0'
-          "$RUNNER_TEMP/k48-tts-venv/bin/pip" freeze > "$RUNNER_TEMP/k48-generation-runtime/pip-freeze.txt"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib, subprocess
+          plan = json.loads(pathlib.Path('automation/english_kokoro48_plan.json').read_bytes())
+          folder = pathlib.Path(os.environ['RUNNER_TEMP']) / 'k48-recovery'
+          folder.mkdir(mode=0o700)
+          for kind in ('source', 'runtime', 'probe'):
+              pin = plan['zero_call_runtime_recovery']['artifacts'][kind]
+              if type(pin['id']) is not int:
+                  raise ValueError('PINNED_ARTIFACT_ID')
+              with (folder / (kind + '.zip')).open('xb') as stream:
+                  subprocess.run(['gh', 'api', 'repos/jiying2007/kws-data/actions/artifacts/' + str(pin['id']) + '/zip'],
+                      stdout=stream, check=True, timeout=60)
+          PYCODE
+          python3 -I -S -B automation/english_kokoro48_once.py \
+            --plan automation/english_kokoro48_plan.json --verify-zero-call-recovery \
+            --recovery-source "$RUNNER_TEMP/k48-recovery/source.zip" \
+            --recovery-runtime "$RUNNER_TEMP/k48-recovery/runtime.zip" \
+            --recovery-probe "$RUNNER_TEMP/k48-recovery/probe.zip" \
+            --output "$RUNNER_TEMP/k48-generation-runtime/RECOVERY_PRECHECK.json"
+      - name: Install and import-check the exact same runtime as the public PR
+        shell: bash
+        timeout-minutes: 14
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_kokoro48_runtime.py \
+            --venv "$RUNNER_TEMP/k48-tts-venv" \
+            --output "$RUNNER_TEMP/k48-generation-runtime/installation"
       - name: Synthesize exactly the new source cells once
         shell: bash
         timeout-minutes: 17
@@ -106,7 +154,10 @@ jobs:
           set +e
           timeout --signal=TERM --kill-after=30s 16m "$RUNNER_TEMP/k48-tts-venv/bin/python" -I -B \
             automation/english_kokoro48_once.py --plan automation/english_kokoro48_plan.json \
-            --generate --output "$RUNNER_TEMP/k48-source"
+            --generate --output "$RUNNER_TEMP/k48-source" \
+            --recovery-source "$RUNNER_TEMP/k48-recovery/source.zip" \
+            --recovery-runtime "$RUNNER_TEMP/k48-recovery/runtime.zip" \
+            --recovery-probe "$RUNNER_TEMP/k48-recovery/probe.zip"
           k48_exit=$?
           set -e
           K48_EXIT="$k48_exit" python3 -I -S -B - <<'PYCODE'

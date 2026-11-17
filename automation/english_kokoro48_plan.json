@@ -55,7 +55,7 @@
   "maximum_total_model_calls": 288,
   "maximum_tts_calls": 48,
   "new_kws_calls": 0,
-  "next_main_before": "8b591ace9e426971749e099a001f124137c3f29c",
+  "next_main_before": "64404e9ebf6a38c6ce674345c6904548f33b7079",
   "observation_deadline_seconds": 3600,
   "observers": {
     "parakeet": {
@@ -169,8 +169,8 @@
     "success_status": "PROPOSE_SEPARATELY_PREREGISTERED_NEW_BATCH",
     "training_snapshot_allowed": false
   },
-  "recipe_code_sha256": "0b9a7d3e6c44fb950202e81eb4842b5c526991eb9be8cf557308cebffeca796f",
-  "recipe_sha256": "c5f207b5ecc59fa845ac77a8f6083ebab3f7d5eb87a31b6cfd4460d99dba880f",
+  "recipe_code_sha256": "d010fff7f2144a672265d47367f07ab57732e5549a8c4ca7e9934a084151b369",
+  "recipe_sha256": "e104a64717ea195b5e7544285e07fa66441be24f3d7cdc9ea8493050cd715a83",
   "reference_contract": {
     "commit": "011341c8541705a80da93ae423cfdb3d1ac9a82a",
     "module_bytes": 22786,
@@ -186,8 +186,42 @@
     "rules_sha256": "0a02fbef84f3de275b67908038a9fcd5c91a579138ce65d47037dffa48c60383"
   },
   "retry_count": 0,
+  "runtime_installer_sha256": "fb8da71bdd2460700a84224003ea9c15ae0fa2b89cf27d78d5b4008db1ee3b43",
   "schema": "english-kokoro48-execution-v1",
   "training_allowed": false,
   "training_snapshot_allowed": false,
-  "worker_sha256": "af4f37d11080206db041eb728afd1a5dc425cb0086b9f27671b7cfdc7f73513f"
+  "worker_sha256": "e8b44a491be1255e5ad506f99b2238fc743ae0e5481d080abb45856c02c5197f",
+  "zero_call_runtime_recovery": {
+    "artifacts": {
+      "probe": {
+        "bytes": 2690447,
+        "id": 14341299389,
+        "name": "english-kokoro48-probe-44114592216",
+        "sha256": "d2d21d11ad56f9fb45cbe15272a7d0dbb74c1a2cc07e5e828cdc072a530fa083"
+      },
+      "runtime": {
+        "bytes": 6609,
+        "id": 14342038028,
+        "name": "kokoro48-generation-runtime",
+        "sha256": "2966990e1c34e801c50a7f83c2e38444fd2906b9b832d47254ff1fabb45fc550"
+      },
+      "source": {
+        "bytes": 2451122,
+        "id": 14342765906,
+        "name": "kokoro48-source",
+        "sha256": "dd63cc088ae627a340e9e5528e896fe331abd783d6a6000bc9834616ab78f825"
+      }
+    },
+    "automatic_retry": false,
+    "ordered_request_roster_sha256": "507b40976f8219189655f75fc466375f8a66f9cd2ae9a671a7fa1f7a51a39c3e",
+    "previous_audio_replayed": 0,
+    "previous_head_sha": "64404e9ebf6a38c6ce674345c6904548f33b7079",
+    "previous_recipe_sha256": "c5f207b5ecc59fa845ac77a8f6083ebab3f7d5eb87a31b6cfd4460d99dba880f",
+    "previous_run_id": 44114592216,
+    "previous_workflow": ".github/workflows/english-kokoro48-once.yml",
+    "recovery_id": "kokoro48-zero-call-runtime-recovery-44114592216-v1",
+    "repository": "jiying2007/kws-data",
+    "required_previous_model_attempts": 0,
+    "runtime_only_change": true
+  }
 }

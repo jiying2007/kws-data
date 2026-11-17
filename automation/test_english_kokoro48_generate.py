@@ -307,5 +307,50 @@ class CheckpointCompleteness(unittest.TestCase):
                 g._strict_checkpoint_readback(model, checkpoint, FAKE_TORCH)
 
 
+class RuntimeDependencyRepair(unittest.TestCase):
+    def test_only_runtime_versions_changed_from_actual_unstarted_requests(self):
+        # Canonical digests read from run 44114592216 source/RECIPE.json.
+        # Its 48 requests all stopped before any forward or PCM existed.
+        source = r.recipe()
+        self.assertEqual(r.digest(source['rows']),
+            'c40c65690e5d12196e0c95a28047a6f5181d4e18278c9fde641827b13e9cc3fe')
+        self.assertEqual(r.digest({k: v for k, v in source.items() if k != 'runtime_versions'}),
+            '89467c9db4d5132c6d867f2f9e6aea8822a4ca2ec4bdb24b3fba5c601779349f')
+
+    def test_exact_click_and_observed_typer_pins(self):
+        self.assertEqual(r.RUNTIME_VERSIONS, {
+            'kokoro': '0.9.4', 'torch': '2.9.1+cpu', 'numpy': '1.26.4',
+            'scipy': '1.15.3', 'transformers': '4.46.3', 'huggingface-hub': '0.36.2',
+            'misaki': '0.9.4', 'loguru': '0.7.3', 'spacy': '3.7.5',
+            'spacy-curated-transformers': '0.2.2', 'attrs': '25.3.0',
+            'click': '8.3.1', 'typer': '0.29.1', 'typer-slim': '0.24.0'})
+
+    def test_missing_or_changed_dependency_stops_before_assets_and_all_forwards(self):
+        # Mock metadata only. This verifies the guard and zero-attempt ledger;
+        # it is not installation, an import smoke test, or model execution.
+        for bad_name, bad_value in (('click', None), ('click', '8.5.1'),
+                                    ('typer', '0.24.0'), ('typer-slim', '0.23.2')):
+            with self.subTest(package=bad_name, version=bad_value):
+                def version(name):
+                    if name == bad_name:
+                        if bad_value is None:
+                            raise g.importlib.metadata.PackageNotFoundError(name)
+                        return bad_value
+                    return r.RUNTIME_VERSIONS[name]
+                with tempfile.TemporaryDirectory(prefix='kokoro-runtime-fixture-') as tmp, \
+                     patch.object(g.importlib.metadata, 'version', side_effect=version), \
+                     patch.object(g.importlib.metadata, 'distribution') as distribution, \
+                     patch.object(g, '_download') as download:
+                    result = g.generate(plan(True), Path(tmp), run={'run_attempt': '1', 'fixture_only': True})
+                    self.assertEqual(result['actual_forward_attempts'], 0)
+                    self.assertEqual(result['actual_forward_returns'], 0)
+                    self.assertEqual(result['completed'], 0)
+                    self.assertEqual(len(result['rows']), 48)
+                    self.assertTrue(all(x['generation_status'] == 'not_started' for x in result['rows']))
+                    self.assertEqual(len(list(Path(tmp).glob('source/audio/*/FAILED.json'))), 48)
+                    distribution.assert_not_called()
+                    download.assert_not_called()
+
+
 if __name__ == '__main__':
     unittest.main()
