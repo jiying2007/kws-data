@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2266,
+  "expected_tracked_files": 2272,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -475,7 +475,13 @@
     "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-baseline/RESULT.json",
     "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-baseline/libri-speaker-1462.stdout.json",
     "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-candidate/RESULT.json",
-    "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-candidate/libri-speaker-1462.stdout.json"
+    "research/english_v41_execution_20261117/ordered3x1_ab/performance/libri-speaker-1462-candidate/libri-speaker-1462.stdout.json",
+    ".github/workflows/english-quality-snr10-once.yml",
+    "automation/english_quality_snr10_once.py",
+    "automation/english_quality_snr10_plan.json",
+    "automation/test_english_quality_snr10_guards.py",
+    "automation/test_english_quality_snr10_review.py",
+    "research/english_quality_snr10_20261117/README.md"
   ],
   "baseline_files": [
     {
@@ -27941,6 +27947,65 @@
       "execution_artifact_id": 14294576842,
       "execution_artifact_sha256": "f36222805244d4c724196d3faf9265f776ff020e5478f1a7845ebfd16dda9fe5",
       "pipeline_source_commit": "342e73655be56d867f7833e6076e16100c429dd0"
+    },
+    {
+      "campaign": "english-snr10-quality-once-20261117",
+      "source_commit": "1920de7debb72520e23370ebdb66df93dcc0f064",
+      "base_commit": "00d3e82e3c1ad5349313acf42c3ac842f726bfed",
+      "previous_manifest_git_blob_sha1": "bd6eeacafebcd2ddc910b780586c573359119c1d",
+      "paths": [
+        ".github/workflows/english-quality-snr10-once.yml",
+        "automation/english_quality_snr10_once.py",
+        "automation/english_quality_snr10_plan.json",
+        "automation/test_english_quality_snr10_guards.py",
+        "automation/test_english_quality_snr10_review.py",
+        "research/english_quality_snr10_20261117/README.md"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-quality-snr10-once.yml",
+          "mode": "100644",
+          "bytes": 3469,
+          "sha256": "5bad832e8f0297c95a744efd43ac613bcf557ead6c9acc1f748f26b32bfb7b26",
+          "git_blob_sha1": "4cb2f0eec3b830db1a0f4edf7e97d37220b028d6"
+        },
+        {
+          "path": "automation/english_quality_snr10_once.py",
+          "mode": "100644",
+          "bytes": 41764,
+          "sha256": "76f2ecd9a1269a587d4ff35971e338533e0d70d588780cc47e84910f8bb70cd9",
+          "git_blob_sha1": "e7ce5a0ecb72d541f0398c28aac77b2c7baf0159"
+        },
+        {
+          "path": "automation/english_quality_snr10_plan.json",
+          "mode": "100644",
+          "bytes": 1497,
+          "sha256": "899ab737de1c4034ecabade7e88de81531516dc21e97ccfe61a2af1b2772c76d",
+          "git_blob_sha1": "5bb1d2aff9f95d71e2364a5c7a4e4f411bd053fe"
+        },
+        {
+          "path": "automation/test_english_quality_snr10_guards.py",
+          "mode": "100644",
+          "bytes": 3969,
+          "sha256": "b04215620063ce19c11ce752b04b1c8f7238e6886c9086d41ea579b93efe4450",
+          "git_blob_sha1": "0901534d4520ed9f3f366ae790da328eb5df8131"
+        },
+        {
+          "path": "automation/test_english_quality_snr10_review.py",
+          "mode": "100644",
+          "bytes": 15207,
+          "sha256": "e5fc5a14fdec39526c3608f3f6625eb1af88aed0ae7eaebeba00c832ed9c89b9",
+          "git_blob_sha1": "dc3e4ffd116d78416271b5b2176a325ccaa4b1e3"
+        },
+        {
+          "path": "research/english_quality_snr10_20261117/README.md",
+          "mode": "100644",
+          "bytes": 3972,
+          "sha256": "f027e776e607dad3060c10eef64f2e9edae9181b9184b17809cd5835d94b11a7",
+          "git_blob_sha1": "7212e855693405448c3cf6d1e6f6091ed6b9ec09"
+        }
+      ],
+      "rationale": "Bind six exact new source files for a public first-attempt main-successor experiment: reuse original 117 clean caches and selected 77 weak intent clips; add one fixed 10dB speech mixture per clip without source-role mixing, threshold changes, TTS or ASR; allow at most one train-triggered 96-update research head. Preserve all old paths, baseline files and retained entries. No model promotion or independent acoustic qualification."
     }
   ]
 }
