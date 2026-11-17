@@ -1,0 +1,313 @@
+name: English exact-child context controls once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-kokoro-context64-once.yml
+      - automation/english_kokoro_context64_once.py
+      - automation/english_kokoro_context64_plan.json
+      - automation/test_english_kokoro_context64_once.py
+      - automation/english_kokoro_context64_recipe.py
+      - automation/english_kokoro_context64_generate.py
+      - automation/test_english_kokoro_context64_generate.py
+      - automation/english_kokoro_context64_phone.py
+      - automation/test_english_kokoro_context64_phone.py
+      - automation/english_kokoro_context64_evaluate.py
+      - automation/test_english_kokoro_context64_evaluate.py
+      - automation/english_context64_policy_v2_reference.py
+      - docs/ENGLISH_KOKORO_CONTEXT64_CONTROLS_20261118.md
+  push:
+    branches: [main]
+    paths:
+      - automation/english_kokoro_context64_plan.json
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-kokoro-context64-first-main-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '4'
+  MKL_NUM_THREADS: '4'
+  OPENBLAS_NUM_THREADS: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+jobs:
+  source-contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    outputs:
+      enabled: ${{ steps.source.outputs.enabled }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify only source and mock contracts on public pull requests
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_kokoro_context64_generate.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_kokoro_context64_phone.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_kokoro_context64_evaluate.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_kokoro_context64_once.py -v
+            python3 -I -S -B "${args[@]}" automation/english_kokoro_context64_once.py \
+              --plan automation/english_kokoro_context64_plan.json --source-check
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          plan = json.loads(pathlib.Path('automation/english_kokoro_context64_plan.json').read_bytes())
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
+              stream.write('enabled=' + str(plan['enabled']).lower() + '\n')
+          PYCODE
+  generate:
+    needs: source-contract
+    if: >-
+      needs.source-contract.outputs.enabled == 'true' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    outputs:
+      source_ready: ${{ steps.readback.outputs.source_ready }}
+      observer_ready: ${{ steps.readback.outputs.observer_ready }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Bind the sole new main predecessor before any runtime installation
+        id: guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain)"
+          mkdir -p "$RUNNER_TEMP/c64-generation-runtime"
+          python3 -I -S -B automation/english_kokoro_context64_once.py \
+            --plan automation/english_kokoro_context64_plan.json --guard \
+            > "$RUNNER_TEMP/c64-generation-runtime/GUARD.json"
+      - name: Install the previously proved fixed Kokoro CPU runtime
+        shell: bash
+        timeout-minutes: 14
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_kokoro48_runtime.py \
+            --venv "$RUNNER_TEMP/c64-tts-venv" \
+            --output "$RUNNER_TEMP/c64-generation-runtime/installation"
+      - name: Generate 48 new parents once and slice all 64 registered children
+        shell: bash
+        timeout-minutes: 32
+        run: |
+          set -euo pipefail
+          set +e
+          timeout --signal=TERM --kill-after=30s 31m "$RUNNER_TEMP/c64-tts-venv/bin/python" -I -B \
+            automation/english_kokoro_context64_once.py --plan automation/english_kokoro_context64_plan.json \
+            --generate --output "$RUNNER_TEMP/c64-source" --assets "$RUNNER_TEMP/c64-tts-private-model" \
+            > "$RUNNER_TEMP/c64-generation-runtime/STDOUT.txt" \
+            2> "$RUNNER_TEMP/c64-generation-runtime/STDERR.txt"
+          c64_exit=$?
+          set -e
+          C64_EXIT="$c64_exit" python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'c64-generation-runtime/COMMAND_EXIT.json'
+          p.write_text(json.dumps({'returncode': int(os.environ['C64_EXIT']), 'retry_count': 0}) + '\n')
+          PYCODE
+          exit "$c64_exit"
+      - name: Read back actual parents children and source-integrity status without resampling
+        id: readback
+        if: always() && steps.guard.outcome == 'success'
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_kokoro_context64_once.py \
+            --plan automation/english_kokoro_context64_plan.json --read-source \
+            --source "$RUNNER_TEMP/c64-source" \
+            --output "$RUNNER_TEMP/c64-generation-runtime/SOURCE_READBACK.json"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          value = json.loads((pathlib.Path(os.environ['RUNNER_TEMP']) / 'c64-generation-runtime/SOURCE_READBACK.json').read_bytes())
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
+              stream.write('source_ready=' + str(value['source_ready']).lower() + '\n')
+              stream.write('observer_ready=' + str(value['observer_ready']).lower() + '\n')
+          PYCODE
+      - name: Retain every new parent child and partial generation receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kokoro-context64-source
+          path: ${{ runner.temp }}/c64-source/
+          compression-level: 6
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain fixed runtime installation and actual generation exit
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kokoro-context64-generation-runtime
+          path: ${{ runner.temp }}/c64-generation-runtime/
+          retention-days: 30
+          if-no-files-found: warn
+  observe:
+    needs: [source-contract, generate]
+    if: >-
+      always() && needs.source-contract.result == 'success' && needs.source-contract.outputs.enabled == 'true' &&
+      needs.generate.outputs.source_ready == 'true' && needs.generate.outputs.observer_ready == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        provider: [qwen, whisper, parakeet, phoneme, phoneme_lv60]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    env:
+      PROVIDER: ${{ matrix.provider }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify the same first-main execution before installing an observer
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain)"
+          mkdir -p "$RUNNER_TEMP/c64-observer-runtime"
+          python3 -I -S -B automation/english_kokoro_context64_once.py \
+            --plan automation/english_kokoro_context64_plan.json --guard \
+            > "$RUNNER_TEMP/c64-observer-runtime/GUARD.json"
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          name: kokoro-context64-source
+          path: ${{ runner.temp }}/c64-source
+      - name: Verify saved full-parent and exact-child bytes before any observer call
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_kokoro_context64_once.py \
+            --plan automation/english_kokoro_context64_plan.json --read-source \
+            --source "$RUNNER_TEMP/c64-source" \
+            --output "$RUNNER_TEMP/c64-observer-runtime/SOURCE_READBACK.json"
+      - name: Install the same fixed CPU observer runtimes already exercised in public Actions
+        shell: bash
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/c64-observer-venv"
+          c64_pip="$RUNNER_TEMP/c64-observer-venv/bin/pip"
+          trap '"$c64_pip" freeze > "$RUNNER_TEMP/c64-observer-runtime/PIP_FREEZE.txt"' EXIT
+          if [ "$PROVIDER" = parakeet ]; then
+            "$c64_pip" install --disable-pip-version-check 'huggingface-hub==0.36.2' 'hf-xet==1.2.0'
+          elif [ "$PROVIDER" = phoneme ] || [ "$PROVIDER" = phoneme_lv60 ]; then
+            "$c64_pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+            "$c64_pip" install --disable-pip-version-check 'transformers==4.46.3' 'huggingface-hub==0.36.2' 'numpy==1.26.4'
+          else
+            "$c64_pip" install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu'
+            if [ "$PROVIDER" = qwen ]; then
+              "$c64_pip" install --disable-pip-version-check 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2'
+            else
+              "$c64_pip" install --disable-pip-version-check 'openai-whisper==20250625'
+            fi
+          fi
+          "$c64_pip" check > "$RUNNER_TEMP/c64-observer-runtime/PIP_CHECK.txt"
+      - name: Observe each assigned parent or child exactly once with the blind native adapter
+        shell: bash
+        timeout-minutes: 44
+        run: |
+          set -euo pipefail
+          c64_limit=2460
+          if [ "$PROVIDER" = phoneme ] || [ "$PROVIDER" = phoneme_lv60 ]; then c64_limit=1860; fi
+          set +e
+          timeout --signal=TERM --kill-after=30s "${c64_limit}s" "$RUNNER_TEMP/c64-observer-venv/bin/python" -I -B \
+            automation/english_kokoro_context64_once.py --plan automation/english_kokoro_context64_plan.json \
+            --observe "$PROVIDER" --source "$RUNNER_TEMP/c64-source" \
+            --output "$RUNNER_TEMP/c64-observer" --assets "$RUNNER_TEMP/c64-observer-private-model" \
+            > "$RUNNER_TEMP/c64-observer-runtime/STDOUT.txt" \
+            2> "$RUNNER_TEMP/c64-observer-runtime/STDERR.txt"
+          c64_exit=$?
+          set -e
+          C64_EXIT="$c64_exit" python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'c64-observer-runtime/COMMAND_EXIT.json'
+          p.write_text(json.dumps({'provider': os.environ['PROVIDER'], 'returncode': int(os.environ['C64_EXIT']), 'retry_count': 0}) + '\n')
+          PYCODE
+          exit "$c64_exit"
+      - name: Retain all blind captures and partial ledgers
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kokoro-context64-observer-${{ matrix.provider }}
+          path: ${{ runner.temp }}/c64-observer/
+          compression-level: 6
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain observer runtime and terminal exit evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kokoro-context64-runtime-${{ matrix.provider }}
+          path: ${{ runner.temp }}/c64-observer-runtime/
+          retention-days: 30
+          if-no-files-found: warn
+  combine:
+    needs: [source-contract, generate, observe]
+    if: >-
+      always() && needs.source-contract.result == 'success' && needs.source-contract.outputs.enabled == 'true' &&
+      needs.generate.outputs.source_ready == 'true' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Bind the source execution identity for the final pure-byte join
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_kokoro_context64_once.py \
+            --plan automation/english_kokoro_context64_plan.json --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          name: kokoro-context64-source
+          path: ${{ runner.temp }}/c64-source
+      - name: Collect available observation packets without inventing missing calls
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 5
+        with:
+          pattern: kokoro-context64-observer-*
+          merge-multiple: false
+          path: ${{ runner.temp }}/c64-observers
+      - name: Evaluate the preregistered controls without model calls or training admission
+        shell: bash
+        timeout-minutes: 17
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/c64-observers"
+          timeout --signal=TERM --kill-after=30s 16m python3 -I -S -B \
+            automation/english_kokoro_context64_once.py --plan automation/english_kokoro_context64_plan.json \
+            --combine --source "$RUNNER_TEMP/c64-source" --observers "$RUNNER_TEMP/c64-observers" \
+            --output "$RUNNER_TEMP/c64-probe"
+      - name: Retain all evidence and the diagnostic control result
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-kokoro-context64-probe-${{ github.run_id }}
+          path: ${{ runner.temp }}/c64-probe/
+          compression-level: 6
+          retention-days: 30
+          if-no-files-found: warn

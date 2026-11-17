@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2529,
+  "expected_tracked_files": 2542,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -293,6 +293,7 @@
     ".github/workflows/english-ipa-qwen17-probe-once.yml",
     ".github/workflows/english-kokoro-context32-maskfix-once.yml",
     ".github/workflows/english-kokoro-context32-once.yml",
+    ".github/workflows/english-kokoro-context64-once.yml",
     ".github/workflows/english-kokoro48-once.yml",
     ".github/workflows/english-phonetic192-once.yml",
     ".github/workflows/english-quality-snr10-continue-once.yml",
@@ -313,6 +314,7 @@
     ".github/workflows/terminal144-training-once.yml",
     "README.md",
     "automation/bind_english_synthetic192_fullpcm.py",
+    "automation/english_context64_policy_v2_reference.py",
     "automation/english_coverage_fullpcm_once.py",
     "automation/english_coverage_fullpcm_plan.json",
     "automation/english_coverage_quality_data.py",
@@ -355,6 +357,12 @@
     "automation/english_kokoro_context32_plan.json",
     "automation/english_kokoro_context32_processor_check.py",
     "automation/english_kokoro_context32_source.py",
+    "automation/english_kokoro_context64_evaluate.py",
+    "automation/english_kokoro_context64_generate.py",
+    "automation/english_kokoro_context64_once.py",
+    "automation/english_kokoro_context64_phone.py",
+    "automation/english_kokoro_context64_plan.json",
+    "automation/english_kokoro_context64_recipe.py",
     "automation/english_phonetic192_once.py",
     "automation/english_phonetic192_plan.json",
     "automation/english_phonetic192_recipe.py",
@@ -441,6 +449,10 @@
     "automation/test_english_kokoro_context32_maskfix.py",
     "automation/test_english_kokoro_context32_observe.py",
     "automation/test_english_kokoro_context32_processor_check.py",
+    "automation/test_english_kokoro_context64_evaluate.py",
+    "automation/test_english_kokoro_context64_generate.py",
+    "automation/test_english_kokoro_context64_once.py",
+    "automation/test_english_kokoro_context64_phone.py",
     "automation/test_english_phonetic192.py",
     "automation/test_english_piper_ipa_ctc_once.py",
     "automation/test_english_piper_probe_asr_once.py",
@@ -498,6 +510,7 @@
     "docs/ENGLISH_KOKORO48_PROBE_20261117.md",
     "docs/ENGLISH_KOKORO_CONTEXT32_DIAGNOSTIC_20261117.md",
     "docs/ENGLISH_KOKORO_CONTEXT32_MASKFIX_20261118.md",
+    "docs/ENGLISH_KOKORO_CONTEXT64_CONTROLS_20261118.md",
     "docs/ENGLISH_PHONETIC192_20261117.md",
     "docs/ENGLISH_PIPER_V2_THREE_ASR_20261116.md",
     "docs/ENGLISH_PIPER_V3_PHONEME_OBSERVER_20261116.md",
@@ -30893,6 +30906,121 @@
         }
       ],
       "rationale": "Recover only the32 previously unstarted phone forwards after terminal run44133547091. Authenticate its exact raw final ZIP and API identities; reverify16 existing full PCM inputs,2 previous model constructions,32 previous processor failures and0 forward attempts or returns. Reuse existing full PCM without new synthesis, resampling, text-ASR, embedding or training. Preserve native int32 processor masks without modifying model inputs; require actual public processor-only proof using a separate640-sample fixture before main reuse. Capture each of the2 fixed phone models on each existing input at most once, with0 retries and0 forward replays. Keep original48 labels,UNKNOWN,STOP,exclusions and acoustic admission rules unchanged. Preserve all2027 retained files and every existing repository path. Bind recovery to the first public main push after965bb0cc7150d244ac4f06f512f58a3824afbab2 at attempt1; retain failures and bounded unknown counts honestly."
+    },
+    {
+      "campaign": "english-kokoro-exact-child-context-controls64-20261118",
+      "source_commit": "33e053d0bc151ecfb01fb20b00aca6b9a8a9e46d",
+      "base_commit": "2ca611210126e2f78939e6e50f7cd0157c76d5dd",
+      "previous_manifest_git_blob_sha1": "9864a1ea177ea68381ad036f556c36e41de2a565",
+      "paths": [
+        "automation/english_kokoro_context64_once.py",
+        "automation/english_kokoro_context64_plan.json",
+        "automation/test_english_kokoro_context64_once.py",
+        "automation/english_kokoro_context64_recipe.py",
+        "automation/english_kokoro_context64_generate.py",
+        "automation/test_english_kokoro_context64_generate.py",
+        "automation/english_kokoro_context64_phone.py",
+        "automation/test_english_kokoro_context64_phone.py",
+        "automation/english_kokoro_context64_evaluate.py",
+        "automation/test_english_kokoro_context64_evaluate.py",
+        "automation/english_context64_policy_v2_reference.py",
+        ".github/workflows/english-kokoro-context64-once.yml",
+        "docs/ENGLISH_KOKORO_CONTEXT64_CONTROLS_20261118.md"
+      ],
+      "files": [
+        {
+          "path": "automation/english_kokoro_context64_once.py",
+          "mode": "100644",
+          "bytes": 68681,
+          "sha256": "45ca80f5f4f7d6fd80eb9fc4bd920363dffea81a94e1eed951a03ab717aa73d2",
+          "git_blob_sha1": "6c0bb498b548f12ac75cb592e128f6e7550f915c"
+        },
+        {
+          "path": "automation/english_kokoro_context64_plan.json",
+          "mode": "100644",
+          "bytes": 55978,
+          "sha256": "aa2e79289f557858459172f41cd67bfadd2276ae2ff5906e63f446137685b7aa",
+          "git_blob_sha1": "8ff9b4d4508cf0ebf5cc4009dbd54c9306d558e9"
+        },
+        {
+          "path": "automation/test_english_kokoro_context64_once.py",
+          "mode": "100644",
+          "bytes": 21267,
+          "sha256": "a5ace7abfc7dd0967153f5550f0fac624a643c2f97700c894e3ab7c33c93901b",
+          "git_blob_sha1": "07c8bfbe3e2f4fd28987037154fd8a039af08dad"
+        },
+        {
+          "path": "automation/english_kokoro_context64_recipe.py",
+          "mode": "100644",
+          "bytes": 13683,
+          "sha256": "1454d5ede5fd7174a2509c6314c83706be00c0af6b04809b53f2ee912c83536f",
+          "git_blob_sha1": "239171d7f9a67627f68e7b1ca1e690a6d0e14842"
+        },
+        {
+          "path": "automation/english_kokoro_context64_generate.py",
+          "mode": "100644",
+          "bytes": 34565,
+          "sha256": "eca8f406d86d1518068b00dd51082c6b5f7f0c155f2c3e42a387561e020abd49",
+          "git_blob_sha1": "e85c4bf1a831e85e15de2af7756134c16e466871"
+        },
+        {
+          "path": "automation/test_english_kokoro_context64_generate.py",
+          "mode": "100644",
+          "bytes": 23609,
+          "sha256": "366d27d5a0996625d1f6bb3ed1b2f7a5b0b2b8796d6b0fb4c47c0a03da447c84",
+          "git_blob_sha1": "46bd3fe893ba7f91aa7004b7428affbacd9c14ab"
+        },
+        {
+          "path": "automation/english_kokoro_context64_phone.py",
+          "mode": "100644",
+          "bytes": 30773,
+          "sha256": "b8a1096b0551fc154abb654fdd0b46236727027f57cd0d615ad911617e5e4b57",
+          "git_blob_sha1": "964c92cc5cbe9907fd71f5c6013b6a8e0fd95b9e"
+        },
+        {
+          "path": "automation/test_english_kokoro_context64_phone.py",
+          "mode": "100644",
+          "bytes": 17833,
+          "sha256": "7975dfa8826e07ba227f812cecb9d9899a6a98641f934b3df5e5ca071f4b79cc",
+          "git_blob_sha1": "581f5a96bd6f1f3e51fba30ec0a9cdf77a242567"
+        },
+        {
+          "path": "automation/english_kokoro_context64_evaluate.py",
+          "mode": "100644",
+          "bytes": 26758,
+          "sha256": "ada48539d78d8225cf707bb83286e557fb30189b888e760f2565fc7934f3d27e",
+          "git_blob_sha1": "e8cfc91b0ff1b26e7069b15bb82ddd86c9c4de71"
+        },
+        {
+          "path": "automation/test_english_kokoro_context64_evaluate.py",
+          "mode": "100644",
+          "bytes": 20061,
+          "sha256": "40523b7680b553d45f64f2792f52aac756e2e59a665e3239686a1188822127d5",
+          "git_blob_sha1": "c5f830e45ade8d59c76b941fd489773f1980fa11"
+        },
+        {
+          "path": "automation/english_context64_policy_v2_reference.py",
+          "mode": "100644",
+          "bytes": 22786,
+          "sha256": "fde516d9f1f2457cdb0047e8d8aee6a667c68fa6ea21f83d22f135e4bc9069da",
+          "git_blob_sha1": "882694ef1cb66dcedd9234cce7c629b29f553a11"
+        },
+        {
+          "path": ".github/workflows/english-kokoro-context64-once.yml",
+          "mode": "100644",
+          "bytes": 15203,
+          "sha256": "e9ba2563c1c83b8e90fd725755b3bebf41513cbdac5755a030e494734f04cb1e",
+          "git_blob_sha1": "3a2e2c60b6487aac379531de0b695eba371932a2"
+        },
+        {
+          "path": "docs/ENGLISH_KOKORO_CONTEXT64_CONTROLS_20261118.md",
+          "mode": "100644",
+          "bytes": 9274,
+          "sha256": "5ff8ea0ab493605e73993893cbab403e467b123f4033719c4438f66e5cfa2095",
+          "git_blob_sha1": "e87f63c69e5db0f3fb8c0bd49f8f60e74ce59fbf"
+        }
+      ],
+      "rationale": "Preregister a new diagnostic contract after completed context32 observations demonstrated parent-input dependence. Generate48 new parents from four exposed train-only presets, derive64 exact PCM children after one whole-parent resample and quantization, then capture96 parent-phone and192 child-text observations at most once. Keep parent and child input hashes and evidence scopes separate, blind candidate classification, require fixed near-miss/ordinary/outside controls and cross-preset positive support. Maximum336 high-level model requests with0 retries; no automatic expansion, training, re-admission or model-quality claim. Permanently exclude all probe inputs. Preserve all old labels,UNKNOWN,STOP,exclusions and every existing non-registry path, including2027 retained files. Bind execution to the first public main push after2ca611210126e2f78939e6e50f7cd0157c76d5dd at attempt1; retain actual failure counts and unknown terminal bounds."
     }
   ]
 }
