@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2315,
+  "expected_tracked_files": 2330,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -524,7 +524,22 @@
     "research/english_dense_quality_20261117/INDEPENDENT_CLOSURE_REVIEW.json",
     "research/english_dense_quality_20261117/PAIRED_REVIEW.json",
     "research/english_dense_quality_20261117/RESULT.json",
-    "research/english_dense_quality_20261117/RESULTS_zh.md"
+    "research/english_dense_quality_20261117/RESULTS_zh.md",
+    ".github/workflows/english-coverage-quality-once.yml",
+    "automation/english_coverage_quality_data.py",
+    "automation/english_coverage_quality_once.py",
+    "automation/english_coverage_quality_plan.json",
+    "automation/test_english_coverage_quality_contract.py",
+    "automation/test_english_coverage_quality_data.py",
+    "research/english_coverage_quality_20261117/PROTOCOL_zh.md",
+    "research/english_coverage_quality_20261117/audit/audit_coverage.py",
+    "research/english_coverage_quality_20261117/audit/input_preflight.json",
+    "research/english_coverage_quality_20261117/audit/source_review.json",
+    "research/english_coverage_quality_20261117/audit/test_audit_coverage.py",
+    "research/english_coverage_quality_20261117/package/README.md",
+    "research/english_coverage_quality_20261117/package/english_coverage_package.py",
+    "research/english_coverage_quality_20261117/package/english_coverage_sdk.py",
+    "research/english_coverage_quality_20261117/package/test_english_coverage_package.py"
   ],
   "baseline_files": [
     {
@@ -28456,6 +28471,137 @@
         }
       ],
       "rationale": "Close completed final dense CE comparison with immutable result, independent evidence and strict rejected candidate decision; retain aug96 and stop same-pool search."
+    },
+    {
+      "campaign": "english-new-acoustic-coverage-quality-once-20261117",
+      "source_commit": "6c4c8eebd3083614bf4430ba9addd042462e83fc",
+      "base_commit": "5521b11f495c5b87d5d2ec0eb2597aa5730ea687",
+      "previous_manifest_git_blob_sha1": "be7fb22350bffc5195be1e86284fb36c54bce0e9",
+      "paths": [
+        ".github/workflows/english-coverage-quality-once.yml",
+        "automation/english_coverage_quality_data.py",
+        "automation/english_coverage_quality_once.py",
+        "automation/english_coverage_quality_plan.json",
+        "automation/test_english_coverage_quality_contract.py",
+        "automation/test_english_coverage_quality_data.py",
+        "research/english_coverage_quality_20261117/PROTOCOL_zh.md",
+        "research/english_coverage_quality_20261117/audit/audit_coverage.py",
+        "research/english_coverage_quality_20261117/audit/input_preflight.json",
+        "research/english_coverage_quality_20261117/audit/source_review.json",
+        "research/english_coverage_quality_20261117/audit/test_audit_coverage.py",
+        "research/english_coverage_quality_20261117/package/README.md",
+        "research/english_coverage_quality_20261117/package/english_coverage_package.py",
+        "research/english_coverage_quality_20261117/package/english_coverage_sdk.py",
+        "research/english_coverage_quality_20261117/package/test_english_coverage_package.py"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-coverage-quality-once.yml",
+          "mode": "100644",
+          "bytes": 4194,
+          "sha256": "445ed4ac8cb3fe5dea7793e629d014978add628f819f68e0d0783033a857c723",
+          "git_blob_sha1": "20f599e5b0594b645d7348d41812e4fb542c3eec"
+        },
+        {
+          "path": "automation/english_coverage_quality_data.py",
+          "mode": "100644",
+          "bytes": 17028,
+          "sha256": "6ce3061cc6578897e1fec7a39414f4ce3c9d98387b114bf7621eeb13021cc738",
+          "git_blob_sha1": "c377f74d24bb65538180a8dae2e40703a55b3691"
+        },
+        {
+          "path": "automation/english_coverage_quality_once.py",
+          "mode": "100644",
+          "bytes": 63877,
+          "sha256": "5256834a66663a3f767c022dd310fc9f2a68d58eedc66fb8727a308b8d299c1b",
+          "git_blob_sha1": "ae94abc986e1694827140d4512ae0dc1a145c970"
+        },
+        {
+          "path": "automation/english_coverage_quality_plan.json",
+          "mode": "100644",
+          "bytes": 5764,
+          "sha256": "b32f29499392184c4bf31f83d7b4beb9c3921cff54f0417c041cb3f5b6d4d9bd",
+          "git_blob_sha1": "42690c2331248567b824ebe8d93f9d01ced0be10"
+        },
+        {
+          "path": "automation/test_english_coverage_quality_contract.py",
+          "mode": "100644",
+          "bytes": 15664,
+          "sha256": "111c602a0f7f2e9a74a8d963e179db60e2ba6818c53238d080dc11a9d43f9220",
+          "git_blob_sha1": "05e78e0dc76088ecabacc11c7cf29c5e99e7d121"
+        },
+        {
+          "path": "automation/test_english_coverage_quality_data.py",
+          "mode": "100644",
+          "bytes": 6473,
+          "sha256": "63357c2af823948dcd68084cad07c8c775140cc5cec58393b59017c6345974c4",
+          "git_blob_sha1": "c6d2cefcf9247f24d9248dd256ff58b2bd874ff1"
+        },
+        {
+          "path": "research/english_coverage_quality_20261117/PROTOCOL_zh.md",
+          "mode": "100644",
+          "bytes": 9036,
+          "sha256": "b3a2af88ca3e8b3397b446100ca12b16151eddeaf0410885a14cbcdae0384f27",
+          "git_blob_sha1": "8fdb28a0bd0c593ede38265031d74a8a7b1db677"
+        },
+        {
+          "path": "research/english_coverage_quality_20261117/audit/audit_coverage.py",
+          "mode": "100644",
+          "bytes": 74289,
+          "sha256": "32ae21551e4b479a8c5d8127f4da99649dfe72cf0765644211db8e0aa0a1f8d1",
+          "git_blob_sha1": "57a9e40deddb088e39acdc0c77bfd2e3980ed9c6"
+        },
+        {
+          "path": "research/english_coverage_quality_20261117/audit/input_preflight.json",
+          "mode": "100644",
+          "bytes": 587661,
+          "sha256": "6ef88464575c7ba980783a4c352fd23dfa70e873a64d2081f416ae282710b545",
+          "git_blob_sha1": "ceadfd2995d42dcadd89a4ab2983c35a9d5ad76d"
+        },
+        {
+          "path": "research/english_coverage_quality_20261117/audit/source_review.json",
+          "mode": "100644",
+          "bytes": 2026,
+          "sha256": "bab01d4c35e9affb7107fc0516e81883193efef284b1926da5da232ea1e14cae",
+          "git_blob_sha1": "996c75b4c7d8f9254a6802b218173ce68cdc1b71"
+        },
+        {
+          "path": "research/english_coverage_quality_20261117/audit/test_audit_coverage.py",
+          "mode": "100644",
+          "bytes": 15789,
+          "sha256": "e4780ac4624bf4c42ee21a5e992517e61e54d7f09b77a9ad77cc0a0b55e4e41b",
+          "git_blob_sha1": "af12730b829ece77cda9dffcf2bb70d6e91e6c51"
+        },
+        {
+          "path": "research/english_coverage_quality_20261117/package/README.md",
+          "mode": "100644",
+          "bytes": 3414,
+          "sha256": "6a450335334e73f718ace745e4226fa98b0d4d719873e4098a8db4ef75e7211c",
+          "git_blob_sha1": "65cc3c56e7f6e052abd5014691eff5b918c63c81"
+        },
+        {
+          "path": "research/english_coverage_quality_20261117/package/english_coverage_package.py",
+          "mode": "100644",
+          "bytes": 33881,
+          "sha256": "e5fd67d7786a6bf16519bdfbb21001c4e8ede6200b79530f77cafe54689213c5",
+          "git_blob_sha1": "dbb225bfca14768e85ad0bfe7557cd05b3be0a21"
+        },
+        {
+          "path": "research/english_coverage_quality_20261117/package/english_coverage_sdk.py",
+          "mode": "100644",
+          "bytes": 1884,
+          "sha256": "7c96e8fa82e4eb3357e1042e7bc2f9cd60981d786ddf65fc4c95f450a8b68a0a",
+          "git_blob_sha1": "0d701f0307e27ea99eff2d4f1c47eabfa3a46a6a"
+        },
+        {
+          "path": "research/english_coverage_quality_20261117/package/test_english_coverage_package.py",
+          "mode": "100644",
+          "bytes": 11072,
+          "sha256": "e492cd9a14794ca3a869be862b0e93f064d3c38aff1a3e0983ae0336b12f3615",
+          "git_blob_sha1": "56d26498d1ab09ca8274416e2c954c381d0fa773"
+        }
+      ],
+      "rationale": "Register one fixed train-only 5/15 dB acoustic coverage arm, frozen 96-update original objective, immutable old evaluation caches, post-freeze new8 challenge, independent standard-library audit, native and ARM cached-head parity, and conditional research SDK packaging; no source admission or formal qualification change and no reopening of same-pool objective search."
     }
   ]
 }
