@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2350,
+  "expected_tracked_files": 2358,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -559,7 +559,15 @@
     "research/english_coverage_quality_20261117/SAVED_SCORE_DIAGNOSTICS.json",
     "research/english_coverage_quality_20261117/RESULTS_zh.md",
     "research/english_coverage_quality_20261117/models/coverage-head.bin",
-    "research/english_coverage_quality_20261117/models/coverage-head.npz"
+    "research/english_coverage_quality_20261117/models/coverage-head.npz",
+    "research/english_coverage_fullpcm_20261117/RESULT.json",
+    "research/english_coverage_fullpcm_20261117/SUPERVISOR_EXIT.json",
+    "research/english_coverage_fullpcm_20261117/ARTIFACT_RECEIPT.json",
+    "research/english_coverage_fullpcm_20261117/INDEPENDENT_SAVED_TRACE_AUDIT.json",
+    "research/english_coverage_fullpcm_20261117/RESULTS_zh.md",
+    "research/english_coverage_fullpcm_20261117/DELIVERY_STATIC_INTEGRATION_AUDIT.json",
+    "research/english_coverage_fullpcm_20261117/DOCUMENTATION_REVIEW.json",
+    "research/english_coverage_fullpcm_20261117/audit/audit_saved_fullpcm.py"
   ],
   "baseline_files": [
     {
@@ -28793,6 +28801,81 @@
         }
       ],
       "rationale": "Retain actual quality result, independently audited coverage head and exact package identities, then preregister one installed C full-PCM verification on five saved cases per backend, including the unique rescued Mero case. No retraining, threshold changes, new synthesis or formal qualification; all historical source records remain unchanged."
+    },
+    {
+      "campaign": "english-coverage-fullpcm-results-20261117",
+      "source_commit": "d805d1d06de0c97ef2eb399ba38e2d350cf88363",
+      "base_commit": "95aec73b0ac8b58fa74e62df35c3e443107619b1",
+      "previous_manifest_git_blob_sha1": "9b03dd5bdf89557660071b033adcea025130129f",
+      "paths": [
+        "research/english_coverage_fullpcm_20261117/RESULT.json",
+        "research/english_coverage_fullpcm_20261117/SUPERVISOR_EXIT.json",
+        "research/english_coverage_fullpcm_20261117/ARTIFACT_RECEIPT.json",
+        "research/english_coverage_fullpcm_20261117/INDEPENDENT_SAVED_TRACE_AUDIT.json",
+        "research/english_coverage_fullpcm_20261117/RESULTS_zh.md",
+        "research/english_coverage_fullpcm_20261117/DELIVERY_STATIC_INTEGRATION_AUDIT.json",
+        "research/english_coverage_fullpcm_20261117/DOCUMENTATION_REVIEW.json",
+        "research/english_coverage_fullpcm_20261117/audit/audit_saved_fullpcm.py"
+      ],
+      "files": [
+        {
+          "path": "research/english_coverage_fullpcm_20261117/RESULT.json",
+          "mode": "100644",
+          "bytes": 12753,
+          "sha256": "3afb70bde6c195cc28ae7178ca0f72d3d2c0d18ba7f56d313329e3e852ca6e84",
+          "git_blob_sha1": "7b40d8d510bc43e1ba9972fdbd131e09e9572ac5"
+        },
+        {
+          "path": "research/english_coverage_fullpcm_20261117/SUPERVISOR_EXIT.json",
+          "mode": "100644",
+          "bytes": 459,
+          "sha256": "61c4da505b02e0524b9d70e79884c412df83f1bc7baec6aa28c820b62098c2c2",
+          "git_blob_sha1": "aa8709b8dd9c7cad99523e5d53c5035a7f8736f6"
+        },
+        {
+          "path": "research/english_coverage_fullpcm_20261117/ARTIFACT_RECEIPT.json",
+          "mode": "100644",
+          "bytes": 827,
+          "sha256": "ef9fc2ac37271fb4c09900918bf3f089b823b4acefe3062c02c9c425e33549c0",
+          "git_blob_sha1": "c5f2a323506d71f3618abcbe9fa258d993d30043"
+        },
+        {
+          "path": "research/english_coverage_fullpcm_20261117/INDEPENDENT_SAVED_TRACE_AUDIT.json",
+          "mode": "100644",
+          "bytes": 17726,
+          "sha256": "44a1710af6b47fbd238d3af64c0eec3bcc147a6ac283442caad55cffa2bdcb36",
+          "git_blob_sha1": "b542a66330481a24b5ec7071518f581c9a30ce96"
+        },
+        {
+          "path": "research/english_coverage_fullpcm_20261117/RESULTS_zh.md",
+          "mode": "100644",
+          "bytes": 4804,
+          "sha256": "ac509b3ff74c19f07df3d452f5c353389294626652d630577079dd82c002ff20",
+          "git_blob_sha1": "5957d13ef2723ba0263bc196c53edc3a9537d89a"
+        },
+        {
+          "path": "research/english_coverage_fullpcm_20261117/DELIVERY_STATIC_INTEGRATION_AUDIT.json",
+          "mode": "100644",
+          "bytes": 24865,
+          "sha256": "b4d64b635c2d32261b2689fef2035fbe6ec223dadc14a6cd6767209f24c43ef3",
+          "git_blob_sha1": "f0ea6afe9b39328aa02f9732aedabb0f9a216ce8"
+        },
+        {
+          "path": "research/english_coverage_fullpcm_20261117/DOCUMENTATION_REVIEW.json",
+          "mode": "100644",
+          "bytes": 1019,
+          "sha256": "f95ac81e9b5ccc06b6aba93621a00ab48eb3f0d2813210770dc8729e33b45ca9",
+          "git_blob_sha1": "c5c90ac557ac5c92768fa13c8fde2cfe3cbdb5f6"
+        },
+        {
+          "path": "research/english_coverage_fullpcm_20261117/audit/audit_saved_fullpcm.py",
+          "mode": "100644",
+          "bytes": 24260,
+          "sha256": "7ad69f90bbc0746b67f953c417fde5623d4b80acf8eb58e8dcafadfa7bde0627",
+          "git_blob_sha1": "d13e84de934ae0b7422d916f4306c54612327ea6"
+        }
+      ],
+      "rationale": "Retain actual once-only full PCM run, external artifact receipt, independent saved-trace auditor and its verified result, and static SDK/documentation reviews. No execution-source changes, retraining, new model run or qualification; all earlier source registrations remain unchanged."
     }
   ]
 }
