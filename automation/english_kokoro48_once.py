@@ -19,6 +19,8 @@ import re
 import shutil
 import signal
 import struct
+import stat
+import zipfile
 import sys
 import time
 import urllib.request
@@ -37,6 +39,24 @@ PROVIDERS = ("qwen", "whisper", "parakeet", "phoneme", "phoneme_lv60")
 REFERENCE_PROVIDERS = PROVIDERS[:4]
 PRESETS = ("af_bella", "af_sarah", "am_michael", "am_puck")
 MODES = ("short", "carrier")
+RECOVERY = {
+    "recovery_id": "kokoro48-zero-call-runtime-recovery-44114592216-v1",
+    "repository": "jiying2007/kws-data", "previous_run_id": 44114592216,
+    "previous_head_sha": "64404e9ebf6a38c6ce674345c6904548f33b7079",
+    "previous_workflow": ".github/workflows/english-kokoro48-once.yml",
+    "previous_recipe_sha256": "c5f207b5ecc59fa845ac77a8f6083ebab3f7d5eb87a31b6cfd4460d99dba880f",
+    "ordered_request_roster_sha256": "507b40976f8219189655f75fc466375f8a66f9cd2ae9a671a7fa1f7a51a39c3e",
+    "required_previous_model_attempts": 0, "previous_audio_replayed": 0,
+    "automatic_retry": False, "runtime_only_change": True,
+    "artifacts": {
+        "source": {"id": 14342765906, "name": "kokoro48-source", "bytes": 2451122,
+            "sha256": "dd63cc088ae627a340e9e5528e896fe331abd783d6a6000bc9834616ab78f825"},
+        "runtime": {"id": 14342038028, "name": "kokoro48-generation-runtime", "bytes": 6609,
+            "sha256": "2966990e1c34e801c50a7f83c2e38444fd2906b9b832d47254ff1fabb45fc550"},
+        "probe": {"id": 14341299389, "name": "english-kokoro48-probe-44114592216", "bytes": 2690447,
+            "sha256": "d2d21d11ad56f9fb45cbe15272a7d0dbb74c1a2cc07e5e828cdc072a530fa083"},
+    },
+}
 POLICY = {
     "repository": "jiying2007/kws-pipeline",
     "commit": "011341c8541705a80da93ae423cfdb3d1ac9a82a",
@@ -167,6 +187,7 @@ def validate_plan(plan, *, check_sources=True):
     frozen = recipe.recipe()
     need(plan.get("campaign_id") == frozen.get("campaign_id") == recipe.CAMPAIGN_ID, "CAMPAIGN_ID")
     need(plan.get("recipe_sha256") == digest(frozen), "RECIPE_PIN")
+    need(plan.get("zero_call_runtime_recovery") == RECOVERY, "EXACT_ZERO_CALL_RUNTIME_RECOVERY")
     need(plan.get("maximum_tts_calls") == plan.get("maximum_calls_per_observer") == 48
          and plan.get("maximum_total_model_calls") == 288 and plan.get("retry_count") == 0
          and plan.get("old_audio_model_calls") == plan.get("new_kws_calls") == 0, "FINITE_NEW_CALL_BUDGET")
@@ -194,7 +215,8 @@ def validate_plan(plan, *, check_sources=True):
     if check_sources:
         for key, path in (("worker_sha256", Path(__file__)),
                           ("recipe_code_sha256", Path(recipe.__file__)),
-                          ("generator_code_sha256", HERE / "english_kokoro48_generate.py")):
+                          ("generator_code_sha256", HERE / "english_kokoro48_generate.py"),
+                          ("runtime_installer_sha256", HERE / "english_kokoro48_runtime.py")):
             need(plan.get(key) == sha(regular(path, 128 * 1024)), "SOURCE_PIN: " + key)
         helpers = plan.get("helper_sha256")
         need(type(helpers) is dict and len(helpers) == 19, "PINNED_HELPER_CLOSURE")
@@ -203,6 +225,7 @@ def validate_plan(plan, *, check_sources=True):
                  and sha(regular(within(ROOT, name), 256 * 1024)) == value, "HELPER_SOURCE_PIN: " + name)
     if plan["enabled"]:
         need(type(plan.get("next_main_before")) is str and HEX40.fullmatch(plan["next_main_before"]), "EXACT_MAIN_PREDECESSOR")
+        need(plan["next_main_before"] == RECOVERY["previous_head_sha"], "ONE_RECOVERY_FIXED_PREDECESSOR")
     else:
         need(plan.get("next_main_before") is None, "DISABLED_HAS_NO_EXECUTION_PREDECESSOR")
     return frozen
@@ -236,9 +259,15 @@ def set_deadline(seconds):
     signal.alarm(seconds)
 
 
-def source_stage(plan, output):
+def source_stage(plan, output, recovery_source, recovery_runtime, recovery_probe):
     run = execution_guard(plan)
+    proof = verify_zero_call_recovery(plan, recovery_source, recovery_runtime, recovery_probe)
     output = new_directory(output)
+    (output / "recovery").mkdir(mode=0o700)
+    for key, path in (("source", recovery_source), ("runtime", recovery_runtime), ("probe", recovery_probe)):
+        with (output / "recovery" / (key + ".zip")).open("xb") as stream:
+            stream.write(regular(path))
+    once(output / "RECOVERY_RECEIPT.json", proof)
     once(output / "EXECUTION_PLAN.json", plan)
     once(output / "RECIPE.json", recipe.recipe())
     once(output / "STARTED.json", {"schema": SCHEMA, "stage": "generate", "run": run,
@@ -407,6 +436,9 @@ def source_readback(root, plan):
     root = Path(root)
     frozen = recipe.recipe()
     need(read(root / "RECIPE.json") == frozen and read(root / "EXECUTION_PLAN.json") == plan, "SOURCE_RECIPE_OR_PLAN")
+    recovery_proof = verify_zero_call_recovery(plan, root / "recovery/source.zip",
+        root / "recovery/runtime.zip", root / "recovery/probe.zip")
+    need(read(root / "RECOVERY_RECEIPT.json") == recovery_proof, "SOURCE_RECOVERY_RECEIPT_BINDING")
     start = read(root / "STARTED.json")
     need(start.get("schema") == SCHEMA and start.get("stage") == "generate"
          and start.get("maximum_calls") == 48 and start.get("retry_count") == 0
@@ -496,6 +528,7 @@ def source_readback(root, plan):
             row["generation_status"] = "DUPLICATE_PCM_QUARANTINED"
     return {"schema": "english-kokoro48-source-v1", "run": start["run"], "campaign_id": recipe.CAMPAIGN_ID,
         "recipe_sha256": digest(frozen), "declared_count": 48, "rows": rows,
+        "zero_call_runtime_recovery": {"recovery_id": RECOVERY["recovery_id"], "receipt_sha256": digest(recovery_proof)},
         "valid_count": sum(r["generation_status"] == "success" for r in rows),
         "source_attempts": {"started": attempts, "completed": completions, "failed": failures,
             "interrupted_after_start": attempts - completions - failures,
@@ -868,11 +901,13 @@ def combine(source, observers, plan, output):
     else:
         (output / "source").mkdir(mode=0o700)
     (output / "generation").mkdir(mode=0o700)
-    for name in ("RECIPE.json", "EXECUTION_PLAN.json", "STARTED.json", "RESULT.json"):
+    for name in ("RECIPE.json", "EXECUTION_PLAN.json", "STARTED.json", "RESULT.json", "RECOVERY_RECEIPT.json"):
         original = Path(source) / name
         if original.is_file():
             with (output / "generation" / name).open("xb") as stream:
                 stream.write(regular(original))
+    copy_closed_tree(Path(source) / "recovery", output / "recovery", 16 * 1024**2)
+    once(output / "RECOVERY_RECEIPT.json", read(Path(source) / "RECOVERY_RECEIPT.json"))
     (output / "evidence").mkdir(mode=0o700)
     for provider in PROVIDERS:
         path = Path(observers) / ("kokoro48-observer-" + provider)
@@ -910,16 +945,145 @@ def combine(source, observers, plan, output):
     return result
 
 
+def recovery_archive(path, key):
+    expected = RECOVERY["artifacts"][key]
+    raw = regular(path)
+    need(len(raw) == expected["bytes"] and sha(raw) == expected["sha256"], "EXACT_PREVIOUS_API_ARCHIVE: " + key)
+    with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+        infos = archive.infolist()
+        names = [info.filename for info in infos]
+        need(len(names) == len(set(names)) <= 2000 and sum(info.file_size for info in infos) <= 32 * 1024**2, "RECOVERY_ZIP_BOUND")
+        for info in infos:
+            need(type(info.filename) is str and "\\" not in info.filename and "\0" not in info.filename
+                 and not info.is_dir() and not info.flag_bits & 1 and info.file_size <= MAX_FILE
+                 and stat.S_IFMT(info.external_attr >> 16) in (0, stat.S_IFREG)
+                 and not PurePosixPath(info.filename).is_absolute()
+                 and all(p not in ("", ".", "..") for p in info.filename.split("/")), "RECOVERY_ZIP_SAFE_MEMBER")
+        files = {name: archive.read(name) for name in names}
+    if key == "probe":
+        manifest = loads(files["FILES.json"])
+        need(manifest.get("schema") == "english-kokoro48-files-v1", "OLD_CLOSED_MANIFEST_SCHEMA")
+        rows = manifest.get("files")
+        need(type(rows) is list and len({r["path"] for r in rows}) == len(rows)
+             and {r["path"] for r in rows} | {"FILES.json"} == set(files), "OLD_CLOSED_MEMBER_SET")
+        for row in rows:
+            member = files[row["path"]]
+            need(len(member) == row["bytes"] and sha(member) == row["sha256"], "OLD_CLOSED_MEMBER_BYTES")
+    return files
+
+
+def verify_zero_call_documents(source, runtime, probe):
+    """Inspect saved zero records, never reclassify old UNKNOWN observations."""
+    old_run = {"repository": RECOVERY["repository"], "commit": RECOVERY["previous_head_sha"],
+        "run_id": str(RECOVERY["previous_run_id"]), "run_attempt": "1", "event": "push"}
+    frozen = recipe.recipe()
+    old_recipe = loads(source["RECIPE.json"])
+    need(digest(old_recipe) == RECOVERY["previous_recipe_sha256"], "EXACT_PREVIOUS_RECIPE")
+    comparable = dict(old_recipe)
+    comparable["runtime_versions"] = frozen["runtime_versions"]
+    need(comparable == frozen and old_recipe["rows"] == frozen["rows"], "ONLY_RUNTIME_CHANGED_IDENTICAL_REQUESTS")
+    roster = [{k: row[k] for k in ("id", "request_sha256")} for row in old_recipe["rows"]]
+    need(len(roster) == 48 and len({r["id"] for r in roster}) == 48
+         and digest(roster) == RECOVERY["ordered_request_roster_sha256"], "EXACT_48_UNSTARTED_REQUEST_IDENTITIES")
+    old_plan = loads(source["EXECUTION_PLAN.json"])
+    need(old_plan.get("reference_contract") == POLICY and old_plan.get("probe_criteria") == PROBE_CRITERIA
+         and old_plan.get("observers") == OBSERVERS and old_plan.get("lv60_files") == LV60_FILES
+         and old_plan.get("maximum_tts_calls") == old_plan.get("maximum_calls_per_observer") == 48
+         and old_plan.get("maximum_total_model_calls") == 288 and old_plan.get("retry_count") == 0,
+         "OLD_REFERENCE_RULES_AND_BUDGET_UNCHANGED")
+    need(source["RECIPE.json"] == source["source/RECIPE.json"]
+         and source["EXECUTION_PLAN.json"] == source["source/EXECUTION_PLAN.json"], "OLD_INNER_OUTER_PLAN_BYTES")
+    for name in ("STARTED.json", "source/STARTED.json", "RESULT.json", "source/RESULT.json"):
+        need(loads(source[name]).get("run") == old_run, "EXACT_PREVIOUS_SOURCE_RUN")
+    outer, inner = loads(source["RESULT.json"]), loads(source["source/RESULT.json"])
+    need(outer.get("status") == inner.get("status") == "INCOMPLETE_NO_RETRY"
+         and all(doc.get("declared_count") == 48 and doc.get("actual_forward_attempts") == 0
+                 and doc.get("completed") == 0 and doc.get("retry_count") == 0
+                 and doc.get("old_audio_model_calls") == 0 for doc in (outer, inner))
+         and outer.get("valid_count") == 0 and inner.get("actual_forward_returns") == 0
+         and inner.get("kws_forward_calls") == inner.get("training_calls") == inner.get("runtime_g2p_calls") == 0
+         and inner.get("training_allowed") is False and inner.get("diagnostic_only") is True
+         and inner.get("error") == {"type": "ModuleNotFoundError", "code": "No module named 'click'"}, "ACTUAL_PREVIOUS_ZERO_CALL_INITIALIZATION_FAILURE")
+    expected_failures = {"source/audio/" + row["id"] + "/FAILED.json" for row in roster}
+    need({name for name in source if name.startswith("source/audio/")} == expected_failures,
+         "NO_PREVIOUS_CELL_STARTED_OR_AUDIO")
+    for row in roster:
+        receipt = loads(source["source/audio/" + row["id"] + "/FAILED.json"])
+        need(receipt.get("id") == row["id"] and receipt.get("request_sha256") == row["request_sha256"]
+             and receipt.get("status") == "NOT_STARTED_NO_RETRY" and receipt.get("forward_attempts") == 0
+             and receipt.get("forward_returned") is False and receipt.get("retry_count") == 0
+             and receipt.get("training_allowed") is False, "ALL_48_PREVIOUS_REQUESTS_UNSTARTED")
+    for files in (source, runtime, probe):
+        need(not any(name.lower().endswith((".wav", ".pcm", ".f32")) or name.endswith(("/CAPTURE.json", "/COMPLETED.json"))
+                     or name.endswith(("MODEL_LOAD_STARTED.json", "MODEL_LOCK.json")) for name in files),
+             "NO_PREVIOUS_AUDIO_CAPTURE_OR_MODEL_CONSTRUCTION")
+    need(loads(runtime["GUARD.json"]) == old_run and loads(runtime["COMMAND_EXIT.json"]) == {"returncode": 2, "retry_count": 0}, "OLD_RUNTIME_EXIT_AND_GUARD")
+    final = loads(probe["RESULT.json"])
+    corpus = loads(probe["CORPUS_MANIFEST.json"])
+    evidence = loads(probe["MACHINE_EVIDENCE.json"])
+    analysis = loads(probe["PROBE_ANALYSIS.json"])
+    need(loads(runtime["SOURCE_READBACK.json"]) == corpus and corpus.get("run") == old_run,
+         "OLD_RUNTIME_SOURCE_READBACK_CLOSURE")
+    need(corpus.get("valid_count") == 0 and corpus.get("declared_count") == 48
+         and corpus.get("source_attempts") == {"started": 0, "completed": 0, "failed": 0,
+             "interrupted_after_start": 0, "not_started": 48}
+         and len(corpus.get("rows", [])) == 48
+         and all(row.get("generation_status") == "NOT_STARTED_NO_RETRY" and row.get("wav_path") is None
+                 and row.get("pcm_path") is None and row.get("pcm_sha256") is None for row in corpus["rows"]), "OLD_ZERO_SOURCE_CORPUS")
+    need(final.get("run") == old_run and final.get("total_actual_model_attempts") == 0
+         and final.get("status") == "DIAGNOSTIC_PROBE_PACKET_RETAINED"
+         and final.get("probe_decision") == "STOP_DIAGNOSTIC_NO_EXPANSION"
+         and final.get("training_snapshot_allowed") is False and final.get("training_admitted") is False
+         and final.get("automatic_expansion") is False and final.get("high_quality_model_passed") is False,
+         "OLD_FINAL_PROBE_ZERO_CALLS")
+    need(set(evidence.get("observer_counts", {})) == set(PROVIDERS)
+         and all(c.get("declared_count") == 48 and c.get("started") == c.get("completed") == c.get("failed") == 0
+                 and c.get("not_started") == 48 and c.get("retry_count") == 0
+                 for c in evidence["observer_counts"].values())
+         and evidence.get("total_actual_model_attempts") == 0 and len(evidence.get("rows", [])) == 48
+         and all(row.get("observations") == [] and row.get("phone_observation") is None
+                 and row.get("diagnostic_phone_observation") is None for row in evidence["rows"]), "OLD_FIVE_OBSERVERS_ALL_ZERO")
+    need(len(analysis.get("rows", [])) == 48 and all(row.get("reference_tier") == "unknown"
+         and row.get("reference_supported") is False for row in analysis["rows"])
+         and analysis.get("training_snapshot_allowed") is False
+         and analysis.get("continuation", {}).get("status") == "STOP_DIAGNOSTIC_NO_EXPANSION", "OLD_UNKNOWN_PRESERVED_WITHOUT_RECLASSIFICATION")
+    need(loads(probe["policy/IDENTITY.json"]) == POLICY
+         and sha(probe["policy/english_phonetic_silver.py"]) == POLICY["module_sha256"]
+         and sha(probe["policy/profile.json"]) == POLICY["profile_sha256"], "EXACT_UNCHANGED_REFERENCE_POLICY")
+    for name, raw in source.items():
+        target = "generation/" + name if name in ("RECIPE.json", "EXECUTION_PLAN.json", "STARTED.json", "RESULT.json") else name
+        need(probe.get(target) == raw, "OLD_SOURCE_PROBE_BYTE_BINDING")
+    return {"schema": "english-kokoro48-zero-call-runtime-recovery-v1", "recovery": RECOVERY,
+        "status": "VERIFIED_PREVIOUS_ZERO_CALLS_REQUESTS_NEVER_STARTED", "previous_run": old_run,
+        "previous_recipe_sha256": digest(old_recipe), "current_recipe_sha256": digest(frozen),
+        "ordered_request_roster_sha256": digest(roster), "same_48_requests_seeds_presets_phones": True,
+        "previous_tts_attempts": 0, "previous_observer_attempts": 0, "previous_audio_files": 0,
+        "old_unknown_labels_reclassified": False, "new_model_calls_during_recovery_check": 0,
+        "automatic_retry": False, "training_snapshot_allowed": False}
+
+
+def verify_zero_call_recovery(plan, source_zip, runtime_zip, probe_zip):
+    need(plan.get("zero_call_runtime_recovery") == RECOVERY, "EXACT_ZERO_CALL_RUNTIME_RECOVERY")
+    source = recovery_archive(source_zip, "source")
+    runtime = recovery_archive(runtime_zip, "runtime")
+    probe = recovery_archive(probe_zip, "probe")
+    return verify_zero_call_documents(source, runtime, probe)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--plan", type=Path, required=True)
     actions = parser.add_mutually_exclusive_group(required=True)
     actions.add_argument("--source-check", action="store_true")
     actions.add_argument("--guard", action="store_true")
+    actions.add_argument("--verify-zero-call-recovery", action="store_true")
     actions.add_argument("--generate", action="store_true")
     actions.add_argument("--read-source", action="store_true")
     actions.add_argument("--observe", choices=PROVIDERS)
     actions.add_argument("--combine", action="store_true")
+    parser.add_argument("--recovery-source", type=Path)
+    parser.add_argument("--recovery-runtime", type=Path)
+    parser.add_argument("--recovery-probe", type=Path)
     parser.add_argument("--source", type=Path)
     parser.add_argument("--observers", type=Path)
     parser.add_argument("--output", type=Path)
@@ -931,9 +1095,15 @@ def main(argv=None):
             "maximum_total_model_attempts": 288, "training_snapshot_allowed": False}
     elif args.guard:
         result = execution_guard(plan)
+    elif args.verify_zero_call_recovery:
+        need(all(p is not None for p in (args.recovery_source, args.recovery_runtime, args.recovery_probe)), "THREE_OLD_ARCHIVES_REQUIRED")
+        result = verify_zero_call_recovery(plan, args.recovery_source, args.recovery_runtime, args.recovery_probe)
+        if args.output is not None:
+            once(args.output, result)
     elif args.generate:
-        need(args.output is not None, "OUTPUT_REQUIRED")
-        result = source_stage(plan, args.output)
+        need(args.output is not None and all(p is not None for p in
+            (args.recovery_source, args.recovery_runtime, args.recovery_probe)), "OUTPUT_AND_OLD_PROOF_REQUIRED")
+        result = source_stage(plan, args.output, args.recovery_source, args.recovery_runtime, args.recovery_probe)
     elif args.read_source:
         need(args.source is not None, "SOURCE_REQUIRED")
         corpus = source_readback(args.source, plan)

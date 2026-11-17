@@ -13,6 +13,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import english_kokoro48_recipe as r
 import english_kokoro48_once as w
+import english_kokoro48_runtime as runtime
 
 
 class Kokoro48Tests(unittest.TestCase):
@@ -59,7 +60,7 @@ class Kokoro48Tests(unittest.TestCase):
             w.validate_plan(plan)
 
     def test_all_three_source_modules_and_helpers_are_pinned(self):
-        for key in ("worker_sha256", "recipe_code_sha256", "generator_code_sha256"):
+        for key in ("worker_sha256", "recipe_code_sha256", "generator_code_sha256", "runtime_installer_sha256"):
             plan = self.plan(); plan[key] = "0" * 64
             with self.subTest(key=key), self.assertRaisesRegex(ValueError, "SOURCE_PIN"):
                 w.validate_plan(plan)
@@ -68,10 +69,10 @@ class Kokoro48Tests(unittest.TestCase):
             w.validate_plan(plan)
 
     def test_first_public_main_push_guard_and_no_retry(self):
-        plan = self.plan(); plan.update(enabled=True, next_main_before="a" * 40)
+        plan = self.plan(); plan.update(enabled=True, next_main_before=w.RECOVERY["previous_head_sha"])
         env = {"GITHUB_REPOSITORY": "jiying2007/kws-data", "GITHUB_EVENT_NAME": "push",
             "GITHUB_REF": "refs/heads/main", "GITHUB_RUN_ATTEMPT": "1", "GITHUB_SHA": "b" * 40}
-        event = {"repository": {"private": False, "full_name": "jiying2007/kws-data"}, "before": "a" * 40, "after": "b" * 40}
+        event = {"repository": {"private": False, "full_name": "jiying2007/kws-data"}, "before": w.RECOVERY["previous_head_sha"], "after": "b" * 40}
         w.execution_guard(plan, env, event)
         for change in ({"GITHUB_RUN_ATTEMPT": "2"}, {"GITHUB_EVENT_NAME": "workflow_dispatch"},
             {"GITHUB_REF": "refs/heads/branch"}, {"GITHUB_REPOSITORY": "other/fork"}):
@@ -100,7 +101,10 @@ class Kokoro48Tests(unittest.TestCase):
                 "voice_pack_index": len(first["raw_phonemes"]) - 1, "seed": first["seed"],
                 "synthesis_config": r.SYNTHESIS, "direct_api": "KModel.forward", "runtime_g2p_calls": 0,
                 "retry_count": 0, "training_allowed": False, "diagnostic_only": True})
-            corpus = w.source_readback(root, plan)
+            proof = {"fixture_only": "no runtime or model"}
+            w.once(root / "RECOVERY_RECEIPT.json", proof)
+            with patch.object(w, "verify_zero_call_recovery", return_value=proof):
+                corpus = w.source_readback(root, plan)
             self.assertEqual(len(corpus["rows"]), 48)
             self.assertEqual(corpus["valid_count"], 0)
             self.assertEqual(corpus["source_attempts"], {"started": 1, "completed": 0,
@@ -201,6 +205,51 @@ class Kokoro48Tests(unittest.TestCase):
         self.assertNotIn("build_admission", calls)
         self.assertNotIn("validate_plan", calls)
         self.assertFalse({"torch", "numpy", "transformers", "kokoro"} & set(sys.modules))
+
+    def test_runtime_install_arguments_pin_click_and_existing_typer(self):
+        commands = runtime.install_arguments(Path("/tmp/example-runtime-fixture"))
+        self.assertEqual(commands[-1][-1], "check")
+        self.assertIn("click==8.3.1", commands[1])
+        self.assertIn("typer==0.29.1", commands[1])
+        self.assertIn("typer-slim==0.24.0", commands[1])
+        self.assertIn("torch==2.9.1+cpu", commands[0])
+        self.assertIn("from kokoro import KModel", runtime.IMPORT_CODE)
+        self.assertNotIn("KModel(", runtime.IMPORT_CODE)
+
+    def test_runtime_import_rejects_forks_and_private_repositories(self):
+        env = {"GITHUB_REPOSITORY": "jiying2007/kws-data", "GITHUB_EVENT_NAME": "pull_request"}
+        event = {"repository": {"private": False}, "pull_request": {"head": {"repo": {"full_name": "jiying2007/kws-data"}}}}
+        runtime.allowed_event(env, event)
+        event["pull_request"]["head"]["repo"]["full_name"] = "someone/fork"
+        with self.assertRaisesRegex(ValueError, "SAME_REPOSITORY_PR_ONLY"):
+            runtime.allowed_event(env, event)
+        event["repository"]["private"] = True
+        with self.assertRaises(ValueError):
+            runtime.allowed_event(env, event)
+        with self.assertRaises(ValueError):
+            runtime.allowed_event({}, {})
+
+    def test_recovery_predecessor_cannot_advance_to_reuse_old_zero_proof(self):
+        plan = self.plan(); plan.update(enabled=True, next_main_before="a" * 40)
+        with self.assertRaisesRegex(ValueError, "ONE_RECOVERY_FIXED_PREDECESSOR"):
+            w.validate_plan(plan)
+        plan = self.plan(); plan["zero_call_runtime_recovery"]["previous_run_id"] += 1
+        with self.assertRaisesRegex(ValueError, "EXACT_ZERO_CALL_RUNTIME_RECOVERY"):
+            w.validate_plan(plan)
+
+    def test_recovery_does_not_accept_a_claim_instead_of_actual_archive_bytes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            p = Path(temp) / "source.zip"; p.write_bytes(b"claimed zero calls")
+            with self.assertRaisesRegex(ValueError, "EXACT_PREVIOUS_API_ARCHIVE"):
+                w.recovery_archive(p, "source")
+        with self.assertRaises((ValueError, KeyError)):
+            w.verify_zero_call_documents({}, {}, {})
+
+    def test_frozen_request_identity_survives_runtime_fix(self):
+        roster = [{k: row[k] for k in ("id", "request_sha256")} for row in r.recipe()["rows"]]
+        self.assertEqual(w.digest(roster), w.RECOVERY["ordered_request_roster_sha256"])
+        self.assertEqual(w.RECOVERY["required_previous_model_attempts"], 0)
+        self.assertFalse(w.RECOVERY["automatic_retry"])
 
     def test_create_once_and_safe_paths(self):
         with tempfile.TemporaryDirectory() as temp:
