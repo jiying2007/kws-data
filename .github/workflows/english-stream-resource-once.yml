@@ -1,0 +1,87 @@
+name: English V4.1 saved-speech resource measurement once
+on:
+  pull_request:
+    paths:
+      - automation/english_stream_resource_once.py
+      - automation/test_english_stream_resource_once.py
+      - automation/english_stream_resource_inputs.json
+      - automation/english_piper_v4_joint_review.py
+      - automation/test_english_piper_v4_joint_review.py
+      - research/english_piper_v4_joint_review_20261117/**
+      - .github/workflows/english-stream-resource-once.yml
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-stream-resource-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-resource-v41-20261117-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Validate fixed inputs, diagnostic rejection, and retained joint observations
+        run: |
+          set -euo pipefail
+          python3 automation/english_stream_resource_once.py --plan automation/english_stream_resource_inputs.json
+          python3 automation/test_english_stream_resource_once.py -v
+          python3 automation/test_english_piper_v4_joint_review.py -v
+          git diff --exit-code
+  measure:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == '6112ae083a70e5b46e4a649fad832aaf452b7d21'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: data-source
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: eaf4042cf77e18695b35c61c3e6ead4b804b1605
+          path: performance-source
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install the original PCM decoder versions
+        timeout-minutes: 2
+        run: python3 -m pip install --disable-pip-version-check numpy==1.26.4 soundfile==0.13.1
+      - name: Measure existing SDK and diagnose graph work on authenticated exposed speech
+        timeout-minutes: 13
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 data-source/automation/english_stream_resource_once.py \
+            --plan data-source/automation/english_stream_resource_inputs.json --execute \
+            --pipeline-root performance-source \
+            --output "$RUNNER_TEMP/english-stream-resource-v41"
+      - name: Retain actual results, inputs and failed-stage evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-stream-resource-v41-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-stream-resource-v41/evidence/*.json
+            ${{ runner.temp }}/english-stream-resource-v41/evidence/*.stderr
+            ${{ runner.temp }}/english-stream-resource-v41/evidence/baseline.stdout
+            ${{ runner.temp }}/english-stream-resource-v41/evidence/diagnostic.stdout
+            ${{ runner.temp }}/english-stream-resource-v41/baseline/
+            ${{ runner.temp }}/english-stream-resource-v41/diagnostic/
+            ${{ runner.temp }}/english-stream-resource-v41/inputs/
+          retention-days: 30
+          if-no-files-found: warn
