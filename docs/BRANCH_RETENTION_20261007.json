@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2475,
+  "expected_tracked_files": 2490,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -684,7 +684,22 @@
     "automation/english_synthetic192_once.py",
     "automation/english_synthetic192_plan.json",
     "automation/test_english_synthetic192.py",
-    "docs/ENGLISH_SYNTHETIC192_20261117.md"
+    "docs/ENGLISH_SYNTHETIC192_20261117.md",
+    "automation/english_synthetic192_train_once.py",
+    "automation/english_synthetic192_training_core.py",
+    "automation/english_synthetic192_training_plan.json",
+    "automation/test_english_synthetic192_training.py",
+    ".github/workflows/english-synthetic192-train-once.yml",
+    "automation/english_synthetic192_fullpcm_once.py",
+    "automation/english_synthetic192_fullpcm_plan.json",
+    "automation/bind_english_synthetic192_fullpcm.py",
+    "automation/test_english_synthetic192_fullpcm.py",
+    ".github/workflows/english-synthetic192-fullpcm-once.yml",
+    "automation/package_english_synthetic192_sdk.py",
+    "automation/verify_english_synthetic192_sdk.py",
+    "automation/english_synthetic192_sdk_plan.json",
+    "automation/test_english_synthetic192_sdk.py",
+    "docs/ENGLISH_SYNTHETIC192_SDK_CONTRACT_20261117.md"
   ],
   "baseline_files": [
     {
@@ -30017,6 +30032,137 @@
         }
       ],
       "rationale": "Preserve a disabled one-shot fresh-source synthetic English recipe, blind three-ASR plus independent XLSR observations, complete byte-bound intake and workflow. No new human recording prerequisite; actual model execution awaits an exact merged policy and new public-main predecessor."
+    },
+    {
+      "campaign": "english-synthetic192-training-and-sdk-source-20261117",
+      "source_commit": "1d9406b19f035ceadf690e94bde502e902e722d9",
+      "base_commit": "a626b2dbfca5a06767a57fa640511a7d2af66124",
+      "previous_manifest_git_blob_sha1": "ddf3f7191fe7ecafc5ed8bf30b0d809c9707d790",
+      "paths": [
+        "automation/english_synthetic192_train_once.py",
+        "automation/english_synthetic192_training_core.py",
+        "automation/english_synthetic192_training_plan.json",
+        "automation/test_english_synthetic192_training.py",
+        ".github/workflows/english-synthetic192-train-once.yml",
+        "automation/english_synthetic192_fullpcm_once.py",
+        "automation/english_synthetic192_fullpcm_plan.json",
+        "automation/bind_english_synthetic192_fullpcm.py",
+        "automation/test_english_synthetic192_fullpcm.py",
+        ".github/workflows/english-synthetic192-fullpcm-once.yml",
+        "automation/package_english_synthetic192_sdk.py",
+        "automation/verify_english_synthetic192_sdk.py",
+        "automation/english_synthetic192_sdk_plan.json",
+        "automation/test_english_synthetic192_sdk.py",
+        "docs/ENGLISH_SYNTHETIC192_SDK_CONTRACT_20261117.md"
+      ],
+      "files": [
+        {
+          "path": "automation/english_synthetic192_train_once.py",
+          "mode": "100644",
+          "bytes": 28734,
+          "sha256": "acd61ac10dc2d829e5f0c708c47d0f1b9e8b77429f4ae43845e02635eabaea0e",
+          "git_blob_sha1": "ae672f9937a997ea09cafa497d1c281719515cc0"
+        },
+        {
+          "path": "automation/english_synthetic192_training_core.py",
+          "mode": "100644",
+          "bytes": 42877,
+          "sha256": "0896d375f47318adbc42f63835cb85fc77441ae2472d9df8212dfca4dd7e62c0",
+          "git_blob_sha1": "4def15d472b1656ffa00d11287bc7ec55452f809"
+        },
+        {
+          "path": "automation/english_synthetic192_training_plan.json",
+          "mode": "100644",
+          "bytes": 4638,
+          "sha256": "926aa16a927cb0f3eef0544b1353ca87f84f94d96259789f03fd72526cefb92f",
+          "git_blob_sha1": "de75ea33b3a0a08e8f01ee461889c8174fdd60e6"
+        },
+        {
+          "path": "automation/test_english_synthetic192_training.py",
+          "mode": "100644",
+          "bytes": 9976,
+          "sha256": "bb4358c5b94b59df9e00801a518b460e9c398c4f68253729a7da8ba501610701",
+          "git_blob_sha1": "0b884226c6323dcd107348454b7c12bdddc3abb4"
+        },
+        {
+          "path": ".github/workflows/english-synthetic192-train-once.yml",
+          "mode": "100644",
+          "bytes": 3227,
+          "sha256": "253759786c3ad4456a96758841449f798c70c3c4834bf5e7865f9712413b83bd",
+          "git_blob_sha1": "4201184c3f037dda29a61a2dabdd065a7ba76e59"
+        },
+        {
+          "path": "automation/english_synthetic192_fullpcm_once.py",
+          "mode": "100644",
+          "bytes": 38253,
+          "sha256": "fd6f1695e059a592b3cb9d7385904f40b115da38c9c3f3d82120ddeec272e861",
+          "git_blob_sha1": "267d1372e56723997eb8a814c2282563ac89ea00"
+        },
+        {
+          "path": "automation/english_synthetic192_fullpcm_plan.json",
+          "mode": "100644",
+          "bytes": 2681,
+          "sha256": "08c08f5724fdc6c5a537dea98336d1a75cc4633b110cb7b5e9ef968a501fbe19",
+          "git_blob_sha1": "bcad83e9df54697dc71a0a3ad97c768cb4e391c0"
+        },
+        {
+          "path": "automation/bind_english_synthetic192_fullpcm.py",
+          "mode": "100644",
+          "bytes": 3029,
+          "sha256": "9a9ed01d0cd1de653cedca7617800683ed6275b72620437c371438f4deaa0176",
+          "git_blob_sha1": "310cfb9d66398ce5c7b27a78e5328c1165b24d38"
+        },
+        {
+          "path": "automation/test_english_synthetic192_fullpcm.py",
+          "mode": "100644",
+          "bytes": 7474,
+          "sha256": "af6e5aefd9d5207a170b17c48fe293a460d1cdf5b807e243487d37eb1587e582",
+          "git_blob_sha1": "4e4649d71d11725bc7f1f6a001f0cc3bf07efa97"
+        },
+        {
+          "path": ".github/workflows/english-synthetic192-fullpcm-once.yml",
+          "mode": "100644",
+          "bytes": 4479,
+          "sha256": "754a01323b3ea6dc323ca813175d5077894d55fced7059441afac6ec1440f81e",
+          "git_blob_sha1": "217ebf04029e49b15b3dd5fa79ca8186379928bb"
+        },
+        {
+          "path": "automation/package_english_synthetic192_sdk.py",
+          "mode": "100644",
+          "bytes": 24006,
+          "sha256": "36b44b440e4a973670df5c9dee30984c4a5e4f155568f9940976def6ea825699",
+          "git_blob_sha1": "349c6f97505dc19c5a9f59f25a3078aee78d3aad"
+        },
+        {
+          "path": "automation/verify_english_synthetic192_sdk.py",
+          "mode": "100644",
+          "bytes": 33534,
+          "sha256": "bd35bae6c5d7dbeba8836bc223b86cf5f226216132b6266732a2299fe93ddce1",
+          "git_blob_sha1": "256ee2cf274bb979931e7dda5e66bdf6b06ad821"
+        },
+        {
+          "path": "automation/english_synthetic192_sdk_plan.json",
+          "mode": "100644",
+          "bytes": 1170,
+          "sha256": "83f2363f3454dd4faecf7d5eaff445edd3f0f9f6fada2e6dd9830993b7686b36",
+          "git_blob_sha1": "6618cda56a86385804851286cc7af7bffa7de15d"
+        },
+        {
+          "path": "automation/test_english_synthetic192_sdk.py",
+          "mode": "100644",
+          "bytes": 8596,
+          "sha256": "7e6a68c71d0278bc1a5778807b9177906943ce45ce87f3544be477e074d686da",
+          "git_blob_sha1": "57c5ab66bde3775719c6aa19392384193d3330de"
+        },
+        {
+          "path": "docs/ENGLISH_SYNTHETIC192_SDK_CONTRACT_20261117.md",
+          "mode": "100644",
+          "bytes": 4693,
+          "sha256": "a7e8317888a7fc309923047f8835cd6ea6f3ea05e14f43c267a1e5519a0f6f94",
+          "git_blob_sha1": "fb4da5324bfa94da91238ebd99f65c0c08cc49cc"
+        }
+      ],
+      "rationale": "Preserve disabled source-separated synthetic research training with complete original TRAIN replay, predeclared event selection, ten unchanged/new quality gates, fixed 14-case native/ARM full-PCM verification, and byte-audited offline SDK packaging. No future artifact IDs invented, no model execution in this source registration, no human-recording or physical-board prerequisite."
     }
   ]
 }
