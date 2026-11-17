@@ -1,0 +1,64 @@
+{
+  "entrypoint": "audit_saved_natural32_retained.py",
+  "files": [
+    {
+      "bytes": 36752,
+      "path": "audit_saved_natural32_retained.py",
+      "role": "runtime_entrypoint",
+      "sha256": "dd629fcb0e02a8fe55d24ebe3eef144c43b6d66dba58d2f54c8671bde5b9a833"
+    },
+    {
+      "bytes": 9485,
+      "path": "second_failure_proof.py",
+      "role": "runtime_import_closed_second_failure",
+      "sha256": "7f695d9a70bfbf2cb7f4c9e8834d3e6d96a4d5beb8277096af91f80afd892e7a"
+    },
+    {
+      "bytes": 5825,
+      "path": "prior_failure_proof.py",
+      "role": "runtime_import_fixed_first_failure_omission",
+      "sha256": "d6a2cde5d895283e0e24a0d79ca81108a3d4edbd1b56a9fd1001bb2486c890d8"
+    },
+    {
+      "bytes": 7804,
+      "path": "RETAINED_INPUT_BINDINGS.json",
+      "role": "runtime_frozen_bindings",
+      "sha256": "8dc040be89e896069c351ec9d870f5fa734ad4a0f09de58936cadc8ae5e2b467"
+    },
+    {
+      "bytes": 933,
+      "path": "NUMERIC_LOGIC_UNCHANGED.json",
+      "role": "unchanged_function_proof",
+      "sha256": "249a0560d5a20925f64bcfea0ff9625e61caf1e114133d6c0f6acb107dabb657"
+    },
+    {
+      "bytes": 33239,
+      "path": "frozen_success_audit.py",
+      "role": "frozen_reference_source_not_runtime_entrypoint",
+      "sha256": "5e491049b9db26e724b58da059c6e44a78f50ab0f04053799d97022ef80096ed"
+    },
+    {
+      "bytes": 625,
+      "path": "INHERITED_SYNTHETIC_SELF_CHECK.json",
+      "role": "original_unchanged_functions_synthetic_checks_not_new_model_runs",
+      "sha256": "36fbfdc2b3c72b2846031d10847a26e8fe8ff060a0b4888ca0b448abf5701648"
+    },
+    {
+      "bytes": 2108,
+      "path": "SECOND_FAILURE_PROOF_CHECK.json",
+      "role": "actual_second_and_nested_first_failure_bytes_check_no_compute",
+      "sha256": "105483ee5e2e81b343aed8ff1f9d90e8944b3ecf454a77c689bdf8d2a72e613a"
+    }
+  ],
+  "optional_external_input": "API receipt separately provided by root; --api-receipt reports whether it is present",
+  "python": "stdlib only",
+  "relative_placement": "keep all eight listed files and this manifest in the same directory",
+  "runtime_required_files": [
+    "audit_saved_natural32_retained.py",
+    "second_failure_proof.py",
+    "prior_failure_proof.py",
+    "RETAINED_INPUT_BINDINGS.json"
+  ],
+  "schema": "natural32-retained-independent-auditor-delivery-v1",
+  "validation_files_are_evidence_only": true
+}
