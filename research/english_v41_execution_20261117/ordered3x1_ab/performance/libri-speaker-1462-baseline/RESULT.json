@@ -1,0 +1,344 @@
+{
+  "schema": "english-stream-performance-run-v1",
+  "passed": true,
+  "measurement_completed": true,
+  "performance_budget_evaluated": false,
+  "started_unix_seconds": 1794884038.6211712,
+  "cases": [
+    {
+      "input": {
+        "id": "libri-speaker-1462",
+        "path": "libri-speaker-1462.pcm",
+        "sha256": "9a93bc5842da1ad5f3d6af3e9987ec7a157127d0eea6f6d83282df7afe37ffa7",
+        "samples": 256000,
+        "sample_rate_hz": 16000,
+        "encoding": "s16le_mono",
+        "speech_kind": "natural_speech",
+        "continuity": "concatenated_recordings",
+        "role": "train",
+        "exposure": "previously_exposed",
+        "kind": "exposed-read-speech-splice",
+        "source": {
+          "training_run_id": 43867764366,
+          "corpus": {
+            "bytes": 337926286,
+            "sha256": "76f87d090650617fca0cac8f88b9416e0ebf80350acb97b343a85fa903728ab3",
+            "url": "https://www.openslr.org/resources/12/dev-clean.tar.gz"
+          },
+          "track": {
+            "fragments": [
+              {
+                "samples": 74320,
+                "source_id": "LibriSpeech/dev-clean/1462/170138/1462-170138-0002.flac",
+                "source_pcm_sha256": "ed090509fb6af5471c8d9bc51099a9bab1bb69652bf15d3b084a89df0ab5aa09",
+                "source_start_sample": 0,
+                "track_start_sample": 0
+              },
+              {
+                "samples": 37120,
+                "source_id": "LibriSpeech/dev-clean/1462/170138/1462-170138-0003.flac",
+                "source_pcm_sha256": "6025851ed8a286a06ddde69bc96745d490dcaa973365e31a06b48960e8916ea2",
+                "source_start_sample": 0,
+                "track_start_sample": 74320
+              },
+              {
+                "samples": 54080,
+                "source_id": "LibriSpeech/dev-clean/1462/170138/1462-170138-0015.flac",
+                "source_pcm_sha256": "cbee2f76de39a77dec6ef1b417d5a9b2b4109414d8db4582efd882694479e9b2",
+                "source_start_sample": 0,
+                "track_start_sample": 111440
+              },
+              {
+                "samples": 71040,
+                "source_id": "LibriSpeech/dev-clean/1462/170138/1462-170138-0025.flac",
+                "source_pcm_sha256": "70e59c7ad1bca1de93b522d58b9b0c606dc6ba63c068b71a90c59260951462c1",
+                "source_start_sample": 0,
+                "track_start_sample": 165520
+              },
+              {
+                "samples": 19440,
+                "source_id": "LibriSpeech/dev-clean/1462/170142/1462-170142-0001.flac",
+                "source_pcm_sha256": "0fe281bd2188c64df8403959365372ffc8eec7cfcf6d797bac3cea606fc72b98",
+                "source_start_sample": 0,
+                "track_start_sample": 236560
+              }
+            ],
+            "frames": 256000,
+            "id": "libri-speaker-1462",
+            "kind": "exposed-read-speech-splice",
+            "pcm_sha256": "9a93bc5842da1ad5f3d6af3e9987ec7a157127d0eea6f6d83282df7afe37ffa7",
+            "role": "train",
+            "speaker": "1462",
+            "trusted_negative": false
+          },
+          "upstream_member_sha256": "8a21f832bd847b8a169f41de0fb40c5cc9b683dffc607d9e100ebc5958f4b15d"
+        }
+      },
+      "status": "completed",
+      "started_unix_seconds": 1794884038.7510853,
+      "exit_code": 0,
+      "finished_unix_seconds": 1794884064.9694884,
+      "pcm_sha256_after": "9a93bc5842da1ad5f3d6af3e9987ec7a157127d0eea6f6d83282df7afe37ffa7",
+      "measurements": {
+        "schema": "english-stream-performance-v1",
+        "passed": true,
+        "measurement_completed": true,
+        "performance_budget_evaluated": false,
+        "abi": 1,
+        "sample_rate_hz": 16000,
+        "score_observer_enabled": false,
+        "chunk_samples": 320,
+        "warmup_samples": 35200,
+        "input_samples": 256000,
+        "input_repetitions": 1,
+        "resets": 0,
+        "eof_padding_samples": 0,
+        "stream_bytes": 236328,
+        "workspace_bytes": 528384,
+        "preloaded_pcm_bytes": 512000,
+        "timing_array_bytes": 25600,
+        "init_wall_seconds": 0.00012177,
+        "init_process_cpu_seconds": 0.000119768,
+        "warmup": {
+          "samples": 35200,
+          "audio_seconds": 2.2,
+          "calls": 110,
+          "accept_wall_seconds": 2.229325722,
+          "accept_process_cpu_seconds": 2.229101716,
+          "wall_rtf": 1.013329874,
+          "cpu_seconds_per_audio_second": 1.013228053,
+          "call_wall_p50_ms": 0.002113,
+          "call_wall_p95_ms": 139.482012,
+          "call_wall_p99_ms": 139.549291,
+          "call_wall_max_ms": 139.63081,
+          "calls_over_input_duration": 16,
+          "calls_over_input_duration_fraction": 0.145454545
+        },
+        "steady": {
+          "samples": 220800,
+          "audio_seconds": 13.8,
+          "calls": 690,
+          "accept_wall_seconds": 23.985699204,
+          "accept_process_cpu_seconds": 23.983559872,
+          "wall_rtf": 1.738094145,
+          "cpu_seconds_per_audio_second": 1.737939121,
+          "call_wall_p50_ms": 0.002373,
+          "call_wall_p95_ms": 139.473921,
+          "call_wall_p99_ms": 140.710629,
+          "call_wall_max_ms": 155.266408,
+          "calls_over_input_duration": 172,
+          "calls_over_input_duration_fraction": 0.249275362
+        },
+        "whole_stream": {
+          "samples": 256000,
+          "audio_seconds": 16.0,
+          "calls": 800,
+          "accept_wall_seconds": 26.215024926,
+          "accept_process_cpu_seconds": 26.212661588,
+          "wall_rtf": 1.638439058,
+          "cpu_seconds_per_audio_second": 1.638291349,
+          "call_wall_p50_ms": 0.002214,
+          "call_wall_p95_ms": 139.473921,
+          "call_wall_p99_ms": 140.218242,
+          "call_wall_max_ms": 155.266408,
+          "calls_over_input_duration": 188,
+          "calls_over_input_duration_fraction": 0.235
+        },
+        "warmup_output_counts": {
+          "embeddings": 16,
+          "ready_outputs": 1,
+          "events": 0
+        },
+        "steady_output_counts": {
+          "embeddings": 172,
+          "ready_outputs": 172,
+          "events": 0
+        },
+        "embeddings": 188,
+        "ready_outputs": 173,
+        "events": 0,
+        "event_digest_fnv1a64": "cbf29ce484222325",
+        "memory": {
+          "input_resident_before_stream_allocation": {
+            "rss_kib": 2756,
+            "pss_kib": 1091,
+            "process_peak_rss_kib": 20388
+          },
+          "after_init_and_head_blob_release": {
+            "rss_kib": 3112,
+            "pss_kib": 1139,
+            "process_peak_rss_kib": 20388
+          },
+          "after_warmup": {
+            "rss_kib": 6016,
+            "pss_kib": 3885,
+            "process_peak_rss_kib": 20388
+          },
+          "after_stream": {
+            "rss_kib": 6016,
+            "pss_kib": 3885,
+            "process_peak_rss_kib": 20388
+          }
+        },
+        "timing_scope": "accept calls including constant-time event count/digest and clock overhead; excludes input I/O, PCM decoding, memory sampling and report I/O",
+        "memory_scope": "process observations include runner, preloaded input, timing arrays and shared/static code; peak is process lifetime high-water, not isolated KWS peak",
+        "call_quantiles": "nearest-rank; last partial chunk included",
+        "realtime_pacing": false,
+        "word_end_latency_measured": false,
+        "far_frr_measured": false,
+        "ssc305_qualification": false,
+        "model_promotion_allowed": false
+      }
+    }
+  ],
+  "input_repetitions": 1,
+  "performance_only": true,
+  "far_frr_measured": false,
+  "word_end_latency_measured": false,
+  "ssc305_qualification": false,
+  "model_promotion_allowed": false,
+  "input_manifest": {
+    "sha256": "9f0687f4af94e3994e9816a2b65c340e9a53f0297f9937da7cf6ad9e0718c527",
+    "content": {
+      "schema": "english-stream-performance-inputs-v1",
+      "cases": [
+        {
+          "id": "libri-speaker-1462",
+          "path": "libri-speaker-1462.pcm",
+          "sha256": "9a93bc5842da1ad5f3d6af3e9987ec7a157127d0eea6f6d83282df7afe37ffa7",
+          "samples": 256000,
+          "sample_rate_hz": 16000,
+          "encoding": "s16le_mono",
+          "speech_kind": "natural_speech",
+          "continuity": "concatenated_recordings",
+          "role": "train",
+          "exposure": "previously_exposed",
+          "kind": "exposed-read-speech-splice",
+          "source": {
+            "training_run_id": 43867764366,
+            "corpus": {
+              "bytes": 337926286,
+              "sha256": "76f87d090650617fca0cac8f88b9416e0ebf80350acb97b343a85fa903728ab3",
+              "url": "https://www.openslr.org/resources/12/dev-clean.tar.gz"
+            },
+            "track": {
+              "fragments": [
+                {
+                  "samples": 74320,
+                  "source_id": "LibriSpeech/dev-clean/1462/170138/1462-170138-0002.flac",
+                  "source_pcm_sha256": "ed090509fb6af5471c8d9bc51099a9bab1bb69652bf15d3b084a89df0ab5aa09",
+                  "source_start_sample": 0,
+                  "track_start_sample": 0
+                },
+                {
+                  "samples": 37120,
+                  "source_id": "LibriSpeech/dev-clean/1462/170138/1462-170138-0003.flac",
+                  "source_pcm_sha256": "6025851ed8a286a06ddde69bc96745d490dcaa973365e31a06b48960e8916ea2",
+                  "source_start_sample": 0,
+                  "track_start_sample": 74320
+                },
+                {
+                  "samples": 54080,
+                  "source_id": "LibriSpeech/dev-clean/1462/170138/1462-170138-0015.flac",
+                  "source_pcm_sha256": "cbee2f76de39a77dec6ef1b417d5a9b2b4109414d8db4582efd882694479e9b2",
+                  "source_start_sample": 0,
+                  "track_start_sample": 111440
+                },
+                {
+                  "samples": 71040,
+                  "source_id": "LibriSpeech/dev-clean/1462/170138/1462-170138-0025.flac",
+                  "source_pcm_sha256": "70e59c7ad1bca1de93b522d58b9b0c606dc6ba63c068b71a90c59260951462c1",
+                  "source_start_sample": 0,
+                  "track_start_sample": 165520
+                },
+                {
+                  "samples": 19440,
+                  "source_id": "LibriSpeech/dev-clean/1462/170142/1462-170142-0001.flac",
+                  "source_pcm_sha256": "0fe281bd2188c64df8403959365372ffc8eec7cfcf6d797bac3cea606fc72b98",
+                  "source_start_sample": 0,
+                  "track_start_sample": 236560
+                }
+              ],
+              "frames": 256000,
+              "id": "libri-speaker-1462",
+              "kind": "exposed-read-speech-splice",
+              "pcm_sha256": "9a93bc5842da1ad5f3d6af3e9987ec7a157127d0eea6f6d83282df7afe37ffa7",
+              "role": "train",
+              "speaker": "1462",
+              "trusted_negative": false
+            },
+            "upstream_member_sha256": "8a21f832bd847b8a169f41de0fb40c5cc9b683dffc607d9e100ebc5958f4b15d"
+          }
+        }
+      ]
+    }
+  },
+  "sdk_files": {
+    "include/ekws_research_stream.h": {
+      "bytes": 4273,
+      "sha256": "b804e564fea7afb6dc53966de0225eb770f2f73d124768f6abac4d3e22268343"
+    },
+    "lib/libekws_research_stream.a": {
+      "bytes": 2441224,
+      "sha256": "040089f781d87366a3d8a27933043aa96e891849f2bf9ce6bbd2321d0d70152a"
+    },
+    "models/causal-head.bin": {
+      "bytes": 197908,
+      "sha256": "acbf6bd314ab8b458ae2175b6268b306ed0102d7ffc68c1b6ffde87af1c41174"
+    }
+  },
+  "benchmark_source": {
+    "bytes": 12661,
+    "sha256": "63a7dcfd4124d80f720edae72772666ceb151f217c2bc9a7c7ebd258aa5a6808"
+  },
+  "benchmark_driver": {
+    "bytes": 10633,
+    "sha256": "f58a7be9f577e5b3c7eaa14fb18aeab4fa7aecdab59773d15896fa5cb4185557"
+  },
+  "host": {
+    "system": "Linux",
+    "release": "7.0.0-1017-azure",
+    "machine": "x86_64",
+    "logical_cpu_count": 4,
+    "python": "3.12.16",
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "compiler_version": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "build_command": [
+    "cc",
+    "-std=c11",
+    "-O2",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-I/home/runner/work/_temp/english-stream-3x1-ab-v41/sdk/sdk-native/include",
+    "/home/runner/work/kws-data/kws-data/performance-source/research/english_stream_performance/ekws_stream_benchmark.c",
+    "/home/runner/work/_temp/english-stream-3x1-ab-v41/sdk/sdk-native/lib/libekws_research_stream.a",
+    "-lm",
+    "-lrt",
+    "-o",
+    "/home/runner/work/_temp/english-stream-3x1-ab-v41/performance/libri-speaker-1462-baseline/ekws_stream_benchmark"
+  ],
+  "build_exit_code": 0,
+  "executable": {
+    "bytes": 2452120,
+    "sha256": "f4b88b527bb0120d6ddc19a9efc7ebde9ee16bd0e5acf35170eca02a7e1348a9"
+  },
+  "actual_input_seconds": 16.0,
+  "independent_far_test_hours": 0,
+  "limitations": [
+    "Unpaced host replay of saved input; not SSC305 or real-time microphone evidence.",
+    "Warm-up and steady measurements preserve the same stream state; every input is replayed once.",
+    "Per-call time is service time, not acoustic word-end latency; average throughput does not guarantee real-time deadlines.",
+    "Process memory includes the benchmark input and instrumentation; sampled PSS is not an isolated KWS peak.",
+    "Input provenance and speech kind are caller-declared; this experiment does not grant label or model admission."
+  ],
+  "finished_unix_seconds": 1794884064.9708989
+}

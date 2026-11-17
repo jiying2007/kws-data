@@ -1,0 +1,1267 @@
+{
+  "actual_compiler_and_vectorization": {
+    "actual_core_vectorization_reported": true,
+    "compiler_version": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+    "fma_instruction_lines": [],
+    "four_position_core_source_lines": [
+      398,
+      415
+    ],
+    "frontend_compile_argv": [
+      "gcc",
+      "-std=c11",
+      "-O2",
+      "-DNDEBUG",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I/home/runner/work/_temp/english-stream-3x1-ab-v41/sdk/source/research/english_final_embedding_frontend",
+      "-I/home/runner/work/kws-data/kws-data/performance-source/research/english_stream_performance",
+      "-fopt-info-vec-optimized=/home/runner/work/_temp/english-stream-3x1-ab-v41/candidate/vectorization.txt",
+      "-c",
+      "/home/runner/work/_temp/english-stream-3x1-ab-v41/candidate/frontend.c",
+      "-o",
+      "/home/runner/work/_temp/english-stream-3x1-ab-v41/candidate/objects/fixed_frontend_mel.c.o"
+    ],
+    "frontend_disassembly_identity": {
+      "bytes": 157912,
+      "sha256": "a9b606a3de465ba4902c7f09f0a0b8311ba4b937663d9eacb5b41d5c9d5cb595"
+    },
+    "local_compile_only_observation_reused": false,
+    "matching_core_messages": [
+      "/home/runner/work/_temp/english-stream-3x1-ab-v41/candidate/frontend.c:398:31: optimized: loop vectorized using 16 byte vectors"
+    ],
+    "report_identity": {
+      "bytes": 1096,
+      "sha256": "63f30a945467ac4b78def5c881ef2bf6a53535446d5109740f319bd6b2e33180"
+    }
+  },
+  "actual_host": {
+    "affinity": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "cpuinfo": "processor\t: 0\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0xffffffff\ncpu MHz\t\t: 3708.308\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 4\ncore id\t\t: 0\ncpu cores\t: 2\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid aperfmperf tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves user_shstk avx512_bf16 clzero xsaveerptr rdpru arat npt nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.27\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 48 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 1\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0xffffffff\ncpu MHz\t\t: 3694.455\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 4\ncore id\t\t: 0\ncpu cores\t: 2\napicid\t\t: 1\ninitial apicid\t: 1\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid aperfmperf tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves user_shstk avx512_bf16 clzero xsaveerptr rdpru arat npt nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.27\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 48 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 2\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0xffffffff\ncpu MHz\t\t: 3656.858\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 4\ncore id\t\t: 1\ncpu cores\t: 2\napicid\t\t: 2\ninitial apicid\t: 2\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid aperfmperf tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves user_shstk avx512_bf16 clzero xsaveerptr rdpru arat npt nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.27\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 48 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 3\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0xffffffff\ncpu MHz\t\t: 3706.184\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 4\ncore id\t\t: 1\ncpu cores\t: 2\napicid\t\t: 3\ninitial apicid\t: 3\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid aperfmperf tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves user_shstk avx512_bf16 clzero xsaveerptr rdpru arat npt nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.27\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 48 bits physical, 48 bits virtual\npower management:\n\n",
+    "logical_cpu_count": 4,
+    "realtime_pacing": false,
+    "uname": [
+      "Linux",
+      "runnervm8axu0",
+      "7.0.0-1017-azure",
+      "#17~24.04.1-Ubuntu SMP PREEMPT Thu Sep 24 18:46:57 UTC 2026",
+      "x86_64"
+    ]
+  },
+  "actual_kernel_check": {
+    "FLT_EVAL_METHOD": 0,
+    "acoustic_evaluation": false,
+    "cases": 54,
+    "checks": 334,
+    "compared_values": 903168,
+    "failures": 0,
+    "fallback_cases": 0,
+    "fallback_matcher_checks": 144,
+    "fallback_scope": "matcher rejection checks; unchanged fallback kernel not rerun by this checker",
+    "finite_signedzero_and_infinity_comparison": "bitwise",
+    "full_model_executed": false,
+    "guard_checks": 171,
+    "nan_comparison": "classification_only",
+    "nonfinite_values": 301056,
+    "numeric_pairs": 54,
+    "optimized_cases": 54,
+    "passed": true,
+    "schema": "english-ordered-3x1-numeric-v1",
+    "synthetic_kernel_checks": true
+  },
+  "archive_and_elf": {
+    "candidate_archive": {
+      "bytes": 2443128,
+      "sha256": "1e4a76d79c954c29333ce7eee797c2cfdb46eda17587601f294154c59413c9fb"
+    },
+    "candidate_objects": {
+      "ekws_research_stream.c.o": {
+        "byte_order": "little",
+        "bytes": 5616,
+        "class_bits": 64,
+        "compiler_comments": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "defined_symbols_of_interest": [],
+        "flags": 0,
+        "machine": 62,
+        "section_count": 13,
+        "sha256": "22f1e1bba36de5003a2d9a782837c4e063733af0f530f0da4cf9c58baefc63b5",
+        "type": 1,
+        "undefined_symbols_of_interest": [
+          "ef_frontend_feed",
+          "ehead_step"
+        ]
+      },
+      "english_causal_head.c.o": {
+        "byte_order": "little",
+        "bytes": 4040,
+        "class_bits": 64,
+        "compiler_comments": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "defined_symbols_of_interest": [
+          "ehead_step"
+        ],
+        "flags": 0,
+        "machine": 62,
+        "section_count": 15,
+        "sha256": "4cb6191255602e91592b49eacfbdc1c292b468af4be272e842cb42d68d4ef8a2",
+        "type": 1,
+        "undefined_symbols_of_interest": []
+      },
+      "fixed_frontend_mel.c.o": {
+        "byte_order": "little",
+        "bytes": 18136,
+        "class_bits": 64,
+        "compiler_comments": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "defined_symbols_of_interest": [
+          "ef_frontend_feed",
+          "ef_graph_run"
+        ],
+        "flags": 0,
+        "machine": 62,
+        "section_count": 17,
+        "sha256": "1c4506cb2cb3bea08b76e7e247401bab6bf6cf5485cb5b737a71c9c69e85790c",
+        "type": 1,
+        "undefined_symbols_of_interest": []
+      },
+      "fixed_models.c.o": {
+        "byte_order": "little",
+        "bytes": 2414336,
+        "class_bits": 64,
+        "compiler_comments": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "defined_symbols_of_interest": [],
+        "flags": 0,
+        "machine": 62,
+        "section_count": 13,
+        "sha256": "ecf6b7a22d9c455456f0262dabde94d7b0ea3728bb640fd4760fec46564b6ab1",
+        "type": 1,
+        "undefined_symbols_of_interest": []
+      }
+    },
+    "changed_members": [
+      "fixed_frontend_mel.c.o"
+    ],
+    "frontend_compiler_comment_equal": true,
+    "logical_members": [
+      "ekws_research_stream.c.o",
+      "fixed_frontend_mel.c.o",
+      "english_causal_head.c.o",
+      "fixed_models.c.o"
+    ],
+    "loose_objects_equal_archived_objects": true,
+    "original_archive": {
+      "bytes": 2441224,
+      "sha256": "040089f781d87366a3d8a27933043aa96e891849f2bf9ce6bbd2321d0d70152a"
+    },
+    "original_objects": {
+      "ekws_research_stream.c.o": {
+        "byte_order": "little",
+        "bytes": 5616,
+        "class_bits": 64,
+        "compiler_comments": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "defined_symbols_of_interest": [],
+        "flags": 0,
+        "machine": 62,
+        "section_count": 13,
+        "sha256": "22f1e1bba36de5003a2d9a782837c4e063733af0f530f0da4cf9c58baefc63b5",
+        "type": 1,
+        "undefined_symbols_of_interest": [
+          "ef_frontend_feed",
+          "ehead_step"
+        ]
+      },
+      "english_causal_head.c.o": {
+        "byte_order": "little",
+        "bytes": 4040,
+        "class_bits": 64,
+        "compiler_comments": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "defined_symbols_of_interest": [
+          "ehead_step"
+        ],
+        "flags": 0,
+        "machine": 62,
+        "section_count": 15,
+        "sha256": "4cb6191255602e91592b49eacfbdc1c292b468af4be272e842cb42d68d4ef8a2",
+        "type": 1,
+        "undefined_symbols_of_interest": []
+      },
+      "fixed_frontend_mel.c.o": {
+        "byte_order": "little",
+        "bytes": 16232,
+        "class_bits": 64,
+        "compiler_comments": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "defined_symbols_of_interest": [
+          "ef_frontend_feed",
+          "ef_graph_run"
+        ],
+        "flags": 0,
+        "machine": 62,
+        "section_count": 17,
+        "sha256": "4fc6cf017c78674f49af2e7b3f0700044377b2ed1bc63015e7571b7336095812",
+        "type": 1,
+        "undefined_symbols_of_interest": []
+      },
+      "fixed_models.c.o": {
+        "byte_order": "little",
+        "bytes": 2414336,
+        "class_bits": 64,
+        "compiler_comments": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "defined_symbols_of_interest": [],
+        "flags": 0,
+        "machine": 62,
+        "section_count": 13,
+        "sha256": "ecf6b7a22d9c455456f0262dabde94d7b0ea3728bb640fd4760fec46564b6ab1",
+        "type": 1,
+        "undefined_symbols_of_interest": []
+      }
+    }
+  },
+  "archives": {
+    "actual_ab": {
+      "bytes": 16161392,
+      "sha256": "f36222805244d4c724196d3faf9265f776ff020e5478f1a7845ebfd16dda9fe5"
+    },
+    "actual_ab_prefix": "",
+    "original_resource": {
+      "bytes": 4547376,
+      "sha256": "ce4100bc444cfe99ef18c62e8a1bb17be655c7b57340949049e3abc5867a065f"
+    },
+    "sdk": {
+      "bytes": 10810227,
+      "sha256": "b6411b7b859fa59147c7cd6091113ce6d83e544b75bc55bafa5726626b2ab511"
+    }
+  },
+  "by_track": [
+    {
+      "baseline": {
+        "build_command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-I/home/runner/work/_temp/english-stream-3x1-ab-v41/sdk/sdk-native/include",
+          "/home/runner/work/kws-data/kws-data/performance-source/research/english_stream_performance/ekws_stream_benchmark.c",
+          "/home/runner/work/_temp/english-stream-3x1-ab-v41/sdk/sdk-native/lib/libekws_research_stream.a",
+          "-lm",
+          "-lrt",
+          "-o",
+          "/home/runner/work/_temp/english-stream-3x1-ab-v41/performance/libri-speaker-1272-baseline/ekws_stream_benchmark"
+        ],
+        "case_id": "libri-speaker-1272",
+        "compiler_version": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+        "executable": {
+          "byte_order": "little",
+          "bytes": 2452120,
+          "class_bits": 64,
+          "compiler_comments": [
+            "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+          ],
+          "defined_symbols_of_interest": [
+            "ef_frontend_feed",
+            "ef_graph_run",
+            "ehead_step"
+          ],
+          "flags": 0,
+          "machine": 62,
+          "section_count": 32,
+          "sha256": "f4b88b527bb0120d6ddc19a9efc7ebde9ee16bd0e5acf35170eca02a7e1348a9",
+          "type": 3,
+          "undefined_symbols_of_interest": []
+        },
+        "measurement": {
+          "abi": 1,
+          "call_quantiles": "nearest-rank; last partial chunk included",
+          "chunk_samples": 320,
+          "embeddings": 188,
+          "eof_padding_samples": 0,
+          "event_digest_fnv1a64": "cbf29ce484222325",
+          "events": 0,
+          "far_frr_measured": false,
+          "init_process_cpu_seconds": 0.000118206,
+          "init_wall_seconds": 0.000119987,
+          "input_repetitions": 1,
+          "input_samples": 256000,
+          "measurement_completed": true,
+          "memory": {
+            "after_init_and_head_blob_release": {
+              "process_peak_rss_kib": 20364,
+              "pss_kib": 2097,
+              "rss_kib": 4044
+            },
+            "after_stream": {
+              "process_peak_rss_kib": 20364,
+              "pss_kib": 3881,
+              "rss_kib": 5988
+            },
+            "after_warmup": {
+              "process_peak_rss_kib": 20364,
+              "pss_kib": 3881,
+              "rss_kib": 5988
+            },
+            "input_resident_before_stream_allocation": {
+              "process_peak_rss_kib": 20364,
+              "pss_kib": 2049,
+              "rss_kib": 3688
+            }
+          },
+          "memory_scope": "process observations include runner, preloaded input, timing arrays and shared/static code; peak is process lifetime high-water, not isolated KWS peak",
+          "model_promotion_allowed": false,
+          "passed": true,
+          "performance_budget_evaluated": false,
+          "preloaded_pcm_bytes": 512000,
+          "ready_outputs": 173,
+          "realtime_pacing": false,
+          "resets": 0,
+          "sample_rate_hz": 16000,
+          "schema": "english-stream-performance-v1",
+          "score_observer_enabled": false,
+          "ssc305_qualification": false,
+          "steady": {
+            "accept_process_cpu_seconds": 23.973723781,
+            "accept_wall_seconds": 23.975681881,
+            "audio_seconds": 13.8,
+            "call_wall_max_ms": 162.867636,
+            "call_wall_p50_ms": 0.002414,
+            "call_wall_p95_ms": 139.315732,
+            "call_wall_p99_ms": 140.99352,
+            "calls": 690,
+            "calls_over_input_duration": 172,
+            "calls_over_input_duration_fraction": 0.249275362,
+            "cpu_seconds_per_audio_second": 1.737226361,
+            "samples": 220800,
+            "wall_rtf": 1.737368252
+          },
+          "steady_output_counts": {
+            "embeddings": 172,
+            "events": 0,
+            "ready_outputs": 172
+          },
+          "stream_bytes": 236328,
+          "timing_array_bytes": 25600,
+          "timing_scope": "accept calls including constant-time event count/digest and clock overhead; excludes input I/O, PCM decoding, memory sampling and report I/O",
+          "warmup": {
+            "accept_process_cpu_seconds": 2.223337955,
+            "accept_wall_seconds": 2.223814232,
+            "audio_seconds": 2.2,
+            "call_wall_max_ms": 139.789853,
+            "call_wall_p50_ms": 0.002103,
+            "call_wall_p95_ms": 139.019255,
+            "call_wall_p99_ms": 139.544522,
+            "calls": 110,
+            "calls_over_input_duration": 16,
+            "calls_over_input_duration_fraction": 0.145454545,
+            "cpu_seconds_per_audio_second": 1.010608161,
+            "samples": 35200,
+            "wall_rtf": 1.010824651
+          },
+          "warmup_output_counts": {
+            "embeddings": 16,
+            "events": 0,
+            "ready_outputs": 1
+          },
+          "warmup_samples": 35200,
+          "whole_stream": {
+            "accept_process_cpu_seconds": 26.197061736,
+            "accept_wall_seconds": 26.199496113,
+            "audio_seconds": 16.0,
+            "call_wall_max_ms": 162.867636,
+            "call_wall_p50_ms": 0.002223,
+            "call_wall_p95_ms": 139.297105,
+            "call_wall_p99_ms": 140.773658,
+            "calls": 800,
+            "calls_over_input_duration": 188,
+            "calls_over_input_duration_fraction": 0.235,
+            "cpu_seconds_per_audio_second": 1.637316358,
+            "samples": 256000,
+            "wall_rtf": 1.637468507
+          },
+          "word_end_latency_measured": false,
+          "workspace_bytes": 528384
+        },
+        "reported_host": {
+          "cpu_affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "logical_cpu_count": 4,
+          "machine": "x86_64",
+          "python": "3.12.16",
+          "release": "7.0.0-1017-azure",
+          "system": "Linux"
+        },
+        "result_identity": {
+          "bytes": 12328,
+          "sha256": "f2946af349c9fe94d5c0536db4728864ef0bdd1e5418658245e1c885543bfbc5"
+        },
+        "variant": "baseline"
+      },
+      "candidate": {
+        "build_command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-I/home/runner/work/_temp/english-stream-3x1-ab-v41/candidate/sdk-native/include",
+          "/home/runner/work/kws-data/kws-data/performance-source/research/english_stream_performance/ekws_stream_benchmark.c",
+          "/home/runner/work/_temp/english-stream-3x1-ab-v41/candidate/sdk-native/lib/libekws_research_stream.a",
+          "-lm",
+          "-lrt",
+          "-o",
+          "/home/runner/work/_temp/english-stream-3x1-ab-v41/performance/libri-speaker-1272-candidate/ekws_stream_benchmark"
+        ],
+        "case_id": "libri-speaker-1272",
+        "compiler_version": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+        "executable": {
+          "byte_order": "little",
+          "bytes": 2456312,
+          "class_bits": 64,
+          "compiler_comments": [
+            "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+          ],
+          "defined_symbols_of_interest": [
+            "ef_frontend_feed",
+            "ef_graph_run",
+            "ehead_step"
+          ],
+          "flags": 0,
+          "machine": 62,
+          "section_count": 32,
+          "sha256": "bf5969f0d8392652eb6352dfe913b5b0a7f0006e453fe500c23ab8e4fb7d4b6a",
+          "type": 3,
+          "undefined_symbols_of_interest": []
+        },
+        "measurement": {
+          "abi": 1,
+          "call_quantiles": "nearest-rank; last partial chunk included",
+          "chunk_samples": 320,
+          "embeddings": 188,
+          "eof_padding_samples": 0,
+          "event_digest_fnv1a64": "cbf29ce484222325",
+          "events": 0,
+          "far_frr_measured": false,
+          "init_process_cpu_seconds": 0.000119879,
+          "init_wall_seconds": 0.00012183,
+          "input_repetitions": 1,
+          "input_samples": 256000,
+          "measurement_completed": true,
+          "memory": {
+            "after_init_and_head_blob_release": {
+              "process_peak_rss_kib": 20364,
+              "pss_kib": 2093,
+              "rss_kib": 4036
+            },
+            "after_stream": {
+              "process_peak_rss_kib": 20364,
+              "pss_kib": 3871,
+              "rss_kib": 5984
+            },
+            "after_warmup": {
+              "process_peak_rss_kib": 20364,
+              "pss_kib": 3871,
+              "rss_kib": 5984
+            },
+            "input_resident_before_stream_allocation": {
+              "process_peak_rss_kib": 20364,
+              "pss_kib": 2045,
+              "rss_kib": 3680
+            }
+          },
+          "memory_scope": "process observations include runner, preloaded input, timing arrays and shared/static code; peak is process lifetime high-water, not isolated KWS peak",
+          "model_promotion_allowed": false,
+          "passed": true,
+          "performance_budget_evaluated": false,
+          "preloaded_pcm_bytes": 512000,
+          "ready_outputs": 173,
+          "realtime_pacing": false,
+          "resets": 0,
+          "sample_rate_hz": 16000,
+          "schema": "english-stream-performance-v1",
+          "score_observer_enabled": false,
+          "ssc305_qualification": false,
+          "steady": {
+            "accept_process_cpu_seconds": 12.973689321,
+            "accept_wall_seconds": 12.975255768,
+            "audio_seconds": 13.8,
+            "call_wall_max_ms": 97.094241,
+            "call_wall_p50_ms": 0.002314,
+            "call_wall_p95_ms": 75.305715,
+            "call_wall_p99_ms": 76.646054,
+            "calls": 690,
+            "calls_over_input_duration": 172,
+            "calls_over_input_duration_fraction": 0.249275362,
+            "cpu_seconds_per_audio_second": 0.940122415,
+            "samples": 220800,
+            "wall_rtf": 0.940235925
+          },
+          "steady_output_counts": {
+            "embeddings": 172,
+            "events": 0,
+            "ready_outputs": 172
+          },
+          "stream_bytes": 236328,
+          "timing_array_bytes": 25600,
+          "timing_scope": "accept calls including constant-time event count/digest and clock overhead; excludes input I/O, PCM decoding, memory sampling and report I/O",
+          "warmup": {
+            "accept_process_cpu_seconds": 1.20164823,
+            "accept_wall_seconds": 1.201862683,
+            "audio_seconds": 2.2,
+            "call_wall_max_ms": 75.503309,
+            "call_wall_p50_ms": 0.002113,
+            "call_wall_p95_ms": 75.095281,
+            "call_wall_p99_ms": 75.304355,
+            "calls": 110,
+            "calls_over_input_duration": 16,
+            "calls_over_input_duration_fraction": 0.145454545,
+            "cpu_seconds_per_audio_second": 0.546203741,
+            "samples": 35200,
+            "wall_rtf": 0.54630122
+          },
+          "warmup_output_counts": {
+            "embeddings": 16,
+            "events": 0,
+            "ready_outputs": 1
+          },
+          "warmup_samples": 35200,
+          "whole_stream": {
+            "accept_process_cpu_seconds": 14.175337551,
+            "accept_wall_seconds": 14.177118451,
+            "audio_seconds": 16.0,
+            "call_wall_max_ms": 97.094241,
+            "call_wall_p50_ms": 0.002153,
+            "call_wall_p95_ms": 75.297334,
+            "call_wall_p99_ms": 76.385278,
+            "calls": 800,
+            "calls_over_input_duration": 188,
+            "calls_over_input_duration_fraction": 0.235,
+            "cpu_seconds_per_audio_second": 0.885958597,
+            "samples": 256000,
+            "wall_rtf": 0.886069903
+          },
+          "word_end_latency_measured": false,
+          "workspace_bytes": 528384
+        },
+        "reported_host": {
+          "cpu_affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "logical_cpu_count": 4,
+          "machine": "x86_64",
+          "python": "3.12.16",
+          "release": "7.0.0-1017-azure",
+          "system": "Linux"
+        },
+        "result_identity": {
+          "bytes": 12331,
+          "sha256": "af08b4b236c9491a79dde43e14ec21e55646570633ad046eec47b97cd14a484a"
+        },
+        "variant": "candidate"
+      },
+      "case_id": "libri-speaker-1272",
+      "full_trace_bytes_equal": true,
+      "numeric_traces": {
+        "baseline": {
+          "all_zero_embedding_records": 0,
+          "all_zero_ready_score_records": 0,
+          "bytes": 86197,
+          "embedding_dimension": 96,
+          "embedding_float_bytes_sha256": "b05fb70d8146c36844113663355998c0e0821ad4782326885dc7622a2f952004",
+          "embedding_float_values": 18048,
+          "embeddings": 188,
+          "event_digest_fnv1a64": "cbf29ce484222325",
+          "event_sequence": [],
+          "events": 0,
+          "feed_calls": 800,
+          "input_samples": 256000,
+          "ready_outputs": 173,
+          "records": 377,
+          "score_float_bytes_sha256": "88527a940b0f64b0eb0ace64fd84bc43114ab252a29a0d82d7776d955a8d3bba",
+          "score_float_values": 1128,
+          "scores": 188,
+          "sha256": "463eb64c5720f5a1322150667d70ff660a641a1892fa366d92be84e7617f5746",
+          "steady_events": 0,
+          "warmup_events": 0
+        },
+        "candidate": {
+          "all_zero_embedding_records": 0,
+          "all_zero_ready_score_records": 0,
+          "bytes": 86197,
+          "embedding_dimension": 96,
+          "embedding_float_bytes_sha256": "b05fb70d8146c36844113663355998c0e0821ad4782326885dc7622a2f952004",
+          "embedding_float_values": 18048,
+          "embeddings": 188,
+          "event_digest_fnv1a64": "cbf29ce484222325",
+          "event_sequence": [],
+          "events": 0,
+          "feed_calls": 800,
+          "input_samples": 256000,
+          "ready_outputs": 173,
+          "records": 377,
+          "score_float_bytes_sha256": "88527a940b0f64b0eb0ace64fd84bc43114ab252a29a0d82d7776d955a8d3bba",
+          "score_float_values": 1128,
+          "scores": 188,
+          "sha256": "463eb64c5720f5a1322150667d70ff660a641a1892fa366d92be84e7617f5746",
+          "steady_events": 0,
+          "warmup_events": 0
+        }
+      },
+      "observed_steady_cpu_speedup": 1.847872504715731,
+      "observed_steady_wall_speedup": 1.847800329310626
+    },
+    {
+      "baseline": {
+        "build_command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-I/home/runner/work/_temp/english-stream-3x1-ab-v41/sdk/sdk-native/include",
+          "/home/runner/work/kws-data/kws-data/performance-source/research/english_stream_performance/ekws_stream_benchmark.c",
+          "/home/runner/work/_temp/english-stream-3x1-ab-v41/sdk/sdk-native/lib/libekws_research_stream.a",
+          "-lm",
+          "-lrt",
+          "-o",
+          "/home/runner/work/_temp/english-stream-3x1-ab-v41/performance/libri-speaker-1462-baseline/ekws_stream_benchmark"
+        ],
+        "case_id": "libri-speaker-1462",
+        "compiler_version": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+        "executable": {
+          "byte_order": "little",
+          "bytes": 2452120,
+          "class_bits": 64,
+          "compiler_comments": [
+            "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+          ],
+          "defined_symbols_of_interest": [
+            "ef_frontend_feed",
+            "ef_graph_run",
+            "ehead_step"
+          ],
+          "flags": 0,
+          "machine": 62,
+          "section_count": 32,
+          "sha256": "f4b88b527bb0120d6ddc19a9efc7ebde9ee16bd0e5acf35170eca02a7e1348a9",
+          "type": 3,
+          "undefined_symbols_of_interest": []
+        },
+        "measurement": {
+          "abi": 1,
+          "call_quantiles": "nearest-rank; last partial chunk included",
+          "chunk_samples": 320,
+          "embeddings": 188,
+          "eof_padding_samples": 0,
+          "event_digest_fnv1a64": "cbf29ce484222325",
+          "events": 0,
+          "far_frr_measured": false,
+          "init_process_cpu_seconds": 0.000119768,
+          "init_wall_seconds": 0.00012177,
+          "input_repetitions": 1,
+          "input_samples": 256000,
+          "measurement_completed": true,
+          "memory": {
+            "after_init_and_head_blob_release": {
+              "process_peak_rss_kib": 20388,
+              "pss_kib": 1139,
+              "rss_kib": 3112
+            },
+            "after_stream": {
+              "process_peak_rss_kib": 20388,
+              "pss_kib": 3885,
+              "rss_kib": 6016
+            },
+            "after_warmup": {
+              "process_peak_rss_kib": 20388,
+              "pss_kib": 3885,
+              "rss_kib": 6016
+            },
+            "input_resident_before_stream_allocation": {
+              "process_peak_rss_kib": 20388,
+              "pss_kib": 1091,
+              "rss_kib": 2756
+            }
+          },
+          "memory_scope": "process observations include runner, preloaded input, timing arrays and shared/static code; peak is process lifetime high-water, not isolated KWS peak",
+          "model_promotion_allowed": false,
+          "passed": true,
+          "performance_budget_evaluated": false,
+          "preloaded_pcm_bytes": 512000,
+          "ready_outputs": 173,
+          "realtime_pacing": false,
+          "resets": 0,
+          "sample_rate_hz": 16000,
+          "schema": "english-stream-performance-v1",
+          "score_observer_enabled": false,
+          "ssc305_qualification": false,
+          "steady": {
+            "accept_process_cpu_seconds": 23.983559872,
+            "accept_wall_seconds": 23.985699204,
+            "audio_seconds": 13.8,
+            "call_wall_max_ms": 155.266408,
+            "call_wall_p50_ms": 0.002373,
+            "call_wall_p95_ms": 139.473921,
+            "call_wall_p99_ms": 140.710629,
+            "calls": 690,
+            "calls_over_input_duration": 172,
+            "calls_over_input_duration_fraction": 0.249275362,
+            "cpu_seconds_per_audio_second": 1.737939121,
+            "samples": 220800,
+            "wall_rtf": 1.738094145
+          },
+          "steady_output_counts": {
+            "embeddings": 172,
+            "events": 0,
+            "ready_outputs": 172
+          },
+          "stream_bytes": 236328,
+          "timing_array_bytes": 25600,
+          "timing_scope": "accept calls including constant-time event count/digest and clock overhead; excludes input I/O, PCM decoding, memory sampling and report I/O",
+          "warmup": {
+            "accept_process_cpu_seconds": 2.229101716,
+            "accept_wall_seconds": 2.229325722,
+            "audio_seconds": 2.2,
+            "call_wall_max_ms": 139.63081,
+            "call_wall_p50_ms": 0.002113,
+            "call_wall_p95_ms": 139.482012,
+            "call_wall_p99_ms": 139.549291,
+            "calls": 110,
+            "calls_over_input_duration": 16,
+            "calls_over_input_duration_fraction": 0.145454545,
+            "cpu_seconds_per_audio_second": 1.013228053,
+            "samples": 35200,
+            "wall_rtf": 1.013329874
+          },
+          "warmup_output_counts": {
+            "embeddings": 16,
+            "events": 0,
+            "ready_outputs": 1
+          },
+          "warmup_samples": 35200,
+          "whole_stream": {
+            "accept_process_cpu_seconds": 26.212661588,
+            "accept_wall_seconds": 26.215024926,
+            "audio_seconds": 16.0,
+            "call_wall_max_ms": 155.266408,
+            "call_wall_p50_ms": 0.002214,
+            "call_wall_p95_ms": 139.473921,
+            "call_wall_p99_ms": 140.218242,
+            "calls": 800,
+            "calls_over_input_duration": 188,
+            "calls_over_input_duration_fraction": 0.235,
+            "cpu_seconds_per_audio_second": 1.638291349,
+            "samples": 256000,
+            "wall_rtf": 1.638439058
+          },
+          "word_end_latency_measured": false,
+          "workspace_bytes": 528384
+        },
+        "reported_host": {
+          "cpu_affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "logical_cpu_count": 4,
+          "machine": "x86_64",
+          "python": "3.12.16",
+          "release": "7.0.0-1017-azure",
+          "system": "Linux"
+        },
+        "result_identity": {
+          "bytes": 13745,
+          "sha256": "3ddc66ff9a6dc74d251e39b7a698b7727a30d852694c33dd1e5ff0dcc3b83a67"
+        },
+        "variant": "baseline"
+      },
+      "candidate": {
+        "build_command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-I/home/runner/work/_temp/english-stream-3x1-ab-v41/candidate/sdk-native/include",
+          "/home/runner/work/kws-data/kws-data/performance-source/research/english_stream_performance/ekws_stream_benchmark.c",
+          "/home/runner/work/_temp/english-stream-3x1-ab-v41/candidate/sdk-native/lib/libekws_research_stream.a",
+          "-lm",
+          "-lrt",
+          "-o",
+          "/home/runner/work/_temp/english-stream-3x1-ab-v41/performance/libri-speaker-1462-candidate/ekws_stream_benchmark"
+        ],
+        "case_id": "libri-speaker-1462",
+        "compiler_version": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+        "executable": {
+          "byte_order": "little",
+          "bytes": 2456312,
+          "class_bits": 64,
+          "compiler_comments": [
+            "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+          ],
+          "defined_symbols_of_interest": [
+            "ef_frontend_feed",
+            "ef_graph_run",
+            "ehead_step"
+          ],
+          "flags": 0,
+          "machine": 62,
+          "section_count": 32,
+          "sha256": "bf5969f0d8392652eb6352dfe913b5b0a7f0006e453fe500c23ab8e4fb7d4b6a",
+          "type": 3,
+          "undefined_symbols_of_interest": []
+        },
+        "measurement": {
+          "abi": 1,
+          "call_quantiles": "nearest-rank; last partial chunk included",
+          "chunk_samples": 320,
+          "embeddings": 188,
+          "eof_padding_samples": 0,
+          "event_digest_fnv1a64": "cbf29ce484222325",
+          "events": 0,
+          "far_frr_measured": false,
+          "init_process_cpu_seconds": 0.000116163,
+          "init_wall_seconds": 0.000118135,
+          "input_repetitions": 1,
+          "input_samples": 256000,
+          "measurement_completed": true,
+          "memory": {
+            "after_init_and_head_blob_release": {
+              "process_peak_rss_kib": 20436,
+              "pss_kib": 1132,
+              "rss_kib": 3056
+            },
+            "after_stream": {
+              "process_peak_rss_kib": 20436,
+              "pss_kib": 3870,
+              "rss_kib": 5964
+            },
+            "after_warmup": {
+              "process_peak_rss_kib": 20436,
+              "pss_kib": 3870,
+              "rss_kib": 5964
+            },
+            "input_resident_before_stream_allocation": {
+              "process_peak_rss_kib": 20436,
+              "pss_kib": 1084,
+              "rss_kib": 2700
+            }
+          },
+          "memory_scope": "process observations include runner, preloaded input, timing arrays and shared/static code; peak is process lifetime high-water, not isolated KWS peak",
+          "model_promotion_allowed": false,
+          "passed": true,
+          "performance_budget_evaluated": false,
+          "preloaded_pcm_bytes": 512000,
+          "ready_outputs": 173,
+          "realtime_pacing": false,
+          "resets": 0,
+          "sample_rate_hz": 16000,
+          "schema": "english-stream-performance-v1",
+          "score_observer_enabled": false,
+          "ssc305_qualification": false,
+          "steady": {
+            "accept_process_cpu_seconds": 12.924413693,
+            "accept_wall_seconds": 12.925517272,
+            "audio_seconds": 13.8,
+            "call_wall_max_ms": 78.93189,
+            "call_wall_p50_ms": 0.002314,
+            "call_wall_p95_ms": 75.20109,
+            "call_wall_p99_ms": 75.81028,
+            "calls": 690,
+            "calls_over_input_duration": 172,
+            "calls_over_input_duration_fraction": 0.249275362,
+            "cpu_seconds_per_audio_second": 0.936551717,
+            "samples": 220800,
+            "wall_rtf": 0.936631686
+          },
+          "steady_output_counts": {
+            "embeddings": 172,
+            "events": 0,
+            "ready_outputs": 172
+          },
+          "stream_bytes": 236328,
+          "timing_array_bytes": 25600,
+          "timing_scope": "accept calls including constant-time event count/digest and clock overhead; excludes input I/O, PCM decoding, memory sampling and report I/O",
+          "warmup": {
+            "accept_process_cpu_seconds": 1.200634104,
+            "accept_wall_seconds": 1.200814746,
+            "audio_seconds": 2.2,
+            "call_wall_max_ms": 75.408787,
+            "call_wall_p50_ms": 0.002113,
+            "call_wall_p95_ms": 75.057178,
+            "call_wall_p99_ms": 75.352704,
+            "calls": 110,
+            "calls_over_input_duration": 16,
+            "calls_over_input_duration_fraction": 0.145454545,
+            "cpu_seconds_per_audio_second": 0.545742775,
+            "samples": 35200,
+            "wall_rtf": 0.545824885
+          },
+          "warmup_output_counts": {
+            "embeddings": 16,
+            "events": 0,
+            "ready_outputs": 1
+          },
+          "warmup_samples": 35200,
+          "whole_stream": {
+            "accept_process_cpu_seconds": 14.125047797,
+            "accept_wall_seconds": 14.126332018,
+            "audio_seconds": 16.0,
+            "call_wall_max_ms": 78.93189,
+            "call_wall_p50_ms": 0.002223,
+            "call_wall_p95_ms": 75.183079,
+            "call_wall_p99_ms": 75.646163,
+            "calls": 800,
+            "calls_over_input_duration": 188,
+            "calls_over_input_duration_fraction": 0.235,
+            "cpu_seconds_per_audio_second": 0.882815487,
+            "samples": 256000,
+            "wall_rtf": 0.882895751
+          },
+          "word_end_latency_measured": false,
+          "workspace_bytes": 528384
+        },
+        "reported_host": {
+          "cpu_affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "logical_cpu_count": 4,
+          "machine": "x86_64",
+          "python": "3.12.16",
+          "release": "7.0.0-1017-azure",
+          "system": "Linux"
+        },
+        "result_identity": {
+          "bytes": 13746,
+          "sha256": "27eec39d8aea5ef8414cccb7bbf971098dd646a83fb1677fb7f3fff55e6cd429"
+        },
+        "variant": "candidate"
+      },
+      "case_id": "libri-speaker-1462",
+      "full_trace_bytes_equal": true,
+      "numeric_traces": {
+        "baseline": {
+          "all_zero_embedding_records": 0,
+          "all_zero_ready_score_records": 0,
+          "bytes": 86197,
+          "embedding_dimension": 96,
+          "embedding_float_bytes_sha256": "833f75c91f5c93bbeab02a022dab3c553f3bee8da2477f5a8ff5c4e6b7b8e64d",
+          "embedding_float_values": 18048,
+          "embeddings": 188,
+          "event_digest_fnv1a64": "cbf29ce484222325",
+          "event_sequence": [],
+          "events": 0,
+          "feed_calls": 800,
+          "input_samples": 256000,
+          "ready_outputs": 173,
+          "records": 377,
+          "score_float_bytes_sha256": "79a904460e3a289e6fa3b57534b2655dacaffe3f6319af1d2de47ec77c6be696",
+          "score_float_values": 1128,
+          "scores": 188,
+          "sha256": "0a34c5cb4a6f1d0daa804f8e774844306dda31eed3084fd3e047f80350d6b8ef",
+          "steady_events": 0,
+          "warmup_events": 0
+        },
+        "candidate": {
+          "all_zero_embedding_records": 0,
+          "all_zero_ready_score_records": 0,
+          "bytes": 86197,
+          "embedding_dimension": 96,
+          "embedding_float_bytes_sha256": "833f75c91f5c93bbeab02a022dab3c553f3bee8da2477f5a8ff5c4e6b7b8e64d",
+          "embedding_float_values": 18048,
+          "embeddings": 188,
+          "event_digest_fnv1a64": "cbf29ce484222325",
+          "event_sequence": [],
+          "events": 0,
+          "feed_calls": 800,
+          "input_samples": 256000,
+          "ready_outputs": 173,
+          "records": 377,
+          "score_float_bytes_sha256": "79a904460e3a289e6fa3b57534b2655dacaffe3f6319af1d2de47ec77c6be696",
+          "score_float_values": 1128,
+          "scores": 188,
+          "sha256": "0a34c5cb4a6f1d0daa804f8e774844306dda31eed3084fd3e047f80350d6b8ef",
+          "steady_events": 0,
+          "warmup_events": 0
+        }
+      },
+      "observed_steady_cpu_speedup": 1.8556787519877789,
+      "observed_steady_wall_speedup": 1.8556858266677807
+    }
+  ],
+  "execution_summary_from_artifact": {
+    "actual_model_audio_seconds_verified": 128,
+    "baseline_steady_cpu_seconds_per_audio_second": 1.7375827410507247,
+    "candidate_steady_cpu_seconds_per_audio_second": 0.9383370657246376,
+    "distinct_previously_exposed_input_seconds": 32,
+    "far_frr": "NOT_MEASURED",
+    "formal_training_admitted": false,
+    "full_numeric_trace_parity": true,
+    "github_sha": "b1c8d31bb7c79bca68cca5fd520fd3d05e07f7cb",
+    "independent_far_test_hours": 0,
+    "kws_model_delivered": false,
+    "measurement_completed": true,
+    "model_passes_planned": 8,
+    "model_promotion_allowed": false,
+    "model_runner_invocations_started": 8,
+    "nonempty_event_sequences_compared": false,
+    "numeric_trace_replay_audio_seconds": 64,
+    "observed_steady_cpu_speedup": 1.8517682019827957,
+    "optimizer_updates": 0,
+    "overall_wall_seconds": 176.20700510199998,
+    "performance_audio_seconds": 64,
+    "performance_budget_evaluated": false,
+    "performance_execution_order": [
+      [
+        "libri-speaker-1272",
+        "baseline"
+      ],
+      [
+        "libri-speaker-1272",
+        "candidate"
+      ],
+      [
+        "libri-speaker-1462",
+        "candidate"
+      ],
+      [
+        "libri-speaker-1462",
+        "baseline"
+      ]
+    ],
+    "pipeline_commit": "342e73655be56d867f7833e6076e16100c429dd0",
+    "resource_source": {
+      "artifact_id": 14292027025,
+      "bytes": 4547376,
+      "head_sha": "00f3a81524308d8e7f5fc43015a26486de593760",
+      "name": "english-stream-resource-v41-44000006165",
+      "run_id": 44000006165,
+      "sha256": "ce4100bc444cfe99ef18c62e8a1bb17be655c7b57340949049e3abc5867a065f"
+    },
+    "retry_count": 0,
+    "run_id": "44006082197",
+    "schema": "english-stream-3x1-ab-execution-v1",
+    "sdk": {
+      "artifact_id": 14285590605,
+      "bytes": 10810227,
+      "head_sha": "cf6dbed0fb95501111820d7130bfb8ccd90e162b",
+      "manifest_sha256": "09ed60d3f6701837e0e376b58bccefc4c008833c4743d53bef973b5f63d70b09",
+      "name": "english-snapshot160-installed-sdk-43984579132",
+      "result_sha256": "1647eb276f9cd9c0e67dc2e10a86bd5c2e99d621d38dec406207ad8e1705621c",
+      "run_id": 43984579132,
+      "sha256": "b6411b7b859fa59147c7cd6091113ce6d83e544b75bc55bafa5726626b2ab511"
+    },
+    "ssc305": "NOT_RUN",
+    "stage": "trace-libri-speaker-1462-baseline",
+    "status": "BOUNDED_AB_COMPLETED",
+    "steady_audio_seconds_per_variant": 27.6,
+    "synthetic_kernel_pairs_passed": 54,
+    "tts_asr_phone_calls": 0,
+    "verified_model_passes_completed": 8,
+    "word_end_latency": "NOT_MEASURED"
+  },
+  "external_identity_inputs": {
+    "archive_digest_checked": true,
+    "github_sha_checked": true,
+    "run_id_checked": true
+  },
+  "input_identity": {
+    "distinct_previously_exposed_seconds": 32,
+    "new_independent_far_hours": 0,
+    "tracks": [
+      {
+        "id": "libri-speaker-1272",
+        "samples": 256000,
+        "sha256": "a192f737578dd259c447caf07a06a9566326aabd489faa96d4ccfb8854fc33ab"
+      },
+      {
+        "id": "libri-speaker-1462",
+        "samples": 256000,
+        "sha256": "9a93bc5842da1ad5f3d6af3e9987ec7a157127d0eea6f6d83282df7afe37ffa7"
+      }
+    ]
+  },
+  "kernel_checker_elf": {
+    "byte_order": "little",
+    "bytes": 33704,
+    "class_bits": 64,
+    "compiler_comments": [
+      "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+    ],
+    "defined_symbols_of_interest": [
+      "ef_frontend_feed",
+      "ef_graph_run"
+    ],
+    "flags": 0,
+    "machine": 62,
+    "section_count": 31,
+    "sha256": "5541319475078af8d4f25c2cfcc9c98ec75c1f7555e0d2082eec43d6bccacd02",
+    "type": 3,
+    "undefined_symbols_of_interest": []
+  },
+  "limitations": [
+    "Two exposed 16-second tracks on one GitHub host, one A/B pair per track with reversed order.",
+    "RTF below one would establish throughput for these host replays only; call tails and real-time scheduling remain separate.",
+    "No SSC305/BSP, microphone, word-end latency, independent FAR/FRR or formal model/data admission evidence.",
+    "Empty event sequences do not validate nonempty detection behavior; embeddings and all head outputs are still compared bitwise."
+  ],
+  "memory_scope": "PSS/RSS are process observations including PCM preload, timing arrays, runner and code; -1 remains unavailable. Lifetime peak RSS is not isolated KWS memory.",
+  "numeric_comparison_scope": {
+    "all_four_traces_have_zero_events": true,
+    "components_per_embedding": 96,
+    "embedding_float_comparisons_per_pair": 18048,
+    "embedding_float_comparisons_two_pairs": 36096,
+    "embedding_float_values_encoded_four_traces": 72192,
+    "embeddings_per_track": 188,
+    "event_digest_recomputed_from_raw_records": true,
+    "intermediate_graph_tensors_compared": false,
+    "nonempty_event_sequence_exercised": false,
+    "score_float_comparisons_two_pairs": 2256,
+    "trace_files": 4,
+    "track_pairs": 2
+  },
+  "quantile_scope": "Per-track reported call p95/p99 checked for finite monotonic values; raw call arrays were not retained, so pooled quantiles were not reconstructed.",
+  "retained_licenses": {
+    "share/KwsEnglishResearch/licenses/kws-pipeline-LICENSE": {
+      "bytes": 9108,
+      "sha256": "06d4c76347e397987c4951179b1c65fbd17bc948e09b5617b38be02bc1f93eab"
+    },
+    "share/KwsEnglishResearch/licenses/openWakeWord-LICENSE": {
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    }
+  },
+  "reviewer_executed_kernel": false,
+  "reviewer_executed_model": false,
+  "reviewer_executed_subprocess": false,
+  "reviewer_source": {
+    "bytes": 50004,
+    "sha256": "58c4739d3d0e466b6c27a918302904379e4617d2488496c040c750271f6faeed"
+  },
+  "schema": "english-ordered-3x1-independent-review-v1",
+  "status": "INDEPENDENT_AB_REVIEW_PASSED",
+  "trace_executables": {
+    "baseline": {
+      "byte_order": "little",
+      "bytes": 2452080,
+      "class_bits": 64,
+      "compiler_comments": [
+        "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+      ],
+      "defined_symbols_of_interest": [
+        "__wrap_ehead_step",
+        "ef_frontend_feed",
+        "ef_graph_run",
+        "ehead_step"
+      ],
+      "flags": 0,
+      "machine": 62,
+      "section_count": 32,
+      "sha256": "ae5cdef5223be6274bb61b8ed6ab4ce5fd067cdb8f1c95faeb8f38fab6bbf9d5",
+      "type": 3,
+      "undefined_symbols_of_interest": []
+    },
+    "candidate": {
+      "byte_order": "little",
+      "bytes": 2456272,
+      "class_bits": 64,
+      "compiler_comments": [
+        "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+      ],
+      "defined_symbols_of_interest": [
+        "__wrap_ehead_step",
+        "ef_frontend_feed",
+        "ef_graph_run",
+        "ehead_step"
+      ],
+      "flags": 0,
+      "machine": 62,
+      "section_count": 32,
+      "sha256": "bcc72ae7b88a4842628971e306ef6b128bfd737e5f42e520cea69e273e348406",
+      "type": 3,
+      "undefined_symbols_of_interest": []
+    }
+  },
+  "verified": true,
+  "verified_invocation_budget": {
+    "full_model_processes": 8,
+    "maximum_execution_seconds": 720,
+    "observed_execution_wall_seconds": 176.20700510199998,
+    "performance_passes": 4,
+    "successful_exit_labels": [
+      "performance-libri-speaker-1272-baseline",
+      "performance-libri-speaker-1272-candidate",
+      "performance-libri-speaker-1462-baseline",
+      "performance-libri-speaker-1462-candidate",
+      "trace-libri-speaker-1272-baseline",
+      "trace-libri-speaker-1272-candidate",
+      "trace-libri-speaker-1462-baseline",
+      "trace-libri-speaker-1462-candidate"
+    ],
+    "trace_passes": 4,
+    "unique_exposed_audio_seconds": 32,
+    "verified_replayed_audio_seconds": 128
+  },
+  "weighted_performance": {
+    "baseline": {
+      "each_track_steady_wall_rtf_below_one": false,
+      "steady_audio_seconds": 27.6,
+      "steady_process_cpu_seconds": 47.957283653000005,
+      "steady_wall_seconds": 47.961381085,
+      "weighted_cpu_seconds_per_audio_second": 1.7375827410507247,
+      "weighted_wall_rtf": 1.737731198731884
+    },
+    "candidate": {
+      "each_track_steady_wall_rtf_below_one": true,
+      "steady_audio_seconds": 27.6,
+      "steady_process_cpu_seconds": 25.898103014,
+      "steady_wall_seconds": 25.90077304,
+      "weighted_cpu_seconds_per_audio_second": 0.9383370657246376,
+      "weighted_wall_rtf": 0.9384338057971015
+    },
+    "observed_steady_cpu_speedup": 1.8517682019827957,
+    "observed_steady_wall_speedup": 1.8517355065399237
+  }
+}
