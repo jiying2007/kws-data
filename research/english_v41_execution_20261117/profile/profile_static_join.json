@@ -1,0 +1,4926 @@
+{
+  "candidate": {
+    "conditional_amdahl_graph_only": [
+      {
+        "candidate_group_speedup": 2,
+        "hypothetical_total_speedup": 1.3263411177977042
+      },
+      {
+        "candidate_group_speedup": 4,
+        "hypothetical_total_speedup": 1.5849599125628626
+      }
+    ],
+    "cpu_fraction_of_profile": 0.4920922882034612,
+    "effective_MAC_per_evaluation": 21703680,
+    "excluded_node62": 62,
+    "hypothetical_upper_bound_total_speedup": 1.9688616194915878,
+    "name": "nine_ordered_3x1_nodes",
+    "no_claim_of_measured_speedup": true,
+    "node_count": 9,
+    "nodes": [
+      {
+        "graph": "embedding",
+        "node": 6
+      },
+      {
+        "graph": "embedding",
+        "node": 13
+      },
+      {
+        "graph": "embedding",
+        "node": 19
+      },
+      {
+        "graph": "embedding",
+        "node": 26
+      },
+      {
+        "graph": "embedding",
+        "node": 32
+      },
+      {
+        "graph": "embedding",
+        "node": 39
+      },
+      {
+        "graph": "embedding",
+        "node": 45
+      },
+      {
+        "graph": "embedding",
+        "node": 52
+      },
+      {
+        "graph": "embedding",
+        "node": 58
+      }
+    ],
+    "process_cpu_seconds": 12.725610648,
+    "scenario_caveat": "Scenarios only; candidate group timers include unchanged finite checks. No optimized timing or realtime/SSC305 claim.",
+    "selected_before_optimization_measurement": true,
+    "wall_fraction_of_profile": 0.4921042828674142,
+    "wall_seconds": 12.725940281,
+    "worth_one_bounded_AB": true
+  },
+  "derived_from_original_join_sha256": "e729ae7ce8bc77647584aaa36fccb09a29132de192004ae03f520a3594d1ed87",
+  "graph_groups": [
+    {
+      "cpu_fraction_of_profile": 0.0988971950787984,
+      "effective_MAC_per_evaluation": 26325024,
+      "name": "mel_nodes",
+      "node_count": 16,
+      "nodes": [
+        {
+          "graph": "mel",
+          "node": 0
+        },
+        {
+          "graph": "mel",
+          "node": 1
+        },
+        {
+          "graph": "mel",
+          "node": 2
+        },
+        {
+          "graph": "mel",
+          "node": 3
+        },
+        {
+          "graph": "mel",
+          "node": 4
+        },
+        {
+          "graph": "mel",
+          "node": 5
+        },
+        {
+          "graph": "mel",
+          "node": 6
+        },
+        {
+          "graph": "mel",
+          "node": 7
+        },
+        {
+          "graph": "mel",
+          "node": 8
+        },
+        {
+          "graph": "mel",
+          "node": 9
+        },
+        {
+          "graph": "mel",
+          "node": 10
+        },
+        {
+          "graph": "mel",
+          "node": 11
+        },
+        {
+          "graph": "mel",
+          "node": 12
+        },
+        {
+          "graph": "mel",
+          "node": 13
+        },
+        {
+          "graph": "mel",
+          "node": 14
+        },
+        {
+          "graph": "mel",
+          "node": 15
+        }
+      ],
+      "process_cpu_seconds": 2.557502381,
+      "wall_fraction_of_profile": 0.09889557036463686,
+      "wall_seconds": 2.557464274
+    },
+    {
+      "cpu_fraction_of_profile": 0.9010738737579687,
+      "effective_MAC_per_evaluation": 40341600,
+      "name": "embedding_nodes",
+      "node_count": 63,
+      "nodes": [
+        {
+          "graph": "embedding",
+          "node": 0
+        },
+        {
+          "graph": "embedding",
+          "node": 1
+        },
+        {
+          "graph": "embedding",
+          "node": 2
+        },
+        {
+          "graph": "embedding",
+          "node": 3
+        },
+        {
+          "graph": "embedding",
+          "node": 4
+        },
+        {
+          "graph": "embedding",
+          "node": 5
+        },
+        {
+          "graph": "embedding",
+          "node": 6
+        },
+        {
+          "graph": "embedding",
+          "node": 7
+        },
+        {
+          "graph": "embedding",
+          "node": 8
+        },
+        {
+          "graph": "embedding",
+          "node": 9
+        },
+        {
+          "graph": "embedding",
+          "node": 10
+        },
+        {
+          "graph": "embedding",
+          "node": 11
+        },
+        {
+          "graph": "embedding",
+          "node": 12
+        },
+        {
+          "graph": "embedding",
+          "node": 13
+        },
+        {
+          "graph": "embedding",
+          "node": 14
+        },
+        {
+          "graph": "embedding",
+          "node": 15
+        },
+        {
+          "graph": "embedding",
+          "node": 16
+        },
+        {
+          "graph": "embedding",
+          "node": 17
+        },
+        {
+          "graph": "embedding",
+          "node": 18
+        },
+        {
+          "graph": "embedding",
+          "node": 19
+        },
+        {
+          "graph": "embedding",
+          "node": 20
+        },
+        {
+          "graph": "embedding",
+          "node": 21
+        },
+        {
+          "graph": "embedding",
+          "node": 22
+        },
+        {
+          "graph": "embedding",
+          "node": 23
+        },
+        {
+          "graph": "embedding",
+          "node": 24
+        },
+        {
+          "graph": "embedding",
+          "node": 25
+        },
+        {
+          "graph": "embedding",
+          "node": 26
+        },
+        {
+          "graph": "embedding",
+          "node": 27
+        },
+        {
+          "graph": "embedding",
+          "node": 28
+        },
+        {
+          "graph": "embedding",
+          "node": 29
+        },
+        {
+          "graph": "embedding",
+          "node": 30
+        },
+        {
+          "graph": "embedding",
+          "node": 31
+        },
+        {
+          "graph": "embedding",
+          "node": 32
+        },
+        {
+          "graph": "embedding",
+          "node": 33
+        },
+        {
+          "graph": "embedding",
+          "node": 34
+        },
+        {
+          "graph": "embedding",
+          "node": 35
+        },
+        {
+          "graph": "embedding",
+          "node": 36
+        },
+        {
+          "graph": "embedding",
+          "node": 37
+        },
+        {
+          "graph": "embedding",
+          "node": 38
+        },
+        {
+          "graph": "embedding",
+          "node": 39
+        },
+        {
+          "graph": "embedding",
+          "node": 40
+        },
+        {
+          "graph": "embedding",
+          "node": 41
+        },
+        {
+          "graph": "embedding",
+          "node": 42
+        },
+        {
+          "graph": "embedding",
+          "node": 43
+        },
+        {
+          "graph": "embedding",
+          "node": 44
+        },
+        {
+          "graph": "embedding",
+          "node": 45
+        },
+        {
+          "graph": "embedding",
+          "node": 46
+        },
+        {
+          "graph": "embedding",
+          "node": 47
+        },
+        {
+          "graph": "embedding",
+          "node": 48
+        },
+        {
+          "graph": "embedding",
+          "node": 49
+        },
+        {
+          "graph": "embedding",
+          "node": 50
+        },
+        {
+          "graph": "embedding",
+          "node": 51
+        },
+        {
+          "graph": "embedding",
+          "node": 52
+        },
+        {
+          "graph": "embedding",
+          "node": 53
+        },
+        {
+          "graph": "embedding",
+          "node": 54
+        },
+        {
+          "graph": "embedding",
+          "node": 55
+        },
+        {
+          "graph": "embedding",
+          "node": 56
+        },
+        {
+          "graph": "embedding",
+          "node": 57
+        },
+        {
+          "graph": "embedding",
+          "node": 58
+        },
+        {
+          "graph": "embedding",
+          "node": 59
+        },
+        {
+          "graph": "embedding",
+          "node": 60
+        },
+        {
+          "graph": "embedding",
+          "node": 61
+        },
+        {
+          "graph": "embedding",
+          "node": 62
+        }
+      ],
+      "process_cpu_seconds": 23.301960948,
+      "wall_fraction_of_profile": 0.9010754080299836,
+      "wall_seconds": 23.302036236
+    },
+    {
+      "cpu_fraction_of_profile": 2.8931163232932404e-05,
+      "effective_MAC_per_evaluation": 0,
+      "name": "graph_metadata_validation",
+      "node_count": 2,
+      "nodes": [
+        {
+          "graph": "mel",
+          "node": -1
+        },
+        {
+          "graph": "embedding",
+          "node": -1
+        }
+      ],
+      "process_cpu_seconds": 0.000748166,
+      "wall_fraction_of_profile": 2.9021605379454915e-05,
+      "wall_seconds": 0.000750506
+    }
+  ],
+  "headline_performance": false,
+  "instrumented": true,
+  "join_validation": {
+    "all_calls": 188,
+    "all_op_ids_match": true,
+    "keys": [
+      "graph",
+      "node"
+    ],
+    "rows": 81,
+    "unique_and_complete": true
+  },
+  "operation_groups": [
+    {
+      "cpu_fraction_of_profile": 0.35222339549547443,
+      "effective_MAC_per_evaluation": 18109440,
+      "name": "embedding_1x3_padded_width",
+      "node_count": 9,
+      "nodes": [
+        {
+          "graph": "embedding",
+          "node": 3
+        },
+        {
+          "graph": "embedding",
+          "node": 10
+        },
+        {
+          "graph": "embedding",
+          "node": 16
+        },
+        {
+          "graph": "embedding",
+          "node": 23
+        },
+        {
+          "graph": "embedding",
+          "node": 29
+        },
+        {
+          "graph": "embedding",
+          "node": 36
+        },
+        {
+          "graph": "embedding",
+          "node": 42
+        },
+        {
+          "graph": "embedding",
+          "node": 49
+        },
+        {
+          "graph": "embedding",
+          "node": 55
+        }
+      ],
+      "process_cpu_seconds": 9.108571501,
+      "wall_fraction_of_profile": 0.35222317000575243,
+      "wall_seconds": 9.10857959
+    },
+    {
+      "cpu_fraction_of_profile": 0.4927279565158869,
+      "effective_MAC_per_evaluation": 21731328,
+      "name": "embedding_3x1_valid",
+      "node_count": 10,
+      "nodes": [
+        {
+          "graph": "embedding",
+          "node": 6
+        },
+        {
+          "graph": "embedding",
+          "node": 13
+        },
+        {
+          "graph": "embedding",
+          "node": 19
+        },
+        {
+          "graph": "embedding",
+          "node": 26
+        },
+        {
+          "graph": "embedding",
+          "node": 32
+        },
+        {
+          "graph": "embedding",
+          "node": 39
+        },
+        {
+          "graph": "embedding",
+          "node": 45
+        },
+        {
+          "graph": "embedding",
+          "node": 52
+        },
+        {
+          "graph": "embedding",
+          "node": 58
+        },
+        {
+          "graph": "embedding",
+          "node": 62
+        }
+      ],
+      "process_cpu_seconds": 12.742049165,
+      "wall_fraction_of_profile": 0.49273972120828086,
+      "wall_seconds": 12.742372876000001
+    },
+    {
+      "cpu_fraction_of_profile": 0.009292350066296315,
+      "effective_MAC_per_evaluation": 500832,
+      "name": "embedding_3x3_padded_width",
+      "node_count": 1,
+      "nodes": [
+        {
+          "graph": "embedding",
+          "node": 0
+        }
+      ],
+      "process_cpu_seconds": 0.240302138,
+      "wall_fraction_of_profile": 0.009292404967427483,
+      "wall_seconds": 0.240303925
+    },
+    {
+      "cpu_fraction_of_profile": 2.8931163232932404e-05,
+      "effective_MAC_per_evaluation": 0,
+      "name": "graph_metadata_validation",
+      "node_count": 2,
+      "nodes": [
+        {
+          "graph": "mel",
+          "node": -1
+        },
+        {
+          "graph": "embedding",
+          "node": -1
+        }
+      ],
+      "process_cpu_seconds": 0.000748166,
+      "wall_fraction_of_profile": 2.9021605379454915e-05,
+      "wall_seconds": 0.000750506
+    },
+    {
+      "cpu_fraction_of_profile": 0.08419487096696693,
+      "effective_MAC_per_evaluation": 25527296,
+      "name": "mel_512tap_conv1d",
+      "node_count": 2,
+      "nodes": [
+        {
+          "graph": "mel",
+          "node": 0
+        },
+        {
+          "graph": "mel",
+          "node": 1
+        }
+      ],
+      "process_cpu_seconds": 2.17729717,
+      "wall_fraction_of_profile": 0.08419560593796518,
+      "wall_seconds": 2.1773195039999997
+    },
+    {
+      "cpu_fraction_of_profile": 0.002698386013335271,
+      "effective_MAC_per_evaluation": 797728,
+      "name": "mel_projection_matmul",
+      "node_count": 1,
+      "nodes": [
+        {
+          "graph": "mel",
+          "node": 7
+        }
+      ],
+      "process_cpu_seconds": 0.069780833,
+      "wall_fraction_of_profile": 0.0026981147227391634,
+      "wall_seconds": 0.069773924
+    },
+    {
+      "cpu_fraction_of_profile": 0.058834109778807125,
+      "effective_MAC_per_evaluation": 0,
+      "name": "non_MAC_operator",
+      "node_count": 56,
+      "nodes": [
+        {
+          "graph": "mel",
+          "node": 2
+        },
+        {
+          "graph": "mel",
+          "node": 3
+        },
+        {
+          "graph": "mel",
+          "node": 4
+        },
+        {
+          "graph": "mel",
+          "node": 5
+        },
+        {
+          "graph": "mel",
+          "node": 6
+        },
+        {
+          "graph": "mel",
+          "node": 8
+        },
+        {
+          "graph": "mel",
+          "node": 9
+        },
+        {
+          "graph": "mel",
+          "node": 10
+        },
+        {
+          "graph": "mel",
+          "node": 11
+        },
+        {
+          "graph": "mel",
+          "node": 12
+        },
+        {
+          "graph": "mel",
+          "node": 13
+        },
+        {
+          "graph": "mel",
+          "node": 14
+        },
+        {
+          "graph": "mel",
+          "node": 15
+        },
+        {
+          "graph": "embedding",
+          "node": 1
+        },
+        {
+          "graph": "embedding",
+          "node": 2
+        },
+        {
+          "graph": "embedding",
+          "node": 4
+        },
+        {
+          "graph": "embedding",
+          "node": 5
+        },
+        {
+          "graph": "embedding",
+          "node": 7
+        },
+        {
+          "graph": "embedding",
+          "node": 8
+        },
+        {
+          "graph": "embedding",
+          "node": 9
+        },
+        {
+          "graph": "embedding",
+          "node": 11
+        },
+        {
+          "graph": "embedding",
+          "node": 12
+        },
+        {
+          "graph": "embedding",
+          "node": 14
+        },
+        {
+          "graph": "embedding",
+          "node": 15
+        },
+        {
+          "graph": "embedding",
+          "node": 17
+        },
+        {
+          "graph": "embedding",
+          "node": 18
+        },
+        {
+          "graph": "embedding",
+          "node": 20
+        },
+        {
+          "graph": "embedding",
+          "node": 21
+        },
+        {
+          "graph": "embedding",
+          "node": 22
+        },
+        {
+          "graph": "embedding",
+          "node": 24
+        },
+        {
+          "graph": "embedding",
+          "node": 25
+        },
+        {
+          "graph": "embedding",
+          "node": 27
+        },
+        {
+          "graph": "embedding",
+          "node": 28
+        },
+        {
+          "graph": "embedding",
+          "node": 30
+        },
+        {
+          "graph": "embedding",
+          "node": 31
+        },
+        {
+          "graph": "embedding",
+          "node": 33
+        },
+        {
+          "graph": "embedding",
+          "node": 34
+        },
+        {
+          "graph": "embedding",
+          "node": 35
+        },
+        {
+          "graph": "embedding",
+          "node": 37
+        },
+        {
+          "graph": "embedding",
+          "node": 38
+        },
+        {
+          "graph": "embedding",
+          "node": 40
+        },
+        {
+          "graph": "embedding",
+          "node": 41
+        },
+        {
+          "graph": "embedding",
+          "node": 43
+        },
+        {
+          "graph": "embedding",
+          "node": 44
+        },
+        {
+          "graph": "embedding",
+          "node": 46
+        },
+        {
+          "graph": "embedding",
+          "node": 47
+        },
+        {
+          "graph": "embedding",
+          "node": 48
+        },
+        {
+          "graph": "embedding",
+          "node": 50
+        },
+        {
+          "graph": "embedding",
+          "node": 51
+        },
+        {
+          "graph": "embedding",
+          "node": 53
+        },
+        {
+          "graph": "embedding",
+          "node": 54
+        },
+        {
+          "graph": "embedding",
+          "node": 56
+        },
+        {
+          "graph": "embedding",
+          "node": 57
+        },
+        {
+          "graph": "embedding",
+          "node": 59
+        },
+        {
+          "graph": "embedding",
+          "node": 60
+        },
+        {
+          "graph": "embedding",
+          "node": 61
+        }
+      ],
+      "process_cpu_seconds": 1.521462522,
+      "wall_fraction_of_profile": 0.05882196155245548,
+      "wall_seconds": 1.5211506909999999
+    }
+  ],
+  "real_profile": true,
+  "rows": [
+    {
+      "classification": "mel_512tap_conv1d",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.04230191095736048,
+        "cpu_seconds_per_call": 0.00581881044680851,
+        "process_cpu_seconds": 1.093936364,
+        "wall_fraction_of_profile": 0.042302396922719795,
+        "wall_seconds": 1.093950603,
+        "wall_seconds_per_call": 0.005818886186170213
+      },
+      "node": 0,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            16000
+          ],
+          [
+            257,
+            1,
+            512
+          ]
+        ],
+        "output": [
+          1,
+          257,
+          97
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 12763648,
+        "nominal_MAC": 12763648,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "mel_512tap_conv1d",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.04189296000960645,
+        "cpu_seconds_per_call": 0.005762557478723404,
+        "process_cpu_seconds": 1.083360806,
+        "wall_fraction_of_profile": 0.041893209015245396,
+        "wall_seconds": 1.083368901,
+        "wall_seconds_per_call": 0.0057626005372340425
+      },
+      "node": 1,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            16000
+          ],
+          [
+            257,
+            1,
+            512
+          ]
+        ],
+        "output": [
+          1,
+          257,
+          97
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 12763648,
+        "nominal_MAC": 12763648,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0012110892057497458,
+        "cpu_seconds_per_call": 0.00016659054787234042,
+        "process_cpu_seconds": 0.031319023,
+        "wall_fraction_of_profile": 0.0012107221998977674,
+        "wall_seconds": 0.03130958,
+        "wall_seconds_per_call": 0.00016654031914893616
+      },
+      "node": 2,
+      "op": "Transpose",
+      "op_id": 10,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            257,
+            97
+          ]
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          257
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0012130146347049432,
+        "cpu_seconds_per_call": 0.00016685539893617022,
+        "process_cpu_seconds": 0.031368815,
+        "wall_fraction_of_profile": 0.001212841862230747,
+        "wall_seconds": 0.031364395,
+        "wall_seconds_per_call": 0.00016683188829787237
+      },
+      "node": 3,
+      "op": "Transpose",
+      "op_id": 10,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            257,
+            97
+          ]
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          257
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0030145962655824753,
+        "cpu_seconds_per_call": 0.0004146707287234043,
+        "process_cpu_seconds": 0.077958097,
+        "wall_fraction_of_profile": 0.00301404340397838,
+        "wall_seconds": 0.077943919,
+        "wall_seconds_per_call": 0.0004145953138297872
+      },
+      "node": 4,
+      "op": "Pow",
+      "op_id": 5,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            257
+          ],
+          []
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          257
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.003021044395367966,
+        "cpu_seconds_per_call": 0.0004155576968085106,
+        "process_cpu_seconds": 0.078124847,
+        "wall_fraction_of_profile": 0.0030205427995138685,
+        "wall_seconds": 0.078111995,
+        "wall_seconds_per_call": 0.000415489335106383
+      },
+      "node": 5,
+      "op": "Pow",
+      "op_id": 5,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            257
+          ],
+          []
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          257
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0024225938760057304,
+        "cpu_seconds_per_call": 0.000333238244680851,
+        "process_cpu_seconds": 0.06264879,
+        "wall_fraction_of_profile": 0.0024223428442841687,
+        "wall_seconds": 0.062642394,
+        "wall_seconds_per_call": 0.00033320422340425536
+      },
+      "node": 6,
+      "op": "Add",
+      "op_id": 1,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            257
+          ],
+          [
+            1,
+            1,
+            97,
+            257
+          ]
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          257
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "mel_projection_matmul",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.002698386013335271,
+        "cpu_seconds_per_call": 0.00037117464361702127,
+        "process_cpu_seconds": 0.069780833,
+        "wall_fraction_of_profile": 0.0026981147227391634,
+        "wall_seconds": 0.069773924,
+        "wall_seconds_per_call": 0.00037113789361702126
+      },
+      "node": 7,
+      "op": "MatMul",
+      "op_id": 12,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            257
+          ],
+          [
+            257,
+            32
+          ]
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 797728,
+        "nominal_MAC": 797728,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 2.0693179562876578e-05,
+        "cpu_seconds_per_call": 2.846436170212766e-06,
+        "process_cpu_seconds": 0.00053513,
+        "wall_fraction_of_profile": 2.0665692675192862e-05,
+        "wall_seconds": 0.00053442,
+        "wall_seconds_per_call": 2.842659574468085e-06
+      },
+      "node": 8,
+      "op": "Clip",
+      "op_id": 8,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ],
+          [],
+          null
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 5.665143149673223e-05,
+        "cpu_seconds_per_call": 7.792648936170212e-06,
+        "process_cpu_seconds": 0.001465018,
+        "wall_fraction_of_profile": 5.664136821772295e-05,
+        "wall_seconds": 0.00146476,
+        "wall_seconds_per_call": 7.791276595744681e-06
+      },
+      "node": 9,
+      "op": "Log",
+      "op_id": 7,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ]
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0002930492661077132,
+        "cpu_seconds_per_call": 4.03101914893617e-05,
+        "process_cpu_seconds": 0.007578316,
+        "wall_fraction_of_profile": 0.0002929996307967779,
+        "wall_seconds": 0.007577044,
+        "wall_seconds_per_call": 4.030342553191489e-05
+      },
+      "node": 10,
+      "op": "Mul",
+      "op_id": 3,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ],
+          []
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0002918322613664301,
+        "cpu_seconds_per_call": 4.014278723404255e-05,
+        "process_cpu_seconds": 0.007546844,
+        "wall_fraction_of_profile": 0.0002918014599058291,
+        "wall_seconds": 0.007546059,
+        "wall_seconds_per_call": 4.013861170212766e-05
+      },
+      "node": 11,
+      "op": "Div",
+      "op_id": 4,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ],
+          []
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.00029417269079453826,
+        "cpu_seconds_per_call": 4.046472340425532e-05,
+        "process_cpu_seconds": 0.007607368,
+        "wall_fraction_of_profile": 0.00029410132157241546,
+        "wall_seconds": 0.007605534,
+        "wall_seconds_per_call": 4.0454968085106385e-05
+      },
+      "node": 12,
+      "op": "Sub",
+      "op_id": 2,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ],
+          []
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.00014465952843128516,
+        "cpu_seconds_per_call": 1.989854255319149e-05,
+        "process_cpu_seconds": 0.003740926,
+        "wall_fraction_of_profile": 0.00014464229282560806,
+        "wall_seconds": 0.003740486,
+        "wall_seconds_per_call": 1.9896202127659574e-05
+      },
+      "node": 13,
+      "op": "ReduceMax",
+      "op_id": 11,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ]
+        ],
+        "output": []
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 1.9078343581814545e-06,
+        "cpu_seconds_per_call": 2.624308510638298e-07,
+        "process_cpu_seconds": 4.9337e-05,
+        "wall_fraction_of_profile": 1.9022630511035562e-06,
+        "wall_seconds": 4.9193e-05,
+        "wall_seconds_per_call": 2.616648936170213e-07
+      },
+      "node": 14,
+      "op": "Sub",
+      "op_id": 2,
+      "shape": {
+        "inputs": [
+          [],
+          []
+        ],
+        "output": []
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 1.8633528967586658e-05,
+        "cpu_seconds_per_call": 2.563122340425532e-06,
+        "process_cpu_seconds": 0.000481867,
+        "wall_fraction_of_profile": 1.8602564982929167e-05,
+        "wall_seconds": 0.000481067,
+        "wall_seconds_per_call": 2.558867021276596e-06
+      },
+      "node": 15,
+      "op": "Clip",
+      "op_id": 8,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ],
+          [],
+          null
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "graph_metadata_validation",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 1.4161175753369453e-05,
+        "cpu_seconds_per_call": 1.94793085106383e-06,
+        "process_cpu_seconds": 0.000366211,
+        "wall_fraction_of_profile": 1.4219467543934069e-05,
+        "wall_seconds": 0.000367719,
+        "wall_seconds_per_call": 1.9559521276595745e-06
+      },
+      "node": -1,
+      "op": "GraphValidation",
+      "op_id": -1,
+      "shape": {
+        "input": [
+          1,
+          16000
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.009292350066296315,
+        "cpu_seconds_per_call": 0.0012782028617021276,
+        "process_cpu_seconds": 0.240302138,
+        "wall_fraction_of_profile": 0.009292404967427483,
+        "wall_seconds": 0.240303925,
+        "wall_seconds_per_call": 0.0012782123670212766
+      },
+      "node": 0,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            76,
+            32
+          ],
+          [
+            24,
+            1,
+            3,
+            3
+          ],
+          [
+            24
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          74,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 56832,
+        "effective_MAC": 500832,
+        "nominal_MAC": 511488,
+        "padding_skipped_MAC": 10656,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.001027190709756413,
+        "cpu_seconds_per_call": 0.0001412945159574468,
+        "process_cpu_seconds": 0.026563369,
+        "wall_fraction_of_profile": 0.0010267970323865475,
+        "wall_seconds": 0.026553229,
+        "wall_seconds_per_call": 0.00014124057978723406
+      },
+      "node": 1,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          74,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.005389032028100201,
+        "cpu_seconds_per_call": 0.0007412846170212766,
+        "process_cpu_seconds": 0.139361508,
+        "wall_fraction_of_profile": 0.00538825535428051,
+        "wall_seconds": 0.139341636,
+        "wall_seconds_per_call": 0.000741178914893617
+      },
+      "node": 2,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          74,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_1x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.07474349787795499,
+        "cpu_seconds_per_call": 0.010281290760638297,
+        "process_cpu_seconds": 1.932882663,
+        "wall_fraction_of_profile": 0.07474371736778969,
+        "wall_seconds": 1.932891293,
+        "wall_seconds_per_call": 0.010281336664893616
+      },
+      "node": 3,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ],
+          [
+            24,
+            24,
+            1,
+            3
+          ],
+          [
+            24
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          74,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 56832,
+        "effective_MAC": 4006656,
+        "nominal_MAC": 4091904,
+        "padding_skipped_MAC": 85248,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.001126912670673036,
+        "cpu_seconds_per_call": 0.00015501170212765957,
+        "process_cpu_seconds": 0.0291422,
+        "wall_fraction_of_profile": 0.0011265485003210227,
+        "wall_seconds": 0.029132827,
+        "wall_seconds_per_call": 0.00015496184574468084
+      },
+      "node": 4,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          74,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.005391320679142806,
+        "cpu_seconds_per_call": 0.0007415994308510639,
+        "process_cpu_seconds": 0.139420693,
+        "wall_fraction_of_profile": 0.005390610281151185,
+        "wall_seconds": 0.139402535,
+        "wall_seconds_per_call": 0.0007415028457446808
+      },
+      "node": 5,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          74,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.08864588251504553,
+        "cpu_seconds_per_call": 0.012193623776595745,
+        "process_cpu_seconds": 2.29240127,
+        "wall_fraction_of_profile": 0.08864940806574576,
+        "wall_seconds": 2.292495945,
+        "wall_seconds_per_call": 0.012194127367021277
+      },
+      "node": 6,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ],
+          [
+            24,
+            24,
+            3,
+            1
+          ],
+          [
+            24
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          72,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 55296,
+        "effective_MAC": 3981312,
+        "nominal_MAC": 3981312,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0010304861197733216,
+        "cpu_seconds_per_call": 0.00014174781382978724,
+        "process_cpu_seconds": 0.026648589,
+        "wall_fraction_of_profile": 0.0010298269720399377,
+        "wall_seconds": 0.026631584,
+        "wall_seconds_per_call": 0.00014165736170212767
+      },
+      "node": 7,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            72,
+            32
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          72,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.005249963521228348,
+        "cpu_seconds_per_call": 0.0007221551436170212,
+        "process_cpu_seconds": 0.135765167,
+        "wall_fraction_of_profile": 0.005249337677194649,
+        "wall_seconds": 0.13574919,
+        "wall_seconds_per_call": 0.000722070159574468
+      },
+      "node": 8,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            72,
+            32
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          72,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0023190501366005937,
+        "cpu_seconds_per_call": 0.0003189953563829787,
+        "process_cpu_seconds": 0.059971127,
+        "wall_fraction_of_profile": 0.002318634840895467,
+        "wall_seconds": 0.059960479,
+        "wall_seconds_per_call": 0.00031893871808510635
+      },
+      "node": 9,
+      "op": "MaxPool",
+      "op_id": 14,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            72,
+            32
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          36,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_1x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.036182622875335455,
+        "cpu_seconds_per_call": 0.0049770759574468085,
+        "process_cpu_seconds": 0.93569028,
+        "wall_fraction_of_profile": 0.036182392484167374,
+        "wall_seconds": 0.935685752,
+        "wall_seconds_per_call": 0.004977051872340426
+      },
+      "node": 10,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            36,
+            16
+          ],
+          [
+            48,
+            24,
+            1,
+            3
+          ],
+          [
+            48
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          36,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 27648,
+        "effective_MAC": 1907712,
+        "nominal_MAC": 1990656,
+        "padding_skipped_MAC": 82944,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0006120325428529524,
+        "cpu_seconds_per_call": 8.418771808510639e-05,
+        "process_cpu_seconds": 0.015827291,
+        "wall_fraction_of_profile": 0.0006117604964550356,
+        "wall_seconds": 0.01582028,
+        "wall_seconds_per_call": 8.41504255319149e-05
+      },
+      "node": 11,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            36,
+            16
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          36,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0026295945032448003,
+        "cpu_seconds_per_call": 0.00036171207446808516,
+        "process_cpu_seconds": 0.06800187,
+        "wall_fraction_of_profile": 0.0026291357325933856,
+        "wall_seconds": 0.06799011,
+        "wall_seconds_per_call": 0.0003616495212765958
+      },
+      "node": 12,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            36,
+            16
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          36,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.08518312467884942,
+        "cpu_seconds_per_call": 0.011717306489361702,
+        "process_cpu_seconds": 2.20285362,
+        "wall_fraction_of_profile": 0.08518315408605545,
+        "wall_seconds": 2.202857747,
+        "wall_seconds_per_call": 0.011717328441489362
+      },
+      "node": 13,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            36,
+            16
+          ],
+          [
+            48,
+            48,
+            3,
+            1
+          ],
+          [
+            48
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 26112,
+        "effective_MAC": 3760128,
+        "nominal_MAC": 3760128,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0005565723622478053,
+        "cpu_seconds_per_call": 7.655893085106383e-05,
+        "process_cpu_seconds": 0.014393079,
+        "wall_fraction_of_profile": 0.000556340887453047,
+        "wall_seconds": 0.014387115,
+        "wall_seconds_per_call": 7.652720744680852e-05
+      },
+      "node": 14,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.002472551897433737,
+        "cpu_seconds_per_call": 0.00034011018617021273,
+        "process_cpu_seconds": 0.063940715,
+        "wall_fraction_of_profile": 0.0024721423222243944,
+        "wall_seconds": 0.063930221,
+        "wall_seconds_per_call": 0.00034005436702127655
+      },
+      "node": 15,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_1x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.06729220348164829,
+        "cpu_seconds_per_call": 0.00925633305319149,
+        "process_cpu_seconds": 1.740190614,
+        "wall_fraction_of_profile": 0.06729295859979521,
+        "wall_seconds": 1.740212801,
+        "wall_seconds_per_call": 0.009256451069148935
+      },
+      "node": 16,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ],
+          [
+            48,
+            48,
+            1,
+            3
+          ],
+          [
+            48
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 26112,
+        "effective_MAC": 3603456,
+        "nominal_MAC": 3760128,
+        "padding_skipped_MAC": 156672,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0005685483663906902,
+        "cpu_seconds_per_call": 7.820628191489361e-05,
+        "process_cpu_seconds": 0.014702781,
+        "wall_fraction_of_profile": 0.000568308288690124,
+        "wall_seconds": 0.014696595,
+        "wall_seconds_per_call": 7.817337765957447e-05
+      },
+      "node": 17,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.002480726501885092,
+        "cpu_seconds_per_call": 0.00034123463829787234,
+        "process_cpu_seconds": 0.064152112,
+        "wall_fraction_of_profile": 0.00248029765682921,
+        "wall_seconds": 0.06414112,
+        "wall_seconds_per_call": 0.0003411761702127659
+      },
+      "node": 18,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0801212171215462,
+        "cpu_seconds_per_call": 0.01102101925531915,
+        "process_cpu_seconds": 2.07195162,
+        "wall_fraction_of_profile": 0.08012202629889585,
+        "wall_seconds": 2.071975712,
+        "wall_seconds_per_call": 0.011021147404255319
+      },
+      "node": 19,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ],
+          [
+            48,
+            48,
+            3,
+            1
+          ],
+          [
+            48
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          32,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 24576,
+        "effective_MAC": 3538944,
+        "nominal_MAC": 3538944,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0005516360530445847,
+        "cpu_seconds_per_call": 7.587992021276596e-05,
+        "process_cpu_seconds": 0.014265425,
+        "wall_fraction_of_profile": 0.0005513951117944554,
+        "wall_seconds": 0.014259216,
+        "wall_seconds_per_call": 7.584689361702127e-05
+      },
+      "node": 20,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            32,
+            16
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          32,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.002326822424156667,
+        "cpu_seconds_per_call": 0.0003200644680851064,
+        "process_cpu_seconds": 0.06017212,
+        "wall_fraction_of_profile": 0.002326439018816058,
+        "wall_seconds": 0.060162297,
+        "wall_seconds_per_call": 0.0003200122180851064
+      },
+      "node": 21,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            32,
+            16
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          32,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0010872884394405064,
+        "cpu_seconds_per_call": 0.00014956121808510638,
+        "process_cpu_seconds": 0.028117509,
+        "wall_fraction_of_profile": 0.0010870038338996763,
+        "wall_seconds": 0.028110192,
+        "wall_seconds_per_call": 0.00014952229787234042
+      },
+      "node": 22,
+      "op": "MaxPool",
+      "op_id": 14,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            32,
+            16
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          32,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_1x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.04857693442464245,
+        "cpu_seconds_per_call": 0.006681967010638298,
+        "process_cpu_seconds": 1.256209798,
+        "wall_fraction_of_profile": 0.048577096031386796,
+        "wall_seconds": 1.256215897,
+        "wall_seconds_per_call": 0.006681999452127659
+      },
+      "node": 23,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            32,
+            8
+          ],
+          [
+            72,
+            48,
+            1,
+            3
+          ],
+          [
+            72
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          32,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 18432,
+        "effective_MAC": 2433024,
+        "nominal_MAC": 2654208,
+        "padding_skipped_MAC": 221184,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0004384865143965443,
+        "cpu_seconds_per_call": 6.031571276595744e-05,
+        "process_cpu_seconds": 0.011339354,
+        "wall_fraction_of_profile": 0.0004382430005411824,
+        "wall_seconds": 0.011333074,
+        "wall_seconds_per_call": 6.02823085106383e-05
+      },
+      "node": 24,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            32,
+            8
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          32,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0017525603380607617,
+        "cpu_seconds_per_call": 0.00024107223936170212,
+        "process_cpu_seconds": 0.045321581,
+        "wall_fraction_of_profile": 0.0017521434332546,
+        "wall_seconds": 0.045310869,
+        "wall_seconds_per_call": 0.00024101526063829786
+      },
+      "node": 25,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            32,
+            8
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          32,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0870719586123787,
+        "cpu_seconds_per_call": 0.01197712375,
+        "process_cpu_seconds": 2.251699265,
+        "wall_fraction_of_profile": 0.08708104467380086,
+        "wall_seconds": 2.251937674,
+        "wall_seconds_per_call": 0.011978391882978725
+      },
+      "node": 26,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            32,
+            8
+          ],
+          [
+            72,
+            72,
+            3,
+            1
+          ],
+          [
+            72
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 17280,
+        "effective_MAC": 3732480,
+        "nominal_MAC": 3732480,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0004194503591781239,
+        "cpu_seconds_per_call": 5.769720744680851e-05,
+        "process_cpu_seconds": 0.010847075,
+        "wall_fraction_of_profile": 0.0004192690161163438,
+        "wall_seconds": 0.010842402,
+        "wall_seconds_per_call": 5.767235106382978e-05
+      },
+      "node": 27,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0016426537349941343,
+        "cpu_seconds_per_call": 0.00022595411170212766,
+        "process_cpu_seconds": 0.042479373,
+        "wall_fraction_of_profile": 0.0016422803078641238,
+        "wall_seconds": 0.042469781,
+        "wall_seconds_per_call": 0.0002259030904255319
+      },
+      "node": 28,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_1x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0659377031904665,
+        "cpu_seconds_per_call": 0.009070015691489361,
+        "process_cpu_seconds": 1.70516295,
+        "wall_fraction_of_profile": 0.06593835956754582,
+        "wall_seconds": 1.70518253,
+        "wall_seconds_per_call": 0.009070119840425533
+      },
+      "node": 29,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ],
+          [
+            72,
+            72,
+            1,
+            3
+          ],
+          [
+            72
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 17280,
+        "effective_MAC": 3421440,
+        "nominal_MAC": 3732480,
+        "padding_skipped_MAC": 311040,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0004110839542845742,
+        "cpu_seconds_per_call": 5.654637234042554e-05,
+        "process_cpu_seconds": 0.010630718,
+        "wall_fraction_of_profile": 0.00041089833170705216,
+        "wall_seconds": 0.010625934,
+        "wall_seconds_per_call": 5.6520925531914896e-05
+      },
+      "node": 30,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0016394986950589129,
+        "cpu_seconds_per_call": 0.00022552012234042555,
+        "process_cpu_seconds": 0.042397783,
+        "wall_fraction_of_profile": 0.0016391455355082853,
+        "wall_seconds": 0.042388715,
+        "wall_seconds_per_call": 0.00022547188829787234
+      },
+      "node": 31,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.07891206943124035,
+        "cpu_seconds_per_call": 0.010854695771276596,
+        "process_cpu_seconds": 2.040682805,
+        "wall_fraction_of_profile": 0.07891250478339905,
+        "wall_seconds": 2.040697182,
+        "wall_seconds_per_call": 0.010854772244680852
+      },
+      "node": 32,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ],
+          [
+            72,
+            72,
+            3,
+            1
+          ],
+          [
+            72
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          28,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 16128,
+        "effective_MAC": 3483648,
+        "nominal_MAC": 3483648,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.00036080861139917755,
+        "cpu_seconds_per_call": 4.9630781914893616e-05,
+        "process_cpu_seconds": 0.009330587,
+        "wall_fraction_of_profile": 0.0003606079845949783,
+        "wall_seconds": 0.009325413,
+        "wall_seconds_per_call": 4.960326063829787e-05
+      },
+      "node": 33,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            28,
+            8
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          28,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0015357449419034612,
+        "cpu_seconds_per_call": 0.00021124834574468083,
+        "process_cpu_seconds": 0.039714689,
+        "wall_fraction_of_profile": 0.0015354287154998281,
+        "wall_seconds": 0.039706572,
+        "wall_seconds_per_call": 0.00021120517021276598
+      },
+      "node": 34,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            28,
+            8
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          28,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0007240123308202665,
+        "cpu_seconds_per_call": 9.959102127659575e-05,
+        "process_cpu_seconds": 0.018723112,
+        "wall_fraction_of_profile": 0.0007238219763767509,
+        "wall_seconds": 0.018718218,
+        "wall_seconds_per_call": 9.956498936170211e-05
+      },
+      "node": 35,
+      "op": "MaxPool",
+      "op_id": 14,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            28,
+            8
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          14,
+          4
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_1x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.020184402749409917,
+        "cpu_seconds_per_call": 0.002776451723404255,
+        "process_cpu_seconds": 0.521972924,
+        "wall_fraction_of_profile": 0.02018377805679688,
+        "wall_seconds": 0.521957567,
+        "wall_seconds_per_call": 0.0027763700372340425
+      },
+      "node": 36,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            14,
+            4
+          ],
+          [
+            96,
+            72,
+            1,
+            3
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          14,
+          4
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 5376,
+        "effective_MAC": 967680,
+        "nominal_MAC": 1161216,
+        "padding_skipped_MAC": 193536,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.00011909747917550818,
+        "cpu_seconds_per_call": 1.638237234042553e-05,
+        "process_cpu_seconds": 0.003079886,
+        "wall_fraction_of_profile": 0.00011897591396527379,
+        "wall_seconds": 0.003076747,
+        "wall_seconds_per_call": 1.636567553191489e-05
+      },
+      "node": 37,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            14,
+            4
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          14,
+          4
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0005137960686272415,
+        "cpu_seconds_per_call": 7.06748670212766e-05,
+        "process_cpu_seconds": 0.013286875,
+        "wall_fraction_of_profile": 0.0005136222379195795,
+        "wall_seconds": 0.0132824,
+        "wall_seconds_per_call": 7.065106382978724e-05
+      },
+      "node": 38,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            14,
+            4
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          14,
+          4
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.029897648600031294,
+        "cpu_seconds_per_call": 0.0041125506170212765,
+        "process_cpu_seconds": 0.773159516,
+        "wall_fraction_of_profile": 0.0298976835345348,
+        "wall_seconds": 0.773161601,
+        "wall_seconds_per_call": 0.004112561707446808
+      },
+      "node": 39,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            14,
+            4
+          ],
+          [
+            96,
+            96,
+            3,
+            1
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          12,
+          4
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 4608,
+        "effective_MAC": 1327104,
+        "nominal_MAC": 1327104,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.00010145087175745852,
+        "cpu_seconds_per_call": 1.3955005319148936e-05,
+        "process_cpu_seconds": 0.002623541,
+        "wall_fraction_of_profile": 0.00010139750764126922,
+        "wall_seconds": 0.002622165,
+        "wall_seconds_per_call": 1.3947686170212767e-05
+      },
+      "node": 40,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            12,
+            4
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          12,
+          4
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.00043952571703435715,
+        "cpu_seconds_per_call": 6.045865957446809e-05,
+        "process_cpu_seconds": 0.011366228,
+        "wall_fraction_of_profile": 0.00043976174063290466,
+        "wall_seconds": 0.011372349,
+        "wall_seconds_per_call": 6.0491218085106385e-05
+      },
+      "node": 41,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            12,
+            4
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          12,
+          4
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_1x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.022914114879322257,
+        "cpu_seconds_per_call": 0.0031519354095744683,
+        "process_cpu_seconds": 0.592563857,
+        "wall_fraction_of_profile": 0.022914128700196063,
+        "wall_seconds": 0.59256512,
+        "wall_seconds_per_call": 0.0031519421276595743
+      },
+      "node": 42,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            12,
+            4
+          ],
+          [
+            96,
+            96,
+            1,
+            3
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          12,
+          4
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 4608,
+        "effective_MAC": 1105920,
+        "nominal_MAC": 1327104,
+        "padding_skipped_MAC": 221184,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 9.793899019308852e-05,
+        "cpu_seconds_per_call": 1.347193085106383e-05,
+        "process_cpu_seconds": 0.002532723,
+        "wall_fraction_of_profile": 9.787553873448451e-05,
+        "wall_seconds": 0.002531086,
+        "wall_seconds_per_call": 1.346322340425532e-05
+      },
+      "node": 43,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            12,
+            4
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          12,
+          4
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0004390710803813555,
+        "cpu_seconds_per_call": 6.039612234042553e-05,
+        "process_cpu_seconds": 0.011354471,
+        "wall_fraction_of_profile": 0.00043894833012165374,
+        "wall_seconds": 0.011351314,
+        "wall_seconds_per_call": 6.037932978723404e-05
+      },
+      "node": 44,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            12,
+            4
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          12,
+          4
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.024826625688043315,
+        "cpu_seconds_per_call": 0.0034150095265957445,
+        "process_cpu_seconds": 0.642021791,
+        "wall_fraction_of_profile": 0.024825837676625283,
+        "wall_seconds": 0.642002394,
+        "wall_seconds_per_call": 0.00341490635106383
+      },
+      "node": 45,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            12,
+            4
+          ],
+          [
+            96,
+            96,
+            3,
+            1
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          4
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 3840,
+        "effective_MAC": 1105920,
+        "nominal_MAC": 1105920,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 7.019780176008959e-05,
+        "cpu_seconds_per_call": 9.656010638297872e-06,
+        "process_cpu_seconds": 0.00181533,
+        "wall_fraction_of_profile": 7.015848372382249e-05,
+        "wall_seconds": 0.001814316,
+        "wall_seconds_per_call": 9.650617021276595e-06
+      },
+      "node": 46,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            4
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          4
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0003658895443229243,
+        "cpu_seconds_per_call": 5.0329686170212764e-05,
+        "process_cpu_seconds": 0.009461981,
+        "wall_fraction_of_profile": 0.0003658070060552424,
+        "wall_seconds": 0.009459861,
+        "wall_seconds_per_call": 5.0318409574468086e-05
+      },
+      "node": 47,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            4
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          4
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0001609646154984008,
+        "cpu_seconds_per_call": 2.2141377659574464e-05,
+        "process_cpu_seconds": 0.004162579,
+        "wall_fraction_of_profile": 0.00016095563022279675,
+        "wall_seconds": 0.004162353,
+        "wall_seconds_per_call": 2.2140175531914892e-05
+      },
+      "node": 48,
+      "op": "MaxPool",
+      "op_id": 14,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            4
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          2
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_1x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.009102695584895485,
+        "cpu_seconds_per_call": 0.0012521150691489362,
+        "process_cpu_seconds": 0.235397633,
+        "wall_fraction_of_profile": 0.009102141926401477,
+        "wall_seconds": 0.235383675,
+        "wall_seconds_per_call": 0.001252040824468085
+      },
+      "node": 49,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            2
+          ],
+          [
+            96,
+            96,
+            1,
+            3
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          2
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 1920,
+        "effective_MAC": 368640,
+        "nominal_MAC": 552960,
+        "padding_skipped_MAC": 184320,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 4.3235725284620294e-05,
+        "cpu_seconds_per_call": 5.947260638297872e-06,
+        "process_cpu_seconds": 0.001118085,
+        "wall_fraction_of_profile": 4.3213076288725535e-05,
+        "wall_seconds": 0.001117501,
+        "wall_seconds_per_call": 5.944154255319149e-06
+      },
+      "node": 50,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            2
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          2
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.00018344072711536807,
+        "cpu_seconds_per_call": 2.523306382978723e-05,
+        "process_cpu_seconds": 0.004743816,
+        "wall_fraction_of_profile": 0.00018339883851342426,
+        "wall_seconds": 0.00474274,
+        "wall_seconds_per_call": 2.522734042553191e-05
+      },
+      "node": 51,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            2
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          2
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.009954325897519115,
+        "cpu_seconds_per_call": 0.0013692604946808512,
+        "process_cpu_seconds": 0.257420973,
+        "wall_fraction_of_profile": 0.00995379614995768,
+        "wall_seconds": 0.257407667,
+        "wall_seconds_per_call": 0.0013691897180851064
+      },
+      "node": 52,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            2
+          ],
+          [
+            96,
+            96,
+            3,
+            1
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          8,
+          2
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 1536,
+        "effective_MAC": 442368,
+        "nominal_MAC": 442368,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 3.315823616391502e-05,
+        "cpu_seconds_per_call": 4.561058510638298e-06,
+        "process_cpu_seconds": 0.000857479,
+        "wall_fraction_of_profile": 3.314569527842823e-05,
+        "wall_seconds": 0.000857156,
+        "wall_seconds_per_call": 4.559340425531915e-06
+      },
+      "node": 53,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            8,
+            2
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          8,
+          2
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.00014847395972544035,
+        "cpu_seconds_per_call": 2.042323404255319e-05,
+        "process_cpu_seconds": 0.003839568,
+        "wall_fraction_of_profile": 0.00014847833447650399,
+        "wall_seconds": 0.003839687,
+        "wall_seconds_per_call": 2.0423867021276596e-05
+      },
+      "node": 54,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            8,
+            2
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          8,
+          2
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_1x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.007289220431799102,
+        "cpu_seconds_per_call": 0.0010026637340425533,
+        "process_cpu_seconds": 0.188500782,
+        "wall_fraction_of_profile": 0.0072885972716731345,
+        "wall_seconds": 0.188484955,
+        "wall_seconds_per_call": 0.0010025795478723406
+      },
+      "node": 55,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            8,
+            2
+          ],
+          [
+            96,
+            96,
+            1,
+            3
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          8,
+          2
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 1536,
+        "effective_MAC": 294912,
+        "nominal_MAC": 442368,
+        "padding_skipped_MAC": 147456,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 3.174084636387077e-05,
+        "cpu_seconds_per_call": 4.3660904255319146e-06,
+        "process_cpu_seconds": 0.000820825,
+        "wall_fraction_of_profile": 3.173963777428788e-05,
+        "wall_seconds": 0.000820795,
+        "wall_seconds_per_call": 4.36593085106383e-06
+      },
+      "node": 56,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            8,
+            2
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          8,
+          2
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.00014863022294860778,
+        "cpu_seconds_per_call": 2.0444728723404254e-05,
+        "process_cpu_seconds": 0.003843609,
+        "wall_fraction_of_profile": 0.00014857624535905627,
+        "wall_seconds": 0.003842219,
+        "wall_seconds_per_call": 2.043733510638298e-05
+      },
+      "node": 57,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            8,
+            2
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          8,
+          2
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.007479435658807244,
+        "cpu_seconds_per_call": 0.001028828659574468,
+        "process_cpu_seconds": 0.193419788,
+        "wall_fraction_of_profile": 0.007478827598399519,
+        "wall_seconds": 0.193404359,
+        "wall_seconds_per_call": 0.001028746590425532
+      },
+      "node": 58,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            8,
+            2
+          ],
+          [
+            96,
+            96,
+            3,
+            1
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          6,
+          2
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 1152,
+        "effective_MAC": 331776,
+        "nominal_MAC": 331776,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 2.1728437917402267e-05,
+        "cpu_seconds_per_call": 2.9888404255319147e-06,
+        "process_cpu_seconds": 0.000561902,
+        "wall_fraction_of_profile": 2.162910173044857e-05,
+        "wall_seconds": 0.000559334,
+        "wall_seconds_per_call": 2.97518085106383e-06
+      },
+      "node": 59,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            6,
+            2
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          6,
+          2
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.00011199401832270281,
+        "cpu_seconds_per_call": 1.5405260638297873e-05,
+        "process_cpu_seconds": 0.002896189,
+        "wall_fraction_of_profile": 0.00011194407966917626,
+        "wall_seconds": 0.002894902,
+        "wall_seconds_per_call": 1.539841489361702e-05
+      },
+      "node": 60,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            6,
+            2
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          6,
+          2
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "non_MAC_operator",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 5.580890165105743e-05,
+        "cpu_seconds_per_call": 7.676755319148936e-06,
+        "process_cpu_seconds": 0.00144323,
+        "wall_fraction_of_profile": 5.581214192805034e-05,
+        "wall_seconds": 0.001443316,
+        "wall_seconds_per_call": 7.677212765957447e-06
+      },
+      "node": 61,
+      "op": "MaxPool",
+      "op_id": 14,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            6,
+            2
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          3,
+          1
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0006356683124257642,
+        "cpu_seconds_per_call": 8.743892021276596e-05,
+        "process_cpu_seconds": 0.016438517,
+        "wall_fraction_of_profile": 0.0006354383408665673,
+        "wall_seconds": 0.016432595,
+        "wall_seconds_per_call": 8.740742021276596e-05
+      },
+      "node": 62,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            3,
+            1
+          ],
+          [
+            96,
+            96,
+            3,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          1,
+          1
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 27648,
+        "nominal_MAC": 27648,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "graph_metadata_validation",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 1.4769987479562955e-05,
+        "cpu_seconds_per_call": 2.0316755319148937e-06,
+        "process_cpu_seconds": 0.000381955,
+        "wall_fraction_of_profile": 1.4802137835520846e-05,
+        "wall_seconds": 0.000382787,
+        "wall_seconds_per_call": 2.0361010638297874e-06
+      },
+      "node": -1,
+      "op": "GraphValidation",
+      "op_id": -1,
+      "shape": {
+        "input": [
+          1,
+          76,
+          32,
+          1
+        ],
+        "output": [
+          1,
+          1,
+          1,
+          96
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 0,
+        "nominal_MAC": 0,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    }
+  ],
+  "schema": "english-profile-static-join-v1",
+  "scope": {
+    "acoustic_evaluation": false,
+    "diagnostic_whole_accept_cpu_seconds": 25.880673892,
+    "diagnostic_whole_accept_wall_seconds": 25.882089842,
+    "fraction_denominator": "sum of 81 rows in this instrumented execution only; separate baseline not mixed",
+    "includes_warmup": true,
+    "independent_far_hours": 0,
+    "model_promotion_allowed": false,
+    "profile_input_audio_seconds": 16,
+    "profile_input_id": "libri-speaker-1272",
+    "ssc305_qualification": false,
+    "timing": "per-node compute and finite-value validation; graph validation separate; clock overhead included; ring copies, normalization, head and callbacks outside these totals"
+  },
+  "source": {
+    "artifact_id": 14292027025,
+    "artifact_url": "https://github.com/jiying2007/kws-data/actions/runs/44000006165/artifacts/14292027025",
+    "artifact_zip_sha256": "ce4100bc444cfe99ef18c62e8a1bb17be655c7b57340949049e3abc5867a065f",
+    "baseline": {
+      "bytes": 22759,
+      "path": "../resource_results/baseline/RESULT.json",
+      "sha256": "703fe071ef625ed37a3ba0ad2c8bdfbeabe7bfc522dcf555a4631b7781e62bb7"
+    },
+    "diagnostic_verified": {
+      "bytes": 3983,
+      "path": "../resource_results/diagnostic/VERIFIED.json",
+      "sha256": "4a1675a7fca8183ec6637d9ed39ae1aa1def350bfaffa2689f99fe6768765c89"
+    },
+    "export_manifest": {
+      "generated_c_sha256": "9bf740a692370dfed02f034f87f6f0dfcaac42f3f83152c79fd27088ccc71941",
+      "manifest_bytes": 144095,
+      "manifest_path": "generated/export_manifest.json",
+      "manifest_schema": "fixed-feature-pure-export-v1",
+      "manifest_sha256": "b94549aec824a8eddb014e19f01629d8733c35f809d763927b712df845b5677b"
+    },
+    "path_basis": "relative to this JSON for baseline, diagnostic_verified, profile and static_cost; export manifest path is an original generated member identity, not a committed path",
+    "profile": {
+      "bytes": 9271,
+      "path": "../resource_results/diagnostic/graph-profile.json",
+      "sha256": "d46090cf9d040f81a47d575d9a00240d5277dc2d28568e5283abddfd9e92a3e2"
+    },
+    "repository": "jiying2007/kws-data",
+    "run_id": 44000006165,
+    "run_url": "https://github.com/jiying2007/kws-data/actions/runs/44000006165",
+    "static_cost": {
+      "bytes": 70772,
+      "path": "static_graph_cost.json",
+      "sha256": "928c030e42574b333374273d3e05d3a5251bdc151506e12cdabc5d381e7d5013"
+    }
+  },
+  "storage": {
+    "constants_plus_head_MiB": 2.475757598876953,
+    "constants_plus_head_bytes": 2596020,
+    "embedding_constant_bytes": 1312516,
+    "graph_constant_bytes": 2398112,
+    "head_blob_bytes": 197908,
+    "includes_executable_code": false,
+    "is_process_PSS": false,
+    "mel_constant_bytes": 1085596,
+    "not_included": [
+      "executable code",
+      "runtime arena and workspace",
+      "stack and allocator",
+      "application/audio buffers",
+      "shared libraries"
+    ]
+  },
+  "top10_by_process_cpu": [
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.08864588251504553,
+        "cpu_seconds_per_call": 0.012193623776595745,
+        "process_cpu_seconds": 2.29240127,
+        "wall_fraction_of_profile": 0.08864940806574576,
+        "wall_seconds": 2.292495945,
+        "wall_seconds_per_call": 0.012194127367021277
+      },
+      "node": 6,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ],
+          [
+            24,
+            24,
+            3,
+            1
+          ],
+          [
+            24
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          72,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 55296,
+        "effective_MAC": 3981312,
+        "nominal_MAC": 3981312,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0870719586123787,
+        "cpu_seconds_per_call": 0.01197712375,
+        "process_cpu_seconds": 2.251699265,
+        "wall_fraction_of_profile": 0.08708104467380086,
+        "wall_seconds": 2.251937674,
+        "wall_seconds_per_call": 0.011978391882978725
+      },
+      "node": 26,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            32,
+            8
+          ],
+          [
+            72,
+            72,
+            3,
+            1
+          ],
+          [
+            72
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 17280,
+        "effective_MAC": 3732480,
+        "nominal_MAC": 3732480,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.08518312467884942,
+        "cpu_seconds_per_call": 0.011717306489361702,
+        "process_cpu_seconds": 2.20285362,
+        "wall_fraction_of_profile": 0.08518315408605545,
+        "wall_seconds": 2.202857747,
+        "wall_seconds_per_call": 0.011717328441489362
+      },
+      "node": 13,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            36,
+            16
+          ],
+          [
+            48,
+            48,
+            3,
+            1
+          ],
+          [
+            48
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 26112,
+        "effective_MAC": 3760128,
+        "nominal_MAC": 3760128,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0801212171215462,
+        "cpu_seconds_per_call": 0.01102101925531915,
+        "process_cpu_seconds": 2.07195162,
+        "wall_fraction_of_profile": 0.08012202629889585,
+        "wall_seconds": 2.071975712,
+        "wall_seconds_per_call": 0.011021147404255319
+      },
+      "node": 19,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ],
+          [
+            48,
+            48,
+            3,
+            1
+          ],
+          [
+            48
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          32,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 24576,
+        "effective_MAC": 3538944,
+        "nominal_MAC": 3538944,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_3x1_valid",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.07891206943124035,
+        "cpu_seconds_per_call": 0.010854695771276596,
+        "process_cpu_seconds": 2.040682805,
+        "wall_fraction_of_profile": 0.07891250478339905,
+        "wall_seconds": 2.040697182,
+        "wall_seconds_per_call": 0.010854772244680852
+      },
+      "node": 32,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ],
+          [
+            72,
+            72,
+            3,
+            1
+          ],
+          [
+            72
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          28,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 16128,
+        "effective_MAC": 3483648,
+        "nominal_MAC": 3483648,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_1x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.07474349787795499,
+        "cpu_seconds_per_call": 0.010281290760638297,
+        "process_cpu_seconds": 1.932882663,
+        "wall_fraction_of_profile": 0.07474371736778969,
+        "wall_seconds": 1.932891293,
+        "wall_seconds_per_call": 0.010281336664893616
+      },
+      "node": 3,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ],
+          [
+            24,
+            24,
+            1,
+            3
+          ],
+          [
+            24
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          74,
+          32
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 56832,
+        "effective_MAC": 4006656,
+        "nominal_MAC": 4091904,
+        "padding_skipped_MAC": 85248,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_1x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.06729220348164829,
+        "cpu_seconds_per_call": 0.00925633305319149,
+        "process_cpu_seconds": 1.740190614,
+        "wall_fraction_of_profile": 0.06729295859979521,
+        "wall_seconds": 1.740212801,
+        "wall_seconds_per_call": 0.009256451069148935
+      },
+      "node": 16,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ],
+          [
+            48,
+            48,
+            1,
+            3
+          ],
+          [
+            48
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 26112,
+        "effective_MAC": 3603456,
+        "nominal_MAC": 3760128,
+        "padding_skipped_MAC": 156672,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_1x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.0659377031904665,
+        "cpu_seconds_per_call": 0.009070015691489361,
+        "process_cpu_seconds": 1.70516295,
+        "wall_fraction_of_profile": 0.06593835956754582,
+        "wall_seconds": 1.70518253,
+        "wall_seconds_per_call": 0.009070119840425533
+      },
+      "node": 29,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ],
+          [
+            72,
+            72,
+            1,
+            3
+          ],
+          [
+            72
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 17280,
+        "effective_MAC": 3421440,
+        "nominal_MAC": 3732480,
+        "padding_skipped_MAC": 311040,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "embedding_1x3_padded_width",
+      "graph": "embedding",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.04857693442464245,
+        "cpu_seconds_per_call": 0.006681967010638298,
+        "process_cpu_seconds": 1.256209798,
+        "wall_fraction_of_profile": 0.048577096031386796,
+        "wall_seconds": 1.256215897,
+        "wall_seconds_per_call": 0.006681999452127659
+      },
+      "node": 23,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            32,
+            8
+          ],
+          [
+            72,
+            48,
+            1,
+            3
+          ],
+          [
+            72
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          32,
+          8
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 18432,
+        "effective_MAC": 2433024,
+        "nominal_MAC": 2654208,
+        "padding_skipped_MAC": 221184,
+        "static_only": true
+      }
+    },
+    {
+      "classification": "mel_512tap_conv1d",
+      "graph": "mel",
+      "measurement": {
+        "calls": 188,
+        "cpu_fraction_of_profile": 0.04230191095736048,
+        "cpu_seconds_per_call": 0.00581881044680851,
+        "process_cpu_seconds": 1.093936364,
+        "wall_fraction_of_profile": 0.042302396922719795,
+        "wall_seconds": 1.093950603,
+        "wall_seconds_per_call": 0.005818886186170213
+      },
+      "node": 0,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            16000
+          ],
+          [
+            257,
+            1,
+            512
+          ]
+        ],
+        "output": [
+          1,
+          257,
+          97
+        ]
+      },
+      "static_cost": {
+        "bias_scalar_additions": 0,
+        "effective_MAC": 12763648,
+        "nominal_MAC": 12763648,
+        "padding_skipped_MAC": 0,
+        "static_only": true
+      }
+    }
+  ],
+  "totals": {
+    "effective_MAC_per_evaluation": 66666624,
+    "profile_process_cpu_seconds": 25.860211495,
+    "profile_wall_seconds": 25.860251016
+  },
+  "unmodified_baseline_reference": [
+    {
+      "embeddings": 188,
+      "event_digest_fnv1a64": "cbf29ce484222325",
+      "events": 0,
+      "id": "libri-speaker-1272",
+      "input_samples": 256000,
+      "pcm_sha256": "a192f737578dd259c447caf07a06a9566326aabd489faa96d4ccfb8854fc33ab",
+      "ready_outputs": 173,
+      "steady": {
+        "accept_process_cpu_seconds": 23.95086802,
+        "accept_wall_seconds": 23.952581497,
+        "audio_seconds": 13.8,
+        "call_wall_max_ms": 147.785464,
+        "call_wall_p50_ms": 0.00135,
+        "call_wall_p95_ms": 139.488865,
+        "call_wall_p99_ms": 142.124942,
+        "calls": 690,
+        "calls_over_input_duration": 172,
+        "calls_over_input_duration_fraction": 0.249275362,
+        "cpu_seconds_per_audio_second": 1.735570146,
+        "samples": 220800,
+        "wall_rtf": 1.735694311
+      },
+      "whole_stream": {
+        "accept_process_cpu_seconds": 26.17616713,
+        "accept_wall_seconds": 26.178067898,
+        "audio_seconds": 16.0,
+        "call_wall_max_ms": 147.785464,
+        "call_wall_p50_ms": 0.001324,
+        "call_wall_p95_ms": 139.433478,
+        "call_wall_p99_ms": 141.91474,
+        "calls": 800,
+        "calls_over_input_duration": 188,
+        "calls_over_input_duration_fraction": 0.235,
+        "cpu_seconds_per_audio_second": 1.636010446,
+        "samples": 256000,
+        "wall_rtf": 1.636129244
+      }
+    },
+    {
+      "embeddings": 188,
+      "event_digest_fnv1a64": "cbf29ce484222325",
+      "events": 0,
+      "id": "libri-speaker-1462",
+      "input_samples": 256000,
+      "pcm_sha256": "9a93bc5842da1ad5f3d6af3e9987ec7a157127d0eea6f6d83282df7afe37ffa7",
+      "ready_outputs": 173,
+      "steady": {
+        "accept_process_cpu_seconds": 23.966893834,
+        "accept_wall_seconds": 23.96870621,
+        "audio_seconds": 13.8,
+        "call_wall_max_ms": 151.003086,
+        "call_wall_p50_ms": 0.001355,
+        "call_wall_p95_ms": 139.774321,
+        "call_wall_p99_ms": 140.283846,
+        "calls": 690,
+        "calls_over_input_duration": 172,
+        "calls_over_input_duration_fraction": 0.249275362,
+        "cpu_seconds_per_audio_second": 1.736731437,
+        "samples": 220800,
+        "wall_rtf": 1.736862769
+      },
+      "whole_stream": {
+        "accept_process_cpu_seconds": 26.186932564,
+        "accept_wall_seconds": 26.188925545,
+        "audio_seconds": 16.0,
+        "call_wall_max_ms": 151.003086,
+        "call_wall_p50_ms": 0.001352,
+        "call_wall_p95_ms": 139.723272,
+        "call_wall_p99_ms": 140.199825,
+        "calls": 800,
+        "calls_over_input_duration": 188,
+        "calls_over_input_duration_fraction": 0.235,
+        "cpu_seconds_per_audio_second": 1.636683285,
+        "samples": 256000,
+        "wall_rtf": 1.636807847
+      }
+    }
+  ]
+}

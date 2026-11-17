@@ -1,0 +1,3857 @@
+{
+  "schema": "english-fixed-graph-static-cost-v1",
+  "static_only": true,
+  "model_inference_performed": false,
+  "measured_runtime": false,
+  "source": {
+    "manifest_path": "generated/export_manifest.json",
+    "manifest_sha256": "b94549aec824a8eddb014e19f01629d8733c35f809d763927b712df845b5677b",
+    "manifest_bytes": 144095,
+    "manifest_schema": "fixed-feature-pure-export-v1",
+    "generated_c_sha256": "9bf740a692370dfed02f034f87f6f0dfcaac42f3f83152c79fd27088ccc71941"
+  },
+  "join_contract": {
+    "keys": [
+      "graph",
+      "node"
+    ],
+    "profile_graph_labels": [
+      "mel",
+      "embedding"
+    ],
+    "profile_op_field": "op_id",
+    "expected_rows": 81,
+    "validation_node": -1,
+    "candidate_selection_requires_measured_profile": true
+  },
+  "method": {
+    "effective_MAC": "Conv: N*OC*channels_per_group*(sum valid h/kernel_h pairs)*(sum valid w/kernel_w pairs), skipping source coordinates outside the input exactly as generic spatial_run. MatMul: output element count * reduction K.",
+    "nominal_MAC": "Conv: output element count * channels_per_group * kernel_h * kernel_w, including padded positions. MatMul: same as effective_MAC.",
+    "MAC_definition": "One scalar multiplication contributing to a sum counts as one MAC; this is not an FMA instruction count. Frozen code uses ordered multiply then add.",
+    "excluded_from_MAC": [
+      "bias additions (reported separately)",
+      "elementwise Add/Sub/Mul/Div/Pow/Max/Log/Clip/LeakyRelu",
+      "MaxPool comparisons",
+      "Transpose and copies",
+      "graph validation and finite checks",
+      "head inference",
+      "index arithmetic",
+      "callbacks"
+    ],
+    "non_MAC_rows": "effective_MAC=0 means no counted Conv/MatMul MAC, not zero work or zero measured time.",
+    "padding": "Out-of-range taps are skipped; no multiply-by-zero operations are invented.",
+    "steady_rate_projection": "12.5 graph evaluations/audio-second assumes the already established 1280-sample embedding hop at 16 kHz; runtime is not inferred.",
+    "storage": "Constant sizes are from this manifest. The 197908-byte head size is the fixed SDK artifact size supplied for this analysis. No model or executable was run."
+  },
+  "graphs": {
+    "mel": {
+      "manifest_graph": "melspectrogram.onnx",
+      "asset_sha256": "ba2b0e0f8b7b875369a2c89cb13360ff53bac436f2895cced9f479fa65eb176f",
+      "constant_bytes": 1085596,
+      "workspace_bytes": 299184,
+      "node_count": 16,
+      "input_shape": [
+        1,
+        16000
+      ],
+      "output_shape": [
+        1,
+        1,
+        97,
+        32
+      ],
+      "effective_MAC_per_evaluation": 26325024,
+      "nominal_MAC_per_evaluation": 26325024,
+      "bias_scalar_additions_per_evaluation": 0
+    },
+    "embedding": {
+      "manifest_graph": "embedding_model.onnx",
+      "asset_sha256": "70d164290c1d095d1d4ee149bc5e00543250a7316b59f31d056cff7bd3075c1f",
+      "constant_bytes": 1312516,
+      "workspace_bytes": 454656,
+      "node_count": 63,
+      "input_shape": [
+        1,
+        76,
+        32,
+        1
+      ],
+      "output_shape": [
+        1,
+        1,
+        1,
+        96
+      ],
+      "effective_MAC_per_evaluation": 40341600,
+      "nominal_MAC_per_evaluation": 41955840,
+      "bias_scalar_additions_per_evaluation": 367104
+    }
+  },
+  "rows": [
+    {
+      "graph": "mel",
+      "node": -1,
+      "op": "GraphValidation",
+      "op_id": -1,
+      "shape": {
+        "input": [
+          1,
+          16000
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "graph_metadata_validation",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 0,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            16000
+          ],
+          [
+            257,
+            1,
+            512
+          ]
+        ],
+        "output": [
+          1,
+          257,
+          97
+        ]
+      },
+      "effective_MAC": 12763648,
+      "nominal_MAC": 12763648,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "mel_512tap_conv1d",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          512,
+          1
+        ],
+        "stride": [
+          160,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          0
+        ],
+        "pads_end": [
+          0,
+          0
+        ],
+        "channels_per_group": 1
+      }
+    },
+    {
+      "graph": "mel",
+      "node": 1,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            16000
+          ],
+          [
+            257,
+            1,
+            512
+          ]
+        ],
+        "output": [
+          1,
+          257,
+          97
+        ]
+      },
+      "effective_MAC": 12763648,
+      "nominal_MAC": 12763648,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "mel_512tap_conv1d",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          512,
+          1
+        ],
+        "stride": [
+          160,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          0
+        ],
+        "pads_end": [
+          0,
+          0
+        ],
+        "channels_per_group": 1
+      }
+    },
+    {
+      "graph": "mel",
+      "node": 2,
+      "op": "Transpose",
+      "op_id": 10,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            257,
+            97
+          ]
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          257
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 3,
+      "op": "Transpose",
+      "op_id": 10,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            257,
+            97
+          ]
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          257
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 4,
+      "op": "Pow",
+      "op_id": 5,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            257
+          ],
+          []
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          257
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 5,
+      "op": "Pow",
+      "op_id": 5,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            257
+          ],
+          []
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          257
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 6,
+      "op": "Add",
+      "op_id": 1,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            257
+          ],
+          [
+            1,
+            1,
+            97,
+            257
+          ]
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          257
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 7,
+      "op": "MatMul",
+      "op_id": 12,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            257
+          ],
+          [
+            257,
+            32
+          ]
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "effective_MAC": 797728,
+      "nominal_MAC": 797728,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "mel_projection_matmul",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 8,
+      "op": "Clip",
+      "op_id": 8,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ],
+          [],
+          null
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 9,
+      "op": "Log",
+      "op_id": 7,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ]
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 10,
+      "op": "Mul",
+      "op_id": 3,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ],
+          []
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 11,
+      "op": "Div",
+      "op_id": 4,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ],
+          []
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 12,
+      "op": "Sub",
+      "op_id": 2,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ],
+          []
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 13,
+      "op": "ReduceMax",
+      "op_id": 11,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ]
+        ],
+        "output": []
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 14,
+      "op": "Sub",
+      "op_id": 2,
+      "shape": {
+        "inputs": [
+          [],
+          []
+        ],
+        "output": []
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "mel",
+      "node": 15,
+      "op": "Clip",
+      "op_id": 8,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            97,
+            32
+          ],
+          [],
+          null
+        ],
+        "output": [
+          1,
+          1,
+          97,
+          32
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": -1,
+      "op": "GraphValidation",
+      "op_id": -1,
+      "shape": {
+        "input": [
+          1,
+          76,
+          32,
+          1
+        ],
+        "output": [
+          1,
+          1,
+          1,
+          96
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "graph_metadata_validation",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 0,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            1,
+            76,
+            32
+          ],
+          [
+            24,
+            1,
+            3,
+            3
+          ],
+          [
+            24
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          74,
+          32
+        ]
+      },
+      "effective_MAC": 500832,
+      "nominal_MAC": 511488,
+      "padding_skipped_MAC": 10656,
+      "bias_scalar_additions": 56832,
+      "classification": "embedding_3x3_padded_width",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          3,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          1
+        ],
+        "pads_end": [
+          0,
+          1
+        ],
+        "channels_per_group": 1
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 1,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          74,
+          32
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 2,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          74,
+          32
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 3,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ],
+          [
+            24,
+            24,
+            1,
+            3
+          ],
+          [
+            24
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          74,
+          32
+        ]
+      },
+      "effective_MAC": 4006656,
+      "nominal_MAC": 4091904,
+      "padding_skipped_MAC": 85248,
+      "bias_scalar_additions": 56832,
+      "classification": "embedding_1x3_padded_width",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          1,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          1
+        ],
+        "pads_end": [
+          0,
+          1
+        ],
+        "channels_per_group": 24
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 4,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          74,
+          32
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 5,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          74,
+          32
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 6,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            74,
+            32
+          ],
+          [
+            24,
+            24,
+            3,
+            1
+          ],
+          [
+            24
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          72,
+          32
+        ]
+      },
+      "effective_MAC": 3981312,
+      "nominal_MAC": 3981312,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 55296,
+      "classification": "embedding_3x1_valid",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          3,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          0
+        ],
+        "pads_end": [
+          0,
+          0
+        ],
+        "channels_per_group": 24
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 7,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            72,
+            32
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          72,
+          32
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 8,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            72,
+            32
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          72,
+          32
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 9,
+      "op": "MaxPool",
+      "op_id": 14,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            72,
+            32
+          ]
+        ],
+        "output": [
+          1,
+          24,
+          36,
+          16
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 10,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            24,
+            36,
+            16
+          ],
+          [
+            48,
+            24,
+            1,
+            3
+          ],
+          [
+            48
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          36,
+          16
+        ]
+      },
+      "effective_MAC": 1907712,
+      "nominal_MAC": 1990656,
+      "padding_skipped_MAC": 82944,
+      "bias_scalar_additions": 27648,
+      "classification": "embedding_1x3_padded_width",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          1,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          1
+        ],
+        "pads_end": [
+          0,
+          1
+        ],
+        "channels_per_group": 24
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 11,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            36,
+            16
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          36,
+          16
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 12,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            36,
+            16
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          36,
+          16
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 13,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            36,
+            16
+          ],
+          [
+            48,
+            48,
+            3,
+            1
+          ],
+          [
+            48
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "effective_MAC": 3760128,
+      "nominal_MAC": 3760128,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 26112,
+      "classification": "embedding_3x1_valid",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          3,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          0
+        ],
+        "pads_end": [
+          0,
+          0
+        ],
+        "channels_per_group": 48
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 14,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 15,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 16,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ],
+          [
+            48,
+            48,
+            1,
+            3
+          ],
+          [
+            48
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "effective_MAC": 3603456,
+      "nominal_MAC": 3760128,
+      "padding_skipped_MAC": 156672,
+      "bias_scalar_additions": 26112,
+      "classification": "embedding_1x3_padded_width",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          1,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          1
+        ],
+        "pads_end": [
+          0,
+          1
+        ],
+        "channels_per_group": 48
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 17,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 18,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          34,
+          16
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 19,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            34,
+            16
+          ],
+          [
+            48,
+            48,
+            3,
+            1
+          ],
+          [
+            48
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          32,
+          16
+        ]
+      },
+      "effective_MAC": 3538944,
+      "nominal_MAC": 3538944,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 24576,
+      "classification": "embedding_3x1_valid",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          3,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          0
+        ],
+        "pads_end": [
+          0,
+          0
+        ],
+        "channels_per_group": 48
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 20,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            32,
+            16
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          32,
+          16
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 21,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            32,
+            16
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          32,
+          16
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 22,
+      "op": "MaxPool",
+      "op_id": 14,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            32,
+            16
+          ]
+        ],
+        "output": [
+          1,
+          48,
+          32,
+          8
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 23,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            48,
+            32,
+            8
+          ],
+          [
+            72,
+            48,
+            1,
+            3
+          ],
+          [
+            72
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          32,
+          8
+        ]
+      },
+      "effective_MAC": 2433024,
+      "nominal_MAC": 2654208,
+      "padding_skipped_MAC": 221184,
+      "bias_scalar_additions": 18432,
+      "classification": "embedding_1x3_padded_width",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          1,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          1
+        ],
+        "pads_end": [
+          0,
+          1
+        ],
+        "channels_per_group": 48
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 24,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            32,
+            8
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          32,
+          8
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 25,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            32,
+            8
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          32,
+          8
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 26,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            32,
+            8
+          ],
+          [
+            72,
+            72,
+            3,
+            1
+          ],
+          [
+            72
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "effective_MAC": 3732480,
+      "nominal_MAC": 3732480,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 17280,
+      "classification": "embedding_3x1_valid",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          3,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          0
+        ],
+        "pads_end": [
+          0,
+          0
+        ],
+        "channels_per_group": 72
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 27,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 28,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 29,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ],
+          [
+            72,
+            72,
+            1,
+            3
+          ],
+          [
+            72
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "effective_MAC": 3421440,
+      "nominal_MAC": 3732480,
+      "padding_skipped_MAC": 311040,
+      "bias_scalar_additions": 17280,
+      "classification": "embedding_1x3_padded_width",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          1,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          1
+        ],
+        "pads_end": [
+          0,
+          1
+        ],
+        "channels_per_group": 72
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 30,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 31,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          30,
+          8
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 32,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            30,
+            8
+          ],
+          [
+            72,
+            72,
+            3,
+            1
+          ],
+          [
+            72
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          28,
+          8
+        ]
+      },
+      "effective_MAC": 3483648,
+      "nominal_MAC": 3483648,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 16128,
+      "classification": "embedding_3x1_valid",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          3,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          0
+        ],
+        "pads_end": [
+          0,
+          0
+        ],
+        "channels_per_group": 72
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 33,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            28,
+            8
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          28,
+          8
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 34,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            28,
+            8
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          28,
+          8
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 35,
+      "op": "MaxPool",
+      "op_id": 14,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            28,
+            8
+          ]
+        ],
+        "output": [
+          1,
+          72,
+          14,
+          4
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 36,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            72,
+            14,
+            4
+          ],
+          [
+            96,
+            72,
+            1,
+            3
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          14,
+          4
+        ]
+      },
+      "effective_MAC": 967680,
+      "nominal_MAC": 1161216,
+      "padding_skipped_MAC": 193536,
+      "bias_scalar_additions": 5376,
+      "classification": "embedding_1x3_padded_width",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          1,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          1
+        ],
+        "pads_end": [
+          0,
+          1
+        ],
+        "channels_per_group": 72
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 37,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            14,
+            4
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          14,
+          4
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 38,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            14,
+            4
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          14,
+          4
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 39,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            14,
+            4
+          ],
+          [
+            96,
+            96,
+            3,
+            1
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          12,
+          4
+        ]
+      },
+      "effective_MAC": 1327104,
+      "nominal_MAC": 1327104,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 4608,
+      "classification": "embedding_3x1_valid",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          3,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          0
+        ],
+        "pads_end": [
+          0,
+          0
+        ],
+        "channels_per_group": 96
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 40,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            12,
+            4
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          12,
+          4
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 41,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            12,
+            4
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          12,
+          4
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 42,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            12,
+            4
+          ],
+          [
+            96,
+            96,
+            1,
+            3
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          12,
+          4
+        ]
+      },
+      "effective_MAC": 1105920,
+      "nominal_MAC": 1327104,
+      "padding_skipped_MAC": 221184,
+      "bias_scalar_additions": 4608,
+      "classification": "embedding_1x3_padded_width",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          1,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          1
+        ],
+        "pads_end": [
+          0,
+          1
+        ],
+        "channels_per_group": 96
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 43,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            12,
+            4
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          12,
+          4
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 44,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            12,
+            4
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          12,
+          4
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 45,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            12,
+            4
+          ],
+          [
+            96,
+            96,
+            3,
+            1
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          4
+        ]
+      },
+      "effective_MAC": 1105920,
+      "nominal_MAC": 1105920,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 3840,
+      "classification": "embedding_3x1_valid",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          3,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          0
+        ],
+        "pads_end": [
+          0,
+          0
+        ],
+        "channels_per_group": 96
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 46,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            4
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          4
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 47,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            4
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          4
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 48,
+      "op": "MaxPool",
+      "op_id": 14,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            4
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          2
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 49,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            2
+          ],
+          [
+            96,
+            96,
+            1,
+            3
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          2
+        ]
+      },
+      "effective_MAC": 368640,
+      "nominal_MAC": 552960,
+      "padding_skipped_MAC": 184320,
+      "bias_scalar_additions": 1920,
+      "classification": "embedding_1x3_padded_width",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          1,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          1
+        ],
+        "pads_end": [
+          0,
+          1
+        ],
+        "channels_per_group": 96
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 50,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            2
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          2
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 51,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            2
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          10,
+          2
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 52,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            10,
+            2
+          ],
+          [
+            96,
+            96,
+            3,
+            1
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          8,
+          2
+        ]
+      },
+      "effective_MAC": 442368,
+      "nominal_MAC": 442368,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 1536,
+      "classification": "embedding_3x1_valid",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          3,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          0
+        ],
+        "pads_end": [
+          0,
+          0
+        ],
+        "channels_per_group": 96
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 53,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            8,
+            2
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          8,
+          2
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 54,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            8,
+            2
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          8,
+          2
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 55,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            8,
+            2
+          ],
+          [
+            96,
+            96,
+            1,
+            3
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          8,
+          2
+        ]
+      },
+      "effective_MAC": 294912,
+      "nominal_MAC": 442368,
+      "padding_skipped_MAC": 147456,
+      "bias_scalar_additions": 1536,
+      "classification": "embedding_1x3_padded_width",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          1,
+          3
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          1
+        ],
+        "pads_end": [
+          0,
+          1
+        ],
+        "channels_per_group": 96
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 56,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            8,
+            2
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          8,
+          2
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 57,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            8,
+            2
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          8,
+          2
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 58,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            8,
+            2
+          ],
+          [
+            96,
+            96,
+            3,
+            1
+          ],
+          [
+            96
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          6,
+          2
+        ]
+      },
+      "effective_MAC": 331776,
+      "nominal_MAC": 331776,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 1152,
+      "classification": "embedding_3x1_valid",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          3,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          0
+        ],
+        "pads_end": [
+          0,
+          0
+        ],
+        "channels_per_group": 96
+      }
+    },
+    {
+      "graph": "embedding",
+      "node": 59,
+      "op": "LeakyRelu",
+      "op_id": 9,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            6,
+            2
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          6,
+          2
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 60,
+      "op": "Max",
+      "op_id": 6,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            6,
+            2
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          6,
+          2
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 61,
+      "op": "MaxPool",
+      "op_id": 14,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            6,
+            2
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          3,
+          1
+        ]
+      },
+      "effective_MAC": 0,
+      "nominal_MAC": 0,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "non_MAC_operator",
+      "static_only": true
+    },
+    {
+      "graph": "embedding",
+      "node": 62,
+      "op": "Conv",
+      "op_id": 13,
+      "shape": {
+        "inputs": [
+          [
+            1,
+            96,
+            3,
+            1
+          ],
+          [
+            96,
+            96,
+            3,
+            1
+          ]
+        ],
+        "output": [
+          1,
+          96,
+          1,
+          1
+        ]
+      },
+      "effective_MAC": 27648,
+      "nominal_MAC": 27648,
+      "padding_skipped_MAC": 0,
+      "bias_scalar_additions": 0,
+      "classification": "embedding_3x1_valid",
+      "static_only": true,
+      "convolution": {
+        "group": 1,
+        "kernel": [
+          3,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pads_begin": [
+          0,
+          0
+        ],
+        "pads_end": [
+          0,
+          0
+        ],
+        "channels_per_group": 96
+      }
+    }
+  ],
+  "convolution_classes": {
+    "mel_512tap_conv1d": {
+      "nodes": [
+        {
+          "graph": "mel",
+          "node": 0
+        },
+        {
+          "graph": "mel",
+          "node": 1
+        }
+      ],
+      "node_count": 2,
+      "effective_MAC": 25527296,
+      "nominal_MAC": 25527296
+    },
+    "embedding_3x3_padded_width": {
+      "nodes": [
+        {
+          "graph": "embedding",
+          "node": 0
+        }
+      ],
+      "node_count": 1,
+      "effective_MAC": 500832,
+      "nominal_MAC": 511488
+    },
+    "embedding_1x3_padded_width": {
+      "nodes": [
+        {
+          "graph": "embedding",
+          "node": 3
+        },
+        {
+          "graph": "embedding",
+          "node": 10
+        },
+        {
+          "graph": "embedding",
+          "node": 16
+        },
+        {
+          "graph": "embedding",
+          "node": 23
+        },
+        {
+          "graph": "embedding",
+          "node": 29
+        },
+        {
+          "graph": "embedding",
+          "node": 36
+        },
+        {
+          "graph": "embedding",
+          "node": 42
+        },
+        {
+          "graph": "embedding",
+          "node": 49
+        },
+        {
+          "graph": "embedding",
+          "node": 55
+        }
+      ],
+      "node_count": 9,
+      "effective_MAC": 18109440,
+      "nominal_MAC": 19713024
+    },
+    "embedding_3x1_valid": {
+      "nodes": [
+        {
+          "graph": "embedding",
+          "node": 6
+        },
+        {
+          "graph": "embedding",
+          "node": 13
+        },
+        {
+          "graph": "embedding",
+          "node": 19
+        },
+        {
+          "graph": "embedding",
+          "node": 26
+        },
+        {
+          "graph": "embedding",
+          "node": 32
+        },
+        {
+          "graph": "embedding",
+          "node": 39
+        },
+        {
+          "graph": "embedding",
+          "node": 45
+        },
+        {
+          "graph": "embedding",
+          "node": 52
+        },
+        {
+          "graph": "embedding",
+          "node": 58
+        },
+        {
+          "graph": "embedding",
+          "node": 62
+        }
+      ],
+      "node_count": 10,
+      "effective_MAC": 21731328,
+      "nominal_MAC": 21731328
+    }
+  },
+  "totals": {
+    "effective_MAC_per_embedding_step": 66666624,
+    "nominal_MAC_per_embedding_step": 68280864,
+    "padding_skipped_MAC_per_embedding_step": 1614240,
+    "bias_scalar_additions_per_embedding_step": 367104,
+    "assumed_sample_rate_hz": 16000,
+    "assumed_embedding_hop_samples": 1280,
+    "assumed_steady_graph_evaluations_per_audio_second": 12.5,
+    "projected_effective_MAC_per_audio_second": 833332800.0
+  },
+  "storage": {
+    "mel_constant_bytes": 1085596,
+    "embedding_constant_bytes": 1312516,
+    "graph_constant_bytes": 2398112,
+    "head_blob_bytes": 197908,
+    "constants_plus_head_bytes": 2596020,
+    "constants_plus_head_MiB": 2.475757598876953,
+    "includes_executable_code": false,
+    "is_process_PSS": false,
+    "not_included": [
+      "executable code",
+      "runtime arena and workspace",
+      "stack and allocator",
+      "application/audio buffers",
+      "shared libraries"
+    ]
+  },
+  "low_risk_candidates": {
+    "first": "embedding_3x1_valid",
+    "second": "embedding_1x3_padded_width",
+    "constraints": [
+      "strict shape/group/stride/dilation/pad matcher",
+      "preserve per-output c then kh then kw accumulation order",
+      "start +0.0f and add bias last",
+      "no FMA/reassociation or split reduction",
+      "preserve skipped-padding semantics",
+      "retain generic fallback and existing finite checks",
+      "compare output bits and event/sample counters; benchmark uninstrumented end-to-end cost"
+    ],
+    "rows": [
+      {
+        "priority": 1,
+        "graph": "embedding",
+        "node": 6,
+        "classification": "embedding_3x1_valid",
+        "input_shape": [
+          1,
+          24,
+          74,
+          32
+        ],
+        "weights_shape": [
+          24,
+          24,
+          3,
+          1
+        ],
+        "output_shape": [
+          1,
+          24,
+          72,
+          32
+        ],
+        "effective_MAC": 3981312,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 1,
+        "graph": "embedding",
+        "node": 13,
+        "classification": "embedding_3x1_valid",
+        "input_shape": [
+          1,
+          48,
+          36,
+          16
+        ],
+        "weights_shape": [
+          48,
+          48,
+          3,
+          1
+        ],
+        "output_shape": [
+          1,
+          48,
+          34,
+          16
+        ],
+        "effective_MAC": 3760128,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 1,
+        "graph": "embedding",
+        "node": 19,
+        "classification": "embedding_3x1_valid",
+        "input_shape": [
+          1,
+          48,
+          34,
+          16
+        ],
+        "weights_shape": [
+          48,
+          48,
+          3,
+          1
+        ],
+        "output_shape": [
+          1,
+          48,
+          32,
+          16
+        ],
+        "effective_MAC": 3538944,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 1,
+        "graph": "embedding",
+        "node": 26,
+        "classification": "embedding_3x1_valid",
+        "input_shape": [
+          1,
+          72,
+          32,
+          8
+        ],
+        "weights_shape": [
+          72,
+          72,
+          3,
+          1
+        ],
+        "output_shape": [
+          1,
+          72,
+          30,
+          8
+        ],
+        "effective_MAC": 3732480,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 1,
+        "graph": "embedding",
+        "node": 32,
+        "classification": "embedding_3x1_valid",
+        "input_shape": [
+          1,
+          72,
+          30,
+          8
+        ],
+        "weights_shape": [
+          72,
+          72,
+          3,
+          1
+        ],
+        "output_shape": [
+          1,
+          72,
+          28,
+          8
+        ],
+        "effective_MAC": 3483648,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 1,
+        "graph": "embedding",
+        "node": 39,
+        "classification": "embedding_3x1_valid",
+        "input_shape": [
+          1,
+          96,
+          14,
+          4
+        ],
+        "weights_shape": [
+          96,
+          96,
+          3,
+          1
+        ],
+        "output_shape": [
+          1,
+          96,
+          12,
+          4
+        ],
+        "effective_MAC": 1327104,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 1,
+        "graph": "embedding",
+        "node": 45,
+        "classification": "embedding_3x1_valid",
+        "input_shape": [
+          1,
+          96,
+          12,
+          4
+        ],
+        "weights_shape": [
+          96,
+          96,
+          3,
+          1
+        ],
+        "output_shape": [
+          1,
+          96,
+          10,
+          4
+        ],
+        "effective_MAC": 1105920,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 1,
+        "graph": "embedding",
+        "node": 52,
+        "classification": "embedding_3x1_valid",
+        "input_shape": [
+          1,
+          96,
+          10,
+          2
+        ],
+        "weights_shape": [
+          96,
+          96,
+          3,
+          1
+        ],
+        "output_shape": [
+          1,
+          96,
+          8,
+          2
+        ],
+        "effective_MAC": 442368,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 1,
+        "graph": "embedding",
+        "node": 58,
+        "classification": "embedding_3x1_valid",
+        "input_shape": [
+          1,
+          96,
+          8,
+          2
+        ],
+        "weights_shape": [
+          96,
+          96,
+          3,
+          1
+        ],
+        "output_shape": [
+          1,
+          96,
+          6,
+          2
+        ],
+        "effective_MAC": 331776,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 1,
+        "graph": "embedding",
+        "node": 62,
+        "classification": "embedding_3x1_valid",
+        "input_shape": [
+          1,
+          96,
+          3,
+          1
+        ],
+        "weights_shape": [
+          96,
+          96,
+          3,
+          1
+        ],
+        "output_shape": [
+          1,
+          96,
+          1,
+          1
+        ],
+        "effective_MAC": 27648,
+        "bias_present": false,
+        "static_only": true
+      },
+      {
+        "priority": 2,
+        "graph": "embedding",
+        "node": 3,
+        "classification": "embedding_1x3_padded_width",
+        "input_shape": [
+          1,
+          24,
+          74,
+          32
+        ],
+        "weights_shape": [
+          24,
+          24,
+          1,
+          3
+        ],
+        "output_shape": [
+          1,
+          24,
+          74,
+          32
+        ],
+        "effective_MAC": 4006656,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 2,
+        "graph": "embedding",
+        "node": 10,
+        "classification": "embedding_1x3_padded_width",
+        "input_shape": [
+          1,
+          24,
+          36,
+          16
+        ],
+        "weights_shape": [
+          48,
+          24,
+          1,
+          3
+        ],
+        "output_shape": [
+          1,
+          48,
+          36,
+          16
+        ],
+        "effective_MAC": 1907712,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 2,
+        "graph": "embedding",
+        "node": 16,
+        "classification": "embedding_1x3_padded_width",
+        "input_shape": [
+          1,
+          48,
+          34,
+          16
+        ],
+        "weights_shape": [
+          48,
+          48,
+          1,
+          3
+        ],
+        "output_shape": [
+          1,
+          48,
+          34,
+          16
+        ],
+        "effective_MAC": 3603456,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 2,
+        "graph": "embedding",
+        "node": 23,
+        "classification": "embedding_1x3_padded_width",
+        "input_shape": [
+          1,
+          48,
+          32,
+          8
+        ],
+        "weights_shape": [
+          72,
+          48,
+          1,
+          3
+        ],
+        "output_shape": [
+          1,
+          72,
+          32,
+          8
+        ],
+        "effective_MAC": 2433024,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 2,
+        "graph": "embedding",
+        "node": 29,
+        "classification": "embedding_1x3_padded_width",
+        "input_shape": [
+          1,
+          72,
+          30,
+          8
+        ],
+        "weights_shape": [
+          72,
+          72,
+          1,
+          3
+        ],
+        "output_shape": [
+          1,
+          72,
+          30,
+          8
+        ],
+        "effective_MAC": 3421440,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 2,
+        "graph": "embedding",
+        "node": 36,
+        "classification": "embedding_1x3_padded_width",
+        "input_shape": [
+          1,
+          72,
+          14,
+          4
+        ],
+        "weights_shape": [
+          96,
+          72,
+          1,
+          3
+        ],
+        "output_shape": [
+          1,
+          96,
+          14,
+          4
+        ],
+        "effective_MAC": 967680,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 2,
+        "graph": "embedding",
+        "node": 42,
+        "classification": "embedding_1x3_padded_width",
+        "input_shape": [
+          1,
+          96,
+          12,
+          4
+        ],
+        "weights_shape": [
+          96,
+          96,
+          1,
+          3
+        ],
+        "output_shape": [
+          1,
+          96,
+          12,
+          4
+        ],
+        "effective_MAC": 1105920,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 2,
+        "graph": "embedding",
+        "node": 49,
+        "classification": "embedding_1x3_padded_width",
+        "input_shape": [
+          1,
+          96,
+          10,
+          2
+        ],
+        "weights_shape": [
+          96,
+          96,
+          1,
+          3
+        ],
+        "output_shape": [
+          1,
+          96,
+          10,
+          2
+        ],
+        "effective_MAC": 368640,
+        "bias_present": true,
+        "static_only": true
+      },
+      {
+        "priority": 2,
+        "graph": "embedding",
+        "node": 55,
+        "classification": "embedding_1x3_padded_width",
+        "input_shape": [
+          1,
+          96,
+          8,
+          2
+        ],
+        "weights_shape": [
+          96,
+          96,
+          1,
+          3
+        ],
+        "output_shape": [
+          1,
+          96,
+          8,
+          2
+        ],
+        "effective_MAC": 294912,
+        "bias_present": true,
+        "static_only": true
+      }
+    ]
+  }
+}

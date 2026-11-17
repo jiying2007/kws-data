@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2197,
+  "expected_tracked_files": 2231,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -406,7 +406,41 @@
     "automation/test_english_stream_resource_once.py",
     "docs/ENGLISH_PIPER_V4_JOINT_REVIEW_20261117.md",
     "research/english_piper_v4_joint_review_20261117/joint-review.csv",
-    "research/english_piper_v4_joint_review_20261117/joint-review.json"
+    "research/english_piper_v4_joint_review_20261117/joint-review.json",
+    ".github/workflows/english-stream-3x1-ab-once.yml",
+    "automation/english_stream_3x1_ab_inputs.json",
+    "automation/english_stream_3x1_ab_once.py",
+    "automation/test_english_stream_3x1_ab_guards.py",
+    "automation/test_english_stream_3x1_ab_trace.py",
+    "research/english_v41_execution_20261117/EXECUTION_STATUS.zh-CN.md",
+    "research/english_v41_execution_20261117/legacy/ASSET_DISPOSITION.json",
+    "research/english_v41_execution_20261117/legacy/ASSET_DISPOSITION.md",
+    "research/english_v41_execution_20261117/legacy/qwen63_evidence/artifact-inventory.json",
+    "research/english_v41_execution_20261117/legacy/qwen63_evidence/hash-index.json",
+    "research/english_v41_execution_20261117/legacy/qwen63_evidence/rebuilt/english63-three-evidence-review.json",
+    "research/english_v41_execution_20261117/legacy/review_audio/manifest.json",
+    "research/english_v41_execution_20261117/profile/profile_static_join.json",
+    "research/english_v41_execution_20261117/profile/profile_summary.md",
+    "research/english_v41_execution_20261117/profile/static_graph_cost.json",
+    "research/english_v41_execution_20261117/resource_results/baseline/RESULT.json",
+    "research/english_v41_execution_20261117/resource_results/baseline/libri-speaker-1272.stdout.json",
+    "research/english_v41_execution_20261117/resource_results/baseline/libri-speaker-1462.stdout.json",
+    "research/english_v41_execution_20261117/resource_results/diagnostic/VERIFIED.json",
+    "research/english_v41_execution_20261117/resource_results/diagnostic/graph-profile.json",
+    "research/english_v41_execution_20261117/resource_results/evidence/HOST.json",
+    "research/english_v41_execution_20261117/resource_results/evidence/PLAN.json",
+    "research/english_v41_execution_20261117/resource_results/evidence/RESULT.json",
+    "research/english_v41_execution_20261117/resource_results/evidence/SOURCE.json",
+    "research/english_v41_execution_20261117/resource_results/evidence/baseline-exit.json",
+    "research/english_v41_execution_20261117/resource_results/evidence/build-diagnostic-exit.json",
+    "research/english_v41_execution_20261117/resource_results/evidence/diagnostic-exit.json",
+    "research/english_v41_execution_20261117/resource_results/evidence/diagnostic.stdout",
+    "research/english_v41_execution_20261117/resource_results/evidence/instrument-exit.json",
+    "research/english_v41_execution_20261117/resource_results/evidence/sdk-archive-exit.json",
+    "research/english_v41_execution_20261117/resource_results/evidence/sdk-artifact-exit.json",
+    "research/english_v41_execution_20261117/resource_results/evidence/sdk-run-exit.json",
+    "research/english_v41_execution_20261117/resource_results/independent-result-review.json",
+    "research/english_v41_execution_20261117/resource_results/inputs/inputs.json"
   ],
   "baseline_files": [
     {
@@ -27289,6 +27323,293 @@
       "previous_manifest_git_blob_sha1": "5486ed0439f8e06dc2a1a3338a72243af581b170",
       "scope": "Register nine current English V4.1 integration files: byte-pinned existing Piper v4 evidence join and its saved JSON/CSV, focused tests, and the separately guarded observer-off full-stream resource workflow and worker. This registration performs no model calls and changes no retained experiment or admission state.",
       "rationale": "PR #170 added nine tracked files without extending the closed integration inventory. Append exactly the observed files from tree 14b573428a10915839b47c9368a0e3d1b1b80080 and update the tracked count from 2188 to 2197; all 2027 retained rows, 467 baseline rows, prior integration paths and 100 registration records remain unchanged."
+    },
+    {
+      "campaign": "english-v41-legacy-resource-evidence-and-3x1-ab-source-20261117",
+      "source_commit": "1b04c4638d89b9c4f0f6b5a6f7a0e290b9d53b5c",
+      "base_commit": "00f3a81524308d8e7f5fc43015a26486de593760",
+      "previous_manifest_git_blob_sha1": "bd7e922666b6830cb9d78069112a8ed2fdb07479",
+      "paths": [
+        ".github/workflows/english-stream-3x1-ab-once.yml",
+        "automation/english_stream_3x1_ab_inputs.json",
+        "automation/english_stream_3x1_ab_once.py",
+        "automation/test_english_stream_3x1_ab_guards.py",
+        "automation/test_english_stream_3x1_ab_trace.py",
+        "research/english_v41_execution_20261117/EXECUTION_STATUS.zh-CN.md",
+        "research/english_v41_execution_20261117/legacy/ASSET_DISPOSITION.json",
+        "research/english_v41_execution_20261117/legacy/ASSET_DISPOSITION.md",
+        "research/english_v41_execution_20261117/legacy/qwen63_evidence/artifact-inventory.json",
+        "research/english_v41_execution_20261117/legacy/qwen63_evidence/hash-index.json",
+        "research/english_v41_execution_20261117/legacy/qwen63_evidence/rebuilt/english63-three-evidence-review.json",
+        "research/english_v41_execution_20261117/legacy/review_audio/manifest.json",
+        "research/english_v41_execution_20261117/profile/profile_static_join.json",
+        "research/english_v41_execution_20261117/profile/profile_summary.md",
+        "research/english_v41_execution_20261117/profile/static_graph_cost.json",
+        "research/english_v41_execution_20261117/resource_results/baseline/RESULT.json",
+        "research/english_v41_execution_20261117/resource_results/baseline/libri-speaker-1272.stdout.json",
+        "research/english_v41_execution_20261117/resource_results/baseline/libri-speaker-1462.stdout.json",
+        "research/english_v41_execution_20261117/resource_results/diagnostic/VERIFIED.json",
+        "research/english_v41_execution_20261117/resource_results/diagnostic/graph-profile.json",
+        "research/english_v41_execution_20261117/resource_results/evidence/HOST.json",
+        "research/english_v41_execution_20261117/resource_results/evidence/PLAN.json",
+        "research/english_v41_execution_20261117/resource_results/evidence/RESULT.json",
+        "research/english_v41_execution_20261117/resource_results/evidence/SOURCE.json",
+        "research/english_v41_execution_20261117/resource_results/evidence/baseline-exit.json",
+        "research/english_v41_execution_20261117/resource_results/evidence/build-diagnostic-exit.json",
+        "research/english_v41_execution_20261117/resource_results/evidence/diagnostic-exit.json",
+        "research/english_v41_execution_20261117/resource_results/evidence/diagnostic.stdout",
+        "research/english_v41_execution_20261117/resource_results/evidence/instrument-exit.json",
+        "research/english_v41_execution_20261117/resource_results/evidence/sdk-archive-exit.json",
+        "research/english_v41_execution_20261117/resource_results/evidence/sdk-artifact-exit.json",
+        "research/english_v41_execution_20261117/resource_results/evidence/sdk-run-exit.json",
+        "research/english_v41_execution_20261117/resource_results/independent-result-review.json",
+        "research/english_v41_execution_20261117/resource_results/inputs/inputs.json"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-stream-3x1-ab-once.yml",
+          "mode": "100644",
+          "bytes": 3561,
+          "sha256": "834d424194c30825309eb1ee751d8356fdb2458eb76148e462aa56b5c3ae2c00",
+          "git_blob_sha1": "79f8c0f8542c6933d7bac2acf41a9a246730f320"
+        },
+        {
+          "path": "automation/english_stream_3x1_ab_inputs.json",
+          "mode": "100644",
+          "bytes": 821,
+          "sha256": "9c9fb24fd45c1b51455f1ef6ef7cb74f102ab0fed3c1805ce714191c5697c83e",
+          "git_blob_sha1": "256ed62dfb6e1c14748bfc5808637892343de29e"
+        },
+        {
+          "path": "automation/english_stream_3x1_ab_once.py",
+          "mode": "100644",
+          "bytes": 24656,
+          "sha256": "2146e00d06d416c8a91b45b53ac2c8c7933c828a3bd8ed06cf0f92055cd34bbb",
+          "git_blob_sha1": "cb7869a503c93c704e3de275dc2dbbf193c086ca"
+        },
+        {
+          "path": "automation/test_english_stream_3x1_ab_guards.py",
+          "mode": "100644",
+          "bytes": 16524,
+          "sha256": "52296da58180da4554458cbfd445a9b66fb6711a013537073a6b632f950375d1",
+          "git_blob_sha1": "81627e3e151276d42766090356b1374ccc38ed6d"
+        },
+        {
+          "path": "automation/test_english_stream_3x1_ab_trace.py",
+          "mode": "100644",
+          "bytes": 15262,
+          "sha256": "a7a10eb5550a13725ec339724f8d01fbfb1a6c5097bf843687a1111027f7496b",
+          "git_blob_sha1": "cbb222883cc12b2bf25277f569bf7d09eee6d479"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/EXECUTION_STATUS.zh-CN.md",
+          "mode": "100644",
+          "bytes": 7413,
+          "sha256": "e1f65cbed2fecb65d71c62c05d2e054d4e625392b5e9cf810102fb008505019e",
+          "git_blob_sha1": "44060eb3dc0cca9c99148305e7df506558c93d99"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/legacy/ASSET_DISPOSITION.json",
+          "mode": "100644",
+          "bytes": 229930,
+          "sha256": "daa19d6e8d7b1082a5ca00f8100adc2ffa23b8500255882df55d60289fff0584",
+          "git_blob_sha1": "52e192aa8e9e3a2b02e1365a9573785497c0cf9d"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/legacy/ASSET_DISPOSITION.md",
+          "mode": "100644",
+          "bytes": 9943,
+          "sha256": "d6c8cb2c7f632128889e2140ee857f1f9a8cc3b6ad278aedc09a17ea65cb28ab",
+          "git_blob_sha1": "9025d93db3d859ae2e98611a7ee2e79c99e77eba"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/legacy/qwen63_evidence/artifact-inventory.json",
+          "mode": "100644",
+          "bytes": 5181,
+          "sha256": "4dcd8f8807ff8dd1e3e3e94f778f928367d9eb43d3c6150fc2b004952d44c283",
+          "git_blob_sha1": "f435a62a4e9d83c7d2885966190c87a3635eb8b0"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/legacy/qwen63_evidence/hash-index.json",
+          "mode": "100644",
+          "bytes": 37435,
+          "sha256": "3ab818d7ebb4fd0064c2e5ddd6db56bbfdb813fb3150cb7427c1c32cfb704e26",
+          "git_blob_sha1": "079c84734e0bd98129252858b566f3fa44fa5c68"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/legacy/qwen63_evidence/rebuilt/english63-three-evidence-review.json",
+          "mode": "100644",
+          "bytes": 125415,
+          "sha256": "89f20b7ac5a672840013b3cf780422dcf68451b6f5d618e8f494a0e5f5dc6b12",
+          "git_blob_sha1": "5b3fa1e2245a74f64bb0be2218c7ebb1c7592a3e"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/legacy/review_audio/manifest.json",
+          "mode": "100644",
+          "bytes": 130005,
+          "sha256": "9710bd813cbfb0d0b3473dfed5bff7d2055f46da3c27e12f6186b4bd764102a6",
+          "git_blob_sha1": "8ccd30d47c023d8d3fcc7ff954681d2980c92c74"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/profile/profile_static_join.json",
+          "mode": "100644",
+          "bytes": 111933,
+          "sha256": "cf6e962a8b7da1764e1c80b5f39e5c1336222b168f15b1d8850ef29c2edd9c5d",
+          "git_blob_sha1": "6432d9ef6db58feed87eb3c06bf46125bcef3e37"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/profile/profile_summary.md",
+          "mode": "100644",
+          "bytes": 4830,
+          "sha256": "873e6ce1aebfe362fb7274dc17f85bda1931b51824a161e0ff604602b8b1f6a6",
+          "git_blob_sha1": "c69cd5d224c0e6b6b5e6a415804e8d5315f49401"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/profile/static_graph_cost.json",
+          "mode": "100644",
+          "bytes": 70772,
+          "sha256": "928c030e42574b333374273d3e05d3a5251bdc151506e12cdabc5d381e7d5013",
+          "git_blob_sha1": "c8b7c473e06e506f85ac56500c775e7fe798224d"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/baseline/RESULT.json",
+          "mode": "100644",
+          "bytes": 22759,
+          "sha256": "703fe071ef625ed37a3ba0ad2c8bdfbeabe7bfc522dcf555a4631b7781e62bb7",
+          "git_blob_sha1": "a0ddab209ccfc1ff9701d64ded684edb86b78eda"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/baseline/libri-speaker-1272.stdout.json",
+          "mode": "100644",
+          "bytes": 2878,
+          "sha256": "74347be5bbd4f5fa7837e8ee201f320126a243d1981dd2b0d156028a9313c7b2",
+          "git_blob_sha1": "419ac907af94329aec2d2e60955e42ad9da73303"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/baseline/libri-speaker-1462.stdout.json",
+          "mode": "100644",
+          "bytes": 2878,
+          "sha256": "1e31bb6331129314d12a1e3a470ce0e7b2cdbff1587175e118205e60a445449b",
+          "git_blob_sha1": "ca826c1ce8bafd7f65bf8c8e821ad07754299972"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/diagnostic/VERIFIED.json",
+          "mode": "100644",
+          "bytes": 3983,
+          "sha256": "4a1675a7fca8183ec6637d9ed39ae1aa1def350bfaffa2689f99fe6768765c89",
+          "git_blob_sha1": "60201ee5939bc1b6d18415289678a9b873b626dd"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/diagnostic/graph-profile.json",
+          "mode": "100644",
+          "bytes": 9271,
+          "sha256": "d46090cf9d040f81a47d575d9a00240d5277dc2d28568e5283abddfd9e92a3e2",
+          "git_blob_sha1": "3fd66b88a53a6b1dc1349eefa79745ff9be12ab2"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/evidence/HOST.json",
+          "mode": "100644",
+          "bytes": 7368,
+          "sha256": "aa60246fc3089ada25a2537ee30c570906b3b2bb41391a87b69a6d90f82afa9e",
+          "git_blob_sha1": "31daa4020576a0e6761c822e9c2e1805aa0f5ddd"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/evidence/PLAN.json",
+          "mode": "100644",
+          "bytes": 4261,
+          "sha256": "1603b4c6b904fbae7905ed45e08b0c86a5f6d5a63fe13e44cd3907baffde68b4",
+          "git_blob_sha1": "faacb11c2f78d5ed146fadb03401f2b87aad866e"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/evidence/RESULT.json",
+          "mode": "100644",
+          "bytes": 1454,
+          "sha256": "21d098c82e6619968973c30c4bbcc601fbcd71393c9a20340ca707dd7b2203fa",
+          "git_blob_sha1": "a45d46cdcfe31a737415ffa2bc4f14b002f3637d"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/evidence/SOURCE.json",
+          "mode": "100644",
+          "bytes": 923,
+          "sha256": "ada243757b9358fb2e4602d2a5ae0540319919625ba6bd306bbf1de5c897cb17",
+          "git_blob_sha1": "c82ac8adf03df4b58b454e7efe7a851841bffcbc"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/evidence/baseline-exit.json",
+          "mode": "100644",
+          "bytes": 576,
+          "sha256": "995adb6274e075d33e9a03c9b44b233d51f409d5aad34bd02866a03bb41c8fc4",
+          "git_blob_sha1": "ab996c2b29260fb6a3498c914a4867bfe4b5a214"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/evidence/build-diagnostic-exit.json",
+          "mode": "100644",
+          "bytes": 1504,
+          "sha256": "416f74d2815adb9314fb56c8b8365b384b33db81bc3089f30496d7304deee255",
+          "git_blob_sha1": "0284e540a9f0de361dbe99e3c72f08d1fd177114"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/evidence/diagnostic-exit.json",
+          "mode": "100644",
+          "bytes": 364,
+          "sha256": "3163b06f4ec5f402f21d490d9d4c8bc1a842241f619eaf77ac7a6ac8b3254c46",
+          "git_blob_sha1": "1be2cdca60c954368ed827125d86224fcfca6110"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/evidence/diagnostic.stdout",
+          "mode": "100644",
+          "bytes": 2878,
+          "sha256": "4da3fc39b6e176a700e8472848240669c72e83ce1b8e03a96965ac48497fcddd",
+          "git_blob_sha1": "4d1a15aa79828904e55f75e48c38560302fcad13"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/evidence/instrument-exit.json",
+          "mode": "100644",
+          "bytes": 484,
+          "sha256": "8062f1147e09896f7a8d09f1d62bc7438bd9d4626c01431b93b200a2ad21f4fc",
+          "git_blob_sha1": "c3ae2963407e51b522b5e2bd1c312b648600b571"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/evidence/sdk-archive-exit.json",
+          "mode": "100644",
+          "bytes": 186,
+          "sha256": "118eccf342a7e867619c5b152bcabb321e16a49d91b23c756552010336b90f1e",
+          "git_blob_sha1": "1e04f759a99709c212c946b28a4f3e013c539200"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/evidence/sdk-artifact-exit.json",
+          "mode": "100644",
+          "bytes": 183,
+          "sha256": "30b5fbd564155a4c99100113b76ac839f22ce541683e3478178da98bc4f5acdd",
+          "git_blob_sha1": "aed53da7e76ffaed65a0e7a667b5ff4db03ceef1"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/evidence/sdk-run-exit.json",
+          "mode": "100644",
+          "bytes": 177,
+          "sha256": "99dd8ca3f5d4a9188fb0432d78ca55f9720963fecaf9a3b59a91820949a9b9a9",
+          "git_blob_sha1": "6abf141576e75759e471a8cfb17da4f6f524cd3c"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/independent-result-review.json",
+          "mode": "100644",
+          "bytes": 12201,
+          "sha256": "dd774e4737166f304573dac820bf3179eb26ef663b100df59c576803ab2e125e",
+          "git_blob_sha1": "40dfba3b051bf2cff3934ff450692e36e448dbc2"
+        },
+        {
+          "path": "research/english_v41_execution_20261117/resource_results/inputs/inputs.json",
+          "mode": "100644",
+          "bytes": 5136,
+          "sha256": "5018b2f8e2a2553b01970ef70b38d11f52d53b7c57398ce740366922330cea12",
+          "git_blob_sha1": "b5d962db66f0df4709432c6d732bc4e11cf055c0"
+        }
+      ],
+      "scope": "Register exactly 29 saved evidence/analysis text files and five bounded A/B execution-source files. Preserve the real completed host baseline and diagnostic evidence, legacy uncertainty, zero formal training admission and SSC305 NOT_RUN. New source registration performs no model or kernel execution; actual A/B results are outside this evidence snapshot.",
+      "rationale": "All 34 paths are new relative to immutable main. Append exact integration paths, retain every old retained/baseline row, prior integration entry and historical registration, and change tracked count only from 2197 to 2231. Source commit is the real immutable pre-registration commit created before the final branch update.",
+      "pipeline_optimization_source_commit": "342e73655be56d867f7833e6076e16100c429dd0",
+      "resource_run_id": 44000006165,
+      "resource_artifact_id": 14292027025
     }
   ]
 }
