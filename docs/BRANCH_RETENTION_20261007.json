@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2391,
+  "expected_tracked_files": 2405,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -600,7 +600,21 @@
     "research/english_hardneg_natural32_recovery_20261117/FAILED_RESULT.json",
     "research/english_hardneg_natural32_recovery_20261117/FAILED_SUPERVISOR_EXIT.json",
     "research/english_hardneg_natural32_recovery_20261117/PROTOCOL_zh.md",
-    "research/english_hardneg_natural32_recovery_20261117/audit/audit_failed_acquisition.py"
+    "research/english_hardneg_natural32_recovery_20261117/audit/audit_failed_acquisition.py",
+    ".github/workflows/english-hardneg-natural32-retained-once.yml",
+    "automation/english_hardneg_natural32_retained_once.py",
+    "automation/english_hardneg_natural32_retained_plan.json",
+    "automation/test_english_hardneg_natural32_retained.py",
+    "research/english_hardneg_natural32_retained_20261117/FAILED_RESULT.json",
+    "research/english_hardneg_natural32_retained_20261117/FAILED_RUNTIME_PROBE_EXIT.json",
+    "research/english_hardneg_natural32_retained_20261117/FAILED_RUNTIME_TRACEBACK.txt",
+    "research/english_hardneg_natural32_retained_20261117/FAILED_SUPERVISOR_EXIT.json",
+    "research/english_hardneg_natural32_retained_20261117/PROTOCOL_zh.md",
+    "research/english_hardneg_natural32_retained_20261117/RETAINED_SOURCE_ARTIFACT_RECEIPT.json",
+    "research/english_hardneg_natural32_retained_20261117/RETAINED_SOURCE_FAILURE_AUDIT.json",
+    "research/english_hardneg_natural32_retained_20261117/SUCCESSFUL_CORPUS_DOWNLOAD.json",
+    "research/english_hardneg_natural32_retained_20261117/SUCCESSFUL_CORPUS_DOWNLOAD_EXIT.json",
+    "research/english_hardneg_natural32_retained_20261117/audit/audit_retained_source_failure.py"
   ],
   "baseline_files": [
     {
@@ -29195,6 +29209,129 @@
         }
       ],
       "rationale": "Retain actual failed acquisition run and independent zero-compute audit, including the sole missing historical workflow upload. Add a separate bounded recovery that first authenticates this failure, preserves every consumed original source, extends only the corpus download to 600 seconds within the unchanged 1200-second total, includes hidden source files in upload, and permits only the original 32 model processes after zero prior compute is proven. No change to audio roster, model, configuration, labels or qualification."
+    },
+    {
+      "campaign": "english-natural32-retained-originals-execution-20261117",
+      "source_commit": "f5b0fbcd41dd188af131c9e6e8ae80ea2c00e76f",
+      "base_commit": "cb6baa703f46451af73ec2cc0f85edfd1b159874",
+      "previous_manifest_git_blob_sha1": "9df96a834832b2dbdcd64c98c9c0cbe5cae7fc35",
+      "paths": [
+        ".github/workflows/english-hardneg-natural32-retained-once.yml",
+        "automation/english_hardneg_natural32_retained_once.py",
+        "automation/english_hardneg_natural32_retained_plan.json",
+        "automation/test_english_hardneg_natural32_retained.py",
+        "research/english_hardneg_natural32_retained_20261117/FAILED_RESULT.json",
+        "research/english_hardneg_natural32_retained_20261117/FAILED_RUNTIME_PROBE_EXIT.json",
+        "research/english_hardneg_natural32_retained_20261117/FAILED_RUNTIME_TRACEBACK.txt",
+        "research/english_hardneg_natural32_retained_20261117/FAILED_SUPERVISOR_EXIT.json",
+        "research/english_hardneg_natural32_retained_20261117/PROTOCOL_zh.md",
+        "research/english_hardneg_natural32_retained_20261117/RETAINED_SOURCE_ARTIFACT_RECEIPT.json",
+        "research/english_hardneg_natural32_retained_20261117/RETAINED_SOURCE_FAILURE_AUDIT.json",
+        "research/english_hardneg_natural32_retained_20261117/SUCCESSFUL_CORPUS_DOWNLOAD.json",
+        "research/english_hardneg_natural32_retained_20261117/SUCCESSFUL_CORPUS_DOWNLOAD_EXIT.json",
+        "research/english_hardneg_natural32_retained_20261117/audit/audit_retained_source_failure.py"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-hardneg-natural32-retained-once.yml",
+          "mode": "100644",
+          "bytes": 5153,
+          "sha256": "74b2cbca53f2fb759c6dc7f32dd5ea395e387838bc8f38e34f97a9fedcbf60fb",
+          "git_blob_sha1": "9b409e080db34261bd4040c926b42590fe1541e6"
+        },
+        {
+          "path": "automation/english_hardneg_natural32_retained_once.py",
+          "mode": "100644",
+          "bytes": 74795,
+          "sha256": "29e8678870c69e36469c754bd3eaf9fc06d49560a97f4aefc03a85041a48772b",
+          "git_blob_sha1": "214bef66de8a40edc2f895ff52274d555059638a"
+        },
+        {
+          "path": "automation/english_hardneg_natural32_retained_plan.json",
+          "mode": "100644",
+          "bytes": 7948,
+          "sha256": "800f8dfa8679c04389e23a87f1b2ad83e69fc409209eae03e15cc8f472e3694e",
+          "git_blob_sha1": "6d22b5018cd50f68cb95a3e61fb34a1e942b8dce"
+        },
+        {
+          "path": "automation/test_english_hardneg_natural32_retained.py",
+          "mode": "100644",
+          "bytes": 11787,
+          "sha256": "4ea11dcb5dd8488c1f2c18c8a854616f35cc49b5de83ea2ed52f97f26d734c09",
+          "git_blob_sha1": "be4d176198ab714026250e73c442636cb268cbec"
+        },
+        {
+          "path": "research/english_hardneg_natural32_retained_20261117/FAILED_RESULT.json",
+          "mode": "100644",
+          "bytes": 1875,
+          "sha256": "9898d9ee714ea6617e92be81b23614c686225c8f3a2fd8834db956fc9fd8dddb",
+          "git_blob_sha1": "7cbecc4dea39c8bc1344b64a44528964282924be"
+        },
+        {
+          "path": "research/english_hardneg_natural32_retained_20261117/FAILED_RUNTIME_PROBE_EXIT.json",
+          "mode": "100644",
+          "bytes": 272,
+          "sha256": "8756655667bf9cd05658cc2f69ace243b5adc21ced983d244a5cf279cef1f358",
+          "git_blob_sha1": "ebbf7035f228947236fe29712a77f733681d1acb"
+        },
+        {
+          "path": "research/english_hardneg_natural32_retained_20261117/FAILED_RUNTIME_TRACEBACK.txt",
+          "mode": "100644",
+          "bytes": 622,
+          "sha256": "bf7738ace225cb94568b50abeef8cc4b364fcc2fc2106c96791fd94dfdb2719f",
+          "git_blob_sha1": "0e0a633960817e85503e05e95d87fb1ac5f1cc46"
+        },
+        {
+          "path": "research/english_hardneg_natural32_retained_20261117/FAILED_SUPERVISOR_EXIT.json",
+          "mode": "100644",
+          "bytes": 502,
+          "sha256": "b3f11ac33ba5f606b8f9a9b4d99a8a0f0ca7b97b93e1078c1cdaaa162f4d31f1",
+          "git_blob_sha1": "cf05e3f4f6a2ff9b1c8ce2de98f8fa0246bdee19"
+        },
+        {
+          "path": "research/english_hardneg_natural32_retained_20261117/PROTOCOL_zh.md",
+          "mode": "100644",
+          "bytes": 3295,
+          "sha256": "b9055e2c5928525a18038567c7d6ddeb8407fb599f54dc3246286ac7bf74a868",
+          "git_blob_sha1": "341e323c98a9651b12d678c9a51eedc063af866e"
+        },
+        {
+          "path": "research/english_hardneg_natural32_retained_20261117/RETAINED_SOURCE_ARTIFACT_RECEIPT.json",
+          "mode": "100644",
+          "bytes": 1345,
+          "sha256": "3b7d1b4b02c30a0f871751721d1eb4c9e8eaea9b8d1e5bb752ed59a9231dc61c",
+          "git_blob_sha1": "c5e24f9198926b95c908bb76c0e48d5a43280a55"
+        },
+        {
+          "path": "research/english_hardneg_natural32_retained_20261117/RETAINED_SOURCE_FAILURE_AUDIT.json",
+          "mode": "100644",
+          "bytes": 53679,
+          "sha256": "7dae7b11914f5cc2886dbb28dbcd765921d3494f6a3b573e3882b4837c52ec9a",
+          "git_blob_sha1": "5cf3e2dac037399c4167c156b457136d7873308e"
+        },
+        {
+          "path": "research/english_hardneg_natural32_retained_20261117/SUCCESSFUL_CORPUS_DOWNLOAD.json",
+          "mode": "100644",
+          "bytes": 290,
+          "sha256": "41d927de4ee6949d5bb4d9facb49265a1f09417a9d8f9699f4b376ee11a69d8a",
+          "git_blob_sha1": "4c7f800a883353325a83aff017a866ad903e3282"
+        },
+        {
+          "path": "research/english_hardneg_natural32_retained_20261117/SUCCESSFUL_CORPUS_DOWNLOAD_EXIT.json",
+          "mode": "100644",
+          "bytes": 393,
+          "sha256": "a13d44a5f0ee9c29f6cbd6003452528775021ef6711bdbe9dc5496e3c4977ddb",
+          "git_blob_sha1": "50901078bf1d5e25a1dff484dfb63c06154e12d6"
+        },
+        {
+          "path": "research/english_hardneg_natural32_retained_20261117/audit/audit_retained_source_failure.py",
+          "mode": "100644",
+          "bytes": 24973,
+          "sha256": "e7702f4f7858438a92545d09cefd7e208ee86555c147a5b54d41e3f2bd9cbfbf",
+          "git_blob_sha1": "4312871f22ebcff5cc4e38e8a95af3fd133db306"
+        }
+      ],
+      "rationale": "Retain the second real zero-compute failure and complete verified original FLAC acquisition. Add a distinct execution entry that explicitly provisions ffmpeg/gcc/binutils noninteractively inside the unchanged supervisor, authenticates both prior failures and zero aggregate compute, and reuses the exact 32 retained originals without another corpus download or tar read. Preserve all consumed sources, model/configuration/roster and aggregate 32 model-process budget; no labels, qualification or quality claims are upgraded."
     }
   ]
 }

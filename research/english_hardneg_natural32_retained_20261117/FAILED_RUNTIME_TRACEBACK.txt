@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/runner/work/kws-data/kws-data/automation/english_hardneg_natural32_recovery_once.py", line 779, in child
+    runner.command('ffmpeg-version', ['ffmpeg', '-version'], timeout=15)
+  File "/home/runner/work/kws-data/kws-data/automation/english_hardneg_natural32_recovery_once.py", line 526, in command
+    need(error is None, error or 'COMMAND_FAILED')
+  File "/home/runner/work/kws-data/kws-data/automation/english_hardneg_natural32_recovery_once.py", line 112, in need
+    raise ValueError(reason)
+ValueError: FileNotFoundError:[Errno 2] No such file or directory: 'ffmpeg'
