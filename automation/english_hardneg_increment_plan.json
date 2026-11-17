@@ -1,0 +1,141 @@
+{
+  "arm": "NOT_RUN",
+  "automatic_retrain_after_gate_failure": false,
+  "base_bin": {
+    "bytes": 197908,
+    "sha256": "d3e39adf72495034de0405abb997b76744885f91868eccfa97ba09b929bc63e4"
+  },
+  "base_npz": {
+    "bytes": 199356,
+    "sha256": "75c1d13203f77fcec9b66013bd6fc8c1979cb3397207931eaf31241eeb396a35"
+  },
+  "candidate_embedding_rows": 18982,
+  "candidate_head_cases": 323,
+  "candidate_ready_rows": 14137,
+  "checkpoint_selection": false,
+  "configuration": {
+    "confirm_embeddings": 3,
+    "cooldown_embeddings": 13,
+    "embedding_hop_samples": 1280,
+    "eof_padding_samples": 0,
+    "first_embedding_sample": 16000,
+    "first_ready_sample": 35200,
+    "head_history": 16,
+    "reset_between_originals_only": true,
+    "sample_rate": 16000,
+    "support_samples": 35200,
+    "threshold_float32": 0.800000011920929,
+    "tie_policy": "lowest_class_id"
+  },
+  "formal_training_admitted": false,
+  "human_gold": false,
+  "independent_far": "NOT_MEASURED",
+  "independent_frr": "NOT_MEASURED",
+  "main_before": "c312a6ef2335af0b4d16c17c598693fc95273c0c",
+  "maximum_execution_seconds": 1200,
+  "model_promotion_allowed": false,
+  "native_clock_ready_event": "EXACT",
+  "native_consumer": "PINNED_PREVIOUS_COVERAGE_NATIVE_HEAD_REPLAY",
+  "native_embedding_rows": 18982,
+  "native_head_cases": 323,
+  "native_head_processes": 1,
+  "native_logit_atol": 0.0001,
+  "native_probability_atol": 2e-06,
+  "native_ready_rows": 14137,
+  "new_audio_decodes": 0,
+  "new_audio_mixes": 0,
+  "new_compilations": 0,
+  "new_frontend_calls": 0,
+  "new_full_pcm_chain": "NOT_RUN",
+  "new_optimizer_updates": 96,
+  "new_tts_asr_calls": 0,
+  "numeric_processes": 1,
+  "old_model_forward_calls": 0,
+  "pronunciation_verified": false,
+  "qualification_allowed": false,
+  "recipe": {
+    "aggregation": "ORIGINAL_SIX_TERMS_PLUS_ONE_SOURCE_TERM_DIVIDED_BY_SEVEN",
+    "checkpoint_selection": false,
+    "cpu_threads": 1,
+    "gradient_clip_norm": 1.0,
+    "head_parameter_count": 49283,
+    "learning_rate": 0.0001,
+    "normalization": "FROZEN_BYTE_IDENTICAL",
+    "optimizer": "AdamW",
+    "optimizer_state": "RESET_NO_OLD_MOMENTS",
+    "ordinary_draws": "EXACT_PREVIOUS_COVERAGE_96_BY_6_DRAWS",
+    "ordinary_negative_loss": "MEAN_WINDOW_BACKGROUND_CROSS_ENTROPY",
+    "parameter_sweeps": false,
+    "positive_loss": "UNCHANGED_WEAK_NEGATIVE_LOG_MEAN_TARGET_PROBABILITY",
+    "reviewed_draws": "SORTED_EIGHT_SOURCE_IDS_STEP_MOD_EIGHT",
+    "reviewed_head_inputs": 134,
+    "reviewed_negative_loss": "MEAN_UNIQUE_FULL_SUPPORT_WINDOWS_PER_ORIGINAL_SOURCE",
+    "reviewed_sources": 8,
+    "reviewed_windows": 9,
+    "seed": 20261117,
+    "training_bag_forwards": 672,
+    "updates": 96,
+    "weight_decay": 0.0001
+  },
+  "regression_gates": [
+    "all_291_prior_matched_intents_retained",
+    "all_291_prior_correct_cases_retained",
+    "each_291_event_error_category_not_increased",
+    "natural32_actual_events_remain_zero",
+    "source_balanced_reviewed_background_ce_decreased",
+    "weights_changed_and_normalization_unchanged",
+    "native_saved_npz_bin_parity"
+  ],
+  "repository": "jiying2007/kws-data",
+  "retry_count": 0,
+  "schema": "english-reviewed-hardneg-increment-once-v1",
+  "scope": "NINE_OWNER_REVIEWED_WINDOWS_ONLY_RESEARCH_INCREMENTAL_HEAD",
+  "source_pins": {
+    ".github/workflows/english-hardneg-increment-once.yml": {
+      "bytes": 3483,
+      "sha256": "7e5bb73ef255d7ccee314faefa1261eec288d6539eba25066e466b9855c8c050"
+    },
+    "automation/english_coverage_fullpcm_once.py": {
+      "bytes": 44356,
+      "sha256": "70a9ae5c36191a75f58e8819ac4e6e12f3f7e464e5891d1b1e5fdc648e9ae422"
+    },
+    "research/english_hardneg_increment_20261117/INPUT_PINS.json": {
+      "bytes": 5401,
+      "sha256": "7ca659f27925a5d20b1aeb3d39f66076125bcc4f023270ea8d530b352134465d"
+    },
+    "research/english_hardneg_increment_20261117/OWNER_REVIEW.json": {
+      "bytes": 10313,
+      "sha256": "0bec70e613449d04a744b7f07e2b0257bde7ed749bc82fe3a7800c9ffba7aaba"
+    },
+    "research/english_hardneg_increment_20261117/SOURCE_ADMISSION.json": {
+      "bytes": 112563,
+      "sha256": "5dd9a2c1026112860a97b188dacaebb47b6c53652b68126f17a8d4908b067da9"
+    },
+    "research/english_hardneg_natural32_20261117/natural32-roster.json": {
+      "bytes": 56281,
+      "sha256": "31457faf8efd0cf77629c1a6f8de67bc101190eb118bcfe9ac2f256acca41239"
+    }
+  },
+  "sources": {
+    "natural": {
+      "artifact_id": 14318639588,
+      "bytes": 34035367,
+      "head_sha": "4f998e89d9f344677b8a97fdb78352e42b8cf6bd",
+      "name": "english-hardneg-natural32-retained-44063710088",
+      "run_id": 44063710088,
+      "sha256": "03e2d7e1953ead05736dc2ff1de60c115bc24ee45442a2322886fc3d02050807"
+    },
+    "quality": {
+      "artifact_id": 14310138100,
+      "bytes": 50040751,
+      "head_sha": "4f4d3f15214613c0c3a8f92c871da0b419b3f7f7",
+      "name": "english-coverage-quality-44042856615",
+      "run_id": 44042856615,
+      "sha256": "56b7e9181cc0e8662b00dd1344ef414a1466a668428fec8bc709b600ba8e97e1"
+    }
+  },
+  "ssc305": "NOT_RUN",
+  "training_bag_forwards": 672,
+  "trigger": "public main exact successor push run_attempt=1",
+  "worker_sha256": "ac89f4564bb3f93661beb02f01f7766616322a39096c94a4bdac84560f5a9ec1"
+}
