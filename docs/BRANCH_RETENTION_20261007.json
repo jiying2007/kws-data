@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2283,
+  "expected_tracked_files": 2295,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -492,7 +492,19 @@
     "research/english_quality_snr10_20261117/AUDIT_SUMMARY.json",
     "research/english_quality_snr10_20261117/PAIRED_REVIEW.json",
     "research/english_quality_snr10_20261117/RESULT.json",
-    "research/english_quality_snr10_20261117/RESULTS_zh.md"
+    "research/english_quality_snr10_20261117/RESULTS_zh.md",
+    ".github/workflows/english-temporal-quality-once.yml",
+    "automation/english_temporal_quality_data.py",
+    "automation/english_temporal_quality_once.py",
+    "automation/english_temporal_quality_plan.json",
+    "automation/test_english_temporal_quality_contract.py",
+    "automation/test_english_temporal_quality_data.py",
+    "research/english_temporal_quality_20261117/PREMODEL_DATA_AUDIT.json",
+    "research/english_temporal_quality_20261117/PROTOCOL_zh.md",
+    "research/english_temporal_quality_20261117/audit/audit_temporal.py",
+    "research/english_temporal_quality_20261117/audit/input_preflight.json",
+    "research/english_temporal_quality_20261117/audit/source_review.json",
+    "research/english_temporal_quality_20261117/audit/test_audit_temporal.py"
   ],
   "baseline_files": [
     {
@@ -28127,6 +28139,113 @@
         }
       ],
       "rationale": "Publish the actual fixed-protocol result, independently checked PCM and logits-to-event evidence, correct Vosen/Mero class mapping, exclusions and paired quality decisions. Retain the research candidate without changing models, workflows, thresholds, qualification flags or consumed execution sources."
+    },
+    {
+      "campaign": "english-temporal-confirmation-quality-once-20261117",
+      "source_commit": "c4f944adfe646023567421298a8c75927f3b42c3",
+      "base_commit": "c4f20fcb9f8b92aa77125c85de393df678ac812f",
+      "previous_manifest_git_blob_sha1": "25b4feaa781fac1a6791de5bebac476b50b009ec",
+      "paths": [
+        ".github/workflows/english-temporal-quality-once.yml",
+        "automation/english_temporal_quality_data.py",
+        "automation/english_temporal_quality_once.py",
+        "automation/english_temporal_quality_plan.json",
+        "automation/test_english_temporal_quality_contract.py",
+        "automation/test_english_temporal_quality_data.py",
+        "research/english_temporal_quality_20261117/PREMODEL_DATA_AUDIT.json",
+        "research/english_temporal_quality_20261117/PROTOCOL_zh.md",
+        "research/english_temporal_quality_20261117/audit/audit_temporal.py",
+        "research/english_temporal_quality_20261117/audit/input_preflight.json",
+        "research/english_temporal_quality_20261117/audit/source_review.json",
+        "research/english_temporal_quality_20261117/audit/test_audit_temporal.py"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-temporal-quality-once.yml",
+          "mode": "100644",
+          "bytes": 3836,
+          "sha256": "54643af589973dd454410b5147ff3251b58561640fd56ff9c0075fb0f2962134",
+          "git_blob_sha1": "0433814e19b43d39a269f9022c37dec56afc674a"
+        },
+        {
+          "path": "automation/english_temporal_quality_data.py",
+          "mode": "100644",
+          "bytes": 16372,
+          "sha256": "c2dfae52eda3a3adda952dfd23a250054540f517d6e6fc516aaf9dd2bc915d88",
+          "git_blob_sha1": "f233731a48fdeea6fb2ad238f16d80b23bd91ba7"
+        },
+        {
+          "path": "automation/english_temporal_quality_once.py",
+          "mode": "100644",
+          "bytes": 49450,
+          "sha256": "15389e1101871352e6e7477c893f1dadf019fd57b572fa1388ec53d1dd8b0988",
+          "git_blob_sha1": "66ffce846c652ae117335885fe6175307622fde8"
+        },
+        {
+          "path": "automation/english_temporal_quality_plan.json",
+          "mode": "100644",
+          "bytes": 3366,
+          "sha256": "f31cbaba433b50224da801d222348aa0e2b2b4c3018c978c3e6389ea1b2df0fc",
+          "git_blob_sha1": "720a4b837bd6bfd440eac74302a170b2683f4706"
+        },
+        {
+          "path": "automation/test_english_temporal_quality_contract.py",
+          "mode": "100644",
+          "bytes": 11913,
+          "sha256": "64e6aeb512050a740917c90e0afe4a34301368e189bd6fca301affb643e3f136",
+          "git_blob_sha1": "456fd73836acc24ba5f072ca233d81442688fead"
+        },
+        {
+          "path": "automation/test_english_temporal_quality_data.py",
+          "mode": "100644",
+          "bytes": 5990,
+          "sha256": "8b211513e66a72a5cef07fc3866bb30dd0930ad6e2ace705954ae2f2bb101902",
+          "git_blob_sha1": "3953574194e8fd0de893fef3b61a82a2a4961981"
+        },
+        {
+          "path": "research/english_temporal_quality_20261117/PREMODEL_DATA_AUDIT.json",
+          "mode": "100644",
+          "bytes": 3325,
+          "sha256": "013435a1b4d5090dd28142d3e0cb485866d895a6cd4fb0bde228351ae38b7497",
+          "git_blob_sha1": "0f5508079f4f56d3049dce8754a04a8ab19b1c4e"
+        },
+        {
+          "path": "research/english_temporal_quality_20261117/PROTOCOL_zh.md",
+          "mode": "100644",
+          "bytes": 7536,
+          "sha256": "4dd79fe72575881e113903ea7f6362c1e8eb6726bb3e17f82730f6c90b3a4076",
+          "git_blob_sha1": "d1372bf64412f4ade31d6b63fffee36b738e11f9"
+        },
+        {
+          "path": "research/english_temporal_quality_20261117/audit/audit_temporal.py",
+          "mode": "100644",
+          "bytes": 68982,
+          "sha256": "c0b91dc1b8f22b3daf600a2acb7bb1958ceb829aed3a1893b622cab72e405acd",
+          "git_blob_sha1": "4a7f25ff3e6c63ff5c4de53b17ab7a6058aaba67"
+        },
+        {
+          "path": "research/english_temporal_quality_20261117/audit/input_preflight.json",
+          "mode": "100644",
+          "bytes": 8507,
+          "sha256": "7e6fd0f8e45655ee5f231e09dfef5422c869c2507c99a341831542629ad98378",
+          "git_blob_sha1": "d6aeaf1ff0892e967419da8072582521ffc41ebf"
+        },
+        {
+          "path": "research/english_temporal_quality_20261117/audit/source_review.json",
+          "mode": "100644",
+          "bytes": 870,
+          "sha256": "82fbcda695bb902ea529a997a9f1f29f242d2f2fc2caafab3bf8e1843d52d4a6",
+          "git_blob_sha1": "44693d3c785aa0263f323982c6a16d2fdad008bb"
+        },
+        {
+          "path": "research/english_temporal_quality_20261117/audit/test_audit_temporal.py",
+          "mode": "100644",
+          "bytes": 13726,
+          "sha256": "3988ed0c25fb861d2b7c1b5eb76d08c9b947b6b1dd5310a338aecd7dac73e614",
+          "git_blob_sha1": "fa30fe80f9c8b2942eac0b3d945fbcd30e34eb9f"
+        }
+      ],
+      "rationale": "One fixed temporal-positive-loss candidate reusing all consumed clean and 10 dB evidence, with an evaluation-only fixed 5 dB condition and independent paired event audit; no formal promotion or previous source mutation."
     }
   ]
 }
