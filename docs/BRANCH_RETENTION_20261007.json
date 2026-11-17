@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2469,
+  "expected_tracked_files": 2475,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -678,7 +678,13 @@
     "research/english_teacher_retention_20261117/RESULTS_zh.md",
     "research/english_teacher_retention_20261117/REVIEWED_FIT.json",
     "research/english_teacher_retention_20261117/SUPERVISOR_EXIT.json",
-    "research/english_teacher_retention_20261117/TRAINING.json"
+    "research/english_teacher_retention_20261117/TRAINING.json",
+    ".github/workflows/english-synthetic192-once.yml",
+    "automation/english_synthetic192_recipe.py",
+    "automation/english_synthetic192_once.py",
+    "automation/english_synthetic192_plan.json",
+    "automation/test_english_synthetic192.py",
+    "docs/ENGLISH_SYNTHETIC192_20261117.md"
   ],
   "baseline_files": [
     {
@@ -29952,6 +29958,65 @@
         }
       ],
       "rationale": "Preserve the actual 96-update teacher candidate, its one new development-background Mero event and independent rejection audit; retain coverage as the sole SDK selection with saved-byte reproducible packaging. No new execution workflow, rerun, threshold change, independent acoustic quality claim or SSC305 qualification."
+    },
+    {
+      "campaign": "english-synthetic192-source-20261117",
+      "source_commit": "affbfe84637f459d2a8d77570b6312bb4066dff1",
+      "base_commit": "980a689c32e401df373cc7813c478122bce647d4",
+      "previous_manifest_git_blob_sha1": "dcc250078b9b617588692185c894c0eda467e7d3",
+      "paths": [
+        ".github/workflows/english-synthetic192-once.yml",
+        "automation/english_synthetic192_recipe.py",
+        "automation/english_synthetic192_once.py",
+        "automation/english_synthetic192_plan.json",
+        "automation/test_english_synthetic192.py",
+        "docs/ENGLISH_SYNTHETIC192_20261117.md"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-synthetic192-once.yml",
+          "mode": "100644",
+          "bytes": 13664,
+          "sha256": "6f18a1b1705c4ac64fa37bdfd18ee4697add9b0254fca368cf1fe7fb51345291",
+          "git_blob_sha1": "3d86c0321393673ff609a65d35b077b8d5fd79b0"
+        },
+        {
+          "path": "automation/english_synthetic192_recipe.py",
+          "mode": "100644",
+          "bytes": 7416,
+          "sha256": "5007c3d3b66a05468ba590819d18aaec3ea8a0a3751184eb165eeb7c86e09f80",
+          "git_blob_sha1": "859c7af6c9ad33d28c02af95905b930132121b2d"
+        },
+        {
+          "path": "automation/english_synthetic192_once.py",
+          "mode": "100644",
+          "bytes": 31109,
+          "sha256": "dda0c623ea43f3d128ad3ebed74f3fd814c2dd1a1d0e6d236309c8d6b38a4d98",
+          "git_blob_sha1": "d96adbed7512a077163ff6ce8a26c9cf98fdeb49"
+        },
+        {
+          "path": "automation/english_synthetic192_plan.json",
+          "mode": "100644",
+          "bytes": 12082,
+          "sha256": "9c7cf536c9a8bc30040987025758c342ad31873e34bcc1e068bdc56665a507e1",
+          "git_blob_sha1": "ffd8b31b714557ac1650fc77c426d58bc76a0a3b"
+        },
+        {
+          "path": "automation/test_english_synthetic192.py",
+          "mode": "100644",
+          "bytes": 7312,
+          "sha256": "0f22ced10b28cd2f8eeefb05d107c82a708a3ad978d5d3c14b644522362c0919",
+          "git_blob_sha1": "c8f4c3b2b74a335cefd64f4d58b68c303bb7b0da"
+        },
+        {
+          "path": "docs/ENGLISH_SYNTHETIC192_20261117.md",
+          "mode": "100644",
+          "bytes": 8226,
+          "sha256": "38490f5e87213e6758c6b43e376adb1f4d66a308f2ca87526757bb7d4e65ce38",
+          "git_blob_sha1": "78a9a1173f67049d967eee522864689c1672463e"
+        }
+      ],
+      "rationale": "Preserve a disabled one-shot fresh-source synthetic English recipe, blind three-ASR plus independent XLSR observations, complete byte-bound intake and workflow. No new human recording prerequisite; actual model execution awaits an exact merged policy and new public-main predecessor."
     }
   ]
 }
