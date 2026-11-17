@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2272,
+  "expected_tracked_files": 2279,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -481,7 +481,14 @@
     "automation/english_quality_snr10_plan.json",
     "automation/test_english_quality_snr10_guards.py",
     "automation/test_english_quality_snr10_review.py",
-    "research/english_quality_snr10_20261117/README.md"
+    "research/english_quality_snr10_20261117/README.md",
+    ".github/workflows/english-quality-snr10-continue-once.yml",
+    "automation/english_quality_snr10_continue.py",
+    "automation/english_quality_snr10_continue_plan.json",
+    "automation/test_english_quality_snr10_continue_guards.py",
+    "automation/test_english_quality_snr10_continue_proof.py",
+    "automation/test_english_quality_snr10_continue_review.py",
+    "research/english_quality_snr10_20261117/SOURCE_RECOVERY.md"
   ],
   "baseline_files": [
     {
@@ -28006,6 +28013,73 @@
         }
       ],
       "rationale": "Bind six exact new source files for a public first-attempt main-successor experiment: reuse original 117 clean caches and selected 77 weak intent clips; add one fixed 10dB speech mixture per clip without source-role mixing, threshold changes, TTS or ASR; allow at most one train-triggered 96-update research head. Preserve all old paths, baseline files and retained entries. No model promotion or independent acoustic qualification."
+    },
+    {
+      "campaign": "english-snr10-zero-model-source-continuation-20261117",
+      "source_commit": "bd54b0aff534080807a663a71b8f14fa8e932fd6",
+      "base_commit": "b1b70a8a0ab08cdde87868788e8a18425c7e5cca",
+      "previous_manifest_git_blob_sha1": "798d5baccd99fcc549b938c3e370c84147e177ce",
+      "paths": [
+        ".github/workflows/english-quality-snr10-continue-once.yml",
+        "automation/english_quality_snr10_continue.py",
+        "automation/english_quality_snr10_continue_plan.json",
+        "automation/test_english_quality_snr10_continue_guards.py",
+        "automation/test_english_quality_snr10_continue_proof.py",
+        "automation/test_english_quality_snr10_continue_review.py",
+        "research/english_quality_snr10_20261117/SOURCE_RECOVERY.md"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-quality-snr10-continue-once.yml",
+          "mode": "100644",
+          "bytes": 3696,
+          "sha256": "b87d539cab7104cbfe2588253192f5c1c5e86a93f99d375bb194b84e12b6e163",
+          "git_blob_sha1": "2b839304cafcb461121b92e3737436d196637e25"
+        },
+        {
+          "path": "automation/english_quality_snr10_continue.py",
+          "mode": "100644",
+          "bytes": 56264,
+          "sha256": "1164043eb44ea109e4c97ea86a20754c18c171d3804f5b0f370d9ab6778544d2",
+          "git_blob_sha1": "38ea508485124bb7e5f558f1a9172b569432b15a"
+        },
+        {
+          "path": "automation/english_quality_snr10_continue_plan.json",
+          "mode": "100644",
+          "bytes": 2090,
+          "sha256": "c9d398028be951087a333dff6d44792bc9c64010df3664c575cf81e26eeb2c4e",
+          "git_blob_sha1": "5cf0dc033f330636b47c7b6d7fd0cf52f54d0fa1"
+        },
+        {
+          "path": "automation/test_english_quality_snr10_continue_guards.py",
+          "mode": "100644",
+          "bytes": 3982,
+          "sha256": "2468c45dd48ba00b7c1af5f38702007200a40ea233e5a93f290995e57e26baae",
+          "git_blob_sha1": "8e497c30a056c792b771b64bf04cb03bb4cbc59e"
+        },
+        {
+          "path": "automation/test_english_quality_snr10_continue_proof.py",
+          "mode": "100644",
+          "bytes": 21873,
+          "sha256": "c60ddd5ec2278dbd16fc23ecb6fcd90c1b889c71dddc1b08f9bdf08ba6c6eb0b",
+          "git_blob_sha1": "d40ffa0e0879f415ccc4ce7ca2e4476898398aa6"
+        },
+        {
+          "path": "automation/test_english_quality_snr10_continue_review.py",
+          "mode": "100644",
+          "bytes": 15211,
+          "sha256": "820ef8c2cc14fe51f3746f0be0fbe7af059b9ecb954e2a34453b0e28744072a0",
+          "git_blob_sha1": "1ce4903771097d24e2bd8a318c69c5f6b80f23d8"
+        },
+        {
+          "path": "research/english_quality_snr10_20261117/SOURCE_RECOVERY.md",
+          "mode": "100644",
+          "bytes": 3879,
+          "sha256": "11b3eb97d492109f5fb9c5e20d86b0f4fce11be468b46c1ec7f5791163d09147",
+          "git_blob_sha1": "74515d05c9cf34d2e2e07f3021f040e28b56bb86"
+        }
+      ],
+      "rationale": "Authenticate the consumed 14-member source-failure artifact before one official mirror acquisition and the first numerical execution of the unchanged fixed 10 dB research protocol; retain the original forty PCM tracks and all prior once source identities."
     }
   ]
 }
