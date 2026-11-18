@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2646,
+  "expected_tracked_files": 2650,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -855,7 +855,11 @@
     "automation/english_qwen17_two_phone_once.py",
     "automation/test_english_qwen17_probe_once.py",
     ".github/workflows/english-qwen17-clone-phone-once.yml",
-    "research/english_qwen17_clone_20261118/PROTOCOL.md"
+    "research/english_qwen17_clone_20261118/PROTOCOL.md",
+    "automation/english_melo_cmu_once.py",
+    "automation/test_english_melo_cmu_once.py",
+    ".github/workflows/english-melo-cmu-once.yml",
+    "research/english_melo_cmu_20261118/PROTOCOL.md"
   ],
   "baseline_files": [
     {
@@ -31879,6 +31883,19 @@
         "research/english_qwen17_clone_20261118/PROTOCOL.md"
       ],
       "rationale": "Actual 1.7B Base Qwen3 TTS eight-clip short-brand pronunciation challenge using exactly two preselected original train-only synthetic donor refs. Separate 16 actual unconditioned XLSR/LV60 CTC forwards with all entire logit arrays retained; zero old PCM replay, no test-set source selection, no training admission without distinct 6/2/2/2 source groups and 3-ASR."
+    },
+    {
+      "campaign": "english-melo-exact-cmu-g2p-25-20261118",
+      "source_commit": "e1aa802e00a82e2a9194ba80edd0b4b3d6d0b997",
+      "base_commit": "44fecc89d0c1207dee480161d2ef7c7175ac4ac2",
+      "previous_manifest_git_blob_sha1": "eea4cc47bd751a1fad2b84a7ba2bd15b5482d88c",
+      "paths": [
+        "automation/english_melo_cmu_once.py",
+        "automation/test_english_melo_cmu_once.py",
+        ".github/workflows/english-melo-cmu-once.yml",
+        "research/english_melo_cmu_20261118/PROTOCOL.md"
+      ],
+      "rationale": "Prospective phoneme-explicit MIT/CPU upstream MeloTTS VITS English 25-clip brand and contrast experiment. CMU M EH1 R OW0 / V OW1 S AH0 N (Meero/Voz voiced contrasting controls) verified against upstream native G2P before inference; 5 synthetic style identities, no gold labels, no old Meero training replay, no Work/Codex or scheduled patrol. Strong Qwen3 1.7B eight-clip/16-phone experiment actually failed 0/8, not retried."
     }
   ]
 }
