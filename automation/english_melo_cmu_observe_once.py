@@ -16,6 +16,11 @@ import sys
 import urllib.request
 
 HERE=Path(__file__).resolve().parent
+# The verified existing ASR adapter imports sibling modules by their ordinary
+# names. -I removes the script directory from sys.path; restore only this
+# exact resolved, committed automation directory, never cwd/user paths.
+if str(HERE) not in sys.path:
+    sys.path.insert(0,str(HERE))
 ROOT=HERE.parent
 def load(name):
     spec=importlib.util.spec_from_file_location("melo_review_"+name,HERE/(name+".py"))
@@ -27,9 +32,24 @@ m=load("english_melo_cmu_once")
 p=load("english_hifi_phones_once")
 SCHEMA="english-melo-cmu-five-blind-observer-v1"
 REPO="jiying2007/kws-data"
-BEFORE="3078a463e6a75de2c78e36b4302c8697bcf12477"
+BEFORE="8d37825e8fd579bb9b83d1a118f080622aacf07d"
 SOURCE_RUN=44271169127
-SOURCE_COMMIT=BEFORE
+SOURCE_COMMIT="3078a463e6a75de2c78e36b4302c8697bcf12477"
+PRIOR_REVIEW_RUN=44274204197
+PRIOR_REVIEW_COMMIT=BEFORE
+RECOVER_PROVIDERS=("qwen","whisper","parakeet")
+PRIOR_ARTIFACTS={
+    "qwen":(14413149243,922,
+        "sha256:2abae4cb0f62bc44bea30a01c8f21bccefe74c2be15faee6a342527f6d5b95d5"),
+    "whisper":(14413807688,926,
+        "sha256:44b43351b2c758a6750c157ff9b59fd119b4cd072ce9fc0d900a91ea568c3885"),
+    "parakeet":(14412849452,927,
+        "sha256:5fd518a94a6d402c1286a832a0776495cf535f2e7033d783c2f2a16264f33c59"),
+    "xlsr":(14414251906,2384274,
+        "sha256:9fc2d149fcb00c5094fe34a5b43e0092cda48ec691f08ee20477ec0140c67bd3"),
+    "lv60":(14412894522,2380173,
+        "sha256:3cf77f2c0b9711f65ae1e53932d01a98d387b95cd0ffa9664618d1bc63e521fa")
+}
 ARTIFACT_ID=14411564380
 ARTIFACT_NAME="english-melo-cmu-source-44271169127"
 ARTIFACT_BYTES=651511
@@ -46,9 +66,14 @@ def source_check():
          len(m.planned())==25 and m.MAX_SYNTH==25,
          "ORIGINAL_SOURCE_CELLS_AND_NO_GENERATION")
     need(len(PROVIDERS)==5 and len(set(PROVIDERS))==5 and
-         SOURCE_COMMIT==BEFORE and ARTIFACT_ID>0 and
-         ARTIFACT_DIGEST.startswith("sha256:") and ARTIFACT_BYTES>0,
-         "FROZEN_FIVE_OBSERVERS_AND_SOURCE")
+         SOURCE_COMMIT=="3078a463e6a75de2c78e36b4302c8697bcf12477" and
+         BEFORE=="8d37825e8fd579bb9b83d1a118f080622aacf07d" and
+         PRIOR_REVIEW_RUN==44274204197 and
+         ARTIFACT_ID>0 and ARTIFACT_DIGEST.startswith("sha256:") and
+         ARTIFACT_BYTES>0 and
+         set(PRIOR_ARTIFACTS)==set(PROVIDERS) and
+         len({pin[0] for pin in PRIOR_ARTIFACTS.values()})==5,
+         "FROZEN_FIRST_REVIEW_AND_SOURCE")
     return {"status":"SOURCE_ONLY","source_run":SOURCE_RUN,
             "source_artifact_id":ARTIFACT_ID,"source_rows":25,
             "model_calls":0,"new_tts":0,"training_allowed":False}
@@ -79,6 +104,48 @@ def guard(env=None,event=None,parent=None):
     return {"commit":sha,"run_id":env["GITHUB_RUN_ID"],
             "source_run":SOURCE_RUN,"source_commit":SOURCE_COMMIT}
 
+def original_review_identity():
+    return {"commit":PRIOR_REVIEW_COMMIT,"run_id":str(PRIOR_REVIEW_RUN),
+            "source_run":SOURCE_RUN,"source_commit":SOURCE_COMMIT}
+
+def verify_prior_failed(root,provider):
+    """Only an authenticated zero-forward original failure can be resumed."""
+    need(provider in RECOVER_PROVIDERS,"ONLY_THREE_FAILED_ASR")
+    root=Path(root)
+    need(root.is_dir() and not root.is_symlink() and
+         {p.name for p in root.iterdir()}=={"STARTED.json","RESULT.json"} and
+         all(not p.is_symlink() for p in root.iterdir()),
+         "EXACT_ZERO_FORWARD_RECEIPT_FILES")
+    start=json.loads(c.read(root/"STARTED.json"))
+    result=json.loads(c.read(root/"RESULT.json"))
+    need(start.get("schema")==SCHEMA and
+         start.get("run")==original_review_identity() and
+         start.get("provider")==provider and
+         start.get("source_run")==SOURCE_RUN and
+         start.get("source_artifact_id")==ARTIFACT_ID and
+         start.get("denominator")==25 and
+         start.get("target_conditioned") is False and
+         start.get("training_allowed") is False,
+         "ORIGINAL_FIRST_REVIEW_STARTED_AND_NO_TRAINING")
+    need(result.get("schema")==SCHEMA and result.get("run")==original_review_identity() and
+         result.get("provider")==provider and
+         result.get("source_artifact_id")==ARTIFACT_ID and
+         result.get("status")=="INCOMPLETE_NO_RETRY" and
+         result.get("denominator")==25 and
+         result.get("attempted")==0 and result.get("complete")==0 and
+         result.get("missing_or_failed")==25 and result.get("rows")==[] and
+         result.get("new_tts_calls")==0 and result.get("new_asr_calls")==0 and
+         result.get("new_phone_calls")==0 and
+         result.get("initialization_error")==
+             "ModuleNotFoundError:No module named 'english_seven_voice_asr_once'" and
+         result.get("human_gold") is False and
+         result.get("training_allowed") is False,
+         "ORIGINAL_NATIVE_ASR_ZERO_FORWARD_OR_UNEXPECTED_FAILURE")
+    return {"status":"EXACT_ZERO_FORWARD_RECOVERY_AUTHENTICATED",
+            "provider":provider,"original_calls":0,
+            "original_run":PRIOR_REVIEW_RUN,
+            "prior_artifact_id":PRIOR_ARTIFACTS[provider][0]}
+
 def verify_remote(token):
     need(isinstance(token,str) and len(token)>=10,
          "READONLY_GITHUB_ACTIONS_TOKEN")
@@ -99,7 +166,25 @@ def verify_remote(token):
          value.get("workflow_run",{}).get("id")==SOURCE_RUN and
          value.get("workflow_run",{}).get("head_sha")==SOURCE_COMMIT,
          "EXACT_VERIFIED_SOURCE_ARTIFACT")
-    return {"artifact_id":ARTIFACT_ID,"digest":ARTIFACT_DIGEST}
+    observed={"source":{"artifact_id":ARTIFACT_ID,"digest":ARTIFACT_DIGEST}}
+    for provider,(artifact_id,size,digest) in PRIOR_ARTIFACTS.items():
+        request=urllib.request.Request(
+            f"https://api.github.com/repos/{REPO}/actions/artifacts/{artifact_id}",
+            headers={"Authorization":"Bearer "+token,
+                     "Accept":"application/vnd.github+json",
+                     "User-Agent":"melo-cmu-original-evidence-preservation"})
+        with urllib.request.urlopen(request,timeout=30) as response:
+            prior=json.loads(response.read(1000001))
+        need(prior.get("id")==artifact_id and
+             prior.get("name")=="english-melo-cmu-observer-"+provider and
+             prior.get("size_in_bytes")==size and
+             prior.get("digest")==digest and
+             prior.get("expired") is False and
+             prior.get("workflow_run",{}).get("id")==PRIOR_REVIEW_RUN and
+             prior.get("workflow_run",{}).get("head_sha")==PRIOR_REVIEW_COMMIT,
+             "EXACT_ORIGINAL_OBSERVER_ARTIFACT:"+provider)
+        observed[provider]={"artifact_id":artifact_id,"digest":digest}
+    return observed
 
 def source_rows(root):
     root=Path(root)
@@ -151,7 +236,7 @@ def model_id(provider):
     return observer.identity(provider)
 
 def run(provider,source,out):
-    need(provider in PROVIDERS,"PROVIDER_FIXED")
+    need(provider in RECOVER_PROVIDERS,"NO_REPLAY_OF_COMPLETED_PHONEME_OBSERVERS")
     identity=guard()
     rows=source_rows(source)
     root=Path(out)
@@ -278,18 +363,26 @@ def main():
     ap.add_argument("--guard",action="store_true")
     ap.add_argument("--verify-remote",action="store_true")
     ap.add_argument("--verify-source",action="store_true")
+    ap.add_argument("--verify-prior-failed",action="store_true")
+    ap.add_argument("--prior")
     ap.add_argument("--run",action="store_true")
     ap.add_argument("--provider",choices=PROVIDERS)
     ap.add_argument("--source")
     ap.add_argument("--output")
     a=ap.parse_args()
     need(sum(bool(x) for x in (a.source_check,a.guard,a.verify_remote,
-                               a.verify_source,a.run))==1,"ONE_MODE_ONLY")
+                               a.verify_source,a.verify_prior_failed,a.run))==1,
+         "ONE_MODE_ONLY")
     if a.source_check:print(json.dumps(source_check(),sort_keys=True));return
     if a.guard:print(json.dumps(guard(),sort_keys=True));return
     if a.verify_remote:
         guard()
         print(json.dumps(verify_remote(os.environ.get("GH_TOKEN"))))
+        return
+    if a.verify_prior_failed:
+        guard()
+        need(a.prior and a.provider,"FAILED_PRIOR_AND_PROVIDER_REQUIRED")
+        print(json.dumps(verify_prior_failed(a.prior,a.provider),sort_keys=True))
         return
     need(a.source,"SAVED_SOURCE_REQUIRED")
     if a.verify_source:
