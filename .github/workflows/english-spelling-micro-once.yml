@@ -1,0 +1,219 @@
+name: English orthographic-phonetic controlled TTS short-phrase micro once
+on:
+  pull_request:
+    paths:
+      - automation/english_spelling_micro_once.py
+      - automation/english_spelling_phones_once.py
+      - automation/test_english_spelling_micro.py
+      - .github/workflows/english-spelling-micro-once.yml
+      - research/english_spelling_micro_20261118/PROTOCOL.md
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-spelling-micro-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-spelling-micro-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261118'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify fixed alternate renderings, no old audio replay, retained files
+        run: |
+          set -euo pipefail
+          for flags in '' '-O' '-OO'; do
+            python3 -I -S -B $flags automation/english_spelling_micro_once.py --source-check
+            python3 -I -S -B $flags automation/english_spelling_phones_once.py --source-check
+            python3 -I -S -B $flags automation/test_english_spelling_micro.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  custom:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '18e520d4295a2f421268f93d7197155090e70c83'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Guard original 10-call main-only fixed research source
+        run: python3 -I -S -B automation/english_spelling_micro_once.py --guard
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install frozen Qwen3 0.6B CPU speech runtime
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/qwen-env"
+          "$RUNNER_TEMP/qwen-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' \
+            --extra-index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/qwen-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'qwen-tts==0.1.1' 'transformers==4.57.3'
+      - name: Generate eight distinctly rendered fixed new short phrases
+        timeout-minutes: 37
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=20s 2160s \
+            "$RUNNER_TEMP/qwen-env/bin/python" -I -B automation/english_spelling_micro_once.py \
+            --generate custom --output "$RUNNER_TEMP/spelling-custom"
+          python3 -I -S -B automation/english_spelling_micro_once.py \
+            --verify custom --source "$RUNNER_TEMP/spelling-custom"
+      - name: Retain entire new research waveform packet and partial failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-spelling-custom
+          path: ${{ runner.temp }}/spelling-custom/
+          retention-days: 30
+          if-no-files-found: warn
+  clone:
+    needs: [source-contract, custom]
+    if: >-
+      needs.custom.result == 'success' && github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '18e520d4295a2f421268f93d7197155090e70c83'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 53
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Authenticate previous synthetic reference evidence without model calls
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_spelling_micro_once.py --guard
+          python3 -I -S -B - <<'PYCODE'
+          import sys,os
+          sys.path.insert(0,"automation")
+          import english_hifi_phone_recovery as pinned
+          original=pinned.fetch_metadata(os.environ["GH_TOKEN"])
+          print("original source artifact",original["custom"]["artifact_id"])
+          PYCODE
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-hifi-micro-custom
+          run-id: 44251082652
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-custom
+      - name: Authenticate original Aiden reference and all six original PCM records
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_hifi_micro.py \
+            --verify custom --source "$RUNNER_TEMP/original-custom"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install frozen Qwen3 0.6B Base clone runtime
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/qwen-env"
+          "$RUNNER_TEMP/qwen-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' \
+            --extra-index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/qwen-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'qwen-tts==0.1.1' 'transformers==4.57.3'
+      - name: Clone the original reference and generate two never-before rendered strings
+        timeout-minutes: 35
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=20s 2040s \
+            "$RUNNER_TEMP/qwen-env/bin/python" -I -B automation/english_spelling_micro_once.py \
+            --generate clone --source "$RUNNER_TEMP/original-custom" \
+            --output "$RUNNER_TEMP/spelling-clone"
+          python3 -I -S -B automation/english_spelling_micro_once.py \
+            --verify clone --source "$RUNNER_TEMP/spelling-clone"
+      - name: Preserve actual clone waveform or failure evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-spelling-clone
+          path: ${{ runner.temp }}/spelling-clone/
+          retention-days: 30
+          if-no-files-found: warn
+  phones:
+    needs: [source-contract, custom, clone]
+    if: >-
+      needs.custom.result == 'success' && needs.clone.result == 'success' &&
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '18e520d4295a2f421268f93d7197155090e70c83'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-spelling-custom
+          path: ${{ runner.temp }}/spelling-custom
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-spelling-clone
+          path: ${{ runner.temp }}/spelling-clone
+      - name: Authenticate the entire ten-row experimental denominator before inference
+        run: |
+          python3 -I -S -B automation/english_spelling_micro_once.py --guard
+          python3 -I -S -B automation/english_spelling_micro_once.py \
+            --verify custom --source "$RUNNER_TEMP/spelling-custom"
+          python3 -I -S -B automation/english_spelling_micro_once.py \
+            --verify clone --source "$RUNNER_TEMP/spelling-clone"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install two unchanged independent phoneme models
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/phone-env"
+          "$RUNNER_TEMP/phone-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'torch==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/phone-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'transformers==4.46.3' 'numpy==1.26.4' 'huggingface-hub==0.36.2'
+      - name: Observe twenty unprompted full PCM phoneme outputs
+        timeout-minutes: 36
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=20s 2100s \
+            "$RUNNER_TEMP/phone-env/bin/python" -I -B automation/english_spelling_phones_once.py \
+            --custom "$RUNNER_TEMP/spelling-custom" \
+            --clone "$RUNNER_TEMP/spelling-clone" --output "$RUNNER_TEMP/spelling-phones"
+      - name: Retain raw independent phonemes and partial errors
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-spelling-phones
+          path: ${{ runner.temp }}/spelling-phones/
+          retention-days: 30
+          if-no-files-found: warn
