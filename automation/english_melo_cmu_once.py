@@ -24,7 +24,7 @@ def load(name):
 c=load("english_hifi_micro")
 SCHEMA="english-melo-cmu-native-phone-25-v1"
 REPOSITORY="jiying2007/kws-data"
-BEFORE="44fecc89d0c1207dee480161d2ef7c7175ac4ac2"
+BEFORE="6825df5dca362a411d2914579cff4ef01bc0bca6"
 UPSTREAM="myshell-ai/MeloTTS"
 UPSTREAM_SHA="209145371cff8fc3bd60d7be902ea69cbdb7965a"
 MODEL=("myshell-ai/MeloTTS-English",
@@ -213,6 +213,14 @@ def run(root):
         AutoModelForMaskedLM.from_pretrained=locked_bert
         os.environ["HF_HUB_OFFLINE"]="1"
         os.environ["TRANSFORMERS_OFFLINE"]="1"
+        import unidic_lite
+        # The English Melo frontend imports a Japanese MeCab tagger at import
+        # time. Pin its complete lite dictionary; do not fetch a giant
+        # unrelated Japanese dictionary or mutate the phoneme model.
+        mecabrc=Path(unidic_lite.DICDIR)/"mecabrc"
+        need(mecabrc.is_file() and mecabrc.stat().st_size>0,
+             "COMPLETE_PINNED_MECABRC_FOR_ENGLISH_MODULE_IMPORT")
+        os.environ["MECABRC"]=str(mecabrc)
         from melo.text import english
         locked=phones_are_locked(english)
         c.record(root/"PHONEME_INPUT_LOCK.json",{"schema":SCHEMA,
