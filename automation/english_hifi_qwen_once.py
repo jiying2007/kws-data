@@ -104,7 +104,7 @@ def main():
         need(version("qwen-tts")=="0.1.1","PIN_QWEN_PACKAGE")
         torch.set_num_threads(2)
         torch.set_num_interop_threads(1)
-        path,lock=model_lock(model_id,revision,root/"models-cache")
+        path,lock=model_lock(model_id,revision,Path(os.environ.get("RUNNER_TEMP","/tmp"))/"hifi-private-model-cache")
         lock.update(facts)
         c.record(root/"MODEL.json",lock)
         os.environ["HF_HUB_OFFLINE"]="1"
