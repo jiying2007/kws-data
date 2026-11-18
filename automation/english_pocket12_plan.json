@@ -1,0 +1,61 @@
+{
+  "automatic_expansion": false,
+  "campaign_id": "pocket12-native-short-v1",
+  "diagnostic_only": true,
+  "enabled": true,
+  "evaluate_code_sha256": "8e540833cc2b39a0de7bf9190bb64f697227a48dc769b6502cd8ca6e1e3bd95b",
+  "helper_sha256": {
+    "automation/english_blind_asr.py": "e232cb219cabcc3877366bc446e5180d203d43b094695dba18fddee9b584669e",
+    "automation/english_context64_policy_v2_reference.py": "fde516d9f1f2457cdb0047e8d8aee6a667c68fa6ea21f83d22f135e4bc9069da",
+    "automation/english_final_ipa_xlsr_once.py": "716928f7707fc662f62e59a988c0c264123be301abac4c23fe835bc09c052b3a",
+    "automation/english_ipa_qwen17_final_ipa_probe_once.py": "15207db7182e4cb6d85349059b4aff91e721c70e8782fe901d4893f55224be76",
+    "automation/english_kokoro_context32_mask_observe.py": "3f184bdeb7536f260b2d4e3ee77476d95590d05007ae251bcb93c51ce2be01af",
+    "automation/english_parakeet_real_once.py": "366cd278f570a37ce68dd20e47e2bee1422daaa109c693ac42ab4bd4c2418881",
+    "automation/english_qwen_asr_real_once.py": "14e8150ee76bf356fad0927e93d20981ccfaf32696beacf871810e26e8ff7990",
+    "automation/english_qwen_asr_sourcefix_once.py": "9a000ed25440980333f11c21eec879b1945d87fa9f3d5e1794fc7090fdc96417",
+    "automation/english_qwen_capture.py": "be99d27dcff84107feca42d648afa863863cd5c9a3ffffaa505d287c29b2104f",
+    "automation/english_qwen_real_once.py": "60e995b4cc39818b8795d8730f1eba81bc57a8bd7c778fc2df040b92f0bca95e",
+    "automation/english_seven_voice_asr_once.py": "17771ca272204771982dbdc8e959f7fd75838b6598e84f09ac5819d8e3c79184",
+    "automation/english_seven_voice_tts_once.py": "e9dcf10dd94909edc13bf65ebcc31b2f3df6bdc81ab1876c94cbe28ec936ad0e",
+    "automation/english_synthetic192_training_core.py": "0896d375f47318adbc42f63835cb85fc77441ae2472d9df8212dfca4dd7e62c0",
+    "automation/english_whisper_real_once.py": "0f455c46061c6e3e4da2eec781234875fe2f59f257f11bacea8105e951593b6d",
+    "automation/multilingual_campaign.py": "3cda7b79d1cf4e00f7b2a4aeff6c254f8b49d2adcf527a5ca51093ef60d1ef4f",
+    "kws_data_contract/__init__.py": "3b3c0ef178e7115b2206e895c19128603272c0d3ad8a22eade280d372f884608",
+    "kws_data_contract/identity.py": "7cb39db2c8fe07e6fada96735bae526c2f442775fc8e4786940add80abbba3e8",
+    "research/auto-tts-voice-clone-20261102/campaign.py": "55f07e3604ac72a6ff912f25dc86f706678c6bb7661714b3dec3c1646e8d766f",
+    "research/auto-tts-voice-clone-20261102/runner.py": "df3e8858e25f041ecbc1ef7f10e7b7715722ad7ad8a2f5e53f120c172d3d40c1"
+  },
+  "main_before": "c11c928d588806ba25c53772cdb762f27b2e8278",
+  "maximum_calls_per_observer": 12,
+  "maximum_total_model_calls": 60,
+  "native_tts_request_budget": 12,
+  "observer_code_sha256": "07b93e626b5e822b09869c0f06d2179140d938c1c795f97c2d286e112b2c0426",
+  "providers": [
+    "qwen",
+    "whisper",
+    "parakeet",
+    "phoneme"
+  ],
+  "recipe_sha256": "229e87f164d8fc366e9fdc2c2c085e90881a68d61858e77e357947969a1cfc49",
+  "repository": "jiying2007/kws-data",
+  "retry_count": 0,
+  "schema": "english-pocket12-plan-v1",
+  "source_code_sha256": "85c31ae3142ee37bae619042f803d8273e92dea09996f8c7f31abf817ace4f96",
+  "test_sha256": {
+    "automation/test_english_pocket12_evaluate.py": "8995452f60f83f7eec3e0312af31d25eba85d36000aa723a5655d7402130a9a1",
+    "automation/test_english_pocket12_generate.py": "b170910cd5a87eb8b3aaa4257e9876f868a52f88dcc04fc8f1544d214ec491be",
+    "automation/test_english_pocket12_observe.py": "e9ec0860abaff244f51ac69e3bd6661d7b45ccc32ea952b684aa48fca96e5d75",
+    "automation/test_english_pocket12_once.py": "3979f9bfc5b459476e16ac2b989fad137227215829f300cc2e01ddc8c7343acb"
+  },
+  "time_budget_seconds": {
+    "combine": 480,
+    "generation": 1140,
+    "initialization": 840,
+    "observation": 2040
+  },
+  "training_allowed": false,
+  "warmup_count": 0,
+  "worker_sha256": "743916ccb20f5a0a85d486e82504508972ea3621d511a355cfa454b4f3e27b38",
+  "workflow_path": ".github/workflows/english-pocket12-once.yml",
+  "workflow_sha256": "0b89b6576fec61d5574861c41878f56b6175344cfa81b12e2870000d9ece5df6"
+}
