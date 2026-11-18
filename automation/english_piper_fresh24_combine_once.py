@@ -339,14 +339,22 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument("--source-check",action="store_true")
     parser.add_argument("--combine",action="store_true")
+    parser.add_argument("--verify-prior-remote",action="store_true")
     parser.add_argument("--source")
     parser.add_argument("--prior")
     parser.add_argument("--observers")
     parser.add_argument("--output")
     opts=parser.parse_args()
-    need(opts.source_check!=opts.combine,"ONE_CLOSED_RESEARCH_STAGE")
+    need(sum(bool(x) for x in
+             (opts.source_check,opts.combine,opts.verify_prior_remote))==1,
+         "ONE_CLOSED_RESEARCH_STAGE")
     if opts.source_check:
         print(json.dumps(source_check(),sort_keys=True));return
+    if opts.verify_prior_remote:
+        import os
+        worker.guard()
+        print(json.dumps(verify_prior_remote(os.environ.get("GH_TOKEN")),sort_keys=True))
+        return
     need(all((opts.source,opts.prior,opts.observers,opts.output)),
          "ORIGINAL_SOURCE_AND_ALL_FIVE_OBSERVERS_REQUIRED")
     combine(opts.source,opts.prior,opts.observers,opts.output)
