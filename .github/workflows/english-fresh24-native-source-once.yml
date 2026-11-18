@@ -51,7 +51,7 @@ jobs:
       github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
       github.event.repository.private == false && github.ref == 'refs/heads/main' &&
       github.run_attempt == 1 &&
-      github.event.before == '9899bf3cd505abcc6c363efd4490cf84fcdfc89d'
+      github.event.before == 'dfbb95f003b3845439ccbe5e5eb4cb80e58e83f8'
     runs-on: ubuntu-24.04
     timeout-minutes: 76
     steps:
@@ -64,6 +64,26 @@ jobs:
         run: |
           set -euo pipefail
           python3 -I -S -B automation/english_fresh24_generate_once.py --guard
+      - name: Authenticate original failed source artifact before installing or generating audio
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_fresh24_generate_once.py --verify-zero-remote
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-fresh24-neutral-44287718379
+          run-id: 44287718379
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-fresh24-zero-forward
+      - name: Verify exact original two-file zero-forward failure, never duplicate old TTS
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_fresh24_generate_once.py \
+            --verify-zero-packet --input "$RUNNER_TEMP/original-fresh24-zero-forward"
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.12'
@@ -78,11 +98,14 @@ jobs:
           "$PIP" install $FLAGS 'torch==2.9.1+cpu' --index-url https://download.pytorch.org/whl/cpu
           "$PIP" install $FLAGS 'numpy==1.26.4' 'scipy==1.15.3' \
             'transformers==4.46.3' 'huggingface-hub==0.36.2' \
-            'misaki==0.9.4' 'loguru==0.7.3' 'spacy==3.7.5' \
+            'misaki[en]==0.9.4' 'num2words==0.5.12' \
+            'loguru==0.7.3' 'spacy==3.7.5' \
             'spacy-curated-transformers==0.2.2' 'attrs==25.3.0' \
             'click==8.3.1' 'typer==0.29.1' 'typer-slim==0.24.0'
-          "$PIP" install $FLAGS --no-deps 'kokoro==0.9.4'
+          "$PIP" install $FLAGS 'kokoro==0.9.4'
           "$RUNNER_TEMP/english-fresh-kokoro-env/bin/python" -m pip check
+          "$RUNNER_TEMP/english-fresh-kokoro-env/bin/python" -I -B -c \
+            'from kokoro import KModel; from misaki import en; import num2words; print("PINNED_ENGLISH_FRONTEND_IMPORT_OK")'
       - name: Execute exactly 48 real neutral native forwards for 24 fresh voice assets
         timeout-minutes: 52
         shell: bash
@@ -110,7 +133,7 @@ jobs:
       github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
       github.event.repository.private == false && github.ref == 'refs/heads/main' &&
       github.run_attempt == 1 &&
-      github.event.before == '9899bf3cd505abcc6c363efd4490cf84fcdfc89d'
+      github.event.before == 'dfbb95f003b3845439ccbe5e5eb4cb80e58e83f8'
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     steps:
