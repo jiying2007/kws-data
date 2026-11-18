@@ -77,10 +77,26 @@ def original_audio(pcm,wav,source):
 
 def select(data):
     source=json.loads(data["CORPUS_MANIFEST.json"])
+    admission=json.loads(data["ADMISSION.json"])
+    final=json.loads(data["RESULT.json"])
+    # The source manifest described prospective eligibility (True), but the
+    # *actual* frozen post-observation decision was a training STOP. Never
+    # rewrite the historic source's intent to invent a passing corpus.
     need(source.get("campaign_id")=="english-mero-meh-corpus-v1" and
          len(source.get("rows",[]))==144 and
-         source.get("training_allowed") is False,
-         "IMMUTABLE_HISTORICAL_REJECTED_CORPUS")
+         source.get("training_allowed") is True and
+         source.get("human_gold") is False,
+         "IMMUTABLE_ORIGINAL_PROSPECTIVE_SOURCE")
+    need(admission.get("campaign_id")==source["campaign_id"] and
+         admission.get("status")=="STOP_FRESH_CORPUS_COVERAGE" and
+         admission.get("training_allowed") is False and
+         admission.get("training_snapshot_allowed") is False and
+         admission.get("balanced_groups_by_role")=={
+             "train":0,"development":0,"calibration":0,"locked-test":0} and
+         admission.get("unknown_is_background") is False and
+         final.get("admission_status")==admission["status"] and
+         final.get("training_allowed") is False,
+         "IMMUTABLE_HISTORICAL_REJECTED_ADMISSION")
     index=defaultdict(dict)
     for row in source["rows"]:
         pid=row.get("preset_id");cell=row.get("cell_id")
