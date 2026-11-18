@@ -1,4 +1,4 @@
-name: Blind five-observer review of saved native English CMU Melo25 once
+name: Recover three zero-forward ASR and reuse saved dual-phone Melo25
 on:
   pull_request:
     paths:
@@ -49,12 +49,12 @@ jobs:
       github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
       github.event.repository.private == false && github.ref == 'refs/heads/main' &&
       github.run_attempt == 1 &&
-      github.event.before == '3078a463e6a75de2c78e36b4302c8697bcf12477'
+      github.event.before == '8d37825e8fd579bb9b83d1a118f080622aacf07d'
     strategy:
       fail-fast: false
-      max-parallel: 5
+      max-parallel: 3
       matrix:
-        provider: [qwen, whisper, parakeet, xlsr, lv60]
+        provider: [qwen, whisper, parakeet]
     runs-on: ubuntu-24.04
     timeout-minutes: 85
     steps:
@@ -83,6 +83,23 @@ jobs:
           set -euo pipefail
           python3 -I -S -B automation/english_melo_cmu_observe_once.py --verify-source \
             --source "$RUNNER_TEMP/original-melo25"
+      - name: Restore original zero-forward failed receipt for this exact ASR only
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-melo-cmu-observer-${{ matrix.provider }}
+          run-id: 44274204197
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-zero-forward
+      - name: Prove original native adapter failure occurred before any ASR forward
+        shell: bash
+        env:
+          PROVIDER: ${{ matrix.provider }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_melo_cmu_observe_once.py \
+            --verify-prior-failed --provider "$PROVIDER" \
+            --prior "$RUNNER_TEMP/original-zero-forward"
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.12'
@@ -141,7 +158,7 @@ jobs:
       github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
       github.event.repository.private == false && github.ref == 'refs/heads/main' &&
       github.run_attempt == 1 &&
-      github.event.before == '3078a463e6a75de2c78e36b4302c8697bcf12477'
+      github.event.before == '8d37825e8fd579bb9b83d1a118f080622aacf07d'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -149,8 +166,14 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 2
-      - name: Authenticate one exact source-locked public main review
-        run: python3 -I -S -B automation/english_melo_cmu_observe_once.py --guard
+      - name: Authenticate original input and saved successful phone artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_melo_cmu_observe_once.py --guard
+          python3 -I -S -B automation/english_melo_cmu_observe_once.py --verify-remote
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: english-melo-cmu-source-44271169127
@@ -158,6 +181,22 @@ jobs:
           repository: jiying2007/kws-data
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/original-melo25
+      - name: Restore original XLSR saved 25/25 phoneme forwards (never re-infer)
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-melo-cmu-observer-xlsr
+          run-id: 44274204197
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/blind-observers/english-melo-cmu-observer-xlsr
+      - name: Restore original LV60 saved 25/25 phoneme forwards (never re-infer)
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-melo-cmu-observer-lv60
+          run-id: 44274204197
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/blind-observers/english-melo-cmu-observer-lv60
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         continue-on-error: true
         with:

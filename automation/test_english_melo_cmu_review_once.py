@@ -1,6 +1,9 @@
 """Offline five-blind Melo source/label tests; no network, audio or model calls."""
 import importlib.util
+import json
 from pathlib import Path
+import sys
+import tempfile
 import unittest
 
 HERE=Path(__file__).resolve().parent
@@ -54,6 +57,51 @@ class FiveNativeReview(unittest.TestCase):
         event["repository"]["private"]=False
         with self.assertRaises(ValueError):
             worker.guard(env,event,"b"*40)
+
+    def test_isolated_python_can_locate_exact_committed_native_asr_adapter(self):
+        # Test invoked by CI with -I -S, -O, -OO; no numerical imports.
+        self.assertIn(str(worker.HERE),sys.path)
+        module=importlib.util.find_spec("english_seven_voice_asr_once")
+        self.assertIsNotNone(module)
+        self.assertEqual(Path(module.origin).resolve(),
+                         worker.HERE/"english_seven_voice_asr_once.py")
+        self.assertEqual(worker.SOURCE_COMMIT,
+                         "3078a463e6a75de2c78e36b4302c8697bcf12477")
+        self.assertEqual(worker.PRIOR_REVIEW_COMMIT,worker.BEFORE)
+
+    def test_only_failed_three_providers_are_restartable_and_receipt_bound(self):
+        self.assertEqual(set(worker.RECOVER_PROVIDERS),
+                         {"qwen","whisper","parakeet"})
+        self.assertEqual(set(worker.PRIOR_ARTIFACTS),set(worker.PROVIDERS))
+        self.assertEqual(worker.original_review_identity(),{
+            "commit":"8d37825e8fd579bb9b83d1a118f080622aacf07d",
+            "run_id":"44274204197",
+            "source_run":44271169127,
+            "source_commit":"3078a463e6a75de2c78e36b4302c8697bcf12477"})
+        with self.assertRaisesRegex(ValueError,"NO_REPLAY_OF_COMPLETED_PHONEME_OBSERVERS"):
+            worker.run("xlsr","/ignored","/ignored")
+        for provider in worker.RECOVER_PROVIDERS:
+            with tempfile.TemporaryDirectory() as t:
+                root=Path(t)
+                start={"schema":worker.SCHEMA,"run":worker.original_review_identity(),
+                       "provider":provider,"source_run":worker.SOURCE_RUN,
+                       "source_artifact_id":worker.ARTIFACT_ID,"denominator":25,
+                       "target_conditioned":False,"training_allowed":False}
+                result={"schema":worker.SCHEMA,"run":worker.original_review_identity(),
+                        "provider":provider,"source_artifact_id":worker.ARTIFACT_ID,
+                        "status":"INCOMPLETE_NO_RETRY","denominator":25,
+                        "attempted":0,"complete":0,"missing_or_failed":25,
+                        "rows":[],"new_tts_calls":0,"new_asr_calls":0,"new_phone_calls":0,
+                        "initialization_error":"ModuleNotFoundError:No module named 'english_seven_voice_asr_once'",
+                        "human_gold":False,"training_allowed":False}
+                worker.c.record(root/"STARTED.json",start)
+                worker.c.record(root/"RESULT.json",result)
+                self.assertEqual(worker.verify_prior_failed(root,provider)["original_calls"],0)
+                result["attempted"]=1
+                (root/"RESULT.json").write_text(json.dumps(result))
+                with self.assertRaisesRegex(ValueError,
+                        "ORIGINAL_NATIVE_ASR_ZERO_FORWARD_OR_UNEXPECTED_FAILURE"):
+                    worker.verify_prior_failed(root,provider)
 
     def test_canonical_positive_and_ordinary_machine_tiers(self):
         self.assertEqual(screen.one_decision(

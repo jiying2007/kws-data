@@ -39,6 +39,10 @@ def source_check():
 
 def observation_packet(root,provider,source_rows,review_run):
     root=Path(root)/("english-melo-cmu-observer-"+provider)
+    # The original phone forward results are immutable; only the three
+    # zero-forward ASR workers get new run identities. No 50-call replay.
+    expected_run=(worker.original_review_identity()
+                  if provider in ("xlsr","lv60") else review_run)
     ids={row["id"] for row in source_rows}
     if not (root/"RESULT.json").is_file():
         return {sid:None for sid in ids},{"provider":provider,
@@ -48,7 +52,7 @@ def observation_packet(root,provider,source_rows,review_run):
          result.get("provider")==provider and
          result.get("denominator")==25 and
          result.get("source_artifact_id")==worker.ARTIFACT_ID and
-         result.get("run")==review_run and
+         result.get("run")==expected_run and
          result.get("training_allowed") is False and
          result.get("human_gold") is False and
          result.get("new_tts_calls")==0,
@@ -132,6 +136,11 @@ def observation_packet(root,provider,source_rows,review_run):
          "ORIGINAL_OBSERVER_COMPLETENESS")
     return values,{"provider":provider,"status":result["status"],
         "complete":success,"denominator":25,
+        "actual_run_id":expected_run["run_id"],
+        "evidence_origin":"retained_50_phone_forwards" if provider in ("xlsr","lv60")
+                         else "new_only_zero_forward_asr",
+        "prior_artifact_id":worker.PRIOR_ARTIFACTS[provider][0]
+                             if provider in ("xlsr","lv60") else None,
         "original_reported_attempted":result["attempted"]}
 
 def one_decision(row,texts,phones):
@@ -230,6 +239,10 @@ def combine(source,observers,out):
         "review_run":review,
         "machine_review":result,
         "observer_reports":info,
+        "original_native_phone_review_run":worker.PRIOR_REVIEW_RUN,
+        "original_50_phone_forwards_reused":True,
+        "new_native_phone_forwards":0,
+        "original_three_asr_zero_forward_failures_authenticated":True,
         "all_five_native_observers_complete":complete,
         "prospective_rule":policy.SCHEMA,
         "old_prior_stops_unchanged":True,
