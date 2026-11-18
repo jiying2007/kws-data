@@ -24,7 +24,7 @@ def load(name):
 c=load("english_hifi_micro")
 SCHEMA="english-melo-cmu-native-phone-25-v1"
 REPOSITORY="jiying2007/kws-data"
-BEFORE="6825df5dca362a411d2914579cff4ef01bc0bca6"
+BEFORE="7b741becd1d73262e4eee74732cc22eef0eeb222"
 UPSTREAM="myshell-ai/MeloTTS"
 UPSTREAM_SHA="209145371cff8fc3bd60d7be902ea69cbdb7965a"
 MODEL=("myshell-ai/MeloTTS-English",
@@ -133,6 +133,64 @@ def phones_are_locked(english):
                         "matched_start_index":start}
     return evidence
 
+def english_only_frontend():
+    """Use the exact upstream Japanese distribute_phone function, not its
+    unrelated eager Japanese/Korean/French/Chinese tokenizer imports.
+
+    All non-English modules fail closed if accidentally invoked. The actual
+    English phonemes, BERT and acoustic weights are original and unmodified.
+    """
+    import ast
+    import importlib.util
+    import types
+    import hashlib
+    spec=importlib.util.find_spec("melo")
+    need(spec is not None and spec.origin,"OFFICIAL_PINNED_MELO_PACKAGE")
+    melo_root=Path(spec.origin).parent
+    japanese=melo_root/"text"/"japanese.py"
+    need(japanese.is_file() and japanese.stat().st_size<=100_000,
+         "PINNED_UPSTREAM_JAPANESE_HELPER_SOURCE")
+    raw=japanese.read_bytes()
+    gitsha=hashlib.sha1(
+        b"blob "+str(len(raw)).encode()+b"\x00"+raw).hexdigest()
+    need(gitsha=="ebbbd39888cd72a2f967e51917d5f5675e783896",
+         "EXACT_UPSTREAM_DISTRIBUTE_PHONE_CODE")
+    tree=ast.parse(raw.decode("utf-8"))
+    fn=[x for x in tree.body if isinstance(x,ast.FunctionDef)
+        and x.name=="distribute_phone"]
+    need(len(fn)==1 and len(fn[0].args.args)==2 and
+         [a.arg for a in fn[0].args.args]==["n_phone","n_word"],
+         "ONE_VERIFIED_UPSTREAM_HELPER")
+    local={}
+    exec(compile(ast.Module(body=fn,type_ignores=[]),
+                 "melo_original_distribute_phone","exec"),local)
+    function=local["distribute_phone"]
+    need(function(7,3)==[3,2,2] and function(5,2)==[3,2],
+         "UPSTREAM_ENGLISH_PHONE_DISTRIBUTION_PARITY")
+    def never_non_english(*args,**kwargs):
+        raise ValueError("ENGLISH_ONLY_FRONTEND_NEVER_OTHER_LANGUAGES")
+    blocked=("japanese","korean","chinese","chinese_mix","french","spanish")
+    for name in blocked:
+        stub=types.ModuleType("melo.text."+name)
+        stub.text_normalize=never_non_english
+        stub.g2p=never_non_english
+        stub.get_bert_feature=never_non_english
+        if name=="japanese":
+            stub.distribute_phone=function
+        need(stub.__name__ not in sys.modules,
+             "NONENGLISH_MODULE_PREIMPORT_NOT_ALLOWED")
+        sys.modules[stub.__name__]=stub
+    import melo.text as melo_text
+    def pinned_english_bert(text,word2ph,language,device):
+        need(language=="EN","ONLY_NATIVE_ENGLISH_BERT")
+        from melo.text.english_bert import get_bert_feature
+        return get_bert_feature(text,word2ph,device)
+    melo_text.get_bert=pinned_english_bert
+    return {"isolated_modules":list(blocked),
+            "upstream_japanese_git_blob_sha1":gitsha,
+            "upstream_function_source":"EXACT_PINNED_GIT_SOURCE",
+            "english_only":True}
+
 def readback(root):
     root=Path(root)
     manifest=json.loads(c.read(root/"MANIFEST.json"))
@@ -221,10 +279,12 @@ def run(root):
         need(mecabrc.is_file() and mecabrc.stat().st_size>0,
              "COMPLETE_PINNED_MECABRC_FOR_ENGLISH_MODULE_IMPORT")
         os.environ["MECABRC"]=str(mecabrc)
+        isolation=english_only_frontend()
         from melo.text import english
         locked=phones_are_locked(english)
         c.record(root/"PHONEME_INPUT_LOCK.json",{"schema":SCHEMA,
               "source_code_sha":UPSTREAM_SHA,
+              "language_frontend_isolation":isolation,
               "official_model_sha":MODEL[1],
               "official_weight_sha256":CHECKPOINT_SHA,
               "bert_sha":BERT[1],"input_phones":locked,
