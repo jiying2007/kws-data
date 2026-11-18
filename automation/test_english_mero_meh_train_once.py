@@ -180,13 +180,13 @@ class TrainingBoundaryTests(unittest.TestCase):
         w.source_preflight(plan)
         self.assertEqual(plan['enabled'], c.SOURCE_IDENTITY_CANDIDATE_ENABLED)
 
-    def test_numeric_ast_unchanged(self):
+    def test_canonical_numeric_ast_frozen_after_deliberate_legacy_removal(self):
         tree = ast.parse((ROOT/w.CORE_PATH).read_text())
         tree.body = [node for node in tree.body if not (isinstance(node, ast.Assign)
             and any(isinstance(t, ast.Name) and t.id in
                 {'SOURCE_IDENTITY_CANDIDATE_ENABLED', 'BOUND_INTAKE_BINDING_SHA256'} for t in node.targets))]
         self.assertEqual(hashlib.sha256(ast.dump(tree, include_attributes=False).encode()).hexdigest(),
-            '3314f05bf5d6927265b446c430374679a8264c54ebcd833e5eab1ea4b319ecd6')
+            'b1fdb598017b72f3ee9c4b12a6a44042015df6921b71ffb928351592a018ccf2')
 
     def test_actual_metadata_binding(self):
         pin = {'bytes': 15, 'sha256': 'a'*64}
@@ -214,6 +214,41 @@ class TrainingBoundaryTests(unittest.TestCase):
                 values = metadata(pin); values[index][field] = value
                 with self.assertRaises(ValueError):
                     b.validate_metadata(*values, pin, w.FRESH_SOURCE)
+
+
+    def test_canonical_head_drops_all_old_meero_training_bags(self):
+        self.assertEqual(c.RECIPE['warmstart'], 'NONE_SEEDED_FRESH_HEAD_CANONICAL_ONLY')
+        self.assertIs(c.RECIPE['old_meero_bag_training'], False)
+        self.assertIs(c.RECIPE['old_meero_model_selection'], False)
+        valid = [
+            {'origin': 'EXACT_REVIEWED_WINDOWS_ONLY', 'role': 'train',
+             'weak_class': 0, 'tier': 'owner-reviewed-negative'},
+            {'origin': 'NEW_SYNTHETIC_TRAIN', 'role': 'train', 'weak_class': 1,
+             'tier': 'silver', 'pronunciation_hypothesis': 'vosen-us-s-v1',
+             'matched_pronunciation_hypothesis': 'vosen-us-s-v1'},
+            {'origin': 'NEW_SYNTHETIC_TRAIN', 'role': 'train', 'weak_class': 2,
+             'tier': 'weak', 'pronunciation_hypothesis': 'mero-meh-us-v1',
+             'matched_pronunciation_hypothesis': 'mero-meh-us-v1'}]
+        self.assertEqual(c.validate_brand_training_bags(valid)['historical_weak_bags_in_optimizer'], 0)
+        for invalid in (
+            {'origin': 'ORIGINAL_TRAIN_REPLAY', 'role': 'train', 'weak_class': 2, 'tier': 'legacy-weak'},
+            {'origin': 'NEW_SYNTHETIC_TRAIN', 'role': 'train', 'weak_class': 2,
+             'tier': 'weak', 'pronunciation_hypothesis': 'mero-us-i-v1',
+             'matched_pronunciation_hypothesis': 'mero-us-i-v1'},
+            {'origin': 'NEW_SYNTHETIC_TRAIN', 'role': 'train', 'weak_class': 1,
+             'tier': 'silver', 'pronunciation_hypothesis': 'vosen-us-z-v1',
+             'matched_pronunciation_hypothesis': 'vosen-us-z-v1'}):
+            with self.subTest(origin=invalid['origin']), self.assertRaises(ValueError):
+                c.validate_brand_training_bags(valid + [invalid])
+
+    def test_canonical_bag_validation_does_not_infer_missing_positive(self):
+        valid = [{'origin': 'EXACT_REVIEWED_WINDOWS_ONLY', 'role': 'train',
+                  'weak_class': 0, 'tier': 'owner-reviewed-negative'},
+                 {'origin': 'NEW_SYNTHETIC_TRAIN', 'role': 'train', 'weak_class': 2,
+                  'tier': 'silver', 'pronunciation_hypothesis': 'mero-meh-us-v1',
+                  'matched_pronunciation_hypothesis': 'mero-meh-us-v1'}]
+        with self.assertRaisesRegex(ValueError, 'BOTH_CANONICAL_WAKE_WORDS_REQUIRED'):
+            c.validate_brand_training_bags(valid)
 
     def test_enable_only_disabled_copy(self):
         raw = b'SOURCE_IDENTITY_CANDIDATE_ENABLED = False\nBOUND_INTAKE_BINDING_SHA256 = None\n'
