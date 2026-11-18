@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2551,
+  "expected_tracked_files": 2563,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -296,6 +296,7 @@
     ".github/workflows/english-kokoro-context64-once.yml",
     ".github/workflows/english-kokoro48-once.yml",
     ".github/workflows/english-phonetic192-once.yml",
+    ".github/workflows/english-pocket12-once.yml",
     ".github/workflows/english-quality-snr10-continue-once.yml",
     ".github/workflows/english-quality-snr10-once.yml",
     ".github/workflows/english-snapshot160-frontend-once.yml",
@@ -376,6 +377,12 @@
     "automation/english_piper_v4_ipa_ctc_once.py",
     "automation/english_piper_v4_joint_review.py",
     "automation/english_piper_v4_probe_asr_once.py",
+    "automation/english_pocket12_evaluate.py",
+    "automation/english_pocket12_generate.py",
+    "automation/english_pocket12_observe.py",
+    "automation/english_pocket12_once.py",
+    "automation/english_pocket12_plan.json",
+    "automation/english_pocket12_recipe.json",
     "automation/english_quality_snr10_continue.py",
     "automation/english_quality_snr10_continue_plan.json",
     "automation/english_quality_snr10_once.py",
@@ -467,6 +474,10 @@
     "automation/test_english_piper_v4_ipa_ctc_once.py",
     "automation/test_english_piper_v4_joint_review.py",
     "automation/test_english_piper_v4_probe_asr_once.py",
+    "automation/test_english_pocket12_evaluate.py",
+    "automation/test_english_pocket12_generate.py",
+    "automation/test_english_pocket12_observe.py",
+    "automation/test_english_pocket12_once.py",
     "automation/test_english_quality_snr10_continue_guards.py",
     "automation/test_english_quality_snr10_continue_proof.py",
     "automation/test_english_quality_snr10_continue_review.py",
@@ -648,6 +659,7 @@
     "research/english_hardneg_natural32_retained_20261117/audit/audit_retained_source_failure.py",
     "research/english_piper_v4_joint_review_20261117/joint-review.csv",
     "research/english_piper_v4_joint_review_20261117/joint-review.json",
+    "research/english_pocket12_native_short_20261118/README.md",
     "research/english_quality_snr10_20261117/AUDIT_SUMMARY.json",
     "research/english_quality_snr10_20261117/PAIRED_REVIEW.json",
     "research/english_quality_snr10_20261117/README.md",
@@ -31113,6 +31125,113 @@
         }
       ],
       "rationale": "Retain the actual context64 stop after336 complete TTS/ASR/phone calls without re-admission or new KWS weights. Add disabled typed-source intake for future authenticated source groups, preserve heldout and UNKNOWN exclusion, and keep every consumed context probe permanently excluded. Add bounded source-only CI for37 standard-library fixtures while keeping archived Asset integrity bytes unchanged. Original core0896d3 numerical training,0.8/3/13 and10 quality gates remain unchanged. Preserve all2027 retained files."
+    },
+    {
+      "campaign": "english-pocket12-native-short-20261118",
+      "source_commit": "11b3eb8478596a54f510056ce7f2f855c7245f48",
+      "base_commit": "c11c928d588806ba25c53772cdb762f27b2e8278",
+      "previous_manifest_git_blob_sha1": "7f988d3e461c14646777e4c5a620b5be994eb893",
+      "paths": [
+        ".github/workflows/english-pocket12-once.yml",
+        "automation/english_pocket12_evaluate.py",
+        "automation/english_pocket12_generate.py",
+        "automation/english_pocket12_observe.py",
+        "automation/english_pocket12_once.py",
+        "automation/english_pocket12_plan.json",
+        "automation/english_pocket12_recipe.json",
+        "automation/test_english_pocket12_evaluate.py",
+        "automation/test_english_pocket12_generate.py",
+        "automation/test_english_pocket12_observe.py",
+        "automation/test_english_pocket12_once.py",
+        "research/english_pocket12_native_short_20261118/README.md"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-pocket12-once.yml",
+          "mode": "100644",
+          "bytes": 12076,
+          "sha256": "0b89b6576fec61d5574861c41878f56b6175344cfa81b12e2870000d9ece5df6",
+          "git_blob_sha1": "bf012848e2ece8804f454f17224f2158c565ddd1"
+        },
+        {
+          "path": "automation/english_pocket12_evaluate.py",
+          "mode": "100644",
+          "bytes": 14192,
+          "sha256": "8e540833cc2b39a0de7bf9190bb64f697227a48dc769b6502cd8ca6e1e3bd95b",
+          "git_blob_sha1": "75b1680f67c53ad54837877ff8529c17ab95ea29"
+        },
+        {
+          "path": "automation/english_pocket12_generate.py",
+          "mode": "100644",
+          "bytes": 34031,
+          "sha256": "85c31ae3142ee37bae619042f803d8273e92dea09996f8c7f31abf817ace4f96",
+          "git_blob_sha1": "936a3a4db8bb1a52e97921ace213b9657ffc7c09"
+        },
+        {
+          "path": "automation/english_pocket12_observe.py",
+          "mode": "100644",
+          "bytes": 28534,
+          "sha256": "07b93e626b5e822b09869c0f06d2179140d938c1c795f97c2d286e112b2c0426",
+          "git_blob_sha1": "67feda04491d570a81c8cbb9983349286c644d5e"
+        },
+        {
+          "path": "automation/english_pocket12_once.py",
+          "mode": "100644",
+          "bytes": 20264,
+          "sha256": "743916ccb20f5a0a85d486e82504508972ea3621d511a355cfa454b4f3e27b38",
+          "git_blob_sha1": "154b9e040c91cc2c82d7dd43c275c1a8e3cdf668"
+        },
+        {
+          "path": "automation/english_pocket12_plan.json",
+          "mode": "100644",
+          "bytes": 4008,
+          "sha256": "1679df5e6b88f42f6501fdeb80be4ded930b23fe84be13480173d103393eef9b",
+          "git_blob_sha1": "455f335288ff9b43314fdc4bac6e2349b8bb997a"
+        },
+        {
+          "path": "automation/english_pocket12_recipe.json",
+          "mode": "100644",
+          "bytes": 6765,
+          "sha256": "229e87f164d8fc366e9fdc2c2c085e90881a68d61858e77e357947969a1cfc49",
+          "git_blob_sha1": "fd3baaa7016fd10188f273d72b4d807a528b8120"
+        },
+        {
+          "path": "automation/test_english_pocket12_evaluate.py",
+          "mode": "100644",
+          "bytes": 5680,
+          "sha256": "8995452f60f83f7eec3e0312af31d25eba85d36000aa723a5655d7402130a9a1",
+          "git_blob_sha1": "4ec532daed7956c326ff73d8f855909776f0d1a1"
+        },
+        {
+          "path": "automation/test_english_pocket12_generate.py",
+          "mode": "100644",
+          "bytes": 6454,
+          "sha256": "b170910cd5a87eb8b3aaa4257e9876f868a52f88dcc04fc8f1544d214ec491be",
+          "git_blob_sha1": "d6d55ac3d09bbea0bf3d5520fdd100feb1b0a008"
+        },
+        {
+          "path": "automation/test_english_pocket12_observe.py",
+          "mode": "100644",
+          "bytes": 19529,
+          "sha256": "e9ec0860abaff244f51ac69e3bd6661d7b45ccc32ea952b684aa48fca96e5d75",
+          "git_blob_sha1": "51c25d667a3f7306a75f4c850148090c36a22c98"
+        },
+        {
+          "path": "automation/test_english_pocket12_once.py",
+          "mode": "100644",
+          "bytes": 12207,
+          "sha256": "3979f9bfc5b459476e16ac2b989fad137227215829f300cc2e01ddc8c7343acb",
+          "git_blob_sha1": "7235d814e1574ffd01bc3e1d220e9ecafe8202ba"
+        },
+        {
+          "path": "research/english_pocket12_native_short_20261118/README.md",
+          "mode": "100644",
+          "bytes": 5099,
+          "sha256": "932f89f19abf48d79dab79cc814aad820a1618003b7436a5ef836df63ddf1491",
+          "git_blob_sha1": "3b88ee3e0d575f59d5614fcfb9061f9c88952022"
+        }
+      ],
+      "rationale": "Evaluate a new synthetic source family after the complete context64 quality stop. Freeze twelve native whole-short Pocket TTS requests and four blind observations each, a maximum of 60 high-level calls on the exact first public main successor only, with no retry or automatic expansion. All probe rows remain permanently excluded from training. Preserve the frozen alias, phonetic and integer geometry policy and all 2,027 retained publication files. No new KWS weights or model promotion."
     }
   ]
 }

@@ -1,0 +1,220 @@
+{
+  "assets": [
+    {
+      "bytes": 100708,
+      "path": "pocket_tts-4.0.1-py3-none-any.whl",
+      "sha256": "a6baf5fd9195399a632d7ef1cb75d4ee772b8d3534c85b90164b39c687a69961",
+      "url": "https://files.pythonhosted.org/packages/6c/33/e95df6d67fac720836b8240cb2512a253c0e64da85b9c485df31aad0ce71/pocket_tts-4.0.1-py3-none-any.whl"
+    },
+    {
+      "bytes": 219029196,
+      "path": "model.safetensors",
+      "sha256": "4c56cbd171c63e8a26ea61f5d48b8a0cd8f3c51f4652c0ab9a19bfcced8c931d",
+      "url": "https://huggingface.co/kyutai/pocket-tts-without-voice-cloning/resolve/a7056f505a4a8ca72d8b5fb1440071d6f1a35739/languages/english/model.safetensors"
+    },
+    {
+      "bytes": 245020,
+      "path": "tokenizer.json",
+      "sha256": "f498428e1eafee50492f7be13dc9bfafcfc12e508cd0eb1b01c92ecd5d8c6687",
+      "url": "https://huggingface.co/kyutai/pocket-tts-without-voice-cloning/resolve/00eac05ed3d16bdc3f6b5d598874019c34a89214/languages/english/tokenizer.json"
+    },
+    {
+      "bytes": 5900088,
+      "path": "george.safetensors",
+      "sha256": "566330f66e20f95efd4fbea1e399e26dd84cf8e3ab1606e0114604e473dbc9fd",
+      "url": "https://huggingface.co/kyutai/pocket-tts-without-voice-cloning/resolve/a7056f505a4a8ca72d8b5fb1440071d6f1a35739/languages/english/embeddings/george.safetensors"
+    },
+    {
+      "bytes": 5949240,
+      "path": "mary.safetensors",
+      "sha256": "fc75f7c7cefa8c0b1957ac564037dfaac053dd067ceeffff27982f87314b5a35",
+      "url": "https://huggingface.co/kyutai/pocket-tts-without-voice-cloning/resolve/a7056f505a4a8ca72d8b5fb1440071d6f1a35739/languages/english/embeddings/mary.safetensors"
+    }
+  ],
+  "automatic_expansion": false,
+  "campaign_id": "pocket12-native-short-v1",
+  "config_sha256": "8d0995b68708db77558b1a385df1fca7fd2f3d240da7619f864a9d37a7154af6",
+  "diagnostic_only": true,
+  "max_native_samples": 720000,
+  "model_id": "kyutai/pocket-tts-without-voice-cloning",
+  "model_license": "CC-BY-4.0",
+  "model_revision": "a7056f505a4a8ca72d8b5fb1440071d6f1a35739",
+  "native_parameters": {
+    "append_terminal_punctuation": true,
+    "capitalize_first_letter": true,
+    "eos_threshold": -4.0,
+    "max_decoder_frames_per_call": 0,
+    "model_recommended_frames_after_eos": null,
+    "noise_clamp": null,
+    "pad_with_spaces_for_short_inputs": false,
+    "remove_semicolons": false,
+    "sampler_decode_steps": 1,
+    "temp": 0.3
+  },
+  "native_sample_rate": 24000,
+  "native_tts_request_budget": 12,
+  "observer_sample_rate": 16000,
+  "quantization": "rint(clip(float64_resampled*32768,-32768,32767)).astype(<i2)",
+  "request_parameters": {
+    "copy_state": true,
+    "frames_after_eos": null,
+    "max_tokens": 50
+  },
+  "resample": {
+    "cval": 0.0,
+    "down": 3,
+    "method": "scipy.signal.resample_poly",
+    "padtype": "constant",
+    "up": 2,
+    "window": [
+      "kaiser",
+      5.0
+    ]
+  },
+  "retry_count": 0,
+  "rows": [
+    {
+      "id": "george-mero",
+      "kind": "positive",
+      "requested_class": 2,
+      "requested_text": "Hey Mero.",
+      "seed": 121000,
+      "source_group_id": "vctk-speaker:315",
+      "voice_id": "george"
+    },
+    {
+      "id": "george-vosen",
+      "kind": "positive",
+      "requested_class": 1,
+      "requested_text": "Hey Vosen.",
+      "seed": 121001,
+      "source_group_id": "vctk-speaker:315",
+      "voice_id": "george"
+    },
+    {
+      "id": "george-marrow",
+      "kind": "contrast",
+      "requested_class": 0,
+      "requested_text": "Hey Marrow.",
+      "seed": 121002,
+      "source_group_id": "vctk-speaker:315",
+      "voice_id": "george"
+    },
+    {
+      "id": "george-bosen",
+      "kind": "contrast",
+      "requested_class": 0,
+      "requested_text": "Hey Bosen.",
+      "seed": 121003,
+      "source_group_id": "vctk-speaker:315",
+      "voice_id": "george"
+    },
+    {
+      "id": "george-hello",
+      "kind": "ordinary",
+      "requested_class": 0,
+      "requested_text": "Hello there.",
+      "seed": 121004,
+      "source_group_id": "vctk-speaker:315",
+      "voice_id": "george"
+    },
+    {
+      "id": "george-morning",
+      "kind": "ordinary",
+      "requested_class": 0,
+      "requested_text": "Good morning.",
+      "seed": 121005,
+      "source_group_id": "vctk-speaker:315",
+      "voice_id": "george"
+    },
+    {
+      "id": "mary-mero",
+      "kind": "positive",
+      "requested_class": 2,
+      "requested_text": "Hey Mero.",
+      "seed": 121006,
+      "source_group_id": "vctk-speaker:333",
+      "voice_id": "mary"
+    },
+    {
+      "id": "mary-vosen",
+      "kind": "positive",
+      "requested_class": 1,
+      "requested_text": "Hey Vosen.",
+      "seed": 121007,
+      "source_group_id": "vctk-speaker:333",
+      "voice_id": "mary"
+    },
+    {
+      "id": "mary-marrow",
+      "kind": "contrast",
+      "requested_class": 0,
+      "requested_text": "Hey Marrow.",
+      "seed": 121008,
+      "source_group_id": "vctk-speaker:333",
+      "voice_id": "mary"
+    },
+    {
+      "id": "mary-bosen",
+      "kind": "contrast",
+      "requested_class": 0,
+      "requested_text": "Hey Bosen.",
+      "seed": 121009,
+      "source_group_id": "vctk-speaker:333",
+      "voice_id": "mary"
+    },
+    {
+      "id": "mary-hello",
+      "kind": "ordinary",
+      "requested_class": 0,
+      "requested_text": "Hello there.",
+      "seed": 121010,
+      "source_group_id": "vctk-speaker:333",
+      "voice_id": "mary"
+    },
+    {
+      "id": "mary-morning",
+      "kind": "ordinary",
+      "requested_class": 0,
+      "requested_text": "Good morning.",
+      "seed": 121011,
+      "source_group_id": "vctk-speaker:333",
+      "voice_id": "mary"
+    }
+  ],
+  "runtime_versions": {
+    "PyYAML": "6.0.3",
+    "einops": "0.8.1",
+    "huggingface-hub": "0.36.2",
+    "numpy": "2.2.6",
+    "pocket-tts": "4.0.1",
+    "pydantic": "2.12.5",
+    "safetensors": "0.6.2",
+    "scipy": "1.15.3",
+    "sentencepiece": "0.2.1",
+    "tokenizers": "0.22.1",
+    "torch": "2.9.1+cpu"
+  },
+  "schema": "english-pocket12-recipe-v1",
+  "source_identity_scope": "documented_dataset_speaker_ids; no claim of accent or cross-corpus person independence",
+  "tokenizer_revision": "00eac05ed3d16bdc3f6b5d598874019c34a89214",
+  "training_allowed": false,
+  "voice_origins_revision": "323332d33f997de8394f24a193e1a76df720e01a",
+  "voices": [
+    {
+      "origin_uri": "hf://kyutai/tts-voices/vctk/p315_023_enhanced.wav",
+      "source_group_id": "vctk-speaker:315",
+      "source_license": "CC-BY-4.0",
+      "state_path": "george.safetensors",
+      "voice_id": "george"
+    },
+    {
+      "origin_uri": "hf://kyutai/tts-voices/vctk/p333_023_enhanced.wav",
+      "source_group_id": "vctk-speaker:333",
+      "source_license": "CC-BY-4.0",
+      "state_path": "mary.safetensors",
+      "voice_id": "mary"
+    }
+  ],
+  "warmup_count": 0
+}
