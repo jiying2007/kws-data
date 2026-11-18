@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2586,
+  "expected_tracked_files": 2606,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -295,7 +295,10 @@
     ".github/workflows/english-kokoro-context32-once.yml",
     ".github/workflows/english-kokoro-context64-once.yml",
     ".github/workflows/english-kokoro48-once.yml",
+    ".github/workflows/english-mero-meh-fullpcm-once.yml",
+    ".github/workflows/english-mero-meh-lv60-once.yml",
     ".github/workflows/english-mero-meh-once.yml",
+    ".github/workflows/english-mero-meh-train-once.yml",
     ".github/workflows/english-phonetic192-once.yml",
     ".github/workflows/english-pocket12-once.yml",
     ".github/workflows/english-quality-snr10-continue-once.yml",
@@ -317,6 +320,8 @@
     ".github/workflows/terminal144-training-once.yml",
     "EXCLUSION_EVIDENCE.json",
     "README.md",
+    "automation/bind_english_mero_meh_fullpcm.py",
+    "automation/bind_english_mero_meh_training.py",
     "automation/bind_english_synthetic192_fullpcm.py",
     "automation/english_context64_policy_v2_reference.py",
     "automation/english_coverage_fullpcm_once.py",
@@ -367,13 +372,21 @@
     "automation/english_kokoro_context64_phone.py",
     "automation/english_kokoro_context64_plan.json",
     "automation/english_kokoro_context64_recipe.py",
+    "automation/english_mero_meh_fullpcm_once.py",
+    "automation/english_mero_meh_fullpcm_plan.json",
     "automation/english_mero_meh_generate.py",
+    "automation/english_mero_meh_lv60_observe.py",
+    "automation/english_mero_meh_lv60_once.py",
+    "automation/english_mero_meh_lv60_plan.json",
     "automation/english_mero_meh_observe.py",
     "automation/english_mero_meh_once.py",
     "automation/english_mero_meh_plan.json",
     "automation/english_mero_meh_policy.py",
     "automation/english_mero_meh_profile_v1.json",
     "automation/english_mero_meh_recipe.py",
+    "automation/english_mero_meh_train_once.py",
+    "automation/english_mero_meh_train_plan.json",
+    "automation/english_mero_meh_training_core.py",
     "automation/english_phonetic192_once.py",
     "automation/english_phonetic192_plan.json",
     "automation/english_phonetic192_recipe.py",
@@ -473,9 +486,13 @@
     "automation/test_english_kokoro_context64_generate.py",
     "automation/test_english_kokoro_context64_once.py",
     "automation/test_english_kokoro_context64_phone.py",
+    "automation/test_english_mero_meh_fullpcm.py",
     "automation/test_english_mero_meh_generate.py",
+    "automation/test_english_mero_meh_lv60_observe.py",
+    "automation/test_english_mero_meh_lv60_once.py",
     "automation/test_english_mero_meh_once.py",
     "automation/test_english_mero_meh_policy.py",
+    "automation/test_english_mero_meh_train_once.py",
     "automation/test_english_phonetic192.py",
     "automation/test_english_piper_ipa_ctc_once.py",
     "automation/test_english_piper_probe_asr_once.py",
@@ -669,9 +686,12 @@
     "research/english_hardneg_natural32_retained_20261117/SUCCESSFUL_CORPUS_DOWNLOAD.json",
     "research/english_hardneg_natural32_retained_20261117/SUCCESSFUL_CORPUS_DOWNLOAD_EXIT.json",
     "research/english_hardneg_natural32_retained_20261117/audit/audit_retained_source_failure.py",
+    "research/english_mero_meh_20261118/ACTUAL_44218734553.json",
+    "research/english_mero_meh_20261118/ACTUAL_44218734553.md",
     "research/english_mero_meh_20261118/DATA_CONTRACT.md",
     "research/english_mero_meh_20261118/KOKORO_VOICES_TREE.json",
     "research/english_mero_meh_20261118/KOKORO_VOICES_UPSTREAM.md",
+    "research/english_mero_meh_20261118/LV60_DIAGNOSTIC_CONTRACT.md",
     "research/english_mero_meh_20261118/PRONUNCIATION.md",
     "research/english_mero_meh_20261118/ZERO_CALL_44217669152.json",
     "research/english_piper_v4_joint_review_20261117/joint-review.csv",
@@ -31523,6 +31543,177 @@
         }
       ],
       "rationale": "Actual run 44217669152 completed the public identity guard and saved its exact run/commit JSON, then the non-model CLI exit expression raised int(None). GitHub final jobs prove installation/generation skipped and observers/combine skipped. The only original artifact is the 259-byte guard JSON ZIP, independently downloaded and SHA-verified. Correct only the boolean exit predicate and add three actual main(argv) regression tests, each reproducing the bug before the fix. Keep all 144 request identities, recipe, model assets, pronunciation policy, call budget and old exclusions unchanged. Bind one new main successor with the saved zero-call evidence; never rerun the consumed workflow and do not regenerate any audio."
+    },
+    {
+      "campaign": "english-mero-meh-actual-outcome-and-lv60-diagnostic-20261118",
+      "source_commit": "31ebcff8ed5306f52be5547fc3a9053ba8dba821",
+      "base_commit": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+      "previous_manifest_git_blob_sha1": "bbad3f3bb35c627255d9f1dc25fee2d58ebb95cf",
+      "paths": [
+        "automation/english_mero_meh_lv60_once.py",
+        "automation/english_mero_meh_lv60_observe.py",
+        "automation/english_mero_meh_lv60_plan.json",
+        "automation/test_english_mero_meh_lv60_once.py",
+        "automation/test_english_mero_meh_lv60_observe.py",
+        ".github/workflows/english-mero-meh-lv60-once.yml",
+        "research/english_mero_meh_20261118/LV60_DIAGNOSTIC_CONTRACT.md",
+        "research/english_mero_meh_20261118/ACTUAL_44218734553.json",
+        "research/english_mero_meh_20261118/ACTUAL_44218734553.md",
+        "automation/english_mero_meh_train_once.py",
+        "automation/english_mero_meh_training_core.py",
+        "automation/english_mero_meh_train_plan.json",
+        "automation/test_english_mero_meh_train_once.py",
+        "automation/bind_english_mero_meh_training.py",
+        ".github/workflows/english-mero-meh-train-once.yml",
+        "automation/english_mero_meh_fullpcm_once.py",
+        "automation/bind_english_mero_meh_fullpcm.py",
+        "automation/english_mero_meh_fullpcm_plan.json",
+        "automation/test_english_mero_meh_fullpcm.py",
+        ".github/workflows/english-mero-meh-fullpcm-once.yml"
+      ],
+      "files": [
+        {
+          "path": "automation/english_mero_meh_lv60_once.py",
+          "mode": "100644",
+          "bytes": 22004,
+          "sha256": "372ae3d77d8fde141b58f24470d3ad6ff5028295141c63ca27dd3da12f002d85",
+          "git_blob_sha1": "ecc04a5e4daf7e12e48d89f8d5ef88511209d92e"
+        },
+        {
+          "path": "automation/english_mero_meh_lv60_observe.py",
+          "mode": "100644",
+          "bytes": 25084,
+          "sha256": "18c9a26dff79cef2b8e57cd6f2313289260369a2f368366ca6538c1333bc214a",
+          "git_blob_sha1": "a54c06645c2377e2bf7b806167257b69911b9f5c"
+        },
+        {
+          "path": "automation/english_mero_meh_lv60_plan.json",
+          "mode": "100644",
+          "bytes": 31095,
+          "sha256": "b5faffdf9f27d3aa5698e89cd93842e6261b669601863a6bd5d7187502c56062",
+          "git_blob_sha1": "bf6852bf5ee1f0f629978a26009c3ae9d017045a"
+        },
+        {
+          "path": "automation/test_english_mero_meh_lv60_once.py",
+          "mode": "100644",
+          "bytes": 15346,
+          "sha256": "8d3e21957cdd1ea1aeeb4abdac75979786316191e067dbd30d83c1fad9d5defc",
+          "git_blob_sha1": "84b19d1bb910388ebdf0f00b0974d83ec1f425ff"
+        },
+        {
+          "path": "automation/test_english_mero_meh_lv60_observe.py",
+          "mode": "100644",
+          "bytes": 14995,
+          "sha256": "5d6c3fea59c8033713708ddcf1c2ed9a4f868b74a17bbd86b9df1753cbe41a03",
+          "git_blob_sha1": "f302b39565f8c39bf2511c67b4ebf89b3fed511f"
+        },
+        {
+          "path": ".github/workflows/english-mero-meh-lv60-once.yml",
+          "mode": "100644",
+          "bytes": 5515,
+          "sha256": "7d3bc3697d4ea249a3bd098ac981d3141611f4934bce94823fbbafb428092c5f",
+          "git_blob_sha1": "04435079a557b1701c3f7ee20d7c8c0821a2f19a"
+        },
+        {
+          "path": "research/english_mero_meh_20261118/LV60_DIAGNOSTIC_CONTRACT.md",
+          "mode": "100644",
+          "bytes": 4782,
+          "sha256": "1a2947b93fccd5bdbbca3caed70121a7240614878a34617368e87b712e3ac68f",
+          "git_blob_sha1": "b11dfbec8e8ad0d3d2a9a49bbcdb4cfe26cdfb04"
+        },
+        {
+          "path": "research/english_mero_meh_20261118/ACTUAL_44218734553.json",
+          "mode": "100644",
+          "bytes": 24048,
+          "sha256": "8aa982bb311ef596450b103af0f39a105b53fc28de1edfe717791b0ff8150add",
+          "git_blob_sha1": "ab41013b535e4aeba6fa6c7686ac903738c49a1a"
+        },
+        {
+          "path": "research/english_mero_meh_20261118/ACTUAL_44218734553.md",
+          "mode": "100644",
+          "bytes": 7220,
+          "sha256": "ee01c5c03e27ac0f319f41f6ecb73e84653dde6d345bb4beb0bcbc23cb0ff185",
+          "git_blob_sha1": "89cf1e36eb0c7f088fb706d741d2963daecce05c"
+        },
+        {
+          "path": "automation/english_mero_meh_train_once.py",
+          "mode": "100644",
+          "bytes": 39359,
+          "sha256": "1943455c86c6a901945aa81fd7437949a01a55740d6c921c8dab897c84424ac9",
+          "git_blob_sha1": "74b33a2355329e8f226b2a4d3d6a92ab60f674e1"
+        },
+        {
+          "path": "automation/english_mero_meh_training_core.py",
+          "mode": "100644",
+          "bytes": 45834,
+          "sha256": "2f6b78e0a9ade62f97e894b9ef855d7d25b2a5473cfe472456d4add303e4f0b4",
+          "git_blob_sha1": "f2448c242cc96ce3e228d5185b154c788992f77d"
+        },
+        {
+          "path": "automation/english_mero_meh_train_plan.json",
+          "mode": "100644",
+          "bytes": 5295,
+          "sha256": "b750559aab6d5df8839a0ad41d490b588642aa22fca12347433b5b42ab6b1865",
+          "git_blob_sha1": "0353385a2761c50b6caf3c28004c1d7878f81fc7"
+        },
+        {
+          "path": "automation/test_english_mero_meh_train_once.py",
+          "mode": "100644",
+          "bytes": 19436,
+          "sha256": "c36cb0c50a813baeb746dfbbee276a3b4c5569e14118e93844fbec6dd92609b8",
+          "git_blob_sha1": "1e709c4a20ff5e9c3b4c731fcd53d173db4e52e5"
+        },
+        {
+          "path": "automation/bind_english_mero_meh_training.py",
+          "mode": "100644",
+          "bytes": 11235,
+          "sha256": "25d15e762c845e70e0635b9d1e2016720149d6d519aada1464f7f2de426e6bcd",
+          "git_blob_sha1": "e77767b47cf279399dae9cc4a3868213dce1af22"
+        },
+        {
+          "path": ".github/workflows/english-mero-meh-train-once.yml",
+          "mode": "100644",
+          "bytes": 3215,
+          "sha256": "32273986cfed4afcd22103dcc4afdd1da1f1bee0437aa4d5af89c6f18a309ec3",
+          "git_blob_sha1": "0532fd89887d231a5428a9492e5372aed44c5674"
+        },
+        {
+          "path": "automation/english_mero_meh_fullpcm_once.py",
+          "mode": "100644",
+          "bytes": 8377,
+          "sha256": "d75796f81ff74f8aaf93b3aa364c3ea4df743bed8904c63137003f0aa07a832a",
+          "git_blob_sha1": "90b781d5260809dca11d13332ce923884e8acb8a"
+        },
+        {
+          "path": "automation/bind_english_mero_meh_fullpcm.py",
+          "mode": "100644",
+          "bytes": 3006,
+          "sha256": "a910a21fd3d5cc54514d01ecd8e23344c54caf464421952b4e3a445840a19203",
+          "git_blob_sha1": "f6ca78c063f8c188c436fdd2f2582ec2d7860f0d"
+        },
+        {
+          "path": "automation/english_mero_meh_fullpcm_plan.json",
+          "mode": "100644",
+          "bytes": 3302,
+          "sha256": "e2c123c74b101e0fbeaed4425f57a980780c0e531d156d41726d171dc4400551",
+          "git_blob_sha1": "a27baa5a3ea9816395500a9a936374cbbec5adda"
+        },
+        {
+          "path": "automation/test_english_mero_meh_fullpcm.py",
+          "mode": "100644",
+          "bytes": 12132,
+          "sha256": "3f0d2d45e709be581324ae8b6246ed3d0dda17c333e9b36c60d804d1c842b75b",
+          "git_blob_sha1": "a365ea0e78c97cfdda855bfa201916087291144a"
+        },
+        {
+          "path": ".github/workflows/english-mero-meh-fullpcm-once.yml",
+          "mode": "100644",
+          "bytes": 3873,
+          "sha256": "5370764cf005301054f7b338d1b0906340ee4bca36950975af0728c53da8c5e6",
+          "git_blob_sha1": "30092352c4dceae8118a1480a81cad373f38e265"
+        }
+      ],
+      "rationale": "Retain the actual 144 synthesis plus 576 observer requests from run 44218734553 and its original STOP_FRESH_CORPUS_COVERAGE result: 71 content-supported rows, 67 content-plus-geometry rows, zero final admitted rows and zero training runs. Preregister one distinct 24-call LV60 diagnostic on exact saved complete PCM, with terminal-GOAT, medial-GOAT and door controls, no TTS, no retries and no change to original labels or policy. Bind only the next public main successor. Also retain the already tested training and C/ARM replay adapters disabled and unbound; their presence claims no candidate, training result, accuracy improvement or SSC305 qualification. All existing tracked files other than this integration registry, all retained bytes and all historical outcomes remain unchanged."
     }
   ]
 }
