@@ -1,0 +1,92 @@
+{
+  "profile_id": "english_mero_meh_v1",
+  "selected_on": "2026-11-18",
+  "selection_basis": "Brand pronunciation selected under the user's authorization to proceed with the recommended pronunciation; not an empirical claim about spontaneous English readings.",
+  "keywords": {
+    "hey_mero": {
+      "canonical_phrase": "Hey Mero",
+      "canonical_ipa": "heɪ ˈmɛroʊ",
+      "brand_ipa": "ˈmɛroʊ",
+      "brand_syllables": 2,
+      "brand_primary_stress_syllable": 1,
+      "pronunciation_hint": "HEY MEH-roh"
+    },
+    "hey_vosen": {
+      "canonical_phrase": "Hey Vosen",
+      "canonical_ipa": "heɪ ˈvoʊsən",
+      "brand_ipa": "ˈvoʊsən",
+      "brand_syllables": 2,
+      "brand_primary_stress_syllable": 1,
+      "medial_consonant_target": "s; z is not an additional positive target",
+      "selection_status": "unchanged"
+    }
+  },
+  "transcription_equivalence": {
+    "mero_first_vowel": ["ɛ", "e"],
+    "scope": "Notation equivalence only when e represents the DRESS/head vowel, as in Cambridge's transcription; not a blanket acoustic or token substitution.",
+    "does_not_imply": "Acceptance of eɪ, æ, ɪ or iː as additional first-vowel targets, or replacement of final oʊ with ɔ, ʌ or ə."
+  },
+  "future_variants": [
+    {
+      "phrase_ipa": "heɪ ˈmɛrəʊ",
+      "description": "British-style GOAT vowel əʊ in the final syllable.",
+      "status": "future_support_candidate",
+      "include_in_current_primary_training": false
+    }
+  ],
+  "excluded_positive_pronunciations": {
+    "brand_ipa": ["ˈmɪroʊ", "ˈmiːroʊ", "ˈmɪəroʊ"],
+    "scope": "Do not mix the MEER-oh family into this profile's primary positive class; exclusion from positives is not automatic assignment as a strict negative."
+  },
+  "collision_policy": {
+    "strict_negative_allowed": false,
+    "include_in_strict_false_positive_metrics": false,
+    "handling": "Keep phonetic collisions or unresolved name pronunciations separate from strict negatives; inspect actual audio rather than infer separation from spelling.",
+    "examples": [
+      {
+        "phrase": "Hey Marrow",
+        "basis": "Cambridge lists US marrow as ˈmer.oʊ; the selected Mero target can be homophonous."
+      },
+      {
+        "phrase": "Hey Merrow",
+        "basis": "Potential name/spelling collision; no universal pronunciation for this name is asserted."
+      },
+      {
+        "phrase": "Hay Marrow",
+        "basis": "Cambridge lists both hay and hey as heɪ, in addition to the US marrow overlap."
+      }
+    ],
+    "limitation": "An acoustic-only model cannot reliably distinguish identical pronunciations solely by their intended spellings."
+  },
+  "historical_probe_policy": {
+    "scope": "Pre-profile exploratory Mero pronunciation probes",
+    "status": "excluded",
+    "retroactive_reclassification": false,
+    "use_for_training_or_threshold_tuning": false,
+    "interpretation": "Retain earlier outcomes under their original contracts. Failure of a marrow-æ control does not establish an unnatural pronunciation. Prior recognizer outputs do not redefine this profile."
+  },
+  "scope": {
+    "current": "Primary US-oriented English pronunciation contract and fresh model-quality work.",
+    "new_human_recording_required_to_start": false,
+    "evidence_limit": "No spontaneous-user pronunciation frequency, human-validated naturalness, or model-quality improvement is claimed.",
+    "implementation_boundary": "Declarative pronunciation guidance only; admission rules and synthesis details are defined separately. Text spelling equivalences do not authorize additional acoustic positive variants."
+  },
+  "sources": [
+    {
+      "url": "https://dictionary.cambridge.org/pronunciation/english/marrow",
+      "supports": "US ˈmer.oʊ; e is illustrated by head; UK ˈmær.əʊ."
+    },
+    {
+      "url": "https://www.ling.upenn.edu/~wlabov/L165/ANAE2.pdf",
+      "supports": "Mary/marry/merry are fully merged for the majority of North American speakers; dialect differences remain."
+    },
+    {
+      "url": "https://dictionary.cambridge.org/pronunciation/english/hey",
+      "supports": "Hey is heɪ."
+    },
+    {
+      "url": "https://dictionary.cambridge.org/pronunciation/english/hay",
+      "supports": "Hay is heɪ."
+    }
+  ]
+}
