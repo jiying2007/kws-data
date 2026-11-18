@@ -153,6 +153,32 @@ def ctc_sequence_logp(frames, vocab, phones, *, pad_token_id=0):
     return _logadd(dp[-1], dp[-2] if len(dp) > 1 else -math.inf)
 
 
+def greedy_full_wake(raw, vocab, *, pad_token_id=0):
+    """Conservative whole-utterance phoneme veto for ordinary negative labels."""
+    size=len(vocab)
+    need(type(raw) is bytes and len(raw)%(4*size)==0 and
+         len(raw)>0 and len(raw)<=40*1024*1024 and
+         type(pad_token_id) is int and pad_token_id==0,
+         "FULL_PCM_PHONE_VETO_INPUT")
+    inverse={v:k for k,v in vocab.items()}
+    need(len(inverse)==size,"UNIQUE_NATIVE_PHONE_VOCAB")
+    last=None
+    decoded=[]
+    for frame in struct.iter_unpack("<"+"f"*size,raw):
+        need(all(math.isfinite(x) for x in frame),
+             "FINITE_PHONE_VETO_LOGITS")
+        ident=max(range(size),key=frame.__getitem__)
+        if ident!=last and ident!=pad_token_id:
+            decoded.append(inverse[ident])
+        last=ident
+    phones="".join(decoded)
+    phones=re.sub(r"[\sˈˌːˑ͜͡]","",phones)
+    phones=phones.replace("ɹ","r").replace("ɾ","r")
+    mero=re.fullmatch(r"h?eɪmɛr(?:oʊ|o|ɔ)",phones)
+    vosen=re.fullmatch(r"h?eɪv(?:oʊ|o|oː)s[əɐʌ]n",phones)
+    return bool(mero or vosen)
+
+
 def margin(frames, vocab, kind):
     positive, contrast = paths(kind)
     def highest(candidates):
@@ -212,7 +238,10 @@ def decide(row, transcripts, phone_evidence):
         any_wake = any(text in ASR_ALIASES[1] | ASR_ALIASES[2] or
             text.startswith(("hey ", "hay ")) for text in normalized.values())
         votes = sum(x in ORDINARY for x in normalized.values())
-        if any_wake or votes < 2:
+        if any_wake or votes < 2 or any(
+            greedy_full_wake(phone_evidence[name]["logits"],
+                             phone_evidence[name]["vocab"])
+            for name in PHONE_MODELS):
             return {"tier":"unknown","class":None,
                     "reason":"ORDINARY_NEGATIVE_NOT_INDEPENDENTLY_CONFIRMED",
                     "margins":{}, "training_allowed":False}
