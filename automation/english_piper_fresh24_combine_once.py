@@ -251,8 +251,8 @@ def evaluate(rows,texts_by_id,phones_by_id,prior_counts):
     latest=Counter(source_roles[g] for g in complete)
     extra={role:latest[role] for role in ("train","development","locked-test")}
     need(prior_counts==FROZEN_PRIOR_GROUPS and
-         not set(source_roles).intersection(
-            {"kokoro-v1_0-preset:"+x for x in worker.source_worker.protocol()["groups"]}),
+         {row["speaker_index"] for row in rows}==set(range(400,424)) and
+         all(g.startswith("piper-libritts-p") for g in source_roles),
          "NO_REASSIGNMENT_OR_PREVIOUS_SOURCE_MIX")
     total={r:prior_counts[r]+latest[r] for r in policy.MIN_QUALIFIED}
     allowed=all(total[r]>=policy.MIN_QUALIFIED[r] for r in policy.MIN_QUALIFIED)
