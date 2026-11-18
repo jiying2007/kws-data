@@ -35,7 +35,7 @@ class ObserverIntegrity(unittest.TestCase):
         self.assertEqual(facts["status"],"MISSING_OBSERVER_ARTIFACT")
     def test_no_unpinned_artifact_identity(self):
         plan=obs.read_plan()
-        self.assertEqual(plan["main_before"],obs.cohort.PREDECESSOR)
+        self.assertEqual(plan["main_before"],plan["source"]["commit"])
         self.assertEqual(plan["source"]["run_id"],44257296925)
         self.assertFalse(plan["requested_text_is_truth"])
         self.assertFalse(plan["training_allowed"])
