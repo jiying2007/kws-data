@@ -1,0 +1,255 @@
+name: English Mero MEH corpus once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-mero-meh-once.yml
+      - automation/english_mero_meh*
+      - automation/test_english_mero_meh*
+      - EXCLUSION_EVIDENCE.json
+  push:
+    branches: [main]
+    paths: [automation/english_mero_meh_plan.json]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-mero-meh-first-main-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '4'
+  MKL_NUM_THREADS: '4'
+  OPENBLAS_NUM_THREADS: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    outputs:
+      enabled: ${{ steps.source.outputs.enabled }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify frozen source and complete 144-row mock pipeline
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/test_english_mero_meh_generate.py -v
+          python3 -I -S -B automation/test_english_mero_meh_policy.py -v
+          python3 -I -S -B automation/test_english_mero_meh_once.py -v
+          python3 -I -S -B automation/english_mero_meh_once.py --source-check
+          test -z "$(git status --porcelain)"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          plan = json.loads(pathlib.Path('automation/english_mero_meh_plan.json').read_bytes())
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
+              stream.write('enabled=' + str(plan['enabled']).lower() + '\n')
+          PYCODE
+  generate:
+    needs: source-contract
+    if: >-
+      needs.source-contract.outputs.enabled == 'true' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    outputs:
+      guarded: ${{ steps.guard.outcome == 'success' }}
+      source_ready: ${{ steps.readback.outputs.source_ready }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Bind the exact main predecessor and first run attempt
+        id: guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git status --porcelain)"
+          mkdir -p "$RUNNER_TEMP/mero-meh-runtime-generation"
+          python3 -I -S -B automation/english_mero_meh_once.py --guard \
+            > "$RUNNER_TEMP/mero-meh-runtime-generation/GUARD.json"
+      - name: Install the pinned Kokoro CPU runtime and verified wheel
+        timeout-minutes: 21
+        shell: bash
+        run: |
+          python3 -I -S -B automation/english_mero_meh_once.py --install-runtime generation \
+            --venv "$RUNNER_TEMP/mero-meh-generation-venv" \
+            --assets "$RUNNER_TEMP/mero-meh-generation-private-model" \
+            --runtime "$RUNNER_TEMP/mero-meh-runtime-generation"
+      - name: Generate each of 144 whole short requests once
+        id: calls
+        timeout-minutes: 91
+        shell: bash
+        run: |
+          timeout --signal=TERM --kill-after=30s 5400s "$RUNNER_TEMP/mero-meh-generation-venv/bin/python" -I -B \
+            automation/english_mero_meh_once.py --generate \
+            --assets "$RUNNER_TEMP/mero-meh-generation-private-model" --output "$RUNNER_TEMP/mero-meh-source" \
+            > "$RUNNER_TEMP/mero-meh-runtime-generation/STDOUT.txt" \
+            2> "$RUNNER_TEMP/mero-meh-runtime-generation/STDERR.txt"
+      - name: Read all source bytes and the full 144-row denominator
+        id: readback
+        if: always() && steps.guard.outcome == 'success'
+        timeout-minutes: 3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_mero_meh_once.py --read-source \
+            --source "$RUNNER_TEMP/mero-meh-source" \
+            --output "$RUNNER_TEMP/mero-meh-runtime-generation/SOURCE_READBACK.json"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          value = json.loads((pathlib.Path(os.environ['RUNNER_TEMP']) / 'mero-meh-runtime-generation/SOURCE_READBACK.json').read_bytes())
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
+              stream.write('source_ready=' + str(value['source_ready']).lower() + '\n')
+          PYCODE
+      - name: Preserve absent generation as unknown
+        if: always() && steps.guard.outcome == 'success'
+        shell: bash
+        run: |
+          python3 -I -S -B automation/english_mero_meh_once.py --stage-status generation \
+            --output "$RUNNER_TEMP/mero-meh-source" --runtime "$RUNNER_TEMP/mero-meh-runtime-generation" \
+            --outcome '${{ steps.calls.outcome }}'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: mero-meh-source
+          path: ${{ runner.temp }}/mero-meh-source/
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: mero-meh-runtime-generation
+          path: ${{ runner.temp }}/mero-meh-runtime-generation/
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: warn
+  observe:
+    needs: [source-contract, generate]
+    if: >-
+      always() && needs.source-contract.result == 'success' && needs.source-contract.outputs.enabled == 'true' &&
+      needs.generate.outputs.guarded == 'true' && needs.generate.outputs.source_ready == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        provider: [qwen, whisper, parakeet, phoneme]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      PROVIDER: ${{ matrix.provider }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Bind the same source run before installing an observer
+        id: guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git status --porcelain)"
+          mkdir -p "$RUNNER_TEMP/mero-meh-runtime-observer"
+          python3 -I -S -B automation/english_mero_meh_once.py --guard \
+            > "$RUNNER_TEMP/mero-meh-runtime-observer/GUARD.json"
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 4
+        with:
+          name: mero-meh-source
+          path: ${{ runner.temp }}/mero-meh-source
+      - name: Verify every complete source clip and install the fixed observer
+        timeout-minutes: 21
+        shell: bash
+        run: |
+          python3 -I -S -B automation/english_mero_meh_once.py --install-runtime "$PROVIDER" \
+            --source "$RUNNER_TEMP/mero-meh-source" --venv "$RUNNER_TEMP/mero-meh-observer-venv" \
+            --runtime "$RUNNER_TEMP/mero-meh-runtime-observer"
+      - name: Observe all 144 complete PCM clips with no prompt or retry
+        id: calls
+        timeout-minutes: 121
+        shell: bash
+        run: |
+          timeout --signal=TERM --kill-after=30s 7200s "$RUNNER_TEMP/mero-meh-observer-venv/bin/python" -I -B \
+            automation/english_mero_meh_once.py --observe "$PROVIDER" --source "$RUNNER_TEMP/mero-meh-source" \
+            --output "$RUNNER_TEMP/mero-meh-observer" --assets "$RUNNER_TEMP/mero-meh-observer-private-model" \
+            > "$RUNNER_TEMP/mero-meh-runtime-observer/STDOUT.txt" \
+            2> "$RUNNER_TEMP/mero-meh-runtime-observer/STDERR.txt"
+      - name: Preserve absent or partial observations as unknown
+        if: always() && steps.guard.outcome == 'success'
+        shell: bash
+        run: |
+          python3 -I -S -B automation/english_mero_meh_once.py --stage-status "$PROVIDER" \
+            --output "$RUNNER_TEMP/mero-meh-observer" --runtime "$RUNNER_TEMP/mero-meh-runtime-observer" \
+            --outcome '${{ steps.calls.outcome }}'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: mero-meh-observer-${{ matrix.provider }}
+          path: ${{ runner.temp }}/mero-meh-observer/
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: mero-meh-runtime-${{ matrix.provider }}
+          path: ${{ runner.temp }}/mero-meh-runtime-observer/
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: warn
+  combine:
+    needs: [source-contract, generate, observe]
+    if: >-
+      always() && needs.source-contract.result == 'success' && needs.source-contract.outputs.enabled == 'true' &&
+      needs.generate.outputs.guarded == 'true' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Verify the same exact-main first attempt
+        shell: bash
+        run: python3 -I -S -B automation/english_mero_meh_once.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        continue-on-error: true
+        timeout-minutes: 2
+        with:
+          name: mero-meh-source
+          path: ${{ runner.temp }}/mero-meh-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        continue-on-error: true
+        timeout-minutes: 2
+        with:
+          pattern: mero-meh-observer-*
+          path: ${{ runner.temp }}/mero-meh-observers
+      - name: Combine saved evidence and preserve every planned row
+        timeout-minutes: 11
+        shell: bash
+        run: |
+          timeout --signal=TERM --kill-after=15s 600s python3 -I -S -B \
+            automation/english_mero_meh_once.py --combine --source "$RUNNER_TEMP/mero-meh-source" \
+            --observers "$RUNNER_TEMP/mero-meh-observers" --output "$RUNNER_TEMP/mero-meh-combined"
+      - name: Retain PCM, admission, observations and frozen source including workflows
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-mero-meh-corpus-${{ github.run_id }}
+          path: ${{ runner.temp }}/mero-meh-combined/
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: warn
