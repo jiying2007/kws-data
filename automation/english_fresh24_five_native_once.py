@@ -45,8 +45,9 @@ REFERENCE={
     "digest":"sha256:87dd2bdb38205e8bc8d2a734c6ee398fafb119d584059fe028b2665bbeaa3e16"}
 # This is intentionally a fail-closed, unpinned placeholder until new Qwen
 # audio has actually completed. No model may be executed against a guess.
-SOURCE={"id":0,"name":"english-fresh24-clone168-44289263966",
-        "size":0,"digest":""}
+SOURCE={"id":14422271973,"name":"english-fresh24-clone168-44289263966",
+        "size":4505217,
+        "digest":"sha256:26396073f5be2f91e35575bedb586737405162388e32bfe85633ed3d796a9583"}
 
 def need(ok,reason):
     if not ok:raise ValueError(reason)
