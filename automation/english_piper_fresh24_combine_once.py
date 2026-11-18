@@ -94,7 +94,7 @@ def readback_prior(root):
          screen.get("training_snapshot_allowed") is False and
          screen.get("new_optimizer_updates")==0 and
          review.get("cumulative_qualified_groups_by_role")==FROZEN_PRIOR_GROUPS and
-         review.get("denominator")==168 and
+         review.get("denominator")==126 and
          review.get("new_model_weights") is False,
          "PREVIOUS_EXACT_ORIGINAL_126_IMMUTABLE_STOP")
     return FROZEN_PRIOR_GROUPS.copy()
