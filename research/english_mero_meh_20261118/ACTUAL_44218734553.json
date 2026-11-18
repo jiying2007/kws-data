@@ -1,0 +1,706 @@
+{
+  "actual_training_binder_check": {
+    "binder_source_identity": {
+      "bytes": 11235,
+      "sha256": "25d15e762c845e70e0635b9d1e2016720149d6d519aada1464f7f2de426e6bcd"
+    },
+    "branch_metadata_origin": {
+      "bytes": 5088,
+      "derived_metadata_sources": {
+        "artifact.json": "original ARTIFACTS_FINAL.json artifacts entry id14389757284",
+        "combine_job.json": "original JOBS_FINAL.json jobs entry name combine",
+        "run.json": "RUN_FINAL.json raw bytes"
+      },
+      "http_status": 200,
+      "main_sha": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+      "network_read_requests": 1,
+      "new_model_calls": 0,
+      "remote_writes": 0,
+      "sha256": "587788ea485ffaadc421815584b0b75fe11d78690d5c9170d2414a7eae6e9897",
+      "url": "https://api.github.com/repos/jiying2007/kws-data/branches/main"
+    },
+    "enabled_output_created": false,
+    "exit_code": 1,
+    "metadata_files": {
+      "artifact": {
+        "bytes": 786,
+        "sha256": "84dedb876804655786f598188d42fb5d0362e5400ffa84f1384bdeb7c5561312"
+      },
+      "combine_job": {
+        "bytes": 3252,
+        "sha256": "6e76d02b87aa08cd15a105e6b6161bb8e5dfe8db8c5cc0ac241e17d3165be1f9"
+      },
+      "main": {
+        "bytes": 5088,
+        "sha256": "587788ea485ffaadc421815584b0b75fe11d78690d5c9170d2414a7eae6e9897"
+      },
+      "run": {
+        "bytes": 13614,
+        "sha256": "1205c78d7d94f738edb456c40e1788240f811bf6cfc629d43bc14577eb5e6523"
+      }
+    },
+    "new_model_calls": 0,
+    "new_network_calls_by_binder": 0,
+    "reason": "The recomputed admission equals the retained admission, but training_snapshot_allowed is false.",
+    "receipt_identity": {
+      "bytes": 4441,
+      "sha256": "ecc5a2bd73171b63d8fff5959be83f8938f35ffeed703b90dbab27cab609770d"
+    },
+    "refusal_code": "RECOMPUTED_MACHINE_ADMISSION",
+    "source_packet_recomputed_before_refusal": true,
+    "status": "REFUSED_BEFORE_ENABLED_FILES_OR_TRAINING",
+    "stderr_identity": {
+      "bytes": 1157,
+      "sha256": "adc5fd5e5ec964b6bb4c7b9a77cee24a7641123c4d1fa861bd37e66cebab8026"
+    },
+    "trainer_files_unchanged": true,
+    "training_executed": false
+  },
+  "admission": {
+    "all_final_training_weights_zero": true,
+    "all_source_groups_missing_mero_class": true,
+    "balanced_groups_by_role": {
+      "calibration": 0,
+      "development": 0,
+      "locked-test": 0,
+      "train": 0
+    },
+    "cell_counts": [
+      {
+        "cell_id": "mero-slow",
+        "content_and_geometry_supported": 0,
+        "content_supported": 0,
+        "final_supervision_allowed": 0,
+        "planned": 12,
+        "requested_class": 2
+      },
+      {
+        "cell_id": "mero-fast",
+        "content_and_geometry_supported": 0,
+        "content_supported": 0,
+        "final_supervision_allowed": 0,
+        "planned": 12,
+        "requested_class": 2
+      },
+      {
+        "cell_id": "vosen-slow",
+        "content_and_geometry_supported": 2,
+        "content_supported": 5,
+        "final_supervision_allowed": 0,
+        "planned": 12,
+        "requested_class": 1
+      },
+      {
+        "cell_id": "vosen-fast",
+        "content_and_geometry_supported": 4,
+        "content_supported": 5,
+        "final_supervision_allowed": 0,
+        "planned": 12,
+        "requested_class": 1
+      },
+      {
+        "cell_id": "nero",
+        "content_and_geometry_supported": 0,
+        "content_supported": 0,
+        "final_supervision_allowed": 0,
+        "planned": 12,
+        "requested_class": 0
+      },
+      {
+        "cell_id": "memo",
+        "content_and_geometry_supported": 2,
+        "content_supported": 2,
+        "final_supervision_allowed": 0,
+        "planned": 12,
+        "requested_class": 0
+      },
+      {
+        "cell_id": "bosen-s",
+        "content_and_geometry_supported": 7,
+        "content_supported": 7,
+        "final_supervision_allowed": 0,
+        "planned": 12,
+        "requested_class": 0
+      },
+      {
+        "cell_id": "bosen-z",
+        "content_and_geometry_supported": 7,
+        "content_supported": 7,
+        "final_supervision_allowed": 0,
+        "planned": 12,
+        "requested_class": 0
+      },
+      {
+        "cell_id": "hello",
+        "content_and_geometry_supported": 12,
+        "content_supported": 12,
+        "final_supervision_allowed": 0,
+        "planned": 12,
+        "requested_class": 0
+      },
+      {
+        "cell_id": "morning",
+        "content_and_geometry_supported": 10,
+        "content_supported": 10,
+        "final_supervision_allowed": 0,
+        "planned": 12,
+        "requested_class": 0
+      },
+      {
+        "cell_id": "turn-off",
+        "content_and_geometry_supported": 12,
+        "content_supported": 12,
+        "final_supervision_allowed": 0,
+        "planned": 12,
+        "requested_class": 0
+      },
+      {
+        "cell_id": "open-door",
+        "content_and_geometry_supported": 11,
+        "content_supported": 11,
+        "final_supervision_allowed": 0,
+        "planned": 12,
+        "requested_class": 0
+      }
+    ],
+    "content_and_geometry_evidence_tiers": {
+      "silver": 57,
+      "weak": 10
+    },
+    "content_and_geometry_supported": 67,
+    "content_evidence_supported": 71,
+    "content_evidence_tiers": {
+      "silver": 57,
+      "unknown": 73,
+      "weak": 14
+    },
+    "final_supervision_rows": 0,
+    "final_tier_counts": {
+      "unknown": 144
+    },
+    "final_training_rows": 0,
+    "geometry_rejected_content_supported_rows": 4,
+    "minimum_balanced_groups": {
+      "calibration": 2,
+      "development": 2,
+      "locked-test": 2,
+      "train": 6
+    },
+    "status": "STOP_FRESH_CORPUS_COVERAGE",
+    "supported_before_group_mask_by_requested_class": {
+      "0": 61,
+      "1": 6
+    },
+    "supported_before_group_mask_by_role": {
+      "calibration": 11,
+      "development": 7,
+      "locked-test": 10,
+      "train": 39
+    },
+    "training_allowed": false,
+    "training_snapshot_allowed": false
+  },
+  "artifacts": {
+    "api_artifact_response": {
+      "bytes": 9445,
+      "sha256": "2827332f910cd3ab5b1fc9dc7a2375d0fad33b57850e10c7bcd6f284bfc232e0"
+    },
+    "api_jobs_response": {
+      "bytes": 27370,
+      "sha256": "5be18ac459edb2f9e9cf2ecc22d2e798d185123d7e43257d11d24c7fddfe4c60"
+    },
+    "api_run_response": {
+      "bytes": 13614,
+      "sha256": "1205c78d7d94f738edb456c40e1788240f811bf6cfc629d43bc14577eb5e6523"
+    },
+    "combined_artifact_id": 14389757284,
+    "verified_zip_count": 11,
+    "verified_zip_total_bytes": 148627641,
+    "zip_receipts": [
+      {
+        "api_identity_matches": true,
+        "artifact_id": 14389184195,
+        "bytes": 48951910,
+        "head_sha": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+        "name": "mero-meh-source",
+        "run_id": 44218734553,
+        "sha256": "4f1e75637a15bd16923c6f73cd8bb9ceec49cf0b327aea1896ee1eaaf0e166a7",
+        "zip_crc_passed": true,
+        "zip_filename": "mero-meh-source.zip",
+        "zip_member_count": 1194
+      },
+      {
+        "api_identity_matches": true,
+        "artifact_id": 14389757284,
+        "bytes": 74476997,
+        "head_sha": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+        "name": "english-mero-meh-corpus-44218734553",
+        "run_id": 44218734553,
+        "sha256": "712e083b1bc7e1451c8eb43c2f99c94549d34f8d71db81d8cf2ef965e1df72da",
+        "zip_crc_passed": true,
+        "zip_filename": "english-mero-meh-corpus-44218734553.zip",
+        "zip_member_count": 4145
+      },
+      {
+        "api_identity_matches": true,
+        "artifact_id": 14389871249,
+        "bytes": 65684,
+        "head_sha": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+        "name": "mero-meh-runtime-phoneme",
+        "run_id": 44218734553,
+        "sha256": "375592f785c66719d4ab35c37c813ce725e1a711aca4a3a54d215b64172e272e",
+        "zip_crc_passed": true,
+        "zip_filename": "mero-meh-runtime-phoneme.zip",
+        "zip_member_count": 14
+      },
+      {
+        "api_identity_matches": true,
+        "artifact_id": 14390041199,
+        "bytes": 558476,
+        "head_sha": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+        "name": "mero-meh-observer-qwen",
+        "run_id": 44218734553,
+        "sha256": "88525ee660c16c757db0d80334bbf7b5d53100666e6f44655a04233aa0ef290e",
+        "zip_crc_passed": true,
+        "zip_filename": "mero-meh-observer-qwen.zip",
+        "zip_member_count": 581
+      },
+      {
+        "api_identity_matches": true,
+        "artifact_id": 14390055868,
+        "bytes": 23190075,
+        "head_sha": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+        "name": "mero-meh-observer-phoneme",
+        "run_id": 44218734553,
+        "sha256": "f1b8c4e9390ec93874fe76589a5f40bf9daf318e301ced819f768d747b6791d4",
+        "zip_crc_passed": true,
+        "zip_filename": "mero-meh-observer-phoneme.zip",
+        "zip_member_count": 1162
+      },
+      {
+        "api_identity_matches": true,
+        "artifact_id": 14390081103,
+        "bytes": 95680,
+        "head_sha": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+        "name": "mero-meh-runtime-generation",
+        "run_id": 44218734553,
+        "sha256": "73b5b8110f9ce83a3c0697a749a6d4cd0cea7ff1c2ecf0f2e2a5f9cbbe2503cc",
+        "zip_crc_passed": true,
+        "zip_filename": "mero-meh-runtime-generation.zip",
+        "zip_member_count": 19
+      },
+      {
+        "api_identity_matches": true,
+        "artifact_id": 14390151082,
+        "bytes": 70138,
+        "head_sha": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+        "name": "mero-meh-runtime-qwen",
+        "run_id": 44218734553,
+        "sha256": "8ffb59bed44a5a376e715cf40f6c1bc96f94f944f113f00bdbeb73e4d6a83e76",
+        "zip_crc_passed": true,
+        "zip_filename": "mero-meh-runtime-qwen.zip",
+        "zip_member_count": 14
+      },
+      {
+        "api_identity_matches": true,
+        "artifact_id": 14390381090,
+        "bytes": 535174,
+        "head_sha": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+        "name": "mero-meh-observer-parakeet",
+        "run_id": 44218734553,
+        "sha256": "342bd9ff1f630a0799ee553876ee20fe6fd9af62e559eaf45515f6edc1aecda9",
+        "zip_crc_passed": true,
+        "zip_filename": "mero-meh-observer-parakeet.zip",
+        "zip_member_count": 581
+      },
+      {
+        "api_identity_matches": true,
+        "artifact_id": 14390506108,
+        "bytes": 67544,
+        "head_sha": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+        "name": "mero-meh-runtime-whisper",
+        "run_id": 44218734553,
+        "sha256": "0ba3a27ac2694682232cce3ea05fb479f2a93c39486bb106dce3e48b41a4ef34",
+        "zip_crc_passed": true,
+        "zip_filename": "mero-meh-runtime-whisper.zip",
+        "zip_member_count": 14
+      },
+      {
+        "api_identity_matches": true,
+        "artifact_id": 14390670675,
+        "bytes": 551725,
+        "head_sha": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+        "name": "mero-meh-observer-whisper",
+        "run_id": 44218734553,
+        "sha256": "fbe34fd00ad6e2f7c44b5da92d62543fde401ea8886daa15f7c5a80a122cd73d",
+        "zip_crc_passed": true,
+        "zip_filename": "mero-meh-observer-whisper.zip",
+        "zip_member_count": 581
+      },
+      {
+        "api_identity_matches": true,
+        "artifact_id": 14390780087,
+        "bytes": 64238,
+        "head_sha": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+        "name": "mero-meh-runtime-parakeet",
+        "run_id": 44218734553,
+        "sha256": "82ca8257405590d88b5e980deedf3c4e109ba30e564085b6f0d7ab5902aa16f4",
+        "zip_crc_passed": true,
+        "zip_filename": "mero-meh-runtime-parakeet.zip",
+        "zip_member_count": 12
+      }
+    ]
+  },
+  "audit": {
+    "network_read_scope": "Public main-branch REST metadata for the offline binder check.",
+    "new_model_calls": 0,
+    "new_network_reads": 1,
+    "original_combined_artifact_modified": false,
+    "parent_status_counts_reproduced": {
+      "active_source_run": 44218734553,
+      "actual_total_model_requests": 720,
+      "admission_status": "STOP_FRESH_CORPUS_COVERAGE",
+      "admitted_rows": 0,
+      "fresh_source_generation_count": 144,
+      "fresh_source_observer_count": 576,
+      "new_training_runs": 0
+    },
+    "remote_writes": 0
+  },
+  "authentication": {
+    "admission_exact_match": true,
+    "all_captures_authenticated_from_saved_bytes": true,
+    "all_frozen_source_pins_match": true,
+    "all_observations_use_same_entire_pcm": true,
+    "asr_text_captures": 432,
+    "combined_record_identities": {
+      "ADMISSION.json": {
+        "bytes": 643779,
+        "sha256": "3f12453f4ffc504483d4e56ae812af1ebedd89c124708a5f31eac78392871725"
+      },
+      "CORPUS_MANIFEST.json": {
+        "bytes": 534363,
+        "sha256": "09b5e424569c7fb1ceb47eb656e7477c625751e267838625c04d4212a66b041a"
+      },
+      "EXCLUSION_EVIDENCE.json": {
+        "bytes": 131275,
+        "sha256": "c62595daa7e29f1e321b0d8cc9902ef9dc03cc91458125abdf378886815b48e1"
+      },
+      "EXECUTION_PLAN.json": {
+        "bytes": 6179,
+        "sha256": "43a98e1125a44d6599e46aa91efa593bd113613d004f612a730f681a18f2b335"
+      },
+      "FILES.json": {
+        "bytes": 818732,
+        "sha256": "b9884f8d19c545f5027ad73b71d9176da6fd94e6cf592a97acb6f14ecf953d4b"
+      },
+      "MACHINE_EVIDENCE.json": {
+        "bytes": 911878,
+        "sha256": "1ac56db4a50239dde2795837900e2b07e725e6d4f8de9fcddb97ac570796e27a"
+      },
+      "RESULT.json": {
+        "bytes": 677,
+        "sha256": "0ecee0acbdfb9617aad685b3f3dc142360a6489036688cd88d6310091831b5bb"
+      },
+      "SOURCE_IDENTITY_CONTRACT.json": {
+        "bytes": 459,
+        "sha256": "93d276ad5238af16c0dfa440f1eb0d2fa1db3a42bf6b3645d062229c7f589e24"
+      },
+      "SOURCE_RESULT.json": {
+        "bytes": 644,
+        "sha256": "d7aedf3aec56a26aa3cb0890a47e6741c5c26bf200ea1d7ea39c73c8477f9daa"
+      }
+    },
+    "exact_final_file_closure_passed": true,
+    "frozen_policy_recomputed": true,
+    "frozen_source_pin_count": 41,
+    "policy_rules_sha256": "c45b631698ad55e4b8d43fc9e2ee8d1f015688265c5954c190ff314c9c41f32b",
+    "policy_sha256": "3d08b592ed6bdd55bd5bd9a18af4d1ba6ddbaddcf02b2338d2a27de7154ae321",
+    "recipe_sha256": "e4f3381da7678eb45581d0fa5513128b2ca54e8127f70a34eb15af73e0ea55a7",
+    "scope": "Saved bytes, source/model/runtime identities and execution records; not independent human acoustic correctness.",
+    "source_native_captures": 144,
+    "source_native_proof_passed": true,
+    "xlsr_native_input_logit_captures": 144
+  },
+  "calls": {
+    "observer_requests": 576,
+    "predeclared_maximum": 720,
+    "request_unit": "ONE_HIGH_LEVEL_SYNTHESIS_OR_RECOGNITION_REQUEST",
+    "retry_count": 0,
+    "total_model_requests": 720,
+    "tts_requests": 144
+  },
+  "campaign_id": "english-mero-meh-corpus-v1",
+  "corpus_retention": {
+    "all_144_raw_recordings_and_observations_retained": true,
+    "blanket_fresh_permanent_exclusion_added": false,
+    "final_unknown_labels_preserved": true,
+    "historical_probe_outcomes_or_exclusions_changed": false,
+    "role_reassignment": false,
+    "supported_before_group_mask": {
+      "explicit_contrasts": 16,
+      "ordinary_speech": 45,
+      "vosen": 6
+    },
+    "unsupported_positives_relabelled_background": false
+  },
+  "exclusions": {
+    "actual_byte_overlap": [],
+    "declared_overlap": {
+      "parent_pcm_sha256": [],
+      "pcm_sha256": [],
+      "request_sha256": [],
+      "row_ids": []
+    },
+    "excluded_identity_counts": {
+      "parent_pcm_sha256": 156,
+      "pcm_sha256": 188,
+      "request_sha256": 160,
+      "row_ids": 172
+    },
+    "new_acoustic_duplicate_groups": [],
+    "old_acoustic_union_count": 296,
+    "passed": true,
+    "read_errors": [],
+    "row_hash_mismatches": [],
+    "source_runs": [
+      44125960085,
+      44133547091,
+      44202856867,
+      44208480336
+    ]
+  },
+  "generation": {
+    "denominator": 144,
+    "elapsed_seconds": 73.741731,
+    "failed_count": 0,
+    "not_started_count": 0,
+    "resample_attempts": 144,
+    "resample_returns": 144,
+    "retry_count": 0,
+    "successful_count": 144,
+    "tts_attempts": 144,
+    "tts_returned": 144,
+    "warmup_count": 0
+  },
+  "geometry": {
+    "af_sarah_vosen": [
+      {
+        "cell_id": "vosen-slow",
+        "duration_seconds": 2.1,
+        "id": "enmeh-ceeabf84d99990c13a1c419e",
+        "pcm_samples": 33600,
+        "preset_id": "af_sarah",
+        "role": "train",
+        "whole_support_windows": 0
+      },
+      {
+        "cell_id": "vosen-fast",
+        "duration_seconds": 1.8,
+        "id": "enmeh-a2c34d951fd3c9855d9e4b22",
+        "pcm_samples": 28800,
+        "preset_id": "af_sarah",
+        "role": "train",
+        "whole_support_windows": 2
+      }
+    ],
+    "can_meet_frozen_group_minima_even_with_perfect_content": false,
+    "maximum_balanced_groups_before_acoustic_admission": {
+      "calibration": 2,
+      "development": 2,
+      "locked-test": 2,
+      "train": 5
+    },
+    "maximum_positive_samples": 28672,
+    "minimum_whole_support_windows": 3,
+    "positive_geometry_failures": 13,
+    "source_geometry_eligible": 131,
+    "source_quality_passed": 144
+  },
+  "legacy_meero_compatibility": {
+    "archive_sha256": "56b7e9181cc0e8662b00dd1344ef414a1466a668428fec8bc709b600ba8e97e1",
+    "historical_requested_ipa": "heɪ ˈmiːroʊ",
+    "historical_requests_do_not_define_new_meh_norm": true,
+    "legacy_regression_requested_meero_class2": 58,
+    "legacy_replay_requested_meero_class2": 38,
+    "legacy_weak_labels_preserved": true,
+    "natural_background_boundary": "The retained LibriSpeech manifest contains fragment IDs, sample ranges, PCM hashes and transcript_sha256, but no transcript text. This audit does not establish acoustic absence of collision phrases from natural background audio.",
+    "primary_profile_accepts_legacy_meero_vowel": false,
+    "registered_marrow_merrow_class0_found": false,
+    "regression_rows": 291,
+    "training_replay_rows": 225
+  },
+  "limitations": {
+    "human_word_end_latency": "NOT_MEASURED",
+    "independent_real_far": "NOT_MEASURED",
+    "independent_real_frr": "NOT_MEASURED",
+    "model_quality_improvement_claim": false,
+    "model_weights_changed": false,
+    "new_head_trained": false,
+    "physical_device_validation": "NOT_RUN",
+    "strongest": "The only current phone observer cannot distinguish a synthesizer pronunciation error from its own systematic final-vowel transcription bias; three ASR text outputs and spelling overlap do not resolve this. No independent human phonetic reference is available.",
+    "voice_identity": "Kokoro presets are synthesis source groups sharing pretraining, not authenticated independent human speakers."
+  },
+  "mero_observations": {
+    "accepted_final_phone_family": [
+      "oʊ",
+      "ou",
+      "o"
+    ],
+    "contains_mɛrɔ": 19,
+    "exact_heɪmɛrɔ": 14,
+    "final_ɔ": 21,
+    "human_phonetic_error_proven": false,
+    "marrow_merrow_spellings_are_not_strict_negatives": true,
+    "missing_supported_final_vowel_ends_r": 3,
+    "normalized_phone_histogram": {
+      "eɪmɛrɔ": 1,
+      "heɪmærɔ": 1,
+      "heɪmɛr": 1,
+      "heɪmɛrɔ": 14,
+      "himɛrɔ": 1,
+      "pɛmɛrɔ": 1,
+      "teɪmɛr": 1,
+      "teɪmɛrɔ": 2,
+      "tɛlimær": 1,
+      "tɛlimærɔ": 1
+    },
+    "planned": 24,
+    "predeclared_complete_phone_matches": 0
+  },
+  "nero_observations": {
+    "content_and_geometry_supported": 0,
+    "planned": 12
+  },
+  "next_diagnostic_scope": {
+    "cells": [
+      "mero-slow",
+      "mero-fast",
+      "nero",
+      "memo",
+      "hello",
+      "open-door"
+    ],
+    "fixed_inputs": 24,
+    "kind": "NEW_FIXED24_LV60_OBSERVER_DIAGNOSTIC",
+    "lv60_outcome_claimed_in_this_record": false,
+    "maximum_new_observer_requests": 24,
+    "new_tts_requests": 0,
+    "preset_ids": [
+      "af_bella",
+      "af_sarah",
+      "am_michael",
+      "am_puck"
+    ],
+    "rationale": "The current phone observer lacks the selected final-vowel evidence while ASR name spellings overlap. A separately fixed observer can diagnose disagreement but cannot retroactively admit v1.",
+    "relation": "Separate observation of existing saved whole v1 PCM; original v1 STOP remains authoritative.",
+    "rule_relaxation": false,
+    "training_or_threshold_selection": false,
+    "tts_retry": false
+  },
+  "observers": {
+    "parakeet": {
+      "actual_forward_attempts": 144,
+      "attempts_lower_bound": 144,
+      "attempts_upper_bound": 144,
+      "completed_count": 144,
+      "denominator": 144,
+      "failed_count": 0,
+      "model_id": "nvidia/parakeet-tdt-0.6b-v3",
+      "model_revision": "541d1f99c6b0c3cd0b11a95167540bb8edefd82b",
+      "model_sha256": "e3880d0aaaaf2c308ea2c35016b2b895c423eb3fda924c1b463d1c19b7f4d32e",
+      "native_forward_returns": 144,
+      "not_started_count": 0,
+      "provider": "parakeet",
+      "same_complete_pcm_bindings": 144,
+      "saved_byte_readback_passed": true,
+      "status": "COMPLETE",
+      "terminal_receipt_present": true,
+      "unknown_count": 0
+    },
+    "phoneme": {
+      "actual_forward_attempts": 144,
+      "attempts_lower_bound": 144,
+      "attempts_upper_bound": 144,
+      "completed_count": 144,
+      "denominator": 144,
+      "failed_count": 0,
+      "model_id": "facebook/wav2vec2-xlsr-53-espeak-cv-ft",
+      "model_revision": "2c733782da5604684829819a5eb744c193fe9398",
+      "model_sha256": "04366b6c8d24099ef313cf02f0e58d26f5dddfda16edbfc8eb2c713d94a9f551",
+      "native_forward_returns": 144,
+      "not_started_count": 0,
+      "provider": "phoneme",
+      "same_complete_pcm_bindings": 144,
+      "saved_byte_readback_passed": true,
+      "status": "COMPLETE",
+      "terminal_receipt_present": true,
+      "unknown_count": 0
+    },
+    "qwen": {
+      "actual_forward_attempts": 144,
+      "attempts_lower_bound": 144,
+      "attempts_upper_bound": 144,
+      "completed_count": 144,
+      "denominator": 144,
+      "failed_count": 0,
+      "model_id": "Qwen/Qwen3-ASR-0.6B",
+      "model_revision": "5eb144179a02acc5e5ba31e748d22b0cf3e303b0",
+      "model_sha256": "79d6cbd4c98c7bbffe9db2edac07f56cd6637d0d5944b27f6c2b8353840323ea",
+      "native_forward_returns": 144,
+      "not_started_count": 0,
+      "provider": "qwen",
+      "same_complete_pcm_bindings": 144,
+      "saved_byte_readback_passed": true,
+      "status": "COMPLETE",
+      "terminal_receipt_present": true,
+      "unknown_count": 0
+    },
+    "whisper": {
+      "actual_forward_attempts": 144,
+      "attempts_lower_bound": 144,
+      "attempts_upper_bound": 144,
+      "completed_count": 144,
+      "denominator": 144,
+      "failed_count": 0,
+      "model_id": "openai/whisper-small",
+      "model_revision": "31243bad24cc746f07d4c8bfdd2d974872cb1803",
+      "model_sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+      "native_forward_returns": 144,
+      "not_started_count": 0,
+      "provider": "whisper",
+      "same_complete_pcm_bindings": 144,
+      "saved_byte_readback_passed": true,
+      "status": "COMPLETE",
+      "terminal_receipt_present": true,
+      "unknown_count": 0
+    }
+  },
+  "recorded_on": "2026-11-18",
+  "run": {
+    "conclusion": "success",
+    "created_at": "2026-11-18T01:49:35Z",
+    "event": "push",
+    "head_branch": "main",
+    "head_sha": "7e9797789cba7d1476d02f14e21af91dc3cd0712",
+    "html_url": "https://github.com/jiying2007/kws-data/actions/runs/44218734553",
+    "id": 44218734553,
+    "path": ".github/workflows/english-mero-meh-once.yml",
+    "run_attempt": 1,
+    "status": "completed",
+    "updated_at": "2026-11-18T02:01:43Z"
+  },
+  "schema": "english-mero-meh-actual-outcome-v1",
+  "selected_pronunciation": {
+    "final_phone_family_expanded": false,
+    "hey_mero_ipa": "heɪ ˈmɛroʊ",
+    "hey_vosen_ipa": "heɪ ˈvoʊsən",
+    "human_native_pronunciation_verified": false,
+    "mero_hint": "HEY MEH-roh",
+    "profile_id": "english_mero_meh_v1",
+    "profile_path": "automation/english_mero_meh_profile_v1.json",
+    "profile_sha256": "1ef68a0aac3883304719023efee2a33d4510efaf2a7364328f98470920cc6ca6",
+    "selected_norm_unchanged": true
+  },
+  "workflow_success_is_not_training_admission": true
+}

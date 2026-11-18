@@ -1,0 +1,128 @@
+name: English Mero MEH LV60 diagnostic once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-mero-meh-lv60-once.yml
+      - automation/english_mero_meh_lv60*
+      - automation/test_english_mero_meh_lv60*
+      - research/english_mero_meh_20261118/LV60_DIAGNOSTIC_CONTRACT.md
+  push:
+    branches: [main]
+    paths: [automation/english_mero_meh_lv60_plan.json]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-mero-meh-lv60-first-main-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '4'
+  MKL_NUM_THREADS: '4'
+  OPENBLAS_NUM_THREADS: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    outputs:
+      enabled: ${{ steps.source.outputs.enabled }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify frozen source and bounded offline interfaces
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/test_english_mero_meh_lv60_observe.py -v
+          python3 -I -S -B automation/test_english_mero_meh_lv60_once.py -v
+          python3 -I -S -B automation/english_mero_meh_lv60_once.py --source-check
+          test -z "$(git status --porcelain)"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          plan = json.loads(pathlib.Path('automation/english_mero_meh_lv60_plan.json').read_bytes())
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
+              stream.write('enabled=' + str(plan['enabled']).lower() + '\n')
+          PYCODE
+  audit:
+    needs: source-contract
+    if: >-
+      needs.source-contract.outputs.enabled == 'true' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Bind the exact main successor and distinct first audit run
+        id: guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git status --porcelain)"
+          mkdir "$RUNNER_TEMP/mero-meh-lv60-audit"
+          python3 -I -S -B automation/english_mero_meh_lv60_once.py --guard \
+            > "$RUNNER_TEMP/mero-meh-lv60-audit/GUARD.json"
+      - name: Authenticate the original API identity, ZIP and all saved source bytes
+        id: source
+        timeout-minutes: 6
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python3 -I -S -B automation/english_mero_meh_lv60_once.py --fetch-source \
+            --output "$RUNNER_TEMP/mero-meh-lv60-audit/input"
+      - name: Install the pinned CPU runtime after source authentication
+        timeout-minutes: 21
+        shell: bash
+        run: |
+          python3 -I -S -B automation/english_mero_meh_lv60_once.py --install \
+            --source "$RUNNER_TEMP/mero-meh-lv60-audit/input/corpus" \
+            --output "$RUNNER_TEMP/mero-meh-lv60-audit/runtime"
+      - name: Observe 24 unchanged full PCMs once with LV60
+        id: calls
+        timeout-minutes: 31
+        shell: bash
+        run: |
+          timeout --signal=TERM --kill-after=30s 1800s \
+            "$RUNNER_TEMP/mero-meh-lv60-audit/runtime/venv/bin/python" -I -B \
+            automation/english_mero_meh_lv60_once.py --observe \
+            --source "$RUNNER_TEMP/mero-meh-lv60-audit/input/corpus" \
+            --output "$RUNNER_TEMP/mero-meh-lv60-audit/observer" \
+            > "$RUNNER_TEMP/mero-meh-lv60-audit/OBSERVE_STDOUT.txt" \
+            2> "$RUNNER_TEMP/mero-meh-lv60-audit/OBSERVE_STDERR.txt"
+      - name: Read native captures and retain all 24 rows including unknowns
+        if: always() && steps.guard.outcome == 'success'
+        timeout-minutes: 6
+        shell: bash
+        run: |
+          timeout --signal=TERM --kill-after=15s 300s python3 -I -S -B \
+            automation/english_mero_meh_lv60_once.py --finalize \
+            --source "$RUNNER_TEMP/mero-meh-lv60-audit/input/corpus" \
+            --observer "$RUNNER_TEMP/mero-meh-lv60-audit/observer" \
+            --output "$RUNNER_TEMP/mero-meh-lv60-audit/diagnostic" \
+            --outcome '${{ steps.calls.outcome }}'
+      - name: Retain diagnostic evidence, original packet and frozen hidden workflow
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-mero-meh-lv60-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/mero-meh-lv60-audit/
+            !${{ runner.temp }}/mero-meh-lv60-audit/runtime/venv/**
+            !${{ runner.temp }}/mero-meh-lv60-audit/observer-private-assets/**
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: warn

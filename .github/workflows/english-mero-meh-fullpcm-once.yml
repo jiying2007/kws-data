@@ -1,0 +1,93 @@
+name: English Mero MEH retained head full PCM native and ARM once
+on:
+  pull_request:
+    paths:
+      - automation/english_mero_meh_fullpcm_once.py
+      - automation/english_mero_meh_fullpcm_plan.json
+      - automation/bind_english_mero_meh_fullpcm.py
+      - automation/test_english_mero_meh_fullpcm.py
+      - .github/workflows/english-mero-meh-fullpcm-once.yml
+  push:
+    branches: [main]
+    paths:
+      - automation/english_mero_meh_fullpcm_once.py
+      - automation/english_mero_meh_fullpcm_plan.json
+      - .github/workflows/english-mero-meh-fullpcm-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-mero-meh-fullpcm-20261118-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      enabled: ${{ steps.plan.outputs.enabled }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check the identity adapter without numerical execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/english_mero_meh_fullpcm_once.py
+            python3 -I -S -B "${args[@]}" automation/test_english_mero_meh_fullpcm.py -v
+          done
+          git diff --exit-code
+      - id: plan
+        name: Read the frozen execution state
+        run: |
+          python3 -I -S -B - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          plan = json.loads(Path('automation/english_mero_meh_fullpcm_plan.json').read_bytes())
+          print('enabled=' + str(plan['enabled']).lower())
+          PY
+  retained-head-fullpcm:
+    needs: source-contract
+    if: >-
+      needs.source-contract.outputs.enabled == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Compare fixed PCM using the original native and ARM consumers
+        timeout-minutes: 31
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+          NUMEXPR_NUM_THREADS: '1'
+        run: |
+          python3 -I -S -B automation/english_mero_meh_fullpcm_once.py --execute \
+            --output "$RUNNER_TEMP/english-mero-meh-fullpcm"
+      - name: Retain complete or partial PCM and trace evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-mero-meh-fullpcm-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/english-mero-meh-fullpcm/evidence/
+            ${{ runner.temp }}/english-mero-meh-fullpcm/source/
+            ${{ runner.temp }}/english-mero-meh-fullpcm/inputs/
+            ${{ runner.temp }}/english-mero-meh-fullpcm/models/
+            ${{ runner.temp }}/english-mero-meh-fullpcm/bin/
+            ${{ runner.temp }}/english-mero-meh-fullpcm/traces/
+            ${{ runner.temp }}/english-mero-meh-fullpcm/STARTED.json
+            ${{ runner.temp }}/english-mero-meh-fullpcm/MANIFEST.json
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: warn
