@@ -71,6 +71,41 @@ class ProspectiveSource(unittest.TestCase):
         event["repository"]["private"]=False
         with self.assertRaisesRegex(ValueError,"PINNED_FIRST_PARENT"):
             m.guard(env,event,"b"*40)
+    def test_zero_forward_prior_recovery_is_provably_no_numeric_call(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            original={"run_id":str(m.PRIOR_ZERO_RUN),
+                      "commit":m.PRIOR_SOURCE_COMMIT,
+                      "before":m.PRIOR_SOURCE_BEFORE}
+            started={"schema":m.REFERENCE_SCHEMA,"run":original,
+                     "denominator":24,"max_calls":48,
+                     "training_allowed":False,
+                     "source_plan_sha256":m.source_check()["source_plan_sha256"]}
+            failed={"schema":m.REFERENCE_SCHEMA,"run":original,
+                    "completed_references":0,"native_forward_returns":0,
+                    "remaining_possible_calls":48,
+                    "failure":"ModuleNotFoundError:No module named 'num2words'",
+                    "retry":False,"training_allowed":False}
+            m.write(root/"STARTED.json",started)
+            m.write(root/"FAILED.json",failed)
+            self.assertEqual(m.verify_zero_forward_packet(root)["prior_new_audio_calls"],0)
+            failed["native_forward_returns"]=1
+            (root/"FAILED.json").write_text(json.dumps(failed),encoding="utf-8")
+            with self.assertRaisesRegex(ValueError,"PRIOR_NUMERICAL_FORWARD_COUNT_NOT_ZERO"):
+                m.verify_zero_forward_packet(root)
+            failed["native_forward_returns"]=0
+            failed["failure"]="UnrelatedRuntimeFailure"
+            (root/"FAILED.json").write_text(json.dumps(failed),encoding="utf-8")
+            with self.assertRaisesRegex(ValueError,"PRIOR_NUMERICAL_FORWARD_COUNT_NOT_ZERO"):
+                m.verify_zero_forward_packet(root)
+    def test_recovery_source_commit_remains_frozen(self):
+        self.assertEqual(m.PRIOR_SOURCE_COMMIT,
+                         "dfbb95f003b3845439ccbe5e5eb4cb80e58e83f8")
+        self.assertEqual(m.PRIOR_SOURCE_BEFORE,
+                         "9899bf3cd505abcc6c363efd4490cf84fcdfc89d")
+        self.assertEqual(m.PRIOR_ARTIFACT_ID,14419837155)
+        self.assertEqual(m.BEFORE,m.PRIOR_SOURCE_COMMIT)
+
     def test_new_outputs_refuse_overwrite(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)/"candidate"
