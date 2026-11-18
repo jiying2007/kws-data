@@ -101,13 +101,13 @@ class Fresh24SourceReview(unittest.TestCase):
         texts={r["id"]:{} for r in rows}
         phones={r["id"]:{} for r in rows}
         def completely_artificial_consensus(row,*ignored):
-            return {"tier":"silver","class":row["requested_class"],
-                 "reason":"UNIT_TEST_ONLY_NOT_AN_ACOUSTIC_RECEIPT",
-                 "margins":{},"training_allowed":False} if
-                 row["requested_class"] in (0,1,2) else {
-                 "tier":"unknown","class":None,
-                 "reason":"CONTRAST_DIAGNOSTIC","margins":{},
-                 "training_allowed":False}
+            if row["requested_class"] in (0,1,2):
+                return {"tier":"silver","class":row["requested_class"],
+                        "reason":"UNIT_TEST_ONLY_NOT_AN_ACOUSTIC_RECEIPT",
+                        "margins":{},"training_allowed":False}
+            return {"tier":"unknown","class":None,
+                    "reason":"CONTRAST_DIAGNOSTIC","margins":{},
+                    "training_allowed":False}
         with patch.object(combine.policy,"decide",completely_artificial_consensus):
             result=combine.evaluate(rows,texts,phones)
         self.assertEqual(result["qualified_groups_by_role"],
