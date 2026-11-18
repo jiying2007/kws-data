@@ -23,6 +23,20 @@ WEIGHT_SHA=(
     "04366b6c8d24099ef313cf02f0e58d26f5dddfda16edbfc8eb2c713d94a9f551",
     "3173bde9e9ce490fa0f989e413c42f25bc1820c020adc1e6b9b87025b3cfcc5e")
 
+def read_verified_hf_metadata(folder, cache_root, name):
+    """Allow HF snapshot symlinks ONLY when resolved inside its private cache.
+
+    Corpus WAV/JSON continue to disallow symlinks. A HF snapshots/*/vocab.json
+    normally points to a content-addressed blobs/* file in that same cache.
+    """
+    c.need(name in ("vocab.json",), "EXACT_PHONEME_METADATA_ALLOWLIST")
+    cache=Path(cache_root).resolve(strict=True)
+    actual=(Path(folder)/name).resolve(strict=True)
+    c.need(actual.is_relative_to(cache) and actual.is_file()
+           and 0 < actual.stat().st_size <= 1_000_000,
+           "TRUSTED_HF_CACHE_METADATA_FILE")
+    return json.loads(actual.read_bytes())
+
 def pcm_of(path):
     import io
     raw=c.read(path,24*1024*1024)
@@ -45,8 +59,9 @@ def main():
     ap.add_argument("--custom",required=True)
     ap.add_argument("--clone",required=True)
     ap.add_argument("--output",required=True)
+    ap.add_argument("--recovery",action="store_true")
     opts=ap.parse_args()
-    identity=c.guard()
+    identity=c.guard(recovery=opts.recovery)
     custom=c.verify_stage(opts.custom,"custom")
     cloned=c.verify_stage(opts.clone,"clone")
     rows=[r for r in custom["rows"] if r["requested_kind"]!="reference"]+cloned["rows"]
@@ -59,6 +74,7 @@ def main():
         "candidate_rows":len(rows),"models":c.PHONE_MODELS,
         "expected_forwards":c.MAX_PHONE_CALLS,
         "target_text_sent_to_observers":False,
+        "recovery_from_saved_audio_only":opts.recovery,
         "training_allowed":False})
     results=[]
     try:
@@ -72,8 +88,9 @@ def main():
         for index,(model_id,revision) in enumerate(c.PHONE_MODELS):
             model_info=HfApi(token=False).model_info(model_id,revision=revision)
             c.need(model_info.sha.startswith(revision),"PINNED_PHONE_COMMIT")
+            cache_root=Path(os.environ.get("RUNNER_TEMP","/tmp"))/"hifi-private-phone-cache"
             folder=Path(snapshot_download(repo_id=model_id,revision=model_info.sha,
-                cache_dir=str(Path(os.environ.get("RUNNER_TEMP","/tmp"))/"hifi-private-phone-cache"),max_workers=2,token=False))
+                cache_dir=str(cache_root),max_workers=2,token=False))
             weights=folder/"pytorch_model.bin"
             c.need(weights.is_file() and weights.stat().st_size==1263535127,
                    "PINNED_PHONE_MODEL_SIZE")
@@ -83,7 +100,7 @@ def main():
                     digest.update(b)
             c.need(digest.hexdigest()==WEIGHT_SHA[index],"PINNED_PHONE_WEIGHT_DIGEST")
             feat=Wav2Vec2FeatureExtractor.from_pretrained(str(folder),local_files_only=True)
-            vocab=json.loads(c.read(folder/"vocab.json"))
+            vocab=read_verified_hf_metadata(folder,cache_root,"vocab.json")
             cfg=Wav2Vec2Config.from_json_file(str(folder/"config.json"))
             model=Wav2Vec2ForCTC(cfg)
             state=torch.load(str(weights),map_location="cpu",weights_only=True)
