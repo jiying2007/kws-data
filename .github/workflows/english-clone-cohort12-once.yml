@@ -1,0 +1,122 @@
+name: Produce 12-style canonical English synthetic clone corpus once
+on:
+  pull_request:
+    paths:
+      - automation/english_clone_cohort12_once.py
+      - automation/test_english_clone_cohort12_once.py
+      - .github/workflows/english-clone-cohort12-once.yml
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-clone-cohort12-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-clone-cohort12-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261118'
+jobs:
+  source-contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check frozen 60 new outputs and no old Meero training replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          for flags in '' '-O' '-OO'; do
+            python3 -I -S -B $flags automation/english_clone_cohort12_once.py --source-check
+            python3 -I -S -B $flags automation/test_english_clone_cohort12_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  generate-new-voices:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '7c352e15466dd62b21a4733e96f08d51d938b647'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Verify exact protected-main successor and old reference artifact identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_clone_cohort12_once.py --guard
+          python3 -I -S -B automation/english_clone_cohort12_once.py --verify-remote
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-neutral-clone-reference12-44256271861
+          run-id: 44256271861
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/clone12-input
+      - name: Verify twelve independent synthetic styles and exact donor split
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'PYCODE'
+          import importlib.util, pathlib, os
+          p=pathlib.Path("automation/english_clone_cohort12_once.py").resolve()
+          spec=importlib.util.spec_from_file_location("cohort_source",p)
+          mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
+          refs=mod.reference_rows(pathlib.Path(os.environ["RUNNER_TEMP"])/"clone12-input")
+          assert len(refs)==12
+          print("VERIFIED_REFERENCE_GROUPS",len(refs))
+          PYCODE
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install pinned Qwen3-TTS 0.6B Base CPU runtime
+        timeout-minutes: 13
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/clone-env"
+          "$RUNNER_TEMP/clone-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' \
+            --extra-index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/clone-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'qwen-tts==0.1.1' 'transformers==4.57.3'
+      - name: Generate at most 60 original unclipped clone WAVs from twelve donor styles
+        timeout-minutes: 62
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=25s 3540s \
+            "$RUNNER_TEMP/clone-env/bin/python" -I -B \
+            automation/english_clone_cohort12_once.py --generate \
+            --reference "$RUNNER_TEMP/clone12-input" \
+            --output "$RUNNER_TEMP/english-clone12-new-corpus"
+          python3 -I -S -B automation/english_clone_cohort12_once.py --readback \
+            --reference "$RUNNER_TEMP/clone12-input" \
+            --output "$RUNNER_TEMP/english-clone12-new-corpus"
+      - name: Retain complete new audio, original lineage and any partial failure receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-clone12-corpus-${{ github.run_id }}
+          path: ${{ runner.temp }}/english-clone12-new-corpus/
+          retention-days: 30
+          if-no-files-found: warn
