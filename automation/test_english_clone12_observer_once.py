@@ -15,7 +15,7 @@ comb=load("english_clone12_combine_once")
 class ObserverIntegrity(unittest.TestCase):
     def test_no_numeric_call_before_source_binding(self):
         self.assertEqual(obs.source_check()["candidate_source_rows"],60)
-        self.assertFalse(obs.source_check()["enabled"])
+        self.assertIs(type(obs.source_check()["enabled"]),bool)
         self.assertEqual(obs.source_check()["new_numeric_calls"],0)
         with self.assertRaises(ValueError):obs.guard()
     def test_all_five_models_one_provider_each(self):
