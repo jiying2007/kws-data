@@ -63,6 +63,16 @@ def original_audio(pcm,wav,source):
              w.getnframes()*2==len(pcm) and
              w.readframes(w.getnframes())==pcm,
              "EXACT_COMPLETE_MONO_PCM")
+    # Independently recompute levels from the original full PCM, not from
+    # a requested source label or a pre-existing quality flag.
+    from array import array
+    import math
+    values=array("h")
+    values.frombytes(pcm)
+    rms=math.sqrt(sum(v*v for v in values)/len(values))/32768
+    rail=sum(v in (-32768,32767) for v in values)/len(values)
+    need(rms>=0.0001 and rail<=0.01,
+         "INDEPENDENT_REFERENCE_PCM_LEVELS")
     return len(pcm)//2
 
 def select(data):
