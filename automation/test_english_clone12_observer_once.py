@@ -17,7 +17,8 @@ class ObserverIntegrity(unittest.TestCase):
         self.assertEqual(obs.source_check()["candidate_source_rows"],60)
         self.assertIs(type(obs.source_check()["enabled"]),bool)
         self.assertEqual(obs.source_check()["new_numeric_calls"],0)
-        with self.assertRaises(ValueError):obs.guard()
+        with self.assertRaises(ValueError):
+            obs.guard(env={"GITHUB_ACTIONS":"false"})
     def test_all_five_models_one_provider_each(self):
         self.assertEqual(set(obs.PROVIDERS),
                           {"qwen","whisper","parakeet","xlsr","lv60"})
@@ -35,7 +36,8 @@ class ObserverIntegrity(unittest.TestCase):
         self.assertEqual(facts["status"],"MISSING_OBSERVER_ARTIFACT")
     def test_no_unpinned_artifact_identity(self):
         plan=obs.read_plan()
-        self.assertEqual(plan["main_before"],plan["source"]["commit"])
+        self.assertEqual(plan["main_before"],"eab1e99784644fb826c21794c3fc93f69fdc5bac")
+        self.assertEqual(plan["source"]["commit"],"337ae4f4f318483696a28f0ebc635877b623606a")
         self.assertEqual(plan["source"]["run_id"],44257296925)
         self.assertFalse(plan["requested_text_is_truth"])
         self.assertFalse(plan["training_allowed"])
