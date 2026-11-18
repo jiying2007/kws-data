@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2633,
+  "expected_tracked_files": 2641,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -842,7 +842,15 @@
     "automation/english_clone_cohort12_once.py",
     "automation/test_english_clone_cohort12_once.py",
     ".github/workflows/english-clone-cohort12-once.yml",
-    "research/english_clone_cohort12_20261118/PROTOCOL.md"
+    "research/english_clone_cohort12_20261118/PROTOCOL.md",
+    "automation/english_clone12_evidence_plan.json",
+    "automation/english_clone12_admission_policy.py",
+    "automation/test_english_clone12_admission_policy.py",
+    "automation/english_clone12_observer_once.py",
+    "automation/english_clone12_combine_once.py",
+    "automation/test_english_clone12_observer_once.py",
+    ".github/workflows/english-clone12-evidence-once.yml",
+    "research/english_clone12_five_observer_20261118/PROTOCOL.md"
   ],
   "baseline_files": [
     {
@@ -31835,6 +31843,23 @@
         "research/english_clone_cohort12_20261118/PROTOCOL.md"
       ],
       "rationale": "Batched 60 never-before generated Qwen3 Base synthetic-reference voice clones from exact authenticated 12 KWS donor reference WAVs with original 6/2/2/2 role assignments; two Mero phonetic renderings, two Vosen renderings and ordinary negative request per original donor. All candidate labels unobserved, old Meero data forbidden, no TTS replay and no admission/optimizer until new independent observations."
+    },
+    {
+      "campaign": "english-clone12-five-observer-source-admission-20261118",
+      "source_commit": "4774c9842b052ebd8e84537b0bfef4972364d872",
+      "base_commit": "337ae4f4f318483696a28f0ebc635877b623606a",
+      "previous_manifest_git_blob_sha1": "fd2b843fc3f831c619fb00a0cd967576c98d8f3d",
+      "paths": [
+        "automation/english_clone12_evidence_plan.json",
+        "automation/english_clone12_admission_policy.py",
+        "automation/test_english_clone12_admission_policy.py",
+        "automation/english_clone12_observer_once.py",
+        "automation/english_clone12_combine_once.py",
+        "automation/test_english_clone12_observer_once.py",
+        ".github/workflows/english-clone12-evidence-once.yml",
+        "research/english_clone12_five_observer_20261118/PROTOCOL.md"
+      ],
+      "rationale": "Pin exactly 60 genuine fresh Qwen3 Base WAVs and 12 immutable donor refs, then run three blind unconditioned ASR sources plus two independent complete-PCM phones (max 300 fresh observer forwards), independently recompute saved CTC logits, and screen all 60 rows for 6/2/2/2 original source-group completeness. Strict prospective dual-witness policy, human-gold false, old Meero still excluded, no head training or model promotion."
     }
   ]
 }
