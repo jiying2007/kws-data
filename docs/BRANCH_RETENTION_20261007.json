@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2569,
+  "expected_tracked_files": 2585,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -295,6 +295,7 @@
     ".github/workflows/english-kokoro-context32-once.yml",
     ".github/workflows/english-kokoro-context64-once.yml",
     ".github/workflows/english-kokoro48-once.yml",
+    ".github/workflows/english-mero-meh-once.yml",
     ".github/workflows/english-phonetic192-once.yml",
     ".github/workflows/english-pocket12-once.yml",
     ".github/workflows/english-quality-snr10-continue-once.yml",
@@ -314,6 +315,7 @@
     ".github/workflows/research-v4-executor.yml",
     ".github/workflows/terminal144-observations-once.yml",
     ".github/workflows/terminal144-training-once.yml",
+    "EXCLUSION_EVIDENCE.json",
     "README.md",
     "automation/bind_english_synthetic192_fullpcm.py",
     "automation/english_context64_policy_v2_reference.py",
@@ -365,6 +367,13 @@
     "automation/english_kokoro_context64_phone.py",
     "automation/english_kokoro_context64_plan.json",
     "automation/english_kokoro_context64_recipe.py",
+    "automation/english_mero_meh_generate.py",
+    "automation/english_mero_meh_observe.py",
+    "automation/english_mero_meh_once.py",
+    "automation/english_mero_meh_plan.json",
+    "automation/english_mero_meh_policy.py",
+    "automation/english_mero_meh_profile_v1.json",
+    "automation/english_mero_meh_recipe.py",
     "automation/english_phonetic192_once.py",
     "automation/english_phonetic192_plan.json",
     "automation/english_phonetic192_recipe.py",
@@ -464,6 +473,9 @@
     "automation/test_english_kokoro_context64_generate.py",
     "automation/test_english_kokoro_context64_once.py",
     "automation/test_english_kokoro_context64_phone.py",
+    "automation/test_english_mero_meh_generate.py",
+    "automation/test_english_mero_meh_once.py",
+    "automation/test_english_mero_meh_policy.py",
     "automation/test_english_phonetic192.py",
     "automation/test_english_piper_ipa_ctc_once.py",
     "automation/test_english_piper_probe_asr_once.py",
@@ -657,6 +669,10 @@
     "research/english_hardneg_natural32_retained_20261117/SUCCESSFUL_CORPUS_DOWNLOAD.json",
     "research/english_hardneg_natural32_retained_20261117/SUCCESSFUL_CORPUS_DOWNLOAD_EXIT.json",
     "research/english_hardneg_natural32_retained_20261117/audit/audit_retained_source_failure.py",
+    "research/english_mero_meh_20261118/DATA_CONTRACT.md",
+    "research/english_mero_meh_20261118/KOKORO_VOICES_TREE.json",
+    "research/english_mero_meh_20261118/KOKORO_VOICES_UPSTREAM.md",
+    "research/english_mero_meh_20261118/PRONUNCIATION.md",
     "research/english_piper_v4_joint_review_20261117/joint-review.csv",
     "research/english_piper_v4_joint_review_20261117/joint-review.json",
     "research/english_pocket12_native_short_20261118/ACTUAL.md",
@@ -31324,6 +31340,145 @@
         }
       ],
       "rationale": "During saved-outcome publication, the existing projection CI fixture rebuilt identical WEIGHTS ZIP payloads with wall-clock timestamps. Crossing a two-second DOS timestamp boundary changed the archive hash before the intended prior-terminal assertion. A deterministic two-time reproduction failed the original test and passed the one-line fix. Pin only the fixture ZipInfo timestamp to 1980-01-01; preserve all production validators, assertions, actual weights and retained evidence. All 24 existing tests pass in normal, -O and -OO modes; no model calls."
+    },
+    {
+      "campaign": "english-mero-meh-corpus-v1-20261118",
+      "source_commit": "97456bccbed6f767005beb03fe7dbffb98017bea",
+      "base_commit": "28e753380d1b9c34bdf44b5d8e92c31484061601",
+      "previous_manifest_git_blob_sha1": "1f33c1d00e2db2eeb0950a0b6404c3199a3ff9e7",
+      "paths": [
+        ".github/workflows/english-mero-meh-once.yml",
+        "EXCLUSION_EVIDENCE.json",
+        "automation/english_mero_meh_generate.py",
+        "automation/english_mero_meh_observe.py",
+        "automation/english_mero_meh_once.py",
+        "automation/english_mero_meh_plan.json",
+        "automation/english_mero_meh_policy.py",
+        "automation/english_mero_meh_profile_v1.json",
+        "automation/english_mero_meh_recipe.py",
+        "automation/test_english_mero_meh_generate.py",
+        "automation/test_english_mero_meh_once.py",
+        "automation/test_english_mero_meh_policy.py",
+        "research/english_mero_meh_20261118/DATA_CONTRACT.md",
+        "research/english_mero_meh_20261118/KOKORO_VOICES_TREE.json",
+        "research/english_mero_meh_20261118/KOKORO_VOICES_UPSTREAM.md",
+        "research/english_mero_meh_20261118/PRONUNCIATION.md"
+      ],
+      "files": [
+        {
+          "path": ".github/workflows/english-mero-meh-once.yml",
+          "mode": "100644",
+          "bytes": 11506,
+          "sha256": "3f766912d74e71811d5162f5d1a544e4947e45dc3ab08057af19e2b64abb9a61",
+          "git_blob_sha1": "94ef66750bf43ffbd5c04b13ad4c135faf3d3670"
+        },
+        {
+          "path": "EXCLUSION_EVIDENCE.json",
+          "mode": "100644",
+          "bytes": 131275,
+          "sha256": "c62595daa7e29f1e321b0d8cc9902ef9dc03cc91458125abdf378886815b48e1",
+          "git_blob_sha1": "e58008da43073e47f5f725e8b314a89f1337ae12"
+        },
+        {
+          "path": "automation/english_mero_meh_generate.py",
+          "mode": "100644",
+          "bytes": 29119,
+          "sha256": "c683da37ba374a99d0028996f0adaa80bf75d53e2db2db1b52c2c7e98b2b2360",
+          "git_blob_sha1": "d77ffe0827bc88efc1ec23ca5806d6c007dd956c"
+        },
+        {
+          "path": "automation/english_mero_meh_observe.py",
+          "mode": "100644",
+          "bytes": 17078,
+          "sha256": "6ceb91c01a5ac6a8b3e1ace42d46c6401b21889362563c11d39034f8b20d287e",
+          "git_blob_sha1": "03010392622ba55e8cf031dbc739d166d08cdaf1"
+        },
+        {
+          "path": "automation/english_mero_meh_once.py",
+          "mode": "100644",
+          "bytes": 20099,
+          "sha256": "3e5417180911f6ee33fc7df9986a21ca00461dd82b8f77d55bfa702b1fea6cdd",
+          "git_blob_sha1": "196a5fbbf17d6ba94790c4adf7aeeba088af4b2b"
+        },
+        {
+          "path": "automation/english_mero_meh_plan.json",
+          "mode": "100644",
+          "bytes": 5511,
+          "sha256": "b180cc0096b321e8f1acffabe6397622b4a775153330fdb2cf58ac774051df70",
+          "git_blob_sha1": "f21f2ce48c5c29a4aa62964e5ea37896814228a8"
+        },
+        {
+          "path": "automation/english_mero_meh_policy.py",
+          "mode": "100644",
+          "bytes": 19771,
+          "sha256": "3d08b592ed6bdd55bd5bd9a18af4d1ba6ddbaddcf02b2338d2a27de7154ae321",
+          "git_blob_sha1": "64196e4a18cc3690a7745acd8f2416ed4efd7aa8"
+        },
+        {
+          "path": "automation/english_mero_meh_profile_v1.json",
+          "mode": "100644",
+          "bytes": 4261,
+          "sha256": "1ef68a0aac3883304719023efee2a33d4510efaf2a7364328f98470920cc6ca6",
+          "git_blob_sha1": "e47957e1b4c9ea5ad7faeaf42a93731ff377527c"
+        },
+        {
+          "path": "automation/english_mero_meh_recipe.py",
+          "mode": "100644",
+          "bytes": 14101,
+          "sha256": "e4f3381da7678eb45581d0fa5513128b2ca54e8127f70a34eb15af73e0ea55a7",
+          "git_blob_sha1": "38ffb2541ef30d83692f43fbc1ac00a4b3e5bf38"
+        },
+        {
+          "path": "automation/test_english_mero_meh_generate.py",
+          "mode": "100644",
+          "bytes": 7783,
+          "sha256": "6f6f2854f8e9c039858dd32406dd394ef4d4a6a446c6d8fa805a821747857445",
+          "git_blob_sha1": "35e4eba07e1d5a919690cd12bf443f4358a768a7"
+        },
+        {
+          "path": "automation/test_english_mero_meh_once.py",
+          "mode": "100644",
+          "bytes": 15590,
+          "sha256": "fc1bc142672629f91b8d9231d4e4db333cb125b5a8e4f8adbafca7e93a8c8273",
+          "git_blob_sha1": "86c33d2f324bc217db2f8bd537518ed862d526dd"
+        },
+        {
+          "path": "automation/test_english_mero_meh_policy.py",
+          "mode": "100644",
+          "bytes": 12212,
+          "sha256": "e5fd8e34f107fccca88ce049187ba1a5fadc9805909073c2d77cf103130ff6cc",
+          "git_blob_sha1": "6636aaa8a91f7067a951bc8c9943d3cdd35848b0"
+        },
+        {
+          "path": "research/english_mero_meh_20261118/DATA_CONTRACT.md",
+          "mode": "100644",
+          "bytes": 8176,
+          "sha256": "af8e240c4f10f53ed5df3451863edf600552d0aec893f1a992b0091ccef51d87",
+          "git_blob_sha1": "065940ffc8f48140ddf591d4bdda87ac0593f7ab"
+        },
+        {
+          "path": "research/english_mero_meh_20261118/KOKORO_VOICES_TREE.json",
+          "mode": "100644",
+          "bytes": 16051,
+          "sha256": "661ac8dfdcfaac54aeccedd34308db33c19e85febdf3a58f086dd1ae5e70255e",
+          "git_blob_sha1": "497a43c248d6db1052d31139e981bc34467aaff7"
+        },
+        {
+          "path": "research/english_mero_meh_20261118/KOKORO_VOICES_UPSTREAM.md",
+          "mode": "100644",
+          "bytes": 7625,
+          "sha256": "ec7e4941ad7e194af61e3455928528a9ff5360c7c505e412efab27d6a69ea106",
+          "git_blob_sha1": "ed78a806ffa121525449a848624600eae34037c7"
+        },
+        {
+          "path": "research/english_mero_meh_20261118/PRONUNCIATION.md",
+          "mode": "100644",
+          "bytes": 3446,
+          "sha256": "5daf7f769cd4c024f51efbe037843adfecebc80c32f50ab184a5a51382795fb8",
+          "git_blob_sha1": "eb24e47e8d4a992f81dbd8e6e7fa35c1a7c9e31b"
+        }
+      ],
+      "rationale": "Freeze the user-selected Hey Mero /heɪ ˈmɛroʊ/ brand reading before generating a formal fresh corpus. Keep Vosen /s/, exclude homophonous Marrow/Merrow strict negatives, retain every historical probe exclusion, and admit new rows only through whole-PCM blind ASR plus native phone evidence. Fix 12 nonblended synthetic preset roles at 6/2/2/2, 144 native requests and 576 observations, no retries or automatic expansion, original Kokoro graph and runtime, exact first main push only. Source checks are stdlib/mock; original retained models, audio, results and algorithms remain byte-identical. All accepted source bytes, native evidence and hidden workflow files are retained for independently recomputed training admission."
     }
   ]
 }
