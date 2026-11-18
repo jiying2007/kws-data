@@ -75,7 +75,7 @@ def readback_prior(root):
          saved.get("new_optimizer_updates")==0 and
          review.get("qualified_groups_by_role")==FROZEN_PRIOR_GROUPS and
          review.get("total_qualified_synthetic_source_groups")==8 and
-         review.get("denominator")==126 and
+         review.get("denominator")==168 and
          review.get("training_snapshot_allowed") is False,
          "PREVIOUS_ORIGINAL_IMMUTABLE_FIVE_OBSERVER_STOP")
     return FROZEN_PRIOR_GROUPS.copy()
