@@ -180,13 +180,13 @@ class TrainingBoundaryTests(unittest.TestCase):
         w.source_preflight(plan)
         self.assertEqual(plan['enabled'], c.SOURCE_IDENTITY_CANDIDATE_ENABLED)
 
-    def test_numeric_ast_unchanged(self):
+    def test_canonical_numeric_ast_frozen_after_deliberate_legacy_removal(self):
         tree = ast.parse((ROOT/w.CORE_PATH).read_text())
         tree.body = [node for node in tree.body if not (isinstance(node, ast.Assign)
             and any(isinstance(t, ast.Name) and t.id in
                 {'SOURCE_IDENTITY_CANDIDATE_ENABLED', 'BOUND_INTAKE_BINDING_SHA256'} for t in node.targets))]
         self.assertEqual(hashlib.sha256(ast.dump(tree, include_attributes=False).encode()).hexdigest(),
-            '3314f05bf5d6927265b446c430374679a8264c54ebcd833e5eab1ea4b319ecd6')
+            'b1fdb598017b72f3ee9c4b12a6a44042015df6921b71ffb928351592a018ccf2')
 
     def test_actual_metadata_binding(self):
         pin = {'bytes': 15, 'sha256': 'a'*64}
