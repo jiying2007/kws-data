@@ -16,6 +16,7 @@ import wave
 ROOT=Path(__file__).resolve().parents[1]
 REPO="jiying2007/kws-data"
 PREDECESSOR="163816b9e343d66eab67efd7cd6c7dcb34a68a6d"
+RECOVERY_PREDECESSOR="ec58aa844b33f736c5a002dc81afac1d62509a28"
 SCHEMA="english-hifi-micro-20261118-v1"
 CUSTOM_MODEL=("Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice","85e237c")
 CLONE_MODEL=("Qwen/Qwen3-TTS-12Hz-0.6B-Base","5d83992")
@@ -79,7 +80,9 @@ def contract():
             "model_calls":0,"training_allowed":False,
             "human_gold":False,"speaker_group_count_for_training":0}
 
-def guard(env=None,event=None,parent=None):
+def guard(env=None,event=None,parent=None,*,recovery=False):
+    need(type(recovery) is bool,"EXPLICIT_BOOLEAN_RECOVERY")
+    exact_predecessor=RECOVERY_PREDECESSOR if recovery else PREDECESSOR
     env=os.environ if env is None else env
     expected={"GITHUB_ACTIONS":"true","GITHUB_REPOSITORY":REPO,
               "GITHUB_EVENT_NAME":"push","GITHUB_REF":"refs/heads/main",
@@ -90,7 +93,7 @@ def guard(env=None,event=None,parent=None):
          "EXACT_EXECUTION_IDENTITY")
     if event is None:
         event=json.loads(read(env["GITHUB_EVENT_PATH"]))
-    need(event.get("before")==PREDECESSOR and event.get("after")==sha
+    need(event.get("before")==exact_predecessor and event.get("after")==sha
          and event.get("ref")=="refs/heads/main"
          and event.get("repository",{}).get("full_name")==REPO
          and event.get("repository",{}).get("private") is False
@@ -99,8 +102,9 @@ def guard(env=None,event=None,parent=None):
     if parent is None:
         import subprocess
         parent=subprocess.check_output(["git","rev-parse","HEAD^1"],cwd=ROOT,text=True).strip()
-    need(parent==PREDECESSOR,"EXACT_MAIN_FIRST_PARENT")
-    return {"run":env["GITHUB_RUN_ID"],"sha":sha,"before":PREDECESSOR}
+    need(parent==exact_predecessor,"EXACT_MAIN_FIRST_PARENT")
+    return {"run":env["GITHUB_RUN_ID"],"sha":sha,"before":exact_predecessor,
+            "recovery_only":recovery}
 
 def inspect_wav(path):
     raw=read(path,24*1024*1024)
@@ -148,12 +152,14 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument("--check",action="store_true")
     p.add_argument("--guard",action="store_true")
+    p.add_argument("--guard-recovery",action="store_true")
     p.add_argument("--verify",choices=["custom","clone"])
     p.add_argument("--source")
     a=p.parse_args()
-    need(sum(bool(x) for x in (a.check,a.guard,a.verify))==1,"ONE_MODE_ONLY")
+    need(sum(bool(x) for x in (a.check,a.guard,a.guard_recovery,a.verify))==1,"ONE_MODE_ONLY")
     if a.check: print(json.dumps(contract()));return
     if a.guard: print(json.dumps(guard()));return
+    if a.guard_recovery: print(json.dumps(guard(recovery=True)));return
     need(a.source,"SOURCE_DIRECTORY_REQUIRED")
     out=verify_stage(a.source,a.verify)
     print(json.dumps({"status":"SOURCE_AUTHENTICATED","stage":a.verify,
