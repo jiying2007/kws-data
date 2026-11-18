@@ -73,7 +73,7 @@ def main():
             model_info=HfApi(token=False).model_info(model_id,revision=revision)
             c.need(model_info.sha.startswith(revision),"PINNED_PHONE_COMMIT")
             folder=Path(snapshot_download(repo_id=model_id,revision=model_info.sha,
-                cache_dir=str(root/"cache"),max_workers=2,token=False))
+                cache_dir=str(Path(os.environ.get("RUNNER_TEMP","/tmp"))/"hifi-private-phone-cache"),max_workers=2,token=False))
             weights=folder/"pytorch_model.bin"
             c.need(weights.is_file() and weights.stat().st_size==1263535127,
                    "PINNED_PHONE_MODEL_SIZE")
