@@ -97,7 +97,7 @@ def plan():
     cells=doc["cells"]
     need(len(cells)==7 and len({x["cell_id"] for x in cells})==7 and
          Counter(x["requested_class"] for x in cells)==Counter({0:1,1:2,2:2,None:2})
-         and all(type(x["speed"]) is float and 0.85<=x["speed"]<=1.15
+         and all(type(x["speed"]) in (int,float) and 0.85<=x["speed"]<=1.15
                  and len(x["raw_phonemes"])<=128
                  and x["raw_phonemes"].startswith("hˈA ")
                  if x["requested_class"] in (1,2,None)
