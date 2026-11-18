@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2606,
+  "expected_tracked_files": 2608,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -688,6 +688,8 @@
     "research/english_hardneg_natural32_retained_20261117/audit/audit_retained_source_failure.py",
     "research/english_mero_meh_20261118/ACTUAL_44218734553.json",
     "research/english_mero_meh_20261118/ACTUAL_44218734553.md",
+    "research/english_mero_meh_20261118/ACTUAL_LV60_44224679148.json",
+    "research/english_mero_meh_20261118/ACTUAL_LV60_44224679148.md",
     "research/english_mero_meh_20261118/DATA_CONTRACT.md",
     "research/english_mero_meh_20261118/KOKORO_VOICES_TREE.json",
     "research/english_mero_meh_20261118/KOKORO_VOICES_UPSTREAM.md",
@@ -31714,6 +31716,33 @@
         }
       ],
       "rationale": "Retain the actual 144 synthesis plus 576 observer requests from run 44218734553 and its original STOP_FRESH_CORPUS_COVERAGE result: 71 content-supported rows, 67 content-plus-geometry rows, zero final admitted rows and zero training runs. Preregister one distinct 24-call LV60 diagnostic on exact saved complete PCM, with terminal-GOAT, medial-GOAT and door controls, no TTS, no retries and no change to original labels or policy. Bind only the next public main successor. Also retain the already tested training and C/ARM replay adapters disabled and unbound; their presence claims no candidate, training result, accuracy improvement or SSC305 qualification. All existing tracked files other than this integration registry, all retained bytes and all historical outcomes remain unchanged."
+    },
+    {
+      "campaign": "english-mero-meh-lv60-actual-outcome-20261118",
+      "source_commit": "56af8e67c8777e582713394fe7205840dc3a21bd",
+      "base_commit": "2b1c50320c952c203d4cf0c7cc3ae20c41f5e0e8",
+      "previous_manifest_git_blob_sha1": "d82780845ac13b0239d4158c085736c43da2d0de",
+      "paths": [
+        "research/english_mero_meh_20261118/ACTUAL_LV60_44224679148.json",
+        "research/english_mero_meh_20261118/ACTUAL_LV60_44224679148.md"
+      ],
+      "files": [
+        {
+          "path": "research/english_mero_meh_20261118/ACTUAL_LV60_44224679148.json",
+          "mode": "100644",
+          "bytes": 120696,
+          "sha256": "6a56f07b9ebacdf6187d9f8e87afe2d95a661aecfd6a0f18db40141df61f0609",
+          "git_blob_sha1": "f4da4f47a792b73fc980d1f79dc8d4e277049b23"
+        },
+        {
+          "path": "research/english_mero_meh_20261118/ACTUAL_LV60_44224679148.md",
+          "mode": "100644",
+          "bytes": 8498,
+          "sha256": "1e5e53d048ec64218021a5add316d58c2c547d0439e75380bef6e40f0f9d7343",
+          "git_blob_sha1": "c27776a30d500399a669984bf5030b66ab66e5aa"
+        }
+      ],
+      "rationale": "Retain actual diagnostic run 44224679148: exactly 24 LV60 forwards/returns/captures on unchanged whole PCM, original artifact 14391739453 verified by ZIP digest, complete 4423-member closure, frozen readers, native logits and paired reconstruction. Report all raw pairs and controls. The eight Mero rows show XLSR seven ɔ plus one missing final vowel versus LV60 six o plus two oː, with no exact oʊ; a door control is decoded as doʊ by LV60. Observer disagreement is not pronunciation gold or a new label. Preserve original 144-row corpus STOP, all roles/weights/exclusions and disabled downstream execution. These two documents and registry registration add no workflow or model execution."
     }
   ]
 }
