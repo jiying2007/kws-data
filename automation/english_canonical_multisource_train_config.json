@@ -1,0 +1,194 @@
+{
+  "schema": "english-canonical-multisource-frozen-head-train-v1",
+  "project": "jiying2007/kws-data",
+  "before": "4992666d4356d76301ad8ccbd71fad12db3d7caa",
+  "brand_ipa": {
+    "Hey Mero": "/heɪ ˈmɛroʊ/",
+    "Hey Vosen": "/heɪ ˈvoʊsən/"
+  },
+  "frozen_phones_rule_git_blob_sha1": "0a688325d0d36e83ef6623ac678511df24a92374",
+  "corpus": [
+    {
+      "key": "fresh24",
+      "source": {
+        "run": 44289263966,
+        "sha": "aca5d052daa78aa3c4f3f21dc462ab2a350d6efb",
+        "id": 14422271973,
+        "name": "english-fresh24-clone168-44289263966",
+        "bytes": 4505217,
+        "sha256": "26396073f5be2f91e35575bedb586737405162388e32bfe85633ed3d796a9583",
+        "denominator": 168,
+        "source_schema": "english-fresh24-qwen-voice-clone-v1"
+      },
+      "screen": {
+        "run": 44306842000,
+        "sha": "75ccd81bb3abe2973e01fb2bf1a74411629e9279",
+        "id": 14429385634,
+        "name": "english-fresh24-prospective-screen-44306842000",
+        "bytes": 19501,
+        "sha256": "5a9b226b8fe475331d9f03d3ca4f91d5bb94c5270113f6d0cf3e8b4c36fe8316",
+        "status": "STOP_CANONICAL_6_2_2_2_SOURCE_COVERAGE"
+      },
+      "qualified_by_role": {
+        "train": 4,
+        "development": 1,
+        "calibration": 3,
+        "locked-test": 0
+      }
+    },
+    {
+      "key": "fresh18",
+      "source": {
+        "run": 44310115097,
+        "sha": "768922492ef294240153c085e5318c528a92a70a",
+        "id": 14429578824,
+        "name": "english-fresh18-direct126-44310115097",
+        "bytes": 3359173,
+        "sha256": "34cf7879f974f62c9f6046a72a964002f30bf59d2186a423ac382a76ff69d0e9",
+        "denominator": 126,
+        "source_schema": "english-fresh18-new-kokoro-direct-phones-v1"
+      },
+      "screen": {
+        "run": 44312719394,
+        "sha": "6fc03ff706b8949b9a6c066f4478890db8de28aa",
+        "id": 14429884666,
+        "name": "english-fresh18-cumulative-screen-44312719394",
+        "bytes": 15068,
+        "sha256": "4a685afa1d8e8c35767900290a7fd590f2153fb69f3b2e5ae68d5dada58b11e1",
+        "status": "STOP_CUMULATIVE_6_2_2_2_SOURCE_COVERAGE"
+      },
+      "qualified_by_role": {
+        "train": 0,
+        "development": 0,
+        "calibration": 0,
+        "locked-test": 1
+      }
+    },
+    {
+      "key": "piper24",
+      "source": {
+        "run": 44321329022,
+        "sha": "54fd82f4fa165740fbb4ae2df70b12c634e41a41",
+        "id": 14434542792,
+        "name": "english-newpiper-source-44321329022",
+        "bytes": 3362081,
+        "sha256": "d1f75716fefd954d59c3289c37e7e6670965ee98917436676896312e4b781aa1",
+        "denominator": 168,
+        "source_schema": "english-piper-fresh24-original-source-v1"
+      },
+      "screen": {
+        "run": 44323694022,
+        "sha": "4992666d4356d76301ad8ccbd71fad12db3d7caa",
+        "id": 14436377961,
+        "name": "english-newpiper-cumulative-screen-44323694022",
+        "bytes": 19503,
+        "sha256": "c6b8573bae44ffa110b776482da74919d16e6b1437c6c3e1f462fd1b7a28a519",
+        "status": "PASS_CUMULATIVE_6_2_2_2_SOURCE_COVERAGE"
+      },
+      "qualified_by_role": {
+        "train": 4,
+        "development": 3,
+        "calibration": 0,
+        "locked-test": 2
+      }
+    }
+  ],
+  "full_qualified_role_minimum": {
+    "train": 6,
+    "development": 2,
+    "calibration": 2,
+    "locked-test": 2
+  },
+  "exact_expected_qualified": {
+    "train": 8,
+    "development": 4,
+    "calibration": 3,
+    "locked-test": 3
+  },
+  "accepted_machine_tiers": {
+    "silver": 1,
+    "weak": 0.5
+  },
+  "excluded_machine_tiers": [
+    "unknown"
+  ],
+  "word_labels": {
+    "0": "ordinary",
+    "1": "hey_vosen",
+    "2": "hey_mero"
+  },
+  "supervised_audio_use": "research_weak_whole_clip_only_not_true_word_end",
+  "preprocessing": {
+    "input_pcm_rate": 16000,
+    "prefix_noise_samples": 38400,
+    "suffix_noise_samples": 16000,
+    "noise_conditions": [
+      "clean",
+      "snr10",
+      "snr5"
+    ],
+    "max_model_forward_calls": 18000,
+    "expected_mel_frames": 97,
+    "mel_select_last_frames": 76,
+    "mel_input_gain": 10,
+    "mel_input_offset": 2,
+    "feature_width": 96,
+    "history_vectors": 16,
+    "embedding_sample_hop": 1280,
+    "minimum_history_samples": 35200,
+    "positive_max_original_samples": 28672,
+    "negative_context_may_have_synthetic_noise": true
+  },
+  "frozen_backbone": {
+    "origin": "dscripka/openWakeWord v0.5.1 feature models",
+    "research_license_scope": "research_only_verify_commercial_rights_separately",
+    "assets": {
+      "melspectrogram.onnx": {
+        "url": "https://github.com/dscripka/openWakeWord/releases/download/v0.5.1/melspectrogram.onnx",
+        "bytes": 1087958,
+        "sha256": "ba2b0e0f8b7b875369a2c89cb13360ff53bac436f2895cced9f479fa65eb176f"
+      },
+      "embedding_model.onnx": {
+        "url": "https://github.com/dscripka/openWakeWord/releases/download/v0.5.1/embedding_model.onnx",
+        "bytes": 1326578,
+        "sha256": "70d164290c1d095d1d4ee149bc5e00543250a7316b59f31d056cff7bd3075c1f"
+      }
+    }
+  },
+  "head": {
+    "architecture": "frozen_96d_embedding_causal_16_history_relu_1536x32x3",
+    "parameters": 49283,
+    "seed": 20261118,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "max_updates": 96,
+    "clip_grad_norm": 1,
+    "epochs_budget": 96,
+    "checkpoint_selection": "last_fixed_96th_update_no_dev_sweep",
+    "loss": "source_balanced_weak_clip_mil_3_classes",
+    "threshold_choices": [
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ],
+    "confirm_embeddings": 3,
+    "cooldown_embeddings": 13,
+    "calibration": "one_fixed_grid_using_calibration_only_after_weight_freeze",
+    "locked_eval": "once_after_fixed_calibration_and_weight_sha_no_model_selection"
+  },
+  "no_legacy_meero_weights": true,
+  "no_legacy_meero_positive_audio": true,
+  "new_tts_calls": 0,
+  "new_asr_calls": 0,
+  "new_phone_calls": 0,
+  "no_private_repo": true,
+  "no_Work_Codex": true,
+  "human_far_frr": false,
+  "ssc305_measurements": false,
+  "research_training_enabled": true,
+  "automatic_model_promotion_allowed": false
+}
