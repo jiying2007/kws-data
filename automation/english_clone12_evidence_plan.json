@@ -1,0 +1,36 @@
+{
+  "schema": "english-clone12-independent-evidence-plan-v1",
+  "repository": "jiying2007/kws-data",
+  "enabled": false,
+  "source": {
+    "run_id": 44257296925,
+    "commit": "337ae4f4f318483696a28f0ebc635877b623606a",
+    "artifact_id": null,
+    "artifact_name": "english-clone12-corpus-44257296925",
+    "artifact_bytes": null,
+    "artifact_digest": null
+  },
+  "original_references": {
+    "run_id": 44256271861,
+    "commit": "7c352e15466dd62b21a4733e96f08d51d938b647",
+    "artifact_id": 14406282094,
+    "artifact_name": "english-neutral-clone-reference12-44256271861",
+    "artifact_bytes": 652901,
+    "artifact_digest": "sha256:8b86b46759f6f2bd084cd37e1c804c72058fe52ec57f6c221c912eeca96092e5"
+  },
+  "main_before": "337ae4f4f318483696a28f0ebc635877b623606a",
+  "maximum_asr_per_provider": 60,
+  "maximum_phone_per_provider": 60,
+  "retry_count": 0,
+  "source_selection": "FROZEN_ALL_60_ROWS",
+  "independent_providers": [
+    "qwen",
+    "whisper",
+    "parakeet",
+    "xlsr",
+    "lv60"
+  ],
+  "requested_text_is_truth": false,
+  "training_allowed": false,
+  "human_gold": false
+}
