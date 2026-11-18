@@ -38,8 +38,18 @@ def dummy():
                 files[row["pcm_path"]]=pcm
                 files[row["wav_path"]]=wav
     files["CORPUS_MANIFEST.json"]=json.dumps({
-        "campaign_id":"english-mero-meh-corpus-v1","training_allowed":False,
-        "rows":rows}).encode()
+        "campaign_id":"english-mero-meh-corpus-v1","training_allowed":True,
+        "human_gold":False,"rows":rows}).encode()
+    files["ADMISSION.json"]=json.dumps({
+        "campaign_id":"english-mero-meh-corpus-v1",
+        "status":"STOP_FRESH_CORPUS_COVERAGE",
+        "training_allowed":False,"training_snapshot_allowed":False,
+        "balanced_groups_by_role":{"train":0,"development":0,
+                                    "calibration":0,"locked-test":0},
+        "unknown_is_background":False}).encode()
+    files["RESULT.json"]=json.dumps({
+        "admission_status":"STOP_FRESH_CORPUS_COVERAGE",
+        "training_allowed":False}).encode()
     return files
 
 class NeutralReference(unittest.TestCase):
