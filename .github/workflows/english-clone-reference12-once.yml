@@ -1,0 +1,65 @@
+name: Materialize twelve immutable neutral synthetic clone references once
+on:
+  pull_request:
+    paths:
+      - automation/english_clone_reference12_once.py
+      - automation/test_english_clone_reference12.py
+      - .github/workflows/english-clone-reference12-once.yml
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-clone-reference12-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-clone-reference12-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify no-TTS original source selection and full WAV fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opts in '' '-O' '-OO'; do
+            python3 -I -S -B $opts automation/english_clone_reference12_once.py --source-check
+            python3 -I -S -B $opts automation/test_english_clone_reference12.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  real-source-reuse:
+    needs: contract
+    if: >-
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'de43b57620b36c952d8e57887ba9016a090fc1de'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Authenticate original 74MB archive and derive twelve pure-synthetic reference WAVs
+        timeout-minutes: 11
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_clone_reference12_once.py \
+            --run --output "$RUNNER_TEMP/english-neutral-clone-reference12"
+      - name: Retain complete twelve-reference audio and full provenance, including failure evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-neutral-clone-reference12-${{ github.run_id }}
+          path: ${{ runner.temp }}/english-neutral-clone-reference12/
+          retention-days: 30
+          if-no-files-found: warn
