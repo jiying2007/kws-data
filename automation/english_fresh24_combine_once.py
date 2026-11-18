@@ -77,8 +77,8 @@ def packet(root,provider,rows,run):
          "ONLY_ORIGINAL_NEW_168_WAV_IDS")
     mapping={x["id"]:x for x in saved}
     source_by_id={r["id"]:r for r in rows}
-    model_data=json.loads(c.read(root/"MODEL.json")) if
-        (root/"MODEL.json").is_file() else None
+    model_data=(json.loads(c.read(root/"MODEL.json"))
+                if (root/"MODEL.json").is_file() else None)
     original_vocab=None
     if model_data is not None:
         expected=worker.identity(provider)
@@ -170,8 +170,8 @@ def evaluate(rows,texts_by_id,phones_by_id):
                      texts_by_id[sid],phones_by_id[sid])
         # Source intent is never proof; an acoustic class must also agree
         # with the immutable requested kind to be supervised.
-        if observed["tier"]!="unknown" and
-           observed["class"]!=row["requested_class"]:
+        if (observed["tier"]!="unknown" and
+            observed["class"]!=row["requested_class"]):
             observed={**observed,"tier":"unknown","class":None,
                 "reason":"INDEPENDENT_ACOUSTIC_LABEL_CONTRADICTS_SOURCE_INTENT",
                 "training_allowed":False}
