@@ -56,7 +56,8 @@ class SourceBound(unittest.TestCase):
         self.assertEqual(p.e.MODEL,g.MODEL)
         self.assertEqual(len(p.c.PHONE_MODELS),2)
         self.assertEqual(p.admit.M_XLSR.pattern.startswith("h?eɪmɛ"),True)
-        self.assertEqual(p.admit.V_LV60.pattern.find("s"),p.admit.V_LV60.pattern.find("s"))
+        self.assertIn("s[əɐʌ]n",p.admit.V_LV60.pattern)
+        self.assertNotIn("z[əɐʌ]n",p.admit.V_LV60.pattern)
         self.assertFalse(g.source_check()["training_allowed"])
 
 if __name__=="__main__":unittest.main()
