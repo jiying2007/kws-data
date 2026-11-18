@@ -1,0 +1,83 @@
+{
+  "actual_asr_calls": 0,
+  "actual_job_conclusions": {
+    "combine": "skipped",
+    "generate": "failure",
+    "observe": "skipped",
+    "source-contract": "success"
+  },
+  "actual_model_calls": 0,
+  "actual_phoneme_calls": 0,
+  "actual_tts_calls": 0,
+  "automatic_retry": false,
+  "evidence_files": {
+    "ARTIFACTS.json": {
+      "bytes": 898,
+      "sha256": "e7aeb9e8ce2f2715830ddd1d48a4951e2d9f67e6e09f764274dbc9f1115eb63e"
+    },
+    "GENERATE_JOB.log": {
+      "bytes": 21455,
+      "sha256": "fb5cc01295ba56e7376349a9b60917e6c39ccd85e23cf8d5812d15a8edf0886f"
+    },
+    "JOBS.json": {
+      "bytes": 8861,
+      "sha256": "1423cce577eaddaffce04fff919e0b0a591cec83214a1876d211f94181157303"
+    },
+    "RUN.json": {
+      "bytes": 13633,
+      "sha256": "fa5d210a26f29d6c0e41db65cd2fdbcd7abcd4c355d54b155be457d3ba6d8edb"
+    },
+    "runtime.zip": {
+      "bytes": 259,
+      "sha256": "902c53a4912797d8029b6eec973bc6d6e8128da4cfc8f25954ee02a3bde697f5"
+    }
+  },
+  "failure": {
+    "fix": "Normalize the model-subcommand predicate to bool before int conversion; add CLI-level return-code tests.",
+    "message": "int() argument must be a string, a bytes-like object or a real number, not 'NoneType'",
+    "stage": "guard_cli_exit_after_successful_identity_check",
+    "type": "TypeError"
+  },
+  "guard_record": {
+    "commit": "cdbecdc303bdf84e85a1bdfd7e9105ac0079f9fc",
+    "event": "push",
+    "repository": "jiying2007/kws-data",
+    "run_attempt": "1",
+    "run_id": "44217669152"
+  },
+  "inference_recipe_or_policy_changed": false,
+  "maximum_new_model_calls": 720,
+  "model_steps": {
+    "Generate each of 144 whole short requests once": "skipped",
+    "Install the pinned Kokoro CPU runtime and verified wheel": "skipped"
+  },
+  "old_audio_regenerated": false,
+  "ordered_request_sha256": "911f674d572be31f83bfcf9073abd9ad9386a3fd8dd195afc5b52b536f297425",
+  "previous_run": {
+    "attempt": 1,
+    "conclusion": "failure",
+    "event": "push",
+    "head_sha": "cdbecdc303bdf84e85a1bdfd7e9105ac0079f9fc",
+    "id": 44217669152,
+    "repository": "jiying2007/kws-data",
+    "status": "completed",
+    "url": "https://github.com/jiying2007/kws-data/actions/runs/44217669152",
+    "workflow_path": ".github/workflows/english-mero-meh-once.yml"
+  },
+  "recipe_sha256": "976aab6e5193435bf75ba4ac462d36e4c4aa5ddf2c7c98bf1aa9a224f72ad4dc",
+  "replay_previous_workflow": false,
+  "runtime_artifact": {
+    "bytes": 259,
+    "id": 14388843659,
+    "name": "mero-meh-runtime-generation",
+    "sha256": "902c53a4912797d8029b6eec973bc6d6e8128da4cfc8f25954ee02a3bde697f5"
+  },
+  "same_unconsumed_request_roster": true,
+  "schema": "english-mero-meh-zero-call-recovery-evidence-v1",
+  "zero_call_basis": [
+    "Guard JSON contains the exact public run/commit and was saved before the CLI exit error.",
+    "Installation and generation steps were skipped; observe and combine jobs were skipped.",
+    "Only the 259-byte runtime artifact containing GUARD.json was produced; no source PCM/model-load receipt exists.",
+    "Source-contract ran stdlib-only artificial tests, not native inference."
+  ]
+}

@@ -345,7 +345,7 @@ def main(argv=None):
     else:
         value = stage_status(args.stage_status, args.output, args.runtime, identity, args.outcome)
     print(json.dumps(value, sort_keys=True, ensure_ascii=False))
-    return int((args.generate or args.observe) and value.get("status") != "COMPLETE")
+    return int(bool(args.generate or args.observe) and value.get("status") != "COMPLETE")
 
 
 if __name__ == "__main__":

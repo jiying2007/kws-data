@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2585,
+  "expected_tracked_files": 2586,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -673,6 +673,7 @@
     "research/english_mero_meh_20261118/KOKORO_VOICES_TREE.json",
     "research/english_mero_meh_20261118/KOKORO_VOICES_UPSTREAM.md",
     "research/english_mero_meh_20261118/PRONUNCIATION.md",
+    "research/english_mero_meh_20261118/ZERO_CALL_44217669152.json",
     "research/english_piper_v4_joint_review_20261117/joint-review.csv",
     "research/english_piper_v4_joint_review_20261117/joint-review.json",
     "research/english_pocket12_native_short_20261118/ACTUAL.md",
@@ -31479,6 +31480,49 @@
         }
       ],
       "rationale": "Freeze the user-selected Hey Mero /heɪ ˈmɛroʊ/ brand reading before generating a formal fresh corpus. Keep Vosen /s/, exclude homophonous Marrow/Merrow strict negatives, retain every historical probe exclusion, and admit new rows only through whole-PCM blind ASR plus native phone evidence. Fix 12 nonblended synthetic preset roles at 6/2/2/2, 144 native requests and 576 observations, no retries or automatic expansion, original Kokoro graph and runtime, exact first main push only. Source checks are stdlib/mock; original retained models, audio, results and algorithms remain byte-identical. All accepted source bytes, native evidence and hidden workflow files are retained for independently recomputed training admission."
+    },
+    {
+      "campaign": "english-mero-meh-zero-call-cli-recovery-20261118",
+      "source_commit": "fa1b32f58af812772570e22241932a5a09f1dd91",
+      "base_commit": "cdbecdc303bdf84e85a1bdfd7e9105ac0079f9fc",
+      "previous_manifest_git_blob_sha1": "3783523037873e08e75e2784ba74368b0a06cddd",
+      "paths": [
+        "automation/english_mero_meh_once.py",
+        "automation/test_english_mero_meh_once.py",
+        "automation/english_mero_meh_plan.json",
+        "research/english_mero_meh_20261118/ZERO_CALL_44217669152.json"
+      ],
+      "files": [
+        {
+          "path": "automation/english_mero_meh_once.py",
+          "mode": "100644",
+          "bytes": 20103,
+          "sha256": "9371deaba3639b6cdd95478412d8fb2bd07d7e41be9a2cce78111729c32ab677",
+          "git_blob_sha1": "c6f624eaa9eb73deca2a73ac85ba22bc2757f3e8"
+        },
+        {
+          "path": "automation/test_english_mero_meh_once.py",
+          "mode": "100644",
+          "bytes": 19220,
+          "sha256": "3b03d9b12f608c1925e0e0aba29bcbd740696dd01dd04c57edf6ffbb9fcd2167",
+          "git_blob_sha1": "ba88901cd659bccf3e84d2ff678d53e1dbf16d3d"
+        },
+        {
+          "path": "automation/english_mero_meh_plan.json",
+          "mode": "100644",
+          "bytes": 6179,
+          "sha256": "43a98e1125a44d6599e46aa91efa593bd113613d004f612a730f681a18f2b335",
+          "git_blob_sha1": "fe4436eb5ee5d1f9671557b97736c018b0de1dce"
+        },
+        {
+          "path": "research/english_mero_meh_20261118/ZERO_CALL_44217669152.json",
+          "mode": "100644",
+          "bytes": 3101,
+          "sha256": "70d72bfbe6783c6d3de754c181e2c9125af6309f746c47048da8a64db0fac48c",
+          "git_blob_sha1": "48b64335618aabdbfa8ee79cb65740bf46ed80a1"
+        }
+      ],
+      "rationale": "Actual run 44217669152 completed the public identity guard and saved its exact run/commit JSON, then the non-model CLI exit expression raised int(None). GitHub final jobs prove installation/generation skipped and observers/combine skipped. The only original artifact is the 259-byte guard JSON ZIP, independently downloaded and SHA-verified. Correct only the boolean exit predicate and add three actual main(argv) regression tests, each reproducing the bug before the fix. Keep all 144 request identities, recipe, model assets, pronunciation policy, call budget and old exclusions unchanged. Bind one new main successor with the saved zero-call evidence; never rerun the consumed workflow and do not regenerate any audio."
     }
   ]
 }
