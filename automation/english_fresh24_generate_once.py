@@ -236,7 +236,10 @@ def generate_refs(out):
                 with torch.inference_mode():
                     result=model(raw_phones,packs[pin["name"]][len(raw_phones)-1],
                                  speed=1.0,return_output=True)
-                audio=result[0]
+                need(getattr(result,"audio",None) is not None and
+                     getattr(result,"pred_dur",None) is not None,
+                     "REAL_NATIVE_KMODEL_OUTPUT_AND_DURATION")
+                audio=result.audio
                 values=audio.detach().cpu().numpy().reshape(-1).astype(np.float32)
                 need(values.ndim==1 and len(values)>1000 and len(values)<=240000
                      and np.isfinite(values).all(),"COMPLETE_NATIVE_NEUTRAL_AUDIO")
