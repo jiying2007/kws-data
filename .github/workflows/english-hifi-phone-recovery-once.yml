@@ -1,0 +1,120 @@
+name: Recover high-fidelity English phoneme evidence from saved WAVs once
+on:
+  pull_request:
+    paths:
+      - automation/english_hifi_micro.py
+      - automation/english_hifi_phones_once.py
+      - automation/english_hifi_phone_recovery.py
+      - automation/test_english_hifi_micro.py
+      - automation/test_english_hifi_phone_recovery.py
+      - .github/workflows/english-hifi-phone-recovery-once.yml
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-hifi-phone-recovery-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-hifi-phone-recovery-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261118'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Test no-network recovery source contract and repository preservation
+        shell: bash
+        run: |
+          set -euo pipefail
+          for flags in '' '-O' '-OO'; do
+            python3 -I -S -B $flags automation/english_hifi_micro.py --check
+            python3 -I -S -B $flags automation/english_hifi_phone_recovery.py --source-check
+            python3 -I -S -B $flags automation/test_english_hifi_micro.py -v
+            python3 -I -S -B $flags automation/test_english_hifi_phone_recovery.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  actual-phone-recovery:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'ec58aa844b33f736c5a002dc81afac1d62509a28'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Bind exact protected main predecessor and original source artifact identities
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_hifi_micro.py --guard-recovery
+          python3 -I -S -B automation/english_hifi_phone_recovery.py --verify-remote
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-hifi-micro-custom
+          run-id: 44251082652
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/hifi-reused-custom
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-hifi-micro-clone
+          run-id: 44251082652
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/hifi-reused-clone
+      - name: Authenticate all eight original WAV bytes; never rerun synthesis
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_hifi_micro.py \
+            --verify custom --source "$RUNNER_TEMP/hifi-reused-custom"
+          python3 -I -S -B automation/english_hifi_micro.py \
+            --verify clone --source "$RUNNER_TEMP/hifi-reused-clone"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install frozen unprompted phoneme observer stack once
+        timeout-minutes: 12
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/phone-env"
+          "$RUNNER_TEMP/phone-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'torch==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/phone-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'transformers==4.46.3' 'numpy==1.26.4' 'huggingface-hub==0.36.2'
+      - name: Perform at most 14 original-whole-PCM phoneme forwards only
+        timeout-minutes: 36
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=20s 2100s \
+            "$RUNNER_TEMP/phone-env/bin/python" -I -B automation/english_hifi_phones_once.py \
+            --recovery --custom "$RUNNER_TEMP/hifi-reused-custom" \
+            --clone "$RUNNER_TEMP/hifi-reused-clone" \
+            --output "$RUNNER_TEMP/hifi-phones-recovered"
+      - name: Retain real original-source phone results and partial failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-hifi-phones-recovered-${{ github.run_id }}
+          path: ${{ runner.temp }}/hifi-phones-recovered/
+          retention-days: 30
+          if-no-files-found: warn
