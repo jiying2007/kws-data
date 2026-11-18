@@ -40,6 +40,32 @@ class CMUContract(unittest.TestCase):
         self.assertEqual(proof["Mero"]["requested_critical"],["m","eh","r","ow"])
         self.assertEqual(proof["Vosen"]["requested_critical"],["v","ow","s","ah","n"])
         self.assertEqual(len(FakeEnglish.eng_dict),4)
+    def test_pinned_native_hparams_style_lookup_and_fail_closed(self):
+        from types import SimpleNamespace
+
+        class NativeHParams:
+            # Exact public Melo utils.HParams iteration semantics: keys()
+            # exists but __iter__() does not.
+            def __init__(self, values):
+                self.__dict__.update(values)
+            def keys(self):
+                return self.__dict__.keys()
+            def __getitem__(self, key):
+                return getattr(self, key)
+
+        roster=dict(zip(m.SPEAKERS,range(5)))
+        hps=SimpleNamespace(data=SimpleNamespace(
+            spk2id=NativeHParams(roster),n_speakers=5))
+        self.assertEqual(m.native_speaker_ids(hps),roster)
+        with self.assertRaises(TypeError):
+            set(hps.data.spk2id)
+        hps.data.spk2id=NativeHParams(dict(list(roster.items())[:-1]))
+        with self.assertRaisesRegex(ValueError,"EXACT_TRAINED_ENGLISH_STYLE_IDS"):
+            m.native_speaker_ids(hps)
+        hps.data.spk2id=NativeHParams({**roster,"EN-US":1})
+        with self.assertRaisesRegex(ValueError,"DISTINCT_NATIVE_ENGLISH_STYLE_IDS"):
+            m.native_speaker_ids(hps)
+
     def test_main_guard_never_replays_or_accepts_other_owner(self):
         env={"GITHUB_ACTIONS":"true","GITHUB_REPOSITORY":m.REPOSITORY,
              "GITHUB_EVENT_NAME":"push","GITHUB_REF":"refs/heads/main",

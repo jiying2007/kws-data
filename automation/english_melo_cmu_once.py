@@ -24,7 +24,7 @@ def load(name):
 c=load("english_hifi_micro")
 SCHEMA="english-melo-cmu-native-phone-25-v1"
 REPOSITORY="jiying2007/kws-data"
-BEFORE="7b741becd1d73262e4eee74732cc22eef0eeb222"
+BEFORE="dbbec1ccd7c5a388ad138475de723084ee10e4c2"
 UPSTREAM="myshell-ai/MeloTTS"
 UPSTREAM_SHA="209145371cff8fc3bd60d7be902ea69cbdb7965a"
 MODEL=("myshell-ai/MeloTTS-English",
@@ -132,6 +132,23 @@ def phones_are_locked(english):
                         "all_phones":stripped,"tones":tones,
                         "matched_start_index":start}
     return evidence
+
+def native_speaker_ids(hps):
+    """Use pinned MeloTTS HParams.keys(), not generic iteration.
+
+    Upstream HParams has keys()/__getitem__() but no __iter__().
+    Iterating it calls __getitem__(0) and raises before TTS forwards.
+    """
+    speakers=hps.data.spk2id
+    need(callable(getattr(speakers, "keys", None)),
+         "NATIVE_HPARAMS_SPEAKER_KEYS_REQUIRED")
+    need(set(SPEAKERS).issubset(set(speakers.keys())),
+         "EXACT_TRAINED_ENGLISH_STYLE_IDS")
+    ids={name:speakers[name] for name in SPEAKERS}
+    need(all(type(value) is int and 0 <= value < hps.data.n_speakers
+             for value in ids.values()) and len(set(ids.values()))==len(SPEAKERS),
+         "DISTINCT_NATIVE_ENGLISH_STYLE_IDS")
+    return ids
 
 def english_only_frontend():
     """Use the exact upstream Japanese distribute_phone function, not its
@@ -293,8 +310,7 @@ def run(root):
         model=TTS(language="EN",device="cpu",use_hf=False,
                   config_path=str(mdir/"config.json"),
                   ckpt_path=str(weights))
-        need(set(SPEAKERS)<=set(model.hps.data.spk2id),
-             "EXACT_TRAINED_ENGLISH_STYLE_IDS")
+        speaker_ids=native_speaker_ids(model.hps)
         native_sr=int(model.hps.data.sampling_rate)
         need(native_sr==44100,"EXACT_NATIVE_RATE")
         for index,row in enumerate(planned()):
@@ -302,7 +318,7 @@ def run(root):
             torch.manual_seed(seed);np.random.seed(seed)
             with torch.inference_mode():
                 audio=model.tts_to_file(row["render_text"],
-                       model.hps.data.spk2id[row["speaker"]],
+                       speaker_ids[row["speaker"]],
                        output_path=None,quiet=True,speed=1.0)
             raw=np.asarray(audio,dtype=np.float32)
             need(raw.ndim==1 and 0<len(raw)<native_sr*10
