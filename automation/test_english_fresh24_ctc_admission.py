@@ -109,6 +109,10 @@ class Fresh24(unittest.TestCase):
                     evidence(("w","o","s")))["tier"],"unknown")
         self.assertEqual(m.decide(row,texts("What time is it?","What time is it?","What time is it?"),
                     evidence(("w","o","s")))["tier"],"silver")
+        self.assertEqual(m.decide(row,texts("What time is it?","What time is it?","What time is it?"),
+                    evidence(("h","eɪ","m","ɛ","r","oʊ")))["reason"],
+                    "ORDINARY_NEGATIVE_NOT_INDEPENDENTLY_CONFIRMED")
+        self.assertTrue(m.greedy_full_wake(logits(("h","eɪ","v","oʊ","s","ə","n")),VOCAB))
     def test_partial_missing_posterior_never_promotes(self):
         row={"requested_class":2,"pcm_samples":16000,"positive_duration_pass":True}
         raw=logits(("h","eɪ","m","ɛ","r","oʊ"))
