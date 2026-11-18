@@ -2,7 +2,7 @@
   "automatic_expansion": false,
   "campaign_id": "english-mero-meh-corpus-v1",
   "enabled": true,
-  "main_before": "28e753380d1b9c34bdf44b5d8e92c31484061601",
+  "main_before": "cdbecdc303bdf84e85a1bdfd7e9105ac0079f9fc",
   "maximum_calls_per_observer": 144,
   "maximum_total_model_calls": 720,
   "native_tts_request_budget": 144,
@@ -29,7 +29,7 @@
     "automation/english_kokoro_context32_mask_observe.py": "3f184bdeb7536f260b2d4e3ee77476d95590d05007ae251bcb93c51ce2be01af",
     "automation/english_mero_meh_generate.py": "c683da37ba374a99d0028996f0adaa80bf75d53e2db2db1b52c2c7e98b2b2360",
     "automation/english_mero_meh_observe.py": "6ceb91c01a5ac6a8b3e1ace42d46c6401b21889362563c11d39034f8b20d287e",
-    "automation/english_mero_meh_once.py": "3e5417180911f6ee33fc7df9986a21ca00461dd82b8f77d55bfa702b1fea6cdd",
+    "automation/english_mero_meh_once.py": "9371deaba3639b6cdd95478412d8fb2bd07d7e41be9a2cce78111729c32ab677",
     "automation/english_mero_meh_policy.py": "3d08b592ed6bdd55bd5bd9a18af4d1ba6ddbaddcf02b2338d2a27de7154ae321",
     "automation/english_mero_meh_profile_v1.json": "1ef68a0aac3883304719023efee2a33d4510efaf2a7364328f98470920cc6ca6",
     "automation/english_mero_meh_recipe.py": "e4f3381da7678eb45581d0fa5513128b2ca54e8127f70a34eb15af73e0ea55a7",
@@ -46,7 +46,7 @@
     "automation/english_whisper_real_once.py": "0f455c46061c6e3e4da2eec781234875fe2f59f257f11bacea8105e951593b6d",
     "automation/multilingual_campaign.py": "3cda7b79d1cf4e00f7b2a4aeff6c254f8b49d2adcf527a5ca51093ef60d1ef4f",
     "automation/test_english_mero_meh_generate.py": "6f6f2854f8e9c039858dd32406dd394ef4d4a6a446c6d8fa805a821747857445",
-    "automation/test_english_mero_meh_once.py": "fc1bc142672629f91b8d9231d4e4db333cb125b5a8e4f8adbafca7e93a8c8273",
+    "automation/test_english_mero_meh_once.py": "3b03d9b12f608c1925e0e0aba29bcbd740696dd01dd04c57edf6ffbb9fcd2167",
     "automation/test_english_mero_meh_policy.py": "e5fd8e34f107fccca88ce049187ba1a5fadc9805909073c2d77cf103130ff6cc",
     "automation/test_english_pocket12_observe.py": "e9ec0860abaff244f51ac69e3bd6661d7b45ccc32ea952b684aa48fca96e5d75",
     "kws_data_contract/__init__.py": "3b3c0ef178e7115b2206e895c19128603272c0d3ad8a22eade280d372f884608",
@@ -56,7 +56,8 @@
     "research/english_mero_meh_20261118/DATA_CONTRACT.md": "af8e240c4f10f53ed5df3451863edf600552d0aec893f1a992b0091ccef51d87",
     "research/english_mero_meh_20261118/KOKORO_VOICES_TREE.json": "661ac8dfdcfaac54aeccedd34308db33c19e85febdf3a58f086dd1ae5e70255e",
     "research/english_mero_meh_20261118/KOKORO_VOICES_UPSTREAM.md": "ec7e4941ad7e194af61e3455928528a9ff5360c7c505e412efab27d6a69ea106",
-    "research/english_mero_meh_20261118/PRONUNCIATION.md": "5daf7f769cd4c024f51efbe037843adfecebc80c32f50ab184a5a51382795fb8"
+    "research/english_mero_meh_20261118/PRONUNCIATION.md": "5daf7f769cd4c024f51efbe037843adfecebc80c32f50ab184a5a51382795fb8",
+    "research/english_mero_meh_20261118/ZERO_CALL_44217669152.json": "70d72bfbe6783c6d3de754c181e2c9125af6309f746c47048da8a64db0fac48c"
   },
   "time_budget_seconds": {
     "combine": 600,
@@ -66,5 +67,15 @@
   },
   "training_source_candidate": true,
   "warmup_count": 0,
-  "workflow_path": ".github/workflows/english-mero-meh-once.yml"
+  "workflow_path": ".github/workflows/english-mero-meh-once.yml",
+  "zero_call_recovery": {
+    "evidence_path": "research/english_mero_meh_20261118/ZERO_CALL_44217669152.json",
+    "evidence_sha256": "70d72bfbe6783c6d3de754c181e2c9125af6309f746c47048da8a64db0fac48c",
+    "ordered_request_sha256": "911f674d572be31f83bfcf9073abd9ad9386a3fd8dd195afc5b52b536f297425",
+    "previous_actual_model_calls": 0,
+    "previous_head_sha": "cdbecdc303bdf84e85a1bdfd7e9105ac0079f9fc",
+    "previous_run_id": 44217669152,
+    "recipe_and_admission_unchanged": true,
+    "replay_previous_workflow": false
+  }
 }

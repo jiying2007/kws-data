@@ -3,8 +3,11 @@ from __future__ import annotations
 
 import ast
 import base64
+import contextlib
+import io
 import json
 import math
+import os
 from pathlib import Path
 import shutil
 import struct
@@ -270,6 +273,73 @@ class GuardTests(unittest.TestCase):
         workflow = (once.ROOT / once.WORKFLOW).read_text()
         self.assertNotIn("workflow_dispatch", workflow)
         self.assertIn("include-hidden-files: true", workflow)
+
+
+class MainCliTests(unittest.TestCase):
+    """Exercise parser, guard, dispatch, output writes and integer exit codes."""
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        plan = fixture_plan()
+        plan.update(enabled=True, main_before="b" * 40)
+        plan_path, event_path = self.root / "plan.json", self.root / "event.json"
+        once.write_json(plan_path, plan)
+        once.write_json(event_path, {"repository": {"full_name": once.REPOSITORY, "private": False},
+            "ref": "refs/heads/main", "before": plan["main_before"], "after": MOCK_RUN["commit"],
+            "forced": False, "deleted": False})
+        environment = {"GITHUB_ACTIONS": "true", "GITHUB_REPOSITORY": once.REPOSITORY,
+            "GITHUB_EVENT_NAME": "push", "GITHUB_REF": "refs/heads/main", "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_RUN_ID": MOCK_RUN["run_id"], "GITHUB_SHA": MOCK_RUN["commit"],
+            "GITHUB_EVENT_PATH": str(event_path),
+            "GITHUB_WORKFLOW_REF": once.REPOSITORY + "/" + once.WORKFLOW + "@refs/heads/main"}
+
+        def git_identity(args, **kwargs):
+            expected = {("git", "rev-parse", "HEAD"): MOCK_RUN["commit"],
+                        ("git", "rev-parse", "HEAD^1"): plan["main_before"]}
+            self.assertIn(tuple(args), expected)
+            return expected[tuple(args)] + "\n"
+
+        for replacement in (
+            patch.object(once, "PLAN", plan_path),
+            patch.dict(os.environ, environment, clear=True),
+            patch.object(once.subprocess, "check_output", side_effect=git_identity),
+            patch("urllib.request.urlopen", side_effect=AssertionError("NO_NETWORK_IN_CLI_TEST")),
+            patch.object(generate, "_load_native", side_effect=AssertionError("NO_TTS_IN_CLI_TEST")),
+            patch.object(observe, "_load", side_effect=AssertionError("NO_OBSERVER_IN_CLI_TEST")),
+        ):
+            replacement.start()
+            self.addCleanup(replacement.stop)
+
+    def run_cli(self, argv):
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            code = once.main(argv)
+        self.assertIs(type(code), int)
+        self.assertEqual(code, 0)
+        return json.loads(output.getvalue())
+
+    def test_main_guard_returns_zero_after_emitting_identity(self):
+        self.assertEqual(self.run_cli(["--guard"]), MOCK_RUN)
+
+    def test_main_read_source_returns_zero_and_preserves_unknown(self):
+        output = self.root / "readback.json"
+        value = self.run_cli(["--read-source", "--source", str(self.root / "missing-source"),
+                              "--output", str(output)])
+        self.assertEqual(once.read_json(output), value)
+        self.assertFalse(value["source_ready"])
+        self.assertEqual(value["denominator"], 144)
+        self.assertIsNone(value["tts_attempts"])
+        self.assertFalse(value["missing_terminal_is_zero"])
+
+    def test_main_stage_status_returns_zero_and_writes_receipts(self):
+        output, runtime = self.root / "unobserved", self.root / "runtime"
+        value = self.run_cli(["--stage-status", "generation", "--output", str(output),
+                              "--runtime", str(runtime), "--outcome", "skipped"])
+        self.assertEqual(once.read_json(runtime / "STAGE_STATUS.json"), value)
+        self.assertEqual(value["command_step_outcome"], "skipped")
+        self.assertFalse(value["has_terminal_result"])
+        self.assertIsNone(once.read_json(output / "UNOBSERVED.json")["actual_model_calls"])
 
 
 if __name__ == "__main__":
