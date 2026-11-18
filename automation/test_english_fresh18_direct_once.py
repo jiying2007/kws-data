@@ -65,15 +65,12 @@ class Direct18Contracts(unittest.TestCase):
         event["repository"]["private"]=False
         with self.assertRaisesRegex(ValueError,"EXACT_FIRST_PARENT_NO_REPLAY"):
             m.guard(env,event,"b"*40)
-    def test_immutable_source_tree_and_role_drift_rejected(self):
+    def test_existing_full_ctc_rule_never_rewritten(self):
         original=m.plan()
-        p=m.HERE/m.PLAN
-        bad=json.loads(json.dumps(original))
-        bad["groups"][0]["role"]="locked-test"
-        import unittest.mock
-        with unittest.mock.patch.object(Path,"read_bytes",autospec=True) as ignore:
-            # No mocked numerical audio; reject invalid split with pure checks.
-            pass
+        self.assertEqual(original["original_immutable_rule_git_blob_sha1"],
+                         "0a688325d0d36e83ef6623ac678511df24a92374")
+        self.assertEqual(original["immutable_prior_quality_report"]["qualification_by_role"],
+                         {"train":4,"development":1,"calibration":3,"locked-test":0})
         self.assertEqual(m.source_check()["status"],"FROZEN_SOURCE_ONLY")
     def test_no_prior_wavs_or_transcripts_are_inputs(self):
         with tempfile.TemporaryDirectory() as root:
