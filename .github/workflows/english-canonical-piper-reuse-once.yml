@@ -1,0 +1,61 @@
+name: Screen existing Piper audio for canonical-only KWS once
+on:
+  pull_request:
+    paths:
+      - automation/english_canonical_piper_reuse_audit.py
+      - automation/test_english_canonical_piper_reuse_audit.py
+      - .github/workflows/english-canonical-piper-reuse-once.yml
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-canonical-piper-reuse-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-canonical-reuse-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify no-model source contract and tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          for flags in '' '-O' '-OO'; do
+            python3 -I -S -B $flags automation/english_canonical_piper_reuse_audit.py --source-check
+            python3 -I -S -B $flags automation/test_english_canonical_piper_reuse_audit.py -v
+          done
+          test -z "$(git status --porcelain)"
+  audit-reused-source:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.event.repository.private == false && github.run_attempt == 1 &&
+      github.event.before == 'f3d82bbd285722d382f447dc7eec7feda959d161'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Authenticate source archive and screen only canonical requests
+        shell: bash
+        timeout-minutes: 9
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_canonical_piper_reuse_audit.py --run --output "$RUNNER_TEMP/canonical-reuse"
+      - name: Retain screen results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-canonical-piper-reuse-${{ github.run_id }}
+          path: ${{ runner.temp }}/canonical-reuse/
+          retention-days: 30
+          if-no-files-found: warn
