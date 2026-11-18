@@ -25,6 +25,11 @@ class Fresh24SourceReview(unittest.TestCase):
         self.assertEqual(combine.PLAN_ORIGINAL_BLOB_SHA1,
                          "dbe911fbcf8a697492ad29c7ca11858e707a72ff")
         self.assertEqual(review.REFERENCE["id"],14419694053)
+        self.assertEqual(review.SOURCE,{"id":14422271973,
+            "name":"english-fresh24-clone168-44289263966",
+            "size":4505217,
+            "digest":"sha256:26396073f5be2f91e35575bedb586737405162388e32bfe85633ed3d796a9583"})
+        self.assertEqual(result["status"],"SOURCE_PINNED")
         self.assertEqual(review.original_identity(),{
             "run_id":"44289263966","commit":review.SOURCE_COMMIT,
             "before":"dfbb95f003b3845439ccbe5e5eb4cb80e58e83f8"})
