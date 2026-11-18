@@ -97,8 +97,8 @@ jobs:
           PROVIDER: ${{ matrix.provider }}
         run: |
           set -euo pipefail
-          python3 -I -S -B automation/english_melo_cmu_observe_once.py \\
-            --verify-prior-failed --provider "$PROVIDER" \\
+          python3 -I -S -B automation/english_melo_cmu_observe_once.py \
+            --verify-prior-failed --provider "$PROVIDER" \
             --prior "$RUNNER_TEMP/original-zero-forward"
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
