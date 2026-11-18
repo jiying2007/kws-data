@@ -1,0 +1,104 @@
+name: Generate 18 untouched synthetic voices with native canonical IPA once
+on:
+  pull_request:
+    paths:
+      - automation/english_fresh18_direct_protocol.json
+      - automation/english_fresh18_direct_once.py
+      - automation/test_english_fresh18_direct_once.py
+      - .github/workflows/english-fresh18-direct-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-fresh18-direct-once.yml]
+permissions:
+  contents: read
+concurrency:
+  group: english-fresh18-direct-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261118'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify 18 unused original voice LFS pins, 10-4-4 split and original frozen CTC rule
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in '' '-O' '-OO'; do
+            python3 -I -S -B $mode automation/english_fresh18_direct_once.py --source-check
+            python3 -I -S -B $mode automation/test_english_fresh18_direct_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  native-new18:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '75ccd81bb3abe2973e01fb2bf1a74411629e9279'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Authenticate exact public-main first parent and frozen preaudio 18-source slots
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_fresh18_direct_once.py --guard
+          python3 -I -S -B automation/english_fresh18_direct_once.py --source-check
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install exact already-tested official Kokoro CPU English frontend and model dependencies
+        timeout-minutes: 21
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/fresh18-kokoro-env"
+          PIP="$RUNNER_TEMP/fresh18-kokoro-env/bin/pip"
+          FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+          "$PIP" install $FLAGS 'torch==2.9.1+cpu' --index-url https://download.pytorch.org/whl/cpu
+          "$PIP" install $FLAGS 'numpy==1.26.4' 'scipy==1.15.3' \
+            'transformers==4.46.3' 'huggingface-hub==0.36.2' \
+            'misaki[en]==0.9.4' 'num2words==0.5.12' \
+            'loguru==0.7.3' 'spacy==3.7.5' \
+            'spacy-curated-transformers==0.2.2' 'attrs==25.3.0' \
+            'click==8.3.1' 'typer==0.29.1' 'typer-slim==0.24.0'
+          "$PIP" install $FLAGS 'kokoro==0.9.4'
+          "$RUNNER_TEMP/fresh18-kokoro-env/bin/python" -m pip check
+          "$RUNNER_TEMP/fresh18-kokoro-env/bin/python" -I -B -c \
+            'from kokoro import KModel; from misaki import en; import num2words; print("PINNED_KOKORO_ENGLISH_OK")'
+      - name: Generate at most 126 whole-PCM new native requests, preserve original phone input and never retry
+        shell: bash
+        timeout-minutes: 53
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=25s 3080s \
+            "$RUNNER_TEMP/fresh18-kokoro-env/bin/python" -I -B \
+            automation/english_fresh18_direct_once.py --generate \
+            --output "$RUNNER_TEMP/english-fresh18-direct126"
+          python3 -I -S -B automation/english_fresh18_direct_once.py --readback \
+            --output "$RUNNER_TEMP/english-fresh18-direct126"
+      - name: Preserve original untrimmed full WAVs, native phone/asset pins and explicit partial failure if any
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-fresh18-direct126-${{ github.run_id }}
+          path: ${{ runner.temp }}/english-fresh18-direct126/
+          retention-days: 30
+          if-no-files-found: warn
