@@ -64,7 +64,10 @@ def source_check():
          REFERENCE["id"]==14419694053 and
          len(PROVIDERS)==5 and len(set(PROVIDERS))==5,
          "FROZEN_24_NEW_SOURCE_ROSTER_AND_FIVE_NATIVE_MODELS")
-    ready=type(SOURCE["id"]) is int and SOURCE["id"]>0 and
+    ready=(type(SOURCE["id"]) is int and SOURCE["id"]>0 and
+           type(SOURCE["size"]) is int and SOURCE["size"]>0 and
+           type(SOURCE["digest"]) is str and
+           re.fullmatch("sha256:[0-9a-f]{64}",SOURCE["digest"]) is not None)
     # Retain an explicit fail-closed state until actual source pins exist.
     return {"status":"SOURCE_PINNED" if ready else "BLOCKED_UNPINNED_CLONE_ARTIFACT",
         "source_run":SOURCE_RUN,"new_tts_calls":0,
