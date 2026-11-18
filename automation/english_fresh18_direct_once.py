@@ -303,7 +303,8 @@ def generate(out):
             pcm=np.rint(np.clip(audio_16k,-1,32767/32768)*32768).astype("<i2").tobytes()
             wav=root/"wav"/(request["id"]+".wav")
             wav.parent.mkdir(exist_ok=True)
-            with wave.open(str(wav),"xb") as f:
+            need(not wav.exists(),"NEVER_OVERWRITE_FRESH_NATIVE_WAVE")
+            with wave.open(str(wav),"wb") as f:
                 f.setnchannels(1);f.setsampwidth(2);f.setframerate(16000)
                 f.writeframes(pcm)
             observed=c.inspect_wav(wav)
