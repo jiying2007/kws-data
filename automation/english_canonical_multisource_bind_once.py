@@ -328,7 +328,7 @@ def prepare(paths,output):
 
 def main():
     ap=argparse.ArgumentParser()
-    modes=("--source-check","--guard","--bind")
+    modes=("--source-check","--guard","--audit-inputs","--bind")
     for key in modes:ap.add_argument(key,action="store_true")
     ap.add_argument("--sources")
     ap.add_argument("--output")
@@ -341,6 +341,15 @@ def main():
              "source_artifacts":6,"expected_roles":c["exact_expected_qualified"],
              "human_gold":False,"new_optimizer_calls":0},sort_keys=True));return
     if a.guard:print(json.dumps(guard(),sort_keys=True));return
+    if a.audit_inputs:
+        need(a.sources,"SIX_PINNED_RESEARCH_SOURCES_REQUIRED")
+        data=admission(a.sources)
+        print(json.dumps({"status":data["status"],
+             "selected":data["selected_machine_reviewed_rows"],
+             "roles":data["source_group_counts"],
+             "source_rows":data["original_candidate_denominator"],
+             "new_model_calls":0,"human_gold":False},sort_keys=True))
+        return
     need(a.sources and a.output,"ALL_SIX_PINNED_SOURCES_AND_NEW_OUTPUT_REQUIRED")
     print(json.dumps(prepare(a.sources,a.output),sort_keys=True))
 
