@@ -39,7 +39,7 @@ def read_plan():
     need(x.get("schema")=="english-clone12-independent-evidence-plan-v1" and
          x.get("repository")=="jiying2007/kws-data" and
          type(x.get("enabled")) is bool and
-         x.get("main_before")=="337ae4f4f318483696a28f0ebc635877b623606a" and
+         x.get("main_before")=="eab1e99784644fb826c21794c3fc93f69fdc5bac" and
          x.get("retry_count")==0 and
          x.get("maximum_asr_per_provider")==60 and
          x.get("maximum_phone_per_provider")==60 and
