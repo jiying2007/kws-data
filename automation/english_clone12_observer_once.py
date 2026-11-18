@@ -204,6 +204,8 @@ def run(provider,source,refs,output):
                   "input":"16k complete float32 from verified PCM16",
                   "target_conditioned":False}
             c.record(root/"MODEL.json",lock)
+            c.record(root/"VOCAB.json",{"model":name,"revision":remote.sha,
+                                      "vocab":vocab,"pad_token_id":config.pad_token_id})
             (root/"logits").mkdir()
         else:
             import english_pocket12_observe as observer
