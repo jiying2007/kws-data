@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2625,
+  "expected_tracked_files": 2629,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -834,7 +834,11 @@
     "automation/english_spelling_phones_once.py",
     "automation/test_english_spelling_micro.py",
     ".github/workflows/english-spelling-micro-once.yml",
-    "research/english_spelling_micro_20261118/PROTOCOL.md"
+    "research/english_spelling_micro_20261118/PROTOCOL.md",
+    "automation/english_clone_reference12_once.py",
+    "automation/test_english_clone_reference12.py",
+    ".github/workflows/english-clone-reference12-once.yml",
+    "research/english_clone_reference12_20261118/PROTOCOL.md"
   ],
   "baseline_files": [
     {
@@ -31801,6 +31805,19 @@
         "research/english_spelling_micro_20261118/PROTOCOL.md"
       ],
       "rationale": "Exactly ten new non-replayed homophone and /s/-/z/ render candidates, retaining original synthetic reference and same source-group mapping. Twenty blind independent complete PCM XLSR/LV60 observations; all remain research UNKNOWN until separate three-ASR and predeclared population-level admission. No older TTS, Work, Codex or scheduled campaign."
+    },
+    {
+      "campaign": "english-neutral-clone-reference12-20261118",
+      "source_commit": "3aae26f4db528e02d7c2c6693bcab8a0df79cfb0",
+      "base_commit": "de43b57620b36c952d8e57887ba9016a090fc1de",
+      "previous_manifest_git_blob_sha1": "5e277c6a586a4ec4b9f01dd5af0df68e0db7cb9b",
+      "paths": [
+        "automation/english_clone_reference12_once.py",
+        "automation/test_english_clone_reference12.py",
+        ".github/workflows/english-clone-reference12-once.yml",
+        "research/english_clone_reference12_20261118/PROTOCOL.md"
+      ],
+      "rationale": "Materialize from a pinned, fully authenticated 144-row historical Kokoro synthetic corpus exactly twelve 2.65-3.83s neutral-only voice-cloning reference WAVs (two whole prior neutral clips plus fixed 100ms silence) with original fixed 6/2/2/2 donor roles. No repeated native TTS or ASR, no old KWS sample relabeling and no training admission."
     }
   ]
 }
