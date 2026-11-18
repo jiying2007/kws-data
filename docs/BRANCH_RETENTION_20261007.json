@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2563,
+  "expected_tracked_files": 2569,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -659,7 +659,13 @@
     "research/english_hardneg_natural32_retained_20261117/audit/audit_retained_source_failure.py",
     "research/english_piper_v4_joint_review_20261117/joint-review.csv",
     "research/english_piper_v4_joint_review_20261117/joint-review.json",
+    "research/english_pocket12_native_short_20261118/ACTUAL.md",
+    "research/english_pocket12_native_short_20261118/EVALUATION.json",
     "research/english_pocket12_native_short_20261118/README.md",
+    "research/english_pocket12_native_short_20261118/RESTORATION.json",
+    "research/english_pocket12_native_short_20261118/RESULT.json",
+    "research/english_pocket12_native_short_20261118/archive_sidecar/SOURCE_REF.json",
+    "research/english_pocket12_native_short_20261118/archive_sidecar/english-pocket12-once.yml",
     "research/english_quality_snr10_20261117/AUDIT_SUMMARY.json",
     "research/english_quality_snr10_20261117/PAIRED_REVIEW.json",
     "research/english_quality_snr10_20261117/README.md",
@@ -31232,6 +31238,92 @@
         }
       ],
       "rationale": "Evaluate a new synthetic source family after the complete context64 quality stop. Freeze twelve native whole-short Pocket TTS requests and four blind observations each, a maximum of 60 high-level calls on the exact first public main successor only, with no retry or automatic expansion. All probe rows remain permanently excluded from training. Preserve the frozen alias, phonetic and integer geometry policy and all 2,027 retained publication files. No new KWS weights or model promotion."
+    },
+    {
+      "campaign": "english-pocket12-actual-outcome-20261118",
+      "source_commit": "6d1648250aa6cec11b713beca163678c898d8727",
+      "base_commit": "99c9f6f4b94c47a7ad533f3241bc7b2db348a1b7",
+      "previous_manifest_git_blob_sha1": "63b8e0711e5cc91f6455458c45f7ac032a0370f0",
+      "paths": [
+        "research/english_pocket12_native_short_20261118/ACTUAL.md",
+        "research/english_pocket12_native_short_20261118/EVALUATION.json",
+        "research/english_pocket12_native_short_20261118/README.md",
+        "research/english_pocket12_native_short_20261118/RESTORATION.json",
+        "research/english_pocket12_native_short_20261118/RESULT.json",
+        "research/english_pocket12_native_short_20261118/archive_sidecar/SOURCE_REF.json",
+        "research/english_pocket12_native_short_20261118/archive_sidecar/english-pocket12-once.yml"
+      ],
+      "files": [
+        {
+          "path": "research/english_pocket12_native_short_20261118/ACTUAL.md",
+          "mode": "100644",
+          "bytes": 6028,
+          "sha256": "59f0a9945a5aad76745470719e0fdfb82aaf38b71282802dce50cb53f4bad69f",
+          "git_blob_sha1": "3ec21a2243595e92e02b60ec1e429a92d5559445"
+        },
+        {
+          "path": "research/english_pocket12_native_short_20261118/EVALUATION.json",
+          "mode": "100644",
+          "bytes": 66130,
+          "sha256": "9adb01202c21bbcbd97d1f07880c5a053ad313100317ab73b2a9110e67ba07f7",
+          "git_blob_sha1": "13bac1f1e81d606cea4adc7c0a01a4bba28ec07f"
+        },
+        {
+          "path": "research/english_pocket12_native_short_20261118/README.md",
+          "mode": "100644",
+          "bytes": 5237,
+          "sha256": "a17bc65f5aa15e1e4b1e19ce9c447279895a579e72ffb84ca0f8e451bcaaa4cc",
+          "git_blob_sha1": "d970d82ef815599575b20db5223d1f828db22960"
+        },
+        {
+          "path": "research/english_pocket12_native_short_20261118/RESTORATION.json",
+          "mode": "100644",
+          "bytes": 1633,
+          "sha256": "1a348fa9068f98cbd6af52db742f92bcf9ac2ceeb57c63d6d0547ff2fb1bbb19",
+          "git_blob_sha1": "e709e33ab3ffa540cea465c650b958e4ecc1d8c8"
+        },
+        {
+          "path": "research/english_pocket12_native_short_20261118/RESULT.json",
+          "mode": "100644",
+          "bytes": 463,
+          "sha256": "2f6ea63c414039868de86e5f3f8841151f92b9b92d185df06d5e1c84cdb5beae",
+          "git_blob_sha1": "473b443d3d8b394a9a34312f3c8b5f90ffa0ff0e"
+        },
+        {
+          "path": "research/english_pocket12_native_short_20261118/archive_sidecar/SOURCE_REF.json",
+          "mode": "100644",
+          "bytes": 618,
+          "sha256": "e675112b6346ac5d3c30831d4a1446af49f0dec0beb84fa84217a5c0bf8519b6",
+          "git_blob_sha1": "a63de333a6e938f582c4850e0dfaf9be7ff8c815"
+        },
+        {
+          "path": "research/english_pocket12_native_short_20261118/archive_sidecar/english-pocket12-once.yml",
+          "mode": "100644",
+          "bytes": 12076,
+          "sha256": "0b89b6576fec61d5574861c41878f56b6175344cfa81b12e2870000d9ece5df6",
+          "git_blob_sha1": "bf012848e2ece8804f454f17224f2158c565ddd1"
+        }
+      ],
+      "rationale": "Preserve the original complete 60-call Pocket12 evaluation and quality STOP. Both Vosen requests and four ordinary controls passed, while both Mero requests and four fixed contrasts did not. Record exact original result bytes and the distinction between /b/ preservation and the Bosen /s/-only contract mismatch. Restore the single workflow source omitted by hidden-file artifact filtering through an exact-commit sidecar, keeping all original artifacts and decisions unchanged. This saved-byte publication makes zero model calls and preserves every retained file and all frozen experiment source."
+    },
+    {
+      "campaign": "english-pocket12-publication-fixture-timefix-20261118",
+      "source_commit": "a97bdf47a107ed099ad602a13f0901beffdc6530",
+      "base_commit": "f1fb7f6ca7b5a31937649b21c6d61d64dc959e5e",
+      "previous_manifest_git_blob_sha1": "85ead36bc4dcab6555d3ea1ef684557a8f45cdb1",
+      "paths": [
+        "automation/test_research_v4_projection_continuation.py"
+      ],
+      "files": [
+        {
+          "path": "automation/test_research_v4_projection_continuation.py",
+          "mode": "100644",
+          "bytes": 36938,
+          "sha256": "a7a965afd66fe98bc9b422deb49166b1844d8a2b2ae339a5f0533ed3fadcf626",
+          "git_blob_sha1": "e03285501fc959b6593d5359e26494cda75727f6"
+        }
+      ],
+      "rationale": "During saved-outcome publication, the existing projection CI fixture rebuilt identical WEIGHTS ZIP payloads with wall-clock timestamps. Crossing a two-second DOS timestamp boundary changed the archive hash before the intended prior-terminal assertion. A deterministic two-time reproduction failed the original test and passed the one-line fix. Pin only the fixture ZipInfo timestamp to 1980-01-01; preserve all production validators, assertions, actual weights and retained evidence. All 24 existing tests pass in normal, -O and -OO modes; no model calls."
     }
   ]
 }

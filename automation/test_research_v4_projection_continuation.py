@@ -46,7 +46,7 @@ class ProjectionBoundaries(unittest.TestCase):
         output = io.BytesIO()
         with zipfile.ZipFile(output, "w") as archive:
             for name, raw in files.items():
-                archive.writestr(name, raw)
+                archive.writestr(zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0)), raw)
         return output.getvalue()
 
     def environment(self, **changes):

@@ -1,5 +1,7 @@
 # English Pocket12 native short-input feasibility probe
 
+> Actual result: [complete 60-call run, quality STOP, and archive restoration](ACTUAL.md). All probe rows remain excluded from training.
+
 This prospective experiment tests a new synthetic voice family for the English
 `Hey Mero` / `Hey Vosen` data work. It does not train or promote a KWS model.
 

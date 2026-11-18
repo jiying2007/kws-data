@@ -1,0 +1,265 @@
+name: English fixed Pocket12 probe once
+on:
+  pull_request:
+    paths:
+      - .github/workflows/english-pocket12-once.yml
+      - automation/english_pocket12*
+      - automation/test_english_pocket12*
+  push:
+    branches: [main]
+    paths:
+      - automation/english_pocket12_plan.json
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-pocket12-first-main-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '4'
+  MKL_NUM_THREADS: '4'
+  OPENBLAS_NUM_THREADS: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    outputs:
+      enabled: ${{ steps.source.outputs.enabled }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify fixed source and mock integration with no model or network calls
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_pocket12_generate.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_pocket12_observe.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_pocket12_evaluate.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_pocket12_once.py -v
+            python3 -I -S -B "${args[@]}" automation/english_pocket12_once.py --source-check
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          plan = json.loads(pathlib.Path('automation/english_pocket12_plan.json').read_bytes())
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
+              stream.write('enabled=' + str(plan['enabled']).lower() + '\n')
+          PYCODE
+  generate:
+    needs: source-contract
+    if: >-
+      needs.source-contract.outputs.enabled == 'true' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 44
+    outputs:
+      guarded: ${{ steps.guard.outcome == 'success' }}
+      source_ready: ${{ steps.readback.outputs.source_ready }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Bind the sole public main predecessor before installation
+        id: guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git status --porcelain)"
+          mkdir -p "$RUNNER_TEMP/pocket12-runtime-generation"
+          python3 -I -S -B automation/english_pocket12_once.py --guard \
+            > "$RUNNER_TEMP/pocket12-runtime-generation/GUARD.json"
+      - name: Install pinned Python 3.12 Pocket CPU runtime and five verified assets once
+        shell: bash
+        timeout-minutes: 14
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_pocket12_once.py --install-runtime generation \
+            --venv "$RUNNER_TEMP/pocket12-generation-venv" \
+            --assets "$RUNNER_TEMP/pocket12-generation-private-model" \
+            --runtime "$RUNNER_TEMP/pocket12-runtime-generation"
+      - name: Generate the twelve fixed short clips once
+        id: calls
+        shell: bash
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 1140s "$RUNNER_TEMP/pocket12-generation-venv/bin/python" -I -B \
+            automation/english_pocket12_once.py --generate \
+            --assets "$RUNNER_TEMP/pocket12-generation-private-model" --output "$RUNNER_TEMP/pocket12-source" \
+            > "$RUNNER_TEMP/pocket12-runtime-generation/STDOUT.txt" \
+            2> "$RUNNER_TEMP/pocket12-runtime-generation/STDERR.txt"
+      - name: Read complete source bytes and the twelve-row denominator
+        id: readback
+        if: always() && steps.guard.outcome == 'success'
+        shell: bash
+        timeout-minutes: 3
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_pocket12_once.py --read-source \
+            --source "$RUNNER_TEMP/pocket12-source" \
+            --output "$RUNNER_TEMP/pocket12-runtime-generation/SOURCE_READBACK.json"
+          python3 -I -S -B - <<'PYCODE'
+          import json, os, pathlib
+          value = json.loads((pathlib.Path(os.environ['RUNNER_TEMP']) / 'pocket12-runtime-generation/SOURCE_READBACK.json').read_bytes())
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
+              stream.write('source_ready=' + str(value['source_ready']).lower() + '\n')
+          PYCODE
+      - name: Preserve absent or partial generation as unknown
+        if: always() && steps.guard.outcome == 'success'
+        shell: bash
+        run: |
+          python3 -I -S -B automation/english_pocket12_once.py --stage-status generation \
+            --output "$RUNNER_TEMP/pocket12-source" --runtime "$RUNNER_TEMP/pocket12-runtime-generation" \
+            --outcome '${{ steps.calls.outcome }}'
+      - name: Retain all source bytes and partial ledgers
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pocket12-source
+          path: ${{ runner.temp }}/pocket12-source/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain installation and generation runtime receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pocket12-runtime-generation
+          path: ${{ runner.temp }}/pocket12-runtime-generation/
+          retention-days: 30
+          if-no-files-found: warn
+  observe:
+    needs: [source-contract, generate]
+    if: >-
+      always() && needs.source-contract.result == 'success' && needs.source-contract.outputs.enabled == 'true' &&
+      needs.generate.outputs.guarded == 'true' && needs.generate.outputs.source_ready == 'true' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        provider: [qwen, whisper, parakeet, phoneme]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 59
+    env:
+      PROVIDER: ${{ matrix.provider }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Verify the same sole execution identity
+        id: guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git status --porcelain)"
+          mkdir -p "$RUNNER_TEMP/pocket12-runtime-observer"
+          python3 -I -S -B automation/english_pocket12_once.py --guard \
+            > "$RUNNER_TEMP/pocket12-runtime-observer/GUARD.json"
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        timeout-minutes: 4
+        with:
+          name: pocket12-source
+          path: ${{ runner.temp }}/pocket12-source
+      - name: Verify all twelve source clips then install the fixed observer runtime
+        shell: bash
+        timeout-minutes: 14
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_pocket12_once.py --install-runtime "$PROVIDER" \
+            --source "$RUNNER_TEMP/pocket12-source" --venv "$RUNNER_TEMP/pocket12-observer-venv" \
+            --runtime "$RUNNER_TEMP/pocket12-runtime-observer"
+      - name: Observe each saved clip once with no prompt or retry
+        id: calls
+        shell: bash
+        timeout-minutes: 35
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 2040s "$RUNNER_TEMP/pocket12-observer-venv/bin/python" -I -B \
+            automation/english_pocket12_once.py --observe "$PROVIDER" --source "$RUNNER_TEMP/pocket12-source" \
+            --output "$RUNNER_TEMP/pocket12-observer" --assets "$RUNNER_TEMP/pocket12-observer-private-model" \
+            > "$RUNNER_TEMP/pocket12-runtime-observer/STDOUT.txt" \
+            2> "$RUNNER_TEMP/pocket12-runtime-observer/STDERR.txt"
+      - name: Preserve absent or partial observer results as unknown
+        if: always() && steps.guard.outcome == 'success'
+        shell: bash
+        run: |
+          python3 -I -S -B automation/english_pocket12_once.py --stage-status "$PROVIDER" \
+            --output "$RUNNER_TEMP/pocket12-observer" --runtime "$RUNNER_TEMP/pocket12-runtime-observer" \
+            --outcome '${{ steps.calls.outcome }}'
+      - name: Retain blind observations and partial call ledgers
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pocket12-observer-${{ matrix.provider }}
+          path: ${{ runner.temp }}/pocket12-observer/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Retain observer installation and runtime receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pocket12-runtime-${{ matrix.provider }}
+          path: ${{ runner.temp }}/pocket12-runtime-observer/
+          retention-days: 30
+          if-no-files-found: warn
+  combine:
+    needs: [source-contract, generate, observe]
+    if: >-
+      always() && needs.source-contract.result == 'success' && needs.source-contract.outputs.enabled == 'true' &&
+      needs.generate.outputs.guarded == 'true' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Verify the same one-shot execution
+        shell: bash
+        run: python3 -I -S -B automation/english_pocket12_once.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        continue-on-error: true
+        timeout-minutes: 2
+        with:
+          name: pocket12-source
+          path: ${{ runner.temp }}/pocket12-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        continue-on-error: true
+        timeout-minutes: 2
+        with:
+          pattern: pocket12-observer-*
+          path: ${{ runner.temp }}/pocket12-observers
+      - name: Combine saved bytes with missing stages retained as unknown
+        shell: bash
+        timeout-minutes: 4
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=15s 210s python3 -I -S -B \
+            automation/english_pocket12_once.py --combine --source "$RUNNER_TEMP/pocket12-source" \
+            --observers "$RUNNER_TEMP/pocket12-observers" --output "$RUNNER_TEMP/pocket12-combined"
+      - name: Retain the complete or partial diagnostic packet
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-pocket12-probe-${{ github.run_id }}
+          path: ${{ runner.temp }}/pocket12-combined/
+          retention-days: 30
+          if-no-files-found: warn
