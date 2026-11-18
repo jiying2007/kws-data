@@ -32,7 +32,13 @@ policy=load("english_fresh24_ctc_admission")
 c=load("english_hifi_micro")
 SCHEMA="english-fresh24-native-donor-and-clone-v1"
 REPOSITORY="jiying2007/kws-data"
-BEFORE="9899bf3cd505abcc6c363efd4490cf84fcdfc89d"
+BEFORE="dfbb95f003b3845439ccbe5e5eb4cb80e58e83f8"
+PRIOR_ZERO_RUN=44287718379
+PRIOR_SOURCE_COMMIT=BEFORE
+PRIOR_SOURCE_BEFORE="9899bf3cd505abcc6c363efd4490cf84fcdfc89d"
+PRIOR_ARTIFACT_ID=14419837155
+PRIOR_ARTIFACT_SIZE=788
+PRIOR_ARTIFACT_DIGEST="sha256:2d53e8e3efade2f6ded6ee6bdbcc4188efbd1c832ab9e2af6cabf30023d4d2be"
 REFERENCE_SCHEMA="english-fresh24-neutral-source-v1"
 CLONE_SCHEMA="english-fresh24-qwen-voice-clone-v1"
 KOKORO_MODEL_SHA="496dba118d1a58f5f3db2efc88dbdc216e0483fc89fe6e47ee1f2c53f18ad1e4"
@@ -96,6 +102,59 @@ def guard(env=None,event=None,parent=None):
                                        cwd=ROOT,text=True).strip()
     need(parent==BEFORE,"PINNED_FIRST_PARENT")
     return {"run_id":env["GITHUB_RUN_ID"],"commit":sha,"before":BEFORE}
+
+def verify_zero_forward_remote(token):
+    """Only the authenticated public-main failed archive can authorize recovery."""
+    import urllib.request
+    need(type(token) is str and len(token)>=10,
+         "READONLY_GITHUB_TOKEN_REQUIRED")
+    url=f"https://api.github.com/repos/{REPOSITORY}/actions/artifacts/{PRIOR_ARTIFACT_ID}"
+    request=urllib.request.Request(url,headers={
+        "Authorization":"Bearer "+token,
+        "Accept":"application/vnd.github+json",
+        "User-Agent":"kws-fresh24-cpu-zero-forward-recovery"})
+    with urllib.request.urlopen(request,timeout=30) as stream:
+        meta=json.loads(stream.read(1000001))
+    need(meta.get("id")==PRIOR_ARTIFACT_ID and
+         meta.get("name")==f"english-fresh24-neutral-{PRIOR_ZERO_RUN}" and
+         meta.get("size_in_bytes")==PRIOR_ARTIFACT_SIZE and
+         meta.get("digest")==PRIOR_ARTIFACT_DIGEST and
+         meta.get("expired") is False and
+         meta.get("workflow_run",{}).get("id")==PRIOR_ZERO_RUN and
+         meta.get("workflow_run",{}).get("head_sha")==PRIOR_SOURCE_COMMIT,
+         "EXACT_ORIGINAL_ZERO_FORWARD_ARTIFACT")
+    return {"artifact_id":PRIOR_ARTIFACT_ID,
+            "digest":PRIOR_ARTIFACT_DIGEST,"verified":True}
+
+def verify_zero_forward_packet(root):
+    root=Path(root)
+    need(root.is_dir() and not root.is_symlink() and
+         {p.name for p in root.iterdir()}=={"STARTED.json","FAILED.json"} and
+         all(not p.is_symlink() for p in root.iterdir()),
+         "EXACT_TWO_FILE_FAILED_SOURCE_RECEIPT")
+    start=json.loads((root/"STARTED.json").read_bytes())
+    failed=json.loads((root/"FAILED.json").read_bytes())
+    oldrun={"run_id":str(PRIOR_ZERO_RUN),"commit":PRIOR_SOURCE_COMMIT,
+            "before":PRIOR_SOURCE_BEFORE}
+    need(start.get("schema")==REFERENCE_SCHEMA and
+         start.get("run")==oldrun and
+         start.get("denominator")==24 and
+         start.get("max_calls")==48 and
+         start.get("training_allowed") is False and
+         start.get("source_plan_sha256")==source_check()["source_plan_sha256"],
+         "ORIGINAL_STARTED_RUN_AND_SOURCE_PLAN")
+    need(failed.get("schema")==REFERENCE_SCHEMA and
+         failed.get("run")==oldrun and
+         failed.get("completed_references")==0 and
+         failed.get("native_forward_returns")==0 and
+         failed.get("remaining_possible_calls")==48 and
+         failed.get("failure")=="ModuleNotFoundError:No module named 'num2words'" and
+         failed.get("retry") is False and
+         failed.get("training_allowed") is False,
+         "PRIOR_NUMERICAL_FORWARD_COUNT_NOT_ZERO")
+    return {"status":"ORIGINAL_CPU_IMPORT_FAILURE_AUTHENTICATED",
+            "prior_new_audio_calls":0,"prior_run":PRIOR_ZERO_RUN,
+            "training_allowed":False}
 
 def safe_root(path):
     path=Path(path)
@@ -388,7 +447,8 @@ def generate_clone(ref_dir,out):
 
 def main():
     ap=argparse.ArgumentParser()
-    modes=("--source-check","--guard","--references","--verify-references",
+    modes=("--source-check","--guard","--verify-zero-remote",
+           "--verify-zero-packet","--references","--verify-references",
            "--clone","--verify-clones")
     for mode in modes:ap.add_argument(mode,action="store_true")
     ap.add_argument("--output")
@@ -400,6 +460,15 @@ def main():
         print(json.dumps(source_check(),sort_keys=True));return
     if args.guard:
         print(json.dumps(guard(),sort_keys=True));return
+    if args.verify_zero_remote:
+        guard()
+        print(json.dumps(verify_zero_forward_remote(os.environ.get("GH_TOKEN")),
+                         sort_keys=True))
+        return
+    if args.verify_zero_packet:
+        guard();need(args.input,"EXACT_PRIOR_PACKET_REQUIRED")
+        print(json.dumps(verify_zero_forward_packet(args.input),sort_keys=True))
+        return
     if args.references:
         need(args.output,"NEW_REFS_OUTPUT_REQUIRED")
         generate_refs(args.output);return
