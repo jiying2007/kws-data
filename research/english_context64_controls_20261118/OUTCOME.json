@@ -1,0 +1,4263 @@
+{
+  "all_probe_inputs_permanently_excluded_from_training": true,
+  "by_kind": [
+    {
+      "candidate_positive_count": 7,
+      "declared_count": 16,
+      "kind": "positive",
+      "machine_corroborated_controls": 0,
+      "successful_generation": 16,
+      "unresolved_controls": null
+    },
+    {
+      "candidate_positive_count": 2,
+      "declared_count": 16,
+      "kind": "contrast",
+      "machine_corroborated_controls": 8,
+      "successful_generation": 16,
+      "unresolved_controls": 0
+    },
+    {
+      "candidate_positive_count": 0,
+      "declared_count": 16,
+      "kind": "ordinary",
+      "machine_corroborated_controls": 16,
+      "successful_generation": 16,
+      "unresolved_controls": 0
+    },
+    {
+      "candidate_positive_count": 0,
+      "declared_count": 16,
+      "kind": "outside",
+      "machine_corroborated_controls": 0,
+      "successful_generation": 16,
+      "unresolved_controls": 0
+    }
+  ],
+  "campaign_id": "kokoro-exact-child-context-controls64-v1",
+  "counts": {
+    "actual_high_level_calls": 336,
+    "all_stages_complete": true,
+    "calls_lower_bound": 336,
+    "calls_upper_bound": 336,
+    "complete_saved_outputs": 336,
+    "counter_scope": "TTS requests plus one-input text/phone observation calls, not all internal neural decoder steps",
+    "high_level_returns": 336,
+    "maximum_high_level_calls": 336,
+    "new_model_calls_during_evaluation": 0,
+    "retry_count": 0,
+    "stages": {
+      "generation": {
+        "actual_forward_attempts": 48,
+        "complete": true,
+        "completed": 48,
+        "completed_children": 64,
+        "declared_count": 48,
+        "forward_attempts_lower_bound": 48,
+        "forward_attempts_upper_bound": 48,
+        "native_forward_returns": 48,
+        "resample_attempts": 48,
+        "resample_returns": 48
+      },
+      "parakeet": {
+        "actual_forward_attempts": 64,
+        "complete": true,
+        "completed": 64,
+        "counter_scope": "high_level_one_input_decode",
+        "forward_attempts_lower_bound": 64,
+        "forward_attempts_upper_bound": 64,
+        "input_scope": "exact_child_16k_pcm",
+        "native_forward_returns": 64,
+        "provider": "parakeet",
+        "retained_captures_lower_bound": 64,
+        "retained_native_forward_returns_lower_bound": 64,
+        "schema": "english-kokoro-context64-child-text-v1/readback"
+      },
+      "phoneme": {
+        "actual_forward_attempts": 48,
+        "child_independent_phone_evidence": false,
+        "complete": true,
+        "completed": 48,
+        "declared_count": 48,
+        "failed": 0,
+        "forward_attempts_lower_bound": 48,
+        "forward_attempts_upper_bound": 48,
+        "input_scope": "parent_full_16k_pcm",
+        "input_started": 48,
+        "native_forward_returns": 48,
+        "not_started": 0,
+        "provider": "phoneme",
+        "status": "COMPLETE_DIAGNOSTIC"
+      },
+      "phoneme_lv60": {
+        "actual_forward_attempts": 48,
+        "child_independent_phone_evidence": false,
+        "complete": true,
+        "completed": 48,
+        "declared_count": 48,
+        "failed": 0,
+        "forward_attempts_lower_bound": 48,
+        "forward_attempts_upper_bound": 48,
+        "input_scope": "parent_full_16k_pcm",
+        "input_started": 48,
+        "native_forward_returns": 48,
+        "not_started": 0,
+        "provider": "phoneme_lv60",
+        "status": "COMPLETE_DIAGNOSTIC"
+      },
+      "qwen": {
+        "actual_forward_attempts": 64,
+        "complete": true,
+        "completed": 64,
+        "counter_scope": "high_level_one_input_decode",
+        "forward_attempts_lower_bound": 64,
+        "forward_attempts_upper_bound": 64,
+        "input_scope": "exact_child_16k_pcm",
+        "native_forward_returns": 64,
+        "provider": "qwen",
+        "retained_captures_lower_bound": 64,
+        "retained_native_forward_returns_lower_bound": 64,
+        "schema": "english-kokoro-context64-child-text-v1/readback"
+      },
+      "whisper": {
+        "actual_forward_attempts": 64,
+        "complete": true,
+        "completed": 64,
+        "counter_scope": "high_level_one_input_decode",
+        "forward_attempts_lower_bound": 64,
+        "forward_attempts_upper_bound": 64,
+        "input_scope": "exact_child_16k_pcm",
+        "native_forward_returns": 64,
+        "provider": "whisper",
+        "retained_captures_lower_bound": 64,
+        "retained_native_forward_returns_lower_bound": 64,
+        "schema": "english-kokoro-context64-child-text-v1/readback"
+      }
+    }
+  },
+  "evaluation_bytes": 656194,
+  "evaluation_sha256": "d73cb08da7c50761b07e857f0edb83f937a6d23b7bc39f3b01d0cfbcaf521b93",
+  "failed_gates": [
+    "all48_controls_candidate_positive_count_zero",
+    "all16_contrast_controls_reference_pattern_corroborated",
+    "all16_outside_controls_all3_exact_text_no_target_and_before_terminal",
+    "positive_each_hypothesis_distinct_preset_minimum"
+  ],
+  "gates": {
+    "all16_contrast_controls_reference_pattern_corroborated": false,
+    "all16_ordinary_controls_all3_exact_text_and_no_target_in_fixed_region": true,
+    "all16_outside_controls_all3_exact_text_no_target_and_before_terminal": false,
+    "all192_child_text_captures_complete": true,
+    "all48_controls_candidate_positive_count_zero": false,
+    "all48_generation_complete": true,
+    "all96_parent_phone_captures_complete": true,
+    "outside_each_parent_hypothesis_distinct_preset_minimum": true,
+    "positive_each_hypothesis_distinct_preset_minimum": false
+  },
+  "new_kws_training_calls": 0,
+  "new_kws_weights": false,
+  "outside_parent_support": [
+    {
+      "declared_outside_children": 4,
+      "hypothesis": "mero-us-eh-v1",
+      "minimum": 2,
+      "parent_supported_preset_components": [
+        "kokoro-v1_0-preset:af_sarah",
+        "kokoro-v1_0-preset:am_puck"
+      ],
+      "supported_count": 2
+    },
+    {
+      "declared_outside_children": 4,
+      "hypothesis": "mero-us-i-v1",
+      "minimum": 2,
+      "parent_supported_preset_components": [
+        "kokoro-v1_0-preset:af_bella",
+        "kokoro-v1_0-preset:af_sarah",
+        "kokoro-v1_0-preset:am_puck"
+      ],
+      "supported_count": 3
+    },
+    {
+      "declared_outside_children": 4,
+      "hypothesis": "vosen-us-s-v1",
+      "minimum": 2,
+      "parent_supported_preset_components": [
+        "kokoro-v1_0-preset:af_bella",
+        "kokoro-v1_0-preset:af_sarah",
+        "kokoro-v1_0-preset:am_michael"
+      ],
+      "supported_count": 3
+    },
+    {
+      "declared_outside_children": 4,
+      "hypothesis": "vosen-us-z-v1",
+      "minimum": 2,
+      "parent_supported_preset_components": [
+        "kokoro-v1_0-preset:af_bella",
+        "kokoro-v1_0-preset:af_sarah",
+        "kokoro-v1_0-preset:am_michael",
+        "kokoro-v1_0-preset:am_puck"
+      ],
+      "supported_count": 4
+    }
+  ],
+  "positive_hypothesis_coverage": [
+    {
+      "declared_children": 4,
+      "hypothesis": "mero-us-eh-v1",
+      "minimum": 2,
+      "supported_count": 0,
+      "supported_preset_components": []
+    },
+    {
+      "declared_children": 4,
+      "hypothesis": "mero-us-i-v1",
+      "minimum": 2,
+      "supported_count": 3,
+      "supported_preset_components": [
+        "kokoro-v1_0-preset:af_bella",
+        "kokoro-v1_0-preset:af_sarah",
+        "kokoro-v1_0-preset:am_puck"
+      ]
+    },
+    {
+      "declared_children": 4,
+      "hypothesis": "vosen-us-s-v1",
+      "minimum": 2,
+      "supported_count": 2,
+      "supported_preset_components": [
+        "kokoro-v1_0-preset:af_bella",
+        "kokoro-v1_0-preset:af_sarah"
+      ]
+    },
+    {
+      "declared_children": 4,
+      "hypothesis": "vosen-us-z-v1",
+      "minimum": 2,
+      "supported_count": 2,
+      "supported_preset_components": [
+        "kokoro-v1_0-preset:af_bella",
+        "kokoro-v1_0-preset:af_sarah"
+      ]
+    }
+  ],
+  "record_type": "saved_actual_experiment_summary",
+  "rows": [
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 2
+        },
+        "contradictory_providers": {
+          "1": [
+            "qwen",
+            "whisper"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hay",
+          "qwen": "hey mero",
+          "whisper": "hey mero"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪmɛrɚ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəsspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklilikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfliheɪmɛrɚ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 7
+      },
+      "candidate_matches_expected_class": false,
+      "candidate_matches_expected_hypothesis": false,
+      "cell_id": "mero-direct-eh",
+      "child_pcm_sha256": "72e55d809c99c40abd19e3664ff023fcb0f6e35f9976b315631bfcecaa9c0383",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪmæroʊ",
+      "expected_class_for_comparison_only": 2,
+      "expected_hypothesis_for_comparison_only": "mero-us-eh-v1",
+      "id": "enkc64c-3238b3245549cb8a05194f73",
+      "kind": "positive",
+      "parent_id": "enkc64p-d9dea55bbcf029ebbf035209",
+      "parent_pcm_sha256": "3732b95da6882258d66b8ed79e0c05328dd9362f9c337c67a549ab0d8e457426",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Hay",
+        "qwen": "Hey, Mero.",
+        "whisper": " Hey, Mero."
+      },
+      "reference_fixed_region": "heɪmɛrɚ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window please",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəsspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklilikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfliheɪmɛrɚ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 4
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-mero-direct-eh",
+      "child_pcm_sha256": "dc5e0f10bb538dbddca059463d750a03d7c3d150b39acefe1de35e9e838047b2",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒjuoʊpənðəwɪndoʊdp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-011eb9bf532a033faceb74a9",
+      "kind": "outside",
+      "parent_id": "enkc64p-d9dea55bbcf029ebbf035209",
+      "parent_pcm_sha256": "3732b95da6882258d66b8ed79e0c05328dd9362f9c337c67a549ab0d8e457426",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window, please?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": 2,
+        "candidate_hypothesis": "mero-us-i-v1",
+        "candidate_positive": true,
+        "candidate_tier": "context_supported_weak",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 3
+        },
+        "contradictory_providers": {
+          "1": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey miro",
+          "qwen": "hey miro",
+          "whisper": "hey miro"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_TEXTS_AND_FIXED_PARENT_REGION_SUPPORT",
+        "reference_fixed_region_normalized": "heɪmiroʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklilikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛfəliheɪmiroʊ",
+        "reference_terminal_hypotheses": [
+          "mero-us-i-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "mero-us-i-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 8
+      },
+      "candidate_matches_expected_class": true,
+      "candidate_matches_expected_hypothesis": true,
+      "cell_id": "mero-direct-i",
+      "child_pcm_sha256": "fa8b40c78eef067cd962793d43ebb15facd0fe3198d111c71b552b6e018942b4",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪmiroʊ",
+      "expected_class_for_comparison_only": 2,
+      "expected_hypothesis_for_comparison_only": "mero-us-i-v1",
+      "id": "enkc64c-7924e1ba81af8bd2ecef7984",
+      "kind": "positive",
+      "parent_id": "enkc64p-3a6ddd6ea3d34bd4a1a74265",
+      "parent_pcm_sha256": "e3fa577e3eecc7f7c5c80779a555b198bc9ca100667efe7f2d2059189a01f7bf",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Hey Miro.",
+        "qwen": "Hey Miro.",
+        "whisper": " Hey, Miro."
+      },
+      "reference_fixed_region": "heɪmiroʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklilikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛfəliheɪmiroʊ",
+        "reference_terminal_hypotheses": [
+          "mero-us-i-v1"
+        ],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 4
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-mero-direct-i",
+      "child_pcm_sha256": "c24faf1df652d35f80b213dd1a6dd0c0e6252be02ddd0b3c1244e395cab4a026",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒjuoʊpənðəwɪndoʊdp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-d426edd0dffd98959dedcbf6",
+      "kind": "outside",
+      "parent_id": "enkc64p-3a6ddd6ea3d34bd4a1a74265",
+      "parent_pcm_sha256": "e3fa577e3eecc7f7c5c80779a555b198bc9ca100667efe7f2d2059189a01f7bf",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": 1,
+        "candidate_hypothesis": "vosen-us-s-v1",
+        "candidate_positive": true,
+        "candidate_tier": "context_supported_weak",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 3,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ]
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey vosen",
+          "qwen": "hey vosin",
+          "whisper": "hey vosin"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_TEXTS_AND_FIXED_PARENT_REGION_SUPPORT",
+        "reference_fixed_region_normalized": "heɪvoʊsən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛfəliheɪvoʊsən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-s-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "vosen-us-s-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": true,
+      "candidate_matches_expected_hypothesis": true,
+      "cell_id": "vosen-direct-s",
+      "child_pcm_sha256": "f22a923bf77cbde2fa57a6bf1bf0e9552c22d27d7d9502b89850fcf35c6fa651",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪvoʊsən",
+      "expected_class_for_comparison_only": 1,
+      "expected_hypothesis_for_comparison_only": "vosen-us-s-v1",
+      "id": "enkc64c-df1cdc783719a14fbd23cd71",
+      "kind": "positive",
+      "parent_id": "enkc64p-1bcaf88f42adb2872ec71ae5",
+      "parent_pcm_sha256": "b3a36c7de28ba1b628a59ce6ce59b015919045377360a1c998a6c50a9b5d3650",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Hey Vosen.",
+        "qwen": "Hey, Vosin.",
+        "whisper": " Hey, Vosin."
+      },
+      "reference_fixed_region": "heɪvoʊsən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛfəliheɪvoʊsən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-s-v1"
+        ],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 4
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-vosen-direct-s",
+      "child_pcm_sha256": "4aa3f15b0d6697ba75e36ab7ef1ad9eda6f5f3c79bbf51614c75d5d7c86c68d1",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒjuoʊpənðəwɪndoʊdp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-e58cced57d8ca3e77e5b7b5e",
+      "kind": "outside",
+      "parent_id": "enkc64p-1bcaf88f42adb2872ec71ae5",
+      "parent_pcm_sha256": "b3a36c7de28ba1b628a59ce6ce59b015919045377360a1c998a6c50a9b5d3650",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": 1,
+        "candidate_hypothesis": "vosen-us-z-v1",
+        "candidate_positive": true,
+        "candidate_tier": "context_supported_weak",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 3,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ]
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey vosen",
+          "qwen": "hey vosin",
+          "whisper": "hey vosin"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_TEXTS_AND_FIXED_PARENT_REGION_SUPPORT",
+        "reference_fixed_region_normalized": "heɪvoʊzən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊzən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": true,
+      "candidate_matches_expected_hypothesis": true,
+      "cell_id": "vosen-direct-z",
+      "child_pcm_sha256": "63e9403e3ff93060bde9383edeabe7f710b3bdb836933fbf23d38fb0d3e52488",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪvoʊzən",
+      "expected_class_for_comparison_only": 1,
+      "expected_hypothesis_for_comparison_only": "vosen-us-z-v1",
+      "id": "enkc64c-1eb8ef68412dc15c06b21639",
+      "kind": "positive",
+      "parent_id": "enkc64p-beef0f20cd77542f86460978",
+      "parent_pcm_sha256": "4b067cb4b59ace243d743b1617fb1322b2a65f857cc3333c8139eaa336408e98",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Hey Vosen.",
+        "qwen": "Hey, Vosin.",
+        "whisper": " Hey, Vosin."
+      },
+      "reference_fixed_region": "heɪvoʊzən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊzən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 4
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-vosen-direct-z",
+      "child_pcm_sha256": "3dda1b4d2822821ffb25d459263906d21cf48ae8a9705f53813e5b1805fd7f41",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒjuoʊpənðəwɪndoʊdp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-042016e58ffdfa906c57ffae",
+      "kind": "outside",
+      "parent_id": "enkc64p-beef0f20cd77542f86460978",
+      "parent_pcm_sha256": "4b067cb4b59ace243d743b1617fb1322b2a65f857cc3333c8139eaa336408e98",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hay marlon",
+          "qwen": "hey maro",
+          "whisper": "hey meryl"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪmæroʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklilikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛfəliheɪmæroʊ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 8
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-mero-ae",
+      "child_pcm_sha256": "9b67e9ee715791e48cca71609005fe0d00c7e630174ca285eca10ee28b157943",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪmær(?:oʊ|ou|o)",
+        "kind": "contrast",
+        "machine_corroborated": true,
+        "reason": "CONTRAST_REFERENCE_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪmæroʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-mero-ae-v1",
+      "id": "enkc64c-089378fd63c373d1db58a387",
+      "kind": "contrast",
+      "parent_id": "enkc64p-cbee9fc5e59b7ec3a1a4034b",
+      "parent_pcm_sha256": "27f6cec7e3edcff06e53c3837d7dbabd554f4f82951e3987564de8e317ff0374",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Hay Marlon.",
+        "qwen": "Hey, Maro.",
+        "whisper": " Hey, Meryl."
+      },
+      "reference_fixed_region": "heɪmæroʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 3
+        },
+        "contradictory_providers": {
+          "1": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey miro",
+          "qwen": "hey miro",
+          "whisper": "hey miro"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪmɪraʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəsspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklilikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛfəliheɪmɪraʊ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 8
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-mero-ih",
+      "child_pcm_sha256": "4f98c5f0c2d0200bd2b212b5afc134bd02dd80879bc2dccecdb1f9e3fbbf6b03",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪmɪr(?:oʊ|ou|o)",
+        "kind": "contrast",
+        "machine_corroborated": false,
+        "reason": "CONTRAST_REFERENCE_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪmɪroʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-mero-ih-v1",
+      "id": "enkc64c-04c466188131fd1d0d7f762f",
+      "kind": "contrast",
+      "parent_id": "enkc64p-8f0d51353c5d18625e277b90",
+      "parent_pcm_sha256": "42213a5f5671ebb5059d3d83fc8551147c2025a3dd22c99e26c8410cae3e39e2",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Hey Miro.",
+        "qwen": "Hey Miro.",
+        "whisper": " Hey, Miro."
+      },
+      "reference_fixed_region": "heɪmɪraʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hay bosan",
+          "qwen": "hey bosen",
+          "whisper": "hey bosun"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪboʊsən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪboʊsən",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-vosen-b",
+      "child_pcm_sha256": "c013590d155b1c29a5e20a4aa92167175842c8a5489f2db76ec84eb0ea81d16c",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪb(?:oʊ|ou|o)s[əɐʌ]n",
+        "kind": "contrast",
+        "machine_corroborated": true,
+        "reason": "CONTRAST_REFERENCE_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪboʊsən",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-vosen-b-v1",
+      "id": "enkc64c-6ddad5284b0a15b394970239",
+      "kind": "contrast",
+      "parent_id": "enkc64p-5d0b501fb05dcd8dc084810b",
+      "parent_pcm_sha256": "0ba7cd7d028834ad793eb77d0d46348cfc702f670c97a53e946d8197ee8f069f",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Hay Bosan.",
+        "qwen": "Hey, Bosen.",
+        "whisper": " Hey, Bosun."
+      },
+      "reference_fixed_region": "heɪboʊsən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": 1,
+        "candidate_hypothesis": "vosen-us-z-v1",
+        "candidate_positive": true,
+        "candidate_tier": "context_supported_weak",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 3,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ]
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey vosen",
+          "qwen": "hey vosin",
+          "whisper": "hey vosin"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_TEXTS_AND_FIXED_PARENT_REGION_SUPPORT",
+        "reference_fixed_region_normalized": "heɪvoʊzən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊzən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-vosen-ih",
+      "child_pcm_sha256": "c4dc49bdb4bd98462929de5a1377a4e29b000603efbc5c3a01ff2ec5ecd5c8ea",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪv(?:oʊ|ou|o)zɪn",
+        "kind": "contrast",
+        "machine_corroborated": false,
+        "reason": "CONTRAST_REFERENCE_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪvoʊzən",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-vosen-ih-v1",
+      "id": "enkc64c-c1b5108473dcad97584e87d3",
+      "kind": "contrast",
+      "parent_id": "enkc64p-50598974f74cefe3094a179a",
+      "parent_pcm_sha256": "db5f3927fac155306b69831c0477bec0bb4fa85fcaccc6a3b8ef92f0a47b2ad7",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Hey Vosen.",
+        "qwen": "Hey, Vosin.",
+        "whisper": " Hey, Vosin."
+      },
+      "reference_fixed_region": "heɪvoʊzən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "what time is it",
+          "qwen": "what time is it",
+          "whisper": "what time is it"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "wʌtttaɪmɪzɪt",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛfəliwʌtttaɪmɪzɪt",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 5
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-time",
+      "child_pcm_sha256": "10813faffe20a1edc65bdbbd21561ca0b1363b22582ad20cdcff4f096dfc368d",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "What time is it?",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "wʌtaɪmɪzɪt",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-44a41a112d061403953741c3",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-f6c247464e46ede7721304a3",
+      "parent_pcm_sha256": "91ec149e9ed448fd853d49e32f89ee5fc9320f77e07574da184032c87eccbab5",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "What time is it?",
+        "qwen": "What time is it?",
+        "whisper": " What time is it?"
+      },
+      "reference_fixed_region": "wʌtttaɪmɪzɪt",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "please turn on the kitchen light",
+          "qwen": "please turn on the kitchen light",
+          "whisper": "please turn on the kitchen light"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "pliztɚnɑnðəkɪtʃənlaɪt",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklilikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəlipliztɚnɑnðəkɪtʃənlaɪt",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 0
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-light",
+      "child_pcm_sha256": "adc9ad994f5e7618519a50d87f04b278c0a0617e7e3e6de27748c3a3f02cfde4",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "Please turn on the kitchen light.",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "pliztɜnɔnðəkɪtʃənlaɪt",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-e5a0c8cc5fca4d148dedd7be",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-a54814702d1ade20c27a5379",
+      "parent_pcm_sha256": "7122710f6677e7397a252fcdf8936866ad32aafcb5cb1a043d4e8d3a7ca1e61f",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Please turn on the kitchen light.",
+        "qwen": "Please turn on the kitchen light.",
+        "whisper": " Please turn on the kitchen light."
+      },
+      "reference_fixed_region": "pliztɚnɑnðəkɪtʃənlaɪt",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "the package is by the front door",
+          "qwen": "the package is by the front door",
+          "whisper": "the package is by the front door"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "ðəpækɪdʒɪzbaɪðəfrʌntdo",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklilikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliðəpækɪdʒɪzbaɪðəfrʌntdo",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 0
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-package",
+      "child_pcm_sha256": "9553a397fa124269e8ff58d53a0a47775548ca9feb3d31e409f0103270c92f25",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "The package is by the front door.",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "ðəpækɪdʒɪzbaɪðəfrʌntdoʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-a42859e670a3fcce32257a4f",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-c0ba2a5fe9067564aaa9482c",
+      "parent_pcm_sha256": "2c6295611b87f54f1364e8008cc281c1636e902c3033c6b3897496f54e7eba35",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "The package is by the front door.",
+        "qwen": "The package is by the front door.",
+        "whisper": " The package is by the front door."
+      },
+      "reference_fixed_region": "ðəpækɪdʒɪzbaɪðəfrʌntdo",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklilikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəlikʊdjuoʊpənðəwɪndoʊ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 1
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-window",
+      "child_pcm_sha256": "6751faf74ee347cdc5f5be1b52f1ca35e04f347c25e536df10b0551281389759",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒjuoʊpənðəwɪndoʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-8907909cd02c6061a11cf1fd",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-93658b7f1bd5a9fe5f3bf532",
+      "parent_pcm_sha256": "1d21f4d2aaf389c9dffe6a36699f875650d1e5bac8202d9239cddb004b4d48cc",
+      "preset_id": "af_bella",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 2
+        },
+        "contradictory_providers": {
+          "1": [
+            "whisper",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey marrow",
+          "qwen": "hey maro",
+          "whisper": "hey mero"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_ALIAS_VOTES_REQUIRED",
+        "reference_fixed_region_normalized": "heɪmɛroʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪmɛroʊ",
+        "reference_terminal_hypotheses": [
+          "mero-us-eh-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "mero-us-eh-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": false,
+      "candidate_matches_expected_hypothesis": false,
+      "cell_id": "mero-direct-eh",
+      "child_pcm_sha256": "fb9e3fb53b86485963c80341f2fade1fb1ef44786aaa7afb4d00f61062da7d4f",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪmɛroʊ",
+      "expected_class_for_comparison_only": 2,
+      "expected_hypothesis_for_comparison_only": "mero-us-eh-v1",
+      "id": "enkc64c-cf35c6c1b8b89964a102031a",
+      "kind": "positive",
+      "parent_id": "enkc64p-6027ee3c2fc86bed723d3b05",
+      "parent_pcm_sha256": "cf80ac5fbc816d18427a3f5d1140941dc4b4d9fc68b731afaebe4abe4b500b2a",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Hey Marrow",
+        "qwen": "Hey, Maro.",
+        "whisper": " Hey, Mero."
+      },
+      "reference_fixed_region": "heɪmɛroʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪmɛroʊ",
+        "reference_terminal_hypotheses": [
+          "mero-us-eh-v1"
+        ],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-mero-direct-eh",
+      "child_pcm_sha256": "31cc1a2de11d29a610274d0d402a9a4d31ee0af2ed97f2f25f3d1c0db71e2426",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒuoʊpənðəwɪndoʊp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-b6b513f2140fc516f1143d93",
+      "kind": "outside",
+      "parent_id": "enkc64p-6027ee3c2fc86bed723d3b05",
+      "parent_pcm_sha256": "cf80ac5fbc816d18427a3f5d1140941dc4b4d9fc68b731afaebe4abe4b500b2a",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": 2,
+        "candidate_hypothesis": "mero-us-i-v1",
+        "candidate_positive": true,
+        "candidate_tier": "context_supported_weak",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 3
+        },
+        "contradictory_providers": {
+          "1": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey miro",
+          "qwen": "hey miro",
+          "whisper": "hey miro"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_TEXTS_AND_FIXED_PARENT_REGION_SUPPORT",
+        "reference_fixed_region_normalized": "heɪmiroʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪmiroʊ",
+        "reference_terminal_hypotheses": [
+          "mero-us-i-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "mero-us-i-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": true,
+      "candidate_matches_expected_hypothesis": true,
+      "cell_id": "mero-direct-i",
+      "child_pcm_sha256": "73d6e30e763478be8459cd9facf8a618521790915e46bc8d80b040e0f14b4b6d",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪmɪroʊ",
+      "expected_class_for_comparison_only": 2,
+      "expected_hypothesis_for_comparison_only": "mero-us-i-v1",
+      "id": "enkc64c-d635eb8334c94542d15b1142",
+      "kind": "positive",
+      "parent_id": "enkc64p-097218322063bbf0e4751332",
+      "parent_pcm_sha256": "8c16f12543fe3e03fcb856b496d9b88236fcef1a6b9e664ee709448cd59040a4",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Hey Miro.",
+        "qwen": "Hey Miro.",
+        "whisper": " Hey, Miro."
+      },
+      "reference_fixed_region": "heɪmiroʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪmiroʊ",
+        "reference_terminal_hypotheses": [
+          "mero-us-i-v1"
+        ],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 7
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-mero-direct-i",
+      "child_pcm_sha256": "abcedee5062a19bc1913b4fb192e75629355ab914958f4e22a1aefdcd4db1fd6",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kəddʒuoʊpənðəwɪndoʊp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-c0c5f3d018ccb41c504c771d",
+      "kind": "outside",
+      "parent_id": "enkc64p-097218322063bbf0e4751332",
+      "parent_pcm_sha256": "8c16f12543fe3e03fcb856b496d9b88236fcef1a6b9e664ee709448cd59040a4",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": 1,
+        "candidate_hypothesis": "vosen-us-s-v1",
+        "candidate_positive": true,
+        "candidate_tier": "context_supported_weak",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 3,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ]
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey vosen",
+          "qwen": "hey vosin",
+          "whisper": "hey vosin"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_TEXTS_AND_FIXED_PARENT_REGION_SUPPORT",
+        "reference_fixed_region_normalized": "heɪvoʊsən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊsən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-s-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "vosen-us-s-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 5
+      },
+      "candidate_matches_expected_class": true,
+      "candidate_matches_expected_hypothesis": true,
+      "cell_id": "vosen-direct-s",
+      "child_pcm_sha256": "448001dd4141814cb3600d68a3b74b497d63ef62156e2e19a72ed4861f42e7d1",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪvoʊsən",
+      "expected_class_for_comparison_only": 1,
+      "expected_hypothesis_for_comparison_only": "vosen-us-s-v1",
+      "id": "enkc64c-5e29cd23da804a129cd7dd7f",
+      "kind": "positive",
+      "parent_id": "enkc64p-52a7c2f4c9b8f5e1778e6912",
+      "parent_pcm_sha256": "1c1db37550badf889391dc3d5e213a998b3823f12f569be90f23f1779cb2fc0d",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Hey Vosen.",
+        "qwen": "Hey, Vosin.",
+        "whisper": " Hey, Vosin."
+      },
+      "reference_fixed_region": "heɪvoʊsən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊsən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-s-v1"
+        ],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-vosen-direct-s",
+      "child_pcm_sha256": "d2fcccb5068b40a3d0fe49992c3b616d59bdabcbc4204e9821b45d186d63d44f",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒuoʊpənðəwɪndoʊp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-dffe4f2634a4e9add9a02352",
+      "kind": "outside",
+      "parent_id": "enkc64p-52a7c2f4c9b8f5e1778e6912",
+      "parent_pcm_sha256": "1c1db37550badf889391dc3d5e213a998b3823f12f569be90f23f1779cb2fc0d",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": 1,
+        "candidate_hypothesis": "vosen-us-z-v1",
+        "candidate_positive": true,
+        "candidate_tier": "context_supported_weak",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 3,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ]
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey vozan",
+          "qwen": "hey vosen",
+          "whisper": "hey vosin"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_TEXTS_AND_FIXED_PARENT_REGION_SUPPORT",
+        "reference_fixed_region_normalized": "heɪvoʊzən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊzən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 5
+      },
+      "candidate_matches_expected_class": true,
+      "candidate_matches_expected_hypothesis": true,
+      "cell_id": "vosen-direct-z",
+      "child_pcm_sha256": "d12996c392b754f42d567fa837496be01541f547924b9f42fc15f5783a2228a5",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪvoʊzən",
+      "expected_class_for_comparison_only": 1,
+      "expected_hypothesis_for_comparison_only": "vosen-us-z-v1",
+      "id": "enkc64c-41e1aabfb1eacb0f05cfd28b",
+      "kind": "positive",
+      "parent_id": "enkc64p-17760f4f734cdd302325d8b8",
+      "parent_pcm_sha256": "0201afa938d371f3635fff37e81a2dbc531567ebcabc31f3586f14225a2918d6",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Hey Vozan",
+        "qwen": "Hey, Vosen.",
+        "whisper": " Hey, Vosin."
+      },
+      "reference_fixed_region": "heɪvoʊzən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊzən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-vosen-direct-z",
+      "child_pcm_sha256": "b5bb3ce1022c5f31a9ed7cfa4bc1595f1b5ba3af1c59e90430ed2374e01e0c83",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒuoʊpənðəwɪndoʊp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-e0ab9d090c42f7b2c95879b5",
+      "kind": "outside",
+      "parent_id": "enkc64p-17760f4f734cdd302325d8b8",
+      "parent_pcm_sha256": "0201afa938d371f3635fff37e81a2dbc531567ebcabc31f3586f14225a2918d6",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 2
+        },
+        "contradictory_providers": {
+          "1": [
+            "whisper",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey marrow",
+          "qwen": "hey maro",
+          "whisper": "hey marrow"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪmærɔ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪmærɔ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-mero-ae",
+      "child_pcm_sha256": "7836f6df49f4cac584f816c9953ca3b6a4482cc6447e28ab2f89adbc28e024e7",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪmær(?:oʊ|ou|o)",
+        "kind": "contrast",
+        "machine_corroborated": false,
+        "reason": "CONTRAST_REFERENCE_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪmæroʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-mero-ae-v1",
+      "id": "enkc64c-9084245c2dd45a9309496fea",
+      "kind": "contrast",
+      "parent_id": "enkc64p-f327f033dfe0d9de9a34b94f",
+      "parent_pcm_sha256": "074b41d9bd84cae91b0f48bc9eece25acd2761872e69179c57e0a4e8ad86a516",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Hey Marrow.",
+        "qwen": "Hey, Maro.",
+        "whisper": " Hey, Marrow."
+      },
+      "reference_fixed_region": "heɪmærɔ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 3
+        },
+        "contradictory_providers": {
+          "1": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey miro",
+          "qwen": "hey miro",
+          "whisper": "hey miro"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪmɪroʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪmɪroʊ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-mero-ih",
+      "child_pcm_sha256": "996cd500d4c078fc4dc2f3221f49aee9f2a2ad23e9e4e26d1114132a68acc00f",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪmɪr(?:oʊ|ou|o)",
+        "kind": "contrast",
+        "machine_corroborated": true,
+        "reason": "CONTRAST_REFERENCE_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪmɪroʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-mero-ih-v1",
+      "id": "enkc64c-ac37b9dabab27f5440683547",
+      "kind": "contrast",
+      "parent_id": "enkc64p-5e79a7f47fa05ca581f2c1a1",
+      "parent_pcm_sha256": "6d5adfbe35c147ef36869cc98f0d66b9a25f399d14ef028395100eb7c3aa4e8d",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Hey Miro",
+        "qwen": "Hey Miro.",
+        "whisper": " Hey, Miro."
+      },
+      "reference_fixed_region": "heɪmɪroʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey bowson",
+          "qwen": "hey bosen",
+          "whisper": "hey bosun"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪboʊsən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪboʊsən",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 5
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-vosen-b",
+      "child_pcm_sha256": "ef3fd3bbf2cfe2b2167b42bc3715200472540bbd075adcc23d42b7ea9de3761d",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪb(?:oʊ|ou|o)s[əɐʌ]n",
+        "kind": "contrast",
+        "machine_corroborated": true,
+        "reason": "CONTRAST_REFERENCE_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪboʊsən",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-vosen-b-v1",
+      "id": "enkc64c-1ca04cf294c44cc69e237307",
+      "kind": "contrast",
+      "parent_id": "enkc64p-f8228e3e5e32c1ff40d1ddf0",
+      "parent_pcm_sha256": "72b8d4f1a046bedb25aafc18b40effd40159f53878494704853cfda742b7e720",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Hey Bowson.",
+        "qwen": "Hey, Bosen.",
+        "whisper": " Hey, Bosun."
+      },
+      "reference_fixed_region": "heɪboʊsən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": 1,
+        "candidate_hypothesis": "vosen-us-z-v1",
+        "candidate_positive": true,
+        "candidate_tier": "context_supported_weak",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 3,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ]
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey vozan",
+          "qwen": "hey vosen",
+          "whisper": "hey vosin"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_TEXTS_AND_FIXED_PARENT_REGION_SUPPORT",
+        "reference_fixed_region_normalized": "heɪvoʊzən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊzən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 5
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-vosen-ih",
+      "child_pcm_sha256": "dd82c544c3063d053d932f54ca674a32daf4dc79836567ffc22f2a02744509a4",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪv(?:oʊ|ou|o)zɪn",
+        "kind": "contrast",
+        "machine_corroborated": false,
+        "reason": "CONTRAST_REFERENCE_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪvoʊzən",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-vosen-ih-v1",
+      "id": "enkc64c-33db668d10e8ac129827e20e",
+      "kind": "contrast",
+      "parent_id": "enkc64p-157f2c796faa9a056563412f",
+      "parent_pcm_sha256": "77d00cbac8e782325e3cf4f03a3ca7d3678b5e43bca8c08f35de943fe19330ad",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Hey Vozan",
+        "qwen": "Hey, Vosen.",
+        "whisper": " Hey, Vosin."
+      },
+      "reference_fixed_region": "heɪvoʊzən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "what time is it",
+          "qwen": "what time is it",
+          "whisper": "what time is it"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "wʌttaɪmɪzɪt",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliwʌttaɪmɪzɪt",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 3
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-time",
+      "child_pcm_sha256": "7ae7949bb6a51114cb3ace10e7f45df3123df161007a8604e21ba19ad33b78ad",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "What time is it?",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "wʌttaɪmɪzɪt",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-2e1be1e910dfbe33fbed90c0",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-c0a306c5a35af228cf094871",
+      "parent_pcm_sha256": "314a60dc92f9f4f0800f227cc57b23c6cf74dacf8608eea796c74b5dd6bc1683",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "What time is it?",
+        "qwen": "What time is it?",
+        "whisper": " What time is it?"
+      },
+      "reference_fixed_region": "wʌttaɪmɪzɪt",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "please turn on the kitchen light",
+          "qwen": "please turn on the kitchen light",
+          "whisper": "please turn on the kitchen light"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "pliztɚnɑnðəkɪtʃənlaɪt",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəlipliztɚnɑnðəkɪtʃənlaɪt",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 0
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-light",
+      "child_pcm_sha256": "2a8f55a8b067b3e3f8a6af0097aef35e4966049a5ed11ee53a8f6e398cb0f656",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "Please turn on the kitchen light.",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "pliztɜnɔnðəkɪtʃənlaɪt",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-f795a8b323e8b4db508a9cdf",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-1e0705e15509fa0880139ef5",
+      "parent_pcm_sha256": "0da2dddad006b83aed24a9cc7ad5cc2b0f8a3b6887e06418983636efc7bf811e",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Please turn on the kitchen light.",
+        "qwen": "Please turn on the kitchen light.",
+        "whisper": " Please turn on the kitchen light."
+      },
+      "reference_fixed_region": "pliztɚnɑnðəkɪtʃənlaɪt",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "the package is by the front door",
+          "qwen": "the package is by the front door",
+          "whisper": "the package is by the front door"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "ðəpækɪdʒɪzbaɪðəfrʌntdo",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliðəpækɪdʒɪzbaɪðəfrʌntdo",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 0
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-package",
+      "child_pcm_sha256": "82fe711a648c4b2896b83598b0974ef8c3e2b0fb76f080193628052cc9d86b9e",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "The package is by the front door.",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "ðəpækɪdʒɪzbaɪðəfrʌntdoʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-477936eca6e97ce4248ff50e",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-c054f0df124d73ea65dadd30",
+      "parent_pcm_sha256": "7be59a65da15a93a453f3e011d55faa80bdf0fcce7ab5d4fed8f60465368ca9e",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "The package is by the front door.",
+        "qwen": "The package is by the front door.",
+        "whisper": " The package is by the front door."
+      },
+      "reference_fixed_region": "ðəpækɪdʒɪzbaɪðəfrʌntdo",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kdjuoʊpənðəwɪndoʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətændðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəlikdjuoʊpənðəwɪndoʊ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 0
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-window",
+      "child_pcm_sha256": "275e04fee430eaa426cb8ab0f31eb559aa7461782cef84c1ecde549350408ff2",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒuoʊpənðəwɪndoʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-88c2f7dfe7b551206ac8427f",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-1419f4dff37ee8c4a01b5956",
+      "parent_pcm_sha256": "65604f1d832de8fc0c41f6c1e724b5effb615012197e493878f7a700aa2b5005",
+      "preset_id": "af_sarah",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kdjuoʊpənðəwɪndoʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 2
+        },
+        "contradictory_providers": {
+          "1": [
+            "qwen",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hay marrow",
+          "qwen": "hey marrow",
+          "whisper": "hey meryl"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪmæroʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪtænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪmæroʊ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": false,
+      "candidate_matches_expected_hypothesis": false,
+      "cell_id": "mero-direct-eh",
+      "child_pcm_sha256": "2691e3bcfdff6ec538024e1defb2b4812b793c336748dcd6fb28890090e8586f",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪmæroʊ",
+      "expected_class_for_comparison_only": 2,
+      "expected_hypothesis_for_comparison_only": "mero-us-eh-v1",
+      "id": "enkc64c-9b81b5c70b43593552e790a5",
+      "kind": "positive",
+      "parent_id": "enkc64p-8f9aeab29a971c3be6d68a7f",
+      "parent_pcm_sha256": "70c636d105b10a7cad9ca79c9a8f03b2184f96e5e9bcc7cc0d9423c646c50f88",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "Hay Marrow.",
+        "qwen": "Hey, marrow.",
+        "whisper": " Hey, Meryl."
+      },
+      "reference_fixed_region": "heɪmæroʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪtænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪmæroʊ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 3
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-mero-direct-eh",
+      "child_pcm_sha256": "38c859cc31a9de2a1709afcccc4031d282151230dbdf630841b91c627098281e",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kʊdʒjuoʊpənðəwɪndoʊp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-ac48505e503ad6fbc685448b",
+      "kind": "outside",
+      "parent_id": "enkc64p-8f9aeab29a971c3be6d68a7f",
+      "parent_pcm_sha256": "70c636d105b10a7cad9ca79c9a8f03b2184f96e5e9bcc7cc0d9423c646c50f88",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 3
+        },
+        "contradictory_providers": {
+          "1": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey miro",
+          "qwen": "hey miro",
+          "whisper": "hey miro"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪmiraʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪmiraʊ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": false,
+      "candidate_matches_expected_hypothesis": false,
+      "cell_id": "mero-direct-i",
+      "child_pcm_sha256": "ee21cadb94436f9494f46cec5520f49c54ed90d7181cfefd5c1af183c4427172",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪmiroʊ",
+      "expected_class_for_comparison_only": 2,
+      "expected_hypothesis_for_comparison_only": "mero-us-i-v1",
+      "id": "enkc64c-e963819707fca9c3b4a43464",
+      "kind": "positive",
+      "parent_id": "enkc64p-d8f5d21ec7c8d82053f9ca56",
+      "parent_pcm_sha256": "d153f8c0f63ef49ed024e4e5e384add9003f29833fe57f842e123446e73ef8ce",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "Hey Miro.",
+        "qwen": "Hey Miro.",
+        "whisper": " Hey, Miro."
+      },
+      "reference_fixed_region": "heɪmiraʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪmiraʊ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 3
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-mero-direct-i",
+      "child_pcm_sha256": "504ac6a4cc84e9584e986ed074d032b0318747cc4d251c6582d76e2832358bdf",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kʊdʒuoʊpənðəwɪndoʊp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-8db5e2515b83461ca0de421a",
+      "kind": "outside",
+      "parent_id": "enkc64p-d8f5d21ec7c8d82053f9ca56",
+      "parent_pcm_sha256": "d153f8c0f63ef49ed024e4e5e384add9003f29833fe57f842e123446e73ef8ce",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 1,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": [
+            "qwen"
+          ]
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey volsen",
+          "qwen": "hey vosin",
+          "whisper": "hey volson"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_ALIAS_VOTES_REQUIRED",
+        "reference_fixed_region_normalized": "heɪvoʊsən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊsən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-s-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "vosen-us-s-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": false,
+      "candidate_matches_expected_hypothesis": false,
+      "cell_id": "vosen-direct-s",
+      "child_pcm_sha256": "373b6344c2c0a01dc4e5ca13580dc53edaac0b61e72e9b9b447076b1d9038aef",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪvoʊsən",
+      "expected_class_for_comparison_only": 1,
+      "expected_hypothesis_for_comparison_only": "vosen-us-s-v1",
+      "id": "enkc64c-e62f2a4b81b2d3b939270360",
+      "kind": "positive",
+      "parent_id": "enkc64p-34829dfe3bd9e0b872fe9d32",
+      "parent_pcm_sha256": "b4a9c53158e9c323c922cfcc69458f2a3cbf9e072b9149a51255b073f893de7a",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "Hey Volsen.",
+        "qwen": "Hey, Vosin.",
+        "whisper": " Hey, Volson."
+      },
+      "reference_fixed_region": "heɪvoʊsən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊsən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-s-v1"
+        ],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 3
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-vosen-direct-s",
+      "child_pcm_sha256": "d3511763f53de1b097bb9feb0d233223f15d486765c227bc24a22bfd5333f898",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kʊdʒuoʊpənðəwɪndoʊp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-e9f855c6907ea6334198eff0",
+      "kind": "outside",
+      "parent_id": "enkc64p-34829dfe3bd9e0b872fe9d32",
+      "parent_pcm_sha256": "b4a9c53158e9c323c922cfcc69458f2a3cbf9e072b9149a51255b073f893de7a",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 2,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": [
+            "qwen",
+            "parakeet"
+          ]
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey vosen",
+          "qwen": "hey vosen",
+          "whisper": "hey volsen"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_ALIAS_VOTES_REQUIRED",
+        "reference_fixed_region_normalized": "heɪvoʊzən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊzən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 5
+      },
+      "candidate_matches_expected_class": false,
+      "candidate_matches_expected_hypothesis": false,
+      "cell_id": "vosen-direct-z",
+      "child_pcm_sha256": "0a07bf963d44cb7b4abeb7baf266227618fe78a07f87aee3a1d6c56b26600187",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪvoʊzən",
+      "expected_class_for_comparison_only": 1,
+      "expected_hypothesis_for_comparison_only": "vosen-us-z-v1",
+      "id": "enkc64c-6c896d4551d2afb6f525c89b",
+      "kind": "positive",
+      "parent_id": "enkc64p-74f8e187e967f966efe20d46",
+      "parent_pcm_sha256": "c6c389d5a0bc19a734d4fab61de0ed6e099b373bd249a7afe050f74b007ded46",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "Hey Vosen.",
+        "qwen": "Hey, Vosen.",
+        "whisper": " Hey, Volsen."
+      },
+      "reference_fixed_region": "heɪvoʊzən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊzən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 3
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-vosen-direct-z",
+      "child_pcm_sha256": "9e90fc5b82f1676a40e9a1a705d539366b20f69f6528dfd52266f7204de1a334",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kʊdʒjuoʊpənðəwɪndoʊp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-b87c653a1eb4b9464d4a3490",
+      "kind": "outside",
+      "parent_id": "enkc64p-74f8e187e967f966efe20d46",
+      "parent_pcm_sha256": "c6c389d5a0bc19a734d4fab61de0ed6e099b373bd249a7afe050f74b007ded46",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 2
+        },
+        "contradictory_providers": {
+          "1": [
+            "whisper",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey marrow",
+          "qwen": "hey maro",
+          "whisper": "hey marrow"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪmæroʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklilikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪmæroʊ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 7
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-mero-ae",
+      "child_pcm_sha256": "9bba41ebbbc4ac3074161d5bd4194b50aae946815cc5ae1dafa7ce1237eca39d",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪmær(?:oʊ|ou|o)",
+        "kind": "contrast",
+        "machine_corroborated": true,
+        "reason": "CONTRAST_REFERENCE_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪmæroʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-mero-ae-v1",
+      "id": "enkc64c-566ef311486fa60ebd316e25",
+      "kind": "contrast",
+      "parent_id": "enkc64p-0a0b1b09641e07112bd3e961",
+      "parent_pcm_sha256": "373752208678e8f9574a237ba3bc2237b0da5ec8d9b0e878f864fcf7ad2d01ed",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "Hey Marrow.",
+        "qwen": "Hey, Maro.",
+        "whisper": " Hey, Marrow."
+      },
+      "reference_fixed_region": "heɪmæroʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 3
+        },
+        "contradictory_providers": {
+          "1": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey miro",
+          "qwen": "hey miro",
+          "whisper": "hey miro"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪmɪraʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪmɪraʊ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 7
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-mero-ih",
+      "child_pcm_sha256": "d464ae82a3c080f5b3743b932b3014acc5ffed785413444c4b9b50d9b2585448",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪmɪr(?:oʊ|ou|o)",
+        "kind": "contrast",
+        "machine_corroborated": false,
+        "reason": "CONTRAST_REFERENCE_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪmɪroʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-mero-ih-v1",
+      "id": "enkc64c-14fb803967fc9dd50e795287",
+      "kind": "contrast",
+      "parent_id": "enkc64p-90f4a76378a309d314319a07",
+      "parent_pcm_sha256": "1735d1b842ad1a8fe76a125dc08ec38efe097ce9d51021636c7e43439f993a79",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "Hey Miro.",
+        "qwen": "Hey Miro.",
+        "whisper": " Hey, Miro."
+      },
+      "reference_fixed_region": "heɪmɪraʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey bowson",
+          "qwen": "hey bosen",
+          "whisper": "hey bolson"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪboʊsən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪtænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪboʊsən",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 5
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-vosen-b",
+      "child_pcm_sha256": "406ad4a7d484521c276b0831cf471f5b955e9cc724aa0a1f9c81f8bc9e76a3de",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪb(?:oʊ|ou|o)s[əɐʌ]n",
+        "kind": "contrast",
+        "machine_corroborated": true,
+        "reason": "CONTRAST_REFERENCE_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪboʊsən",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-vosen-b-v1",
+      "id": "enkc64c-f525ced1b738f9dea43c3513",
+      "kind": "contrast",
+      "parent_id": "enkc64p-d99e48a0acbd49621c909e12",
+      "parent_pcm_sha256": "cf2248e835e9b0748c95a1276e53054e27f4a31a3753207116cc344a33f88145",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "Hey Bowson.",
+        "qwen": "Hey, Bosen.",
+        "whisper": " Hey, Bolson."
+      },
+      "reference_fixed_region": "heɪboʊsən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 2,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": [
+            "qwen",
+            "parakeet"
+          ]
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey vosen",
+          "qwen": "hey vozin",
+          "whisper": "hey volsen"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_ALIAS_VOTES_REQUIRED",
+        "reference_fixed_region_normalized": "heɪvoʊzən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊzən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 5
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-vosen-ih",
+      "child_pcm_sha256": "6fbfa48a53d376992975ad8b42cff67bf881962df3eb192a2ae6df85a410d839",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪv(?:oʊ|ou|o)zɪn",
+        "kind": "contrast",
+        "machine_corroborated": false,
+        "reason": "CONTRAST_REFERENCE_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪvoʊzən",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-vosen-ih-v1",
+      "id": "enkc64c-9fd774dbf911cf20434ec117",
+      "kind": "contrast",
+      "parent_id": "enkc64p-51892750bae9ba9958f60269",
+      "parent_pcm_sha256": "441d94bafd1c8c635ec7231a98529cb077d329b9628528ab02b0a7df654cf32c",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "Hey Vosen.",
+        "qwen": "Hey, Vozin.",
+        "whisper": " Hey, Volsen."
+      },
+      "reference_fixed_region": "heɪvoʊzən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "what time is it",
+          "qwen": "what time is it",
+          "whisper": "what time is it"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "wattaɪmɪzɪt",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliwattaɪmɪzɪt",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 4
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-time",
+      "child_pcm_sha256": "17ead68d411415be79bd173913a86d98ddbd01edbc834e1893d3d2e71cde8edd",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "What time is it?",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "wʌttaɪmɪzɪt",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-a4c47b9e637b8a6fb005d8c5",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-35287c8ef8bf8346c51fd96d",
+      "parent_pcm_sha256": "376b9485138845f8d3a43bf65a49499756d02906fc3cb1e184e74af52e6f6739",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "What time is it?",
+        "qwen": "What time is it?",
+        "whisper": " What time is it?"
+      },
+      "reference_fixed_region": "wattaɪmɪzɪt",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "please turn on the kitchen light",
+          "qwen": "please turn on the kitchen light",
+          "whisper": "please turn on the kitchen light"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "pliztɚnɑnðəkɪtʃənlaɪt",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklirlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəlipliztɚnɑnðəkɪtʃənlaɪt",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 0
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-light",
+      "child_pcm_sha256": "76db8cf663e9d60b5ab2760033df4263497ed6ef22c45a1dc9b7ce0b6e65a953",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "Please turn on the kitchen light.",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "pliztɜnɔnðəkɪtʃənlaɪt",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-c9cea2530c09fbec7534fa11",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-d1920d012bbca61079edc1ed",
+      "parent_pcm_sha256": "383e037a4d330b5b2cdad68d0b94619eace00e336d17cabe7c8c3fdc4a5878c1",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "please turn on the kitchen light.",
+        "qwen": "Please turn on the kitchen light.",
+        "whisper": " please turn on the kitchen light."
+      },
+      "reference_fixed_region": "pliztɚnɑnðəkɪtʃənlaɪt",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "the package is by the front door",
+          "qwen": "the package is by the front door",
+          "whisper": "the package is by the front door"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "ðəpækɪdʒɪzbaɪðəfrʌntdo",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəriddðɪssɛntənsklilikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliðəpækɪdʒɪzbaɪðəfrʌntdo",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 0
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-package",
+      "child_pcm_sha256": "da297c0a855cf91587b598aaa30a058735bbe0154aa2ed518ea8d0c614178814",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "The package is by the front door.",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "ðəpækɪdʒɪzbaɪðəfrʌntdoʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-80f032beb09d5b3ab7bdf937",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-349af8bb47b7359e70f595ab",
+      "parent_pcm_sha256": "8191c51314d03b788b92e155dbe1722e50e839ddc872faeb6c9fd934f271dd5a",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "the package is by the front door.",
+        "qwen": "The package is by the front door.",
+        "whisper": " The package is by the front door."
+      },
+      "reference_fixed_region": "ðəpækɪdʒɪzbaɪðəfrʌntdo",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊdjuoʊpənðəwɪndoʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklilikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəlikʊdjuoʊpənðəwɪndoʊ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 0
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-window",
+      "child_pcm_sha256": "52d2bf789c72ff63f1b6cf86ad1130ee37ed593b9e066ea33aeb51729374be3b",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kʊdʒjuoʊpənðəwɪndoʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-0cf1322e81c6aba24afd9336",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-7b2d63c36c0a6817d991aa13",
+      "parent_pcm_sha256": "b1a224c63bc65295b795330f88b598298439536b4b08963f1d963196d3441720",
+      "preset_id": "am_michael",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊdjuoʊpənðəwɪndoʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 3
+        },
+        "contradictory_providers": {
+          "1": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey marrow",
+          "qwen": "hey mero",
+          "whisper": "hey marrow"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "FEWER_THAN_THREE_WHOLE_SUPPORT_WINDOWS",
+        "reference_fixed_region_normalized": "heɪmɛroʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəriddðɪssɛntənsklɪlikʊduoʊpənðəwɪndoʊplizlɪsənkɛfəliheɪmɛroʊ",
+        "reference_terminal_hypotheses": [
+          "mero-us-eh-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "mero-us-eh-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 2
+      },
+      "candidate_matches_expected_class": false,
+      "candidate_matches_expected_hypothesis": false,
+      "cell_id": "mero-direct-eh",
+      "child_pcm_sha256": "1730b5beb06e7719a9f54304869a5623d8bcb08d5f8d2155b485b939a19f5845",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪmæroʊ",
+      "expected_class_for_comparison_only": 2,
+      "expected_hypothesis_for_comparison_only": "mero-us-eh-v1",
+      "id": "enkc64c-ce802a125c247be7c6b1ccb0",
+      "kind": "positive",
+      "parent_id": "enkc64p-af0f97dd88c84cde0b0ce8cb",
+      "parent_pcm_sha256": "40354743c9d9bae55e9de5d4a824d2ed334e3558b435e875bdf3243482a10244",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "Hey Marrow.",
+        "qwen": "Hey, Mero.",
+        "whisper": " Hey, Marrow."
+      },
+      "reference_fixed_region": "heɪmɛroʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊduoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəriddðɪssɛntənsklɪlikʊduoʊpənðəwɪndoʊplizlɪsənkɛfəliheɪmɛroʊ",
+        "reference_terminal_hypotheses": [
+          "mero-us-eh-v1"
+        ],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 7
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-mero-direct-eh",
+      "child_pcm_sha256": "377031d3e924b3ee76fff91c24c80e3c57d2c52827d134a720f6c7c4625265ba",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒuoʊpənðəwɪndoʊp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-01ebcd1d689866fb06755086",
+      "kind": "outside",
+      "parent_id": "enkc64p-af0f97dd88c84cde0b0ce8cb",
+      "parent_pcm_sha256": "40354743c9d9bae55e9de5d4a824d2ed334e3558b435e875bdf3243482a10244",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊduoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": 2,
+        "candidate_hypothesis": "mero-us-i-v1",
+        "candidate_positive": true,
+        "candidate_tier": "context_supported_weak",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 3
+        },
+        "contradictory_providers": {
+          "1": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey miro",
+          "qwen": "hey miro",
+          "whisper": "hey miro"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_TEXTS_AND_FIXED_PARENT_REGION_SUPPORT",
+        "reference_fixed_region_normalized": "heɪmiroʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪlikʊduoʊpənðəwɪndoʊplizlɪsənkɛfəliheɪmiroʊ",
+        "reference_terminal_hypotheses": [
+          "mero-us-i-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "mero-us-i-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 3
+      },
+      "candidate_matches_expected_class": true,
+      "candidate_matches_expected_hypothesis": true,
+      "cell_id": "mero-direct-i",
+      "child_pcm_sha256": "8983fccc06ccbb7de958eab6afc2f479fd5c6a28fba11542fdfe1cc87d780931",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪmɪroʊ",
+      "expected_class_for_comparison_only": 2,
+      "expected_hypothesis_for_comparison_only": "mero-us-i-v1",
+      "id": "enkc64c-c72fcfee8c8a70721cdc434d",
+      "kind": "positive",
+      "parent_id": "enkc64p-a70d6f38709d45363ce9dad8",
+      "parent_pcm_sha256": "a7be372a3c9c17c91c18d93ab4495e97e5d822047a33b541bb3e923d252d18af",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "Hey Miro",
+        "qwen": "Hey Miro.",
+        "whisper": " Hey, Miro."
+      },
+      "reference_fixed_region": "heɪmiroʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊduoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪlikʊduoʊpənðəwɪndoʊplizlɪsənkɛfəliheɪmiroʊ",
+        "reference_terminal_hypotheses": [
+          "mero-us-i-v1"
+        ],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 7
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-mero-direct-i",
+      "child_pcm_sha256": "732e2f4c441e56135d57a71228dfb38ed0a282ae03aa100be34d90f91ad26b1a",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒuoʊpənðəwɪndoʊp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-56fa0d537703d454c1b3f720",
+      "kind": "outside",
+      "parent_id": "enkc64p-a70d6f38709d45363ce9dad8",
+      "parent_pcm_sha256": "a7be372a3c9c17c91c18d93ab4495e97e5d822047a33b541bb3e923d252d18af",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊduoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 2,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": [
+            "qwen",
+            "whisper"
+          ]
+        },
+        "normalized_child_texts": {
+          "parakeet": "he vosen",
+          "qwen": "hey vosin",
+          "whisper": "hey vosin"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪvoʊsənn",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪlikʊduoʊpənðəwɪndoʊplizlɪsənkɛfəliheɪvoʊsənn",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 2
+      },
+      "candidate_matches_expected_class": false,
+      "candidate_matches_expected_hypothesis": false,
+      "cell_id": "vosen-direct-s",
+      "child_pcm_sha256": "70b9527440d8540aadd71787c14e6b28c3e757ed4919095bc890a217fd1f8fca",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪvoʊsən",
+      "expected_class_for_comparison_only": 1,
+      "expected_hypothesis_for_comparison_only": "vosen-us-s-v1",
+      "id": "enkc64c-4ce784c471ff85fe688b558a",
+      "kind": "positive",
+      "parent_id": "enkc64p-32e6e59278bb04f7c74935c2",
+      "parent_pcm_sha256": "83ae864e78430c8f8f69e5a77cf35817c666a4760bb46c5e4f729d854538c059",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "He Vosen.",
+        "qwen": "Hey, Vosin.",
+        "whisper": " Hey, Vosin."
+      },
+      "reference_fixed_region": "heɪvoʊsənn",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊduoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪlikʊduoʊpənðəwɪndoʊplizlɪsənkɛfəliheɪvoʊsənn",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 7
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-vosen-direct-s",
+      "child_pcm_sha256": "a1cf098258fc4d0c04137159f145efecb378b433374e1bcf50655fd96b746f01",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒuoʊpənðəwɪndoʊp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-49d3df7545ddf97ac84a4656",
+      "kind": "outside",
+      "parent_id": "enkc64p-32e6e59278bb04f7c74935c2",
+      "parent_pcm_sha256": "83ae864e78430c8f8f69e5a77cf35817c666a4760bb46c5e4f729d854538c059",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊduoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 2,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": [
+            "qwen",
+            "whisper"
+          ]
+        },
+        "normalized_child_texts": {
+          "parakeet": "he vosen",
+          "qwen": "hey vosen",
+          "whisper": "hey vosin"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "THREE_CHILD_ALIAS_VOTES_REQUIRED",
+        "reference_fixed_region_normalized": "heɪvoʊzən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪlikʊduoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊzən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "reference_whole_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 2
+      },
+      "candidate_matches_expected_class": false,
+      "candidate_matches_expected_hypothesis": false,
+      "cell_id": "vosen-direct-z",
+      "child_pcm_sha256": "58507f74a168c57f2068805983b415c63c22faa05caf284d6b69aef0884f1d04",
+      "control": {
+        "kind": "positive",
+        "machine_corroborated": null,
+        "reason": "MISSING_COMPLETE_CONTROL_OBSERVATION"
+      },
+      "diagnostic_fixed_region": "heɪvoʊzən",
+      "expected_class_for_comparison_only": 1,
+      "expected_hypothesis_for_comparison_only": "vosen-us-z-v1",
+      "id": "enkc64c-2189241ac78733b52bacb933",
+      "kind": "positive",
+      "parent_id": "enkc64p-cff8665590a1fd36916ae988",
+      "parent_pcm_sha256": "545479a56facb94c489bcb8a81a2bfa33a415a4522e48707e4ed05aafe702cf0",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "He Vosen.",
+        "qwen": "Hey, Vosen.",
+        "whisper": " Hey, Vosin!"
+      },
+      "reference_fixed_region": "heɪvoʊzən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window please",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊduoʊpənðəwɪndoʊp",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪlikʊduoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪvoʊzən",
+        "reference_terminal_hypotheses": [
+          "vosen-us-z-v1"
+        ],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 6
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "outside-vosen-direct-z",
+      "child_pcm_sha256": "b07893fa8edd397f0c1212c123612e0e501ef98efd6e4e4fe77f3bb854a16d5e",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": false,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "outside",
+        "machine_corroborated": false,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒuoʊpənðəwɪndoʊp",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-597bc677438486e210f7a2d8",
+      "kind": "outside",
+      "parent_id": "enkc64p-cff8665590a1fd36916ae988",
+      "parent_pcm_sha256": "545479a56facb94c489bcb8a81a2bfa33a415a4522e48707e4ed05aafe702cf0",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window, please?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊduoʊpənðəwɪndoʊp",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 2
+        },
+        "contradictory_providers": {
+          "1": [
+            "whisper",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey marrow",
+          "qwen": "hey maro",
+          "whisper": "hey marrow"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪmærɔ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəriddðɪssɛntənsklɪlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliheɪmærɔ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 3
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-mero-ae",
+      "child_pcm_sha256": "dc33109f7a56bfccbd5f4e2bb6afa917dae776c1e9ecdf727b098e735fa3f700",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪmær(?:oʊ|ou|o)",
+        "kind": "contrast",
+        "machine_corroborated": false,
+        "reason": "CONTRAST_REFERENCE_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪmæroʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-mero-ae-v1",
+      "id": "enkc64c-cc54736cfcdd387c11de8c47",
+      "kind": "contrast",
+      "parent_id": "enkc64p-5f1171d22573bf478799b76b",
+      "parent_pcm_sha256": "1467885178c42cbd5863ba1cb4344485229400282865cb80ca326a6b7006f3b3",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "Hey Marrow.",
+        "qwen": "Hey, Maro.",
+        "whisper": " Hey, Marrow."
+      },
+      "reference_fixed_region": "heɪmærɔ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 3
+        },
+        "contradictory_providers": {
+          "1": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey miro",
+          "qwen": "hey miro",
+          "whisper": "hey miro"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪmɪr",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪlikʊduoʊpənðəwɪndoʊplizlɪsənkɛfəliheɪmɪr",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 4
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-mero-ih",
+      "child_pcm_sha256": "2768a737aed1236b22e5a91d0f90d69a9dd3e4d0c3f63765579c35f684dea171",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪmɪr(?:oʊ|ou|o)",
+        "kind": "contrast",
+        "machine_corroborated": false,
+        "reason": "CONTRAST_REFERENCE_NOT_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪmɪroʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-mero-ih-v1",
+      "id": "enkc64c-c3f60cd848a4ebcfaf5a8dad",
+      "kind": "contrast",
+      "parent_id": "enkc64p-f6517ec8f98b91395e1d6441",
+      "parent_pcm_sha256": "4813738c2ffcf03bb7716a5b36c257f5032da1ff0a6b72c7088b6d5d6bda1d16",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "Hey Miro.",
+        "qwen": "Hey Miro.",
+        "whisper": " Hey, Miro."
+      },
+      "reference_fixed_region": "heɪmɪr",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey bosan",
+          "qwen": "hey bosen",
+          "whisper": "hey bosun"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪboʊsən",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪlikʊdʒuoʊpənnðəwɪndoʊplizlɪsənkɛrfəliheɪboʊsən",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 2
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-vosen-b",
+      "child_pcm_sha256": "290c07f93c7fcf5f1b7401a85b9d284bf08df1bea9b32d1ff8eab45a2c52f3cc",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪb(?:oʊ|ou|o)s[əɐʌ]n",
+        "kind": "contrast",
+        "machine_corroborated": true,
+        "reason": "CONTRAST_REFERENCE_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪboʊsən",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-vosen-b-v1",
+      "id": "enkc64c-47a2fb4721a6f016427aabd3",
+      "kind": "contrast",
+      "parent_id": "enkc64p-14cd5e41efc27f663ad418c0",
+      "parent_pcm_sha256": "831e670544f750d6d83f7e4218a11c49f8493b0e86f75ea98973dbf21492c335",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "Hey Bosan.",
+        "qwen": "Hey, Bosen.",
+        "whisper": " Hey, Bosun."
+      },
+      "reference_fixed_region": "heɪboʊsən",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 3,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": [
+            "qwen",
+            "whisper",
+            "parakeet"
+          ]
+        },
+        "normalized_child_texts": {
+          "parakeet": "hey vosen",
+          "qwen": "hey vosen",
+          "whisper": "hey vosin"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "heɪvoʊzɪn",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪlikʊdʒjuoʊpənnðəwɪndoʊplizlɪsənkɛfəliheɪvoʊzɪn",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 2
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "contrast-vosen-ih",
+      "child_pcm_sha256": "7ea3ca41a42a812e78319bf4de8dfcddd527db50286101e23ef92d3c6335e9a3",
+      "control": {
+        "all_three_child_captures_complete": true,
+        "child_transcripts_may_spell_positive_aliases": true,
+        "expected_contrast_pattern": "h?eɪv(?:oʊ|ou|o)zɪn",
+        "kind": "contrast",
+        "machine_corroborated": true,
+        "reason": "CONTRAST_REFERENCE_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "heɪvoʊzən",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "contrast-vosen-ih-v1",
+      "id": "enkc64c-b76a92fb9ff5eedc3b30eb81",
+      "kind": "contrast",
+      "parent_id": "enkc64p-887dd964ad5e31dbb7118ad1",
+      "parent_pcm_sha256": "5088ab5626f0f7b579ee06eb476b7b6dd503d29c5e51f6913ca2ea596e8189a1",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "Hey Vosen.",
+        "qwen": "Hey, Vosen.",
+        "whisper": " Hey, Vosin!"
+      },
+      "reference_fixed_region": "heɪvoʊzɪn",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "what time is it",
+          "qwen": "what time is it",
+          "whisper": "what time is it"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "wʌttaɪmɪzɪt",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪlikʊdjuoʊpənðəwɪndoʊplizlɪsənkɛrffəliwʌttaɪmɪzɪt",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 0
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-time",
+      "child_pcm_sha256": "0de594157ed06355d51ac4780f1ddde5f582d8a270473caac7b9e6730191a030",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "What time is it?",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "wʌttaɪmɪzɪt",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-2793fb2306e5656b7b4de655",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-bca9edf662a30a5f554930eb",
+      "parent_pcm_sha256": "5a4f9832ba355eb225eb0ec80326dcae3c3faa4b1aed25a43ea09b5b193d6a8a",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "What time is it?",
+        "qwen": "What time is it?",
+        "whisper": " What time is it?"
+      },
+      "reference_fixed_region": "wʌttaɪmɪzɪt",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "please turn on the kitchen light",
+          "qwen": "please turn on the kitchen light",
+          "whisper": "please turn on the kitchen light"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "pliztɚnɑnðəkɪtʃənnlaɪt",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdʒuoʊpənðəwɪndoʊplizlɪsənkɛfəlipliztɚnɑnðəkɪtʃənnlaɪt",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 0
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-light",
+      "child_pcm_sha256": "73e9e22b1fd321932d526c2efb74e48037f88d18bf6b8106b1d805fb3f339518",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "Please turn on the kitchen light.",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "pliztɜnɔnðəkɪtʃənlaɪt",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-767e70a8d239e0f8cb354efa",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-b50012cf44ac1790793868ef",
+      "parent_pcm_sha256": "99d06315b43da3f028b9bcf6b0bfb076182f2d1ec61ab13084aefedcc8179c69",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "please turn on the kitchen light.",
+        "qwen": "Please turn on the kitchen light.",
+        "whisper": " please turn on the kitchen light."
+      },
+      "reference_fixed_region": "pliztɚnɑnðəkɪtʃənnlaɪt",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "the package is by the front door",
+          "qwen": "the package is by the front door",
+          "whisper": "the package is by the front door"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "ðəpækɪdʒɪzbaɪðəfrʌntdo",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəriddðɪssɛntənsklɪlikʊddʒjuoʊpənðəwɪndoʊplizlɪsənkɛrfəliðəpækɪdʒɪzbaɪðəfrʌntdo",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 0
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-package",
+      "child_pcm_sha256": "3fb7cdcba50bd77d23d8a2a9bbbf5519393efae1b43f82b0d194a07b1f09dec7",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "The package is by the front door.",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "ðəpækɪdʒɪzbaɪðəfrʌntdor",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-f1a8449b997ef156a67bbd42",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-0dfc81f9941e673dd329f8b7",
+      "parent_pcm_sha256": "f82312fb373321d11bf96486f74fdd95c9ef2328bbca92d7fb3a301c975bb6fc",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "The package is by the front door.",
+        "qwen": "The package is by the front door.",
+        "whisper": " The package is by the front door."
+      },
+      "reference_fixed_region": "ðəpækɪdʒɪzbaɪðəfrʌntdo",
+      "training_allowed": false,
+      "training_weight": 0.0
+    },
+    {
+      "candidate": {
+        "candidate_class": null,
+        "candidate_hypothesis": null,
+        "candidate_positive": false,
+        "candidate_tier": "unknown",
+        "child_independent_phone_silver": false,
+        "class_votes": {
+          "1": 0,
+          "2": 0
+        },
+        "contradictory_providers": {
+          "1": [],
+          "2": []
+        },
+        "normalized_child_texts": {
+          "parakeet": "could you open the window",
+          "qwen": "could you open the window",
+          "whisper": "could you open the window"
+        },
+        "phonetic_evidence_scope": "PARENT_FULL_INPUT_FIXED_CHILD_REGION",
+        "reason": "NO_UNIQUE_SAME_REFERENCE_REGION_AND_TERMINAL_HYPOTHESIS",
+        "reference_fixed_region_normalized": "kʊddʒjuoʊpənðəwɪndoʊ",
+        "reference_full_parent_normalized": "ðərumɪzkwaɪətænðəspikɚɪzteɪkɪŋtaɪmtəridðɪssɛntənsklɪrlikʊdʒjuoʊpənnðəwɪndoʊplizlɪsənkɛrfəlikʊddʒjuoʊpənðəwɪndoʊ",
+        "reference_terminal_hypotheses": [],
+        "reference_whole_hypotheses": [],
+        "text_evidence_scope": "EXACT_CHILD_INPUT_ONLY",
+        "training_allowed": false,
+        "training_weight": 0.0,
+        "whole_support_windows": 0
+      },
+      "candidate_matches_expected_class": null,
+      "candidate_matches_expected_hypothesis": null,
+      "cell_id": "ordinary-window",
+      "child_pcm_sha256": "1d230399c413b1f6b85e111e4c90bd662be88b832ad4b5fb19ceb310022c21c8",
+      "control": {
+        "child_ends_before_parent_terminal_target": true,
+        "exact_child_text_all_three": true,
+        "expected_ordinary_text": "Could you open the window?",
+        "kind": "ordinary",
+        "machine_corroborated": true,
+        "no_target_pattern_in_child_region": true,
+        "reason": "ORDINARY_CONTROL_CORROBORATED"
+      },
+      "diagnostic_fixed_region": "kədʒuoʊpənðəwɪndoʊ",
+      "expected_class_for_comparison_only": 0,
+      "expected_hypothesis_for_comparison_only": "ordinary-negative-v1",
+      "id": "enkc64c-c245a1d73b8b158e8ef452a6",
+      "kind": "ordinary",
+      "parent_id": "enkc64p-b3a8cc366ac09ba4ae54d2ed",
+      "parent_pcm_sha256": "7ae519fa3e7dace8924895d15b6142a7f9c8e7f3e964accb841f530804df416c",
+      "preset_id": "am_puck",
+      "raw_child_texts": {
+        "parakeet": "Could you open the window?",
+        "qwen": "Could you open the window?",
+        "whisper": " Could you open the window?"
+      },
+      "reference_fixed_region": "kʊddʒjuoʊpənðəwɪndoʊ",
+      "training_allowed": false,
+      "training_weight": 0.0
+    }
+  ],
+  "run": {
+    "commit": "b64b575cff2f43f68ff0b8dade8ba00b7ee2fc3e",
+    "event": "push",
+    "repository": "jiying2007/kws-data",
+    "run_attempt": "1",
+    "run_id": "44202856867"
+  },
+  "schema": "english-kokoro-context64-evaluation-v1",
+  "status": "STOP_CONTEXT_CONTRACT_VALIDATION_FAILED",
+  "training_allowed": false,
+  "training_snapshot_allowed": false
+}

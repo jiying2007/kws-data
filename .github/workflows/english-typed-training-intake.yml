@@ -1,0 +1,41 @@
+name: English typed training intake source checks
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/english-typed-training-intake.yml'
+      - 'automation/english_source_identity.py'
+      - 'automation/english_typed_training_intake.py'
+      - 'automation/english_typed_synthetic_training_core.py'
+      - 'automation/test_english_source_identity.py'
+      - 'automation/test_english_typed_training_intake.py'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/english-typed-training-intake.yml'
+      - 'automation/english_source_identity.py'
+      - 'automation/english_typed_training_intake.py'
+      - 'automation/english_typed_synthetic_training_core.py'
+      - 'automation/test_english_source_identity.py'
+      - 'automation/test_english_typed_training_intake.py'
+permissions:
+  contents: read
+jobs:
+  typed-source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify source isolation and disabled numerical entry
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python3 -I -S -B "${args[@]}" automation/test_english_source_identity.py -v
+            python3 -I -S -B "${args[@]}" automation/test_english_typed_training_intake.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
