@@ -32,11 +32,13 @@ jobs:
           done
           test -z "$(git status --porcelain)"
   audit-reused-source:
+    # Recovery of original 44235284800 (signed blob 302 rejected API bearer).
+    # Only reuse old immutable audio; never rerun TTS, ASR or phone inference.
     needs: source-contract
     if: >-
       github.event_name == 'push' && github.ref == 'refs/heads/main' &&
       github.event.repository.private == false && github.run_attempt == 1 &&
-      github.event.before == 'f3d82bbd285722d382f447dc7eec7feda959d161'
+      github.event.before == '23b1bfcfa23259f5053da1abe80df176d1525a95'
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
