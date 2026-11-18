@@ -46,7 +46,7 @@ jobs:
       github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
       github.event.repository.private == false && github.ref == 'refs/heads/main' &&
       github.run_attempt == 1 &&
-      github.event.before == '44fecc89d0c1207dee480161d2ef7c7175ac4ac2'
+      github.event.before == '6825df5dca362a411d2914579cff4ef01bc0bca6'
     runs-on: ubuntu-24.04
     timeout-minutes: 65
     steps:
@@ -75,7 +75,7 @@ jobs:
           "$PIP" install $FLAGS 'numpy==1.26.4' 'scipy==1.14.1' \
             'transformers==4.27.4' 'huggingface-hub==0.21.4' \
             'cached_path==1.6.2' 'soundfile==0.12.1' 'librosa==0.9.1' \
-            'num2words==0.5.12' 'unidic_lite==1.0.8' 'unidic==1.1.0' \
+            'num2words==0.5.12' 'unidic_lite==1.0.8' \
             'mecab-python3==1.0.9' 'fugashi==1.3.0' 'pykakasi==2.2.1' \
             'g2p_en==2.1.0' 'anyascii==0.3.2' 'jamo==0.4.1' \
             'gruut[de,es,fr]==2.2.3' 'g2pkk>=0.1.1' \
