@@ -51,6 +51,42 @@ class Micro(unittest.TestCase):
             with self.assertRaises(ValueError):
                 c.guard(e,j,parent=c.PREDECESSOR)
 
+    def test_hf_cache_symlink_readonly_inside_cache_and_reject_escape(self):
+        with tempfile.TemporaryDirectory() as t:
+            cache=Path(t)/"cache"
+            blobs=cache/"blobs"
+            snapshot=cache/"snapshots"/("a"*40)
+            blobs.mkdir(parents=True)
+            snapshot.mkdir(parents=True)
+            (blobs/"vocab-content").write_text('{"<pad>":0,"ɛ":1}',encoding="utf8")
+            (snapshot/"vocab.json").symlink_to(blobs/"vocab-content")
+            self.assertEqual(ph.read_verified_hf_metadata(snapshot,cache,"vocab.json")["ɛ"],1)
+            with self.assertRaises(ValueError):
+                ph.read_verified_hf_metadata(snapshot,cache,"config.json")
+            (snapshot/"vocab.json").unlink()
+            elsewhere=Path(t)/"untrusted.json"
+            elsewhere.write_text('{"id":9}',encoding="utf8")
+            (snapshot/"vocab.json").symlink_to(elsewhere)
+            with self.assertRaises(ValueError):
+                ph.read_verified_hf_metadata(snapshot,cache,"vocab.json")
+
+    def test_recovery_guard_keeps_first_parent_bound_without_replaying_source(self):
+        env={"GITHUB_ACTIONS":"true","GITHUB_REPOSITORY":c.REPO,
+             "GITHUB_EVENT_NAME":"push","GITHUB_REF":"refs/heads/main",
+             "GITHUB_RUN_ATTEMPT":"1","GITHUB_RUN_ID":"499002",
+             "GITHUB_SHA":"a"*40}
+        event={"before":c.RECOVERY_PREDECESSOR,"after":"a"*40,
+               "ref":"refs/heads/main","forced":False,"deleted":False,
+               "repository":{"full_name":c.REPO,"private":False}}
+        value=c.guard(env,event,parent=c.RECOVERY_PREDECESSOR,recovery=True)
+        self.assertTrue(value["recovery_only"])
+        self.assertEqual(value["before"],c.RECOVERY_PREDECESSOR)
+        with self.assertRaises(ValueError):
+            c.guard(env,event,parent=c.RECOVERY_PREDECESSOR)
+        env["GITHUB_RUN_ATTEMPT"]="2"
+        with self.assertRaises(ValueError):
+            c.guard(env,event,parent=c.RECOVERY_PREDECESSOR,recovery=True)
+
     def test_ctc_collapses_without_inventing_phones(self):
         vocab={"<pad>":0,"h":1,"eɪ":2,"m":3,"ɛ":4,"r":5,"oʊ":6}
         ids=[1,1,0,2,2,0,3,3,0,4,4,0,5,5,0,6,6]
