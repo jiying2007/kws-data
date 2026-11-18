@@ -3,7 +3,7 @@
 No model calls, TTS, retries, model training or retrospective resplitting.
 Historic /i:/ Mero and /z/ Vosen source rows are excluded by predeclared cell ID.
 """
-import argparse, collections, hashlib, io, json, os, re, sys, unicodedata, urllib.request, wave, zipfile
+import argparse, collections, hashlib, io, json, os, re, sys, unicodedata, urllib.parse, urllib.request, wave, zipfile
 from pathlib import Path, PurePosixPath
 
 RUN=44107239806
@@ -68,12 +68,40 @@ def blind(texts, raw_phone):
     if n>=2: return ("silver" if n==3 else "weak",0,"FULL_ORDINARY_NO_WAKE")
     return ("unknown",None,"NO_TRUSTED_NEGATIVE")
 
+class SafeArtifactRedirect(urllib.request.HTTPRedirectHandler):
+    """Never send the GitHub API bearer token to signed artifact blob hosts."""
+    _download_suffixes=(".actions.githubusercontent.com",
+                        ".githubusercontent.com", ".blob.core.windows.net")
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        source=urllib.parse.urlsplit(req.full_url)
+        dest=urllib.parse.urlsplit(newurl)
+        must(dest.scheme=="https" and dest.hostname and dest.username is None
+             and dest.password is None and dest.port in (None,443),
+             "ARTIFACT_REDIRECT_NOT_HTTPS")
+        if dest.hostname!=source.hostname:
+            must(any(dest.hostname.endswith(s) for s in self._download_suffixes),
+                 "ARTIFACT_REDIRECT_UNTRUSTED_HOST")
+        redirected=super().redirect_request(req,fp,code,msg,headers,newurl)
+        if redirected is None or dest.hostname==source.hostname:
+            return redirected
+        # urllib otherwise copies Authorization into the cross-origin 302 GET.
+        # The Azure/GitHub blob URL is authenticated by its signed query string.
+        public_headers={key:val for key,val in redirected.header_items()
+                        if key.casefold() not in
+                        ("authorization","proxy-authorization","cookie")}
+        return urllib.request.Request(
+            redirected.full_url,data=redirected.data,headers=public_headers,
+            origin_req_host=redirected.origin_req_host,
+            unverifiable=redirected.unverifiable,method=redirected.get_method())
+
 def fetch(token):
     must(token,"TOKEN_REQUIRED")
+    opener=urllib.request.build_opener(SafeArtifactRedirect())
     def get(url,limit):
         req=urllib.request.Request(url,headers={"Authorization":"Bearer "+token,
             "Accept":"application/vnd.github+json","User-Agent":"canonical-reuse-once"})
-        with urllib.request.urlopen(req,timeout=90) as f: data=f.read(limit+1)
+        with opener.open(req,timeout=90) as f: data=f.read(limit+1)
         must(0<len(data)<=limit,"DOWNLOAD_LIMIT")
         return data
     api=f"https://api.github.com/repos/{REPO}/actions/artifacts/{ART}"
