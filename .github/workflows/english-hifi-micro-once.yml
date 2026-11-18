@@ -1,0 +1,197 @@
+name: English high-fidelity pronunciation and voice-clone micro experiment once
+on:
+  pull_request:
+    paths:
+      - automation/english_hifi_micro.py
+      - automation/english_hifi_qwen_once.py
+      - automation/english_hifi_phones_once.py
+      - automation/test_english_hifi_micro.py
+      - .github/workflows/english-hifi-micro-once.yml
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-hifi-micro-once.yml]
+permissions:
+  contents: read
+concurrency:
+  group: english-hifi-micro-one-source
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261118'
+jobs:
+  contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify source boundaries and retention without any model call
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opts in '' '-O' '-OO'; do
+            python3 -I -S -B $opts automation/english_hifi_micro.py --check
+            python3 -I -S -B $opts automation/test_english_hifi_micro.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  custom:
+    needs: contract
+    if: >-
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '163816b9e343d66eab67efd7cd6c7dcb34a68a6d' &&
+      github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Authenticate exact public first-main execution before installing
+        run: python3 -I -S -B automation/english_hifi_micro.py --guard
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install pinned public CPU Qwen3 runtime
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          python -m venv /tmp/qwen-env
+          /tmp/qwen-env/bin/pip install --disable-pip-version-check --no-cache-dir \
+            'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' \
+            --extra-index-url https://download.pytorch.org/whl/cpu
+          /tmp/qwen-env/bin/pip install --disable-pip-version-check --no-cache-dir \
+            'qwen-tts==0.1.1' 'transformers==4.57.3'
+      - name: Synthesize exactly six predefined clips and synthetic reference
+        timeout-minutes: 37
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=20s 2160s \
+            /tmp/qwen-env/bin/python -I -B automation/english_hifi_qwen_once.py \
+            --stage custom --output /tmp/hifi-custom
+          python3 -I -S -B automation/english_hifi_micro.py \
+            --verify custom --source /tmp/hifi-custom
+      - name: Retain authentic PCM and partial failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-hifi-micro-custom
+          path: /tmp/hifi-custom/
+          retention-days: 30
+          if-no-files-found: warn
+  clone:
+    needs: [contract, custom]
+    if: >-
+      needs.custom.result == 'success' &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '163816b9e343d66eab67efd7cd6c7dcb34a68a6d'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 52
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-hifi-micro-custom
+          path: /tmp/hifi-custom
+      - name: Authenticate one synthetic-only reference and first main predecessor
+        run: |
+          python3 -I -S -B automation/english_hifi_micro.py --guard
+          python3 -I -S -B automation/english_hifi_micro.py --verify custom --source /tmp/hifi-custom
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install same pinned public CPU Qwen3 runtime
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          python -m venv /tmp/qwen-env
+          /tmp/qwen-env/bin/pip install --disable-pip-version-check --no-cache-dir \
+            'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' \
+            --extra-index-url https://download.pytorch.org/whl/cpu
+          /tmp/qwen-env/bin/pip install --disable-pip-version-check --no-cache-dir \
+            'qwen-tts==0.1.1' 'transformers==4.57.3'
+      - name: Clone synthetic Aiden and generate two fixed brand phrases
+        timeout-minutes: 36
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=20s 2100s \
+            /tmp/qwen-env/bin/python -I -B automation/english_hifi_qwen_once.py \
+            --stage clone --source /tmp/hifi-custom --output /tmp/hifi-clone
+          python3 -I -S -B automation/english_hifi_micro.py \
+            --verify clone --source /tmp/hifi-clone
+      - name: Retain authentic clone PCM and partial failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-hifi-micro-clone
+          path: /tmp/hifi-clone/
+          retention-days: 30
+          if-no-files-found: warn
+  phones:
+    needs: [contract, custom, clone]
+    if: >-
+      needs.custom.result == 'success' && needs.clone.result == 'success' &&
+      github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '163816b9e343d66eab67efd7cd6c7dcb34a68a6d'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-hifi-micro-custom
+          path: /tmp/hifi-custom
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-hifi-micro-clone
+          path: /tmp/hifi-clone
+      - name: Authenticate exact PCM before unprompted phoneme observation
+        run: |
+          python3 -I -S -B automation/english_hifi_micro.py --guard
+          python3 -I -S -B automation/english_hifi_micro.py --verify custom --source /tmp/hifi-custom
+          python3 -I -S -B automation/english_hifi_micro.py --verify clone --source /tmp/hifi-clone
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install pinned independent phoneme runtime
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          python -m venv /tmp/phone-env
+          /tmp/phone-env/bin/pip install --disable-pip-version-check --no-cache-dir \
+            'torch==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          /tmp/phone-env/bin/pip install --disable-pip-version-check --no-cache-dir \
+            'transformers==4.46.3' 'numpy==1.26.4' 'huggingface-hub==0.36.2'
+      - name: Run exactly fourteen independent full-PCM phoneme forwards
+        timeout-minutes: 36
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=20s 2100s \
+            /tmp/phone-env/bin/python -I -B automation/english_hifi_phones_once.py \
+            --custom /tmp/hifi-custom --clone /tmp/hifi-clone --output /tmp/hifi-phones
+      - name: Retain raw phones, logit hashes and partial failure reasons
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-hifi-micro-phones
+          path: /tmp/hifi-phones/
+          retention-days: 30
+          if-no-files-found: warn
