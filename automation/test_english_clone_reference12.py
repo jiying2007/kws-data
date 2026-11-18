@@ -19,7 +19,7 @@ def dummy():
     for idx,(preset,role) in enumerate(m.EXPECTED_ROLES.items()):
         for j,cell in enumerate(CELLS):
             sid="test-"+preset+"-"+cell
-            pcm=(int(idx*10+j+1)).to_bytes(2,"little",signed=True)*8000
+            pcm=(int((idx*10+j+1)*100)).to_bytes(2,"little",signed=True)*8000
             stream=io.BytesIO()
             with wave.open(stream,"wb") as w:
                 w.setnchannels(1);w.setsampwidth(2);w.setframerate(16000)
