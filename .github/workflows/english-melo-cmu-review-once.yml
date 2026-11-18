@@ -1,0 +1,182 @@
+name: Blind five-observer review of saved native English CMU Melo25 once
+on:
+  pull_request:
+    paths:
+      - automation/english_melo_cmu_observe_once.py
+      - automation/english_melo_cmu_combine_once.py
+      - automation/test_english_melo_cmu_review_once.py
+      - .github/workflows/english-melo-cmu-review-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-melo-cmu-review-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-melo-cmu-review-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261118'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify exactly saved Melo25 and frozen blind audio policy without numerical models
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_melo_cmu_observe_once.py --source-check
+            python3 -I -S -B $opt automation/english_melo_cmu_combine_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_melo_cmu_review_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  five-blind-observers:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '3078a463e6a75de2c78e36b4302c8697bcf12477'
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        provider: [qwen, whisper, parakeet, xlsr, lv60]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 85
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Authenticate exact public main successor and original Melo25 source artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_melo_cmu_observe_once.py --guard
+          python3 -I -S -B automation/english_melo_cmu_observe_once.py --verify-remote
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-melo-cmu-source-44271169127
+          run-id: 44271169127
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-melo25
+      - name: Authenticate every saved PCM and original CMU model input before loading models
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_melo_cmu_observe_once.py --verify-source \
+            --source "$RUNNER_TEMP/original-melo25"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install exactly one existing unconditioned ASR or phone observer
+        shell: bash
+        timeout-minutes: 18
+        env:
+          PROVIDER: ${{ matrix.provider }}
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/melo-review-env"
+          PIP="$RUNNER_TEMP/melo-review-env/bin/pip"
+          FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 60"
+          if [ "$PROVIDER" != "parakeet" ]; then
+            if [ "$PROVIDER" = "qwen" ] || [ "$PROVIDER" = "whisper" ]; then
+              "$PIP" install $FLAGS 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' \
+                --extra-index-url https://download.pytorch.org/whl/cpu
+            else
+              "$PIP" install $FLAGS 'torch==2.9.1+cpu' \
+                --extra-index-url https://download.pytorch.org/whl/cpu
+            fi
+          fi
+          case "$PROVIDER" in
+            qwen) "$PIP" install $FLAGS 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2' ;;
+            whisper) "$PIP" install $FLAGS 'openai-whisper==20250625' ;;
+            parakeet) "$PIP" install $FLAGS 'huggingface-hub==0.36.2' 'hf-xet==1.2.0' ;;
+            xlsr|lv60) "$PIP" install $FLAGS 'transformers==4.46.3' 'numpy==1.26.4' \
+                                      'huggingface-hub==0.36.2' ;;
+            *) exit 7 ;;
+          esac
+          "$RUNNER_TEMP/melo-review-env/bin/python" -m pip check
+      - name: Run one true complete-PCM blind model per 25 saved original WAVs
+        shell: bash
+        timeout-minutes: 61
+        env:
+          PROVIDER: ${{ matrix.provider }}
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=25s 3580s \
+            "$RUNNER_TEMP/melo-review-env/bin/python" -I -B \
+            automation/english_melo_cmu_observe_once.py --run --provider "$PROVIDER" \
+            --source "$RUNNER_TEMP/original-melo25" \
+            --output "$RUNNER_TEMP/english-melo-cmu-observer-$PROVIDER"
+      - name: Keep original ASR, full phoneme logits, failures and no-retry receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-melo-cmu-observer-${{ matrix.provider }}
+          path: ${{ runner.temp }}/english-melo-cmu-observer-${{ matrix.provider }}/
+          retention-days: 30
+          if-no-files-found: warn
+  combine-evidence:
+    needs: [source-contract, five-blind-observers]
+    if: >-
+      always() && needs.source-contract.result == 'success' &&
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '3078a463e6a75de2c78e36b4302c8697bcf12477'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Authenticate one exact source-locked public main review
+        run: python3 -I -S -B automation/english_melo_cmu_observe_once.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-melo-cmu-source-44271169127
+          run-id: 44271169127
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-melo25
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        continue-on-error: true
+        with:
+          pattern: english-melo-cmu-observer-*
+          path: ${{ runner.temp }}/blind-observers
+          merge-multiple: false
+      - name: Independently reconstruct all native CTC logits and original ASR votes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_melo_cmu_combine_once.py --combine \
+            --source "$RUNNER_TEMP/original-melo25" \
+            --observers "$RUNNER_TEMP/blind-observers" \
+            --output "$RUNNER_TEMP/english-melo-cmu-five-screen"
+      - name: Preserve full 25-row actual PASS or STOP evidence with no label promotion
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-melo-cmu-five-screen-${{ github.run_id }}
+          path: ${{ runner.temp }}/english-melo-cmu-five-screen/
+          retention-days: 30
+          if-no-files-found: warn
