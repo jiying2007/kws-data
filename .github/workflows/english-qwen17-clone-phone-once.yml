@@ -1,0 +1,194 @@
+name: Compare pinned Qwen3 1.7B clone vowels on two TRAIN donor voices once
+on:
+  pull_request:
+    paths:
+      - automation/english_qwen17_clone_probe_once.py
+      - automation/english_qwen17_two_phone_once.py
+      - automation/test_english_qwen17_probe_once.py
+      - .github/workflows/english-qwen17-clone-phone-once.yml
+      - research/english_qwen17_clone_20261118/PROTOCOL.md
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-qwen17-clone-phone-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-qwen17-bounded-clone-vowel-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261118'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Prove two preselected TRAIN donor sources and eight-call budget, without models
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opts in '' '-O' '-OO'; do
+            python3 -I -S -B $opts automation/english_qwen17_clone_probe_once.py --source-check
+            python3 -I -S -B $opts automation/english_qwen17_two_phone_once.py --source-check
+            python3 -I -S -B $opts automation/test_english_qwen17_probe_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  synthesize-qwen17:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == '9a201c689b1cf1e963969fca2ae88dc48f5124d8'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 85
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Confirm exact fresh main parent and immutable preexisting neutral donor reference
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_qwen17_clone_probe_once.py --guard
+          python3 -I -S -B - <<'PYCODE'
+          import sys,os
+          sys.path.insert(0,"automation")
+          import english_clone_cohort12_once as refs
+          result=refs.remote_source_metadata(os.environ["GH_TOKEN"])
+          print("REFERENCE_ARTIFACT_AUTHENTICATED",result["source_artifact"])
+          PYCODE
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-neutral-clone-reference12-44256271861
+          run-id: 44256271861
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-neutral12
+      - name: Authenticate all original donor PCM and exact train-only styles
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'PYCODE'
+          import importlib.util,os,pathlib
+          path=pathlib.Path("automation/english_qwen17_clone_probe_once.py").resolve()
+          spec=importlib.util.spec_from_file_location("original_2refs",path)
+          m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+          original=m.source_refs(pathlib.Path(os.environ["RUNNER_TEMP"])/"original-neutral12")
+          assert set(original)==set(m.TRAIN_DONORS)
+          print("FIXED_TRAIN_DONOR_REFERENCES_AUTHENTICATED",sorted(original))
+          PYCODE
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install known-good public CPU Qwen3 model runtime
+        timeout-minutes: 14
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/qwen17-env"
+          "$RUNNER_TEMP/qwen17-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' \
+            --extra-index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/qwen17-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'qwen-tts==0.1.1' 'transformers==4.57.3'
+      - name: Eight exact fresh phonetic 1.7B Base clones, no old PCM replacements
+        timeout-minutes: 66
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 3900s \
+            "$RUNNER_TEMP/qwen17-env/bin/python" -I -B \
+            automation/english_qwen17_clone_probe_once.py --run \
+            --reference "$RUNNER_TEMP/original-neutral12" \
+            --output "$RUNNER_TEMP/qwen17-new-clones"
+          python3 -I -S -B automation/english_qwen17_clone_probe_once.py --readback \
+            --reference "$RUNNER_TEMP/original-neutral12" \
+            --output "$RUNNER_TEMP/qwen17-new-clones"
+      - name: Save eight complete wavs, original model commit and partial failure receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-qwen17-clone-source-${{ github.run_id }}
+          path: ${{ runner.temp }}/qwen17-new-clones/
+          retention-days: 30
+          if-no-files-found: warn
+  independent-phones:
+    needs: [source-contract, synthesize-qwen17]
+    if: >-
+      needs.synthesize-qwen17.result == 'success' && github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' && github.run_attempt == 1 &&
+      github.event.before == '9a201c689b1cf1e963969fca2ae88dc48f5124d8'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-neutral-clone-reference12-44256271861
+          run-id: 44256271861
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-neutral12
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-qwen17-clone-source-${{ github.run_id }}
+          path: ${{ runner.temp }}/qwen17-new-clones
+      - name: Bind same public main and authenticate original eight new WAVs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_qwen17_clone_probe_once.py --guard
+          python3 -I -S -B automation/english_qwen17_clone_probe_once.py --readback \
+            --reference "$RUNNER_TEMP/original-neutral12" \
+            --output "$RUNNER_TEMP/qwen17-new-clones"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install same exact two independent frozen phone models
+        timeout-minutes: 12
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/phone-env"
+          "$RUNNER_TEMP/phone-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'torch==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/phone-env/bin/pip" install --disable-pip-version-check --no-cache-dir \
+            'transformers==4.46.3' 'numpy==1.26.4' 'huggingface-hub==0.36.2'
+      - name: Complete exactly 16 blind full-PCM XLSR and LV60 forwards, no prompt labels
+        timeout-minutes: 45
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=20s 2700s \
+            "$RUNNER_TEMP/phone-env/bin/python" -I -B \
+            automation/english_qwen17_two_phone_once.py --run \
+            --reference "$RUNNER_TEMP/original-neutral12" \
+            --source "$RUNNER_TEMP/qwen17-new-clones" \
+            --output "$RUNNER_TEMP/qwen17-dual-phones"
+      - name: Retain complete native phoneme logits and the fail-closed support screen
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-qwen17-dual-phones-${{ github.run_id }}
+          path: ${{ runner.temp }}/qwen17-dual-phones/
+          retention-days: 30
+          if-no-files-found: warn

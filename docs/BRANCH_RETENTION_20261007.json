@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2641,
+  "expected_tracked_files": 2646,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -850,7 +850,12 @@
     "automation/english_clone12_combine_once.py",
     "automation/test_english_clone12_observer_once.py",
     ".github/workflows/english-clone12-evidence-once.yml",
-    "research/english_clone12_five_observer_20261118/PROTOCOL.md"
+    "research/english_clone12_five_observer_20261118/PROTOCOL.md",
+    "automation/english_qwen17_clone_probe_once.py",
+    "automation/english_qwen17_two_phone_once.py",
+    "automation/test_english_qwen17_probe_once.py",
+    ".github/workflows/english-qwen17-clone-phone-once.yml",
+    "research/english_qwen17_clone_20261118/PROTOCOL.md"
   ],
   "baseline_files": [
     {
@@ -31860,6 +31865,20 @@
         "research/english_clone12_five_observer_20261118/PROTOCOL.md"
       ],
       "rationale": "Pin exactly 60 genuine fresh Qwen3 Base WAVs and 12 immutable donor refs, then run three blind unconditioned ASR sources plus two independent complete-PCM phones (max 300 fresh observer forwards), independently recompute saved CTC logits, and screen all 60 rows for 6/2/2/2 original source-group completeness. Strict prospective dual-witness policy, human-gold false, old Meero still excluded, no head training or model promotion."
+    },
+    {
+      "campaign": "english-qwen3-1p7b-8clip-two-training-donor-v1-20261118",
+      "source_commit": "46f3714c932cfddddd076be1fd312bb505dbea6d",
+      "base_commit": "9a201c689b1cf1e963969fca2ae88dc48f5124d8",
+      "previous_manifest_git_blob_sha1": "5b84d558c145ea8b9bae244b827fa8277b6cdc11",
+      "paths": [
+        "automation/english_qwen17_clone_probe_once.py",
+        "automation/english_qwen17_two_phone_once.py",
+        "automation/test_english_qwen17_probe_once.py",
+        ".github/workflows/english-qwen17-clone-phone-once.yml",
+        "research/english_qwen17_clone_20261118/PROTOCOL.md"
+      ],
+      "rationale": "Actual 1.7B Base Qwen3 TTS eight-clip short-brand pronunciation challenge using exactly two preselected original train-only synthetic donor refs. Separate 16 actual unconditioned XLSR/LV60 CTC forwards with all entire logit arrays retained; zero old PCM replay, no test-set source selection, no training admission without distinct 6/2/2/2 source groups and 3-ASR."
     }
   ]
 }
