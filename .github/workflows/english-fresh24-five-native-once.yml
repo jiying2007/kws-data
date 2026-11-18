@@ -1,0 +1,205 @@
+name: Verify fresh24 canonical source once with five independent native observers
+on:
+  pull_request:
+    paths:
+      - automation/english_fresh24_five_native_once.py
+      - automation/english_fresh24_combine_once.py
+      - automation/test_english_fresh24_five_native_once.py
+      - .github/workflows/english-fresh24-five-native-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-fresh24-five-native-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-fresh24-five-native-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261118'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check 168 source schema, exact original pre-audio CTC Git blobs and fail-closed role split
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opts in '' '-O' '-OO'; do
+            python3 -I -S -B $opts automation/english_fresh24_five_native_once.py --source-check
+            python3 -I -S -B $opts automation/english_fresh24_combine_once.py --source-check
+            python3 -I -S -B $opts automation/test_english_fresh24_five_native_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  blind-five-native:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'aca5d052daa78aa3c4f3f21dc462ab2a350d6efb'
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        provider: [qwen, whisper, parakeet, xlsr, lv60]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Authenticate exact one-shot public main successor and BOTH original source artifacts
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_fresh24_five_native_once.py --guard
+          python3 -I -S -B automation/english_fresh24_five_native_once.py --verify-remote
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-fresh24-neutral-44289263966
+          run-id: 44289263966
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-new24-neutral
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-fresh24-clone168-44289263966
+          run-id: 44289263966
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-new168-clones
+      - name: Verify ALL 24 original donor hashes and 168 fresh full PCM before ANY inference
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_fresh24_five_native_once.py \
+            --verify-source --reference "$RUNNER_TEMP/original-new24-neutral" \
+            --source "$RUNNER_TEMP/original-new168-clones"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install one exact original source-independent recognizer runtime
+        shell: bash
+        timeout-minutes: 19
+        env:
+          PROVIDER: ${{ matrix.provider }}
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/native-review-env"
+          PIP="$RUNNER_TEMP/native-review-env/bin/pip"
+          FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+          if [ "$PROVIDER" != "parakeet" ]; then
+            if [ "$PROVIDER" = "qwen" ] || [ "$PROVIDER" = "whisper" ]; then
+              "$PIP" install $FLAGS 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' \
+                --extra-index-url https://download.pytorch.org/whl/cpu
+            else
+              "$PIP" install $FLAGS 'torch==2.9.1+cpu' \
+                --extra-index-url https://download.pytorch.org/whl/cpu
+            fi
+          fi
+          case "$PROVIDER" in
+            qwen) "$PIP" install $FLAGS 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2' ;;
+            whisper) "$PIP" install $FLAGS 'openai-whisper==20250625' ;;
+            parakeet) "$PIP" install $FLAGS 'huggingface-hub==0.36.2' 'hf-xet==1.2.0' ;;
+            xlsr|lv60) "$PIP" install $FLAGS 'transformers==4.46.3' 'numpy==1.26.4' \
+                                      'huggingface-hub==0.36.2' ;;
+            *) exit 7 ;;
+          esac
+          "$RUNNER_TEMP/native-review-env/bin/python" -m pip check
+      - name: Run exactly one blind 168-WAV pass with original native recognizer
+        shell: bash
+        timeout-minutes: 72
+        env:
+          PROVIDER: ${{ matrix.provider }}
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=25s 4200s \
+            "$RUNNER_TEMP/native-review-env/bin/python" -I -B \
+            automation/english_fresh24_five_native_once.py --observe --provider "$PROVIDER" \
+            --source "$RUNNER_TEMP/original-new168-clones" \
+            --reference "$RUNNER_TEMP/original-new24-neutral" \
+            --output "$RUNNER_TEMP/fresh24-observer-$PROVIDER"
+      - name: Preserve original blind ASR strings or complete phone logits, errors, and no-retry receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: fresh24-observer-${{ matrix.provider }}
+          path: ${{ runner.temp }}/fresh24-observer-${{ matrix.provider }}/
+          retention-days: 30
+          if-no-files-found: warn
+  combine-fresh-source-evidence:
+    needs: [source-contract, blind-five-native]
+    if: >-
+      always() && needs.source-contract.result == 'success' &&
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'aca5d052daa78aa3c4f3f21dc462ab2a350d6efb'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Guard exact original source and proof of unchanged pre-audio CTC code
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_fresh24_five_native_once.py --guard
+          python3 -I -S -B automation/english_fresh24_five_native_once.py --verify-remote
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-fresh24-neutral-44289263966
+          run-id: 44289263966
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-new24-neutral
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-fresh24-clone168-44289263966
+          run-id: 44289263966
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-new168-clones
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        continue-on-error: true
+        with:
+          pattern: fresh24-observer-*
+          path: ${{ runner.temp }}/all-native-observers
+          merge-multiple: false
+      - name: Recompute ALL original CTC argmax and apply ONLY precommitted contrast margin criteria
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_fresh24_combine_once.py --combine \
+            --reference "$RUNNER_TEMP/original-new24-neutral" \
+            --source "$RUNNER_TEMP/original-new168-clones" \
+            --observers "$RUNNER_TEMP/all-native-observers" \
+            --output "$RUNNER_TEMP/fresh24-source-screen"
+      - name: Retain source, all observer denominators, Silver/Weak/UNKNOWN and true 6-2-2-2 STOP or PASS
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-fresh24-prospective-screen-${{ github.run_id }}
+          path: ${{ runner.temp }}/fresh24-source-screen/
+          retention-days: 30
+          if-no-files-found: warn
