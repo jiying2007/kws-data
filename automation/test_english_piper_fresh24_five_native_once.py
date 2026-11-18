@@ -23,7 +23,7 @@ class NewPiperSource(unittest.TestCase):
         result=screen.source_check()
         self.assertEqual(result["source_rows"],168)
         self.assertEqual(result["source_artifact_id"],14434542792)
-        self.assertEqual(result["piper_new_plan_git_blob_sha1"],
+        self.assertEqual(result["source_plan_git_blob_sha1"],
                          "d477ecec2a07910fc1a91063752aff1acc9006ef")
         self.assertEqual(result["frozen_policy_git_blob_sha1"],
                          "0a688325d0d36e83ef6623ac678511df24a92374")
