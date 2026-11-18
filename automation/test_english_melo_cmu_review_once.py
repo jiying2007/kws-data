@@ -1,5 +1,6 @@
 """Offline five-blind Melo source/label tests; no network, audio or model calls."""
 import importlib.util
+import json
 from pathlib import Path
 import sys
 import tempfile
@@ -97,7 +98,7 @@ class FiveNativeReview(unittest.TestCase):
                 worker.c.record(root/"RESULT.json",result)
                 self.assertEqual(worker.verify_prior_failed(root,provider)["original_calls"],0)
                 result["attempted"]=1
-                (root/"RESULT.json").write_text(worker.c.json.dumps(result))
+                (root/"RESULT.json").write_text(json.dumps(result))
                 with self.assertRaisesRegex(ValueError,
                         "ORIGINAL_NATIVE_ASR_ZERO_FORWARD_OR_UNEXPECTED_FAILURE"):
                     worker.verify_prior_failed(root,provider)
