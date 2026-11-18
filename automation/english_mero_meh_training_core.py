@@ -16,10 +16,11 @@ import re
 import struct
 import sys
 
-# This new campaign copy retains every numeric function and recipe unchanged.
-# The offline binder enables only this copy after authenticating a real corpus.
-# Legacy replay preserves prior capabilities; it is not pronunciation authority
-# for the new MEH-roh corpus. Historic 0896d3 and typed cores remain unchanged.
+# Canonical-only training candidate, gated behind a fresh admitted corpus.
+# Historical weak source bags are NEVER part of new optimization, checkpoint
+# selection, calibration, native candidate replay or promotion. Their immutable
+# original records stay available for audit at the original Git commit.
+# The offline binder still requires source authentication and distinct roles.
 SOURCE_IDENTITY_CANDIDATE_ENABLED = False
 BOUND_INTAKE_BINDING_SHA256 = None
 
@@ -53,7 +54,7 @@ CONTEXT = {'prefix_samples': 38400, 'suffix_samples': 16000,
     'peak_headroom_pcm16': 30000, 'sample_rate': 16000,
     'no_runtime_eof_padding': True, 'human_word_end_annotation': False}
 RECIPE = {'model': 'FROZEN_EMBEDDING_1536_32_RELU_3', 'parameters': 49283,
-    'warmstart': 'RETAINED_COVERAGE_NOT_REJECTED_CANDIDATE',
+    'warmstart': 'NONE_SEEDED_FRESH_HEAD_CANONICAL_ONLY',
     'normalization': 'COVERAGE_BYTES_FROZEN', 'seed': 20261117,
     'optimizer': 'AdamW', 'learning_rate': 0.0001, 'weight_decay': 0.0001,
     'gradient_clip_norm': 1.0, 'batch_bags': 24,
@@ -65,16 +66,17 @@ RECIPE = {'model': 'FROZEN_EMBEDDING_1536_32_RELU_3', 'parameters': 49283,
     'plateau_claim': 'DEVELOPMENT_EVENT_PLATEAU_NOT_GLOBAL_OPTIMIZATION_CONVERGENCE',
     'epoch_sampler': 'EVERY_ELIGIBLE_TRAIN_BAG_ONCE_SEEDED_PERMUTATION',
     'weights': 'EQUAL_CLASSES_THEN_EQUAL_SOURCE_GROUPS_THEN_BAGS_TIMES_FIXED_TIER_WEIGHT',
-    'legacy_weak_tier_weight': 0.5, 'owner_reviewed_negative_weight': 1.0,
+    'owner_reviewed_negative_weight': 1.0,
     'positive_loss': 'UNCHANGED_WEAK_NEGATIVE_LOG_MEAN_TARGET_PROBABILITY',
     'negative_loss': 'UNCHANGED_MEAN_WINDOW_BACKGROUND_CROSS_ENTROPY',
     'teacher_loss': False, 'parameter_sweep': False, 'active_training_configurations': 1,
     'threshold': 0.8, 'confirm_embeddings': 3, 'cooldown_embeddings': 13,
     'calibration': 'SEPARATE_AFTER_FREEZE_FIXED_WORKING_POINT_FEASIBILITY_NO_TUNING',
-    'locked_test': 'OPEN_ONCE_ONLY_IF_FROZEN_DEVELOPMENT_LEGACY_CALIBRATION_GATES_PASS',
+    'locked_test': 'OPEN_ONCE_ONLY_IF_CANONICAL_DEVELOPMENT_CALIBRATION_AND_NATURAL_NEGATIVE_GATES_PASS',
     'minimum_balanced_groups': {'train': 6, 'development': 2, 'calibration': 2, 'locked-test': 2},
     'cpu_threads': 1, 'maximum_feature_calls': 90000,
-    'maximum_total_bags': 1200, 'maximum_embedding_rows_native': 110000}
+    'maximum_total_bags': 1200, 'maximum_embedding_rows_native': 110000,
+    'old_meero_bag_training': False, 'old_meero_model_selection': False}
 
 
 def need(ok, why):
@@ -101,6 +103,37 @@ def libri_identity(value):
     match = re.fullmatch(r'(?:p|librispeech:|libritts-speaker-|piper-libritts-|librispeech-dev-clean-speaker-|libri-speaker-)?([0-9]+)', text)
     need(match is not None, 'KNOWN_LIBRI_NUMERIC_IDENTITY')
     return str(int(match.group(1)))
+
+
+
+def validate_brand_training_bags(bags):
+    """Deterministic fail-closed gate for the actual optimizer inputs."""
+    need(bool(bags), 'CANONICAL_TRAIN_BAGS_REQUIRED')
+    positives = set()
+    for bag in bags:
+        origin = bag.get('origin')
+        label = bag.get('weak_class')
+        need(bag.get('role') == 'train' and origin in
+            ('EXACT_REVIEWED_WINDOWS_ONLY', 'NEW_SYNTHETIC_TRAIN'),
+            'NO_LEGACY_MEERO_IN_NEW_TRAINING')
+        if origin == 'EXACT_REVIEWED_WINDOWS_ONLY':
+            need(label == 0 and bag.get('tier') == 'owner-reviewed-negative',
+                 'REVIEWED_NEGATIVE_ONLY')
+            continue
+        need(bag.get('tier') in ('silver', 'weak') and label in (0, 1, 2),
+             'SOURCE_ADMITTED_CANONICAL_TIER')
+        expected = {0: 'ordinary-negative-v1',
+                    1: 'vosen-us-s-v1', 2: 'mero-meh-us-v1'}[label]
+        need(bag.get('pronunciation_hypothesis') == expected and
+             bag.get('matched_pronunciation_hypothesis') == expected,
+             'ONLY_CURRENT_BRAND_CANONICAL_PHONES')
+        if label in (1, 2):
+            positives.add(label)
+    need(positives == {1, 2}, 'BOTH_CANONICAL_WAKE_WORDS_REQUIRED')
+    return {'canonical_positive_classes': sorted(positives),
+            'historical_weak_bags_in_optimizer': 0,
+            'historical_positive_bags_in_model_selection': 0,
+            'candidate_from_new_corpus_only': True}
 
 
 def require_libri_disjoint(old, fresh):
@@ -381,7 +414,8 @@ def train_and_evaluate(output, frozen, progress, save_progress, *,
         'cpu_threads': 1, 'interop_threads': 1})
     portable = frozen.load_module(output/'inputs/coverage/sources/portable_head.py', 'synthetic192_portable')
     baseline = portable.load_weights(output/'inputs/coverage/models/coverage-head.npz')
-    need(identity(portable.export_blob(baseline)) == frozen.BASE_BIN, 'ACTUAL_COVERAGE_WARMSTART')
+    need(identity(portable.export_blob(baseline)) == frozen.BASE_BIN,
+         'AUTHENTIC_REFERENCE_BASELINE_NOT_TRAINING_INITIALIZATION')
     allrows, streams, legacy_keys, geometry, _ = frozen.restore_streams(output, np)
     source_roster = frozen.loads(frozen.regular(output/'source'/frozen.ROSTER_PATH))
     selection = frozen.loads(frozen.regular(output/'evidence/ADMITTED_HEAD_INPUTS.json'))
@@ -421,21 +455,16 @@ def train_and_evaluate(output, frozen, progress, save_progress, *,
         if family is not None:
             need(parent not in parent_families or parent_families[parent] == family, 'LEGACY_PARENT_FAMILY_CONSISTENCY')
             parent_families[parent] = family
+    # Preserve the historical dataset only as immutable audit evidence. Neither
+    # old MEER positive nor historical weak negative bags enter the new objective.
+    need(len(geometry) == 225, 'AUDIT_ONLY_HISTORICAL_GEOMETRY')
+    frozen.once(output/'evidence/OLD_MEERO_TRAINING_EXCLUSION.json', {
+        'legacy_bags_in_original_snapshot': len(geometry),
+        'legacy_bags_used_as_optimizer_inputs': 0,
+        'legacy_bags_used_as_development_calibration_or_locked_test': 0,
+        'legacy_bags_used_in_native_candidate_replay': 0,
+        'legacy_source_preserved_for_provenance_only': True})
     bags = []
-    for g in geometry:
-        key = (g['condition'], g['id']); row = allrows[key]
-        need(row['role'] == g['role'] == 'train', 'NO_LEGACY_DEVELOPMENT_TRAINING')
-        parent = g.get('parent_id', row.get('parent_id', g['id']))
-        if parent.startswith('libri-speaker-'):
-            group = 'librispeech:'+parent.removeprefix('libri-speaker-')
-        else:
-            need(parent in parent_families, 'LEGACY_SYNTHETIC_SOURCE_FAMILY_REQUIRED')
-            group = parent_families[parent]
-        bags.append({'key': key, 'id': 'old/'+g['condition']+'/'+g['id'], 'role': 'train',
-            'weak_class': g['weak_class'], 'source_group_id': group, 'parent_id': parent,
-            'tier': 'legacy-weak', 'tier_weight': RECIPE['legacy_weak_tier_weight'],
-            'head_instance_ends': g['head_instance_ends'], 'origin': 'ORIGINAL_TRAIN_REPLAY'})
-    need(len(bags) == 225, 'COMPLETE_ORIGINAL_225_TRAIN_BAGS')
     for s in selection['sources']:
         rid = s['recording_id']; original = next(r for r in source_roster['rows'] if r['recording_id'] == rid)
         need(original['source_role'] == original['current_coverage_role'] == 'train', 'REVIEWED_SOURCE_TRAIN_ONLY')
@@ -446,6 +475,8 @@ def train_and_evaluate(output, frozen, progress, save_progress, *,
     for row in fresh_by_role['train']:
         need(row['tier_weight'] in (0.5, 1.0), 'EXPLICIT_NEW_TRAIN_TIER_WEIGHT')
         bags.append({**row, 'key': ('fresh', row['id']), 'origin': 'NEW_SYNTHETIC_TRAIN'})
+    brand_only = validate_brand_training_bags(bags)
+    frozen.once(output/'evidence/CANONICAL_TRAINING_ONLY.json', brand_only)
     need(len(bags) <= RECIPE['maximum_total_bags'], 'BOUNDED_TRAINING_BAGS')
     weights = bag_weights(bags)
     prepared = [windows(b['key'], b['head_instance_ends']) for b in bags]
@@ -459,9 +490,12 @@ def train_and_evaluate(output, frozen, progress, save_progress, *,
     need(not train_source_groups.intersection(r['source_group_id'] for r in fresh_rows if r['role'] != 'train'), 'SOURCE_GROUP_SPLIT_BARRIER')
     model = torch.nn.Sequential(torch.nn.Linear(1536, 32), torch.nn.ReLU(), torch.nn.Linear(32, 3))
     need(sum(p.numel() for p in model.parameters()) == 49283, 'SAME_C_HEAD_ABI')
-    with torch.no_grad():
-        for parameter, name in ((model[0].weight, 'w1'), (model[0].bias, 'b1'), (model[2].weight, 'w2'), (model[2].bias, 'b2')):
-            parameter.copy_(torch.from_numpy(baseline[name]))
+    # torch.manual_seed has already been fixed before this fresh random head.
+    # Do not copy historical Meero-trained weights into the active candidate.
+    frozen.once(output/'evidence/CANONICAL_HEAD_INIT.json', {
+        'initialization': 'SEEDED_FRESH_RANDOM_HEAD_NOT_OLD_MEERO',
+        'seed': RECIPE['seed'], 'old_head_weight_imported': False,
+        'shared_normalization_reference_only': True})
     optimizer = torch.optim.AdamW(model.parameters(), lr=RECIPE['learning_rate'], weight_decay=RECIPE['weight_decay'])
 
     def current_weights():
@@ -566,28 +600,25 @@ def train_and_evaluate(output, frozen, progress, save_progress, *,
         'new_human_or_board_data_required_for_research': False})
 
     # No alternate checkpoint may be tried after these independent accept/reject gates.
-    old_metrics = []
-    for condition in ('clean', 'snr10', 'snr5', 'new8'):
-        old_metrics.extend([dict(r, condition=condition) for r in frozen.loads(frozen.regular(
-            output/'inputs/coverage/predictions'/('coverage-'+condition+'-events.json')))])
-    new_metrics, new_natural, retained_scores = [], {}, {}
-    for key in legacy_keys + natural_keys:
-        condition, rid = key; matrix, times = streams[key]
-        scores = portable.reference(selected, matrix, times); retained_scores[key] = scores
-        events = [{'sample': r['sample'], 'keyword': r['keyword']} for r in scores if r['keyword']]
-        if condition == 'natural': new_natural[rid] = scores
-        else: new_metrics.append(dict(frozen.summarize_case(allrows[key], events), condition=condition))
+    # Old pronunciation positive cases do not participate in training, selection,
+    # release gates or native replay. Only verified natural negatives are checked.
+    new_natural, retained_scores = {}, {}
+    for key in natural_keys:
+        _, rid = key; matrix, times = streams[key]
+        scores = portable.reference(selected, matrix, times)
+        retained_scores[key] = scores
+        new_natural[rid] = scores
         progress['legacy_final_head_cases'] += 1; save_progress()
-    paired = frozen.paired_case_gate(old_metrics, new_metrics)
     natural_events = [{'id': rid, 'sample': r['sample'], 'keyword': r['keyword']}
         for rid, scores in new_natural.items() for r in scores if r['keyword']]
     fit = frozen.reviewed_fit(selection, old_natural, new_natural)
-    frozen.once(output/'evidence/PAIRED_REGRESSION.json', paired)
+    frozen.once(output/'evidence/PAIRED_REGRESSION.json', {
+        'status': 'OLD_MEERO_POSITIVE_DENOMINATOR_EXCLUDED_FROM_CANONICAL_PROMOTION',
+        'evaluated_legacy_positive_cases': 0, 'used_as_gate': False})
     frozen.once(output/'evidence/REVIEWED_FIT.json', fit)
     frozen.once(output/'evidence/NATURAL32_PAIRED.json', {'old_event_count': 0,
         'new_event_count': len(natural_events), 'new_events': natural_events,
         'other_sources': 24, 'other_source_labels': 'UNKNOWN', 'whole_originals_labeled_negative': False})
-    frozen.once(output/'predictions/candidate-events.json', new_metrics)
     summaries, fresh_scores, final_fresh_rows = {}, {}, []
     for role in ('train', 'development', 'calibration'):
         baseline_summary, _, _ = evaluate_fresh(baseline, role, 'baseline-'+role, save=role != 'development')
@@ -595,8 +626,8 @@ def train_and_evaluate(output, frozen, progress, save_progress, *,
         fresh_scores.update(saved); final_fresh_rows.extend(fresh_by_role[role])
         summaries[role] = {'baseline': baseline_summary, 'candidate': current_summary,
             'aggregate_nonregression': aggregate_nonregression(baseline_summary, current_summary)}
-    gates = {'legacy_all_291_case_regression': paired['passed'],
-        'legacy_natural32_zero_events': not natural_events,
+    gates = {'canonical_only_training_bags': brand_only['historical_weak_bags_in_optimizer'] == 0,
+        'independent_natural32_zero_events': not natural_events,
         'source_balanced_reviewed_ce_decreased': fit['passed'],
         'fresh_development_aggregate_nonregression': summaries['development']['aggregate_nonregression'],
         'calibration_zero_false_events': summaries['calibration']['candidate']['false_and_extra_events'] == 0,
@@ -639,7 +670,7 @@ def train_and_evaluate(output, frozen, progress, save_progress, *,
         'locked_test_opened': (output/'evidence/LOCKED_TEST_OPENED.json').exists()})
     # A single native process sees exactly the same cached rows, including fresh
     # heldout rows only when their one-shot evaluation was actually opened.
-    native_keys = legacy_keys + natural_keys + [('fresh', r['id']) for r in final_fresh_rows]
+    native_keys = natural_keys + [('fresh', r['id']) for r in final_fresh_rows]
     total_rows = sum(len(streams[k][0]) for k in native_keys)
     need(total_rows <= RECIPE['maximum_embedding_rows_native'], 'NATIVE_FRAME_BUDGET')
     case_map, offset = [], 0
@@ -666,10 +697,12 @@ def train_and_evaluate(output, frozen, progress, save_progress, *,
         'epochs': len(curves), 'optimizer_updates': progress['optimizer_updates_completed'],
         'selected_epoch': best_epoch, 'selected_key': best_key, 'stop_reason': stop_reason,
         'training_bag_forwards': progress['training_bag_forwards_completed'], 'bags_per_epoch': len(bags),
-        'original_train_bags_replayed_every_epoch': 225, 'original_development_optimizer_uses': 0,
+        'original_train_bags_replayed_every_epoch': 0, 'old_meero_positive_replay_uses': 0,
+        'old_meero_checkpoint_selection_uses': 0, 'head_initialized_from_old_meero': False,
+        'original_development_optimizer_uses': 0,
         'calibration_optimizer_uses': 0, 'locked_test_optimizer_uses': 0,
         'convergence_scope': RECIPE['plateau_claim'], 'fresh_role_summaries': summaries})
-    return {'passed': True, 'status': 'NUMERICAL_SYNTHETIC192_TRAINING_COMPLETED', 'candidate': pins,
+    return {'passed': True, 'status': 'NUMERICAL_CANONICAL_ONLY_TRAINING_COMPLETED', 'candidate': pins,
         'gates': gates, 'selected_epoch': best_epoch, 'actual_epochs': len(curves), 'stop_reason': stop_reason,
         'optimizer_updates': progress['optimizer_updates_completed'], 'progress': progress,
         'native_cases': len(native_keys), 'native_rows': total_rows,
@@ -693,4 +726,4 @@ def verify_native(raw, references):
     return {'passed': True, 'embedding_rows': len(lines), 'ready_rows': sum(r['ready'] for r in references),
         'head_cases': len({r['case_index'] for r in references}), 'max_abs_logit_error': le,
         'max_abs_probability_error': pe, 'exact_clock_ready_events': True, 'events': events,
-        'scope': 'NATIVE_CACHED_HEAD_LEGACY_PLUS_NEW_SYNTHETIC', 'full_pcm_chain': 'NOT_RUN', 'arm': 'NOT_RUN'}
+        'scope': 'NATIVE_CACHED_HEAD_CANONICAL_ONLY_PLUS_VERIFIED_BACKGROUND', 'full_pcm_chain': 'NOT_RUN', 'arm': 'NOT_RUN'}
