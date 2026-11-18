@@ -1,0 +1,106 @@
+name: Verify CMU-controlled native English MeloTTS vowel and consonant once
+on:
+  pull_request:
+    paths:
+      - automation/english_melo_cmu_once.py
+      - automation/test_english_melo_cmu_once.py
+      - .github/workflows/english-melo-cmu-once.yml
+      - research/english_melo_cmu_20261118/PROTOCOL.md
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-melo-cmu-once.yml]
+permissions:
+  contents: read
+concurrency:
+  group: english-melo-cmu-pilot-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261118'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Validate exact brand and negative-control CMU phones, no-model 25-row source check
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_melo_cmu_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_melo_cmu_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  real-cmu-speech:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '44fecc89d0c1207dee480161d2ef7c7175ac4ac2'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Authenticate one fixed main push before any dependency/network use
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_melo_cmu_once.py --guard
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.10'
+      - name: Install exact official public MeloTTS code and compatible CPU dependencies
+        timeout-minutes: 20
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/melo-env"
+          PIP="$RUNNER_TEMP/melo-env/bin/pip"
+          FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+          "$PIP" install $FLAGS 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' \
+            --extra-index-url https://download.pytorch.org/whl/cpu
+          "$PIP" install $FLAGS 'numpy==1.26.4' 'scipy==1.14.1' \
+            'transformers==4.27.4' 'huggingface-hub==0.21.4' \
+            'cached_path==1.6.2' 'soundfile==0.12.1' 'librosa==0.9.1' \
+            'num2words==0.5.12' 'unidic_lite==1.0.8' 'unidic==1.1.0' \
+            'mecab-python3==1.0.9' 'fugashi==1.3.0' 'pykakasi==2.2.1' \
+            'g2p_en==2.1.0' 'anyascii==0.3.2' 'jamo==0.4.1' \
+            'gruut[de,es,fr]==2.2.3' 'g2pkk>=0.1.1' \
+            'pydub==0.25.1' 'eng_to_ipa==0.0.2' \
+            'inflect==7.0.0' 'unidecode==1.3.7' \
+            'pypinyin==0.50.0' 'cn2an==0.5.22' \
+            'jieba==0.42.1' 'txtsplit' 'langid==1.1.6' 'tqdm'
+          "$PIP" install $FLAGS --no-deps \
+            'git+https://github.com/myshell-ai/MeloTTS.git@209145371cff8fc3bd60d7be902ea69cbdb7965a'
+      - name: Generate twenty-five complete native CMU phone-conditioned wavs with pinned weights
+        timeout-minutes: 42
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=25s 2460s \
+            "$RUNNER_TEMP/melo-env/bin/python" -I -B \
+            automation/english_melo_cmu_once.py --execute \
+            --output "$RUNNER_TEMP/english-melo-cmu-source"
+          python3 -I -S -B automation/english_melo_cmu_once.py --readback \
+            --output "$RUNNER_TEMP/english-melo-cmu-source"
+      - name: Preserve exact 25 candidate PCM, native CMU output mapping and partial failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-melo-cmu-source-${{ github.run_id }}
+          path: ${{ runner.temp }}/english-melo-cmu-source/
+          retention-days: 30
+          if-no-files-found: warn
