@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2542,
+  "expected_tracked_files": 2551,
   "expected_retained_files": 2027,
   "new_retained_paths": 1281,
   "integration_files": [
@@ -307,6 +307,7 @@
     ".github/workflows/english-synthetic192-train-once.yml",
     ".github/workflows/english-teacher-retention-once.yml",
     ".github/workflows/english-temporal-quality-once.yml",
+    ".github/workflows/english-typed-training-intake.yml",
     ".github/workflows/english-vosen-schwa16-once.yml",
     ".github/workflows/research-retention.yml",
     ".github/workflows/research-v4-executor.yml",
@@ -382,6 +383,7 @@
     "automation/english_snapshot160_package.py",
     "automation/english_snapshot160_train_once.py",
     "automation/english_snapshot160_training_pins.json",
+    "automation/english_source_identity.py",
     "automation/english_stream_3x1_ab_inputs.json",
     "automation/english_stream_3x1_ab_once.py",
     "automation/english_stream_resource_inputs.json",
@@ -400,6 +402,8 @@
     "automation/english_temporal_quality_data.py",
     "automation/english_temporal_quality_once.py",
     "automation/english_temporal_quality_plan.json",
+    "automation/english_typed_synthetic_training_core.py",
+    "automation/english_typed_training_intake.py",
     "automation/english_vosen_schwa16_pins.json",
     "automation/final144_execution_pins.json",
     "automation/final144_recipe.py",
@@ -469,6 +473,7 @@
     "automation/test_english_quality_snr10_guards.py",
     "automation/test_english_quality_snr10_review.py",
     "automation/test_english_snapshot160.py",
+    "automation/test_english_source_identity.py",
     "automation/test_english_stream_3x1_ab_guards.py",
     "automation/test_english_stream_3x1_ab_trace.py",
     "automation/test_english_stream_resource_once.py",
@@ -479,6 +484,7 @@
     "automation/test_english_teacher_retention.py",
     "automation/test_english_temporal_quality_contract.py",
     "automation/test_english_temporal_quality_data.py",
+    "automation/test_english_typed_training_intake.py",
     "automation/test_final144_recipe.py",
     "automation/test_final144_runner.py",
     "automation/test_final_embedding_package.py",
@@ -530,6 +536,9 @@
     "docs/research-v4/d01-zh-newsource8-first64-20261114.json",
     "docs/research-v4/en-final144-terminal-readback-20261116.json",
     "research/consolidation/git-atomic-prune-2026-10-08.json",
+    "research/english_context64_controls_20261118/OUTCOME.json",
+    "research/english_context64_controls_20261118/README.md",
+    "research/english_context64_controls_20261118/RESULT.json",
     "research/english_coverage_fullpcm_20261117/ARTIFACT_RECEIPT.json",
     "research/english_coverage_fullpcm_20261117/DELIVERY_STATIC_INTEGRATION_AUDIT.json",
     "research/english_coverage_fullpcm_20261117/DOCUMENTATION_REVIEW.json",
@@ -31021,6 +31030,89 @@
         }
       ],
       "rationale": "Preregister a new diagnostic contract after completed context32 observations demonstrated parent-input dependence. Generate48 new parents from four exposed train-only presets, derive64 exact PCM children after one whole-parent resample and quantization, then capture96 parent-phone and192 child-text observations at most once. Keep parent and child input hashes and evidence scopes separate, blind candidate classification, require fixed near-miss/ordinary/outside controls and cross-preset positive support. Maximum336 high-level model requests with0 retries; no automatic expansion, training, re-admission or model-quality claim. Permanently exclude all probe inputs. Preserve all old labels,UNKNOWN,STOP,exclusions and every existing non-registry path, including2027 retained files. Bind execution to the first public main push after2ca611210126e2f78939e6e50f7cd0157c76d5dd at attempt1; retain actual failure counts and unknown terminal bounds."
+    },
+    {
+      "campaign": "english-typed-intake-context64-outcome-20261118",
+      "source_commit": "8943746f0bb8c35576fc421540f692f1a7b54b8f",
+      "base_commit": "b64b575cff2f43f68ff0b8dade8ba00b7ee2fc3e",
+      "previous_manifest_git_blob_sha1": "073bf1de45c318da57507a72756eeea7e6373c5b",
+      "paths": [
+        "automation/english_source_identity.py",
+        "automation/english_typed_training_intake.py",
+        "automation/english_typed_synthetic_training_core.py",
+        "automation/test_english_source_identity.py",
+        "automation/test_english_typed_training_intake.py",
+        "research/english_context64_controls_20261118/RESULT.json",
+        "research/english_context64_controls_20261118/OUTCOME.json",
+        "research/english_context64_controls_20261118/README.md",
+        ".github/workflows/english-typed-training-intake.yml"
+      ],
+      "files": [
+        {
+          "path": "automation/english_source_identity.py",
+          "mode": "100644",
+          "bytes": 14169,
+          "sha256": "3ba692d3bbf0777d326dd8f6a4b44d7b80b1357cd613599850b6c80e4bc2fc8d",
+          "git_blob_sha1": "3935aede5b86310979ee7f055de2b84ecba26a2e"
+        },
+        {
+          "path": "automation/english_typed_training_intake.py",
+          "mode": "100644",
+          "bytes": 11419,
+          "sha256": "408d506e4d0addef5190ba5c5548b527d154948b8bd54c3b6d6f5eb8e5ce0fca",
+          "git_blob_sha1": "2f1177aba5a7ff5433e5cb90b1c34da597dd1614"
+        },
+        {
+          "path": "automation/english_typed_synthetic_training_core.py",
+          "mode": "100644",
+          "bytes": 45745,
+          "sha256": "b762ae239c18269a1f6b2a98150fa4cc755e907ed9095495e3fddde4f6f496c4",
+          "git_blob_sha1": "c3e67fb46a286e6ae05d2194a1688f3c5152e6ba"
+        },
+        {
+          "path": "automation/test_english_source_identity.py",
+          "mode": "100644",
+          "bytes": 19221,
+          "sha256": "87d138bd19b6c4b73982130a13dee2f494ff30829ff1a6275a4c48f63f244276",
+          "git_blob_sha1": "d3e5f8033d7b4e3d0f5b42996e29e9e80447f235"
+        },
+        {
+          "path": "automation/test_english_typed_training_intake.py",
+          "mode": "100644",
+          "bytes": 10302,
+          "sha256": "783be2737011b8a22e6abfa9eccd9ba4e90540dcfb48e0475458d2a378051ca0",
+          "git_blob_sha1": "18a67a5b4b02268e52e66cafc25a05e91f402e7f"
+        },
+        {
+          "path": "research/english_context64_controls_20261118/RESULT.json",
+          "mode": "100644",
+          "bytes": 5110,
+          "sha256": "2e6375b723c1e2e40a528157b595b3d414d24d7820d45f3ec59cd2ed810c0d15",
+          "git_blob_sha1": "327bada2afb4b02950c904321183ac0dc547fcb4"
+        },
+        {
+          "path": "research/english_context64_controls_20261118/OUTCOME.json",
+          "mode": "100644",
+          "bytes": 168469,
+          "sha256": "eff01cb2b8d662232f83e795639c04b52758f091a1234057a057efab2db3614f",
+          "git_blob_sha1": "9395ab2ac39807ca2c7b9e1c959cc93385b6b545"
+        },
+        {
+          "path": "research/english_context64_controls_20261118/README.md",
+          "mode": "100644",
+          "bytes": 3429,
+          "sha256": "efb3ba0297377760e5d6e3883cd925f25f0904411408001433f3b4ff72f2cca6",
+          "git_blob_sha1": "2175a48bcc3cd9083fba8c8d4167ef3b9e25d884"
+        },
+        {
+          "path": ".github/workflows/english-typed-training-intake.yml",
+          "mode": "100644",
+          "bytes": 1626,
+          "sha256": "d6aa1140d9bff82ab4ca27fd6bd0eddf540c884f350378601099c349bb327f50",
+          "git_blob_sha1": "a313ba807d35df9f5946443af14c80d812479420"
+        }
+      ],
+      "rationale": "Retain the actual context64 stop after336 complete TTS/ASR/phone calls without re-admission or new KWS weights. Add disabled typed-source intake for future authenticated source groups, preserve heldout and UNKNOWN exclusion, and keep every consumed context probe permanently excluded. Add bounded source-only CI for37 standard-library fixtures while keeping archived Asset integrity bytes unchanged. Original core0896d3 numerical training,0.8/3/13 and10 quality gates remain unchanged. Preserve all2027 retained files."
     }
   ]
 }
