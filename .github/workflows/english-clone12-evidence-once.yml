@@ -52,7 +52,7 @@ jobs:
       github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
       github.event.repository.private == false && github.ref == 'refs/heads/main' &&
       github.run_attempt == 1 &&
-      github.event.before == '337ae4f4f318483696a28f0ebc635877b623606a'
+      github.event.before == 'eab1e99784644fb826c21794c3fc93f69fdc5bac'
     strategy:
       fail-fast: false
       max-parallel: 5
@@ -160,7 +160,7 @@ jobs:
       github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
       github.event.repository.private == false && github.ref == 'refs/heads/main' &&
       github.run_attempt == 1 &&
-      github.event.before == '337ae4f4f318483696a28f0ebc635877b623606a'
+      github.event.before == 'eab1e99784644fb826c21794c3fc93f69fdc5bac'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
