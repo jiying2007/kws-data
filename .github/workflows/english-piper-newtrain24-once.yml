@@ -1,0 +1,98 @@
+name: Produce 24 unused Piper train and new development native English source once
+on:
+  pull_request:
+    paths:
+      - automation/english_piper_newtrain24_protocol.json
+      - automation/english_piper_newtrain24_once.py
+      - automation/test_english_piper_newtrain24_once.py
+      - .github/workflows/english-piper-newtrain24-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-piper-newtrain24-once.yml]
+permissions:
+  contents: read
+concurrency:
+  group: english-piper-newtrain24-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261118'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Freeze independent p424-p447 LibriTTS train and dev source ancestry and exact Mero and Vosen phonemes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_piper_newtrain24_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_piper_newtrain24_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  generate-fresh-piper-wavs:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '7ec509410b8d7c96538717bab3b280cf89bad88a'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Verify exact original protected main first parent, public repo and attempt one
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_piper_newtrain24_once.py --guard
+          python3 -I -S -B automation/english_piper_newtrain24_once.py --source-check
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install previously measured original Piper v1.8.0 CPU engine and exact source tools
+        shell: bash
+        timeout-minutes: 19
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/newtrain-piper-source-env"
+          PIP="$RUNNER_TEMP/newpiper-source-env/bin/pip"
+          FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+          "$PIP" install $FLAGS 'piper-tts==1.8.0' \
+            'numpy==1.26.4' 'scipy==1.15.3' 'huggingface-hub==0.36.2'
+          "$RUNNER_TEMP/newpiper-source-env/bin/python" -m pip check
+          "$RUNNER_TEMP/newpiper-source-env/bin/python" -I -B -c \
+            'from piper import PiperVoice, SynthesisConfig; print("PINNED_PIPER_NATIVE_OK")'
+      - name: Execute up to 168 real source-native forward requests with pinned direct phonemes once
+        shell: bash
+        timeout-minutes: 51
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 2940s \
+            "$RUNNER_TEMP/newpiper-source-env/bin/python" -I -B \
+            automation/english_piper_newtrain24_once.py --generate \
+            --output "$RUNNER_TEMP/newtrain-piper-168-source"
+          python3 -I -S -B automation/english_piper_newtrain24_once.py --readback \
+            --output "$RUNNER_TEMP/newpiper-168-source"
+      - name: Retain all genuine original WAVs, model/map pins and partial failure receipts with zero retries
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-newtrain-piper-source-${{ github.run_id }}
+          path: ${{ runner.temp }}/newpiper-168-source/
+          retention-days: 30
+          if-no-files-found: warn
