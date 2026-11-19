@@ -92,7 +92,7 @@ class MonoScreenAudit(unittest.TestCase):
         base=example()
         for key,bad in (("tier","unknown"),("role","development"),
                         ("source_pcm_sha256","e"*64),
-                        ("requested_class",0)):
+                        ("requested_class",2)):
             changed=[dict(x) for x in base]
             changed[0][key]=bad
             if key=="tier":
