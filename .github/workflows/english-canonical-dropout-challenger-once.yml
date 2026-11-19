@@ -1,0 +1,168 @@
+name: Train regularized dropout canonical English causal challenger on original train and dev once
+on:
+  pull_request:
+    paths:
+      - automation/english_canonical_dropout_challenger_once.py
+      - automation/test_english_canonical_dropout_challenger_once.py
+      - .github/workflows/english-canonical-dropout-challenger-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-canonical-dropout-challenger-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-canonical-dropout-v3-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261118'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Prove original byte-bound 6 artifacts and fresh-head no-locked dev-only v2 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_canonical_multisource_bind_once.py --source-check
+            python3 -I -S -B $opt automation/english_canonical_multisource_fit_once.py --source-check
+            python3 -I -S -B $opt automation/english_canonical_dropout_challenger_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_canonical_dropout_challenger_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  exact-six-artifact-audit:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Obtain only six exact proven public Actions source and screen archives
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/canonical-six-authenticated"
+          for item in \
+            'fresh24-source:14422271973' 'fresh24-screen:14429385634' \
+            'fresh18-source:14429578824' 'fresh18-screen:14429884666' \
+            'piper24-source:14434542792' 'piper24-screen:14436377961'; do
+            label="${item%%:*}"; aid="${item#*:}"
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$aid/zip" \
+              > "$RUNNER_TEMP/canonical-six-authenticated/$label.zip"
+          done
+      - name: Recompute all 462 original WAV and PCM hashes plus 6-2-2-2 reviewed role closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_canonical_multisource_bind_once.py \
+            --audit-inputs --sources "$RUNNER_TEMP/canonical-six-authenticated"
+          test -z "$(git status --porcelain)"
+  dev-only-numeric-fit:
+    needs: [source-contract, exact-six-artifact-audit]
+    if: >-
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'b79da058913c0f8e34667cc49b28670aa220c605' &&
+      needs.source-contract.result == 'success' &&
+      needs.exact-six-artifact-audit.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 85
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Bind exact public main first parent and preregistered dev-only no-locked training
+        run: python3 -I -S -B automation/english_canonical_dropout_challenger_once.py --guard
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Read six original archives under a fresh numeric job identity
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/canonical-six-numeric"
+          for item in \
+            'fresh24-source:14422271973' 'fresh24-screen:14429385634' \
+            'fresh18-source:14429578824' 'fresh18-screen:14429884666' \
+            'piper24-source:14434542792' 'piper24-screen:14436377961'; do
+            label="${item%%:*}"; aid="${item#*:}"
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$aid/zip" \
+              > "$RUNNER_TEMP/canonical-six-numeric/$label.zip"
+          done
+      - name: Verify original 63 Silver/Weak research rows and disjoint 8/4/3/3 roles without numerical inference
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_canonical_multisource_bind_once.py \
+            --audit-inputs --sources "$RUNNER_TEMP/canonical-six-numeric"
+      - name: Install exactly one original CPU frozen-ONNX plus fresh PyTorch training stack
+        shell: bash
+        timeout-minutes: 17
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/canonical-fit-env"
+          PIP="$RUNNER_TEMP/canonical-fit-env/bin/pip"
+          FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+          "$PIP" install $FLAGS 'torch==2.9.1+cpu' \
+            --index-url https://download.pytorch.org/whl/cpu
+          "$PIP" install $FLAGS 'numpy==1.26.4' 'onnxruntime==1.20.1' 'onnx==1.17.0'
+          "$RUNNER_TEMP/canonical-fit-env/bin/python" -m pip check
+      - name: Fetch only the two original 0.5.1 frozen feature models, validate bytes before training
+        shell: bash
+        timeout-minutes: 7
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/canonical-frozen-assets"
+          curl --fail --silent --show-error --location --retry 0 --connect-timeout 30 \
+            --max-time 100 \
+            'https://github.com/dscripka/openWakeWord/releases/download/v0.5.1/melspectrogram.onnx' \
+            -o "$RUNNER_TEMP/canonical-frozen-assets/melspectrogram.onnx"
+          curl --fail --silent --show-error --location --retry 0 --connect-timeout 30 \
+            --max-time 100 \
+            'https://github.com/dscripka/openWakeWord/releases/download/v0.5.1/embedding_model.onnx' \
+            -o "$RUNNER_TEMP/canonical-frozen-assets/embedding_model.onnx"
+          "$RUNNER_TEMP/canonical-fit-env/bin/python" -I -B -c \
+            'import importlib.util,pathlib,os;f=pathlib.Path("automation/english_canonical_multisource_fit_once.py");s=importlib.util.spec_from_file_location("fit",f);m=importlib.util.module_from_spec(s);s.loader.exec_module(m);print(m.verify_assets(pathlib.Path(os.environ["RUNNER_TEMP"])/"canonical-frozen-assets"))'
+      - name: Run actual train-only dropout 0.25 challenger with dev-only 96 192 384 checkpoint selection
+        shell: bash
+        timeout-minutes: 55
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=25s 3200s \
+            "$RUNNER_TEMP/canonical-fit-env/bin/python" -I -B \
+            automation/english_canonical_dropout_challenger_once.py --execute \
+            --sources "$RUNNER_TEMP/canonical-six-numeric" \
+            --assets "$RUNNER_TEMP/canonical-frozen-assets" \
+            --output "$RUNNER_TEMP/canonical-dropout-v3-$GITHUB_RUN_ID"
+      - name: Preserve regularized challenger weights and full dev-only selection, no heldout reuse
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-canonical-dropout-challenger-${{ github.run_id }}
+          path: ${{ runner.temp }}/canonical-dropout-v3-${{ github.run_id }}/
+          retention-days: 30
+          if-no-files-found: warn
