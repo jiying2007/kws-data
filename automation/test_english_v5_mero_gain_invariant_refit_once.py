@@ -64,6 +64,9 @@ class SingleMeroGainRefit(unittest.TestCase):
         self.assertIn("def derived_level",code)
         self.assertIn("train_only_consistency",code)
         self.assertIn("optimizer.step()",code)
+        # v5.features calls torch.from_numpy(bank) itself; only pass np.ndarray.
+        self.assertIn("v5.features(\n            pcm,row,torch,np,bank)",code)
+        self.assertNotIn("torch_bank=torch.from_numpy(bank)",code)
         self.assertIn("teacher[row[",code)
         self.assertIn("parent.authorized_source",code)
         self.assertIn("old_other_keyword_gradients",code)
