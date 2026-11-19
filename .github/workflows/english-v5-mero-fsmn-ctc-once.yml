@@ -9,6 +9,8 @@ on:
       - automation/test_english_v5_mero_pretrained_reference_once.py
       - automation/english_v5_mero_sequence_margin_student_once.py
       - automation/test_english_v5_mero_sequence_margin_student_once.py
+      - automation/english_v5_mero_mono_source_audit.py
+      - automation/test_english_v5_mero_mono_source_audit.py
       - .github/workflows/english-v5-mero-fsmn-ctc-once.yml
       - research/english_v5_mero_only_20261119/PLAN.md
       - docs/BRANCH_RETENTION_20261007.json
@@ -47,6 +49,8 @@ jobs:
             python3 -I -S -B $opt automation/test_english_v5_mero_pretrained_reference_once.py -v
             python3 -I -S -B $opt automation/english_v5_mero_sequence_margin_student_once.py --source-check
             python3 -I -S -B $opt automation/test_english_v5_mero_sequence_margin_student_once.py -v
+            python3 -I -S -B $opt automation/english_v5_mero_mono_source_audit.py --source-check
+            python3 -I -S -B $opt automation/test_english_v5_mero_mono_source_audit.py -v
           done
           python3 -I -S -B tools/verify_branch_retention.py
           test -z "$(git status --porcelain)"
@@ -86,6 +90,30 @@ jobs:
           python3 -I -S -B automation/english_v5_mero_fsmn_ctc_once.py --audit-inputs \
             --sources "$RUNNER_TEMP/mono-v5-sources"
           test -z "$(git status --porcelain)"
+      - name: Execute read-only mono Mero sound source recovery on original five-observer evidence
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.ref == 'research/english-v5-mero-mono-source-recovery-20261119' &&
+          github.event.pull_request.head.repo.full_name == github.repository &&
+          github.run_attempt == 1
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v5_mero_mono_source_audit.py --audit \
+            --sources "$RUNNER_TEMP/mono-v5-sources" \
+            --output "$RUNNER_TEMP/english-v5-mero-mono-audit-${GITHUB_RUN_ID}.json"
+          test -z "$(git status --porcelain)"
+      - name: Preserve exact mono Mero audited source selection, zero model calls
+        if: >-
+          always() &&
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.ref == 'research/english-v5-mero-mono-source-recovery-20261119'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v5-mero-mono-source-audit-${{ github.run_id }}
+          path: ${{ runner.temp }}/english-v5-mero-mono-audit-${{ github.run_id }}.json
+          retention-days: 90
+          if-no-files-found: warn
   actual-mono-ctc-fit:
     needs: [source-contract, authenticated-mono-snapshot]
     if: >-
