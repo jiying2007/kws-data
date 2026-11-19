@@ -7,6 +7,8 @@ on:
       - automation/test_english_v5_mero_fsmn_ctc_once.py
       - automation/english_v5_mero_pretrained_reference_once.py
       - automation/test_english_v5_mero_pretrained_reference_once.py
+      - automation/english_v5_mero_sequence_margin_student_once.py
+      - automation/test_english_v5_mero_sequence_margin_student_once.py
       - .github/workflows/english-v5-mero-fsmn-ctc-once.yml
       - research/english_v5_mero_only_20261119/PLAN.md
       - docs/BRANCH_RETENTION_20261007.json
@@ -18,7 +20,7 @@ permissions:
   actions: read
 concurrency:
   group: english-v5-mono-fsmn-ctc-${{ github.event_name }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 env:
   PYTHONHASHSEED: '20261119'
   OMP_NUM_THREADS: '1'
@@ -43,6 +45,8 @@ jobs:
             python3 -I -S -B $opt automation/test_english_v5_mero_fsmn_ctc_once.py -v
             python3 -I -S -B $opt automation/english_v5_mero_pretrained_reference_once.py --source-check
             python3 -I -S -B $opt automation/test_english_v5_mero_pretrained_reference_once.py -v
+            python3 -I -S -B $opt automation/english_v5_mero_sequence_margin_student_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v5_mero_sequence_margin_student_once.py -v
           done
           python3 -I -S -B tools/verify_branch_retention.py
           test -z "$(git status --porcelain)"
@@ -228,5 +232,91 @@ jobs:
         with:
           name: english-v5-mero-pretrained-real-${{ github.run_id }}
           path: ${{ runner.temp }}/v5-mero-pretrained-real-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
+
+  actual-mero-sequence-margin-student:
+    needs: [source-contract, authenticated-mono-snapshot]
+    # One bounded, real new optimizer experiment on a same-repo public PR.
+    # Exposed development is diagnostic only; no product/model promotion.
+    # Real first attempt completed 512 updates on run 44464214887 and FAILED quality.
+    # Stop rerunning the exact same data/model on documentation updates.
+    if: >-
+      false &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'research/english-v5-mero-sequence-margin-student-20261119' &&
+      github.event.pull_request.base.ref == 'main' &&
+      github.run_attempt == 1 &&
+      needs.source-contract.result == 'success' &&
+      needs.authenticated-mono-snapshot.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 85
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Reuse exactly eight original source and independent screen receipts
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/v5-mero-student-sources"
+          for item in \
+            'fresh24-source:14422271973' 'fresh24-screen:14429385634' \
+            'fresh18-source:14429578824' 'fresh18-screen:14429884666' \
+            'piper24-source:14434542792' 'piper24-screen:14436377961' \
+            'newtrain24-source:14486048125' 'newtrain24-screen:14489594100'; do
+            name="${item%%:*}"; id="${item#*:}"
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$id/zip" \
+              > "$RUNNER_TEMP/v5-mero-student-sources/$name.zip"
+          done
+          python3 -I -S -B automation/english_v5_mero_fsmn_ctc_once.py \
+            --audit-inputs --sources "$RUNNER_TEMP/v5-mero-student-sources"
+      - name: Verify exact previously executed Zh-En train-only teacher evidence ZIP
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api 'repos/jiying2007/kws-data/actions/artifacts/14500132512/zip' \
+            > "$RUNNER_TEMP/v5-mero-teacher-proof.zip"
+          printf '%s  %s\n' \
+            '86fca579654cbbc17182f710392eb58069952915849c1ecef499da780ec6d7ea' \
+            "$RUNNER_TEMP/v5-mero-teacher-proof.zip" |
+            sha256sum --check --status
+      - name: Install pinned CPU-only numeric trainer and ONNX exporter
+        shell: bash
+        timeout-minutes: 22
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/v5-mero-student-env"
+          PIP="$RUNNER_TEMP/v5-mero-student-env/bin/pip"
+          FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+          "$PIP" install $FLAGS 'torch==2.9.1+cpu' \
+            --index-url https://download.pytorch.org/whl/cpu
+          "$PIP" install $FLAGS 'numpy==1.26.4' 'onnx==1.17.0'
+          "$RUNNER_TEMP/v5-mero-student-env/bin/python" -m pip check
+      - name: Execute 512 real class-balanced CTC sequence-margin student updates
+        shell: bash
+        timeout-minutes: 42
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=25s 2400s \
+            "$RUNNER_TEMP/v5-mero-student-env/bin/python" -I -B \
+              automation/english_v5_mero_sequence_margin_student_once.py --execute \
+              --sources "$RUNNER_TEMP/v5-mero-student-sources" \
+              --teacher-zip "$RUNNER_TEMP/v5-mero-teacher-proof.zip" \
+              --output "$RUNNER_TEMP/v5-mero-student-real-${GITHUB_RUN_ID}"
+          test -z "$(git status --porcelain)"
+      - name: Preserve actual weights, ONNX, train receipts, dev outcomes and STOP
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v5-mero-sequence-margin-student-${{ github.run_id }}
+          path: ${{ runner.temp }}/v5-mero-student-real-${{ github.run_id }}/
           retention-days: 90
           if-no-files-found: warn

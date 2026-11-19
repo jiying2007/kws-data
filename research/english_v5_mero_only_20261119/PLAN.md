@@ -42,3 +42,18 @@ This single first attempt has a fixed CPU training recipe, deterministic data au
 A failed model or early one-source development result is not a new baseline or a reason to relax labels. If source qualification, training geometry, actual weights, model export or independent measurements fail, preserve the exact STOP and reason without claiming release. Next high-value work uses the original five-provider phoneme/ASR failure categories to improve *Mero* acoustic input quality and add genuinely independent natural negatives — not repeat already verified TTS. Strong English pretrained KWS/CTC baseline and a low-cost DS-TCN are bounded comparisons, not permission to reopen exposed tests.
 
 No private repository, Work/Codex quota, paid TTS/ASR service, recurring patrol, automatic repeated audio generation or synthetic-only product FAR/FRR claim.
+
+
+## Bounded 512-update sequence-margin FSMN — actual result (2026-11-19)
+
+**Decision: REJECTED as a quality promotion**. The experiment was actually executed on [run 44464214887](https://github.com/jiying2007/kws-data/actions/runs/44464214887), using real immutable source/screen ZIPs and the hash-authenticated [Zh-En teacher event artifact 14500132512](https://github.com/jiying2007/kws-data/actions/runs/44461057432) only as **train-role binary whole-phrase confirmation**.
+
+- Previous random-start 240-update FSMN: source-disjoint synthetic **6/6 Mero misses**, 0/5 ordinary triggers; blank argmax ≈97% (frozen predecessor, no new inference).
+- New **43,876-param causal 4-layer FSMN-CTC** actually completed **512 AdamW updates** with frame-length-normalized, class-balanced whole-sequence-vs-all-blank contrast, no old trained weights and no teacher pseudo-phoneme time tags.
+- Saved new `models/mero-fsmn-ctc-sequence-margin.pt`, `.npz`, `.onnx`, source/teacher hashes, actual gradient loss trajectory, per-source development receipts; artifacts retained under run above.
+- Original train+development: **24 original machine-admitted train** (14 Mero, 10 ordinary; 10 sources), **11 source-disjoint, previously exposed development** (6 Mero, 5 ordinary; 5 sources). Only original train is augmented (clean/SNR10). No historical other word, old calibration/locked, or human-gold claim.
+- Actual frozen development: **2/6 Hey Mero full-CTC detected, 4/6 missed; ordinary 0/5 triggered**. The unexposed locked/test and real continuous FAR are still NOT_RUN.
+- Optimizer first sampled loss ≈6.42385, last ≈0.00027755, yet new-source development misses remain: pronounced **overfitting** rather than a resolved phonetic transfer. Neither adding blind epochs to the same 14 positive clips nor post-hoc threshold tuning is justified.
+- Teacher had a genuine **14/14 TRAIN and 6/6 exposed DEV** event result but returned zero token/timestamp arrays in all real positives; it cannot supply trusted phone alignment. No teacher parameters were transferred to student. Strong teacher performance is *not* student quality certification.
+
+**Next non-repetitive research decision:** do not repeat this failed 512-step same-source fit. Increase independently screened canonical Hey Mero audio from **genuinely distinct generator/parent-speaker groups** and real ordinary/near-miss continuous negatives; independently qualify source/phonetics, keep train/dev/calibration/new locked disjoint, then train with acoustic pretraining or verified phone-level teacher information. A pretrained model may remain a source-qualified accuracy reference, but no L1 student quality, L2 ARM32 or L3 SSC305 qualification is awarded from these exposed short clips. Do not auto-run a new model on plan-only or reused data.
