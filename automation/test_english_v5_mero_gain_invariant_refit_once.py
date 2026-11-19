@@ -54,7 +54,7 @@ class SingleMeroGainRefit(unittest.TestCase):
             (env,{**event,"repository":{"full_name":m.REPO,"private":True}}),
             (env,{**event,"pull_request":{**event["pull_request"],
                    "head":{"ref":"other","sha":"a"*40,
-                           "repo":{"full_name":m.REPO}}}),
+                           "repo":{"full_name":m.REPO}}}}),
         ):
             with self.assertRaises(ValueError):
                 m.run_guard(test_env,test_event)
