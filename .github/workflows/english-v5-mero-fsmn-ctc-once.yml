@@ -20,7 +20,7 @@ permissions:
   actions: read
 concurrency:
   group: english-v5-mono-fsmn-ctc-${{ github.event_name }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 env:
   PYTHONHASHSEED: '20261119'
   OMP_NUM_THREADS: '1'
@@ -239,7 +239,10 @@ jobs:
     needs: [source-contract, authenticated-mono-snapshot]
     # One bounded, real new optimizer experiment on a same-repo public PR.
     # Exposed development is diagnostic only; no product/model promotion.
+    # Real first attempt completed 512 updates on run 44464214887 and FAILED quality.
+    # Stop rerunning the exact same data/model on documentation updates.
     if: >-
+      false &&
       github.repository == 'jiying2007/kws-data' &&
       github.event.repository.private == false &&
       github.event_name == 'pull_request' &&
