@@ -1,0 +1,221 @@
+name: English V5 real 256-step causal FSMN-CTC on old70 and new Hey Mero sources
+on:
+  pull_request:
+    paths:
+      - automation/english_v5_mero_fresh24_plus70_fit_once.py
+      - automation/test_english_v5_mero_fresh24_plus70_fit_once.py
+      - .github/workflows/english-v5-mero-fresh24-plus70-fit-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v5-mero-fresh24-plus70-fit-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v5-mero-expanded-fsmn-one-shot-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261126'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Prove exact single Hey Mero target, source group disjointness, old gain model, no unknown or locked leakage in three Python modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v5_mero_fresh24_plus70_fit_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v5_mero_fresh24_plus70_fit_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  exact-original-source-audit:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 38
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Fetch exact eight historical ZIPs and saved rejected gain model with SHA checks; never call old ASR
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/v5-old-sources"
+          for item in \
+            'fresh24-source:14422271973' 'fresh24-screen:14429385634' \
+            'fresh18-source:14429578824' 'fresh18-screen:14429884666' \
+            'piper24-source:14434542792' 'piper24-screen:14436377961' \
+            'newtrain24-source:14486048125' 'newtrain24-screen:14489594100'; do
+            name="${item%%:*}"; id="${item#*:}"
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$id/zip" \
+              > "$RUNNER_TEMP/v5-old-sources/$name.zip"
+          done
+          gh api 'repos/jiying2007/kws-data/actions/artifacts/14503604626/zip' \
+            > "$RUNNER_TEMP/v5-old-mono70-audit.zip"
+          gh api 'repos/jiying2007/kws-data/actions/artifacts/14505594074/zip' \
+            > "$RUNNER_TEMP/v5-original-gain-parent.zip"
+          printf '%s  %s\n' \
+            '12a1eb39c7a458a466fec2e93ba59e5036319bd9db4b4bdc47e7e6e1c5990f1b' \
+            "$RUNNER_TEMP/v5-old-mono70-audit.zip" | sha256sum --check --status
+          printf '%s  %s\n' \
+            '876b3a1ccc3c2c00cefabb5a3273a81dd719fb161700ef557f52093ff640d41c' \
+            "$RUNNER_TEMP/v5-original-gain-parent.zip" | sha256sum --check --status
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-original-44478554596
+          run-id: 44478554596
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/v5-fresh96-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-saved-machine-screen-44483128198
+          run-id: 44483128198
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/v5-fresh64-screen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-newlocked8-saved-machine-gate-44493479564
+          run-id: 44493479564
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/v5-full-source-gate
+      - name: Authenticated 54 old train PCM and 11 new train / 2 new dev voice groups; no model inference
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v5_mero_fresh24_plus70_fit_once.py --audit-inputs \
+              --old-archives "$RUNNER_TEMP/v5-old-sources" \
+              --old-audit "$RUNNER_TEMP/v5-old-mono70-audit.zip" \
+              --old-model "$RUNNER_TEMP/v5-original-gain-parent.zip" \
+              --fresh-source "$RUNNER_TEMP/v5-fresh96-source" \
+              --fresh-screen "$RUNNER_TEMP/v5-fresh64-screen" \
+              --source-gate "$RUNNER_TEMP/v5-full-source-gate"
+          test -z "$(git status --porcelain)"
+  new-256-step-fsmn-model:
+    needs: [source-contract, exact-original-source-audit]
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'b90c9b2533899b7b1bd3cbed2cf7ad23a7189c5c' &&
+      needs.source-contract.result == 'success' &&
+      needs.exact-original-source-audit.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Verify exact first protected main and no repeated optimizer
+        shell: bash
+        run: python3 -I -S -B automation/english_v5_mero_fresh24_plus70_fit_once.py --guard
+      - name: Fetch exact eight historical ZIPs and saved rejected gain model with SHA checks; never call old ASR
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/v5-old-sources"
+          for item in \
+            'fresh24-source:14422271973' 'fresh24-screen:14429385634' \
+            'fresh18-source:14429578824' 'fresh18-screen:14429884666' \
+            'piper24-source:14434542792' 'piper24-screen:14436377961' \
+            'newtrain24-source:14486048125' 'newtrain24-screen:14489594100'; do
+            name="${item%%:*}"; id="${item#*:}"
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$id/zip" \
+              > "$RUNNER_TEMP/v5-old-sources/$name.zip"
+          done
+          gh api 'repos/jiying2007/kws-data/actions/artifacts/14503604626/zip' \
+            > "$RUNNER_TEMP/v5-old-mono70-audit.zip"
+          gh api 'repos/jiying2007/kws-data/actions/artifacts/14505594074/zip' \
+            > "$RUNNER_TEMP/v5-original-gain-parent.zip"
+          printf '%s  %s\n' \
+            '12a1eb39c7a458a466fec2e93ba59e5036319bd9db4b4bdc47e7e6e1c5990f1b' \
+            "$RUNNER_TEMP/v5-old-mono70-audit.zip" | sha256sum --check --status
+          printf '%s  %s\n' \
+            '876b3a1ccc3c2c00cefabb5a3273a81dd719fb161700ef557f52093ff640d41c' \
+            "$RUNNER_TEMP/v5-original-gain-parent.zip" | sha256sum --check --status
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-original-44478554596
+          run-id: 44478554596
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/v5-fresh96-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-saved-machine-screen-44483128198
+          run-id: 44483128198
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/v5-fresh64-screen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-newlocked8-saved-machine-gate-44493479564
+          run-id: 44493479564
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/v5-full-source-gate
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install pinned CPU-only PyTorch and exact NumPy/ONNX exporter for one new acoustic model
+        shell: bash
+        timeout-minutes: 23
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/v5-expanded-fsmn-env"
+          PIP="$RUNNER_TEMP/v5-expanded-fsmn-env/bin/pip"
+          FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+          "$PIP" install $FLAGS 'torch==2.9.1+cpu' \
+            --index-url https://download.pytorch.org/whl/cpu
+          "$PIP" install $FLAGS 'numpy==1.26.4' 'onnx==1.17.0'
+          "$RUNNER_TEMP/v5-expanded-fsmn-env/bin/python" -m pip check
+      - name: Train 256 real AdamW updates on source-qualified original TRAIN only; one frozen new-dev result
+        shell: bash
+        timeout-minutes: 52
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 3020s \
+            "$RUNNER_TEMP/v5-expanded-fsmn-env/bin/python" -I -B \
+              automation/english_v5_mero_fresh24_plus70_fit_once.py --execute \
+              --old-archives "$RUNNER_TEMP/v5-old-sources" \
+              --old-audit "$RUNNER_TEMP/v5-old-mono70-audit.zip" \
+              --old-model "$RUNNER_TEMP/v5-original-gain-parent.zip" \
+              --fresh-source "$RUNNER_TEMP/v5-fresh96-source" \
+              --fresh-screen "$RUNNER_TEMP/v5-fresh64-screen" \
+              --source-gate "$RUNNER_TEMP/v5-full-source-gate" \
+              --output "$RUNNER_TEMP/v5-expanded-fsmn-new-weights-$GITHUB_RUN_ID"
+          test -z "$(git status --porcelain)"
+      - name: Archive exact new PT NPZ ONNX, optimizer trace and source-disjoint development evidence or STOP
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v5-mero-expanded-fsmn256-${{ github.run_id }}
+          path: ${{ runner.temp }}/v5-expanded-fsmn-new-weights-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
