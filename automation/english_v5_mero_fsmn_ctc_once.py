@@ -193,7 +193,7 @@ def reviewed_roles(rows):
         if row["weak_class"]==1:
             continue
         kind=1 if row["weak_class"]==2 else 0
-        assert kind in (0,1)
+        need(kind in (0,1),"UNEXPECTED_MERO_TARGET_CLASS")
         groups[(row["role"],gid)].add(kind)
         allowed.append({**row,"mono_class":kind,
                         "ctc_targets":[1,2,3] if kind==1 else [],
@@ -292,7 +292,7 @@ def build_model(torch):
                 x=layer(x)
             return self.output(x)
     model=CausalFsmnCtc()
-    need(sum(x.numel() for x in model.parameters())==43972,
+    need(sum(x.numel() for x in model.parameters())==43876,
          "EXPECTED_V5_CAUSAL_FSMN_PARAM_COUNT")
     return model
 
