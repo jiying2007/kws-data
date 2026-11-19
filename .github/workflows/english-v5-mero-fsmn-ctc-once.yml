@@ -5,6 +5,8 @@ on:
       - automation/english_v5_mero_only.json
       - automation/english_v5_mero_fsmn_ctc_once.py
       - automation/test_english_v5_mero_fsmn_ctc_once.py
+      - automation/english_v5_mero_pretrained_reference_once.py
+      - automation/test_english_v5_mero_pretrained_reference_once.py
       - .github/workflows/english-v5-mero-fsmn-ctc-once.yml
       - research/english_v5_mero_only_20261119/PLAN.md
       - docs/BRANCH_RETENTION_20261007.json
@@ -39,6 +41,8 @@ jobs:
           for opt in '' '-O' '-OO'; do
             python3 -I -S -B $opt automation/english_v5_mero_fsmn_ctc_once.py --source-check
             python3 -I -S -B $opt automation/test_english_v5_mero_fsmn_ctc_once.py -v
+            python3 -I -S -B $opt automation/english_v5_mero_pretrained_reference_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v5_mero_pretrained_reference_once.py -v
           done
           python3 -I -S -B tools/verify_branch_retention.py
           test -z "$(git status --porcelain)"
@@ -145,5 +149,84 @@ jobs:
         with:
           name: english-v5-mero-fsmn-ctc-${{ github.run_id }}
           path: ${{ runner.temp }}/mono-v5-real-model-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
+
+  actual-pretrained-mero-reference:
+    needs: source-contract
+    # One public same-repo V5 PR, fixed English pretrained reference only.
+    # It cannot retrain, change labels, open old locked audio or claim release.
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'research/english-v5-mero-pretrained-reference-20261119' &&
+      github.event.pull_request.base.ref == 'main' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 38
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Fetch eight immutable original source/screen archive receipts
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/v5-mero-saved"
+          for item in \
+            'fresh24-source:14422271973' 'fresh24-screen:14429385634' \
+            'fresh18-source:14429578824' 'fresh18-screen:14429884666' \
+            'piper24-source:14434542792' 'piper24-screen:14436377961' \
+            'newtrain24-source:14486048125' 'newtrain24-screen:14489594100'; do
+            name="${item%%:*}"; id="${item#*:}"
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$id/zip" \
+              > "$RUNNER_TEMP/v5-mero-saved/$name.zip"
+          done
+          python3 -I -S -B automation/english_v5_mero_fsmn_ctc_once.py \
+            --audit-inputs --sources "$RUNNER_TEMP/v5-mero-saved"
+      - name: Fetch the exact existing official English pretrained GigaSpeech 3.3M asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 2 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2' \
+            -o "$RUNNER_TEMP/official-gigaspeech-3.3m.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/official-gigaspeech-3.3m.tar.bz2")" = 17626723
+          printf '%s  %s\n' \
+            'f170013b4716e41b62b9bfd809687c207cef798ef9bc6534d524e17af9b6561a' \
+            "$RUNNER_TEMP/official-gigaspeech-3.3m.tar.bz2" |
+            sha256sum --check --status
+      - name: Install pinned CPU-only official pretrained inference runtime
+        timeout-minutes: 12
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/v5-mero-pretrained-env"
+          "$RUNNER_TEMP/v5-mero-pretrained-env/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8' \
+            'click==8.1.8' 'pypinyin==0.55.0' 'sentencepiece==0.2.1'
+          "$RUNNER_TEMP/v5-mero-pretrained-env/bin/pip" check
+      - name: Actually infer pretrained English KWS on source-disjoint reviewed Hey Mero and ordinary PCM
+        timeout-minutes: 15
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/v5-mero-pretrained-env/bin/python" -I -B \
+            automation/english_v5_mero_pretrained_reference_once.py --execute \
+            --sources "$RUNNER_TEMP/v5-mero-saved" \
+            --model-archive "$RUNNER_TEMP/official-gigaspeech-3.3m.tar.bz2" \
+            --output "$RUNNER_TEMP/v5-mero-pretrained-real-${GITHUB_RUN_ID}"
+          test -z "$(git status --porcelain)"
+      - name: Preserve actual source audit, per-clip pretrained events and failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v5-mero-pretrained-real-${{ github.run_id }}
+          path: ${{ runner.temp }}/v5-mero-pretrained-real-${{ github.run_id }}/
           retention-days: 90
           if-no-files-found: warn
