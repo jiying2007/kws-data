@@ -86,6 +86,19 @@ class SealedSourceLabelOnlyTests(TestCase):
                 with self.assertRaisesRegex(ValueError,"DUPLICATE_PCM"):
                     v.source_rows(d)
 
+    def test_first_valid_main_parent_passes_guard_without_model_calls(self):
+        event={"before":v.BEFORE,"after":"a"*40,"ref":"refs/heads/main",
+               "repository":{"full_name":v.REPO,"private":False},
+               "forced":False,"deleted":False}
+        env={"GITHUB_ACTIONS":"true","GITHUB_REPOSITORY":v.REPO,
+             "GITHUB_EVENT_NAME":"push","GITHUB_REF":"refs/heads/main",
+             "GITHUB_RUN_ATTEMPT":"1","GITHUB_SHA":"a"*40,
+             "GITHUB_RUN_ID":"456"}
+        receipt=v.guard(env=env,event=event,parent=v.BEFORE)
+        self.assertEqual(receipt["run_id"],"456")
+        self.assertEqual(receipt["source_commit"],v.SOURCE_COMMIT)
+        self.assertEqual(v.source_check()["kws_model_forwards"],0)
+
     def test_first_public_main_only_no_pr_or_retry(self):
         event={"before":v.BEFORE,"after":"a"*40,"ref":"refs/heads/main",
                "repository":{"full_name":v.REPO,"private":False},

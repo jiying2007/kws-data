@@ -36,7 +36,7 @@ c=load("english_hifi_micro")
 phone_worker=load("english_hifi_phones_once")
 SCHEMA="english-v5-mero-fresh24-sealed-source-five-native-v1"
 REPO="jiying2007/kws-data"
-BEFORE="742dea5aab2224bdfe2ad1076237820f60ce85d4"
+BEFORE="2dbf3dcc20b7d0e6291e1c523862ac21d8d0bd9e"
 SOURCE_RUN=44478554596
 SOURCE_COMMIT="e3f79406f469061dc9ac7438ed6658ad66375e55"
 SOURCE_PARENT="90fa488738acde10eca3a3cd92e5cb5b31eff5c4"
@@ -82,7 +82,7 @@ def source_check():
             "training_allowed":False,"product_promotion_allowed":False}
 
 def guard(env=None,event=None,parent=None):
-    need(source_check()["status"]=="SOURCE_PINNED",
+    need(source_check()["status"]=="ORIGINAL_SOURCE_PINNED",
          "NO_NUMERICAL_EXECUTION_WITHOUT_VERIFIED_CLONE_ARCHIVE")
     env=os.environ if env is None else env
     need(all(env.get(k)==v for k,v in {
