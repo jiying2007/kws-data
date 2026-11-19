@@ -1,0 +1,180 @@
+name: English V5 Hey Mero fixed pretrained phone benchmark on four exposed new DEV
+on:
+  pull_request:
+    paths:
+      - automation/english_v5_mero_newdev_phone_reference_once.py
+      - automation/test_english_v5_mero_newdev_phone_reference_once.py
+      - .github/workflows/english-v5-mero-newdev-phone-reference-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v5-mero-newdev-phone-reference-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v5-mero-frozen-phone-newdev-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  PYTHONHASHSEED: '20261119'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+jobs:
+  source-contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Prove exactly four original source-disjoint new development WAVs and frozen pretrained model in three Python modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v5_mero_newdev_phone_reference_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v5_mero_newdev_phone_reference_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  original-four-audit:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-original-44478554596
+          run-id: 44478554596
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/frozen-v5-fresh96
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-saved-machine-screen-44483128198
+          run-id: 44483128198
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/frozen-v5-screen64
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-newlocked8-saved-machine-gate-44493479564
+          run-id: 44493479564
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/frozen-v5-source-gate
+      - name: Reverify four original PCM SHA and independent source roles without any model calls
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v5_mero_newdev_phone_reference_once.py --audit \
+            --new-source "$RUNNER_TEMP/frozen-v5-fresh96" \
+            --new-screen "$RUNNER_TEMP/frozen-v5-screen64" \
+            --source-gate "$RUNNER_TEMP/frozen-v5-source-gate"
+          test -z "$(git status --porcelain)"
+  actual-zh-en-phone-benchmark-once:
+    needs: [source-contract, original-four-audit]
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'd0b567fe37147aae6ab5d7bdec3721b879a0b22d' &&
+      needs.source-contract.result == 'success' &&
+      needs.original-four-audit.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Enforce exactly first protected main benchmark without locked-test exposure
+        shell: bash
+        run: python3 -I -S -B automation/english_v5_mero_newdev_phone_reference_once.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-original-44478554596
+          run-id: 44478554596
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/frozen-v5-fresh96
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-saved-machine-screen-44483128198
+          run-id: 44483128198
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/frozen-v5-screen64
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-newlocked8-saved-machine-gate-44493479564
+          run-id: 44493479564
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/frozen-v5-source-gate
+      - name: Download original immutable official 3M Zh-En phone KWS model, exact ZIP SHA256 and byte size
+        shell: bash
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 2 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2' \
+            -o "$RUNNER_TEMP/official-zh-en-3m-phone.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/official-zh-en-3m-phone.tar.bz2")" = 32885699
+          printf '%s  %s\n' \
+            '68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6' \
+            "$RUNNER_TEMP/official-zh-en-3m-phone.tar.bz2" | sha256sum --check --status
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install previously proven CPU-only frozen phone model runtime
+        shell: bash
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/v5-phone-once-env"
+          "$RUNNER_TEMP/v5-phone-once-env/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --only-binary=:all: \
+            'numpy==1.26.4' 'sherpa-onnx==1.13.8' \
+            'click==8.1.8' 'pypinyin==0.55.0' 'sentencepiece==0.2.1'
+          "$RUNNER_TEMP/v5-phone-once-env/bin/pip" check
+      - name: Actually evaluate fixed official phone KWS on only four original already-exposed new development WAVs
+        shell: bash
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=25s 620s \
+            "$RUNNER_TEMP/v5-phone-once-env/bin/python" -I -B \
+              automation/english_v5_mero_newdev_phone_reference_once.py --execute \
+              --new-source "$RUNNER_TEMP/frozen-v5-fresh96" \
+              --new-screen "$RUNNER_TEMP/frozen-v5-screen64" \
+              --source-gate "$RUNNER_TEMP/frozen-v5-source-gate" \
+              --model-archive "$RUNNER_TEMP/official-zh-en-3m-phone.tar.bz2" \
+              --output "$RUNNER_TEMP/mero-newdev-phone-once-$GITHUB_RUN_ID"
+          test -z "$(git status --porcelain)"
+      - name: Preserve four actual frozen phone reference decisions or STOP, never release product quality
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v5-mero-newdev-frozen-phone-reference-${{ github.run_id }}
+          path: ${{ runner.temp }}/mero-newdev-phone-once-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
