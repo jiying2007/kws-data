@@ -47,7 +47,7 @@ jobs:
       github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
       github.event.repository.private == false && github.ref == 'refs/heads/main' &&
       github.run_attempt == 1 &&
-      github.event.before == '7ec509410b8d7c96538717bab3b280cf89bad88a'
+      github.event.before == '7971b74e3c59fe23a5609c2df6e47939427ea984'
     runs-on: ubuntu-24.04
     timeout-minutes: 75
     steps:
@@ -69,7 +69,7 @@ jobs:
         timeout-minutes: 19
         run: |
           set -euo pipefail
-          python -m venv "$RUNNER_TEMP/newtrain-piper-source-env"
+          python -m venv "$RUNNER_TEMP/newpiper-source-env"
           PIP="$RUNNER_TEMP/newpiper-source-env/bin/pip"
           FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
           "$PIP" install $FLAGS 'piper-tts==1.8.0' \
@@ -85,7 +85,7 @@ jobs:
           timeout --signal=TERM --kill-after=30s 2940s \
             "$RUNNER_TEMP/newpiper-source-env/bin/python" -I -B \
             automation/english_piper_newtrain24_once.py --generate \
-            --output "$RUNNER_TEMP/newtrain-piper-168-source"
+            --output "$RUNNER_TEMP/newpiper-168-source"
           python3 -I -S -B automation/english_piper_newtrain24_once.py --readback \
             --output "$RUNNER_TEMP/newpiper-168-source"
       - name: Retain all genuine original WAVs, model/map pins and partial failure receipts with zero retries
