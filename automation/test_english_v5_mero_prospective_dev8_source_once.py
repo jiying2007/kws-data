@@ -51,7 +51,7 @@ class NewProspectiveDev8PiperSourceTests(TestCase):
     def test_old_human_identity_or_duplicate_is_a_hard_stop(self):
         config=fake_mapping()
         pairs=config["speaker_id_map"]
-        del pairs["p"+str(20000+472)]
+        del pairs["p"+str(20000+480)]
         forbidden=next(iter(v.previous.old.OLD_LIBRI_IDS))
         pairs["p"+str(forbidden)]=472
         with self.assertRaisesRegex(ValueError,"DUPLICATE_PRIOR_HUMAN"):
