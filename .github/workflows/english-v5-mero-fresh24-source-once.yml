@@ -1,0 +1,138 @@
+name: English V5 Hey Mero 24 new speaker source one-shot
+on:
+  pull_request:
+    paths:
+      - automation/english_v5_mero_fresh24_source_plan.json
+      - automation/english_v5_mero_fresh24_source_once.py
+      - automation/test_english_v5_mero_fresh24_source_once.py
+      - .github/workflows/english-v5-mero-fresh24-source-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-v5-mero-fresh24-source-once.yml
+permissions:
+  contents: read
+concurrency:
+  group: english-v5-mero-fresh24-source-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  OMP_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '2'
+  PYTHONHASHSEED: '20261119'
+jobs:
+  source-contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Freeze 24 fresh original speaker indices, four acoustic classes and role split under three interpreter modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v5_mero_fresh24_source_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v5_mero_fresh24_source_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  exact-speaker-map:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Obtain exact pinned 20KB 904-speaker config only, never model weights
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/mero-piper-preflight-env"
+          "$RUNNER_TEMP/mero-piper-preflight-env/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --retries 0 \
+            'huggingface-hub==0.36.2'
+          "$RUNNER_TEMP/mero-piper-preflight-env/bin/python" -I -c \
+            'from huggingface_hub import hf_hub_download; import shutil,sys; shutil.copyfile(hf_hub_download(repo_id="rhasspy/piper-voices",revision="de3dcfdf1912bb49726dc4aa11c26017ce2ac62a",filename="en/en_US/libritts/high/en_US-libritts-high.onnx.json",token=False),sys.argv[1])' \
+            "$RUNNER_TEMP/piper-libritts-pinned-config.json"
+          python3 -I -S -B automation/english_v5_mero_fresh24_source_once.py \
+            --preflight-config \
+            --model-config "$RUNNER_TEMP/piper-libritts-pinned-config.json"
+          test -z "$(git status --porcelain)"
+  actual-fresh-original-wavs:
+    needs: [source-contract, exact-speaker-map]
+    # Never infer/generate new audio on a PR; one real protected public-main
+    # push after this exact pre-audio code review. The original speakers and
+    # role assignments are frozen BEFORE any new acoustic outcome.
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '90fa488738acde10eca3a3cd92e5cb5b31eff5c4' &&
+      needs.source-contract.result == 'success' &&
+      needs.exact-speaker-map.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 78
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Verify first protected main parent and exact preregistered 96 original requests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v5_mero_fresh24_source_once.py --guard
+          python3 -I -S -B automation/english_v5_mero_fresh24_source_once.py --source-check
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install previously measured Piper v1.8.0 CPU engine and pinned source runtime
+        shell: bash
+        timeout-minutes: 19
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/mero-piper-fresh-env"
+          PIP="$RUNNER_TEMP/mero-piper-fresh-env/bin/pip"
+          FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+          "$PIP" install $FLAGS 'piper-tts==1.8.0' \
+            'numpy==1.26.4' 'scipy==1.15.3' 'huggingface-hub==0.36.2'
+          "$RUNNER_TEMP/mero-piper-fresh-env/bin/python" -m pip check
+      - name: Execute exactly 96 NEW Piper full-waveform source model forwards, no retries
+        shell: bash
+        timeout-minutes: 51
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 2940s \
+            "$RUNNER_TEMP/mero-piper-fresh-env/bin/python" -I -B \
+              automation/english_v5_mero_fresh24_source_once.py --generate \
+              --output "$RUNNER_TEMP/mero-fresh24-source-${GITHUB_RUN_ID}"
+          python3 -I -S -B automation/english_v5_mero_fresh24_source_once.py \
+            --readback \
+            --output "$RUNNER_TEMP/mero-fresh24-source-${GITHUB_RUN_ID}"
+          test -z "$(git status --porcelain)"
+      - name: Archive all 96 new original WAVs and hashes, or exact partial STOP evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v5-mero-fresh24-original-${{ github.run_id }}
+          path: ${{ runner.temp }}/mero-fresh24-source-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
