@@ -1,0 +1,117 @@
+name: English newtrain24 saved five-native evidence join (no inference)
+on:
+  pull_request:
+    paths:
+      - automation/english_newtrain24_evidence_readback.py
+      - automation/test_english_newtrain24_evidence_readback.py
+      - .github/workflows/english-newtrain24-evidence-readback.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-newtrain24-evidence-readback.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-newtrain24-readback-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Validate exact saved source, five artifact IDs, immutable phone policy and fail-closed split
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_newtrain24_evidence_readback.py --source-check
+            python3 -I -S -B $opt automation/test_english_newtrain24_evidence_readback.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  combine-saved-native:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '9fd28b29ff099156ed544da862f66782ee4bcb2f'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Reject old source IDs, branch replay and model-executing retry
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_newtrain24_evidence_readback.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-newtrain-piper-source-44431769603
+          run-id: 44431769603
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/saved-newtrain-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: newtrain24-observer-qwen
+          run-id: 44433435970
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/saved-native/pipernew-observer-qwen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: newtrain24-observer-whisper
+          run-id: 44433435970
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/saved-native/pipernew-observer-whisper
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: newtrain24-observer-parakeet
+          run-id: 44433435970
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/saved-native/pipernew-observer-parakeet
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: newtrain24-observer-xlsr
+          run-id: 44433435970
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/saved-native/pipernew-observer-xlsr
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: newtrain24-observer-lv60
+          run-id: 44433435970
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/saved-native/pipernew-observer-lv60
+      - name: Join saved full PCM and five original model captures with frozen CTC thresholds
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_newtrain24_evidence_readback.py --combine \
+            --source "$RUNNER_TEMP/saved-newtrain-source" \
+            --observers "$RUNNER_TEMP/saved-native" \
+            --output "$RUNNER_TEMP/newtrain24-saved-evidence"
+          test -z "$(git status --porcelain)"
+      - name: Preserve original machine Silver/Weak/UNKNOWN and source-disjoint train/dev receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-newtrain24-saved-native-screen-${{ github.run_id }}
+          path: ${{ runner.temp }}/newtrain24-saved-evidence/
+          retention-days: 90
+          if-no-files-found: warn
