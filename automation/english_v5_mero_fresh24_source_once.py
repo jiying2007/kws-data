@@ -177,6 +177,30 @@ def native_speakers(config):
     return chosen
 
 
+def preflight_config(config_path):
+    """Byte-authenticate the 904-ID map BEFORE any source model forwards."""
+    p=plan()
+    config_path=Path(config_path)
+    expected=p["model"]
+    need(config_path.is_absolute() and config_path.is_file()
+         and not config_path.is_symlink()
+         and config_path.stat().st_size==expected["config_bytes"]
+         and hashlib.md5(config_path.read_bytes()).hexdigest()==
+             expected["config_md5"],
+         "PINNED_OFFICIAL_SPEAKER_CONFIG_BYTES")
+    config=json.loads(config_path.read_bytes())
+    chosen=native_speakers(config)
+    items=planned(chosen)
+    need(len(items)==OUTPUT_COUNT,"EXACT_PROSPECTIVE_SOURCE_CELLS")
+    return {"schema":SCHEMA,"status":"24_NEW_SPEAKER_IDS_AUTHENTICATED",
+            "index_range":[448,471],
+            "source_speaker_ids":{str(k):v for k,v in chosen.items()},
+            "distinct_original_speaker_ancestry":True,
+            "predetermined_roles":GROUP_COUNTS,
+            "new_audio_generated":0,"model_forwards":0,
+            "training_allowed":False,"new_locked_audio_opened":False}
+
+
 def planned(choices):
     p=plan()
     need(set(choices)==set(range(448,472)),"FROZEN_FULL_24_SPEAKER_MAP")
@@ -365,16 +389,20 @@ def generate(output):
 
 def main():
     parser=argparse.ArgumentParser()
-    for k in ("--source-check","--guard","--generate","--readback"):
+    for k in ("--source-check","--guard","--generate","--readback","--preflight-config"):
         parser.add_argument(k,action="store_true")
     parser.add_argument("--output",type=Path)
+    parser.add_argument("--model-config",type=Path)
     a=parser.parse_args()
-    need(sum((a.source_check,a.guard,a.generate,a.readback))==1,
+    need(sum((a.source_check,a.guard,a.generate,a.readback,a.preflight_config))==1,
          "EXACTLY_ONE_REAL_SOURCE_STAGE")
     if a.source_check:
         print(json.dumps(source_check(),sort_keys=True))
     elif a.guard:
         print(json.dumps(guard(),sort_keys=True))
+    elif a.preflight_config:
+        need(a.model_config is not None,"EXACT_PINNED_CONFIG_REQUIRED")
+        print(json.dumps(preflight_config(a.model_config),sort_keys=True))
     else:
         need(a.output,"EXACT_OUTPUT_PATH_REQUIRED")
         if a.generate:
