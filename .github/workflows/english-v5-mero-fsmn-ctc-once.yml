@@ -448,7 +448,10 @@ jobs:
     needs: [source-contract, authenticated-mono-snapshot]
     # A new train-only loudness robustness hypothesis; frozen failed parent
     # model checked by exact ZIP and weight sha, no dev gain or selection.
+    # Exact 144-update numerical run 44475190841 completed; exposed dev 8/9,
+    # still not formally qualified. Keep source CI but never silently repeat.
     if: >-
+      false &&
       github.repository == 'jiying2007/kws-data' &&
       github.event.repository.private == false &&
       github.event_name == 'pull_request' &&
