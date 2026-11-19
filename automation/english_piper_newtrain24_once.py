@@ -18,7 +18,7 @@ def load(name):
 c=load("english_hifi_micro")
 old=load("english_synthetic192_recipe")
 REPO="jiying2007/kws-data"
-BEFORE="7ec509410b8d7c96538717bab3b280cf89bad88a"
+BEFORE="7971b74e3c59fe23a5609c2df6e47939427ea984"
 SCHEMA="english-piper-newtrain24-original-source-v1"
 SOURCE_COUNT=168
 MAX_POSITIVE=28672
