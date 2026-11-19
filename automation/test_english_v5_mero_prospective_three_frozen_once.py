@@ -79,6 +79,17 @@ class FrozenProspectiveContracts(TestCase):
     def test_no_locked_role_reassignment(self):
         def contaminate(old,review):review[1]["role"]="locked-test"
         with self.assertRaises(ValueError):self.check(contaminate)
+    def test_original_report_printed_onnx_sha_not_pt_sha(self):
+        # The historical 256-update main log prints RESULT.new_model_weights
+        # ["mero-fsmn-ctc-expanded256.onnx"]["sha256"], not PT.
+        pin=m.MODELS["fsmn43k256"]
+        self.assertEqual(pin["onnx"],
+            "10bf30da57291f78f56db196db1137309f2c3b91dfe67bf0aa45ebb8cec05b1c")
+        self.assertNotIn("pt",pin)
+        self.assertEqual(pin["id"],14514228406)
+        self.assertEqual(pin["sha"],
+            "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702")
+
     def test_no_duplicate_or_missing_source(self):
         def contaminate(old,review):review[-1]["id"]=review[0]["id"]
         with self.assertRaises(ValueError):self.check(contaminate)
