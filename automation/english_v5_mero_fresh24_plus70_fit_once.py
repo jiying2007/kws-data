@@ -480,6 +480,43 @@ def train_and_eval(old_train,new_train,new_dev,old_archives,newdir,weights,out):
     write_once(out/"RESULT.json",result)
     return result
 
+def audit_inputs(old_archives,old_audit,old_model,
+                 fresh_source,fresh_screen,gate_dir):
+    """Source-only exact old/new provenance + parent weight readback, zero models."""
+    source_check()
+    gate=frozen_gate(gate_dir)
+    old,old_summary=parent.authorized_source(old_audit,old_archives)
+    fresh,fresh_summary=screen_new(fresh_source,fresh_screen)
+    model_blobs,parent_report=parent_model(old_model)
+    old_train=[r for r in old if r["role"]=="train"]
+    new_train=[r for r in fresh if r["role"]=="train"]
+    new_dev=[r for r in fresh if r["role"]=="development"]
+    need(len(old_train)==54
+         and len({r["source_group_id"] for r in old_train})==24
+         and len({r["source_group_id"] for r in new_train})==11
+         and len({r["source_group_id"] for r in new_dev})==2
+         and not ({r["source_group_id"] for r in old}&
+                  {r["source_group_id"] for r in fresh})
+         and not ({r["source_pcm_sha256"] for r in old}&
+                  {r["source_pcm_sha256"] for r in fresh}),
+         "BOUND_NEW_V5_TRAIN_AND_HOLDOUT_SOURCE_PROVENANCE")
+    return {"status":"AUTHENTICATED_OLD54_AND_NEW11_SOURCE_GROUP_TRAIN_READY",
+            "source_machine_gate":gate["status"],
+            "old_audit":parent.AUDIT_ARTIFACT,
+            "gain_parent_sha256":PARENT["pt"],
+            "old_train_rows":54,
+            "old_train_source_groups":24,
+            "new_train_rows":len(new_train),
+            "new_train_source_groups":11,
+            "new_dev_rows":len(new_dev),
+            "new_dev_source_groups":2,
+            "fresh_tier_screen":fresh_summary["qualified_groups"],
+            "old_dev_pcm_forwards":0,
+            "calibration_locked_pcm_forwards":0,
+            "new_tts_asr_kws_model_forwards":0,
+            "new_optimizer_updates":0,
+            "release_allowed":False}
+
 def execute(old_archives,old_audit,old_model,
             fresh_source,fresh_screen,gate_dir,out):
     source_check()
@@ -556,6 +593,7 @@ def main():
     p.add_argument("--source-check",action="store_true")
     p.add_argument("--guard",action="store_true")
     p.add_argument("--execute",action="store_true")
+    p.add_argument("--audit-inputs",action="store_true")
     p.add_argument("--old-archives",type=Path)
     p.add_argument("--old-audit",type=Path)
     p.add_argument("--old-model",type=Path)
@@ -564,7 +602,7 @@ def main():
     p.add_argument("--source-gate",type=Path)
     p.add_argument("--output",type=Path)
     a=p.parse_args()
-    need(sum((a.source_check,a.guard,a.execute))==1,
+    need(sum((a.source_check,a.guard,a.execute,a.audit_inputs))==1,
          "EXACT_ONE_REAL_EXPANDED_FSMN_STAGE")
     if a.source_check:
         print(json.dumps(source_check(),sort_keys=True))
@@ -572,10 +610,16 @@ def main():
         print(json.dumps(guard(),sort_keys=True))
     else:
         need(all((a.old_archives,a.old_audit,a.old_model,
-                  a.fresh_source,a.fresh_screen,a.source_gate,a.output)),
+                  a.fresh_source,a.fresh_screen,a.source_gate)),
              "EXACT_OLD_AND_NEW_SOURCE_ARCHIVES_REQUIRED")
-        execute(a.old_archives,a.old_audit,a.old_model,
-                a.fresh_source,a.fresh_screen,a.source_gate,a.output)
+        if a.audit_inputs:
+            print(json.dumps(audit_inputs(a.old_archives,a.old_audit,
+                a.old_model,a.fresh_source,a.fresh_screen,a.source_gate),
+                sort_keys=True))
+        else:
+            need(a.output,"NEW_NUMERIC_MODEL_OUTPUT_REQUIRED")
+            execute(a.old_archives,a.old_audit,a.old_model,
+                    a.fresh_source,a.fresh_screen,a.source_gate,a.output)
 
 if __name__=="__main__":
     main()
