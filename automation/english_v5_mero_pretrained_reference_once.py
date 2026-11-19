@@ -27,8 +27,8 @@ import english63_zipformer_events_once as pretrained
 SCHEMA = "english-v5-mero-pretrained-source-disjoint-baseline-v1"
 REPO = "jiying2007/kws-data"
 BRANCH = "research/english-v5-mero-pretrained-reference-20261119"
-MODEL_SHA256 = "f170013b4716e41b62b9bfd809687c207cef798ef9bc6534d524e17af9b6561a"
-MODEL_BYTES = 17626723
+MODEL_SHA256 = "68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6"
+MODEL_BYTES = 32885699
 KEYWORD = "HEY_MERO"
 FEED_SAMPLES = 1600
 TAIL_SAMPLES = 10560
@@ -49,20 +49,21 @@ def hash_file(path):
 
 def source_contract():
     state = v5.source_check()
-    spec = pretrained.MODEL_SPECS["gigaspeech"]
+    spec = pretrained.MODEL_SPECS["zh-en"]
     need(state["active_target_ids"] == ["hey_mero"] and
          state["positive_ctc"] == [1, 2, 3] and
          state["old_locked_reopened"] is False and
          v5.config()["target"]["text"] == "Hey Mero" and
          len(v5.ARCHIVES) == 8 and
          spec["archive_bytes"] == MODEL_BYTES and
-         spec["tokens_type"] == "bpe" and
+         spec["tokens_type"] == "phone+ppinyin" and
+         spec["archive_sha256"] == MODEL_SHA256 and
          pretrained.SAMPLE_RATE == 16000 and
          pretrained.FEED_SAMPLES == FEED_SAMPLES and
          pretrained.TAIL_SAMPLES == TAIL_SAMPLES,
          "V5_SINGLE_MERO_PRETRAINED_SOURCE_CONTRACT")
     return {"schema": SCHEMA, "status": "SOURCE_ONLY_READY_NOT_EXECUTED",
-            "keyword_ids": ["hey_mero"], "reference_model": "gigaspeech",
+            "keyword_ids": ["hey_mero"], "reference_model": "zh-en",
             "model_sha256": MODEL_SHA256,
             "original_source_artifact_ids": v5.ARCHIVES,
             "source_splits": ["train", "development"],
@@ -91,33 +92,31 @@ def run_guard(env=None, event=None):
             "head_sha": pr["head"]["sha"], "branch": BRANCH}
 
 
-def make_mero_keyword(model_parts, directory, tokenizer=None):
-    """Official Sherpa Python BPE tokenizer using its pinned SentencePiece model.
-
-    sherpa-onnx 1.13.8 exports the Python text2token function but not the
-    historical sherpa-onnx-cli executable. Only one Hey Mero phrase is encoded.
-    """
+def make_mero_keyword(parts, folder, tokenizer=None):
+    """One verified official phone-lexicon HEY MERO; no ungrounded G2P."""
+    lexicon = parts["lexicon"]
+    need(lexicon.is_file() and not lexicon.is_symlink()
+         and 0 < lexicon.stat().st_size <= 6*1024*1024,
+         "OFFICIAL_PHONE_LEXICON_FILE")
+    words = {v[0] for line in lexicon.read_text(encoding="utf-8").splitlines()
+             if len(v := line.strip().split()) >= 2}
+    need({"HEY", "MERO"} <= words, "OFFICIAL_MERO_LEXICON_WORDS")
     if tokenizer is None:
         from sherpa_onnx import text2token as tokenizer
-    encoded = tokenizer(["HEY MERO"], tokens=str(model_parts["tokens"]),
-                        tokens_type="bpe", bpe_model=str(model_parts["bpe"]),
-                        lexicon=None)
-    need(type(encoded) is list and len(encoded) == 1 and
-         type(encoded[0]) is list and len(encoded[0]) >= 2 and
-         all(type(item) is str and item and
-             not item.startswith(("@", "#", ":")) for item in encoded[0]),
-         "OFFICIAL_MERO_TOKENIZATION_FAILED")
-    tokens = {line.split()[0] for line in
-              model_parts["tokens"].read_text(encoding="utf-8").splitlines()
-              if line.strip()}
-    need(tokens and all(piece in tokens for piece in encoded[0]),
-         "OFFICIAL_BPE_TOKEN_NOT_IN_MODEL_VOCABULARY")
-    final = directory / "mero.keyword.txt"
-    final.write_text(" ".join(encoded[0]) + " @" + KEYWORD + "\n",
-                     encoding="utf-8")
-    need(len(final.read_text().splitlines()) == 1,
-         "EXACT_ONE_KEYWORD_FILE")
-    return final
+    encoded = tokenizer(["HEY MERO"], tokens=str(parts["tokens"]),
+                        tokens_type="phone+ppinyin", bpe_model=None,
+                        lexicon=str(lexicon))
+    need(type(encoded) is list and len(encoded) == 1
+         and type(encoded[0]) is list and len(encoded[0]) >= 2
+         and all(type(p) is str and p and not p.startswith(("@", "#", ":"))
+                 for p in encoded[0]), "OFFICIAL_PHONE_ENCODING")
+    vocab = {v[0] for line in parts["tokens"].read_text(encoding="utf-8").splitlines()
+             if (v := line.strip().split())}
+    need(vocab and all(p in vocab for p in encoded[0]),
+         "OFFICIAL_PHONE_VOCAB_MEMBERSHIP")
+    path = folder / "mero.keyword.txt"
+    path.write_text(" ".join(encoded[0]) + " @" + KEYWORD + "\n", encoding="utf-8")
+    return path
 
 
 def summarize(rows):
@@ -184,7 +183,7 @@ def execute(sources, model_archive, output):
             model_root = Path(temp) / "model"
             model_root.mkdir()
             parts, digest = pretrained.extract_locked_model(
-                model_archive, "gigaspeech", model_root)
+                model_archive, "zh-en", model_root)
             need(digest == MODEL_SHA256, "PRETRAINED_ARCHIVE_HASH")
             keyword = make_mero_keyword(parts, Path(temp))
             spotter = sherpa_onnx.KeywordSpotter(
@@ -222,6 +221,7 @@ def execute(sources, model_archive, output):
             elapsed = time.perf_counter() - began
             report = {"schema": SCHEMA,
                 "status": "REAL_MERO_PRETRAINED_REFERENCE_REPLAY_COMPLETE",
+                "pretrained_model": "zh-en",
                 "keyword_ids": ["hey_mero"], "keyword_file_sha256":
                     hash_file(keyword), "model_archive_sha256": digest,
                 "sherpa_onnx_version": version("sherpa-onnx"),

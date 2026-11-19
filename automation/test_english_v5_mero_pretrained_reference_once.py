@@ -31,48 +31,49 @@ class SingleMeroPretrainedReference(unittest.TestCase):
     def test_reuses_authentic_single_target_not_failed_model(self):
         state = m.source_contract()
         self.assertEqual(state["keyword_ids"], ["hey_mero"])
-        self.assertEqual(state["reference_model"], "gigaspeech")
+        self.assertEqual(state["reference_model"], "zh-en")
         self.assertEqual(len(state["original_source_artifact_ids"]), 8)
         self.assertEqual(state["new_audio_generation"], 0)
         self.assertEqual(state["optimizer_updates"], 0)
         self.assertFalse(state["calibration_or_locked_access"])
         self.assertFalse(state["model_promotion_allowed"])
         self.assertEqual(len(state["model_sha256"]), 64)
-        self.assertEqual(m.MODEL_BYTES, 17626723)
+        self.assertEqual(m.MODEL_BYTES, 32885699)
         self.assertEqual(m.KEYWORD, "HEY_MERO")
 
-    def test_one_and_only_one_real_bpe_keyword(self):
+    def test_one_official_phone_only(self):
         with tempfile.TemporaryDirectory() as tmp:
-            parent = Path(tmp)
-            (parent / "tokens.txt").write_text(
-                "▁HEY 1\n▁MERO 2\n", encoding="utf-8")
-            (parent / "bpe.model").write_bytes(b"test-only")
-            def fake_tokenize(texts, **kw):
+            p = Path(tmp)
+            (p/"tokens.txt").write_text("HH 1\nEY 2\nM 3\nEH 4\nR 5\nOW 6\n")
+            (p/"en.phone").write_text("HEY HH EY\nMERO M EH R OW\n")
+            def fake(texts, **kw):
                 self.assertEqual(texts, ["HEY MERO"])
-                self.assertEqual(kw["tokens_type"], "bpe")
-                self.assertEqual(kw["lexicon"], None)
-                self.assertTrue(kw["bpe_model"].endswith("bpe.model"))
-                return [["▁HEY", "▁MERO"]]
-            dest = m.make_mero_keyword(
-                {"tokens": parent / "tokens.txt",
-                 "bpe": parent / "bpe.model"}, parent,
-                tokenizer=fake_tokenize)
-            self.assertEqual(dest.read_text(), "▁HEY ▁MERO @HEY_MERO\n")
-            self.assertEqual(len(dest.read_text().splitlines()), 1)
+                self.assertEqual(kw["tokens_type"], "phone+ppinyin")
+                self.assertIsNone(kw["bpe_model"])
+                self.assertTrue(kw["lexicon"].endswith("en.phone"))
+                return [["HH", "EY", "M", "EH", "R", "OW"]]
+            f = m.make_mero_keyword({"tokens":p/"tokens.txt",
+                "lexicon":p/"en.phone"}, p, tokenizer=fake)
+            self.assertEqual(f.read_text(), "HH EY M EH R OW @HEY_MERO\n")
 
-    def test_empty_multiple_or_unknown_bpe_tokens_fail_closed(self):
-        cases = ([], [[]], [["▁HEY"]], [["▁HEY", "▁MERO"], ["▁OTHER"]],
-                 [["▁HEY", "@X"]], [["▁HEY", "▁UNKNOWN"]])
-        for output in cases:
-            with self.subTest(output=output):
+    def test_missing_lexicon_or_unknown_phone_is_rejected(self):
+        for lexicon, output in (
+            ("HEY HH EY\n", [["HH", "EY"]]),
+            ("MERO M EH R OW\n", [["HH", "EY"]]),
+            ("HEY HH EY\nMERO M EH R OW\n", []),
+            ("HEY HH EY\nMERO M EH R OW\n", [["HH"]]),
+            ("HEY HH EY\nMERO M EH R OW\n", [["HH", "BAD"]]),
+            ("HEY HH EY\nMERO M EH R OW\n", [["HH", "EY"], ["M", "EH"]]),
+        ):
+            with self.subTest(lexicon=lexicon,output=output):
                 with tempfile.TemporaryDirectory() as tmp:
-                    p = Path(tmp)
-                    (p / "tokens").write_text("▁HEY 1\n▁MERO 2\n")
-                    def fake(texts, **kw):
-                        return output
+                    p=Path(tmp)
+                    (p/"tokens").write_text("HH 1\nEY 2\nM 3\nEH 4\nR 5\nOW 6\n")
+                    (p/"en.phone").write_text(lexicon)
                     with self.assertRaises(ValueError):
-                        m.make_mero_keyword({"tokens": p / "tokens",
-                            "bpe": p / "bpe"}, p, tokenizer=fake)
+                        m.make_mero_keyword({"tokens":p/"tokens",
+                            "lexicon":p/"en.phone"},p,
+                            tokenizer=lambda *_args,**_kw:output)
 
     def test_source_disjoint_reference_summary(self):
         summary = m.summarize(toy_observations())

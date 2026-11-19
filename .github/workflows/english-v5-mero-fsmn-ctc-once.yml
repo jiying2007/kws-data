@@ -188,17 +188,17 @@ jobs:
           done
           python3 -I -S -B automation/english_v5_mero_fsmn_ctc_once.py \
             --audit-inputs --sources "$RUNNER_TEMP/v5-mero-saved"
-      - name: Fetch the exact existing official English pretrained GigaSpeech 3.3M asset
+      - name: Fetch the exact existing official lexicon-backed Zh-En 3M Mero asset
         shell: bash
         run: |
           set -euo pipefail
           curl --fail --location --silent --show-error --retry 2 \
-            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2' \
-            -o "$RUNNER_TEMP/official-gigaspeech-3.3m.tar.bz2"
-          test "$(stat -c %s "$RUNNER_TEMP/official-gigaspeech-3.3m.tar.bz2")" = 17626723
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2' \
+            -o "$RUNNER_TEMP/official-zh-en-3m.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/official-zh-en-3m.tar.bz2")" = 32885699
           printf '%s  %s\n' \
-            'f170013b4716e41b62b9bfd809687c207cef798ef9bc6534d524e17af9b6561a' \
-            "$RUNNER_TEMP/official-gigaspeech-3.3m.tar.bz2" |
+            '68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6' \
+            "$RUNNER_TEMP/official-zh-en-3m.tar.bz2" |
             sha256sum --check --status
       - name: Install pinned CPU-only official pretrained inference runtime
         timeout-minutes: 12
@@ -219,7 +219,7 @@ jobs:
           "$RUNNER_TEMP/v5-mero-pretrained-env/bin/python" -I -B \
             automation/english_v5_mero_pretrained_reference_once.py --execute \
             --sources "$RUNNER_TEMP/v5-mero-saved" \
-            --model-archive "$RUNNER_TEMP/official-gigaspeech-3.3m.tar.bz2" \
+            --model-archive "$RUNNER_TEMP/official-zh-en-3m.tar.bz2" \
             --output "$RUNNER_TEMP/v5-mero-pretrained-real-${GITHUB_RUN_ID}"
           test -z "$(git status --porcelain)"
       - name: Preserve actual source audit, per-clip pretrained events and failures
