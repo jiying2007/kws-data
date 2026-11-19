@@ -272,7 +272,10 @@ jobs:
     needs: [source-contract, authenticated-mono-snapshot]
     # Distinct source cohort, not a repeat of consumed 35-clip 240/512 runs.
     # First same-repository public PR attempt only; no locked/dev training.
+    # Completed first actual model run 44471889167; 2/9 dev missed, not qualified.
+    # No repeat of consumed 360 optimizer steps on PR docs updates.
     if: >-
+      false &&
       github.repository == 'jiying2007/kws-data' &&
       github.event.repository.private == false &&
       github.event_name == 'pull_request' &&
