@@ -1,0 +1,179 @@
+name: English V5 prospective Hey Mero three frozen models on source-reviewed development
+on:
+  pull_request:
+    paths:
+      - automation/english_v5_mero_prospective_three_frozen_once.py
+      - automation/test_english_v5_mero_prospective_three_frozen_once.py
+      - .github/workflows/english-v5-mero-prospective-three-frozen-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v5-mero-prospective-three-frozen-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v5-prospective-frozen-three-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261119'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify exact three model references, 2 plus 8 source roles and no replay in three Python modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v5_mero_prospective_three_frozen_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v5_mero_prospective_three_frozen_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  original-source-audit:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-prospective-dev8-original-44511329722
+          run-id: 44511329722
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/prospective-original
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-prospective-dev8-saved-machine-screen-44514289065
+          run-id: 44514289065
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/prospective-screen
+      - name: Byte-audit 32 original unexposed DEV WAV and exact machine labels, zero model forwards
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v5_mero_prospective_three_frozen_once.py --audit \
+            --source "$RUNNER_TEMP/prospective-original" \
+            --screen "$RUNNER_TEMP/prospective-screen"
+          test -z "$(git status --porcelain)"
+  one-real-prospective-frozen-comparison:
+    needs: [source-contract, original-source-audit]
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '6e84d33e0978b2c731eb232e152080ed99ba1247' &&
+      needs.source-contract.result == 'success' &&
+      needs.original-source-audit.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 52
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: First protected main frozen compare only; no new training or locked data
+        shell: bash
+        run: python3 -I -S -B automation/english_v5_mero_prospective_three_frozen_once.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-prospective-dev8-original-44511329722
+          run-id: 44511329722
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/prospective-original
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-prospective-dev8-saved-machine-screen-44514289065
+          run-id: 44514289065
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/prospective-screen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-expanded-fsmn256-44495594627
+          run-id: 44495594627
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/frozen43
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-strong-fsmn128-448-44500437774
+          run-id: 44500437774
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/frozen93
+      - name: Fetch exact published official 3M Zh-En phone KWS, reject changed model bytes
+        shell: bash
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 2 \
+            'https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2' \
+            -o "$RUNNER_TEMP/official-zh-en-phone.tar.bz2"
+          test "$(stat -c %s "$RUNNER_TEMP/official-zh-en-phone.tar.bz2")" = 32885699
+          printf '%s  %s\n' \
+            '68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6' \
+            "$RUNNER_TEMP/official-zh-en-phone.tar.bz2" | sha256sum --check --status
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Pinned CPU-only inference dependencies; no model training
+        shell: bash
+        timeout-minutes: 22
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/mero-dev8-comparison-env"
+          PIP="$RUNNER_TEMP/mero-dev8-comparison-env/bin/pip"
+          "$PIP" install --disable-pip-version-check --no-cache-dir --retries 0 \
+            --timeout 90 'torch==2.9.1+cpu' \
+            --index-url https://download.pytorch.org/whl/cpu
+          "$PIP" install --disable-pip-version-check --no-cache-dir --retries 0 \
+            --timeout 90 'numpy==1.26.4' 'sherpa-onnx==1.13.8' \
+            'click==8.1.8' 'pypinyin==0.55.0' 'sentencepiece==0.2.1'
+          "$RUNNER_TEMP/mero-dev8-comparison-env/bin/python" -m pip check
+      - name: Frozen 43k FSMN versus 93k FSMN versus phone 3M on only 2 plus 8 new DEV originals
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        timeout-minutes: 16
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=25s 880s \
+            "$RUNNER_TEMP/mero-dev8-comparison-env/bin/python" -I -B \
+              automation/english_v5_mero_prospective_three_frozen_once.py --execute \
+              --source "$RUNNER_TEMP/prospective-original" \
+              --screen "$RUNNER_TEMP/prospective-screen" \
+              --model43 "$RUNNER_TEMP/frozen43" \
+              --model93 "$RUNNER_TEMP/frozen93" \
+              --phone-model "$RUNNER_TEMP/official-zh-en-phone.tar.bz2" \
+              --output "$RUNNER_TEMP/v5-prospective-three-models-$GITHUB_RUN_ID"
+          test -z "$(git status --porcelain)"
+      - name: Preserve every original SHA and frozen prediction or STOP; never claim a release
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v5-prospective-three-frozen-comparison-${{ github.run_id }}
+          path: ${{ runner.temp }}/v5-prospective-three-models-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
