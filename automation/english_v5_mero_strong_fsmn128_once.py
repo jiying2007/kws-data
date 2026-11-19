@@ -142,6 +142,9 @@ def audit(old_archives,old_audit,fresh_source,fresh_screen,source_gate):
          and Counter(x["mono_class"] for x in dev)=={0:2,1:2}
          and all(x["role"]=="train" for x in train_old+train_new)
          and all(x["role"]=="development" for x in dev)
+         and not ({x["source_group_id"] for x in train_old}&
+                  {x["source_group_id"] for x in train_new})
+         and len({x["source_group_id"] for x in train_old+train_new})==35
          and not ({x["source_group_id"] for x in train_old+train_new}&
                   {x["source_group_id"] for x in dev})
          and not ({x["source_pcm_sha256"] for x in train_old}&
