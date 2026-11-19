@@ -18,3 +18,8 @@
 - Even a better dev model is not commercial qualification: need independent real-world human FAR/FRR and SSC305 3–5m physical checks. Current openWakeWord feature model license must be verified for commercial rights before any shipment.
 
 No Work/Codex quota, private repository, paid API, per-hour timer or repeated voice-clone generation. Original 6 reviewed ZIPs and all previous STOP/PASS decisions remain immutable.
+## Exact first-run zero-numerics recovery
+
+The first main V2 run [44425553398](https://github.com/jiying2007/kws-data/actions/runs/44425553398), head `edf154f3b7d2e977fe78b567d023a289e7054ba3`, successfully passed source-contract and byte-audited all six original public source/screen archives. It **failed at the initial command-line parsing of `--guard`**, before Python 3.12 setup, input download for the numeric stage, frozen model loading or any optimizer call. Original numerical job `135229803469` has all model/optimizer/weight steps `skipped`; no training artifact exists. This failure is a software execution entry issue, not a new trained candidate.
+
+The narrow recovery must attest exact original public-main run ID, failure HEAD, initial failed step, all downstream steps skipped and zero artifact count by read-only GitHub Actions API. Only the first protected-main successor of `edf154...`, attempt 1, may re-enter the numeric stage. Old target audio, 6 source ZIPs and previous locked synthetic evaluation remain frozen and are never replayed as new data or used for model selection.

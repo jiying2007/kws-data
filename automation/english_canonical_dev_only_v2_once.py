@@ -11,7 +11,7 @@ Weights are saved and C-compatible but are not release-qualified.
 from __future__ import annotations
 import argparse
 from collections import Counter,defaultdict
-import hashlib,importlib.util,json,os
+import hashlib,importlib.util,json,os,urllib.request
 from pathlib import Path
 import re,subprocess,sys
 
@@ -25,7 +25,11 @@ def load(name):
 binding=load("english_canonical_multisource_bind_once")
 base=load("english_canonical_multisource_fit_once")
 REPO="jiying2007/kws-data"
-BEFORE="13ef5ee37df4fe866808c73463c8e5ae3403811a"
+BEFORE="edf154f3b7d2e977fe78b567d023a289e7054ba3"
+PRIOR_RUN=44425553398
+PRIOR_SHA=BEFORE
+PRIOR_NUMERIC_JOB=135229803469
+PRIOR_FAILED_STEP="Bind exact public main first parent and preregistered dev-only no-locked training"
 SCHEMA="english-canonical-development-only-head-v2-20261119"
 UPDATES=(96,192,384)
 SEED=20261119
@@ -90,6 +94,66 @@ def guard(env=None,event=None,parent=None):
     need(parent==BEFORE,"ORIGINAL_FROZEN_MAIN_FIRST_PARENT")
     return {"run_id":env["GITHUB_RUN_ID"],"commit":sha_,
             "before":BEFORE,"source_model":"fresh_uninitialized"}
+
+def verify_prior_zero(token):
+    """Bounded GitHub REST attestation: original failure before NUMERIC steps.
+
+    This is not an authorize-general-retry mechanism. It requires the
+    exact original first public-main run, job, and step conclusions.
+    """
+    guard()
+    need(type(token) is str and len(token)>=10,
+         "READONLY_GITHUB_ACTIONS_TOKEN")
+    def github(path):
+        url=f"https://api.github.com/repos/{REPO}/actions/{path}"
+        req=urllib.request.Request(url,headers={
+            "Authorization":"Bearer "+token,
+            "Accept":"application/vnd.github+json",
+            "User-Agent":"kws-exact-zero-forward-dev-only-v2"})
+        with urllib.request.urlopen(req,timeout=40) as response:
+            raw=response.read(2_000_001)
+        need(len(raw)<=2_000_000,"SMALL_GITHUB_ORIGINAL_RECEIPT")
+        return json.loads(raw)
+    run=github(f"runs/{PRIOR_RUN}")
+    need(run.get("id")==PRIOR_RUN and run.get("event")=="push" and
+         run.get("status")=="completed" and
+         run.get("conclusion")=="failure" and
+         run.get("run_attempt")==1 and
+         run.get("head_sha")==PRIOR_SHA and
+         run.get("head_branch")=="main" and
+         run.get("repository",{}).get("full_name")==REPO and
+         run.get("repository",{}).get("private") is False,
+         "EXACT_PRIOR_PUBLIC_MAIN_ZERO_FORWARD_FAILURE")
+    receipt=github(f"runs/{PRIOR_RUN}/jobs?per_page=100")
+    jobs=receipt.get("jobs",[])
+    need(len(jobs)==3 and set(j["name"] for j in jobs)==
+         {"source-contract","exact-six-artifact-audit","dev-only-numeric-fit"},
+         "ORIGINAL_EXACT_THREE_STAGE_WORKFLOW")
+    previous=next(j for j in jobs if j["name"]=="dev-only-numeric-fit")
+    steps=previous.get("steps",[])
+    need(previous.get("id")==PRIOR_NUMERIC_JOB and
+         previous.get("conclusion")=="failure" and
+         sum(x["conclusion"]=="failure" for x in steps)==1 and
+         any(x["name"]==PRIOR_FAILED_STEP and x["conclusion"]=="failure"
+             for x in steps) and
+         all(x["conclusion"]=="skipped" for x in steps
+             if x["name"] in (
+               "Read six original archives under a fresh numeric job identity",
+               "Verify original 63 Silver/Weak research rows and disjoint 8/4/3/3 roles without numerical inference",
+               "Install exactly one original CPU frozen-ONNX plus fresh PyTorch training stack",
+               "Fetch only the two original 0.5.1 frozen feature models, validate bytes before training",
+               "Run real fresh-seed 384-update train/dev-only candidate selection, no calibration or locked PCM"
+             )) and
+         all(j["conclusion"]=="success" for j in jobs
+             if j["name"]!="dev-only-numeric-fit"),
+         "NO_PRIOR_MODEL_FORWARDS_OR_UPDATE_AFTER_FAILED_ARGPARSE")
+    artifacts=github(f"runs/{PRIOR_RUN}/artifacts?per_page=100")
+    need(artifacts.get("total_count")==0 and
+         artifacts.get("artifacts")==[],
+         "NO_PARTIAL_NEW_V2_MODEL_WEIGHTS_REPLAY")
+    return {"status":"EXACT_FIRST_DEV_V2_RUN_ZERO_MODEL_FORWARDS",
+            "original_run":PRIOR_RUN,"source_group_gate":"PASS",
+            "original_numeric_updates":0,"old_locked_reused":False}
 
 def choose(candidates):
     """Exactly pre-registered development score; does not see cal/locked."""
@@ -356,14 +420,25 @@ def execute(sources,assets,output):
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--source-check",action="store_true")
+    ap.add_argument("--guard",action="store_true")
+    ap.add_argument("--verify-prior-zero",action="store_true")
     ap.add_argument("--execute",action="store_true")
     ap.add_argument("--sources")
     ap.add_argument("--assets")
     ap.add_argument("--output")
     p=ap.parse_args()
-    need(p.source_check!=p.execute,"ONE_NUMERIC_RESEARCH_STAGE")
+    need(sum(bool(v) for v in (p.source_check,p.guard,
+                                 p.verify_prior_zero,p.execute))==1,
+         "ONE_NUMERIC_RESEARCH_STAGE")
     if p.source_check:
         print(json.dumps(source_check(),sort_keys=True))
+        return
+    if p.guard:
+        print(json.dumps(guard(),sort_keys=True))
+        return
+    if p.verify_prior_zero:
+        print(json.dumps(verify_prior_zero(os.environ.get("GH_TOKEN")),
+                         sort_keys=True))
         return
     need(p.sources and p.assets and p.output,
          "EXACT_SIX_SIGNED_INPUTS_AND_TWO_FROZEN_ONNX")
