@@ -71,8 +71,6 @@ class SavedV5Study(unittest.TestCase):
         self.assertNotIn("optimizer.step(",t)
         self.assertNotIn("torch.onnx.export(",t)
         self.assertIn("torch.load(",t)
-        self.assertIn("read_only",m.source_check()["status"].lower()
-                      .replace("read_only","read_only")) if False else None
 
 
 if __name__=="__main__":unittest.main()
