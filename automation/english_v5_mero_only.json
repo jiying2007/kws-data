@@ -113,5 +113,50 @@
     "per_word_frr_max": 0.05,
     "p95_word_end_callback_ms_max": 500
   },
-  "source_of_truth": "user_v5_single_keyword_selection_2026-11-19"
+  "source_of_truth": "user_v5_single_keyword_selection_2026-11-19",
+  "last_real_training_result": {
+    "status": "REJECTED_RESEARCH_CANDIDATE_DEV_QUALITY_FAILED",
+    "actual_training_run_id": 44453447586,
+    "actual_training_commit": "0ea22c50024df7ab8797a4fb9517a01a261832db",
+    "model_artifact_id": 14496732088,
+    "trained_parameters": 43876,
+    "optimizer_updates": 240,
+    "onnx_sha256": "0059dfa28da027d736a87a37b5c03ca0ed2c99b402190eb433016cd7601d16f4",
+    "data": {
+      "machine_admitted_train_audio": 24,
+      "machine_admitted_dev_audio": 11,
+      "train_groups": 10,
+      "dev_groups": 5
+    },
+    "dev": {
+      "positive_original_wavs": 6,
+      "positive_misses": 6,
+      "ordinary_original_wavs": 5,
+      "ordinary_false_accepts": 0,
+      "synthetic_only": true
+    },
+    "saved_blank_diagnostic": {
+      "run_id": 44454433293,
+      "artifact_id": 14497023050,
+      "dev_avg_blank_argmax_fraction": 0.9708519614526289,
+      "train_avg_blank_argmax_fraction": 0.9695075120957474,
+      "train_positive_greedy_wake_hits": 1,
+      "train_positive_diagnostic_wavs": 3
+    },
+    "full_sequence_ctc_diagnostic": {
+      "run_id": 44456534389,
+      "artifact_id": 14498700842,
+      "train_small_diagnostic_pairwise_rank_fraction": 1,
+      "dev_pairwise_rank_fraction": 0.8,
+      "dev_positive_count": 6,
+      "dev_ordinary_count": 5,
+      "dev_margins_strictly_separate": false,
+      "status": "DEV_MARGINAL_NOT_SEPARATED",
+      "no_threshold_selected": true
+    },
+    "promotion_allowed": false,
+    "next_evidence_priority": "improve English acoustic representation and source-disjoint voice/negative generalization, not decoder-only changes or old locked retuning",
+    "physical_ssc305": "NOT_RUN",
+    "independent_real_far_frr": "NOT_MEASURED"
+  }
 }
