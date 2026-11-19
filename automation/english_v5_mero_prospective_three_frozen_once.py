@@ -31,7 +31,7 @@ phone=load("english_v5_mero_newdev_phone_reference_once")
 v5=strong.v5
 SCHEMA="english-v5-prospective-three-frozen-models-v1"
 REPO="jiying2007/kws-data"
-BEFORE="6e84d33e0978b2c731eb232e152080ed99ba1247"
+BEFORE="980c2c44cd55a70a68266364b76ade947c62096f"
 SOURCE={"id":14524071469,"run":44511329722,
  "head":"e0ac2a1be348d1d86e53e7a4fb28e2655d9b4e23",
  "name":"english-v5-mero-prospective-dev8-original-44511329722",
@@ -46,7 +46,7 @@ MODELS={
   "name":"english-v5-mero-expanded-fsmn256-44495594627",
   "bytes":501276,"sha":"91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702",
   "nameprefix":"mero-fsmn-ctc-expanded256","params":43876,"steps":256,
-  "pt":"10bf30da57291f78f56db196db1137309f2c3b91dfe67bf0aa45ebb8cec05b1c"},
+  "onnx":"10bf30da57291f78f56db196db1137309f2c3b91dfe67bf0aa45ebb8cec05b1c"},
  "fsmn93k448":{"id":14516373314,"run":44500437774,
   "head":"826c3fb31ae2c0eb03fe7fe6e9a98ce5c9d10eba",
   "name":"english-v5-mero-strong-fsmn128-448-44500437774",
