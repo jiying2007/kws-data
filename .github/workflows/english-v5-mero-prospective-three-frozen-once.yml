@@ -82,7 +82,7 @@ jobs:
       github.event.repository.private == false &&
       github.ref == 'refs/heads/main' &&
       github.run_attempt == 1 &&
-      github.event.before == '6e84d33e0978b2c731eb232e152080ed99ba1247' &&
+      github.event.before == '980c2c44cd55a70a68266364b76ade947c62096f' &&
       needs.source-contract.result == 'success' &&
       needs.original-source-audit.result == 'success'
     runs-on: ubuntu-24.04
