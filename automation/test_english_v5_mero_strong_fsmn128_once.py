@@ -88,6 +88,34 @@ class V5StrongFsmn128SourceContracts(TestCase):
                 v.audit(Path("/tmp/old"),Path("/tmp/audit"),
                         Path("/tmp/fresh"),Path("/tmp/screen"),Path("/tmp/gate"))
 
+    def test_one_train_source_with_only_one_label_must_stop(self):
+        old,fresh=samples()
+        # The source-group count is unchanged, but this group no longer
+        # contains an independently qualified ordinary/positive pair.
+        fresh[0]["mono_class"]=1
+        with mock.patch.object(v.proof,"frozen_gate",return_value={
+               "status":"PASS_SYNTHETIC_MACHINE_6_2_2_2_SOURCE_GATE"}),\
+             mock.patch.object(v.parent,"authorized_source",return_value=(old,{})),\
+             mock.patch.object(v.proof,"screen_new",return_value=(fresh,{})):
+            with self.assertRaisesRegex(ValueError,"SINGLE_CLASS_SOURCE_GROUP"):
+                v.audit(Path("/tmp/old"),Path("/tmp/audit"),
+                        Path("/tmp/fresh"),Path("/tmp/screen"),Path("/tmp/gate"))
+
+    def test_dev_global_class_counts_cannot_hide_source_class_swap(self):
+        old,fresh=samples()
+        dev=[r for r in fresh if r["role"]=="development"]
+        # Keep global DEV 2/2 while corrupting both group-level class pairs.
+        dev[0]["mono_class"]=1
+        dev[3]["mono_class"]=0
+        self.assertEqual(Counter(r["mono_class"] for r in dev),{0:2,1:2})
+        with mock.patch.object(v.proof,"frozen_gate",return_value={
+               "status":"PASS_SYNTHETIC_MACHINE_6_2_2_2_SOURCE_GATE"}),\
+             mock.patch.object(v.parent,"authorized_source",return_value=(old,{})),\
+             mock.patch.object(v.proof,"screen_new",return_value=(fresh,{})):
+            with self.assertRaisesRegex(ValueError,"SINGLE_CLASS_SOURCE_GROUP"):
+                v.audit(Path("/tmp/old"),Path("/tmp/audit"),
+                        Path("/tmp/fresh"),Path("/tmp/screen"),Path("/tmp/gate"))
+
     def test_locked_and_nearphone_can_never_enter_train(self):
         old,fresh=samples()
         fresh[0]["role"]="locked-test"
