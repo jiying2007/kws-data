@@ -134,6 +134,16 @@ def audit(old_archives,old_audit,fresh_source,fresh_screen,source_gate):
     train_old=[x for x in old if x["role"]=="train"]
     train_new=[x for x in fresh if x["role"]=="train"]
     dev=[x for x in fresh if x["role"]=="development"]
+    # Check the entire selection before filtering: silently dropping a
+    # locked/other-role row could leave group counts unchanged and leak roles.
+    need(all(x["role"]=="train" for x in train_old)
+         and all(x["role"] in ("train","development") for x in fresh)
+         and all(
+             {x["mono_class"] for x in role_rows
+              if x["source_group_id"]==group}=={0,1}
+             for role_rows in (train_old,train_new,dev)
+             for group in {x["source_group_id"] for x in role_rows}),
+         "NO_LOCKED_ROLE_OR_SINGLE_CLASS_SOURCE_GROUP_IN_TRAIN_DEV")
     need(gate["status"]=="PASS_SYNTHETIC_MACHINE_6_2_2_2_SOURCE_GATE"
          and len(fresh)==len(train_new)+len(dev)
          and all(x["role"] in ("train","development") for x in fresh)
