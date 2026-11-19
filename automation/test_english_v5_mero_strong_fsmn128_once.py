@@ -12,17 +12,17 @@ spec=importlib.util.spec_from_file_location(
 v=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(v)
 
-def row(role,g,klass,num):
-    name=f"source-{role}-{g}-{klass}-{num}"
-    return {"id":name,"role":role,"source_group_id":f"group-{role}-{g}",
+def row(role,g,klass,num,corpus="old"):
+    name=f"source-{corpus}-{role}-{g}-{klass}-{num}"
+    return {"id":name,"role":role,"source_group_id":f"group-{corpus}-{role}-{g}",
             "source_pcm_sha256":hashlib.sha256(name.encode()).hexdigest(),
             "mono_class":klass,"tier":"silver"}
 
 def samples():
     old=[row("train",i,klass,0) for i in range(24) for klass in (0,1)]
     old += [row("train",i,1,1) for i in range(6)]
-    fresh=[row("train",i,klass,0) for i in range(11) for klass in (0,1)]
-    dev=[row("development",i,klass,0) for i in range(2) for klass in (0,1)]
+    fresh=[row("train",i,klass,0,"fresh") for i in range(11) for klass in (0,1)]
+    dev=[row("development",i,klass,0,"fresh") for i in range(2) for klass in (0,1)]
     return old,fresh+dev
 
 class V5StrongFsmn128SourceContracts(TestCase):
