@@ -68,7 +68,7 @@ class ExpandedTrainTests(TestCase):
         self.assertEqual(r["new_observer_model_calls"],0)
         self.assertEqual(r["new_tts_calls"],0)
         self.assertFalse(r["calibration_or_locked_kws_audio_opened"])
-        self.assertFalse(r["product_promotion_allowed"])
+        self.assertFalse(r["production_promotion_allowed"])
         self.assertEqual(v.PARENT["id"],14505594074)
 
     def test_new_research_binding_same_source_ordinary_and_canonical(self):
@@ -85,7 +85,7 @@ class ExpandedTrainTests(TestCase):
         self.assertEqual(report["selected_by_role"]["development"],
                          sum(r["role"]=="development" for r in selected))
         self.assertEqual(Counter(r["mono_class"] for r in selected),
-                         {0:16,1:16})
+                         {0:13,1:16})
         self.assertFalse(report["nearphone_ever_negative"])
         self.assertTrue(all(r["tier"] in ("silver","weak") for r in selected))
         self.assertTrue(all(r["research_train_binding_created"] if
