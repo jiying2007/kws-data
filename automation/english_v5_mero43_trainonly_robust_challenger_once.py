@@ -61,9 +61,12 @@ def record(path,value):
 def source_check():
     gate=strong.source_check()
     cmp=prospective.source_check()
-    need(gate["status"]=="EXACT_STRONG_FSMN_RESEARCH_SOURCE_REGISTERED"
-         if "status" in gate and gate["status"]=="EXACT_STRONG_FSMN_RESEARCH_SOURCE_REGISTERED"
-         else gate.get("keyword")=="Hey Mero" or gate.get("model_parameters")==93444,
+    need(gate["status"]=="SOURCE_ONLY_STRONG_FSMN_NOT_RUN"
+         and gate["keyword"]=="Hey Mero"
+         and gate["parameters"]==93444
+         and gate["new_machine_qualified_train_groups"]==11
+         and gate["new_exposed_dev_groups"]==2
+         and gate["old_dev_or_locked_train_access"] is False,
          "REUSE_AUTHENTICATED_STRONG_TRAIN_ONLY_SOURCE_GATES")
     need(cmp["keyword"]=="Hey Mero" and cmp["new_dev_positive"]==2
          and cmp["new_dev_ordinary"]==8
