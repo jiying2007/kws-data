@@ -64,7 +64,8 @@ def source_check():
          and x["new_kws_model_forwards"]==0
          and saved.SOURCE["id"]==SOURCE["id"]
          and saved.SOURCE_RUN==SOURCE["run"]
-         and saved.BEFORE==BEFORE and saved.ORIGINAL_SHA==BEFORE
+         and saved.BEFORE=="e714db40fa6ce675786b8c6ac154161d95c0a45d"
+         and saved.ORIGINAL_SHA=="e714db40fa6ce675786b8c6ac154161d95c0a45d"
          and legacy.MODELS["fsmn43k256"]["id"]==MODELS["B0"]["id"]
          and legacy.MODELS["fsmn43k256"]["sha"]==MODELS["B0"]["sha"]
          and MODELS["B1"]["pt"]=="20d0c4632224cf332460493695c0dd21927a80ed13034a9531f5d5230d2f7e05"
