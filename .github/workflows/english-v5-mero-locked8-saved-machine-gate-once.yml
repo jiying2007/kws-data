@@ -1,0 +1,124 @@
+name: English V5 Hey Mero newlocked8 five-native saved machine source gate
+on:
+  pull_request:
+    paths:
+      - automation/english_v5_mero_locked8_saved_machine_gate_once.py
+      - automation/test_english_v5_mero_locked8_saved_machine_gate_once.py
+      - .github/workflows/english-v5-mero-locked8-saved-machine-gate-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v5-mero-locked8-saved-machine-gate-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: en-v5-mero-newlocked8-saved-source-gate-${{ github.event_name }}
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Prove original five real source identities, 11-2-2-1 STOP and exact one new group threshold
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v5_mero_locked8_saved_machine_gate_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v5_mero_locked8_saved_machine_gate_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  combine-saved-no-model:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '57ff9cff2253510312bc73f27c605aadfb16b555' &&
+      needs.source-contract.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 38
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Verify exact first protected main successor; no KWS/ASR/TTS inference
+        shell: bash
+        run: python3 -I -S -B automation/english_v5_mero_locked8_saved_machine_gate_once.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-newlocked8-original-44491090037
+          run-id: 44491090037
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/newlocked8-source32
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-source96-full-machine-gate-44487146445
+          run-id: 44487146445
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/prior-v5-source96
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: v5-mero8locked-native-qwen-44492052970
+          run-id: 44492052970
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/newlocked8-five/qwen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: v5-mero8locked-native-whisper-44492052970
+          run-id: 44492052970
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/newlocked8-five/whisper
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: v5-mero8locked-native-parakeet-44492052970
+          run-id: 44492052970
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/newlocked8-five/parakeet
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: v5-mero8locked-native-xlsr-44492052970
+          run-id: 44492052970
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/newlocked8-five/xlsr
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: v5-mero8locked-native-lv60-44492052970
+          run-id: 44492052970
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/newlocked8-five/lv60
+      - name: Byte-authenticate original seven ZIPs and all complete phone logits; decide machine 6-2-2-2 without opening KWS locked inference
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v5_mero_locked8_saved_machine_gate_once.py --evaluate \
+            --source "$RUNNER_TEMP/newlocked8-source32" \
+            --prior "$RUNNER_TEMP/prior-v5-source96" \
+            --observers "$RUNNER_TEMP/newlocked8-five" \
+            --output "$RUNNER_TEMP/v5-newlocked8-machine-gate-$GITHUB_RUN_ID"
+          test -z "$(git status --porcelain)"
+      - name: Save exact PASS or STOP and per-source immutable original quality evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v5-mero-newlocked8-saved-machine-gate-${{ github.run_id }}
+          path: ${{ runner.temp }}/v5-newlocked8-machine-gate-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
