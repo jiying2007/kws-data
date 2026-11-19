@@ -1,0 +1,149 @@
+{
+  "schema": "english-v5-mero-new-locked8-independent-piper-source-v1",
+  "status": "FROZEN_BEFORE_ANY_NEW_WAV",
+  "purpose": "PROSPECTIVE_NEW_LOCKED_SOURCE_BACKFILL_FOR_PROVEN_11_2_2_1_MACHINE_STOP_NOT_PRODUCT_QUALITY",
+  "target": {
+    "keyword": "Hey Mero",
+    "ipa": "/heɪ ˈmɛroʊ/",
+    "active_english_keyword_count": 1
+  },
+  "model": {
+    "repo": "rhasspy/piper-voices",
+    "commit": "de3dcfdf1912bb49726dc4aa11c26017ce2ac62a",
+    "file": "en/en_US/libritts/high/en_US-libritts-high.onnx",
+    "file_bytes": 136673811,
+    "file_sha256": "9127a559e11603f10b366d1a20ac7426826081dbc521de4c2420c57728d73f0f",
+    "config": "en/en_US/libritts/high/en_US-libritts-high.onnx.json",
+    "config_bytes": 20163,
+    "config_md5": "cb1564bb779f3b1f87e2de778adeb669",
+    "piper_tts_version": "1.8.0",
+    "num_speakers": 904,
+    "native_rate": 22050,
+    "derived_rate": 16000,
+    "dataset": "LibriTTS train-clean-360",
+    "dataset_license": "CC-BY-4.0",
+    "engine_license": "GPL-3.0"
+  },
+  "source_selection": "8 previously unused pinned Piper indices 472..479; all new locked-test role, never reuse old 0..57 / 400..471 or equivalent Libri human speaker; four requested cells per frozen source",
+  "source_count": 32,
+  "source_groups": [
+    {
+      "speaker_index": 472,
+      "role": "locked-test",
+      "source_group_id": "piper-libritts-index-472",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 473,
+      "role": "locked-test",
+      "source_group_id": "piper-libritts-index-473",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 474,
+      "role": "locked-test",
+      "source_group_id": "piper-libritts-index-474",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 475,
+      "role": "locked-test",
+      "source_group_id": "piper-libritts-index-475",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 476,
+      "role": "locked-test",
+      "source_group_id": "piper-libritts-index-476",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 477,
+      "role": "locked-test",
+      "source_group_id": "piper-libritts-index-477",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 478,
+      "role": "locked-test",
+      "source_group_id": "piper-libritts-index-478",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 479,
+      "role": "locked-test",
+      "source_group_id": "piper-libritts-index-479",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    }
+  ],
+  "cells": [
+    {
+      "id": "mero-fast",
+      "text": "Hey Mero.",
+      "raw_ipa": "heɪ mˈɛɹoʊ",
+      "requested_class": 2,
+      "length_scale": 0.92
+    },
+    {
+      "id": "mero-slow",
+      "text": "Hey Mero.",
+      "raw_ipa": "heɪ mˈɛɹoʊ",
+      "requested_class": 2,
+      "length_scale": 1.08
+    },
+    {
+      "id": "ordinary-time",
+      "text": "What time is it?",
+      "raw_ipa": "wˈʌt tˈaɪm ɪz ɪt",
+      "requested_class": 0,
+      "length_scale": 1
+    },
+    {
+      "id": "nearphone-meero-challenge",
+      "text": "Hey Meero.",
+      "raw_ipa": "heɪ mˈiːɹoʊ",
+      "requested_class": null,
+      "length_scale": 1
+    }
+  ],
+  "minimum_groups_eligible": {
+    "train": 6,
+    "development": 2,
+    "calibration": 2,
+    "locked-test": 2
+  },
+  "budget": {
+    "max_new_piper_tts_forwards": 32,
+    "max_new_asr_forwards_at_source_stage": 0,
+    "max_new_kws_train_updates": 0,
+    "retry_count": 0
+  },
+  "source_guards": {
+    "no_repeated_old_63_64_168_audio": true,
+    "known_prior_piper_indices": "0..57 and 400..447 plus old NEW_VOICES",
+    "full_original_pcm_no_crop": true,
+    "nearphone_is_unlabeled_challenge": true,
+    "source_ancestry_role_frozen": true,
+    "no_trusted_speech_gold_from_prompt": true,
+    "no_old_locked_audio_read": true,
+    "model_weights_sha_verified": true
+  },
+  "rights": {
+    "piper_code": "GPL-3.0",
+    "audio_dataset": "LibriTTS CC-BY-4.0",
+    "actual_allowed_use": "research_with_provenance_no_general_rights_inference"
+  },
+  "notes": "Original source groups are distinct Piper speaker identities, not independent human microphone recordings. Five independent models must review before any training/calibration/locked KWS inference; this stage only emits new full PCM/manifest. No private repo, Work/Codex, paid APIs, cron.",
+  "prior_frozen_gate": {
+    "run_id": 44487146445,
+    "status": "STOP_SYNTHETIC_MACHINE_6_2_2_2_SOURCE_COVERAGE",
+    "qualified_groups": {
+      "train": 11,
+      "development": 2,
+      "calibration": 2,
+      "locked-test": 1
+    },
+    "additional_distinct_locked_groups_needed": 1,
+    "old_locked_pcm_relabel_allowed": false
+  }
+}
