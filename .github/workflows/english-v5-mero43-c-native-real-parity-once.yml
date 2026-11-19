@@ -1,0 +1,218 @@
+name: English V5 43K frozen C11 PCM-Mel-FSMN original-audio PyTorch parity once
+on:
+  pull_request:
+    paths:
+      - automation/english_v5_mero43_c_native_parity_once.py
+      - automation/test_english_v5_mero43_c_native_parity_once.py
+      - .github/workflows/english-v5-mero43-c-native-real-parity-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v5-mero43-c-native-real-parity-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v5-mero43-c-real-parity-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  PYTHONHASHSEED: '20261119'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          path: data
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 209de22d9bd4c137ae6c1dbaa51aab1c15afdc3c
+          path: kws-pipeline
+          sparse-checkout: research/english_v5_mero
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+      - name: Exact original model SHA, 10 source-reviewed WAV roles and first-main guard under three Python modes
+        shell: bash
+        working-directory: data
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v5_mero43_c_native_parity_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v5_mero43_c_native_parity_once.py -v
+            python3 -I -S -B $opt ../kws-pipeline/research/english_v5_mero/pack_mero43.py --source-check
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+      - name: Compile real complete C11 PCM FFT Mel FSMN CTC core with GCC and Clang, original synthetic model corruption tests
+        shell: bash
+        working-directory: data
+        run: |
+          set -euo pipefail
+          SRC="$GITHUB_WORKSPACE/kws-pipeline/research/english_v5_mero"
+          for CC in gcc clang; do
+            "$CC" -std=c11 -Wall -Wextra -Werror -pedantic -O2 -ffp-contract=off \
+              -I "$SRC" "$SRC/mero43_stream.c" "$SRC/mero_ctc.c" \
+              "$SRC/test_mero43_stream.c" -lm \
+              -o "$RUNNER_TEMP/mero43-native-source-$CC"
+            "$RUNNER_TEMP/mero43-native-source-$CC"
+          done
+          test -z "$(git status --porcelain)"
+  actual-original-source-audit:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 19
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: data
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-prospective-dev8-original-44511329722
+          run-id: 44511329722
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/v5-m43-prospective-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-prospective-dev8-saved-machine-screen-44514289065
+          run-id: 44514289065
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/v5-m43-prospective-screen
+      - name: Get byte-pinned ORIGINAL 256-step model ZIP; no model inference on PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/artifacts/14514228406/zip \
+            > "$RUNNER_TEMP/v5-m43-original-model.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/v5-m43-original-model.zip")" = 501276
+          printf '%s  %s\n' \
+            '91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702' \
+            "$RUNNER_TEMP/v5-m43-original-model.zip" | sha256sum --check --status
+      - name: Verify exact ten previously audited original development PCM labels without acoustic models
+        working-directory: data
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v5_mero43_c_native_parity_once.py --audit \
+            --source "$RUNNER_TEMP/v5-m43-prospective-source" \
+            --screen "$RUNNER_TEMP/v5-m43-prospective-screen" \
+            --original-model-zip "$RUNNER_TEMP/v5-m43-original-model.zip"
+          test -z "$(git status --porcelain)"
+  one-true-c-vs-torch-parity:
+    needs: [source-contract, actual-original-source-audit]
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '57b8d6419e88e95f600a84eac4d0f2b25d1c4165' &&
+      needs.source-contract.result == 'success' &&
+      needs.actual-original-source-audit.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: data
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 209de22d9bd4c137ae6c1dbaa51aab1c15afdc3c
+          path: kws-pipeline
+          sparse-checkout: research/english_v5_mero
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+      - name: First public main after frozen source quality gate and exact C code SHA, never replay
+        shell: bash
+        working-directory: data
+        run: python3 -I -S -B automation/english_v5_mero43_c_native_parity_once.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-prospective-dev8-original-44511329722
+          run-id: 44511329722
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/v5-m43-prospective-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-prospective-dev8-saved-machine-screen-44514289065
+          run-id: 44514289065
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/v5-m43-prospective-screen
+      - name: Authenticate untouched 256-step original ZIP and unpack exact PT/NPZ/ONNX
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/artifacts/14514228406/zip \
+            > "$RUNNER_TEMP/v5-m43-original-model.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/v5-m43-original-model.zip")" = 501276
+          printf '%s  %s\n' \
+            '91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702' \
+            "$RUNNER_TEMP/v5-m43-original-model.zip" | sha256sum --check --status
+          mkdir -p "$RUNNER_TEMP/v5-m43-model-unpacked"
+          unzip -q "$RUNNER_TEMP/v5-m43-original-model.zip" \
+            -d "$RUNNER_TEMP/v5-m43-model-unpacked"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install frozen CPU PyTorch and NumPy only; do not train
+        shell: bash
+        timeout-minutes: 22
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/mero43-c-parity-env"
+          "$RUNNER_TEMP/mero43-c-parity-env/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --retries 0 --timeout 90 \
+            'torch==2.9.1+cpu' --index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/mero43-c-parity-env/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --retries 0 --timeout 90 \
+            'numpy==1.26.4'
+          "$RUNNER_TEMP/mero43-c-parity-env/bin/python" -m pip check
+      - name: Actual 10 original PCM C-vs-PyTorch full-frame model inference, GCC+Clang, strict token/event equality
+        shell: bash
+        working-directory: data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        timeout-minutes: 18
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 1000s \
+            "$RUNNER_TEMP/mero43-c-parity-env/bin/python" -I -B \
+              automation/english_v5_mero43_c_native_parity_once.py --execute \
+              --source "$RUNNER_TEMP/v5-m43-prospective-source" \
+              --screen "$RUNNER_TEMP/v5-m43-prospective-screen" \
+              --original-model-zip "$RUNNER_TEMP/v5-m43-original-model.zip" \
+              --model-dir "$RUNNER_TEMP/v5-m43-model-unpacked" \
+              --pipeline-dir "$GITHUB_WORKSPACE/kws-pipeline" \
+              --output "$RUNNER_TEMP/v5-m43-c-parity-evidence-$GITHUB_RUN_ID"
+          test -z "$(git status --porcelain)"
+      - name: Retain exact original SHA, numeric per-clip evidence or explicit STOP
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v5-mero43-c-vs-torch-original-parity-${{ github.run_id }}
+          path: ${{ runner.temp }}/v5-m43-c-parity-evidence-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
