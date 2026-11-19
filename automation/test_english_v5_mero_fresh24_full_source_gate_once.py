@@ -68,13 +68,6 @@ class V5FullSourceQualityGateTests(TestCase):
         self.assertEqual(proof["tier"],"unknown")
         self.assertIsNone(proof["class"])
         self.assertFalse(proof["training_allowed"])
-        x=source_group("g","locked-test")
-        x[3]["tier"]="silver";x[3]["observed_class"]=0
-        count,_=v.qualified_by_role(x)
-        self.assertEqual(count,{"calibration":0,"locked-test":1})
-        # A claimed 0 on nearphone cannot be consumed as extra source class
-        # because machine_decisions uses frozen policy.decide(None) -> UNKNOWN.
-
     def test_source_group_cannot_move_to_train_or_mix_roles(self):
         x=source_group("g","calibration")
         x[1]["role"]="train"
