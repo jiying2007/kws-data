@@ -135,6 +135,8 @@ def audit(old_archives,old_audit,fresh_source,fresh_screen,source_gate):
     train_new=[x for x in fresh if x["role"]=="train"]
     dev=[x for x in fresh if x["role"]=="development"]
     need(gate["status"]=="PASS_SYNTHETIC_MACHINE_6_2_2_2_SOURCE_GATE"
+         and len(fresh)==len(train_new)+len(dev)
+         and all(x["role"] in ("train","development") for x in fresh)
          and len(train_old)==OLD_TRAIN
          and len({x["source_group_id"] for x in train_old})==OLD_TRAIN_GROUPS
          and len({x["source_group_id"] for x in train_new})==NEW_TRAIN_GROUPS
