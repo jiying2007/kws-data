@@ -1,0 +1,117 @@
+{
+  "schema": "english-v5-mero-only-fsmn-ctc-research-v1",
+  "status": "selected_target_research_only_not_deployed",
+  "target": {
+    "id": "hey_mero",
+    "text": "Hey Mero",
+    "accent": "en-US",
+    "ipa": "/heɪ ˈmɛroʊ/",
+    "hint": "Hey MEH-roh",
+    "phoneme_tokens": [
+      "HEY",
+      "MEH",
+      "ROH"
+    ],
+    "ctc_token_ids": [
+      1,
+      2,
+      3
+    ],
+    "class_id": 1
+  },
+  "background": {
+    "class_id": 0,
+    "source": "independently_verified_explicit_ordinary_only",
+    "silence_ctc_target": []
+  },
+  "vocabulary": {
+    "0": "<blank>",
+    "1": "HEY",
+    "2": "MEH",
+    "3": "ROH"
+  },
+  "active_keyword_count": 1,
+  "positive_historical_review_class": 2,
+  "ordinary_historical_review_class": 0,
+  "source_role_policy": {
+    "allowed": [
+      "train",
+      "development"
+    ],
+    "minimum_groups": {
+      "train": 6,
+      "development": 2
+    },
+    "split_by": "upstream_original_speaker_source_group_id",
+    "reassignment": false
+  },
+  "archived_artifact_sets": {
+    "historical_six": [
+      14422271973,
+      14429385634,
+      14429578824,
+      14429884666,
+      14434542792,
+      14436377961
+    ],
+    "new_source": 14486048125,
+    "new_machine_screen": 14489594100,
+    "authenticated_historical_original_train_dev_only": true,
+    "old_calibration_and_locked_pcm_forbidden": true
+  },
+  "excluded_input": {
+    "historical_review_class_1": "not_a_v5_positive_not_ordinary_not_ctc_blank",
+    "historical_uncertain_and_diagnostic": "exclude_from_supervision",
+    "old_meero_vowels": "not_target",
+    "prior_vosen_weights": "never_warmstart",
+    "old_exposed_locked_test": "never_reused_for_calibration_selection_or_training"
+  },
+  "model": {
+    "architecture": "causal_fsmn_ctc_v1",
+    "input": "original_whole_pcm16_16khz",
+    "mel_bins": 40,
+    "fft_size": 512,
+    "window_samples": 400,
+    "hop_samples": 160,
+    "center": false,
+    "hidden": 96,
+    "layers": 4,
+    "left_memory": 4,
+    "ctc_outputs": 4,
+    "seed": 20261119,
+    "optimizer": "AdamW",
+    "learning_rate": 0.0008,
+    "max_updates": 240,
+    "max_grad_norm": 5,
+    "negative_ctc_blank_weight": 0.6,
+    "positive_ctc_weight": 1,
+    "training_augment_snr_db": [
+      null,
+      10
+    ],
+    "dev_augmentation": "none",
+    "checkpoint_selection": "fixed_final_step_no_test_or_dev_sweep"
+  },
+  "execution": {
+    "run_scope": "first_protected_public_main_push_once",
+    "gh_actions": true,
+    "retry": false,
+    "new_tts_forwards": 0,
+    "new_asr_forwards": 0,
+    "new_phone_forwards": 0,
+    "old_audio_replay_generation": 0,
+    "work_codex_quota": false
+  },
+  "completion": {
+    "model_weight_and_run_receipts_required": true,
+    "dev_only_metrics_are_not_product_quality": true,
+    "fresh_calibration_required": true,
+    "fresh_locked_test_required": true,
+    "ssc305_physical_bsp_required": true,
+    "independent_human_far_frr_required_for_real_world_claim": true,
+    "far_per_hour_max": 0.1,
+    "per_word_frr_max": 0.05,
+    "p95_word_end_callback_ms_max": 500
+  },
+  "source_of_truth": "user_v5_single_keyword_selection_2026-11-19"
+}
