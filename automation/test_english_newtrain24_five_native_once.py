@@ -46,7 +46,7 @@ class ExactNewtrain24Observer(unittest.TestCase):
         with self.assertRaises(ValueError):m.guard(env,event,"b"*40)
     def test_missing_source_fails_before_any_model_load(self):
         with tempfile.TemporaryDirectory() as tmp:
-            with self.assertRaises(FileNotFoundError):
+            with self.assertRaisesRegex(ValueError,"BOUNDED_SOURCE_FILE"):
                 m.source_rows(tmp)
         self.assertTrue(m.source_check()["status"]=="SOURCE_PINNED")
         self.assertFalse(m.source_worker.protocol()["training_allowed"])
