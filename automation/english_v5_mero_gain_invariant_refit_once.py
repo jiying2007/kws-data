@@ -192,12 +192,11 @@ def frozen_train_and_eval(rows,source_zips,model_files,out):
     groups=parent.groups_by_class(train)
     # Only ORIGINAL TRAIN full PCM is processed into numerical optimizers.
     cache={}
-    torch_bank=torch.from_numpy(bank)
     for row in train+dev:
         pcm=v5.base.load_source_pcm(row,source_zips)
         need(sha(pcm)==row["source_pcm_sha256"],"REAL_BYTE_IDENTICAL_SOURCE_PCM")
         cache[row["id"]]=v5.features(
-            pcm,row,torch,np,torch_bank)
+            pcm,row,torch,np,bank)
     teacher={}
     with torch.no_grad():
         for row in train:
