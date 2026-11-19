@@ -1,5 +1,18 @@
 # English KWS V5.0 — Hey Mero only
 
+
+## Current exact model disposition (2026-11-19)
+
+**Hey Mero remains the only active English keyword. The first V5.0 scratch causal FSMN-CTC is REJECTED as a quality candidate, although its real weights exist.**
+
+- True 43,876-parameter, 240-AdamW-update model: [run 44453447586](https://github.com/jiying2007/kws-data/actions/runs/44453447586), model artifact 14496732088 and ONNX SHA256 \`0059dfa28da027d736a87a37b5c03ca0ed2c99b402190eb433016cd7601d16f4\`.
+- Original source-disjoint machine-reviewed development: 6/6 Mero missed and 0/5 ordinary false accepts. This is neither a measured real-human FRR nor sufficient FAR exposure.
+- Immutable [saved-weight token diagnosis run 44454433293](https://github.com/jiying2007/kws-data/actions/runs/44454433293) found ~97.1% blank argmax on the 11 exposed development audio clips. First-20 and last-20 training step mean loss was ~15.13 and ~1.14, but this did not produce a reliable completed greedy Mero sequence.
+- Distinct [exact full-word CTC-vs-blank readback run 44456534389](https://github.com/jiying2007/kws-data/actions/runs/44456534389) found only 0.80 exploratory pairwise dev rank fraction across 6 positives and 5 ordinary negatives, **not strictly separable**; train-only sampled 3+3 ranked 1.0. This rules out using a decoder-only fixed threshold on the exposed development audio as a proven solution.
+- Never change the historic V5 weight bytes, current readback artifacts, split, old calibration/locked, or original outcomes. No conversion of dropped historical other-keyword audio into negative supervision. No release, SSC305 or actual far-field claim.
+
+Next genuinely useful execution is **new independently source-qualified Hey Mero acoustic quality and English-pretrained teacher/encoder comparison**, plus diverse natural continuous ordinary/near-miss negatives. It should be one bounded model/data test with honest development outcome; if none outperforms, report failure rather than relabeling the old test, training repeatedly on the same 24 clips, or relaxing false-trigger criteria.
+
 **Active English target:** `Hey Mero` /heɪ ˈmɛroʊ/ (American English; light *Hey*, first-syllable stress on *Mero*). **No other English wake keyword is active in V5.0.**
 
 ## Real research execution

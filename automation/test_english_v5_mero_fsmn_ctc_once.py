@@ -53,6 +53,25 @@ class SingleMeroOnlyContract(unittest.TestCase):
         self.assertTrue(c["completion"]["fresh_locked_test_required"])
         self.assertFalse(x["ssc305_measured"])
 
+    def test_failed_real_model_cannot_be_promoted(self):
+        c=v.config()
+        receipt=c["last_real_training_result"]
+        self.assertEqual(receipt["status"],
+            "REJECTED_RESEARCH_CANDIDATE_DEV_QUALITY_FAILED")
+        self.assertEqual(receipt["actual_training_run_id"],44453447586)
+        self.assertEqual(receipt["trained_parameters"],43876)
+        self.assertEqual(receipt["optimizer_updates"],240)
+        self.assertEqual(receipt["model_artifact_id"],14496732088)
+        self.assertEqual(receipt["dev"]["positive_misses"],6)
+        self.assertEqual(receipt["dev"]["positive_original_wavs"],6)
+        self.assertFalse(receipt["full_sequence_ctc_diagnostic"][
+            "dev_margins_strictly_separate"])
+        self.assertEqual(receipt["full_sequence_ctc_diagnostic"]["run_id"],
+                         44456534389)
+        self.assertFalse(receipt["promotion_allowed"])
+        self.assertEqual(receipt["physical_ssc305"],"NOT_RUN")
+        self.assertEqual(c["active_keyword_count"],1)
+
     def test_old_other_keyword_never_becomes_negative_or_positive(self):
         original=toy_rows()
         selected,summary=v.reviewed_roles(original)
