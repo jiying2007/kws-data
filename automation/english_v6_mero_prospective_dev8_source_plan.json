@@ -1,0 +1,154 @@
+{
+  "schema": "english-v6-mero-new-prospective8-development-piper-source-v1",
+  "status": "FROZEN_BEFORE_ANY_NEW_WAV",
+  "purpose": "FRESH_UNSEEN_SPEAKER_PROSPECTIVE_DEV_FOR_FROZEN_B0_256_AND_B1_ROBUST288",
+  "target": {
+    "keyword": "Hey Mero",
+    "ipa": "/heɪ ˈmɛroʊ/",
+    "active_english_keyword_count": 1
+  },
+  "model": {
+    "repo": "rhasspy/piper-voices",
+    "commit": "de3dcfdf1912bb49726dc4aa11c26017ce2ac62a",
+    "file": "en/en_US/libritts/high/en_US-libritts-high.onnx",
+    "file_bytes": 136673811,
+    "file_sha256": "9127a559e11603f10b366d1a20ac7426826081dbc521de4c2420c57728d73f0f",
+    "config": "en/en_US/libritts/high/en_US-libritts-high.onnx.json",
+    "config_bytes": 20163,
+    "config_md5": "cb1564bb779f3b1f87e2de778adeb669",
+    "piper_tts_version": "1.8.0",
+    "num_speakers": 904,
+    "native_rate": 22050,
+    "derived_rate": 16000,
+    "dataset": "LibriTTS train-clean-360",
+    "dataset_license": "CC-BY-4.0",
+    "engine_license": "GPL-3.0"
+  },
+  "source_selection": "8 unused official Piper LibriTTS indices 488..495, DEVELOPMENT only; previous 0..57 and 400..487 excluded by official original-speaker ancestry audit",
+  "source_count": 32,
+  "source_groups": [
+    {
+      "speaker_index": 488,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-488",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 489,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-489",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 490,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-490",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 491,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-491",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 492,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-492",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 493,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-493",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 494,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-494",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 495,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-495",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    }
+  ],
+  "cells": [
+    {
+      "id": "mero-fast",
+      "text": "Hey Mero.",
+      "raw_ipa": "heɪ mˈɛɹoʊ",
+      "requested_class": 2,
+      "length_scale": 0.92
+    },
+    {
+      "id": "mero-slow",
+      "text": "Hey Mero.",
+      "raw_ipa": "heɪ mˈɛɹoʊ",
+      "requested_class": 2,
+      "length_scale": 1.08
+    },
+    {
+      "id": "ordinary-time",
+      "text": "What time is it?",
+      "raw_ipa": "wˈʌt tˈaɪm ɪz ɪt",
+      "requested_class": 0,
+      "length_scale": 1
+    },
+    {
+      "id": "nearphone-meero-challenge",
+      "text": "Hey Meero.",
+      "raw_ipa": "heɪ mˈiːɹoʊ",
+      "requested_class": null,
+      "length_scale": 1
+    }
+  ],
+  "minimum_groups_eligible": {
+    "train": 6,
+    "development": 2,
+    "calibration": 2,
+    "locked-test": 2
+  },
+  "budget": {
+    "max_new_piper_tts_forwards": 32,
+    "max_new_asr_forwards_at_source_stage": 0,
+    "max_new_kws_train_updates": 0,
+    "retry_count": 0
+  },
+  "source_guards": {
+    "no_repeated_old_63_64_168_audio": true,
+    "known_prior_piper_indices": "0..57 and 400..487, plus previously audited original human speaker IDs",
+    "full_original_pcm_no_crop": true,
+    "nearphone_is_unlabeled_challenge": true,
+    "source_ancestry_role_frozen": true,
+    "no_trusted_speech_gold_from_prompt": true,
+    "no_old_locked_audio_read": true,
+    "model_weights_sha_verified": false
+  },
+  "rights": {
+    "piper_code": "GPL-3.0",
+    "audio_dataset": "LibriTTS CC-BY-4.0",
+    "actual_allowed_use": "research_with_provenance_no_general_rights_inference"
+  },
+  "notes": "Prospective Piper-source development audio after BOTH B0/B1 weights frozen, never for training, CAL/LOCKED, human-gold, or product FAR/FRR. Independent five-native observation/screening must precede B0/B1 evaluation. Same Piper base model means distinct source groups are not independent TTS engines or human recordings. No repeat/relabel of old audio, Work/Codex, private or paid APIs.",
+  "frozen_reference": {
+    "baseline_model_run": 44495594627,
+    "baseline_model_artifact": 14514228406,
+    "baseline_zip_sha256": "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702",
+    "robust_model_run": 44546464853,
+    "robust_model_artifact": 14539983171,
+    "robust_zip_sha256": "bab018a63aaf4cc760ee835b8554ebacf73e6ee77c37adc7c9d5008b1a03d7ce",
+    "robust_pt_sha256": "20d0c4632224cf332460493695c0dd21927a80ed13034a9531f5d5230d2f7e05",
+    "model_parameter_count": 43876,
+    "prior_exposed_dev_positives": 2,
+    "prior_exposed_dev_ordinary": 8,
+    "prior_both_models_positive_hits": 2,
+    "prior_both_models_ordinary_false": 0,
+    "prior_dev_is_exposed": true,
+    "independent_quality_proven": false,
+    "no_old_locked_audio_eval": true
+  }
+}
