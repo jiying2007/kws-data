@@ -1,0 +1,161 @@
+name: Blind five native models on 168 newtrain Piper train/dev original PCM once
+on:
+  pull_request:
+    paths:
+      - automation/english_newtrain24_five_native_once.py
+      - automation/test_english_newtrain24_five_native_once.py
+      - .github/workflows/english-newtrain24-five-native-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-newtrain24-five-native-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-newtrain24-five-native-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261118'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check original 168 verified 18/6 Piper train/dev source with unchanged five-observer roster
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_newtrain24_five_native_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_newtrain24_five_native_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  exact-source-audit:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-newtrain-piper-source-44431769603
+          run-id: 44431769603
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-newpiper168
+      - name: Read 168 whole WAV/PCM hashes and 24 frozen voice groups, without inference
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_newtrain24_five_native_once.py --audit-source \
+            --source "$RUNNER_TEMP/original-newpiper168"
+          test -z "$(git status --porcelain)"
+  blind-five-native:
+    needs: [source-contract, exact-source-audit]
+    if: >-
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '9113713ad4fcb87e111f373db35922f61775de1e'
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        provider: [qwen, whisper, parakeet, xlsr, lv60]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Authenticate exact original 168 WAV source artifact before any native model call
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_newtrain24_five_native_once.py --guard
+          python3 -I -S -B automation/english_newtrain24_five_native_once.py --verify-remote
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-newtrain-piper-source-44431769603
+          run-id: 44431769603
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/original-newpiper168
+      - name: Verify all 24 previously unused LibriTTS pNNN identities, native IPA and full PCM SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_newtrain24_five_native_once.py --verify-source \
+            --source "$RUNNER_TEMP/original-newpiper168"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install one exact original unprompted ASR or native phone model
+        shell: bash
+        timeout-minutes: 19
+        env:
+          PROVIDER: ${{ matrix.provider }}
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/fresh18-review-env"
+          PIP="$RUNNER_TEMP/fresh18-review-env/bin/pip"
+          FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+          if [ "$PROVIDER" != "parakeet" ]; then
+            if [ "$PROVIDER" = "qwen" ] || [ "$PROVIDER" = "whisper" ]; then
+              "$PIP" install $FLAGS 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' \
+                --extra-index-url https://download.pytorch.org/whl/cpu
+            else
+              "$PIP" install $FLAGS 'torch==2.9.1+cpu' \
+                --extra-index-url https://download.pytorch.org/whl/cpu
+            fi
+          fi
+          case "$PROVIDER" in
+            qwen) "$PIP" install $FLAGS 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2' ;;
+            whisper) "$PIP" install $FLAGS 'openai-whisper==20250625' ;;
+            parakeet) "$PIP" install $FLAGS 'huggingface-hub==0.36.2' 'hf-xet==1.2.0' ;;
+            xlsr|lv60) "$PIP" install $FLAGS 'transformers==4.46.3' 'numpy==1.26.4' \
+                                      'huggingface-hub==0.36.2' ;;
+            *) exit 7 ;;
+          esac
+          "$RUNNER_TEMP/fresh18-review-env/bin/python" -m pip check
+      - name: Perform exactly one original native blind review on all 168 SAVED Piper WAVs
+        shell: bash
+        timeout-minutes: 70
+        env:
+          PROVIDER: ${{ matrix.provider }}
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=25s 4000s \
+            "$RUNNER_TEMP/fresh18-review-env/bin/python" -I -B \
+            automation/english_newtrain24_five_native_once.py --observe --provider "$PROVIDER" \
+            --source "$RUNNER_TEMP/original-newpiper168" \
+            --output "$RUNNER_TEMP/newtrain24-observer-$PROVIDER"
+      - name: Preserve exact original blind ASR or whole logit PCM, model/source pins and failure receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: newtrain24-observer-${{ matrix.provider }}
+          path: ${{ runner.temp }}/newtrain24-observer-${{ matrix.provider }}/
+          retention-days: 30
+          if-no-files-found: warn
