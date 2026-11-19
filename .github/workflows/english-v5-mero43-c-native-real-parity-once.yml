@@ -216,3 +216,139 @@ jobs:
           path: ${{ runner.temp }}/v5-m43-c-parity-evidence-${{ github.run_id }}/
           retention-days: 90
           if-no-files-found: warn
+
+
+  arm32-source-contract:
+    needs: source-contract
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          path: data
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: e3261e976965c52bcd0989591abab606d9cdc0e0
+          path: kws-pipeline
+          sparse-checkout: research/english_v5_mero
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+      - name: Install public ARM hard-float cross compiler and QEMU (no Codex/Work)
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends gcc-arm-linux-gnueabihf libc6-dev-armhf-cross qemu-user binutils
+      - name: Actually cross-compile Cortex-A32 ELF and run untrained synthetic C stream fixture under QEMU
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC="$GITHUB_WORKSPACE/kws-pipeline/research/english_v5_mero"
+          arm-linux-gnueabihf-gcc -std=c11 -Wall -Wextra -Werror -pedantic \
+            -O2 -fno-fast-math -ffp-contract=off -fexcess-precision=standard \
+            -mcpu=cortex-a32 -mfpu=neon-vfpv4 -mfloat-abi=hard -static \
+            -I "$SRC" "$SRC/mero43_stream.c" "$SRC/mero_ctc.c" \
+            "$SRC/test_mero43_stream.c" -lm -o "$RUNNER_TEMP/mero43-arm32-source"
+          readelf -h "$RUNNER_TEMP/mero43-arm32-source" | grep -E 'ELF32|ARM|hard-float ABI'
+          timeout 180s qemu-arm "$RUNNER_TEMP/mero43-arm32-source"
+          test -z "$(git -C data status --porcelain)"
+
+  one-true-arm32-original-parity:
+    needs: [source-contract, actual-original-source-audit, arm32-source-contract]
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'e65986618d77dbd9053bafd27b95d2a8c85dce43' &&
+      needs.source-contract.result == 'success' &&
+      needs.actual-original-source-audit.result == 'success' &&
+      needs.arm32-source-contract.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: data
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: e3261e976965c52bcd0989591abab606d9cdc0e0
+          path: kws-pipeline
+          sparse-checkout: research/english_v5_mero
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+      - name: Verify exact first-main source and immutable already-PASS Torch host evidence
+        working-directory: data
+        shell: bash
+        run: python3 -I -S -B automation/english_v5_mero43_c_native_parity_once.py --arm-guard
+      - name: Install public ARM32 hard-float cross toolchain and QEMU
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends gcc-arm-linux-gnueabihf libc6-dev-armhf-cross qemu-user binutils
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-prospective-dev8-original-44511329722
+          run-id: 44511329722
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/v5-m43-prospective-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-prospective-dev8-saved-machine-screen-44514289065
+          run-id: 44514289065
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/v5-m43-prospective-screen
+      - name: Authenticate exact frozen original 43K model ZIP without training
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/artifacts/14514228406/zip \
+            > "$RUNNER_TEMP/v5-m43-original-model.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/v5-m43-original-model.zip")" = 501276
+          printf '%s  %s\n' \
+            '91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702' \
+            "$RUNNER_TEMP/v5-m43-original-model.zip" | sha256sum --check --status
+      - name: Install only NumPy for native-ARM32 comparator; no PyTorch reinstallation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/mero43-arm-parity-env"
+          "$RUNNER_TEMP/mero43-arm-parity-env/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --retries 0 --timeout 90 \
+            'numpy==1.26.4'
+      - name: Run same ten SHA-authenticated original DEV PCM on real Cortex-A32 ELF under QEMU vs x86 GCC
+        shell: bash
+        working-directory: data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        timeout-minutes: 19
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 1100s \
+            "$RUNNER_TEMP/mero43-arm-parity-env/bin/python" -I -B \
+              automation/english_v5_mero43_c_native_parity_once.py --arm-execute \
+              --source "$RUNNER_TEMP/v5-m43-prospective-source" \
+              --screen "$RUNNER_TEMP/v5-m43-prospective-screen" \
+              --original-model-zip "$RUNNER_TEMP/v5-m43-original-model.zip" \
+              --pipeline-dir "$GITHUB_WORKSPACE/kws-pipeline" \
+              --output "$RUNNER_TEMP/v5-m43-arm32-evidence-$GITHUB_RUN_ID"
+          test -z "$(git status --porcelain)"
+      - name: Retain per-original C ARM32 numerical evidence or explicit fail-closed STOP (never model/WAV bytes)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v5-mero43-arm32-original-parity-${{ github.run_id }}
+          path: ${{ runner.temp }}/v5-m43-arm32-evidence-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn

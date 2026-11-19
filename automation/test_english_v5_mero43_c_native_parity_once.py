@@ -82,4 +82,33 @@ class NativeParitySourceTests(TestCase):
             with self.assertRaisesRegex(ValueError,"ORIGINAL_TEN_DEV"):
                 v.audit(Path("/tmp/old"),Path("/tmp/screen"),Path("/tmp/model"))
 
+
+    def test_arm32_succession_no_replay_and_not_product_promotion(self):
+        self.assertEqual(v.HOST_PROOF["run"],44541193521)
+        self.assertEqual(v.HOST_PROOF["head"],v.ARM_BEFORE)
+        self.assertEqual(v.HOST_PROOF["artifact"],14538062948)
+        self.assertTrue(v.HOST_PROOF["digest"].startswith("sha256:"))
+        self.assertFalse(v.source_check()["product_promotion_allowed"])
+        event={"before":v.ARM_BEFORE,"after":"b"*40,
+               "ref":"refs/heads/main",
+               "repository":{"full_name":v.REPO,"private":False},
+               "forced":False,"deleted":False}
+        env={"GITHUB_ACTIONS":"true","GITHUB_REPOSITORY":v.REPO,
+             "GITHUB_EVENT_NAME":"push","GITHUB_REF":"refs/heads/main",
+             "GITHUB_RUN_ATTEMPT":"1","GITHUB_SHA":"b"*40,
+             "GITHUB_RUN_ID":"44599999999"}
+        receipt=v.arm_guard(env=env,event=event,parent=v.ARM_BEFORE)
+        self.assertEqual(receipt["host_run"],44541193521)
+        env["GITHUB_RUN_ATTEMPT"]="2"
+        with self.assertRaisesRegex(ValueError,"ARM32_ONLY_FIRST_PUBLIC_MAIN"):
+            v.arm_guard(env=env,event=event,parent=v.ARM_BEFORE)
+        env["GITHUB_RUN_ATTEMPT"]="1"
+        event["before"]="0"*40
+        with self.assertRaisesRegex(ValueError,"ARM32_EXACT_UNREPLAYED_SUCCESSOR"):
+            v.arm_guard(env=env,event=event,parent=v.ARM_BEFORE)
+        event["before"]=v.ARM_BEFORE
+        with self.assertRaisesRegex(ValueError,"ARM32_EXACT_UNREPLAYED_PARENT"):
+            v.arm_guard(env=env,event=event,parent="a"*40)
+
+
 if __name__=="__main__": main()
