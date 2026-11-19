@@ -59,7 +59,7 @@ class FrozenProspectiveContracts(TestCase):
         p=m.source_check()
         self.assertEqual(p["new_dev_positive"],2)
         self.assertEqual(p["new_dev_ordinary"],8)
-        self.assertEqual(p["frozen_phone_threshold"],0.25)
+        self.assertEqual(p["fixed_phone_threshold"],0.25)
         self.assertEqual(p["optimizer_steps"],0)
         self.assertEqual(p["new_asr_tts"],0)
         self.assertFalse(p["product_promotion_allowed"])
