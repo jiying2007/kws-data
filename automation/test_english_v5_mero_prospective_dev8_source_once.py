@@ -58,7 +58,7 @@ class NewProspectiveDev8PiperSourceTests(TestCase):
         chosen=next(label for label,index in pairs.items() if index==480)
         del pairs[chosen]
         forbidden=next(iter(v.previous.old.OLD_LIBRI_IDS))
-        pairs["p"+str(forbidden)]=472
+        pairs["p"+str(forbidden)]=480
         with self.assertRaisesRegex(ValueError,"DUPLICATE_PRIOR_HUMAN"):
             v.native_speakers(config)
 
