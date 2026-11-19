@@ -5,7 +5,6 @@ import importlib.util
 import json
 from pathlib import Path
 import tempfile
-from types import SimpleNamespace
 import unittest
 
 HERE = Path(__file__).resolve().parent
@@ -45,31 +44,35 @@ class SingleMeroPretrainedReference(unittest.TestCase):
     def test_one_and_only_one_real_bpe_keyword(self):
         with tempfile.TemporaryDirectory() as tmp:
             parent = Path(tmp)
-            (parent / "tokens.txt").write_text("unused")
-            (parent / "bpe.model").write_bytes(b"unused")
-            def fake_run(cmd, **kw):
-                self.assertIn("--tokens-type", cmd)
-                self.assertEqual(cmd[cmd.index("--tokens-type") + 1], "bpe")
-                self.assertEqual(kw["timeout"], 40)
-                self.assertEqual(Path(cmd[-2]).read_text(), "HEY MERO\n")
-                Path(cmd[-1]).write_text("▁HEY ▁MERO\n")
-                return SimpleNamespace(returncode=0, stderr="")
-            dest = m.make_mero_keyword({"tokens": parent / "tokens.txt",
-                "bpe": parent / "bpe.model"}, parent, runner=fake_run)
+            (parent / "tokens.txt").write_text(
+                "▁HEY 1\n▁MERO 2\n", encoding="utf-8")
+            (parent / "bpe.model").write_bytes(b"test-only")
+            def fake_tokenize(texts, **kw):
+                self.assertEqual(texts, ["HEY MERO"])
+                self.assertEqual(kw["tokens_type"], "bpe")
+                self.assertEqual(kw["lexicon"], None)
+                self.assertTrue(kw["bpe_model"].endswith("bpe.model"))
+                return [["▁HEY", "▁MERO"]]
+            dest = m.make_mero_keyword(
+                {"tokens": parent / "tokens.txt",
+                 "bpe": parent / "bpe.model"}, parent,
+                tokenizer=fake_tokenize)
             self.assertEqual(dest.read_text(), "▁HEY ▁MERO @HEY_MERO\n")
             self.assertEqual(len(dest.read_text().splitlines()), 1)
 
-    def test_empty_and_multiple_tokenizations_fail_closed(self):
-        for output in ("", "▁HEY ▁MERO\n▁OTHER\n", "▁HEY @X\n"):
+    def test_empty_multiple_or_unknown_bpe_tokens_fail_closed(self):
+        cases = ([], [[]], [["▁HEY"]], [["▁HEY", "▁MERO"], ["▁OTHER"]],
+                 [["▁HEY", "@X"]], [["▁HEY", "▁UNKNOWN"]])
+        for output in cases:
             with self.subTest(output=output):
                 with tempfile.TemporaryDirectory() as tmp:
                     p = Path(tmp)
-                    def fake(cmd, **kw):
-                        Path(cmd[-1]).write_text(output)
-                        return SimpleNamespace(returncode=0, stderr="")
+                    (p / "tokens").write_text("▁HEY 1\n▁MERO 2\n")
+                    def fake(texts, **kw):
+                        return output
                     with self.assertRaises(ValueError):
                         m.make_mero_keyword({"tokens": p / "tokens",
-                            "bpe": p / "bpe"}, p, runner=fake)
+                            "bpe": p / "bpe"}, p, tokenizer=fake)
 
     def test_source_disjoint_reference_summary(self):
         summary = m.summarize(toy_observations())

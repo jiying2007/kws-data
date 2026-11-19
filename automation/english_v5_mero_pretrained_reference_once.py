@@ -14,7 +14,6 @@ import json
 import math
 import os
 from pathlib import Path
-import subprocess
 import sys
 import tempfile
 import time
@@ -92,26 +91,30 @@ def run_guard(env=None, event=None):
             "head_sha": pr["head"]["sha"], "branch": BRANCH}
 
 
-def make_mero_keyword(model_parts, directory, runner=subprocess.run):
-    """Use the official BPE tokenizer, but emit exactly ONE V5 keyword."""
-    raw = directory / "mero.raw.txt"
-    encoded = directory / "mero.encoded.txt"
-    final = directory / "mero.keyword.txt"
-    raw.write_text("HEY MERO\n", encoding="utf-8")
-    command = [
-        "sherpa-onnx-cli", "text2token", "--tokens",
-        str(model_parts["tokens"]), "--tokens-type", "bpe",
-        "--bpe-model", str(model_parts["bpe"]), str(raw), str(encoded)]
-    result = runner(command, capture_output=True, text=True,
-                    check=False, timeout=40)
-    need(result.returncode == 0 and encoded.is_file(),
+def make_mero_keyword(model_parts, directory, tokenizer=None):
+    """Official Sherpa Python BPE tokenizer using its pinned SentencePiece model.
+
+    sherpa-onnx 1.13.8 exports the Python text2token function but not the
+    historical sherpa-onnx-cli executable. Only one Hey Mero phrase is encoded.
+    """
+    if tokenizer is None:
+        from sherpa_onnx import text2token as tokenizer
+    encoded = tokenizer(["HEY MERO"], tokens=str(model_parts["tokens"]),
+                        tokens_type="bpe", bpe_model=str(model_parts["bpe"]),
+                        lexicon=None)
+    need(type(encoded) is list and len(encoded) == 1 and
+         type(encoded[0]) is list and len(encoded[0]) >= 2 and
+         all(type(item) is str and item and
+             not item.startswith(("@", "#", ":")) for item in encoded[0]),
          "OFFICIAL_MERO_TOKENIZATION_FAILED")
-    lines = [line.strip() for line in encoded.read_text().splitlines()
-             if line.strip()]
-    need(len(lines) == 1 and "@" not in lines[0] and
-         len(lines[0].split()) >= 2,
-         "NONEMPTY_EXACT_SINGLE_MERO_BPE_TOKENS")
-    final.write_text(lines[0] + " @" + KEYWORD + "\n", encoding="utf-8")
+    tokens = {line.split()[0] for line in
+              model_parts["tokens"].read_text(encoding="utf-8").splitlines()
+              if line.strip()}
+    need(tokens and all(piece in tokens for piece in encoded[0]),
+         "OFFICIAL_BPE_TOKEN_NOT_IN_MODEL_VOCABULARY")
+    final = directory / "mero.keyword.txt"
+    final.write_text(" ".join(encoded[0]) + " @" + KEYWORD + "\n",
+                     encoding="utf-8")
     need(len(final.read_text().splitlines()) == 1,
          "EXACT_ONE_KEYWORD_FILE")
     return final
