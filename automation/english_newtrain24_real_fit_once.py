@@ -563,7 +563,7 @@ def execute(sources, assets, output):
 
 def main():
     p = argparse.ArgumentParser()
-    flags = ("--source-check", "--guard", "--execute")
+    flags = ("--source-check", "--guard", "--audit-inputs", "--execute")
     for flag in flags:
         p.add_argument(flag, action="store_true")
     p.add_argument("--sources")
@@ -576,6 +576,13 @@ def main():
         print(json.dumps(source_check(), sort_keys=True))
     elif a.guard:
         print(json.dumps(guard(), sort_keys=True))
+    elif a.audit_inputs:
+        need(a.sources, "EIGHT_SAVED_ZIPS_BEFORE_NUMERIC_TRAINING")
+        rows, report = all_train_dev(a.sources)
+        print(json.dumps({"status": "AUTHENTICATED_52_TRAIN_DEV_AUDIO",
+                          "roles": dict(Counter(x["role"] for x in rows)),
+                          "new_review": report,
+                          "numeric_model_forwards": 0}, sort_keys=True))
     else:
         need(all((a.sources, a.assets, a.output)),
              "ORIGINAL_EIGHT_SAVED_SOURCES_AND_TWO_PINNED_ONNX_REQUIRED")
