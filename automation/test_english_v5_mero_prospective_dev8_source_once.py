@@ -12,8 +12,12 @@ v=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(v)
 
 def fake_mapping():
+    previous_ids=(set(v.previous.old.OLD_LIBRI_IDS)
+                  |set(v.previous.old.OLD_PIPER_IDS)
+                  |{speaker for _,speaker in v.previous.old.NEW_VOICES})
+    start=max(previous_ids)+1000
     return {"num_speakers":904,"speaker_id_map":{
-            "p"+str(20000+i):i for i in range(904)}}
+            "p"+str(start+i):i for i in range(904)}}
 
 class NewProspectiveDev8PiperSourceTests(TestCase):
     def test_exact_frozen_speaker_and_new_budget_contract(self):
@@ -51,7 +55,8 @@ class NewProspectiveDev8PiperSourceTests(TestCase):
     def test_old_human_identity_or_duplicate_is_a_hard_stop(self):
         config=fake_mapping()
         pairs=config["speaker_id_map"]
-        del pairs["p"+str(20000+480)]
+        chosen=next(label for label,index in pairs.items() if index==480)
+        del pairs[chosen]
         forbidden=next(iter(v.previous.old.OLD_LIBRI_IDS))
         pairs["p"+str(forbidden)]=472
         with self.assertRaisesRegex(ValueError,"DUPLICATE_PRIOR_HUMAN"):
