@@ -83,7 +83,7 @@ jobs:
       github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
       github.event.repository.private == false && github.ref == 'refs/heads/main' &&
       github.run_attempt == 1 &&
-      github.event.before == '13ef5ee37df4fe866808c73463c8e5ae3403811a' &&
+      github.event.before == 'edf154f3b7d2e977fe78b567d023a289e7054ba3' &&
       needs.source-contract.result == 'success' &&
       needs.exact-six-artifact-audit.result == 'success'
     runs-on: ubuntu-24.04
@@ -95,6 +95,13 @@ jobs:
           persist-credentials: false
       - name: Bind exact public main first parent and preregistered dev-only no-locked training
         run: python3 -I -S -B automation/english_canonical_dev_only_v2_once.py --guard
+      - name: Attest original first-main failed BEFORE any model forward or optimizer update
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_canonical_dev_only_v2_once.py --verify-prior-zero
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.12'
