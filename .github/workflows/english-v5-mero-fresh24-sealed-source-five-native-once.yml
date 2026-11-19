@@ -74,7 +74,7 @@ jobs:
       github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
       github.event.repository.private == false && github.ref == 'refs/heads/main' &&
       github.run_attempt == 1 &&
-      github.event.before == '742dea5aab2224bdfe2ad1076237820f60ce85d4' &&
+      github.event.before == '2dbf3dcc20b7d0e6291e1c523862ac21d8d0bd9e' &&
       needs.source-contract.result == 'success' &&
       needs.exact-source-audit.result == 'success'
     strategy:
