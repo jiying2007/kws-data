@@ -18,7 +18,11 @@ import time
 import zipfile
 
 HERE=Path(__file__).resolve().parent
-import english_v5_mero_fsmn_ctc_once as v5
+import importlib.util
+_spec=importlib.util.spec_from_file_location(
+    "english_v5_student_locked_source", HERE/"english_v5_mero_fsmn_ctc_once.py")
+v5=importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(v5)
 
 REPO="jiying2007/kws-data"
 BRANCH="research/english-v5-mero-sequence-margin-student-20261119"
