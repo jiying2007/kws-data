@@ -51,6 +51,20 @@ class FreshTrainDevSource(unittest.TestCase):
         with self.assertRaises(ValueError):m.guard(env,event,m.BEFORE)
         event["repository"]["private"]=False
         with self.assertRaises(ValueError):m.guard(env,event,"b"*40)
+    def test_recovery_workflow_exact_parent_and_single_runtime_directory(self):
+        workflow=(HERE.parent/".github/workflows/english-piper-newtrain24-once.yml").read_text()
+        # Original 44428536099 consumed its launch, stopped before any native TTS
+        # forward (venv path mismatch), and published zero WAV artifacts.
+        # This is a separate, single successor; never re-run the consumed job.
+        self.assertEqual(m.BEFORE,"7971b74e3c59fe23a5609c2df6e47939427ea984")
+        self.assertIn("github.event.before == '"+m.BEFORE+"'",workflow)
+        self.assertIn('python -m venv "$RUNNER_TEMP/newpiper-source-env"',workflow)
+        self.assertIn('PIP="$RUNNER_TEMP/newpiper-source-env/bin/pip"',workflow)
+        self.assertNotIn("newtrain-piper-source-env",workflow)
+        self.assertNotIn("newtrain-piper-168-source",workflow)
+        self.assertEqual(workflow.count('--output "$RUNNER_TEMP/newpiper-168-source"'),2)
+        self.assertIn('path: ${{ runner.temp }}/newpiper-168-source/',workflow)
+        self.assertIn("github.run_attempt == 1",workflow)
     def test_no_unreviewed_wav_is_a_training_snapshot(self):
         with tempfile.TemporaryDirectory() as tmp:
             with self.assertRaises(FileNotFoundError):
