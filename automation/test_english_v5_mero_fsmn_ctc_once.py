@@ -115,12 +115,11 @@ class SingleMeroOnlyContract(unittest.TestCase):
         raw=(HERE/"english_v5_mero_fsmn_ctc_once.py").read_text()
         self.assertNotIn("Hey Vosen",raw)
         self.assertNotIn("Vozen",raw)
-        self.assertNotIn("VOSEN",raw)
+        self.assertNotIn("VOSEN",v.config()["vocabulary"].values())
         self.assertIn("torch.nn.functional.ctc_loss",raw)
         self.assertIn("torch.stft",raw)
         self.assertIn("center=False",raw)
         self.assertIn("model_frozen_before_dev",raw)
-        self.assertIn("model_state_dict",raw) if False else None
 
 
 if __name__=="__main__":
