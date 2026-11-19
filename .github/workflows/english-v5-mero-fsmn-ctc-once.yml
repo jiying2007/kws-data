@@ -1,0 +1,149 @@
+name: English V5 single Hey Mero causal FSMN-CTC actual training
+on:
+  pull_request:
+    paths:
+      - automation/english_v5_mero_only.json
+      - automation/english_v5_mero_fsmn_ctc_once.py
+      - automation/test_english_v5_mero_fsmn_ctc_once.py
+      - .github/workflows/english-v5-mero-fsmn-ctc-once.yml
+      - research/english_v5_mero_only_20261119/PLAN.md
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v5-mero-fsmn-ctc-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v5-mono-fsmn-ctc-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261119'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  NUMEXPR_NUM_THREADS: '1'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify only Mero active, single-keyword CTC targets, frozen inputs and first-main guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v5_mero_fsmn_ctc_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v5_mero_fsmn_ctc_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  authenticated-mono-snapshot:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Reuse eight original archived source/screen ZIPs; do not regenerate audio or run any models
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/mono-v5-sources"
+          for item in \
+            'fresh24-source:14422271973' 'fresh24-screen:14429385634' \
+            'fresh18-source:14429578824' 'fresh18-screen:14429884666' \
+            'piper24-source:14434542792' 'piper24-screen:14436377961' \
+            'newtrain24-source:14486048125' 'newtrain24-screen:14489594100'; do
+            name="${item%%:*}"; id="${item#*:}"
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$id/zip" \
+              > "$RUNNER_TEMP/mono-v5-sources/$name.zip"
+          done
+      - name: Hash-check entire source and enforce new Mero-only train/dev role groups
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v5_mero_fsmn_ctc_once.py --audit-inputs \
+            --sources "$RUNNER_TEMP/mono-v5-sources"
+          test -z "$(git status --porcelain)"
+  actual-mono-ctc-fit:
+    needs: [source-contract, authenticated-mono-snapshot]
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '61b2cbe28cb018ebd5a0e359a33e149bd8cb5c07' &&
+      needs.source-contract.result == 'success' &&
+      needs.authenticated-mono-snapshot.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 85
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: First main successor authorization, no retries or alternate text
+        run: python3 -I -S -B automation/english_v5_mero_fsmn_ctc_once.py --guard
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Fetch saved eight original ZIPs for real mono research optimizer
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/mono-v5-train-source"
+          for item in \
+            'fresh24-source:14422271973' 'fresh24-screen:14429385634' \
+            'fresh18-source:14429578824' 'fresh18-screen:14429884666' \
+            'piper24-source:14434542792' 'piper24-screen:14436377961' \
+            'newtrain24-source:14486048125' 'newtrain24-screen:14489594100'; do
+            name="${item%%:*}"; id="${item#*:}"
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$id/zip" \
+              > "$RUNNER_TEMP/mono-v5-train-source/$name.zip"
+          done
+      - name: Install pinned CPU-only Torch, numpy and ONNX training/export dependencies
+        shell: bash
+        timeout-minutes: 18
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/mono-v5-env"
+          PIP="$RUNNER_TEMP/mono-v5-env/bin/pip"
+          FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+          "$PIP" install $FLAGS 'torch==2.9.1+cpu' \
+            --index-url https://download.pytorch.org/whl/cpu
+          "$PIP" install $FLAGS 'numpy==1.26.4' 'onnx==1.17.0'
+          "$RUNNER_TEMP/mono-v5-env/bin/python" -m pip check
+      - name: Actually optimize the V5 single-word 4-block causal FSMN-CTC for 240 steps
+        shell: bash
+        timeout-minutes: 46
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=25s 2650s \
+            "$RUNNER_TEMP/mono-v5-env/bin/python" -I -B \
+              automation/english_v5_mero_fsmn_ctc_once.py --execute \
+              --sources "$RUNNER_TEMP/mono-v5-train-source" \
+              --output "$RUNNER_TEMP/mono-v5-real-model-$GITHUB_RUN_ID"
+      - name: Retain actual new FSMN state/ONNX/NPZ, model hash, dev results, or STOP receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v5-mero-fsmn-ctc-${{ github.run_id }}
+          path: ${{ runner.temp }}/mono-v5-real-model-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
