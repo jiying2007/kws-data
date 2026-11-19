@@ -30,7 +30,7 @@ SCHEMA="en-v5-mero43-pcm-fft40mel-fsmn-ctc-c-original-parity-v1"
 REPO="jiying2007/kws-data"
 BEFORE="57b8d6419e88e95f600a84eac4d0f2b25d1c4165"
 PIPELINE_REPO="jiying2007/kws-pipeline"
-PIPELINE_COMMIT="209de22d9bd4c137ae6c1dbaa51aab1c15afdc3c"
+PIPELINE_COMMIT="e3261e976965c52bcd0989591abab606d9cdc0e0"
 MODEL={"id":14514228406,"run":44495594627,
        "size":501276,"sha":"91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702",
        "pt":"1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
