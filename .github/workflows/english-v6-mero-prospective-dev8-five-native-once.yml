@@ -104,7 +104,7 @@ jobs:
           repository: jiying2007/kws-data
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/authentic-v5-mero-prospective-dev8
-      - name: Reverify all new 32 full PCM hashes and locked-only 488..495 voice split before any ASR/phone inference
+      - name: Reverify all new 32 full PCM hashes and development-only 488..495 voice split before any ASR/phone inference
         shell: bash
         run: |
           set -euo pipefail

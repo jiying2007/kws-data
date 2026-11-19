@@ -128,7 +128,7 @@ def verify_remote(token):
     return {"artifact_id":record["id"],"digest":record["digest"]}
 
 def source_rows(source):
-    """SHA-audit all 32 original WAVs; only 8 NEW locked groups, no KWS."""
+    """SHA-audit all 32 original WAVs; only 8 NEW development groups, no KWS."""
     source=Path(source)
     packet=json.loads(c.read(source/"MANIFEST.json"))
     need(packet.get("schema")==source_worker.SCHEMA
@@ -162,7 +162,7 @@ def source_rows(source):
          and by_cell=={"mero-fast":8,"mero-slow":8,
                        "ordinary-time":8,"nearphone-meero-challenge":8}
          and {r["speaker_index"] for r in review}==set(range(488,496))
-         and all(r["id"].startswith("merodev8-") for r in review)
+         and all(r["id"].startswith("merov6dev8-") for r in review)
          and all(r["requested_class"] is None
                  for r in review if r["cell_id"]=="nearphone-meero-challenge")
          and all(r["requested_class"]==0
