@@ -82,7 +82,7 @@ def source_check():
          and check["source_artifact_id"]==SOURCE["id"]
          and check["new_tts_calls"]==0
          and old.ORIGINAL_RUN==44481695979
-         and prior["source_run"]==SOURCE_RUN
+         and old.SOURCE_RUN==SOURCE_RUN
          and prior["review_rows"]==64
          and prior["training_allowed"] is False
          and tuple(sealed.PROVIDERS)==tuple(old.observer.PROVIDERS)
