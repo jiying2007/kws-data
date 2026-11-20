@@ -49,9 +49,10 @@ class TestB3LowGainSource(unittest.TestCase):
         self.assertEqual(m.BEFORE,"4995bfe0813f4bd6b65fa75a9c6764b14d64bd4e")
 
     def test_pcm_gain_is_deterministic_le_and_never_exceeds_original(self):
-        raw=struct.pack("<8h",-32768,-7,-3,-1,0,1,3,32767)
+        values=[-32768,-7,-3,-1,0,1,3,32767]+[0]*1192
+        raw=struct.pack("<1200h",*values)
         self.assertEqual(m.gain_pcm(raw,1),raw)
-        expected=struct.pack("<8h",-16384,-4,-2,0,0,0,2,16384)
+        expected=struct.pack("<1200h",*([-16384,-4,-2,0,0,0,2,16384]+[0]*1192))
         self.assertEqual(m.gain_pcm(raw,.5),expected)
         for gain in (.5,.75,1):
             data=struct.pack("<1200h",*([32767,-32768]*600))
