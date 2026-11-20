@@ -44,12 +44,12 @@ class ProspectiveDev8NativeReviewTests(TestCase):
         self.assertEqual(c["kws_locked_test_events"],0)
         self.assertEqual(c["new_optimizer_updates"],0)
         self.assertFalse(c["training_allowed"])
-        self.assertEqual(v.BEFORE,"a83064ffec911fc15f823def79bd6cd32f62143f")
-        self.assertEqual(v.SOURCE_COMMIT,"a83064ffec911fc15f823def79bd6cd32f62143f")
-        self.assertEqual(v.SOURCE_PARENT,"e46dfa72e7f824a888ae6510a9951f1fe518b222")
+        self.assertEqual(v.BEFORE,"f606f35a4b3232cbfcec3bd2a14e8939551169fd")
+        self.assertEqual(v.SOURCE_COMMIT,"f606f35a4b3232cbfcec3bd2a14e8939551169fd")
+        self.assertEqual(v.SOURCE_PARENT,"453b26bdd4ab2bdc96b27fe0dfb9ac10bdd38711")
         self.assertEqual(v.SOURCE["digest"],
-                         "sha256:42c7289222001e4e8a2d6660033610e3ba247e3d1c59a073ed2d5eee3833036d")
-        self.assertEqual(v.SOURCE["size"],672794)
+                         "sha256:1045f91d272e8f199d73dee6b39067bdbb9238dc3d4f05f74e95af54aa0c4700")
+        self.assertEqual(v.SOURCE["size"],628555)
         self.assertEqual(v.source_worker.source_check()["new_speaker_indices"],[520,527])
 
 
