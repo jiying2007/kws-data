@@ -1,4 +1,4 @@
-name: English V6 train-only 43K Hey Mero causal onset prefix256 once
+name: English V6 R2 recover source-gate test and train-only 43K onset prefix256 once
 on:
   pull_request:
     paths:
@@ -13,7 +13,7 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: english-v6-mero43-onset-once-${{ github.event_name }}
+  group: english-v6-mero43-onset-r2-once-${{ github.event_name }}
   cancel-in-progress: false
 env:
   PYTHONHASHSEED: '20261120'
@@ -36,7 +36,7 @@ jobs:
         with:
           fetch-depth: 2
           persist-credentials: false
-      - name: Source and no-replay policy checks in three Python modes
+      - name: R2 prove valid first-main grant and reject replay in all three Python modes
         shell: bash
         run: |
           set -euo pipefail
