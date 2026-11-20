@@ -37,6 +37,12 @@ class SourceContract(unittest.TestCase):
             with self.assertRaises(ValueError):
                 mod.guard()
 
+    def test_prior_failure_proof_requires_real_token(self):
+        # The recovery must fail closed if live GitHub evidence is unavailable.
+        with patch.dict(os.environ,{'GH_TOKEN':''}):
+            with self.assertRaises(ValueError):
+                mod.verify_unconsumed_first_run()
+
     def test_exact_first_main_grant_is_valid_not_misreported_as_failure(self):
         # This regression catches the previous broken expectation that ALL
         # source-contract tests must raise, even on the valid first-main push.
@@ -54,8 +60,10 @@ class SourceContract(unittest.TestCase):
                'GITHUB_RUN_ATTEMPT':'1','GITHUB_SHA':head,
                'GITHUB_RUN_ID':'12345','GITHUB_EVENT_PATH':str(event_path)}
             with patch.dict(os.environ,variables), patch.object(
-                    mod.subprocess,'check_output',return_value=mod.BEFORE+'\n'):
+                    mod.subprocess,'check_output',return_value=mod.BEFORE+'\n'), patch.object(
+                    mod,'verify_unconsumed_first_run',return_value={'verified_original_run':44647610854,'previous_optimizer_updates':0}) as verify:
                 grant=mod.guard()
+                verify.assert_called_once_with()
             self.assertEqual(grant['parent'],mod.BEFORE)
             self.assertEqual(grant['source_commit'],head)
             self.assertEqual(grant['previous_optimizer_updates'],0)
