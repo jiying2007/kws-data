@@ -123,7 +123,7 @@ class B5SourceOnly(TestCase):
                  "GITHUB_RUN_ATTEMPT":"1","GITHUB_SHA":"a"*40,
                  "GITHUB_RUN_ID":"999","GITHUB_EVENT_PATH":str(event_path)}
             with mock.patch.dict("os.environ",env,clear=True),mock.patch.object(
-                    m.subprocess,"check_output",return_value=m.BEFORE+"\\n"):
+                    m.subprocess,"check_output",return_value=m.BEFORE):
                 self.assertEqual(m.guard()["parent"],m.BEFORE)
 
     def test_first_main_only_no_pr_or_rerun(self):
