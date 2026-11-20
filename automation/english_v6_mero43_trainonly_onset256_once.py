@@ -20,9 +20,11 @@ def load(name):
 
 robust=load('english_v5_mero43_trainonly_robust_challenger_once')
 v5=robust.v5
-SCHEMA='english-v6-mero43-trainonly-causal-onset-prefix256-v1'
+SCHEMA='english-v6-mero43-trainonly-causal-onset-prefix256-r2-v1'
 REPO='jiying2007/kws-data'
-BEFORE='0e3957370215ddf3d502441b6b859a684d92bf21'
+BEFORE='c3cf9807a1aa1b7bedb2dbe01918e51af45af63b'
+PREVIOUS_SOURCE_TEST_STOP_RUN=44647610854
+PREVIOUS_STOP_REASON='SOURCE_TEST_EXPECTED_REJECTION_ON_VALID_FIRST_MAIN'
 STEPS=256
 SEED=20261120
 LR=0.00012
@@ -56,6 +58,9 @@ def source_check():
          'PINNED_B1_AND_35_REAL_TRAIN_GROUPS')
     return {'schema':SCHEMA,'status':'SOURCE_ONLY_NO_NEW_OPTIMIZER',
         'target':'Hey Mero','parameters':43876,'train_groups':35,
+        'previous_source_only_stop_run':PREVIOUS_SOURCE_TEST_STOP_RUN,
+        'previous_optimizer_updates':0,
+        'previous_stop_reason':PREVIOUS_STOP_REASON,
         'frozen_parent':B1_ZIP,'new_steps':STEPS,
         'prefix_samples':list(PREFIX_SAMPLES),
         'blank_only_prefix_min_gap_frames':8,
@@ -79,7 +84,9 @@ def guard():
          and event.get('forced') is False and event.get('deleted') is False
          and subprocess.check_output(['git','rev-parse','HEAD^1'],cwd=ROOT,text=True).strip()==BEFORE,
          'NO_REPLAY_OR_MOVED_MAIN')
-    return {'run':os.environ['GITHUB_RUN_ID'],'source_commit':head,'parent':BEFORE}
+    return {'run':os.environ['GITHUB_RUN_ID'],'source_commit':head,'parent':BEFORE,
+        'recovery_of_source_test_only_stop':PREVIOUS_SOURCE_TEST_STOP_RUN,
+        'previous_optimizer_updates':0}
 
 def frozen_b1(model_zip,torch,np):
     need(model_zip.is_file() and not model_zip.is_symlink()
