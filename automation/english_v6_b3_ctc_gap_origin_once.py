@@ -56,12 +56,6 @@ def source_check():
          and c["input_qualified_positive"]==6
          and c["input_qualified_ordinary"]==8
          and c["excluded_unknown"]==18
-         and c["max_acoustic_cases"]==46
-         and low.BEFORE==prior.BEFORE if False else True,"DUMMY") if False else None
-    need(c["model_artifact"]==14590093798
-         and c["input_qualified_positive"]==6
-         and c["input_qualified_ordinary"]==8
-         and c["excluded_unknown"]==18
          and low.BEFORE=="4995bfe0813f4bd6b65fa75a9c6764b14d64bd4e"
          and len(PREVIOUS_SHA)==64 and GAPS==(8000,16000,32000,1000000)
          and CASES==("mixed","reverse")
