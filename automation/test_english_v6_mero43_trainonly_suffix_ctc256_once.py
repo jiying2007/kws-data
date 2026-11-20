@@ -25,7 +25,12 @@ class Contract(unittest.TestCase):
         self.assertEqual(x['prior_B2_real_training_run'],44648437304)
         self.assertEqual(x['prior_B2_optimizer_updates'],256)
         self.assertEqual(x['prefix_samples'],[6400,12800,19200])
-        self.assertEqual(m.BEFORE,'9804b3fe816b503346d19c5f4d5a3627a413e840')
+        self.assertEqual(m.BEFORE,'7bccc7b0e9006082e79cadde443b202772397db0')
+        self.assertEqual(m.B2_MAIN_SHA,'9804b3fe816b503346d19c5f4d5a3627a413e840')
+        self.assertEqual(m.B2_ARTIFACT_NAME,'english-v6-mero43-onset256-44648437304')
+        self.assertEqual(m.PREVIOUS_FAILED_R3_RUN,44650324424)
+        self.assertEqual(m.PREVIOUS_FAILED_R3_JOB,136003298801)
+        self.assertEqual(x['prior_failed_run_optimizer_updates'],0)
         self.assertEqual(m.B1_PT,'20d0c4632224cf332460493695c0dd21927a80ed13034a9531f5d5230d2f7e05')
         self.assertEqual(m.B1_NPZ,'76f413772e2820b3aab27124e1f6b627d9de19e9520068ac205bdea497f0b648')
         self.assertFalse(x['dev_model_inference'])
@@ -50,6 +55,7 @@ class Contract(unittest.TestCase):
             with self.assertRaises(ValueError): m.guard()
         with patch.dict(os.environ,{'GH_TOKEN':''}):
             with self.assertRaises(ValueError): m.verify_prior_b2_evidence()
+            with self.assertRaises(ValueError): m.verify_unconsumed_r3_guard()
 
     def test_first_main_grant_positive_and_parent_mismatch(self):
         head='a'*40
@@ -65,10 +71,14 @@ class Contract(unittest.TestCase):
             with patch.dict(os.environ,env),patch.object(
                     m.subprocess,'check_output',return_value=m.BEFORE+'\n'),patch.object(
                     m,'verify_prior_b2_evidence',
-                    return_value={'B2_run':44648437304}) as proof:
+                    return_value={'B2_run':44648437304}) as proof,patch.object(
+                    m,'verify_unconsumed_r3_guard',
+                    return_value={'original_failed_run':44650324424,'prior_new_optimizer_updates':0}) as oldstop:
                 grant=m.guard()
                 self.assertEqual(grant['prior_real_train']['B2_run'],44648437304)
+                self.assertEqual(grant['verified_unconsumed_r3']['prior_new_optimizer_updates'],0)
                 proof.assert_called_once()
+                oldstop.assert_called_once()
             event['before']='b'*40;p.write_text(json.dumps(event))
             with patch.dict(os.environ,env),patch.object(
                     m.subprocess,'check_output',return_value=m.BEFORE+'\n'):
