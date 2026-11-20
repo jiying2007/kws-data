@@ -95,10 +95,10 @@ def source_check():
        "product_promotion_allowed":False}
 
 def provenance():
-    x=b4.verify_provenance()
     import urllib.request
     token=os.environ.get("GH_TOKEN","")
     need(len(token)>10,"GITHUB_READ_ONLY_TOKEN_REQUIRED")
+    x=b4.verify_provenance()
     base="https://api.github.com/repos/"+REPO+"/actions/"
     def get(part):
         req=urllib.request.Request(base+part,headers={
