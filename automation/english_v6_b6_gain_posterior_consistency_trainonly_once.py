@@ -182,8 +182,8 @@ def source_audit(a):
          "EXACT_35_AUTHENTIC_TRAIN_GROUPS_NO_DEV_GRADIENT")
     return rows,dev,receipt,group
 
-def hey_loss(model,x,klass,prefix,tier,torch,F,enabled):
-    # B4's CTC suffix and silent-prefix loss remain byte-for-byte formulas.
+def suffix_loss(model,x,klass,prefix,tier,torch,F,return_logp=False):
+    # Exact B4/B5-control CTC suffix and blank-prefix loss; no frame pseudolabels.
     logit=model(x).log_softmax(-1)
     start=prefix//160-3
     blank=prefix//160-8
@@ -198,22 +198,13 @@ def hey_loss(model,x,klass,prefix,tier,torch,F,enabled):
     silent=logit[:,:blank,:]
     blank_margin=torch.logsumexp(silent[...,1:],dim=-1)-silent[...,0]
     loss=ctc*(1.0 if klass else 0.6)+0.5*F.softplus(blank_margin).mean()
-    if enabled:
-        # No fabricated "Hey" timestamps; only a weak window-level
-        # class label from immutable TRAIN (the exposed DEV has no gradients).
-        n=min(EARLY_MAX,(tail.shape[1]+1)//2)
-        need(n>=3,"TRAIN_ONLY_EARLY_SUFFIX_EXISTS")
-        early=tail[:,:n,:]
-        score=(torch.logsumexp(early[...,1],dim=1)
-               -torch.logsumexp(early[...,0],dim=1))
-        aux=(F.softplus(MARGIN-score) if klass
-             else F.softplus(MARGIN+score)).mean()
-        loss=loss+WEIGHT*aux
-    return loss*(1.0 if tier=="silver" else 0.75)
+    weighted=loss*(1.0 if tier=="silver" else 0.75)
+    return (weighted,logit) if return_logp else weighted
+
 
 def fit(label,original,rows,groups,cache,mel,mean,scale,directory,torch,np,F):
     need(label in ARMS,"ONLY_MATCHED_TWO_ARMS")
-    enabled=label=="early_hey"
+    enabled=label=="consistency"
     torch.manual_seed(SEED)
     net=b4.v5.build_model(torch)
     net.load_state_dict(original,strict=True)
@@ -226,16 +217,39 @@ def fit(label,original,rows,groups,cache,mel,mean,scale,directory,torch,np,F):
         optimizer.zero_grad(set_to_none=True)
         prefix=PREFIXES[(step//35+step%3)%len(PREFIXES)]
         losses=[]
+        consistency=[]
         for klass in (0,1):
             group_id=sorted_groups[klass][step%SOURCE_GROUPS]
             candidates=sorted(groups[klass][group_id],key=lambda r:r["id"])
             row=candidates[(step//SOURCE_GROUPS)%len(candidates)]
+            pair={}
             for gain in GAINS:
-                losses.append(hey_loss(
-                    net,cache[row["id"]][gain][prefix],klass,prefix,
-                    row["tier"],torch,F,enabled))
+                x=cache[row["id"]][gain][prefix]
+                if enabled:
+                    base,logp=suffix_loss(net,x,klass,prefix,row["tier"],torch,F,True)
+                    losses.append(base)
+                    pair[gain]=logp
+                else:
+                    losses.append(suffix_loss(net,x,klass,prefix,row["tier"],
+                                              torch,F,False))
+            if enabled:
+                clean=pair[1.0]
+                half=pair[0.5]
+                start=prefix//160-3
+                need(clean.shape==half.shape and 0<start<half.shape[1]-5,
+                     "MATCHED_TRAIN_PCM_GAIN_FRAME_GRID")
+                # Distillation of the same source at two amplitudes, with a
+                # detached clean teacher; no guessed phoneme timestamps.
+                kl=F.kl_div(half[:,start:,:],
+                            clean[:,start:,:].detach(),
+                            reduction="none",log_target=True).sum(-1).mean()
+                need(bool(torch.isfinite(kl)),"FINITE_TRAIN_ONLY_GAIN_KL")
+                consistency.append(kl.clamp(min=0.0,max=KL_CLIP))
         loss=sum(losses)/len(losses)
-        need(bool(torch.isfinite(loss)),"FINITE_MATCHED_CTC_AUX_LOSS")
+        if enabled:
+            need(len(consistency)==2,"TWO_MATCHED_TRAIN_CLASS_GAIN_PAIRS")
+            loss=loss+WEIGHT*sum(consistency)/len(consistency)
+        need(bool(torch.isfinite(loss)),"FINITE_MATCHED_CTC_GAIN_KL_LOSS")
         loss.backward()
         torch.nn.utils.clip_grad_norm_(
             net.parameters(),5.0,error_if_nonfinite=True)
@@ -243,7 +257,7 @@ def fit(label,original,rows,groups,cache,mel,mean,scale,directory,torch,np,F):
         if (step+1)%16==0 or step==0:
             trace.append({"step":step+1,"loss":float(loss.detach()),
                           "prefix_samples":prefix,"gain_policy":list(GAINS),
-                          "hey_aux":enabled})
+                          "gain_consistency_enabled":enabled})
     net.eval()
     dest=directory/"models"
     dest.mkdir(exist_ok=True)
@@ -270,10 +284,12 @@ def fit(label,original,rows,groups,cache,mel,mean,scale,directory,torch,np,F):
     need(all(p.is_file() and p.stat().st_size>10000 for p in (pt,npz,onnx)),
          "REAL_PT_NPZ_ONNX_SAVED")
     return {"arm":label,"optimizer_updates":STEPS,"train_source_groups":SOURCE_GROUPS,
-            "same_half_gain_policy":list(GAINS),"hey_aux_enabled":enabled,
+            "same_half_gain_policy":list(GAINS),
+            "gain_consistency_enabled":enabled,
             "trace":trace,"elapsed_optimizer_seconds":round(time.perf_counter()-starts,3),
             "files":{p.name:{"sha256":digest(p.read_bytes()),"bytes":p.stat().st_size}
                      for p in (pt,npz,onnx)}}
+
 
 def verify_replay(archive_path,control_pt,torch):
     need(archive_path.is_file() and not archive_path.is_symlink()
@@ -305,7 +321,7 @@ def execute(a):
     identity=guard()
     out=a.output
     need(out.is_absolute() and out.parent.is_dir()
-         and not out.exists(),"ONE_NEW_B5_TRAIN_OUTPUT_ONLY")
+         and not out.exists(),"ONE_NEW_B6_TRAIN_OUTPUT_ONLY")
     out.mkdir()
     save(out/"STARTED.json",{"schema":SCHEMA,"identity":identity,
          "max_optimizer_updates":STEPS*2,"new_tts_asr_calls":0,
@@ -329,19 +345,19 @@ def execute(a):
                     out,torch,np,F)
         replay=verify_replay(a.b4_model_zip,
              out/"models"/(ARMS["control"]+".pt"),torch)
-        challenge=fit("early_hey",original,rows,groups,cache,mel,mean,scale,
+        challenge=fit("consistency",original,rows,groups,cache,mel,mean,scale,
                       out,torch,np,F)
         need(control["optimizer_updates"]==challenge["optimizer_updates"]==STEPS
-             and not control["hey_aux_enabled"] and challenge["hey_aux_enabled"],
-             "SINGLE_AUX_CHANGE_MATCHED_TWO_TRAJECTORIES")
+             and not control["gain_consistency_enabled"] and challenge["gain_consistency_enabled"],
+             "SINGLE_POSTERIOR_KL_CHANGE_MATCHED_TWO_TRAJECTORIES")
         result={"schema":SCHEMA,
-          "status":"RESEARCH_B5_MATCHED_TRAIN_ONLY_HEY_AUX_MODEL_NO_PROMOTION",
+          "status":"RESEARCH_B6_TRAIN_ONLY_GAIN_POSTERIOR_KL_NO_PROMOTION",
           "B3_parent_artifact":b4.B3["id"],
           "B3_parent_pt_sha256":b4.B3["pt"],
           "B4_half_baseline_replay":replay,
-          "only_changed_train_factor":"EARLY_SUFFIX_HEY_BLANK_AUXILIARY",
-          "auxiliary_weight":WEIGHT,"auxiliary_margin":MARGIN,
-          "max_early_suffix_frames":EARLY_MAX,
+          "only_changed_train_factor":"STOPGRAD_CLEAN_TO_HALF_SUFFIX_POSTERIOR_KL",
+          "gain_posterior_weight":WEIGHT,"gain_posterior_kl_clip":KL_CLIP,
+          "teacher_clean_detached":True,"no_phone_frame_pseudolabels":True,
           "train_source_groups":SOURCE_GROUPS,
           "per_arm_steps":STEPS,"actual_optimizer_updates":STEPS*2,
           "model_parameters":PARAMS,
@@ -361,7 +377,7 @@ def execute(a):
                    for a in result["arms"]},
              "product_promotion_allowed":False},sort_keys=True))
     except BaseException as exc:
-        save(out/"STOP.json",{"schema":SCHEMA,"status":"STOP_B5_NO_REPLAY",
+        save(out/"STOP.json",{"schema":SCHEMA,"status":"STOP_B6_NO_REPLAY",
              "error_type":type(exc).__name__,"reason":str(exc)[:450],
              "model_selection_allowed":False,
              "product_promotion_allowed":False})
