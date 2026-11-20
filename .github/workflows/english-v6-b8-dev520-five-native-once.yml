@@ -1,0 +1,163 @@
+name: English V6 B8 fresh DEV520 five unprompted native original-PCM source QA once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b8_dev520_five_native_once.py
+      - automation/test_english_v6_b8_dev520_five_native_once.py
+      - .github/workflows/english-v6-b8-dev520-five-native-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v6-b8-dev520-five-native-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b8-dev520-five-native-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261119'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Assert exactly 8 new frozen DEVELOPMENT source families, 32 blind PCM, zero KWS training or locked eval
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v6_b8_dev520_five_native_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v6_b8_dev520_five_native_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  exact-source-audit:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b8-fresh-dev520-original-44748801347
+          run-id: 44748801347
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/authentic-b8-dev520-original
+      - name: Authenticate all 32 new original PCM hashes, 8 unchanged development-only source roles, no KWS
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b8_dev520_five_native_once.py --audit-source \
+            --source "$RUNNER_TEMP/authentic-b8-dev520-original"
+          test -z "$(git status --porcelain)"
+  blind-five-native:
+    needs: [source-contract, exact-source-audit]
+    if: >-
+      github.event_name == 'push' && github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false && github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'f606f35a4b3232cbfcec3bd2a14e8939551169fd' &&
+      needs.source-contract.result == 'success' &&
+      needs.exact-source-audit.result == 'success'
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        provider: [qwen, whisper, parakeet, xlsr, lv60]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Authenticate exact original source archive and first protected main successor
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b8_dev520_five_native_once.py --guard
+          python3 -I -S -B automation/english_v6_b8_dev520_five_native_once.py --verify-remote
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b8-fresh-dev520-original-44748801347
+          run-id: 44748801347
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/authentic-b8-dev520-original
+      - name: Reverify all new 32 full PCM hashes and development-only 520..527 voice split before any ASR/phone inference
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b8_dev520_five_native_once.py --verify-source \
+            --source "$RUNNER_TEMP/authentic-b8-dev520-original"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install one pinned original unprompted ASR or native phone model
+        shell: bash
+        timeout-minutes: 19
+        env:
+          PROVIDER: ${{ matrix.provider }}
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/b8-dev520-review-env"
+          PIP="$RUNNER_TEMP/b8-dev520-review-env/bin/pip"
+          FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+          if [ "$PROVIDER" != "parakeet" ]; then
+            if [ "$PROVIDER" = "qwen" ] || [ "$PROVIDER" = "whisper" ]; then
+              "$PIP" install $FLAGS 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' \
+                --extra-index-url https://download.pytorch.org/whl/cpu
+            else
+              "$PIP" install $FLAGS 'torch==2.9.1+cpu' \
+                --extra-index-url https://download.pytorch.org/whl/cpu
+            fi
+          fi
+          case "$PROVIDER" in
+            qwen) "$PIP" install $FLAGS 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2' ;;
+            whisper) "$PIP" install $FLAGS 'openai-whisper==20250625' ;;
+            parakeet) "$PIP" install $FLAGS 'huggingface-hub==0.36.2' 'hf-xet==1.2.0' ;;
+            xlsr|lv60) "$PIP" install $FLAGS 'transformers==4.46.3' 'numpy==1.26.4' \
+                                      'huggingface-hub==0.36.2' ;;
+            *) exit 7 ;;
+          esac
+          "$RUNNER_TEMP/b8-dev520-review-env/bin/python" -m pip check
+      - name: One original frozen native source-label forward per prospective-dev8 full PCM, exactly 32 per provider; no KWS
+        shell: bash
+        timeout-minutes: 70
+        env:
+          PROVIDER: ${{ matrix.provider }}
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=25s 4000s \
+            "$RUNNER_TEMP/b8-dev520-review-env/bin/python" -I -B \
+              automation/english_v6_b8_dev520_five_native_once.py --observe --provider "$PROVIDER" \
+              --source "$RUNNER_TEMP/authentic-b8-dev520-original" \
+              --output "$RUNNER_TEMP/b8-dev520-native-$PROVIDER"
+      - name: Preserve original unprompted ASR or whole-logit phone evidence with failure receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: b8-dev520-native-${{ matrix.provider }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/b8-dev520-native-${{ matrix.provider }}/
+          retention-days: 90
+          if-no-files-found: warn
