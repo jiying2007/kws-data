@@ -34,15 +34,16 @@ saved=load("english_v6_b5_dev504_saved_screen_once")
 upstream=load("english_v5_mero_prospective_three_frozen_once")
 v5=upstream.v5
 SCHEMA="english-v6-b5-dev504-three-frozen-new-source-original-paired-v1"
+RECOVERY={"failed_run":44698504736,"head":"72a8309188ab95ac3c35e32ea347d0240bcd2881","failed_job":136161797047}
 REPO="jiying2007/kws-data"
-BEFORE="027621f5f908961b3133ae15d26485821cb07b43"
+BEFORE="72a8309188ab95ac3c35e32ea347d0240bcd2881"
 SOURCE={"id":14607979756,"run":44691501603,
         "head":"ed22816a60d7046a705be40341865dedba50c811",
         "name":"english-v6-b5-fresh-dev504-original-44691501603",
         "bytes":650465,
         "sha":"5ab5d84cd4c0ad661d4a89542d55d68f9f014648a554432f9e200b25e4ae4e06"}
 SCREEN={"id":14611385826,"run":44696685618,
-        "head":BEFORE,"name":"english-v6-b5-dev504-saved-machine-screen-44696685618",
+        "head":"027621f5f908961b3133ae15d26485821cb07b43","name":"english-v6-b5-dev504-saved-machine-screen-44696685618",
         "bytes":5601,
         "sha":"d5309d04ddc0c5eaac11befcefe85ce465925139340b0d9ec9cce35d78b71e75"}
 ARCHIVES={
@@ -95,11 +96,19 @@ def source_check():
          and saved.SOURCE_RUN==SOURCE["run"]
          and saved.SOURCE["id"]==SOURCE["id"]
          and saved.SOURCE["digest"]=="sha256:"+SOURCE["sha"]
-         and SCREEN["head"]==BEFORE
+         and SCREEN["head"]=="027621f5f908961b3133ae15d26485821cb07b43"
          and len(MODELS)==3 and set(ARCHIVES)=={"B4","B5"}
          and list(GAINS)==[1.0,0.75,0.5]
          and (POSITIVE,ORDINARY,UNKNOWN,QUALIFIED_GROUPS)==(5,8,19,3),
          "EXACT_NEW_B5_SOURCE_SCREEN_B4_REPLAY_B5_MODEL_IDENTITY")
+    workflow=(ROOT/".github/workflows/english-v6-b5-dev504-frozen-paired-once.yml").read_text(encoding="utf-8")
+    need(workflow.count("'"+ARCHIVES["B4"]["sha"]+"'")==1
+         and workflow.count("'"+ARCHIVES["B5"]["sha"]+"'")==1
+         and len(ARCHIVES["B4"]["sha"])==len(ARCHIVES["B5"]["sha"])==64
+         and "github.event.before == '"+BEFORE+"'" in workflow,
+         "WORKFLOW_B4_B5_SHA_64_AND_FIRST_MAIN_GUARD_EQUAL_SOURCE")
+    need(RECOVERY["head"]==BEFORE and RECOVERY["failed_run"]==44698504736,
+         "EXACT_PRIOR_PREINFERENCE_FAILURE_IS_RECOVERABLE")
     return {"schema":SCHEMA,"status":"SOURCE_ONLY_NO_NEURAL_FORWARD",
             "keyword":"Hey Mero","models":{
                k:{"artifact":ARCHIVES[v["archive"]]["id"],"pt_sha256":v["pt"]}
@@ -170,6 +179,29 @@ def provenance(token):
              and art.get("workflow_run",{}).get("id")==record["run"]
              and art.get("workflow_run",{}).get("head_sha")==record["head"],
              "MODEL_OR_QUALIFIED_AUDIO_ARTIFACT_SHA")
+    prior=get("runs/"+str(RECOVERY["failed_run"]))
+    need(prior.get("id")==RECOVERY["failed_run"]
+         and prior.get("head_sha")==RECOVERY["head"]
+         and prior.get("event")=="push"
+         and prior.get("run_attempt")==1
+         and prior.get("status")=="completed"
+         and prior.get("conclusion")=="failure",
+         "ACTUAL_PREINFERENCE_FAILED_RUN_NOT_SUCCESSFUL_TRAIN")
+    jobs=get("runs/"+str(RECOVERY["failed_run"])+"/jobs?per_page=100").get("jobs",[])
+    failed=[j for j in jobs if j.get("id")==RECOVERY["failed_job"]]
+    need(len(failed)==1 and failed[0].get("name")=="real-three-frozen-models"
+         and failed[0].get("conclusion")=="failure",
+         "EXACT_PREVIOUS_FAILED_JOB")
+    steps=failed[0].get("steps",[])
+    need(sum(s.get("conclusion")=="failure" and
+             s.get("name")=="Download trained B4-half and B5 matched originals and verify entire immutable archive byte hashes"
+             for s in steps)==1
+         and all(s.get("conclusion")=="skipped"
+                 for s in steps if s.get("name","").startswith("Real 13 independent synthetic DEV original PCM")),
+         "PREVIOUS_FAILURE_BEFORE_ANY_REAL_FROZEN_INFERENCE")
+    old_art=get("runs/"+str(RECOVERY["failed_run"])+"/artifacts?per_page=100")
+    need(old_art.get("total_count")==0 and old_art.get("artifacts")==[],
+         "PREVIOUS_FAILED_RUN_HAS_NO_RESULTS_OR_ARTIFACTS")
     return {"source":SOURCE["id"],"screen":SCREEN["id"],
             "models":{k:v["id"] for k,v in ARCHIVES.items()}}
 
