@@ -1,0 +1,83 @@
+name: English V6 B6 saved 126-case DEV512 CTC and synthetic false-wake forensics once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b6_dev512_saved_ctc_forensics_once.py
+      - automation/test_english_v6_b6_dev512_saved_ctc_forensics_once.py
+      - .github/workflows/english-v6-b6-dev512-saved-ctc-forensics-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v6-b6-dev512-saved-ctc-forensics-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b6-dev512-saved-126-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261120'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify immutable 126 original cases, complete CTC and one off-target wake under three modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v6_b6_dev512_saved_ctc_forensics_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v6_b6_dev512_saved_ctc_forensics_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  real-saved-126-forensics:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'd9bbb5d0ea29ea2774067734ba24d55eccef97fc' &&
+      needs.source-contract.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Fetch exact previous 126-forward ZIP, verify full length and digest
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/artifacts/14616493798/zip > "$RUNNER_TEMP/b6-original-126.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b6-original-126.zip")" = 41502
+          printf '%s  %s\n' \
+            'b900473e57a5b53793a42020838371c1c12f4ee70d73480f2f68c03aab37801f' \
+            "$RUNNER_TEMP/b6-original-126.zip" | sha256sum --check --status
+      - name: Original source-level positive discordance and ordinary false-wake CTC audit, no neural calls
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b6_dev512_saved_ctc_forensics_once.py --evaluate \
+            --archive "$RUNNER_TEMP/b6-original-126.zip" \
+            --output "$RUNNER_TEMP/b6-saved-forensics-${GITHUB_RUN_ID}"
+          test -z "$(git status --porcelain)"
+      - name: Retain authenticated per-original receipts or explicit STOP
+        if: ${{ always() && github.event_name == 'push' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b6-dev512-saved-ctc-forensics-${{ github.run_id }}
+          path: ${{ runner.temp }}/b6-saved-forensics-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
