@@ -20,9 +20,11 @@ def load(name):
 
 robust=load('english_v5_mero43_trainonly_robust_challenger_once')
 v5=robust.v5
-SCHEMA='english-v6-mero43-trainonly-causal-onset-prefix256-v1'
+SCHEMA='english-v6-mero43-trainonly-causal-onset-prefix256-r2-v1'
 REPO='jiying2007/kws-data'
-BEFORE='0e3957370215ddf3d502441b6b859a684d92bf21'
+BEFORE='c3cf9807a1aa1b7bedb2dbe01918e51af45af63b'
+PREVIOUS_SOURCE_TEST_STOP_RUN=44647610854
+PREVIOUS_STOP_REASON='SOURCE_TEST_EXPECTED_REJECTION_ON_VALID_FIRST_MAIN'
 STEPS=256
 SEED=20261120
 LR=0.00012
@@ -56,11 +58,59 @@ def source_check():
          'PINNED_B1_AND_35_REAL_TRAIN_GROUPS')
     return {'schema':SCHEMA,'status':'SOURCE_ONLY_NO_NEW_OPTIMIZER',
         'target':'Hey Mero','parameters':43876,'train_groups':35,
+        'previous_source_only_stop_run':PREVIOUS_SOURCE_TEST_STOP_RUN,
+        'previous_optimizer_updates':0,
+        'previous_stop_reason':PREVIOUS_STOP_REASON,
         'frozen_parent':B1_ZIP,'new_steps':STEPS,
         'prefix_samples':list(PREFIX_SAMPLES),
         'blank_only_prefix_min_gap_frames':8,
         'dev_model_inference':False,'new_tts_or_asr':False,
         'cal_locked_access':False,'product_promotion':False}
+
+def verify_unconsumed_first_run():
+    """Authentically prove the prior first-main failure was before any optimizer.
+
+    Verify immutable GitHub Actions run/job/step/artifact identities. This runs
+    only in the legitimate R2 main guard, not in PR source-only checks.
+    """
+    import urllib.request
+    token=os.environ.get('GH_TOKEN','')
+    need(type(token) is str and len(token)>=10,'REQUIRE_GITHUB_READ_TOKEN')
+    base='https://api.github.com/repos/'+REPO+'/actions'
+    def fetch(path):
+        request=urllib.request.Request(base+path,headers={
+            'Authorization':'Bearer '+token,
+            'Accept':'application/vnd.github+json',
+            'User-Agent':'kws-v6-onset-unconsumed-run-verifier'})
+        with urllib.request.urlopen(request,timeout=40) as response:
+            data=response.read(1048577)
+        need(len(data)<=1048576,'BOUNDED_GITHUB_RECOVERY_METADATA')
+        return json.loads(data)
+    run=fetch('/runs/'+str(PREVIOUS_SOURCE_TEST_STOP_RUN))
+    need(run.get('id')==44647610854
+         and run.get('head_sha')==BEFORE
+         and run.get('event')=='push'
+         and run.get('run_attempt')==1
+         and run.get('status')=='completed'
+         and run.get('conclusion')=='failure','PIN_ORIGINAL_FAILED_SOURCE_RUN')
+    old_job=fetch('/jobs/135994092254')
+    need(old_job.get('id')==135994092254
+         and old_job.get('run_id')==PREVIOUS_SOURCE_TEST_STOP_RUN
+         and old_job.get('name')=='exact-train-only-onset'
+         and old_job.get('conclusion')=='failure','PIN_ORIGINAL_FAILED_JOB')
+    steps={i.get('name'):i.get('conclusion') for i in old_job.get('steps',[])}
+    need(steps.get('Source and no-replay policy checks in three Python modes')=='failure'
+         and steps.get('Authenticate original TRAIN sources and prior model, without optimizer')=='skipped'
+         and steps.get('Allow optimization only on the exact first public-main successor')=='skipped'
+         and steps.get('Real 256 new updates, original authenticated TRAIN only; no DEV model forwards')=='skipped',
+         'ZERO_PREVIOUS_OPTIMIZER_EXECUTION_PROOF')
+    artifacts=fetch('/runs/'+str(PREVIOUS_SOURCE_TEST_STOP_RUN)+'/artifacts?per_page=100')
+    need(artifacts.get('total_count')==0
+         and artifacts.get('artifacts')==[],'NO_PREVIOUS_MODEL_ARTIFACT')
+    return {'verified_original_run':PREVIOUS_SOURCE_TEST_STOP_RUN,
+            'failed_early':True,'previous_optimizer_updates':0,
+            'previous_artifacts':0,'separate_r2_recovery':True}
+
 
 def guard():
     source_check()
@@ -79,7 +129,11 @@ def guard():
          and event.get('forced') is False and event.get('deleted') is False
          and subprocess.check_output(['git','rev-parse','HEAD^1'],cwd=ROOT,text=True).strip()==BEFORE,
          'NO_REPLAY_OR_MOVED_MAIN')
-    return {'run':os.environ['GITHUB_RUN_ID'],'source_commit':head,'parent':BEFORE}
+    receipt=verify_unconsumed_first_run()
+    return {'run':os.environ['GITHUB_RUN_ID'],'source_commit':head,'parent':BEFORE,
+        'recovery_of_source_test_only_stop':PREVIOUS_SOURCE_TEST_STOP_RUN,
+        'verified_failed_original':receipt,
+        'previous_optimizer_updates':0}
 
 def frozen_b1(model_zip,torch,np):
     need(model_zip.is_file() and not model_zip.is_symlink()
