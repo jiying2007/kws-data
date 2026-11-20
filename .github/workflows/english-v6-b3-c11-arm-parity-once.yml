@@ -1,0 +1,219 @@
+name: English V6 B3 true C11 and Cortex-A32 original PCM parity once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b3_c11_arm_parity_once.py
+      - automation/test_english_v6_b3_c11_arm_parity_once.py
+      - .github/workflows/english-v6-b3-c11-arm-parity-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v6-b3-c11-arm-parity-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b3-c11-arm-original-once-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261120'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: data
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: e3261e976965c52bcd0989591abab606d9cdc0e0
+          path: kws-pipeline
+          sparse-checkout: research/english_v5_mero
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+      - name: Strict source model/source identity and nonpromotion in Python normal O OO, no actual model forwards
+        working-directory: data
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v6_b3_c11_arm_parity_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v6_b3_c11_arm_parity_once.py -v
+            python3 -I -S -B $opt ../kws-pipeline/research/english_v5_mero/pack_mero43.py --source-check
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+      - name: Actually compile and test GCC and Clang C11 cores using invented-only numeric sources
+        working-directory: data
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC="$GITHUB_WORKSPACE/kws-pipeline/research/english_v5_mero"
+          for CC in gcc clang; do
+            "$CC" -std=c11 -Wall -Wextra -Werror -pedantic -O2 -ffp-contract=off \
+              -I "$SRC" "$SRC/mero43_stream.c" "$SRC/mero_ctc.c" \
+              "$SRC/test_mero43_stream.c" -lm -o "$RUNNER_TEMP/b3-source-$CC"
+            "$RUNNER_TEMP/b3-source-$CC"
+          done
+          test -z "$(git status --porcelain)"
+  original-b3-archive-audit:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: data
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-mero-prospective-dev8-original-44554345276
+          run-id: 44554345276
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b3-originals
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-mero-prospective-dev8-saved-machine-screen-44558582911
+          run-id: 44558582911
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b3-screen
+      - name: Download original trained B3 exact immutable archive
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/artifacts/14590093798/zip > "$RUNNER_TEMP/b3.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b3.zip")" = 503345
+          printf '%s  %s\n' \
+            '59373f0e7e5f9d4ed35d6b116cdd6f8ac8eb5abcfa1acb5311ef658c59a20e04' \
+            "$RUNNER_TEMP/b3.zip" | sha256sum --check --status
+      - name: Authenticate B3 weights and selected 14 original machine-reviewed DEV PCM, no KWS inference on PR
+        working-directory: data
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b3_c11_arm_parity_once.py --audit \
+            --source "$RUNNER_TEMP/b3-originals" --screen "$RUNNER_TEMP/b3-screen" \
+            --b3-zip "$RUNNER_TEMP/b3.zip"
+          test -z "$(git status --porcelain)"
+  real-frozen-b3-c-arm-parity:
+    needs: [source-contract, original-b3-archive-audit]
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '0ff1255055277b82c523addd3411b6152ace9da6' &&
+      needs.source-contract.result == 'success' &&
+      needs.original-b3-archive-audit.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: data
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: e3261e976965c52bcd0989591abab606d9cdc0e0
+          path: kws-pipeline
+          sparse-checkout: research/english_v5_mero
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+      - name: Exact protected main successor and no-replay contract
+        working-directory: data
+        shell: bash
+        run: python3 -I -S -B automation/english_v6_b3_c11_arm_parity_once.py --guard
+      - name: Install public ARM cross compiler and user-mode Cortex-A32 emulator
+        shell: bash
+        timeout-minutes: 18
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            gcc-arm-linux-gnueabihf libc6-dev-armhf-cross qemu-user binutils
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-mero-prospective-dev8-original-44554345276
+          run-id: 44554345276
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b3-originals
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-mero-prospective-dev8-saved-machine-screen-44558582911
+          run-id: 44558582911
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b3-screen
+      - name: Verify and download exact B3 model artifact from original run
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/artifacts/14590093798/zip > "$RUNNER_TEMP/b3.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b3.zip")" = 503345
+          printf '%s  %s\n' \
+            '59373f0e7e5f9d4ed35d6b116cdd6f8ac8eb5abcfa1acb5311ef658c59a20e04' \
+            "$RUNNER_TEMP/b3.zip" | sha256sum --check --status
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Pinned CPU-only PyTorch and NumPy, no model training
+        shell: bash
+        timeout-minutes: 22
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/b3-c11-env"
+          "$RUNNER_TEMP/b3-c11-env/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --retries 0 --timeout 90 \
+            'torch==2.9.1+cpu' --index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/b3-c11-env/bin/pip" install \
+            --disable-pip-version-check --no-cache-dir --retries 0 --timeout 90 'numpy==1.26.4'
+          "$RUNNER_TEMP/b3-c11-env/bin/python" -m pip check
+      - name: Real B3 PyTorch GCC Clang ARM32 QEMU original PCM and zero-prefix logits and event-clock parity
+        working-directory: data
+        shell: bash
+        timeout-minutes: 27
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 1560s \
+            "$RUNNER_TEMP/b3-c11-env/bin/python" -I -B \
+              automation/english_v6_b3_c11_arm_parity_once.py --execute \
+              --source "$RUNNER_TEMP/b3-originals" \
+              --screen "$RUNNER_TEMP/b3-screen" \
+              --b3-zip "$RUNNER_TEMP/b3.zip" \
+              --pipeline-dir "$GITHUB_WORKSPACE/kws-pipeline" \
+              --output "$RUNNER_TEMP/b3-c11-result-$GITHUB_RUN_ID"
+          test -z "$(git status --porcelain)"
+      - name: Archive source/weights/logits/event-clock evidence or STOP, no raw WAV or standalone model
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b3-c11-arm32-parity-${{ github.run_id }}
+          path: ${{ runner.temp }}/b3-c11-result-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
