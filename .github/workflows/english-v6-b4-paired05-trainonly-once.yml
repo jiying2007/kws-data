@@ -1,0 +1,190 @@
+name: English V6 B4 real matched B3 clean versus paired-half TRAIN-only once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b4_paired05_trainonly_once.py
+      - automation/test_english_v6_b4_paired05_trainonly_once.py
+      - .github/workflows/english-v6-b4-paired05-trainonly-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v6-b4-paired05-trainonly-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b4-paired05-once-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261120'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  exact-b3-trainonly:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Enforce exact B3 parent and 2x192 train-only paired-gain hypothesis in three modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v6_b4_paired05_trainonly_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v6_b4_paired05_trainonly_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+      - name: Check successful real B3 and C11 token origin source artifacts before optimizer
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b4_paired05_trainonly_once.py --provenance
+      - name: Prove exact protected first main push, no replay before fetching TRAIN audio
+        if: github.event_name == 'push'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 -I -S -B automation/english_v6_b4_paired05_trainonly_once.py --guard
+      - name: Fetch byte-locked historical original TRAIN source and model archives (main only)
+        if: github.event_name == 'push'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/b4-old"
+          for item in \
+            'fresh24-source:14422271973' 'fresh24-screen:14429385634' \
+            'fresh18-source:14429578824' 'fresh18-screen:14429884666' \
+            'piper24-source:14434542792' 'piper24-screen:14436377961' \
+            'newtrain24-source:14486048125' 'newtrain24-screen:14489594100'; do
+            IFS=':' read -r name id <<< "$item"
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$id/zip" > "$RUNNER_TEMP/b4-old/$name.zip"
+          done
+          gh api repos/jiying2007/kws-data/actions/artifacts/14503604626/zip > "$RUNNER_TEMP/b4-mono70-audit.zip"
+          printf '%s  %s\n' \
+            '12a1eb39c7a458a466fec2e93ba59e5036319bd9db4b4bdc47e7e6e1c5990f1b' \
+            "$RUNNER_TEMP/b4-mono70-audit.zip" | sha256sum --check --status
+          gh api repos/jiying2007/kws-data/actions/artifacts/14514228406/zip > "$RUNNER_TEMP/b4-B0-original.zip"
+          printf '%s  %s\n' \
+            '91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702' \
+            "$RUNNER_TEMP/b4-B0-original.zip" | sha256sum --check --status
+          gh api repos/jiying2007/kws-data/actions/artifacts/14590093798/zip > "$RUNNER_TEMP/b4-B3-original.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b4-B3-original.zip")" = 503345
+          printf '%s  %s\n' \
+            '59373f0e7e5f9d4ed35d6b116cdd6f8ac8eb5abcfa1acb5311ef658c59a20e04' \
+            "$RUNNER_TEMP/b4-B3-original.zip" | sha256sum --check --status
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: github.event_name == 'push'
+        with:
+          name: english-v5-mero-fresh24-original-44478554596
+          run-id: 44478554596
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b4-fresh-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: github.event_name == 'push'
+        with:
+          name: english-v5-mero-fresh24-saved-machine-screen-44483128198
+          run-id: 44483128198
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b4-fresh-screen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: github.event_name == 'push'
+        with:
+          name: english-v5-mero-newlocked8-saved-machine-gate-44493479564
+          run-id: 44493479564
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b4-source-gate
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: github.event_name == 'push'
+        with:
+          name: english-v5-mero-prospective-dev8-original-44511329722
+          run-id: 44511329722
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b4-prospective-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: github.event_name == 'push'
+        with:
+          name: english-v5-mero-prospective-dev8-saved-machine-screen-44514289065
+          run-id: 44514289065
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b4-prospective-screen
+      - name: Authenticate 35 original TRAIN source families and reject DEV CAL LOCKED
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b4_paired05_trainonly_once.py --audit \
+            --old-archives "$RUNNER_TEMP/b4-old" \
+            --old-audit "$RUNNER_TEMP/b4-mono70-audit.zip" \
+            --fresh-source "$RUNNER_TEMP/b4-fresh-source" \
+            --fresh-screen "$RUNNER_TEMP/b4-fresh-screen" \
+            --source-gate "$RUNNER_TEMP/b4-source-gate" \
+            --prospective-source "$RUNNER_TEMP/b4-prospective-source" \
+            --prospective-screen "$RUNNER_TEMP/b4-prospective-screen" \
+            --original-model-zip "$RUNNER_TEMP/b4-B0-original.zip"
+          test -z "$(git status --porcelain)"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        if: github.event_name == 'push'
+        with:
+          python-version: '3.12'
+      - name: Install pinned CPU-only PyTorch NumPy ONNX for real B4 TRAIN-only weights
+        if: github.event_name == 'push'
+        shell: bash
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/b4-env"
+          FLAGS='--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90'
+          "$RUNNER_TEMP/b4-env/bin/pip" install $FLAGS 'torch==2.9.1+cpu' \
+            --index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/b4-env/bin/pip" install $FLAGS 'numpy==1.26.4' 'onnx==1.17.0'
+          "$RUNNER_TEMP/b4-env/bin/python" -m pip check
+      - name: Real 192 control + 192 half-gain CTC optimizer updates, immutable TRAIN groups only
+        if: github.event_name == 'push'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        timeout-minutes: 60
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 3400s \
+            "$RUNNER_TEMP/b4-env/bin/python" -I -B \
+              automation/english_v6_b4_paired05_trainonly_once.py --execute \
+              --old-archives "$RUNNER_TEMP/b4-old" \
+              --old-audit "$RUNNER_TEMP/b4-mono70-audit.zip" \
+              --fresh-source "$RUNNER_TEMP/b4-fresh-source" \
+              --fresh-screen "$RUNNER_TEMP/b4-fresh-screen" \
+              --source-gate "$RUNNER_TEMP/b4-source-gate" \
+              --prospective-source "$RUNNER_TEMP/b4-prospective-source" \
+              --prospective-screen "$RUNNER_TEMP/b4-prospective-screen" \
+              --original-model-zip "$RUNNER_TEMP/b4-B0-original.zip" \
+              --b3-model-zip "$RUNNER_TEMP/b4-B3-original.zip" \
+              --output "$RUNNER_TEMP/b4-matched-real-${GITHUB_RUN_ID}"
+          test -z "$(git status --porcelain)"
+      - name: Preserve authentic new PT NPZ ONNX, optimizer trace and STOP only
+        if: ${{ always() && github.event_name == 'push' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b4-matched-clean-vs-half-${{ github.run_id }}
+          path: ${{ runner.temp }}/b4-matched-real-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
