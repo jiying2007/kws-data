@@ -1,0 +1,186 @@
+name: English V6 B3 C11 token-origin and bounded gap replay once
+on:
+  pull_request:
+    paths:
+      - automation/en_v6_b3_ctc_gap_replay.c
+      - automation/english_v6_b3_ctc_gap_origin_once.py
+      - automation/test_english_v6_b3_ctc_gap_origin_once.py
+      - .github/workflows/english-v6-b3-ctc-gap-origin-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v6-b3-ctc-gap-origin-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b3-ctc-gap-origin-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261120'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: data
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: e3261e976965c52bcd0989591abab606d9cdc0e0
+          path: kws-pipeline
+          sparse-checkout: research/english_v5_mero
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+      - name: Freeze exact original two continuous C11 event clocks and four token gaps, three Python modes
+        working-directory: data
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v6_b3_ctc_gap_origin_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v6_b3_ctc_gap_origin_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+      - name: Compile original C11 decoder and prove long-gap token-splicing behavior on synthetic-only frame logits
+        working-directory: data
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC="$GITHUB_WORKSPACE/kws-pipeline/research/english_v5_mero"
+          gcc -std=c11 -Wall -Wextra -Werror -pedantic -O2 \
+            -ffp-contract=off -I "$SRC" \
+            automation/en_v6_b3_ctc_gap_replay.c "$SRC/mero_ctc.c" -lm \
+            -o "$RUNNER_TEMP/b3gap-toy"
+          python3 -I -S -B - "$RUNNER_TEMP/b3gap-toy" <<'PY'
+          import pathlib,struct,subprocess,sys,tempfile
+          with tempfile.TemporaryDirectory() as tmp:
+              root=pathlib.Path(tmp); src=root/"frames.f32"
+              frames=[(4.,0.,0.,0.) for _ in range(160)]
+              frames[10]=(0.,4.,0.,0.)
+              frames[20]=(0.,0.,4.,0.)
+              frames[150]=(0.,0.,0.,4.)
+              src.write_bytes(b"".join(struct.pack("<4f",*f) for f in frames))
+              results={}
+              for gap in (16000,1000000):
+                  out=root/(str(gap)+".csv")
+                  p=subprocess.run([sys.argv[1],str(src),str(gap),str(out)],
+                                   capture_output=True,text=True,check=True)
+                  assert "B3_GAP_CTC_REPLAY_OK" in p.stderr
+                  results[gap]=out.read_text().splitlines()
+              assert results[16000]==[]
+              assert len(results[1000000])==1
+              clocks=[int(x) for x in results[1000000][0].split(",")]
+              assert clocks==[24512,2112,3712]
+          PY
+  real-original-logits-ctc-origin:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'db0c4b699b16fcd765b430702a8f786715529eb5' &&
+      needs.source-contract.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 62
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: data
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: e3261e976965c52bcd0989591abab606d9cdc0e0
+          path: kws-pipeline
+          sparse-checkout: research/english_v5_mero
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+      - name: Verify actual prior 46-case lowgain, full B3 and unmodified C11 model provenance
+        working-directory: data
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b3_ctc_gap_origin_once.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-mero-prospective-dev8-original-44554345276
+          run-id: 44554345276
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b3-gap-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-mero-prospective-dev8-saved-machine-screen-44558582911
+          run-id: 44558582911
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b3-gap-screen
+      - name: Authenticate exact already trained B3 original PT and model archive
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/artifacts/14590093798/zip > "$RUNNER_TEMP/b3-original.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b3-original.zip")" = 503345
+          printf '%s  %s\n' \
+            '59373f0e7e5f9d4ed35d6b116cdd6f8ac8eb5abcfa1acb5311ef658c59a20e04' \
+            "$RUNNER_TEMP/b3-original.zip" | sha256sum --check --status
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Pinned CPU-only model pack authentication, no optimizer/new weights
+        shell: bash
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/b3-gap-env"
+          FLAGS='--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90'
+          "$RUNNER_TEMP/b3-gap-env/bin/pip" install $FLAGS 'torch==2.9.1+cpu' \
+            --index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/b3-gap-env/bin/pip" install $FLAGS 'numpy==1.26.4'
+          "$RUNNER_TEMP/b3-gap-env/bin/python" -m pip check
+      - name: Actual original 14-source mixed and reverse GCC C11 logits, exact 4 gap decoders, HEY MEH event source
+        working-directory: data
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        timeout-minutes: 25
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 1400s \
+            "$RUNNER_TEMP/b3-gap-env/bin/python" -I -B \
+              automation/english_v6_b3_ctc_gap_origin_once.py --execute \
+              --source "$RUNNER_TEMP/b3-gap-source" \
+              --screen "$RUNNER_TEMP/b3-gap-screen" \
+              --b3-zip "$RUNNER_TEMP/b3-original.zip" \
+              --pipeline "$GITHUB_WORKSPACE/kws-pipeline" \
+              --output "$RUNNER_TEMP/b3-gap-evidence-${GITHUB_RUN_ID}"
+          test -z "$(git status --porcelain)"
+      - name: Retain exact CTC event source diagnosis or STOP, no original PCM or model
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b3-ctc-gap-origin-${{ github.run_id }}
+          path: ${{ runner.temp }}/b3-gap-evidence-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
