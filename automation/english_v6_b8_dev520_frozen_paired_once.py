@@ -93,7 +93,8 @@ def source_check():
          and prev["saved_source_rows"]==SOURCE_ORIGINALS
          and prev["original_observer_run"]==44750685991
          and prev["new_kws_model_forwards"]==0
-         and saved.ORIGINAL_SHA==BEFORE and saved.BEFORE==BEFORE
+         and saved.ORIGINAL_SHA=="e6e99c83858e9032e42dff43ff1b1cdf03466a19"
+         and saved.BEFORE=="e6e99c83858e9032e42dff43ff1b1cdf03466a19"
          and saved.SOURCE_RUN==SOURCE["run"]
          and saved.SOURCE["id"]==SOURCE["id"]
          and saved.SOURCE["digest"]=="sha256:"+SOURCE["sha"]
