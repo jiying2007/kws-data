@@ -1,0 +1,118 @@
+name: English V6 B8 fresh DEV520 five-native 160-result source QA readback once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b8_dev520_saved_screen_once.py
+      - automation/test_english_v6_b8_dev520_saved_screen_once.py
+      - .github/workflows/english-v6-b8-dev520-saved-screen-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v6-b8-dev520-saved-screen-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b8-dev520-saved-readback-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261119'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify exact original archives, 160 original successful native captures, dev roles and first-main guard under three interpreters
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v6_b8_dev520_saved_screen_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v6_b8_dev520_saved_screen_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  combine-only-saved-five:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'e6e99c83858e9032e42dff43ff1b1cdf03466a19' &&
+      needs.source-contract.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Verify one and only saved-evidence protected main successor
+        run: python3 -I -S -B automation/english_v6_b8_dev520_saved_screen_once.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b8-fresh-dev520-original-44748801347
+          run-id: 44748801347
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b8-dev520-original32
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b8-dev520-native-qwen-44750685991
+          run-id: 44750685991
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b8-dev520-five/qwen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b8-dev520-native-whisper-44750685991
+          run-id: 44750685991
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b8-dev520-five/whisper
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b8-dev520-native-parakeet-44750685991
+          run-id: 44750685991
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b8-dev520-five/parakeet
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b8-dev520-native-xlsr-44750685991
+          run-id: 44750685991
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b8-dev520-five/xlsr
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b8-dev520-native-lv60-44750685991
+          run-id: 44750685991
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b8-dev520-five/lv60
+      - name: Audit six immutable archives and all 32 full PCM; preserve nearphone UNKNOWN
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b8_dev520_saved_screen_once.py --evaluate \
+            --source "$RUNNER_TEMP/b8-dev520-original32" \
+            --observers "$RUNNER_TEMP/b8-dev520-five" \
+            --output "$RUNNER_TEMP/b8-dev520-saved-screen-$GITHUB_RUN_ID"
+          test -z "$(git status --porcelain)"
+      - name: Archive exact 32-clip tiered receipts or STOP; no models run in this workflow
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b8-dev520-saved-machine-screen-${{ github.run_id }}
+          path: ${{ runner.temp }}/b8-dev520-saved-screen-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
