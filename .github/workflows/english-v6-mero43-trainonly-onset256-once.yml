@@ -116,9 +116,11 @@ jobs:
             --prospective-screen "$RUNNER_TEMP/v6-onset-prospective-screen" \
             --original-model-zip "$RUNNER_TEMP/v6-onset-B0-original.zip"
           test -z "$(git status --porcelain)"
-      - name: Allow optimization only on the exact first public-main successor
+      - name: Prove original STOP consumed zero updates and grant new R2 only on protected first-main
         if: github.event_name == 'push'
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: python3 -I -S -B automation/english_v6_mero43_trainonly_onset256_once.py --guard
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         if: github.event_name == 'push'
@@ -138,6 +140,8 @@ jobs:
       - name: Real 256 new updates, original authenticated TRAIN only; no DEV model forwards
         if: github.event_name == 'push'
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         timeout-minutes: 42
         run: |
           set -euo pipefail
