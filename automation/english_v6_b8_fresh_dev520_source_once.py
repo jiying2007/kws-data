@@ -102,7 +102,7 @@ def plan():
               "prior_dev_is_exposed":True,
               "independent_quality_proven":False,
               "no_old_locked_audio_eval":True},
-         "FROZEN_B8_NEW_DEV512_SOURCE32_DESIGN")
+         "FROZEN_B8_NEW_DEV520_SOURCE32_DESIGN")
     need(obj["b8_frozen_models"]=={
            "status":"FROZEN_AFTER_ACTUAL_B8_TRAIN_BEFORE_NEW_DEV_520_527_WAV",
            "data_main_sha":"453b26bdd4ab2bdc96b27fe0dfb9ac10bdd38711",
@@ -329,7 +329,7 @@ def generate(output):
              and version("numpy")=="1.26.4",
              "EXACT_CPU_SYNTHESIS_ENGINE")
         model=p["model"]
-        cache=Path(os.environ.get("RUNNER_TEMP","/tmp"))/"b8-prospective-dev512-piper"
+        cache=Path(os.environ.get("RUNNER_TEMP","/tmp"))/"b8-prospective-dev520-piper"
         weights=Path(hf_hub_download(repo_id=model["repo"],
                 filename=model["file"],revision=model["commit"],
                 local_dir=str(cache),token=False))
