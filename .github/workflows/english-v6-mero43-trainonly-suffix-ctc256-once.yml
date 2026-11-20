@@ -1,4 +1,4 @@
-name: English V6 train-only 43K suffix-constrained CTC 256 updates once
+name: English V6 R4 suffix-CTC 256 source-guard STOP recovery
 on:
   pull_request:
     paths:
@@ -13,7 +13,7 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: english-v6-mero43-suffix-ctc256-once-${{ github.event_name }}
+  group: english-v6-mero43-suffix-ctc256-r4-once-${{ github.event_name }}
   cancel-in-progress: false
 env:
   PYTHONHASHSEED: '20261120'
@@ -46,6 +46,13 @@ jobs:
           done
           python3 -I -S -B tools/verify_branch_retention.py
           test -z "$(git status --porcelain)"
+      - name: Verify original B2 artifact and failed R3 guard from live GitHub before any inference
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_mero43_trainonly_suffix_ctc256_once.py --audit-prior
       - name: Authenticate original TRAIN sources and prior model, without optimizer
         shell: bash
         env:
@@ -163,7 +170,7 @@ jobs:
         if: ${{ always() && github.event_name == 'push' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: english-v6-mero43-suffixctc256-${{ github.run_id }}
+          name: english-v6-mero43-suffixctc256-r4-${{ github.run_id }}
           path: ${{ runner.temp }}/v6-suffixctc-model-${{ github.run_id }}/
           retention-days: 90
           if-no-files-found: warn

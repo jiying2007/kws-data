@@ -22,9 +22,13 @@ def load(name):
 
 robust=load('english_v5_mero43_trainonly_robust_challenger_once')
 v5=robust.v5
-SCHEMA='english-v6-mero43-trainonly-suffix-ctc256-v1'
+SCHEMA='english-v6-mero43-trainonly-suffix-ctc256-r4-recovery-v1'
 REPO='jiying2007/kws-data'
-BEFORE='9804b3fe816b503346d19c5f4d5a3627a413e840'
+BEFORE='7bccc7b0e9006082e79cadde443b202772397db0'
+B2_MAIN_SHA='9804b3fe816b503346d19c5f4d5a3627a413e840'
+PREVIOUS_FAILED_R3_RUN=44650324424
+PREVIOUS_FAILED_R3_JOB=136003298801
+B2_ARTIFACT_NAME='english-v6-mero43-onset256-44648437304'
 PREVIOUS_SOURCE_TEST_STOP_RUN=44647610854
 PREVIOUS_B2_RUN=44648437304
 PREVIOUS_B2_ARTIFACT=14589303986
@@ -59,6 +63,10 @@ def source_check():
          and base['calibration_locked_audio_opened'] is False
          and STEPS==256 and PREFIX_SAMPLES==(6400,12800,19200)
          and SEED==20261120 and LR==0.00012
+         and PREVIOUS_FAILED_R3_RUN==44650324424
+         and PREVIOUS_FAILED_R3_JOB==136003298801
+         and B2_ARTIFACT_NAME=='english-v6-mero43-onset256-44648437304'
+         and B2_MAIN_SHA=='9804b3fe816b503346d19c5f4d5a3627a413e840'
          and all(len(x)==64 and re.fullmatch('[a-f0-9]{64}',x) for x in (B1_ZIP,B1_PT,B1_NPZ)),
          'PINNED_B1_AND_35_REAL_TRAIN_GROUPS')
     return {'schema':SCHEMA,'status':'SOURCE_ONLY_NO_NEW_OPTIMIZER',
@@ -66,6 +74,8 @@ def source_check():
         'previous_source_only_stop_run':PREVIOUS_SOURCE_TEST_STOP_RUN,
         'prior_B2_real_training_run':PREVIOUS_B2_RUN,
         'prior_B2_optimizer_updates':256,
+        'prior_failed_source_guard_run':PREVIOUS_FAILED_R3_RUN,
+        'prior_failed_run_optimizer_updates':0,
         'only_changed_factor':'SUFFIX_CONSTRAINED_CTC_TARGET',
         'frozen_parent':B1_ZIP,'new_steps':STEPS,
         'prefix_samples':list(PREFIX_SAMPLES),
@@ -90,7 +100,7 @@ def verify_prior_b2_evidence():
         return json.loads(data)
     run=api('/runs/'+str(PREVIOUS_B2_RUN))
     need(run.get('id')==PREVIOUS_B2_RUN
-         and run.get('head_sha')==BEFORE
+         and run.get('head_sha')==B2_MAIN_SHA
          and run.get('status')=='completed'
          and run.get('conclusion')=='success'
          and run.get('run_attempt')==1
@@ -104,7 +114,7 @@ def verify_prior_b2_evidence():
     arts=api('/runs/'+str(PREVIOUS_B2_RUN)+'/artifacts?per_page=100')
     matches=[x for x in arts.get('artifacts',[]) if x.get('id')==PREVIOUS_B2_ARTIFACT]
     need(len(matches)==1
-         and matches[0].get('name')=='english-v6-mero43-suffixctc256-44648437304'
+         and matches[0].get('name')==B2_ARTIFACT_NAME
          and matches[0].get('digest')=='sha256:'+PREVIOUS_B2_ZIP_SHA
          and matches[0].get('size_in_bytes')==503043
          and matches[0].get('expired') is False,
@@ -112,6 +122,47 @@ def verify_prior_b2_evidence():
     return {'B2_run':PREVIOUS_B2_RUN,'B2_artifact':PREVIOUS_B2_ARTIFACT,
             'B2_zip_sha256':PREVIOUS_B2_ZIP_SHA,
             'B2_optimizer_updates':256,'new_experiment_schema':SCHEMA}
+
+
+def verify_unconsumed_r3_guard():
+    """Fail closed: R3 source guard STOP happened before new optimization."""
+    import urllib.request
+    token=os.environ.get('GH_TOKEN','')
+    need(type(token) is str and len(token)>=10,'GITHUB_READ_ONLY_TOKEN_REQUIRED')
+    root='https://api.github.com/repos/'+REPO+'/actions'
+    def api(path):
+        req=urllib.request.Request(root+path,headers={
+            'Authorization':'Bearer '+token,
+            'Accept':'application/vnd.github+json',
+            'User-Agent':'kws-v6-r4-no-replay-verification'})
+        with urllib.request.urlopen(req,timeout=35) as response:
+            data=response.read(1048577)
+        need(len(data)<=1048576,'LIMIT_R3_STOP_METADATA')
+        return json.loads(data)
+    old=api('/runs/'+str(PREVIOUS_FAILED_R3_RUN))
+    need(old.get('id')==PREVIOUS_FAILED_R3_RUN
+         and old.get('head_sha')==BEFORE
+         and old.get('event')=='push'
+         and old.get('run_attempt')==1
+         and old.get('status')=='completed'
+         and old.get('conclusion')=='failure','PIN_FAILED_R3_MAIN_RUN')
+    job=api('/jobs/'+str(PREVIOUS_FAILED_R3_JOB))
+    need(job.get('id')==PREVIOUS_FAILED_R3_JOB
+         and job.get('run_id')==PREVIOUS_FAILED_R3_RUN
+         and job.get('conclusion')=='failure','PIN_FAILED_R3_JOB')
+    steps={step.get('name'):step.get('conclusion')
+           for step in job.get('steps',[])}
+    need(steps.get('Verify B2 real completed training and allow distinct suffix-CTC first-main experiment')=='failure'
+         and steps.get('Install pinned CPU PyTorch NumPy ONNX for new TRAIN-only optimization')=='skipped'
+         and steps.get('Real 256 suffix-only CTC updates on authenticated TRAIN, zero DEV model forwards')=='skipped',
+         'EXPLICIT_ZERO_R3_OPTIMIZER_STEP')
+    arts=api('/runs/'+str(PREVIOUS_FAILED_R3_RUN)+'/artifacts?per_page=100')
+    need(arts.get('total_count')==0 and arts.get('artifacts')==[],
+         'FAILED_R3_LEFT_NO_MODEL_ARTIFACTS')
+    return {'original_failed_run':PREVIOUS_FAILED_R3_RUN,
+            'failure_stage':'B2_ARTIFACT_NAME_PROVENANCE_GUARD',
+            'prior_new_optimizer_updates':0,
+            'prior_artifacts':0,'distinct_r4_recovery':True}
 
 
 def guard():
@@ -131,9 +182,10 @@ def guard():
          and event.get('forced') is False and event.get('deleted') is False
          and subprocess.check_output(['git','rev-parse','HEAD^1'],cwd=ROOT,text=True).strip()==BEFORE,
          'NO_REPLAY_OR_MOVED_MAIN')
-    receipt=verify_prior_b2_evidence()
+    prior=verify_prior_b2_evidence()
+    stopped=verify_unconsumed_r3_guard()
     return {'run':os.environ['GITHUB_RUN_ID'],'source_commit':head,'parent':BEFORE,
-        'prior_real_train':receipt,
+        'prior_real_train':prior,'verified_unconsumed_r3':stopped,
         'new_staged_optimizer_only':True}
 
 def frozen_b1(model_zip,torch,np):
@@ -301,15 +353,18 @@ def execute(a):
 
 def main():
     p=argparse.ArgumentParser()
-    for flag in ('--source-check','--guard','--audit','--execute'):
+    for flag in ('--source-check','--audit-prior','--guard','--audit','--execute'):
         p.add_argument(flag,action='store_true')
     for s in ('old-archives','old-audit','fresh-source','fresh-screen','source-gate',
               'prospective-source','prospective-screen','original-model-zip',
               'b1-model-zip','output'):
         p.add_argument('--'+s,type=Path)
     a=p.parse_args()
-    need(sum((a.source_check,a.guard,a.audit,a.execute))==1,'EXACT_ONE_STAGE')
+    need(sum((a.source_check,a.audit_prior,a.guard,a.audit,a.execute))==1,'EXACT_ONE_STAGE')
     if a.source_check:print(json.dumps(source_check(),sort_keys=True));return
+    if a.audit_prior:
+        print(json.dumps({'B2':verify_prior_b2_evidence(),
+                         'R3_STOP':verify_unconsumed_r3_guard()},sort_keys=True));return
     if a.guard:print(json.dumps(guard(),sort_keys=True));return
     for name in ('old_archives','old_audit','fresh_source','fresh_screen','source_gate',
                  'prospective_source','prospective_screen','original_model_zip'):
