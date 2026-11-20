@@ -195,7 +195,7 @@ def select(source,screen):
          and doc.get("original_observer_run")==44672571583
          and doc.get("source_group_counts")=={"development":QUALIFIED_GROUPS}
          and doc.get("tier_counts")=={"silver":11,"weak":2,"unknown":UNKNOWN}
-         and doc.get("observed_label_counts")=={"0":ORDINARY.__str__(),"2":POSITIVE.__str__()}
+         and doc.get("observed_label_counts")=={"0":ORDINARY,"2":POSITIVE}
          and doc.get("full_6_2_2_2_gate_passed") is False
          and doc.get("nearphone_as_ordinary_negative") is False
          and doc.get("machine_only_no_human_gold") is True
