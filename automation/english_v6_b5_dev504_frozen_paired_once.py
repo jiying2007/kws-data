@@ -30,46 +30,42 @@ def load(name):
     spec.loader.exec_module(mod)
     return mod
 
-saved=load("english_v6_b4_dev496_saved_screen_once")
+saved=load("english_v6_b5_dev504_saved_screen_once")
 upstream=load("english_v5_mero_prospective_three_frozen_once")
 v5=upstream.v5
-SCHEMA="english-v6-b4-frozen-three-model-fresh-dev496-paired-original-v1"
+SCHEMA="english-v6-b5-dev504-three-frozen-new-source-original-paired-v1"
 REPO="jiying2007/kws-data"
-BEFORE="b6524b0cb5dcb384236cadfcd2d3c9ac164b59a5"
-SOURCE={"id":14598501191,"run":44667050336,
-        "head":"b53f8564efc60f4d8a072a0325c5a114a7f73d2a",
-        "name":"english-v6-b4-fresh-dev496-original-44667050336",
-        "bytes":651984,
-        "sha":"c8b67dfa729947011d735623f6ea19e8e025b66f5191e03bcea3c1d7d927bc9c"}
-SCREEN={"id":14601585713,"run":44673975940,
-        "head":BEFORE,"name":"english-v6-b4-dev496-saved-machine-screen-44673975940",
-        "bytes":5595,
-        "sha":"99f85da0562ee380fd5ae42c252ecb4f9e1b12d51c896b5169f59c772158a050"}
+BEFORE="027621f5f908961b3133ae15d26485821cb07b43"
+SOURCE={"id":14607979756,"run":44691501603,
+        "head":"ed22816a60d7046a705be40341865dedba50c811",
+        "name":"english-v6-b5-fresh-dev504-original-44691501603",
+        "bytes":650465,
+        "sha":"5ab5d84cd4c0ad661d4a89542d55d68f9f014648a554432f9e200b25e4ae4e06"}
+SCREEN={"id":14611385826,"run":44696685618,
+        "head":BEFORE,"name":"english-v6-b5-dev504-saved-machine-screen-44696685618",
+        "bytes":5601,
+        "sha":"d5309d04ddc0c5eaac11befcefe85ce465925139340b0d9ec9cce35d78b71e75"}
 ARCHIVES={
-  "B3":{"id":14590093798,"run":44651053897,
-        "head":"0ff1255055277b82c523addd3411b6152ace9da6",
-        "name":"english-v6-mero43-suffixctc256-r4-44651053897",
-        "bytes":503345,
-        "sha":"59373f0e7e5f9d4ed35d6b116cdd6f8ac8eb5abcfa1acb5311ef658c59a20e04"},
   "B4":{"id":14597862669,"run":44665669003,
         "head":"bcdb6c94d262d40148580c1886ac3856c53c18d5",
         "name":"english-v6-b4-matched-clean-vs-half-44665669003",
         "bytes":1000659,
         "sha":"6eba8013da5ef06aa5046eab3f8d48b912af5f80941d98f94d0affae23764cb2"},
+  "B5":{"id":14608546071,"run":44689985361,
+        "head":"b82b98eae9497c7aab672a01b338c1aa0293db50",
+        "name":"english-v6-b5-replay-vs-hey-margin-44689985361",
+        "bytes":1000484,
+        "sha":"e945b156d52199569aa36963b786424df7940f0b9285a26af9509284024e081a"},
 }
 MODELS={
-  "B3":{"archive":"B3","stem":"mero43-onset256",
-        "pt":"682e2689e82aa91d850516c06b2be61efc64731cb1dee3b70a7d2a8e01925a46",
-        "npz":"cf3022ea7dd29e7e830b73ce613485a18d1d300467605cb330447cdce6e3ee89",
-        "onnx":"5ca791d495f6c57a3608bc412effca15924e9e32e088d45d6eb96e8f97092031"},
-  "B4_control":{"archive":"B4","stem":"mero43-b4-clean192",
-        "pt":"f771b9b3e5f93007073d25d9b47c33c7b1fba9d0fb20867a220d542098d2bdf8",
-        "npz":"c8ad583dd84654be1cc1cf555d0d0c3d4fa8e56cdedb9c97280a3e885a6813e4",
-        "onnx":"200d1c23969cf9b65ed2db5cd18836f773718d2f725ab16812cc90fa31406272"},
   "B4_half":{"archive":"B4","stem":"mero43-b4-paired05-192",
-        "pt":"c795f8b5f6bf8e9c37d195126fc25006dbde92fb71591473c05854e3d3698f15",
-        "npz":"2bc3e7a56f457849a2f2c8697509ea2a47558d90d52ecff3ae856186730d3f5c",
-        "onnx":"c2cf9d80938f94b4d7c7f5a5bfe7400c5f3e50027b7afc03849ec624f399c128"},
+      "pt":"c795f8b5f6bf8e9c37d195126fc25006dbde92fb71591473c05854e3d3698f15",
+      "npz":"2bc3e7a56f457849a2f2c8697509ea2a47558d90d52ecff3ae856186730d3f5c",
+      "onnx":"c2cf9d80938f94b4d7c7f5a5bfe7400c5f3e50027b7afc03849ec624f399c128"},
+  "B5_control":{"archive":"B5","stem":"mero43-b5-replay-control192",
+      "pt":"0b0f09f4db86e9b10a05c194bba56071be46d5031e573a22183b785a3b65659a"},
+  "B5_early_hey":{"archive":"B5","stem":"mero43-b5-early-hey192",
+      "pt":"784f82b552c411f04631d5adc0664b4f07f305ca45d551a1de8352e844ee440d"},
 }
 GAINS=(1.0,0.75,0.5)
 SOURCE_ORIGINALS=32
@@ -77,7 +73,7 @@ POSITIVE=5
 ORDINARY=8
 UNKNOWN=19
 SOURCE_GROUPS=8
-QUALIFIED_GROUPS=5
+QUALIFIED_GROUPS=3
 PARAMETERS=43876
 
 def need(ok,why):
@@ -92,28 +88,22 @@ def source_check():
     prev=saved.source_check()
     need(prev["status"]=="SAVED_PROSPECTIVE_DEV8_160_REAL_REVIEWS_PINNED"
          and prev["saved_source_rows"]==SOURCE_ORIGINALS
-         and prev["original_observer_run"]==44672571583
+         and prev["original_observer_run"]==44694776784
          and prev["new_kws_model_forwards"]==0
+         and saved.ORIGINAL_SHA=="e043d58a1ad13dfdc27136c73237bedafe223eac"
+         and saved.BEFORE=="e043d58a1ad13dfdc27136c73237bedafe223eac"
          and saved.SOURCE_RUN==SOURCE["run"]
          and saved.SOURCE["id"]==SOURCE["id"]
-         and saved.BEFORE=="9413a7a81e5778da6cd4169c5d48f853917e2d57"
-         and saved.ARCHIVES["qwen"][0]==14600293894
-         and saved.ARCHIVES["lv60"][0]==14601205212
-         and SCREEN["id"]==14601585713
+         and saved.SOURCE["digest"]=="sha256:"+SOURCE["sha"]
          and SCREEN["head"]==BEFORE
-         and MODELS["B3"]["pt"].startswith("682e2689")
-         and MODELS["B4_control"]["pt"].startswith("f771b9b3")
-         and MODELS["B4_half"]["pt"].startswith("c795f8b5")
-         and len(MODELS)==3 and set(ARCHIVES)=={"B3","B4"}
-         and set(GAINS)=={1.0,0.75,0.5}
-         and POSITIVE==5 and ORDINARY==8 and UNKNOWN==19
-         and QUALIFIED_GROUPS==5 and SOURCE_GROUPS==8,
-         "FROZEN_POST_TRAIN_DEVELOPMENT_AND_THREE_ACTUAL_MODELS")
-    return {"schema":SCHEMA,
-            "status":"SOURCE_ONLY_NO_NEURAL_FORWARD",
-            "keyword":"Hey Mero",
-            "models":{k:{"artifact":ARCHIVES[v["archive"]]["id"],
-                          "pt_sha256":v["pt"]} for k,v in MODELS.items()},
+         and len(MODELS)==3 and set(ARCHIVES)=={"B4","B5"}
+         and list(GAINS)==[1.0,0.75,0.5]
+         and (POSITIVE,ORDINARY,UNKNOWN,QUALIFIED_GROUPS)==(5,8,19,3),
+         "EXACT_NEW_B5_SOURCE_SCREEN_B4_REPLAY_B5_MODEL_IDENTITY")
+    return {"schema":SCHEMA,"status":"SOURCE_ONLY_NO_NEURAL_FORWARD",
+            "keyword":"Hey Mero","models":{
+               k:{"artifact":ARCHIVES[v["archive"]]["id"],"pt_sha256":v["pt"]}
+               for k,v in MODELS.items()},
             "new_source_run":SOURCE["run"],
             "saved_machine_screen_run":SCREEN["run"],
             "reviewed_originals":SOURCE_ORIGINALS,
@@ -122,13 +112,10 @@ def source_check():
             "excluded_unknown":UNKNOWN,
             "qualified_development_groups":QUALIFIED_GROUPS,
             "frozen_gains":list(GAINS),
-            "new_model_forwards_in_PR":0,
-            "new_optimizer_updates":0,"new_tts_asr_calls":0,
-            "cal_locked_audio_access":False,
-            "no_old_exposed_dev_reuse":True,
-            "independent_human_gold":False,
-            "model_selection_allowed":False,
-            "product_promotion_allowed":False}
+            "new_model_forwards_in_PR":0,"new_optimizer_updates":0,
+            "new_tts_asr_calls":0,"cal_locked_audio_access":False,
+            "no_old_exposed_dev_reuse":True,"independent_human_gold":False,
+            "model_selection_allowed":False,"product_promotion_allowed":False}
 
 def guard():
     source_check()
@@ -192,7 +179,7 @@ def select(source,screen):
     need(doc.get("schema")==saved.SCHEMA
          and doc.get("status")=="PASS_PROSPECTIVE_DEV_SYNTHETIC_MACHINE_QA_ONLY"
          and doc.get("source_run")==SOURCE["run"]
-         and doc.get("original_observer_run")==44672571583
+         and doc.get("original_observer_run")==44694776784
          and doc.get("source_group_counts")=={"development":QUALIFIED_GROUPS}
          and doc.get("tier_counts")=={"silver":11,"weak":2,"unknown":UNKNOWN}
          and doc.get("observed_label_counts")=={"0":ORDINARY,"2":POSITIVE}
@@ -276,60 +263,73 @@ def source_pcm(row,root):
 
 def verify_model_archive(archive_path,kind,torch,np):
     archive=ARCHIVES[kind]
-    need(Path(archive_path).is_file()
-         and not Path(archive_path).is_symlink()
-         and len(Path(archive_path).read_bytes())==archive["bytes"]
+    need(Path(archive_path).is_file() and not Path(archive_path).is_symlink()
+         and Path(archive_path).stat().st_size==archive["bytes"]
          and sha(Path(archive_path).read_bytes())==archive["sha"],
          "IMMUTABLE_REAL_TRAINED_"+kind+"_ZIP")
+    loaded={}
     with zipfile.ZipFile(archive_path) as z:
         result=json.loads(z.read("RESULT.json"))
-        if kind=="B3":
-            need(result["status"]=="RESEARCH_TRAIN_ONLY_SUFFIX_CTC_MODEL_NOT_PROMOTABLE"
-                 and result["actual_optimizer_steps"]==256
-                 and result["source_train_groups"]==35
-                 and result["model_parameter_count"]==PARAMETERS
-                 and result["cal_locked_access"] is False
-                 and result["product_promotion_allowed"] is False,
-                 "REAL_B3_TRAIN_AND_NONPROMOTION")
+        if kind=="B4":
+            need(result.get("status")=="RESEARCH_B4_MATCHED_TRAINONLY_REAL_WEIGHTS_NO_PROMOTION"
+                 and result.get("schema")=="english-v6-b4-matched-b3-trainonly-05gain-ablation-v1"
+                 and result.get("actual_total_optimizer_steps")==384
+                 and result.get("source_train_groups")==35
+                 and result.get("model_parameters")==PARAMETERS
+                 and result.get("cal_locked_opened") is False
+                 and result.get("product_promotion_allowed") is False,
+                 "EXACT_TRAINED_B4_HALF_PARENT")
+            arms=None
         else:
-            need(result["status"]=="RESEARCH_B4_MATCHED_TRAINONLY_REAL_WEIGHTS_NO_PROMOTION"
-                 and result["schema"]=="english-v6-b4-matched-b3-trainonly-05gain-ablation-v1"
-                 and result["actual_total_optimizer_steps"]==384
-                 and result["source_train_groups"]==35
-                 and result["model_parameters"]==PARAMETERS
-                 and result["same_B3_init_both_arms"] is True
-                 and result["dev_model_forwards"]==0
-                 and result["cal_locked_opened"] is False
-                 and result["model_selection_allowed"] is False
-                 and result["product_promotion_allowed"] is False,
-                 "REAL_MATCHED_B4_384_UPDATES_NO_TRAIN_LEAK")
-        loaded={}
-        for name,spec in MODELS.items():
+            need(result.get("status")=="RESEARCH_B5_MATCHED_TRAIN_ONLY_HEY_AUX_MODEL_NO_PROMOTION"
+                 and result.get("schema")=="english-v6-b5-matched-trainonly-early-hey-margin-v1"
+                 and result.get("actual_optimizer_updates")==384
+                 and result.get("per_arm_steps")==192
+                 and result.get("train_source_groups")==35
+                 and result.get("model_parameters")==PARAMETERS
+                 and result.get("only_changed_train_factor")=="EARLY_SUFFIX_HEY_BLANK_AUXILIARY"
+                 and result.get("dev_model_forwards")==0
+                 and result.get("cal_locked_opened") is False
+                 and result.get("model_selection_allowed") is False
+                 and result.get("product_promotion_allowed") is False
+                 and result.get("B4_half_baseline_replay",{}).get("status")
+                    =="PASS_EXACT_B4_HALF_TENSOR_REPLAY",
+                 "ACTUAL_B5_TRAIN_AND_EXACT_REPLAY")
+            arms={arm["arm"]:arm for arm in result["arms"]}
+            need(set(arms)=={"control","early_hey"},"TWO_B5_MATCHED_ARMS")
+        for label,spec in MODELS.items():
             if spec["archive"]!=kind:continue
-            pack={}
+            stem=spec["stem"]
+            chunks={}
             for ext in ("pt","npz","onnx"):
-                data=z.read("models/"+spec["stem"]+"."+ext)
-                need(sha(data)==spec[ext],"EXACT_TRAINED_"+name+"_"+ext+"_SHA")
-                pack[ext]=data
-            weights=torch.load(io.BytesIO(pack["pt"]),map_location="cpu",weights_only=True)
-            model=v5.build_model(torch)
-            model.load_state_dict(weights,strict=True)
-            model.eval()
-            with np.load(io.BytesIO(pack["npz"]),allow_pickle=False) as arrays:
+                chunks[ext]=z.read("models/"+stem+"."+ext)
+                need(len(chunks[ext])>10000,"NONEMPTY_FROZEN_"+label+"_"+ext)
+                if kind=="B4":
+                    digest=spec[ext]
+                else:
+                    arm="control" if label=="B5_control" else "early_hey"
+                    digest=arms[arm]["files"][stem+"."+ext]["sha256"]
+                need(sha(chunks[ext])==digest,"AUTHENTIC_TRAINED_"+label+"_"+ext)
+            need(sha(chunks["pt"])==spec["pt"],"FROZEN_PT_SHA_"+label)
+            weights=torch.load(io.BytesIO(chunks["pt"]),map_location="cpu",weights_only=True)
+            net=v5.build_model(torch)
+            net.load_state_dict(weights,strict=True)
+            net.eval()
+            with np.load(io.BytesIO(chunks["npz"]),allow_pickle=False) as arrays:
                 need(set(arrays.files)==set(weights)|{"mel_filters","train_mean","train_scale"},
-                     "MODEL_TENSOR_KEYS_"+name)
+                     "EXACT_MODEL_ARRAY_KEYS")
                 need(all(np.array_equal(arrays[k],v.detach().cpu().numpy())
-                         for k,v in weights.items()),
-                     "PYTORCH_NPZ_BIT_IDENTICAL_"+name)
+                         for k,v in weights.items()),"PT_NPZ_TENSOR_PARITY_"+label)
                 bank=arrays["mel_filters"].copy()
                 mean=arrays["train_mean"].copy()
                 scale=arrays["train_scale"].copy()
-            need(sum(p.numel() for p in model.parameters())==PARAMETERS
-                 and bank.shape==(257,40) and mean.shape==(40,) and scale.shape==(40,)
-                 and np.isfinite(bank).all() and np.isfinite(mean).all()
-                 and np.isfinite(scale).all() and bool((scale>0).all()),
-                 "FROZEN_43876_40MEL_MODEL_"+name)
-            loaded[name]=(model,bank,mean,scale)
+            need(sum(p.numel() for p in net.parameters())==PARAMETERS
+                 and bank.shape==(257,40) and mean.shape==(40,)
+                 and scale.shape==(40,) and np.isfinite(bank).all()
+                 and np.isfinite(mean).all() and np.isfinite(scale).all()
+                 and bool((scale>0).all()),
+                 "FROZEN_43K_FOUR_TOKEN_MODEL_"+label)
+            loaded[label]=(net,bank,mean,scale)
     return loaded
 
 def gain_pcm(pcm,gain,np):
@@ -339,7 +339,7 @@ def gain_pcm(pcm,gain,np):
     x=np.frombuffer(pcm,dtype="<i2").astype(np.float32)*gain
     return np.rint(x).clip(-32768,32767).astype("<i2").tobytes()
 
-def execute(source,screen,b3_zip,b4_zip,output):
+def execute(source,screen,b4_zip,b5_zip,output):
     import numpy as np
     import torch
     identity=guard()
@@ -347,7 +347,7 @@ def execute(source,screen,b3_zip,b4_zip,output):
          "ONE_NEW_FROZEN_DEV_SCORE_OUTPUT")
     output.mkdir()
     save(output/"STARTED.json",{"schema":SCHEMA,"run":identity,
-         "models":["B3","B4_control","B4_half"],
+         "models":["B4_half","B5_control","B5_early_hey"],
          "new_tts_asr_calls":0,"new_optimizer_steps":0,
          "cal_locked_opened":False,"auto_model_selection":False})
     try:
@@ -358,10 +358,15 @@ def execute(source,screen,b3_zip,b4_zip,output):
         torch.use_deterministic_algorithms(True)
         torch.backends.mkldnn.enabled=False
         models={}
-        models.update(verify_model_archive(b3_zip,"B3",torch,np))
+        models.update(verify_model_archive(b5_zip,"B5",torch,np))
         models.update(verify_model_archive(b4_zip,"B4",torch,np))
         need(set(models)==set(MODELS),"ALL_THREE_FROZEN_ACOUSTIC_MODELS")
-        bank,mean,scale=models["B3"][1:]
+        bank,mean,scale=models["B4_half"][1:]
+        parent=models["B4_half"][0].state_dict()
+        replay=models["B5_control"][0].state_dict()
+        need(set(parent)==set(replay)
+             and all(torch.equal(parent[k],replay[k]) for k in parent),
+             "EXACT_B4_HALF_TO_B5_CONTROL_TENSOR_REPLAY")
         for name,(_,other_bank,other_mean,other_scale) in models.items():
             need(np.array_equal(bank,other_bank) and np.array_equal(mean,other_mean)
                  and np.array_equal(scale,other_scale),
@@ -430,8 +435,9 @@ def execute(source,screen,b3_zip,b4_zip,output):
                     "ordinary_complete_event_clips":sum(
                         r["conditions"][g][name]["any_complete_event"] for r in neg)}
         results={"schema":SCHEMA,
-          "status":"FRESH_POST_B4_SYNTHETIC_DEVELOPMENT_PAIRED_DIAGNOSTIC_ONLY",
+          "status":"B5_NEW_SOURCE_FROZEN_THREE_WAY_DEV_DIAGNOSTIC_ONLY",
           "run":identity,"source_receipt":audit,
+          "qualified_positive_source_groups":QUALIFIED_GROUPS,
           "artifacts":artifacts,
           "model_pt_sha256":{name:info["pt"] for name,info in MODELS.items()},
           "original_frame_logits_sha256":sha(logit_path.read_bytes()),
@@ -440,6 +446,7 @@ def execute(source,screen,b3_zip,b4_zip,output):
           "summary":summary,"per_original":report,
           "independent_synthetic_development_only":True,
           "same_tts_engine_not_human_gold":True,
+          "B4_half_B5_control_identical_tensors":True,
           "cal_locked_opened":False,
           "new_optimizer_steps":0,"new_tts_asr_calls":0,
           "model_selection_allowed":False,"winner":None,
@@ -461,7 +468,7 @@ def main():
     flags=ap.add_mutually_exclusive_group(required=True)
     for flag in ("--source-check","--guard","--audit","--execute"):
         flags.add_argument(flag,action="store_true")
-    for key in ("source","screen","b3-zip","b4-zip","output"):
+    for key in ("source","screen","b4-zip","b5-zip","output"):
         ap.add_argument("--"+key,type=Path)
     a=ap.parse_args()
     if a.source_check:
@@ -474,7 +481,7 @@ def main():
         rows,proof=select(a.source,a.screen)
         print(json.dumps({**proof,"originals_for_scoring":len(rows),
                           "model_forwards":0},sort_keys=True));return
-    need(a.b3_zip and a.b4_zip and a.output,"EXACT_TWO_TRAINED_MODEL_ARCHIVES")
-    execute(a.source,a.screen,a.b3_zip,a.b4_zip,a.output)
+    need(a.b4_zip and a.b5_zip and a.output,"EXACT_TWO_TRAINED_MODEL_ARCHIVES")
+    execute(a.source,a.screen,a.b4_zip,a.b5_zip,a.output)
 
 if __name__=="__main__":main()
