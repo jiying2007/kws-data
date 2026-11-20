@@ -1,0 +1,174 @@
+name: English V6 B3 real continuous C11 stream exposed-DEV diagnostic once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b3_continuous_c11_once.py
+      - automation/test_english_v6_b3_continuous_c11_once.py
+      - .github/workflows/english-v6-b3-continuous-c11-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v6-b3-continuous-c11-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b3-continuous-c11-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261120'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: data
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: e3261e976965c52bcd0989591abab606d9cdc0e0
+          path: kws-pipeline
+          sparse-checkout: research/english_v5_mero
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+      - name: Test frozen 14 source identities, four contexts, B3, and no-replay in normal O OO
+        working-directory: data
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v6_b3_continuous_c11_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v6_b3_continuous_c11_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+      - name: Actually compile original C11 source with GCC and Clang and run synthetic-only smoke
+        working-directory: data
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC="$GITHUB_WORKSPACE/kws-pipeline/research/english_v5_mero"
+          for CC in gcc clang; do
+            "$CC" -std=c11 -Wall -Wextra -Werror -pedantic -O2 -ffp-contract=off \
+              -I "$SRC" "$SRC/mero43_stream.c" "$SRC/mero_ctc.c" \
+              "$SRC/test_mero43_stream.c" -lm -o "$RUNNER_TEMP/b3-continuous-$CC"
+            "$RUNNER_TEMP/b3-continuous-$CC"
+          done
+  real-unchanged-state-continuous-c11:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'acbd6b2bab42374d2125e93537e040bc32b9c1f7' &&
+      needs.source-contract.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: data
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: e3261e976965c52bcd0989591abab606d9cdc0e0
+          path: kws-pipeline
+          sparse-checkout: research/english_v5_mero
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+      - name: Verify first-main successor and original real B3 parity before any acoustic inference
+        working-directory: data
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b3_continuous_c11_once.py --guard
+      - name: Install public ARM cross-toolchain and QEMU user mode
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
+            gcc-arm-linux-gnueabihf libc6-dev-armhf-cross qemu-user binutils
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-mero-prospective-dev8-original-44554345276
+          run-id: 44554345276
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b3-continuous-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-mero-prospective-dev8-saved-machine-screen-44558582911
+          run-id: 44558582911
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b3-continuous-screen
+      - name: Download immutable actually trained B3 original archive, verify full ZIP digest
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/artifacts/14590093798/zip > "$RUNNER_TEMP/b3-original.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b3-original.zip")" = 503345
+          printf '%s  %s\n' \
+            '59373f0e7e5f9d4ed35d6b116cdd6f8ac8eb5abcfa1acb5311ef658c59a20e04' \
+            "$RUNNER_TEMP/b3-original.zip" | sha256sum --check --status
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install pinned CPU torch and NumPy to authenticate original B3 PT and NPZ
+        shell: bash
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/mero-continuous-env"
+          FLAGS='--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90'
+          "$RUNNER_TEMP/mero-continuous-env/bin/pip" install $FLAGS 'torch==2.9.1+cpu' \
+            --index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/mero-continuous-env/bin/pip" install $FLAGS 'numpy==1.26.4'
+          "$RUNNER_TEMP/mero-continuous-env/bin/python" -m pip check
+      - name: Real 14 exposed PCM in four never-reset C11 contexts using GCC Clang Cortex-A32
+        working-directory: data
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        timeout-minutes: 32
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 1800s \
+            "$RUNNER_TEMP/mero-continuous-env/bin/python" -I -B \
+            automation/english_v6_b3_continuous_c11_once.py --execute \
+            --source "$RUNNER_TEMP/b3-continuous-source" \
+            --screen "$RUNNER_TEMP/b3-continuous-screen" \
+            --b3-zip "$RUNNER_TEMP/b3-original.zip" \
+            --pipeline "$GITHUB_WORKSPACE/kws-pipeline" \
+            --output "$RUNNER_TEMP/b3-continuous-evidence-${GITHUB_RUN_ID}"
+          test -z "$(git status --porcelain)"
+      - name: Archive only per-original SHA evidence, event clocks and STOP, never input PCM/model
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b3-continuous-c11-${{ github.run_id }}
+          path: ${{ runner.temp }}/b3-continuous-evidence-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
