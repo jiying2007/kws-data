@@ -1,0 +1,102 @@
+name: English V6 B7 immutable B6 versus failed-control tensor-drift forensic once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b7_control_replay_saved_diff_once.py
+      - automation/test_english_v6_b7_control_replay_saved_diff_once.py
+      - .github/workflows/english-v6-b7-control-replay-saved-diff-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v6-b7-control-replay-saved-diff-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b7-saved-control-drift-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261120'
+jobs:
+  source-contract:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Authenticate source pins and prove zero new training in three Python modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v6_b7_control_replay_saved_diff_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v6_b7_control_replay_saved_diff_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  original-saved-tensor-forensics:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'f9f2f56eece785da0d0c79d24dca12cdbcc29b29' &&
+      needs.source-contract.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Authenticate two exact original workflow artifact ZIPs before reading any model
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/artifacts/14615025178/zip > "$RUNNER_TEMP/b7-original-B6.zip"
+          gh api repos/jiying2007/kws-data/actions/artifacts/14622635105/zip > "$RUNNER_TEMP/b7-failed-control.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b7-original-B6.zip")" = 1000729
+          test "$(stat -c %s "$RUNNER_TEMP/b7-failed-control.zip")" = 502250
+          printf '%s  %s\n' '1c310b0d4945f7aa40f2576f231c94eb48b33316a6c4f79c20215b1ac80bab8d' "$RUNNER_TEMP/b7-original-B6.zip" | sha256sum --check --status
+          printf '%s  %s\n' '64eda306ba86887ceca3902c6bc2d3309574f558a992e432c5bd0c5b009295e4' "$RUNNER_TEMP/b7-failed-control.zip" | sha256sum --check --status
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install CPU-only PyTorch for immutable tensor comparison (no inference)
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/forensic-env"
+          "$RUNNER_TEMP/forensic-env/bin/pip" install --disable-pip-version-check --no-cache-dir --retries 0 --timeout 90 'torch==2.9.1+cpu' --index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/forensic-env/bin/python" -m pip check
+      - name: Quantify exactly saved B6 vs failed-control tensor drift; never train or infer
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/forensic-env/bin/python" -I -B automation/english_v6_b7_control_replay_saved_diff_once.py --evaluate --original-zip "$RUNNER_TEMP/b7-original-B6.zip" --failed-zip "$RUNNER_TEMP/b7-failed-control.zip" --output "$RUNNER_TEMP/b7-saved-control-diff-${GITHUB_RUN_ID}"
+          test -z "$(git status --porcelain)"
+      - name: Preserve byte-authenticated drift report or explicit STOP (no candidate or promotion)
+        if: ${{ always() && github.event_name == 'push' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b7-saved-control-drift-${{ github.run_id }}
+          path: ${{ runner.temp }}/b7-saved-control-diff-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
