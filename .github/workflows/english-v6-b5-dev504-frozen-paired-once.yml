@@ -1,4 +1,4 @@
-name: English V6 B4 genuine fresh DEV496 B3 versus B4 clean versus B4 half frozen paired once
+name: English V6 B5 source-qualified DEV504 B4-half versus B5-control versus B5-EarlyHEY once
 on:
   pull_request:
     paths:
@@ -13,7 +13,7 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: english-v6-b4-fresh-dev496-three-frozen-${{ github.event_name }}
+  group: english-v6-b5-dev504-three-frozen-${{ github.event_name }}
   cancel-in-progress: false
 env:
   PYTHONHASHSEED: '20261120'
@@ -54,25 +54,25 @@ jobs:
           persist-credentials: false
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
-          name: english-v6-b4-fresh-dev496-original-44667050336
-          run-id: 44667050336
+          name: english-v6-b5-fresh-dev504-original-44691501603
+          run-id: 44691501603
           repository: jiying2007/kws-data
           github-token: ${{ github.token }}
-          path: ${{ runner.temp }}/b4-fresh-original-32
+          path: ${{ runner.temp }}/b5-fresh-original-32
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
-          name: english-v6-b4-dev496-saved-machine-screen-44673975940
-          run-id: 44673975940
+          name: english-v6-b5-dev504-saved-machine-screen-44696685618
+          run-id: 44696685618
           repository: jiying2007/kws-data
           github-token: ${{ github.token }}
-          path: ${{ runner.temp }}/b4-fresh-screen-32
+          path: ${{ runner.temp }}/b5-fresh-screen-32
       - name: Audit exact new model-unseen source roles and 5 positive/8 ordinary approved original PCM, zero model forwards
         shell: bash
         run: |
           set -euo pipefail
           python3 -I -S -B automation/english_v6_b5_dev504_frozen_paired_once.py --audit \
-            --source "$RUNNER_TEMP/b4-fresh-original-32" \
-            --screen "$RUNNER_TEMP/b4-fresh-screen-32"
+            --source "$RUNNER_TEMP/b5-fresh-original-32" \
+            --screen "$RUNNER_TEMP/b5-fresh-screen-32"
           test -z "$(git status --porcelain)"
   real-three-frozen-models:
     needs: [source-contract, original-source-screen-audit]
@@ -82,7 +82,7 @@ jobs:
       github.event.repository.private == false &&
       github.ref == 'refs/heads/main' &&
       github.run_attempt == 1 &&
-      github.event.before == 'b6524b0cb5dcb384236cadfcd2d3c9ac164b59a5' &&
+      github.event.before == '027621f5f908961b3133ae15d26485821cb07b43' &&
       needs.source-contract.result == 'success' &&
       needs.original-source-screen-audit.result == 'success'
     runs-on: ubuntu-24.04
@@ -97,34 +97,34 @@ jobs:
         run: python3 -I -S -B automation/english_v6_b5_dev504_frozen_paired_once.py --guard
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
-          name: english-v6-b4-fresh-dev496-original-44667050336
-          run-id: 44667050336
+          name: english-v6-b5-fresh-dev504-original-44691501603
+          run-id: 44691501603
           repository: jiying2007/kws-data
           github-token: ${{ github.token }}
-          path: ${{ runner.temp }}/b4-original-audio
+          path: ${{ runner.temp }}/b5-original-audio
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
-          name: english-v6-b4-dev496-saved-machine-screen-44673975940
-          run-id: 44673975940
+          name: english-v6-b5-dev504-saved-machine-screen-44696685618
+          run-id: 44696685618
           repository: jiying2007/kws-data
           github-token: ${{ github.token }}
-          path: ${{ runner.temp }}/b4-saved-screen
-      - name: Download trained B3 and B4 originals and verify entire immutable archive byte hashes
+          path: ${{ runner.temp }}/b5-saved-screen
+      - name: Download trained B4-half and B5 matched originals and verify entire immutable archive byte hashes
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          gh api repos/jiying2007/kws-data/actions/artifacts/14590093798/zip > "$RUNNER_TEMP/b3-original.zip"
-          test "$(stat -c %s "$RUNNER_TEMP/b3-original.zip")" = 503345
-          printf '%s  %s\n' \
-            '59373f0e7e5f9d4ed35d6b116cdd6f8ac8eb5abcfa1acb5311ef658c59a20e04' \
-            "$RUNNER_TEMP/b3-original.zip" | sha256sum --check --status
           gh api repos/jiying2007/kws-data/actions/artifacts/14597862669/zip > "$RUNNER_TEMP/b4-original.zip"
           test "$(stat -c %s "$RUNNER_TEMP/b4-original.zip")" = 1000659
           printf '%s  %s\n' \
             '6eba8013da5ef06aa5046eab3f8d48b912af5f80941d98f94d0affae23764cb2' \
             "$RUNNER_TEMP/b4-original.zip" | sha256sum --check --status
+          gh api repos/jiying2007/kws-data/actions/artifacts/14608546071/zip > "$RUNNER_TEMP/b5-original.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b5-original.zip")" = 1000484
+          printf '%s  %s\n' \
+            'e945b156d52199569aa36963b786424df7940f0b9284024e081a' \
+            "$RUNNER_TEMP/b5-original.zip" | sha256sum --check --status
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.12'
@@ -133,12 +133,12 @@ jobs:
         timeout-minutes: 22
         run: |
           set -euo pipefail
-          python3 -m venv "$RUNNER_TEMP/b4-compare-env"
+          python3 -m venv "$RUNNER_TEMP/b5-compare-env"
           FLAGS='--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90'
-          "$RUNNER_TEMP/b4-compare-env/bin/pip" install $FLAGS 'torch==2.9.1+cpu' \
+          "$RUNNER_TEMP/b5-compare-env/bin/pip" install $FLAGS 'torch==2.9.1+cpu' \
             --index-url https://download.pytorch.org/whl/cpu
-          "$RUNNER_TEMP/b4-compare-env/bin/pip" install $FLAGS 'numpy==1.26.4'
-          "$RUNNER_TEMP/b4-compare-env/bin/python" -m pip check
+          "$RUNNER_TEMP/b5-compare-env/bin/pip" install $FLAGS 'numpy==1.26.4'
+          "$RUNNER_TEMP/b5-compare-env/bin/python" -m pip check
       - name: Real 13 independent synthetic DEV original PCM x three frozen models x 1/0.75/0.5 gain, no threshold tuning
         shell: bash
         env:
@@ -147,19 +147,19 @@ jobs:
         run: |
           set -euo pipefail
           timeout --signal=TERM --kill-after=30s 1230s \
-            "$RUNNER_TEMP/b4-compare-env/bin/python" -I -B \
+            "$RUNNER_TEMP/b5-compare-env/bin/python" -I -B \
               automation/english_v6_b5_dev504_frozen_paired_once.py --execute \
-              --source "$RUNNER_TEMP/b4-original-audio" \
-              --screen "$RUNNER_TEMP/b4-saved-screen" \
-              --b3-zip "$RUNNER_TEMP/b3-original.zip" \
+              --source "$RUNNER_TEMP/b5-original-audio" \
+              --screen "$RUNNER_TEMP/b5-saved-screen" \
               --b4-zip "$RUNNER_TEMP/b4-original.zip" \
-              --output "$RUNNER_TEMP/b4-frozen-paired-result-${GITHUB_RUN_ID}"
+              --b5-zip "$RUNNER_TEMP/b5-original.zip" \
+              --output "$RUNNER_TEMP/b5-frozen-paired-result-${GITHUB_RUN_ID}"
           test -z "$(git status --porcelain)"
       - name: Archive genuine frame logits and per-original quality evidence or STOP; no raw PCM/weight files
         if: ${{ always() && github.event_name == 'push' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: english-v6-b4-posttrain-three-frozen-paired-${{ github.run_id }}
-          path: ${{ runner.temp }}/b4-frozen-paired-result-${{ github.run_id }}/
+          name: english-v6-b5-dev504-three-frozen-paired-${{ github.run_id }}
+          path: ${{ runner.temp }}/b5-frozen-paired-result-${{ github.run_id }}/
           retention-days: 90
           if-no-files-found: warn
