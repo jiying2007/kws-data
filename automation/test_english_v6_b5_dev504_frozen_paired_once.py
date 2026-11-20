@@ -59,7 +59,7 @@ class B5SourceOnly(TestCase):
              "e945b156d52199569aa36963b786424df7940f0b9285a26af9509284024e081a")
         self.assertEqual(m.MODELS["B5_early_hey"]["pt"],
              "784f82b552c411f04631d5adc0664b4f07f305ca45d551a1de8352e844ee440d")
-        self.assertEqual(m.BEFORE,"027621f5f908961b3133ae15d26485821cb07b43")
+        self.assertEqual(m.BEFORE,"72a8309188ab95ac3c35e32ea347d0240bcd2881")
 
     def test_only_new_13_machine_qualified_originals(self):
         originals,screen=fixture()
