@@ -1,0 +1,176 @@
+{
+  "schema": "english-v6-b6-fresh-prospective8-development-piper-source-v1",
+  "status": "FROZEN_BEFORE_ANY_NEW_WAV",
+  "purpose": "NEW_UNSEEN_PIPER_512_519_DEVELOPMENT_AFTER_FROZEN_B6_CLEAN_HALF_POSTERIOR_KL",
+  "target": {
+    "keyword": "Hey Mero",
+    "ipa": "/heɪ ˈmɛroʊ/",
+    "active_english_keyword_count": 1
+  },
+  "model": {
+    "repo": "rhasspy/piper-voices",
+    "commit": "de3dcfdf1912bb49726dc4aa11c26017ce2ac62a",
+    "file": "en/en_US/libritts/high/en_US-libritts-high.onnx",
+    "file_bytes": 136673811,
+    "file_sha256": "9127a559e11603f10b366d1a20ac7426826081dbc521de4c2420c57728d73f0f",
+    "config": "en/en_US/libritts/high/en_US-libritts-high.onnx.json",
+    "config_bytes": 20163,
+    "config_md5": "cb1564bb779f3b1f87e2de778adeb669",
+    "piper_tts_version": "1.8.0",
+    "num_speakers": 904,
+    "native_rate": 22050,
+    "derived_rate": 16000,
+    "dataset": "LibriTTS train-clean-360",
+    "dataset_license": "CC-BY-4.0",
+    "engine_license": "GPL-3.0"
+  },
+  "source_selection": "Eight newly unused official Piper LibriTTS speaker indices 512..519; DEVELOPMENT only; 0..57 and 400..511 plus audited original human source identities excluded",
+  "source_count": 32,
+  "source_groups": [
+    {
+      "speaker_index": 512,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-512",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 513,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-513",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 514,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-514",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 515,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-515",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 516,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-516",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 517,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-517",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 518,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-518",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    },
+    {
+      "speaker_index": 519,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-519",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_ALL_PRIOR_PIPER_HUMAN_SPEAKERS"
+    }
+  ],
+  "cells": [
+    {
+      "id": "mero-fast",
+      "text": "Hey Mero.",
+      "raw_ipa": "heɪ mˈɛɹoʊ",
+      "requested_class": 2,
+      "length_scale": 0.92
+    },
+    {
+      "id": "mero-slow",
+      "text": "Hey Mero.",
+      "raw_ipa": "heɪ mˈɛɹoʊ",
+      "requested_class": 2,
+      "length_scale": 1.08
+    },
+    {
+      "id": "ordinary-time",
+      "text": "What time is it?",
+      "raw_ipa": "wˈʌt tˈaɪm ɪz ɪt",
+      "requested_class": 0,
+      "length_scale": 1
+    },
+    {
+      "id": "nearphone-meero-challenge",
+      "text": "Hey Meero.",
+      "raw_ipa": "heɪ mˈiːɹoʊ",
+      "requested_class": null,
+      "length_scale": 1
+    }
+  ],
+  "minimum_groups_eligible": {
+    "train": 6,
+    "development": 2,
+    "calibration": 2,
+    "locked-test": 2
+  },
+  "budget": {
+    "max_new_piper_tts_forwards": 32,
+    "max_new_asr_forwards_at_source_stage": 0,
+    "max_new_kws_train_updates": 0,
+    "retry_count": 0
+  },
+  "source_guards": {
+    "no_repeated_old_63_64_168_audio": true,
+    "known_prior_piper_indices": "0..57 and 400..511, plus audited original human speaker IDs",
+    "full_original_pcm_no_crop": true,
+    "nearphone_is_unlabeled_challenge": true,
+    "source_ancestry_role_frozen": true,
+    "no_trusted_speech_gold_from_prompt": true,
+    "no_old_locked_audio_read": true,
+    "model_weights_sha_verified": false
+  },
+  "rights": {
+    "piper_code": "GPL-3.0",
+    "audio_dataset": "LibriTTS CC-BY-4.0",
+    "actual_allowed_use": "research_with_provenance_no_general_rights_inference"
+  },
+  "notes": "Genuinely new 512..519 synthetic DEV-only original voice groups after B6-control and B6 gain-consistency weights frozen by real 384-step protected-main run. Verify exact official source ancestry, full original wave and model provenance. No prompt-as-gold, no repeats 488..511, no TRAIN/CAL/LOCKED, no model forwards at audio generation stage; requires independent five native reviewers and saved source QA.",
+  "frozen_reference": {
+    "baseline_model_run": 44495594627,
+    "baseline_model_artifact": 14514228406,
+    "baseline_zip_sha256": "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702",
+    "robust_model_run": 44546464853,
+    "robust_model_artifact": 14539983171,
+    "robust_zip_sha256": "bab018a63aaf4cc760ee835b8554ebacf73e6ee77c37adc7c9d5008b1a03d7ce",
+    "robust_pt_sha256": "20d0c4632224cf332460493695c0dd21927a80ed13034a9531f5d5230d2f7e05",
+    "model_parameter_count": 43876,
+    "prior_exposed_dev_positives": 2,
+    "prior_exposed_dev_ordinary": 8,
+    "prior_both_models_positive_hits": 2,
+    "prior_both_models_ordinary_false": 0,
+    "prior_dev_is_exposed": true,
+    "independent_quality_proven": false,
+    "no_old_locked_audio_eval": true
+  },
+  "excluded_prior_development_sources": {
+    "piper_speaker_indices": "488..511",
+    "protocol": "NEW_512_TO_519_ONLY_POSTTRAIN_PRESPECIFIED_NO_OLD_DEV_AS_FRESH",
+    "derived_gains_increase_independent_n": false
+  },
+  "b6_frozen_models": {
+    "status": "FROZEN_BEFORE_NEW_DEV_512_519_WAV",
+    "data_main_sha": "e46dfa72e7f824a888ae6510a9951f1fe518b222",
+    "real_train_actions_run": 44704535156,
+    "real_train_artifact_id": 14615025178,
+    "real_train_artifact_zip_sha256": "1c310b0d4945f7aa40f2576f231c94eb48b33316a6c4f79c20215b1ac80bab8d",
+    "parent_B3_pt_sha256": "682e2689e82aa91d850516c06b2be61efc64731cb1dee3b70a7d2a8e01925a46",
+    "B6_control_pt_sha256": "c9cac4c16a9d574b6bc9baef14ac239517a2ed9bfbe2e3ff2fb69972587c9430",
+    "B6_consistency_pt_sha256": "0461ce14ff5ed6490e88801b23c9036ca63b2c302aee7e8d96cea26c3eaa9f04",
+    "B6_optimizers_completed": 384,
+    "B4_half_exact_tensor_replay": true,
+    "model_parameters": 43876,
+    "prohibit_new_DEV_training_or_selection_before_source_QA": true,
+    "B4_B6_model_forwards_on_this_source_stage": 0,
+    "human_gold": false,
+    "release_allowed": false
+  }
+}
