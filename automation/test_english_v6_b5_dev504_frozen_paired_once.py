@@ -59,7 +59,7 @@ class B5SourceOnly(TestCase):
              "e945b156d52199569aa36963b786424df7940f0b9285a26af9509284024e081a")
         self.assertEqual(m.MODELS["B5_early_hey"]["pt"],
              "784f82b552c411f04631d5adc0664b4f07f305ca45d551a1de8352e844ee440d")
-        self.assertEqual(m.BEFORE,"027621f5f908961b3133ae15d26485821cb07b43")
+        self.assertEqual(m.BEFORE,"72a8309188ab95ac3c35e32ea347d0240bcd2881")
 
     def test_only_new_13_machine_qualified_originals(self):
         originals,screen=fixture()
@@ -98,6 +98,33 @@ class B5SourceOnly(TestCase):
             with mock.patch.object(m.saved,"source_rows",return_value=originals):
                 with self.assertRaisesRegex(ValueError,"FROZEN_INDEPENDENT_MACHINE_QA_ONLY"):
                     m.select(tmp,tmp)
+
+    def test_recovery_is_only_prior_preinference_failure(self):
+        self.assertEqual(m.BEFORE,"72a8309188ab95ac3c35e32ea347d0240bcd2881")
+        self.assertEqual(m.SCREEN["head"],"027621f5f908961b3133ae15d26485821cb07b43")
+        self.assertEqual(m.RECOVERY["failed_run"],44698504736)
+        self.assertEqual(m.RECOVERY["failed_job"],136161797047)
+        self.assertEqual(m.RECOVERY["head"],m.BEFORE)
+        workflow=(m.ROOT/".github/workflows/english-v6-b5-dev504-frozen-paired-once.yml").read_text()
+        self.assertEqual(len(m.ARCHIVES["B5"]["sha"]),64)
+        self.assertEqual(workflow.count("'"+m.ARCHIVES["B5"]["sha"]+"'"),1)
+        self.assertEqual(workflow.count("'"+m.ARCHIVES["B4"]["sha"]+"'"),1)
+        self.assertIn("github.event.before == '"+m.BEFORE+"'",workflow)
+
+    def test_exact_first_main_successor_still_allowed(self):
+        with TemporaryDirectory() as tmp:
+            event={"before":m.BEFORE,"after":"a"*40,"ref":"refs/heads/main",
+                   "repository":{"full_name":m.REPO,"private":False},
+                   "forced":False,"deleted":False}
+            event_path=Path(tmp)/"event.json"
+            event_path.write_text(json.dumps(event))
+            env={"GITHUB_ACTIONS":"true","GITHUB_REPOSITORY":m.REPO,
+                 "GITHUB_EVENT_NAME":"push","GITHUB_REF":"refs/heads/main",
+                 "GITHUB_RUN_ATTEMPT":"1","GITHUB_SHA":"a"*40,
+                 "GITHUB_RUN_ID":"999","GITHUB_EVENT_PATH":str(event_path)}
+            with mock.patch.dict("os.environ",env,clear=True),mock.patch.object(
+                    m.subprocess,"check_output",return_value=m.BEFORE):
+                self.assertEqual(m.guard()["parent"],m.BEFORE)
 
     def test_first_main_only_no_pr_or_rerun(self):
         with mock.patch.dict("os.environ",{
