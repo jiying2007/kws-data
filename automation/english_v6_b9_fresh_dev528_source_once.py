@@ -1,4 +1,4 @@
-"""Source-only eight never-used prospective Hey Mero development voices.
+"""Source-only twelve unused prospective Hey Mero development voice identities.
 
 Frozen after B9 training: Piper speaker indices 528..539, whole WAV only.
 No repeated old audio, KWS forwards, calibration/locked access, training
@@ -60,7 +60,7 @@ def plan():
     groups=obj["source_groups"]
     cells=obj["cells"]
     need(obj["schema"]==
-         "english-v6-b9-fresh-prospective8-development-piper-source-v1"
+         "english-v6-b9-fresh-prospective12-development-piper-source-v1"
          and obj["status"]=="FROZEN_BEFORE_ANY_NEW_WAV"
          and obj["target"]=={
             "keyword":"Hey Mero","ipa":"/heɪ ˈmɛroʊ/",
@@ -221,6 +221,13 @@ def preflight_config(config_path):
          "PINNED_OFFICIAL_SPEAKER_CONFIG_BYTES")
     config=json.loads(config_path.read_bytes())
     chosen=native_speakers(config)
+    # Catch unsupported new HARD-negative IPA characters before any TTS call.
+    # The signed official Piper config is already byte-checked above.
+    phonemes=config.get("phoneme_id_map",{})
+    need(isinstance(phonemes,dict) and len(phonemes)>0
+         and all(ch==" " or ch in phonemes
+                 for cell in p["cells"] for ch in cell["raw_ipa"]),
+         "ALL_PREDECLARED_IPA_PHONEMES_MUST_EXIST_BEFORE_TTS")
     items=planned(chosen)
     need(len(items)==OUTPUT_COUNT,"EXACT_PROSPECTIVE_SOURCE_CELLS")
     return {"schema":SCHEMA,"status":"12_NEW_PROSPECTIVE_DEV_SPEAKER_IDS_AUTHENTICATED",
