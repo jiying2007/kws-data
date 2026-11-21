@@ -1,0 +1,156 @@
+{
+  "schema": "english-v6-b10-hardneg-train-dev-source-v1",
+  "status": "FROZEN_BEFORE_ANY_NEW_WAV",
+  "purpose": "Add six source-reviewed What time is it? TRAIN-only hard-negative originals to already-qualified TRAIN speaker groups, plus a separate six-speaker DEV cohort with Hey Mero positives and the same ordinary phrase. No old audio regeneration, no CAL/LOCKED audio, no KWS forwards or training in this source stage.",
+  "target": {
+    "keyword": "Hey Mero",
+    "ipa": "/heɪ ˈmɛroʊ/",
+    "language": "en-US",
+    "active_keyword_count": 1
+  },
+  "model": {
+    "repo": "rhasspy/piper-voices",
+    "commit": "de3dcfdf1912bb49726dc4aa11c26017ce2ac62a",
+    "file": "en/en_US/libritts/high/en_US-libritts-high.onnx",
+    "file_bytes": 136673811,
+    "file_sha256": "9127a559e11603f10b366d1a20ac7426826081dbc521de4c2420c57728d73f0f",
+    "config": "en/en_US/libritts/high/en_US-libritts-high.onnx.json",
+    "config_bytes": 20163,
+    "config_md5": "cb1564bb779f3b1f87e2de778adeb669",
+    "piper_tts_version": "1.8.0",
+    "num_speakers": 904,
+    "native_rate": 22050,
+    "derived_rate": 16000,
+    "dataset": "LibriTTS train-clean-360",
+    "dataset_license": "CC-BY-4.0",
+    "engine_license": "GPL-3.0"
+  },
+  "original_train_source": {
+    "run": 44478554596,
+    "head": "e3f79406f469061dc9ac7438ed6658ad66375e55",
+    "artifact_id": 14507208152,
+    "name": "english-v5-mero-fresh24-original-44478554596",
+    "bytes": 1961038,
+    "sha256": "2fbc26386136cfd12dddb01074f3c9c4556c8fc7c49819663f2d11a2499eaa1c"
+  },
+  "original_train_screen": {
+    "run": 44483128198,
+    "head": "742dea5aab2224bdfe2ad1076237820f60ce85d4",
+    "artifact_id": 14509252921,
+    "name": "english-v5-mero-fresh24-saved-machine-screen-44483128198",
+    "bytes": 9282,
+    "sha256": "e8bcdf32a0ac138de8bdd90c4f6cd6e419d4ccae42bbd393e75b5daac9502158"
+  },
+  "train_groups": [
+    {
+      "role": "train",
+      "speaker_index": 448,
+      "source_speaker_id": "p7498",
+      "source_group_id": "piper-libritts-p7498"
+    },
+    {
+      "role": "train",
+      "speaker_index": 449,
+      "source_speaker_id": "p3905",
+      "source_group_id": "piper-libritts-p3905"
+    },
+    {
+      "role": "train",
+      "speaker_index": 450,
+      "source_speaker_id": "p7384",
+      "source_group_id": "piper-libritts-p7384"
+    },
+    {
+      "role": "train",
+      "speaker_index": 451,
+      "source_speaker_id": "p2992",
+      "source_group_id": "piper-libritts-p2992"
+    },
+    {
+      "role": "train",
+      "speaker_index": 452,
+      "source_speaker_id": "p30",
+      "source_group_id": "piper-libritts-p30"
+    },
+    {
+      "role": "train",
+      "speaker_index": 453,
+      "source_speaker_id": "p497",
+      "source_group_id": "piper-libritts-p497"
+    }
+  ],
+  "development_speakers": [
+    540,
+    541,
+    542,
+    543,
+    544,
+    545
+  ],
+  "cells": {
+    "train_hard_negative": {
+      "id": "ordinary-time-hard",
+      "text": "What time is it?",
+      "raw_ipa": "wˈʌt tˈaɪm ɪz ɪt",
+      "requested_class": 0,
+      "length_scale": 0.92
+    },
+    "dev_positive": {
+      "id": "mero-fast",
+      "text": "Hey Mero.",
+      "raw_ipa": "heɪ mˈɛɹoʊ",
+      "requested_class": 2,
+      "length_scale": 0.92
+    },
+    "dev_ordinary": {
+      "id": "ordinary-time",
+      "text": "What time is it?",
+      "raw_ipa": "wˈʌt tˈaɪm ɪz ɪt",
+      "requested_class": 0,
+      "length_scale": 1
+    }
+  },
+  "counts": {
+    "new_original_wavs": 18,
+    "train_hard_negative_candidates": 6,
+    "development_groups": 6,
+    "development_positive_candidates": 6,
+    "development_ordinary_candidates": 6,
+    "roles": {
+      "train": 6,
+      "development": 12
+    }
+  },
+  "minimum_groups_eligible": {
+    "train": 6,
+    "development": 2,
+    "calibration": 2,
+    "locked-test": 2
+  },
+  "budget": {
+    "max_new_piper_tts_forwards": 18,
+    "max_new_asr_forwards_at_source_stage": 0,
+    "max_new_phone_forwards_at_source_stage": 0,
+    "max_new_kws_forwards": 0,
+    "max_new_optimizer_updates": 0,
+    "retry_count": 0
+  },
+  "guards": {
+    "train_source_groups_must_already_be_machine_qualified": true,
+    "train_group_identity_must_match_original_source_and_screen": true,
+    "development_speakers_must_be_new_540_to_545": true,
+    "no_cross_role_source_group": true,
+    "no_old_audio_regeneration": true,
+    "no_calibration_or_locked_audio_open": true,
+    "all_requested_text_is_unverified": true,
+    "training_allowed_before_five_native_review": false,
+    "nearphone_not_relabelled": true,
+    "full_original_wav_only": true
+  },
+  "rights": {
+    "piper_code": "GPL-3.0",
+    "audio_dataset": "LibriTTS CC-BY-4.0",
+    "actual_allowed_use": "research_with_provenance_no_general_rights_inference"
+  },
+  "next_stage": "Five unprompted native observers and independent saved-source screening. Admit only source-reviewed TRAIN hard negatives; keep all DEV originals separate. No KWS model forward before TRAIN/DEV roles and labels are frozen."
+}
