@@ -1,0 +1,118 @@
+name: English V6 B9 DEV528 saved 299 of 300 five-native source QA readback once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b9_dev528_saved_screen_once.py
+      - automation/test_english_v6_b9_dev528_saved_screen_once.py
+      - .github/workflows/english-v6-b9-dev528-saved-screen-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v6-b9-dev528-saved-screen-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b9-dev528-saved-readback-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261121'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify 300 attempted, 299 completed native captures with one failed receipt, source roles and first-main guard under three interpreters
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v6_b9_dev528_saved_screen_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v6_b9_dev528_saved_screen_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  combine-only-saved-five:
+    needs: source-contract
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'fedc502a5b38445be1c6b143a94553a38850bcc1' &&
+      needs.source-contract.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Verify one and only saved-evidence protected main successor
+        run: python3 -I -S -B automation/english_v6_b9_dev528_saved_screen_once.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b9-fresh-dev528-original-44870282676
+          run-id: 44870282676
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b9-dev528-original60
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b9-dev528-native-qwen-44870958716
+          run-id: 44870958716
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b9-dev528-five/qwen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b9-dev528-native-whisper-44870958716
+          run-id: 44870958716
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b9-dev528-five/whisper
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b9-dev528-native-parakeet-44870958716
+          run-id: 44870958716
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b9-dev528-five/parakeet
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b9-dev528-native-xlsr-44870958716
+          run-id: 44870958716
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b9-dev528-five/xlsr
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b9-dev528-native-lv60-44870958716
+          run-id: 44870958716
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b9-dev528-five/lv60
+      - name: Audit six original archives, all 60 PCM and failed Parakeet; preserve UNKNOWN
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b9_dev528_saved_screen_once.py --evaluate \
+            --source "$RUNNER_TEMP/b9-dev528-original60" \
+            --observers "$RUNNER_TEMP/b9-dev528-five" \
+            --output "$RUNNER_TEMP/b9-dev528-saved-screen-$GITHUB_RUN_ID"
+          test -z "$(git status --porcelain)"
+      - name: Archive 60-clip machine-tiered receipts and failed native or STOP; no models
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b9-dev528-saved-machine-screen-${{ github.run_id }}
+          path: ${{ runner.temp }}/b9-dev528-saved-screen-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
