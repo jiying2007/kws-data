@@ -77,7 +77,8 @@ class B10NativeTests(TestCase):
                     m.source_rows(root,root,root)
 
     def test_guard_fails_closed_outside_first_public_main(self):
-        with mock.patch.dict(os.environ,{"GITHUB_ACTIONS":"false"},clear=True):
+        with mock.patch.object(m,"source_check",return_value={"status":"B10_SOURCE_PINNED"}), \
+             mock.patch.dict(os.environ,{"GITHUB_ACTIONS":"false"},clear=True):
             with self.assertRaisesRegex(ValueError,"FIRST_PUBLIC_MAIN_ONLY"):
                 m.guard()
 
