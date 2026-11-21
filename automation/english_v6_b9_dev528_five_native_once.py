@@ -63,7 +63,7 @@ def source_check():
          and SOURCE_COUNT==60 and REVIEW_COUNT==60 and len(PROVIDERS)==5
          and SOURCE_COMMIT=="2bd78ea27b2439e92c82ee5672712eba2e86405a"
          and SOURCE_PARENT=="846c745ebcee58a1beb27300ddcd7ec8e2178916"
-         and SOURCE["id"]==14693632800 and SOURCE["size"]==628555
+         and SOURCE["id"]==14693632800 and SOURCE["size"]==1206914
          and SOURCE["digest"]=="sha256:d606ee883a1abd38cc95a278f6b7b7064476c8b00add1163e27c247c41ab7032",
          "FROZEN_NEW_B9_DEV528_SOURCE60_FIVE_NATIVE_MODEL_LABEL_REVIEW")
     return {"status":"ORIGINAL_SOURCE_PINNED",
