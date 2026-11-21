@@ -76,7 +76,7 @@ def source_check():
             "kws_model_forwards":0,"cal_locked_opened":False,
             "training_allowed":False,"product_promotion_allowed":False}
 def guard(env=None,event=None,parent=None):
-    need(source_check()["status"]=="ORIGINAL_SOURCE_PINNED",
+    need(source_check()["status"]=="B10_SOURCE_PINNED",
          "NO_NUMERICAL_EXECUTION_WITHOUT_VERIFIED_CLONE_ARCHIVE")
     env=os.environ if env is None else env
     need(all(env.get(k)==v for k,v in {
