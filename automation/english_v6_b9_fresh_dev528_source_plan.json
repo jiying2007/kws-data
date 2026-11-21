@@ -1,0 +1,211 @@
+{
+  "schema": "english-v6-b9-fresh-prospective12-development-piper-source-v1",
+  "status": "FROZEN_BEFORE_ANY_NEW_WAV",
+  "purpose": "Post-B9 TRAIN frozen, genuinely new 12 source-family synthetic development only. Preserve original WAV and exact source identity, separately qualify labels, include ordinary-hard nearphone candidates; never treat requested class as gold.",
+  "target": {
+    "keyword": "Hey Mero",
+    "ipa": "/heɪ ˈmɛroʊ/",
+    "active_english_keyword_count": 1
+  },
+  "model": {
+    "repo": "rhasspy/piper-voices",
+    "commit": "de3dcfdf1912bb49726dc4aa11c26017ce2ac62a",
+    "file": "en/en_US/libritts/high/en_US-libritts-high.onnx",
+    "file_bytes": 136673811,
+    "file_sha256": "9127a559e11603f10b366d1a20ac7426826081dbc521de4c2420c57728d73f0f",
+    "config": "en/en_US/libritts/high/en_US-libritts-high.onnx.json",
+    "config_bytes": 20163,
+    "config_md5": "cb1564bb779f3b1f87e2de778adeb669",
+    "piper_tts_version": "1.8.0",
+    "num_speakers": 904,
+    "native_rate": 22050,
+    "derived_rate": 16000,
+    "dataset": "LibriTTS train-clean-360",
+    "dataset_license": "CC-BY-4.0",
+    "engine_license": "GPL-3.0"
+  },
+  "source_selection": "Unused official Piper indices 528..539 after exposed B8 DEV520..527; 12 distinct LibriTTS speaker identities; development only",
+  "source_count": 60,
+  "source_groups": [
+    {
+      "speaker_index": 528,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-528",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_PRIOR_0_57_AND_400_527_AND_AUDITED_HUMAN_IDS"
+    },
+    {
+      "speaker_index": 529,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-529",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_PRIOR_0_57_AND_400_527_AND_AUDITED_HUMAN_IDS"
+    },
+    {
+      "speaker_index": 530,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-530",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_PRIOR_0_57_AND_400_527_AND_AUDITED_HUMAN_IDS"
+    },
+    {
+      "speaker_index": 531,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-531",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_PRIOR_0_57_AND_400_527_AND_AUDITED_HUMAN_IDS"
+    },
+    {
+      "speaker_index": 532,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-532",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_PRIOR_0_57_AND_400_527_AND_AUDITED_HUMAN_IDS"
+    },
+    {
+      "speaker_index": 533,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-533",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_PRIOR_0_57_AND_400_527_AND_AUDITED_HUMAN_IDS"
+    },
+    {
+      "speaker_index": 534,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-534",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_PRIOR_0_57_AND_400_527_AND_AUDITED_HUMAN_IDS"
+    },
+    {
+      "speaker_index": 535,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-535",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_PRIOR_0_57_AND_400_527_AND_AUDITED_HUMAN_IDS"
+    },
+    {
+      "speaker_index": 536,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-536",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_PRIOR_0_57_AND_400_527_AND_AUDITED_HUMAN_IDS"
+    },
+    {
+      "speaker_index": 537,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-537",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_PRIOR_0_57_AND_400_527_AND_AUDITED_HUMAN_IDS"
+    },
+    {
+      "speaker_index": 538,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-538",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_PRIOR_0_57_AND_400_527_AND_AUDITED_HUMAN_IDS"
+    },
+    {
+      "speaker_index": 539,
+      "role": "development",
+      "source_group_id": "piper-libritts-index-539",
+      "speaker_identity_basis": "PINNED_904_MAP_DISTINCT_FROM_PRIOR_0_57_AND_400_527_AND_AUDITED_HUMAN_IDS"
+    }
+  ],
+  "cells": [
+    {
+      "id": "mero-fast",
+      "text": "Hey Mero.",
+      "raw_ipa": "heɪ mˈɛɹoʊ",
+      "requested_class": 2,
+      "length_scale": 0.92
+    },
+    {
+      "id": "mero-slow",
+      "text": "Hey Mero.",
+      "raw_ipa": "heɪ mˈɛɹoʊ",
+      "requested_class": 2,
+      "length_scale": 1.08
+    },
+    {
+      "id": "ordinary-time",
+      "text": "What time is it?",
+      "raw_ipa": "wˈʌt tˈaɪm ɪz ɪt",
+      "requested_class": 0,
+      "length_scale": 1
+    },
+    {
+      "id": "hard-hey-mary",
+      "text": "Hey Mary.",
+      "raw_ipa": "heɪ mˈɛɹi",
+      "requested_class": 0,
+      "length_scale": 1
+    },
+    {
+      "id": "nearphone-meero-challenge",
+      "text": "Hey Meero.",
+      "raw_ipa": "heɪ mˈiːɹoʊ",
+      "requested_class": null,
+      "length_scale": 1
+    }
+  ],
+  "minimum_groups_eligible": {
+    "train": 6,
+    "development": 2,
+    "calibration": 2,
+    "locked-test": 2
+  },
+  "budget": {
+    "max_new_piper_tts_forwards": 60,
+    "max_new_asr_forwards_at_source_stage": 0,
+    "max_new_kws_train_updates": 0,
+    "retry_count": 0
+  },
+  "source_guards": {
+    "no_repeated_old_63_64_168_audio": true,
+    "known_prior_piper_indices": "0..57 and 400..527, plus all prior source-lineage speaker identities",
+    "full_original_pcm_no_crop": true,
+    "nearphone_is_unlabeled_challenge": true,
+    "source_ancestry_role_frozen": true,
+    "no_trusted_speech_gold_from_prompt": true,
+    "no_old_locked_audio_read": true,
+    "model_weights_sha_verified": false,
+    "hard_nearphone_is_automatically_ordinary": false,
+    "hard_ordinary_requires_five_native_source_review": true,
+    "all_TTS_intents_are_unverified": true
+  },
+  "rights": {
+    "piper_code": "GPL-3.0",
+    "audio_dataset": "LibriTTS CC-BY-4.0",
+    "actual_allowed_use": "research_with_provenance_no_general_rights_inference"
+  },
+  "notes": "Post-B9 trained frozen weights (run 44860855857), 60 novel DEV-only WAVs in 12 previously unused LibriTTS speaker groups. Two canonical, one plain ordinary, one separately reviewed difficult ordinary candidate Hey Mary, and one nearphone Meero UNKNOWN per group. Never infer ground truth from prompts. New B9 model must wait for source + native five-observer QA and source-disjoint qualifications before any DEV scoring, with no automatic promotion.",
+  "frozen_reference": {
+    "baseline_model_run": 44495594627,
+    "baseline_model_artifact": 14514228406,
+    "baseline_zip_sha256": "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702",
+    "robust_model_run": 44546464853,
+    "robust_model_artifact": 14539983171,
+    "robust_zip_sha256": "bab018a63aaf4cc760ee835b8554ebacf73e6ee77c37adc7c9d5008b1a03d7ce",
+    "robust_pt_sha256": "20d0c4632224cf332460493695c0dd21927a80ed13034a9531f5d5230d2f7e05",
+    "model_parameter_count": 43876,
+    "prior_exposed_dev_positives": 2,
+    "prior_exposed_dev_ordinary": 8,
+    "prior_both_models_positive_hits": 2,
+    "prior_both_models_ordinary_false": 0,
+    "prior_dev_is_exposed": true,
+    "independent_quality_proven": false,
+    "no_old_locked_audio_eval": true
+  },
+  "excluded_prior_development_sources": {
+    "piper_speaker_indices": "488..527",
+    "protocol": "NEW_528_TO_539_ONLY_AFTER_B9_WEIGHTS_FROZEN",
+    "derived_gains_increase_independent_n": false
+  },
+  "b9_frozen_models": {
+    "status": "FROZEN_AFTER_ACTUAL_B9_TRAIN_BEFORE_NEW_DEV_528_539_WAV",
+    "data_main_sha": "846c745ebcee58a1beb27300ddcd7ec8e2178916",
+    "real_train_actions_run": 44860855857,
+    "real_train_artifact_id": 14689218171,
+    "real_train_artifact_zip_sha256": "1a8b270200e0c72ab1025f139d16abde43c209f142d72e71a7201b847e06a612",
+    "parent_B6_pt_sha256": "0461ce14ff5ed6490e88801b23c9036ca63b2c302aee7e8d96cea26c3eaa9f04",
+    "B9_control_pt_sha256": "7dba86a3fcda6e5f05cb80b414dc372c70a5a03b3aee783f168441a4871e7655",
+    "B9_challenger_pt_sha256": "d672dcc87ca9e5d2c6dcf5952251a3c40fe8e7956d3b7c8753667c3093761cea",
+    "B9_optimizer_updates": 384,
+    "B9_trained_tensor_values_different": 43754,
+    "B7_original_strict_replay": "FAILED_UNCHANGED",
+    "model_parameters": 43876,
+    "B6_B8_B9_model_forwards_on_this_source_stage": 0,
+    "prohibit_new_DEV_training_or_selection_before_source_QA": true,
+    "human_gold": false,
+    "release_allowed": false
+  }
+}
