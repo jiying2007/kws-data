@@ -233,9 +233,9 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2923,
+  "expected_tracked_files": 2926,
   "expected_retained_files": 2027,
-  "new_retained_paths": 1285,
+  "new_retained_paths": 1288,
   "integration_files": [
     ".github/research-v4/background-continuation-request.template.json",
     ".github/research-v4/native-c-librispeech-request.template.json",
@@ -357,6 +357,7 @@
     ".github/workflows/english-v5-mero43-c-native-real-parity-once.yml",
     ".github/workflows/english-v5-mero43-onnx-parity-once.yml",
     ".github/workflows/english-v5-mero43-trainonly-robust-challenger-once.yml",
+    ".github/workflows/english-v6-b10-hardneg-five-native-once.yml",
     ".github/workflows/english-v6-b10-hardneg-source-once.yml",
     ".github/workflows/english-v6-b3-c11-arm-parity-once.yml",
     ".github/workflows/english-v6-b3-continuous-c11-once.yml",
@@ -590,6 +591,7 @@
     "automation/english_v5_mero_saved_diagnostic_once.py",
     "automation/english_v5_mero_sequence_margin_student_once.py",
     "automation/english_v5_mero_strong_fsmn128_once.py",
+    "automation/english_v6_b10_hardneg_five_native_once.py",
     "automation/english_v6_b10_hardneg_train_dev_source_once.py",
     "automation/english_v6_b10_hardneg_train_dev_source_plan.json",
     "automation/english_v6_b3_c11_arm_parity_once.py",
@@ -781,6 +783,7 @@
     "automation/test_english_v5_mero_saved_diagnostic_once.py",
     "automation/test_english_v5_mero_sequence_margin_student_once.py",
     "automation/test_english_v5_mero_strong_fsmn128_once.py",
+    "automation/test_english_v6_b10_hardneg_five_native_once.py",
     "automation/test_english_v6_b10_hardneg_train_dev_source_once.py",
     "automation/test_english_v6_b3_c11_arm_parity_once.py",
     "automation/test_english_v6_b3_continuous_c11_once.py",
@@ -32182,6 +32185,18 @@
         ".github/workflows/english-v6-b10-hardneg-source-once.yml"
       ],
       "rationale": "One bounded post-B9 source stage after two independently machine-qualified ordinary 'What time is it?' originals triggered the same three-token CTC false wake across B6/B8/B9. Add exactly six new TRAIN-only What time is it? originals inside six already-qualified TRAIN speaker groups, plus six genuinely new DEV speaker groups with one Hey Mero positive and one What time is it? ordinary candidate each. Verify original TRAIN group ancestry/roles before synthesis; new DEV Piper identities 540-545 are checked unused. This stage performs only 18 new Piper TTS forwards, then separate five-native source review; no KWS inference, optimizer, threshold selection, CAL/LOCKED audio, or model promotion."
+    },
+    {
+      "campaign": "english-v6-b10-hardneg-five-native-20261121",
+      "source_commit": "8a25eba7c2562e622c396080beb998aecec70dcb",
+      "base_commit": "115738743e6c2cfa0cc55df9df772bb00e4c673c",
+      "previous_manifest_git_blob_sha1": "90e08a77af90a275e022ac49c67c3b6edf6bc750",
+      "paths": [
+        "automation/english_v6_b10_hardneg_five_native_once.py",
+        "automation/test_english_v6_b10_hardneg_five_native_once.py",
+        ".github/workflows/english-v6-b10-hardneg-five-native-once.yml"
+      ],
+      "rationale": "Blind five-native observer stage for the one-shot B10 source packet. Authenticate 18 complete original PCM (six TRAIN hard-negative candidates inside six existing qualified TRAIN groups and six new DEV groups with positive/ordinary pairs) plus original TRAIN source/screen ancestry. Run exactly 18 full-audio observations per native provider (Qwen3-ASR, Whisper, Parakeet, XLSR, LV60); preserve every success/failure receipt and full phone logits. No KWS inference, training, CAL/LOCKED, label fabrication or retry."
     }
   ]
 }
