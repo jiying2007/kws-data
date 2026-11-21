@@ -93,7 +93,7 @@ def plan():
               "baseline_zip_sha256":"91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702",
               "robust_model_run":44546464853,
               "robust_model_artifact":14539983171,
-              "robust_zip_sha256":"bab018a63aaf4cc760ee835b9554ebacf73e6ee77c37adc7c9d5008b1a03d7ce",
+              "robust_zip_sha256":"bab018a63aaf4cc760ee835b8554ebacf73e6ee77c37adc7c9d5008b1a03d7ce",
               "robust_pt_sha256":"20d0c4632224cf332460493695c0dd21927a80ed13034a9531f5d5230d2f7e05",
               "model_parameter_count":43876,
               "prior_exposed_dev_positives":2,
