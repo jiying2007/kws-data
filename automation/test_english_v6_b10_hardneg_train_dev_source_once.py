@@ -16,16 +16,32 @@ m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 def synthetic_originals():
     p=m.plan()
     source=[];screen=[]
-    for g in p["train_groups"]:
+    selected={g["source_group_id"]:g for g in p["train_groups"]}
+    # Reconstruct the complete original 24-group/96-row manifest metadata.
+    roles=["train"]*12+["development"]*4+["calibration"]*4+["locked-test"]*4
+    for i,role in enumerate(roles):
+        if i<len(p["train_groups"]):
+            g=p["train_groups"][i]
+            gid=g["source_group_id"];speaker=g["source_speaker_id"];idx=g["speaker_index"]
+        else:
+            idx=600+i;speaker=f"p{40000+i}";gid="piper-libritts-"+speaker
         for cell,klass in (("mero-fast",2),("mero-slow",2),
                            ("ordinary-time",0),("nearphone-meero-challenge",None)):
-            source.append({"id":f"old-{g['speaker_index']}-{cell}",
-                "source_group_id":g["source_group_id"],"speaker_index":g["speaker_index"],
-                "source_speaker_id":g["source_speaker_id"],"role":"train",
-                "cell_id":cell,"pcm_sha256":f"{g['speaker_index']:04x}"+("a"*60)})
-            screen.append({"id":f"old-{g['speaker_index']}-{cell}",
-                "source_group_id":g["source_group_id"],"speaker_index":g["speaker_index"],
-                "role":"train","tier":"silver" if klass is not None else "unknown",
+            source.append({"id":f"old-{idx}-{cell}","source_group_id":gid,
+                "speaker_index":idx,"source_speaker_id":speaker,"role":role,
+                "cell_id":cell,"pcm_sha256":f"{idx:04x}"+("a"*60)})
+    # The saved source screen contains the 12 TRAIN and four DEV groups only.
+    for i,role in enumerate(["train"]*12+["development"]*4):
+        if i<len(p["train_groups"]):
+            g=p["train_groups"][i]
+            gid=g["source_group_id"];idx=g["speaker_index"]
+        else:
+            idx=700+i;gid=f"piper-libritts-p{41000+i}"
+        for cell,klass in (("mero-fast",2),("mero-slow",2),
+                           ("ordinary-time",0),("nearphone-meero-challenge",None)):
+            screen.append({"id":f"old-{idx}-{cell}","source_group_id":gid,
+                "speaker_index":idx,"role":role,
+                "tier":"silver" if klass is not None else "unknown",
                 "observed_class":klass})
     manifest={"schema":"english-v5-mero-fresh24-independent-source-once-v1",
         "run":{"run_id":"44478554596","commit":"e3f79406f469061dc9ac7438ed6658ad66375e55",
