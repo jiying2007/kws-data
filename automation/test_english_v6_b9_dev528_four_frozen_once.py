@@ -26,7 +26,7 @@ def synthetic():
             num+=1
             requested=None if cell==CELLS[4] else (0 if cell in CELLS[2:4] else 2)
             key=GROUPS.get(speaker,f"piper-new-{speaker}")
-            row={"id":f"dev528-{speaker}-{cell}",
+            row={"id":(m.PARAKEET_FAILED_ID if speaker==531 and cell=="mero-slow"\n                       else f"dev528-{speaker}-{cell}"),
                  "source_group_id":key,"speaker_index":speaker,
                  "role":"development","cell_id":cell,
                  "requested_class":requested,"pcm_sha256":f"{num:064x}",
