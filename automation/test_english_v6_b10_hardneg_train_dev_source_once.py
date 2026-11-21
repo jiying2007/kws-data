@@ -40,7 +40,7 @@ def synthetic_originals():
         for cell,klass in (("mero-fast",2),("mero-slow",2),
                            ("ordinary-time",0),("nearphone-meero-challenge",None)):
             screen.append({"id":f"old-{idx}-{cell}","source_group_id":gid,
-                "speaker_index":idx,"role":role,
+                "speaker_index":idx,"role":role,"cell_id":cell,
                 "tier":"silver" if klass is not None else "unknown",
                 "observed_class":klass})
     manifest={"schema":"english-v5-mero-fresh24-independent-source-once-v1",
