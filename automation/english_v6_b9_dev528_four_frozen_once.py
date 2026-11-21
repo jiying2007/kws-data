@@ -38,6 +38,8 @@ v5=ref.v5
 REPO="jiying2007/kws-data"
 SCHEMA="english-v6-b9-dev528-four-frozen-new-source-v1"
 BEFORE="1b47e4a5d0c30ae59bc48e754772852c90b28a55"
+RECOVERY_BEFORE="820e3db36806991faf368b5197dfa6c5f97c4157"
+FAILED_FIRST_RUN=44872555787
 PINNED_B8_EVALUATOR_BLOB="d4c08b504945b1928b01e73ac9b11ef1dd13e29b"
 SOURCE={"id":14693632800,"run":44870282676,
         "head":"2bd78ea27b2439e92c82ee5672712eba2e86405a",
@@ -126,7 +128,7 @@ def source_check():
          "EXACT_FROZEN_B6_B8_B9_AND_NEW_299_OBSERVER_SOURCE")
     wf=(ROOT/".github/workflows/english-v6-b9-dev528-four-frozen-once.yml").read_text()
     need(all(wf.count("'"+x["sha"]+"'")==1 for x in (B6,B8,B9))
-         and "github.event.before == '"+BEFORE+"'" in wf,
+         and "github.event.before == '"+RECOVERY_BEFORE+"'" in wf,
          "EXACT_FROZEN_MODEL_ZIPS_AND_ONE_MAIN_SUCCESSOR")
     return {
       "schema":SCHEMA,"status":"SOURCE_ONLY_NO_NEURAL_FORWARD",
@@ -141,9 +143,49 @@ def source_check():
       "fixed_gains":list(GAIN),"max_actual_frozen_forwards":192,
       "new_training_updates":0,"new_audio_asr_phone_calls":0,
       "new_model_forwards_in_PR":0,
+       "original_failed_no_forward_run":FAILED_FIRST_RUN,
       "cal_locked_opened":False,"no_old_DEV520_reuse":True,
       "model_selection_allowed":False,"product_promotion_allowed":False
     }
+
+def failed_first_run_proof(token):
+    """Reject recovery if first-main original ever reached source audit or model inference."""
+    need(isinstance(token,str) and len(token)>10,
+         "READONLY_GITHUB_RECOVERY_PROVENANCE_TOKEN_REQUIRED")
+    def get(relative):
+        req=urllib.request.Request(
+            "https://api.github.com/repos/"+REPO+"/actions/"+relative,
+            headers={"Authorization":"Bearer "+token,
+                     "Accept":"application/vnd.github+json",
+                     "User-Agent":"kws-v6-b9-once-recovery-proof"})
+        with urllib.request.urlopen(req,timeout=40) as response:
+            raw=response.read(1000001)
+        need(len(raw)<=1000000,"BOUNDED_FAILED_FIRST_MAIN_METADATA")
+        return json.loads(raw)
+    run=get("runs/"+str(FAILED_FIRST_RUN))
+    need(run.get("id")==FAILED_FIRST_RUN
+         and run.get("head_sha")==RECOVERY_BEFORE
+         and run.get("head_branch")=="main"
+         and run.get("event")=="push"
+         and run.get("run_attempt")==1
+         and run.get("status")=="completed"
+         and run.get("conclusion")=="failure",
+         "ORIGINAL_FIRST_MAIN_FAILED_ATTEMPT_ONE_ONLY")
+    jobs=get("runs/"+str(FAILED_FIRST_RUN)+"/jobs?per_page=100")
+    rows=jobs.get("jobs",[])
+    conclusions={r["name"]:r.get("conclusion") for r in rows}
+    need(jobs.get("total_count")==3 and len(rows)==3
+         and conclusions=={
+             "source-contract":"failure",
+             "original-source-screen-audit":"skipped",
+             "real-four-frozen-models":"skipped"},
+         "ORIGINAL_FIRST_MAIN_FAILED_BEFORE_SOURCE_AUDIT_AND_MODEL_FORWARD")
+    artifacts=get("runs/"+str(FAILED_FIRST_RUN)+"/artifacts?per_page=100")
+    need(artifacts.get("total_count")==0 and artifacts.get("artifacts")==[],
+         "ORIGINAL_FIRST_MAIN_HAS_NO_MODEL_OUTPUT_ARCHIVE")
+    return {"run_id":FAILED_FIRST_RUN,"head":RECOVERY_BEFORE,
+            "source_contract":"failure","source_audit":"skipped",
+            "frozen_model_job":"skipped","artifact_count":0}
 
 def guard():
     source_check()
@@ -158,7 +200,7 @@ def guard():
          and re.fullmatch("[1-9][0-9]*",e.get("GITHUB_RUN_ID","")) is not None,
          "VALID_GITHUB_RUN_ID_AND_COMMIT")
     event=json.loads(Path(e["GITHUB_EVENT_PATH"]).read_bytes())
-    need(event.get("before")==BEFORE
+    need(event.get("before")==RECOVERY_BEFORE
          and event.get("after")==head
          and event.get("ref")=="refs/heads/main"
          and event.get("repository",{}).get("full_name")==REPO
@@ -166,9 +208,11 @@ def guard():
          and event.get("forced") is False
          and event.get("deleted") is False
          and subprocess.check_output(["git","rev-parse","HEAD^1"],cwd=ROOT,
-                                    text=True).strip()==BEFORE,
-         "EXACT_FIRST_NEW_B9_DEV_SOURCE_SCORE_NO_REPLAY")
-    return {"run_id":e["GITHUB_RUN_ID"],"head":head,"parent":BEFORE}
+                                    text=True).strip()==RECOVERY_BEFORE,
+         "EXACT_FIRST_FAILED_MAIN_SUCCESSOR_RECOVERY_NO_REPLAY")
+    failed=failed_first_run_proof(e.get("GH_TOKEN"))
+    return {"run_id":e["GITHUB_RUN_ID"],"head":head,
+            "parent":RECOVERY_BEFORE,"failed_first_run_proof":failed}
 
 def provenance(token):
     need(isinstance(token,str) and len(token)>10,

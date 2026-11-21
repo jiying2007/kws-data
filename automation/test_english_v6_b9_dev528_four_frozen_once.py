@@ -2,6 +2,8 @@
 from __future__ import annotations
 from collections import Counter
 import importlib.util
+import io
+import os
 import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -83,6 +85,9 @@ class B9FourFrozenTests(TestCase):
         self.assertFalse(p["product_promotion_allowed"])
         self.assertTrue(p["no_old_DEV520_reuse"])
         self.assertEqual(m.BEFORE,"1b47e4a5d0c30ae59bc48e754772852c90b28a55")
+        self.assertEqual(m.RECOVERY_BEFORE,"820e3db36806991faf368b5197dfa6c5f97c4157")
+        self.assertEqual(m.FAILED_FIRST_RUN,44872555787)
+        self.assertEqual(p["original_failed_no_forward_run"],44872555787)
         self.assertEqual(m.SOURCE["id"],14693632800)
         self.assertEqual(m.SCREEN["id"],14694540474)
         self.assertEqual(m.SCREEN["sha"],
@@ -162,9 +167,37 @@ class B9FourFrozenTests(TestCase):
         self.assertNotIn("optimizer.step()",script)
         self.assertNotIn("retrain_on_dev",script)
 
+    def test_original_zero_forward_failed_run_required_for_recovery(self):
+        run={"id":m.FAILED_FIRST_RUN,"head_sha":m.RECOVERY_BEFORE,
+             "head_branch":"main","event":"push","run_attempt":1,
+             "status":"completed","conclusion":"failure"}
+        jobs={"total_count":3,"jobs":[
+            {"name":"source-contract","conclusion":"failure"},
+            {"name":"original-source-screen-audit","conclusion":"skipped"},
+            {"name":"real-four-frozen-models","conclusion":"skipped"}]}
+        artifacts={"total_count":0,"artifacts":[]}
+        def get(req,timeout):
+            uri=req.full_url
+            val=(jobs if uri.endswith("/jobs?per_page=100")
+                 else artifacts if uri.endswith("/artifacts?per_page=100")
+                 else run)
+            return io.BytesIO(json.dumps(val).encode())
+        with mock.patch.object(m.urllib.request,"urlopen",side_effect=get):
+            good=m.failed_first_run_proof("synthetic-test-token-long-enough")
+            self.assertEqual(good["artifact_count"],0)
+            self.assertEqual(good["frozen_model_job"],"skipped")
+            jobs["jobs"][2]["conclusion"]="success"
+            with self.assertRaisesRegex(ValueError,"FAILED_BEFORE_SOURCE_AUDIT"):
+                m.failed_first_run_proof("synthetic-test-token-long-enough")
+            jobs["jobs"][2]["conclusion"]="skipped"
+            artifacts["total_count"]=1
+            with self.assertRaisesRegex(ValueError,"NO_MODEL_OUTPUT_ARCHIVE"):
+                m.failed_first_run_proof("synthetic-test-token-long-enough")
+
     def test_only_first_exact_main_successor_no_rerun(self):
-        with self.assertRaisesRegex(ValueError,"FIRST_PUBLIC_PROTECTED_MAIN_ONLY"):
-            m.guard()
+        with mock.patch.dict(os.environ,{"GITHUB_ACTIONS":"false"}):
+            with self.assertRaisesRegex(ValueError,"FIRST_PUBLIC_PROTECTED_MAIN_ONLY"):
+                m.guard()
 
 if __name__=="__main__":
     main()
