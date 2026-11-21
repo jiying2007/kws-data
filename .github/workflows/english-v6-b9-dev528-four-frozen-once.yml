@@ -29,6 +29,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
+          fetch-depth: 2
       - name: Freeze exact B9 train weights and new 4 positive 12 ordinary source-only labels in Python three modes
         shell: bash
         run: |
@@ -82,7 +83,7 @@ jobs:
       github.event.repository.private == false &&
       github.ref == 'refs/heads/main' &&
       github.run_attempt == 1 &&
-      github.event.before == '1b47e4a5d0c30ae59bc48e754772852c90b28a55' &&
+      github.event.before == '820e3db36806991faf368b5197dfa6c5f97c4157' &&
       needs.source-contract.result == 'success' &&
       needs.original-source-screen-audit.result == 'success'
     runs-on: ubuntu-24.04
@@ -92,7 +93,9 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 2
-      - name: Verify exact first protected public main successor for B9 new DEV source score no retry
+      - name: Verify original failed main run before once-only B9 DEV scoring recovery
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: python3 -I -S -B automation/english_v6_b9_dev528_four_frozen_once.py --guard
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
