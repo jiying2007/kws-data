@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2926,
+  "expected_tracked_files": 2929,
   "expected_retained_files": 2027,
   "new_retained_paths": 1288,
   "integration_files": [
@@ -1135,7 +1135,10 @@
     "research/kws_unified_evidence_20261117/test_compare_saved.py",
     "tests/test_branch_retention.py",
     "tests/test_research_publication_boundary.py",
-    "tools/verify_branch_retention.py"
+    "tools/verify_branch_retention.py",
+    "automation/english_v6_b10_hardneg_saved_screen_once.py",
+    "automation/test_english_v6_b10_hardneg_saved_screen_once.py",
+    ".github/workflows/english-v6-b10-hardneg-saved-screen-once.yml"
   ],
   "baseline_files": [
     {
@@ -32197,6 +32200,18 @@
         ".github/workflows/english-v6-b10-hardneg-five-native-once.yml"
       ],
       "rationale": "Blind five-native observer stage for the one-shot B10 source packet. Authenticate 18 complete original PCM (six TRAIN hard-negative candidates inside six existing qualified TRAIN groups and six new DEV groups with positive/ordinary pairs) plus original TRAIN source/screen ancestry. Run exactly 18 full-audio observations per native provider (Qwen3-ASR, Whisper, Parakeet, XLSR, LV60); preserve every success/failure receipt and full phone logits. No KWS inference, training, CAL/LOCKED, label fabrication or retry."
+    },
+    {
+      "campaign": "english-v6-b10-hardneg-saved-native-admission-20261122",
+      "source_commit": "0c82174349bef08c9a819651211703ac25914bcb",
+      "base_commit": "0c82174349bef08c9a819651211703ac25914bcb",
+      "previous_manifest_git_blob_sha1": "c8c7dc1bb0a937b0ae46a50f827d1cd0498643e9",
+      "paths": [
+        "automation/english_v6_b10_hardneg_saved_screen_once.py",
+        "automation/test_english_v6_b10_hardneg_saved_screen_once.py",
+        ".github/workflows/english-v6-b10-hardneg-saved-screen-once.yml"
+      ],
+      "rationale": "B10 one-shot 18-original/90-native full-byte source-only QA. Frozen independent 3-ASR/2-phone admission, TRAIN/DEV identity and role split, no unknown relabel or DEV training, no Work/Codex/private paid resources."
     }
   ]
 }
