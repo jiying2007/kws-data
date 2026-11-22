@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2929,
+  "expected_tracked_files": 2932,
   "expected_retained_files": 2027,
   "new_retained_paths": 1288,
   "integration_files": [
@@ -1138,7 +1138,10 @@
     "tools/verify_branch_retention.py",
     "automation/english_v6_b10_hardneg_saved_screen_once.py",
     "automation/test_english_v6_b10_hardneg_saved_screen_once.py",
-    ".github/workflows/english-v6-b10-hardneg-saved-screen-once.yml"
+    ".github/workflows/english-v6-b10-hardneg-saved-screen-once.yml",
+    "automation/english_v6_b10_hardneg_paired_trainonce.py",
+    "automation/test_english_v6_b10_hardneg_paired_trainonce.py",
+    ".github/workflows/english-v6-b10-hardneg-paired-trainonce.yml"
   ],
   "baseline_files": [
     {
@@ -32212,6 +32215,18 @@
         ".github/workflows/english-v6-b10-hardneg-saved-screen-once.yml"
       ],
       "rationale": "B10 one-shot 18-original/90-native full-byte source-only QA. Frozen independent 3-ASR/2-phone admission, TRAIN/DEV identity and role split, no unknown relabel or DEV training, no Work/Codex/private paid resources."
+    },
+    {
+      "campaign": "english-v6-b10-real-paired-43k-hardnegative-train-20261122",
+      "source_commit": "cf3d995d830e69f875c7921ff0ac95498666ecf9",
+      "base_commit": "cf3d995d830e69f875c7921ff0ac95498666ecf9",
+      "previous_manifest_git_blob_sha1": "f600b7fa15df7761fa0a5d8cb968c408b2159f29",
+      "paths": [
+        "automation/english_v6_b10_hardneg_paired_trainonce.py",
+        "automation/test_english_v6_b10_hardneg_paired_trainonce.py",
+        ".github/workflows/english-v6-b10-hardneg-paired-trainonce.yml"
+      ],
+      "rationale": "Frozen B9-control same-parent two-arm FSMN-CTC, 192+192 actual TRAIN-only updates using all existing 79 TRAIN and only six original Silver B10 hard negatives; one 0.08 auxiliary loss factor, no DEV gradients/forwards, product promotion or Work/Codex."
     }
   ]
 }
