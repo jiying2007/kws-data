@@ -194,6 +194,8 @@ def training_rows(source_dir,screen_dir,old_rows,groups):
          and len(receipt.get("rows",[]))==18
          and len(packet.get("rows",[]))==18,
          "ACTUAL_PASS_B10_FROZEN_90_NATIVE_SOURCE_SCREEN_ONLY")
+    need(receipt.get("admission")==screen.admission(packet["rows"],receipt["rows"]),
+         "RECOMPUTED_B10_QUALIFIED_GROUPS_AND_MACHINE_LABEL_COUNTS")
     source={r["id"]:r for r in packet["rows"]}
     decisions={r["id"]:r for r in receipt["rows"]}
     need(len(source)==len(decisions)==18
