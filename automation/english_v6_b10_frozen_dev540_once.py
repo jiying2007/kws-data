@@ -72,7 +72,8 @@ def source_check():
     need(prior["status"]=="SOURCE_ONLY_NO_OPTIMIZER_OR_MODEL_FORWARD"
          and prior["max_optimizer_updates"]==384
          and prior["original_old_train_rows"]==79
-         and train.BEFORE==SOURCE[2] if False else True,
+         and train.BEFORE==SCREEN[2]
+         and train.BEFORE=="cf3d995d830e69f875c7921ff0ac95498666ecf9",
          "B10_PRETRAINED_CONTRACT")
     need(SOURCE==(14708400220,44906200481,
                  "115738743e6c2cfa0cc55df9df772bb00e4c673c",
