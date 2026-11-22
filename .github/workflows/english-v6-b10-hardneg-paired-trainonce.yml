@@ -1,0 +1,200 @@
+name: English V6 B10 paired actual 384-update TRAIN hard-negative FSMN-CTC once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b10_hardneg_paired_trainonce.py
+      - automation/test_english_v6_b10_hardneg_paired_trainonce.py
+      - .github/workflows/english-v6-b10-hardneg-paired-trainonce.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v6-b10-hardneg-paired-trainonce.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b10-hardneg-paired-train-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261120'
+  OMP_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Verify frozen B9 control and six B10 independent TRAIN negative source contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v6_b10_hardneg_paired_trainonce.py --source-check
+            python3 -I -S -B $opt automation/test_english_v6_b10_hardneg_paired_trainonce.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  real-b10-paired-train:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'cf3d995d830e69f875c7921ff0ac95498666ecf9' &&
+      needs.source-contract.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 105
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Enforce exactly first public-main successor and one attempt
+        run: python3 -I -S -B automation/english_v6_b10_hardneg_paired_trainonce.py --guard
+      - name: Download original eight previously authenticated TRAIN source and source-review ZIPs without regeneration
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/b10-old"
+          for item in \
+            'fresh24-source:14422271973' 'fresh24-screen:14429385634' \
+            'fresh18-source:14429578824' 'fresh18-screen:14429884666' \
+            'piper24-source:14434542792' 'piper24-screen:14436377961' \
+            'newtrain24-source:14486048125' 'newtrain24-screen:14489594100'; do
+            IFS=':' read -r name id <<< "$item"
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$id/zip" > "$RUNNER_TEMP/b10-old/$name.zip"
+          done
+          gh api repos/jiying2007/kws-data/actions/artifacts/14503604626/zip > "$RUNNER_TEMP/b10-mono70-audit.zip"
+          printf '%s  %s\n' \
+            '12a1eb39c7a458a466fec2e93ba59e5036319bd9db4b4bdc47e7e6e1c5990f1b' \
+            "$RUNNER_TEMP/b10-mono70-audit.zip" | sha256sum --check --status
+          gh api repos/jiying2007/kws-data/actions/artifacts/14514228406/zip > "$RUNNER_TEMP/b10-B0-original.zip"
+          printf '%s  %s\n' \
+            '91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702' \
+            "$RUNNER_TEMP/b10-B0-original.zip" | sha256sum --check --status
+          gh api repos/jiying2007/kws-data/actions/artifacts/14689218171/zip > "$RUNNER_TEMP/b10-B9-original.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b10-B9-original.zip")" = 1001753
+          printf '%s  %s\n' \
+            '1a8b270200e0c72ab1025f139d16abde43c209f142d72e71a7201b847e06a612' \
+            "$RUNNER_TEMP/b10-B9-original.zip" | sha256sum --check --status
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-original-44478554596
+          run-id: 44478554596
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-fresh-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-saved-machine-screen-44483128198
+          run-id: 44483128198
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-fresh-screen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-newlocked8-saved-machine-gate-44493479564
+          run-id: 44493479564
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-source-gate
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-prospective-dev8-original-44511329722
+          run-id: 44511329722
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-prospective-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-prospective-dev8-saved-machine-screen-44514289065
+          run-id: 44514289065
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-prospective-screen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b10-hardneg-train-dev-source-44906200481
+          run-id: 44906200481
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b10-hardneg-saved-admission-44986730086
+          run-id: 44986730086
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-screen
+      - name: Verify original 79 TRAIN PCM, 35 groups, six new Silver negatives and paired DEV-only screen
+        shell: bash
+        timeout-minutes: 18
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b10_hardneg_paired_trainonce.py --audit \
+            --old-archives "$RUNNER_TEMP/b10-old" \
+            --old-audit "$RUNNER_TEMP/b10-mono70-audit.zip" \
+            --fresh-source "$RUNNER_TEMP/b10-fresh-source" \
+            --fresh-screen "$RUNNER_TEMP/b10-fresh-screen" \
+            --source-gate "$RUNNER_TEMP/b10-source-gate" \
+            --prospective-source "$RUNNER_TEMP/b10-prospective-source" \
+            --prospective-screen "$RUNNER_TEMP/b10-prospective-screen" \
+            --original-model-zip "$RUNNER_TEMP/b10-B0-original.zip" \
+            --b10-source "$RUNNER_TEMP/b10-source" \
+            --b10-screen "$RUNNER_TEMP/b10-screen"
+          test -z "$(git status --porcelain)"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install pinned CPU PyTorch NumPy ONNX for original 43K FSMN weights
+        shell: bash
+        timeout-minutes: 23
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/b10-train-env"
+          FLAGS='--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90'
+          "$RUNNER_TEMP/b10-train-env/bin/pip" install $FLAGS 'torch==2.9.1+cpu' \
+            --index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/b10-train-env/bin/pip" install $FLAGS 'numpy==1.26.4' 'onnx==1.17.0'
+          "$RUNNER_TEMP/b10-train-env/bin/python" -m pip check
+      - name: Execute real B10 192 matched control plus 192 hardnegative TRAIN-only updates from identical frozen B9 control
+        shell: bash
+        timeout-minutes: 60
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 3400s \
+            "$RUNNER_TEMP/b10-train-env/bin/python" -I -B \
+              automation/english_v6_b10_hardneg_paired_trainonce.py --execute \
+            --old-archives "$RUNNER_TEMP/b10-old" \
+            --old-audit "$RUNNER_TEMP/b10-mono70-audit.zip" \
+            --fresh-source "$RUNNER_TEMP/b10-fresh-source" \
+            --fresh-screen "$RUNNER_TEMP/b10-fresh-screen" \
+            --source-gate "$RUNNER_TEMP/b10-source-gate" \
+            --prospective-source "$RUNNER_TEMP/b10-prospective-source" \
+            --prospective-screen "$RUNNER_TEMP/b10-prospective-screen" \
+            --original-model-zip "$RUNNER_TEMP/b10-B0-original.zip" \
+            --b10-source "$RUNNER_TEMP/b10-source" \
+            --b10-screen "$RUNNER_TEMP/b10-screen" \
+              --b9-model-zip "$RUNNER_TEMP/b10-B9-original.zip" \
+              --output "$RUNNER_TEMP/b10-paired-train-$GITHUB_RUN_ID"
+          test -z "$(git status --porcelain)"
+      - name: Retain both actual trained PT NPZ ONNX or strict STOP receipt
+        if: ${{ always() && github.event_name == 'push' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b10-hardneg-real-paired-${{ github.run_id }}
+          path: ${{ runner.temp }}/b10-paired-train-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
