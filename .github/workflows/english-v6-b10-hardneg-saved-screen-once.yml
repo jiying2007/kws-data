@@ -1,0 +1,179 @@
+name: English V6 B10 saved five-native admission once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b10_hardneg_saved_screen_once.py
+      - automation/test_english_v6_b10_hardneg_saved_screen_once.py
+      - .github/workflows/english-v6-b10-hardneg-saved-screen-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v6-b10-hardneg-saved-screen-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b10-hardneg-saved-admission-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261121'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Check immutable six artifact identities and source-only policy in three Python modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v6_b10_hardneg_saved_screen_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v6_b10_hardneg_saved_screen_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  original-source-audit:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b10-hardneg-train-dev-source-44906200481
+          run-id: 44906200481
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-original-44478554596
+          run-id: 44478554596
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-original-train
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-saved-machine-screen-44483128198
+          run-id: 44483128198
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-original-screen
+      - name: Audit original 18 PCM SHA and unaltered TRAIN DEV source roles without new inference
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b10_hardneg_saved_screen_once.py --audit \
+            --source "$RUNNER_TEMP/b10-source" \
+            --train-source "$RUNNER_TEMP/b10-original-train" \
+            --train-screen "$RUNNER_TEMP/b10-original-screen"
+          test -z "$(git status --porcelain)"
+  actual-saved-admission:
+    needs: [source-contract, original-source-audit]
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '0c82174349bef08c9a819651211703ac25914bcb' &&
+      needs.source-contract.result == 'success' &&
+      needs.original-source-audit.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Verify exact first protected main and no replay
+        run: python3 -I -S -B automation/english_v6_b10_hardneg_saved_screen_once.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b10-hardneg-train-dev-source-44906200481
+          run-id: 44906200481
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-original-44478554596
+          run-id: 44478554596
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-original-train
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-saved-machine-screen-44483128198
+          run-id: 44483128198
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-original-screen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b10-hardneg-native-qwen-44908125673
+          run-id: 44908125673
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-observers/qwen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b10-hardneg-native-whisper-44908125673
+          run-id: 44908125673
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-observers/whisper
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b10-hardneg-native-parakeet-44908125673
+          run-id: 44908125673
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-observers/parakeet
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b10-hardneg-native-xlsr-44908125673
+          run-id: 44908125673
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-observers/xlsr
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: b10-hardneg-native-lv60-44908125673
+          run-id: 44908125673
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-observers/lv60
+      - name: Screen all ninety saved unprompted observations without TTS ASR KWS or optimizer
+        shell: bash
+        timeout-minutes: 12
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=15s 650s \
+            python3 -I -S -B automation/english_v6_b10_hardneg_saved_screen_once.py --screen \
+              --source "$RUNNER_TEMP/b10-source" \
+              --train-source "$RUNNER_TEMP/b10-original-train" \
+              --train-screen "$RUNNER_TEMP/b10-original-screen" \
+              --archives "$RUNNER_TEMP/b10-observers" \
+              --output "$RUNNER_TEMP/b10-admission-$GITHUB_RUN_ID"
+          test -z "$(git status --porcelain)"
+      - name: Archive B10 real saved machine admission or explicit stop
+        if: ${{ always() && github.event_name == 'push' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b10-hardneg-saved-admission-${{ github.run_id }}
+          path: ${{ runner.temp }}/b10-admission-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
