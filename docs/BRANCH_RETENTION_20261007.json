@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2932,
+  "expected_tracked_files": 2935,
   "expected_retained_files": 2027,
   "new_retained_paths": 1288,
   "integration_files": [
@@ -1141,7 +1141,10 @@
     ".github/workflows/english-v6-b10-hardneg-saved-screen-once.yml",
     "automation/english_v6_b10_hardneg_paired_trainonce.py",
     "automation/test_english_v6_b10_hardneg_paired_trainonce.py",
-    ".github/workflows/english-v6-b10-hardneg-paired-trainonce.yml"
+    ".github/workflows/english-v6-b10-hardneg-paired-trainonce.yml",
+    "automation/english_v6_b10_frozen_dev540_once.py",
+    "automation/test_english_v6_b10_frozen_dev540_once.py",
+    ".github/workflows/english-v6-b10-frozen-dev540-once.yml"
   ],
   "baseline_files": [
     {
@@ -32227,6 +32230,18 @@
         ".github/workflows/english-v6-b10-hardneg-paired-trainonce.yml"
       ],
       "rationale": "Frozen B9-control same-parent two-arm FSMN-CTC, 192+192 actual TRAIN-only updates using all existing 79 TRAIN and only six original Silver B10 hard negatives; one 0.08 auxiliary loss factor, no DEV gradients/forwards, product promotion or Work/Codex."
+    },
+    {
+      "campaign": "english-v6-b10-72-frozen-dev540-paired-model-quality-20261122",
+      "source_commit": "cf908773f996ac3395b3841c7f219ef728abcc64",
+      "base_commit": "cf908773f996ac3395b3841c7f219ef728abcc64",
+      "previous_manifest_git_blob_sha1": "c7304510b183129fc873f1853d6ca37466132011",
+      "paths": [
+        "automation/english_v6_b10_frozen_dev540_once.py",
+        "automation/test_english_v6_b10_frozen_dev540_once.py",
+        ".github/workflows/english-v6-b10-frozen-dev540-once.yml"
+      ],
+      "rationale": "Evaluate exact actual B10 192+192 frozen PT/NPZ/ONNX against B9 original parent on 8 machine-qualified untouched new DEV540..545 originals, 3 fixed gains; 72 authentic model forwards only on first public-main event; no source label overrides, training, thresholds or promotion."
     }
   ]
 }

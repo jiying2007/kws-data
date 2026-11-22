@@ -1,0 +1,197 @@
+name: English V6 B10 real 72-condition frozen DEV540 paired quality once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b10_frozen_dev540_once.py
+      - automation/test_english_v6_b10_frozen_dev540_once.py
+      - .github/workflows/english-v6-b10-frozen-dev540-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v6-b10-frozen-dev540-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b10-frozen-540-once-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261120'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Assert original B9 and B10 actual trained PT identities, eight DEV rows and no model selection
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v6_b10_frozen_dev540_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v6_b10_frozen_dev540_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  original-source-audit:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b10-hardneg-train-dev-source-44906200481
+          run-id: 44906200481
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-original-44478554596
+          run-id: 44478554596
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-original-train
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-saved-machine-screen-44483128198
+          run-id: 44483128198
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-original-screen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b10-hardneg-saved-admission-44986730086
+          run-id: 44986730086
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-saved-screen
+      - name: Authenticate 18 source WAVs and saved five-native decisions, exclude six TRAIN and four UNKNOWN
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b10_frozen_dev540_once.py --audit \
+            --source "$RUNNER_TEMP/b10-source" \
+            --train-source "$RUNNER_TEMP/b10-original-train" \
+            --train-screen "$RUNNER_TEMP/b10-original-screen" \
+            --screen "$RUNNER_TEMP/b10-saved-screen"
+          test -z "$(git status --porcelain)"
+  real-three-frozen-models:
+    needs: [source-contract, original-source-audit]
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == 'cf908773f996ac3395b3841c7f219ef728abcc64' &&
+      needs.source-contract.result == 'success' &&
+      needs.original-source-audit.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Enforce exact first posttrain protected-main successor, no retry or PR inference
+        run: python3 -I -S -B automation/english_v6_b10_frozen_dev540_once.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b10-hardneg-train-dev-source-44906200481
+          run-id: 44906200481
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-original-44478554596
+          run-id: 44478554596
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-original-train
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v5-mero-fresh24-saved-machine-screen-44483128198
+          run-id: 44483128198
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-original-screen
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b10-hardneg-saved-admission-44986730086
+          run-id: 44986730086
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b10-saved-screen
+      - name: Download original B9 parent and both trained B10 model ZIPs with exact byte checks
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/artifacts/14689218171/zip > "$RUNNER_TEMP/b10-B9-parent.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b10-B9-parent.zip")" = 1001753
+          printf '%s  %s\n' \
+            '1a8b270200e0c72ab1025f139d16abde43c209f142d72e71a7201b847e06a612' \
+            "$RUNNER_TEMP/b10-B9-parent.zip" | sha256sum --check --status
+          gh api repos/jiying2007/kws-data/actions/artifacts/14740303244/zip > "$RUNNER_TEMP/b10-two-trained-PT-NPZ-ONNX.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b10-two-trained-PT-NPZ-ONNX.zip")" = 1000738
+          printf '%s  %s\n' \
+            '3c7247e301aa57ef442b116ad28dc3356e80b88942cea687fcebb8af8270b33d' \
+            "$RUNNER_TEMP/b10-two-trained-PT-NPZ-ONNX.zip" | sha256sum --check --status
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install pinned CPU-only PyTorch and NumPy for immutable score
+        shell: bash
+        timeout-minutes: 22
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/b10-new-dev-eval"
+          FLAGS='--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90'
+          "$RUNNER_TEMP/b10-new-dev-eval/bin/pip" install $FLAGS 'torch==2.9.1+cpu' \
+            --index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/b10-new-dev-eval/bin/pip" install $FLAGS 'numpy==1.26.4'
+          "$RUNNER_TEMP/b10-new-dev-eval/bin/python" -m pip check
+      - name: Execute 8 qualified DEV originals x three frozen weights x three fixed gains
+        shell: bash
+        timeout-minutes: 12
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=15s 600s \
+            "$RUNNER_TEMP/b10-new-dev-eval/bin/python" -I -B \
+              automation/english_v6_b10_frozen_dev540_once.py --score \
+              --source "$RUNNER_TEMP/b10-source" \
+              --train-source "$RUNNER_TEMP/b10-original-train" \
+              --train-screen "$RUNNER_TEMP/b10-original-screen" \
+              --screen "$RUNNER_TEMP/b10-saved-screen" \
+              --b9-zip "$RUNNER_TEMP/b10-B9-parent.zip" \
+              --b10-zip "$RUNNER_TEMP/b10-two-trained-PT-NPZ-ONNX.zip" \
+              --output "$RUNNER_TEMP/b10-three-frozen-dev540-$GITHUB_RUN_ID"
+          test -z "$(git status --porcelain)"
+      - name: Archive original full frame logits and paired per-source quality or explicit STOP
+        if: ${{ always() && github.event_name == 'push' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b10-frozen-dev540-three-models-${{ github.run_id }}
+          path: ${{ runner.temp }}/b10-three-frozen-dev540-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn
