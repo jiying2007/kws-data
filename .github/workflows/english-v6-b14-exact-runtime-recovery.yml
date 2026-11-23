@@ -1,0 +1,35 @@
+name: Match the original B13 hosted platform before exact B14 replay
+on:
+  push:
+    branches: [research/en-v6-b14-path-retention-20261123]
+    paths: [.github/workflows/english-v6-b14-exact-runtime-recovery.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: b14-exact-platform-recovery-single-run
+  cancel-in-progress: false
+jobs:
+  first:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.event.before == '8dca87d42abfd7a059daef77577135dd98b9e651' && github.run_attempt == 1
+    uses: ./.github/workflows/english-v6-b14-exact-runtime-slot.yml
+    with:
+      slot: 1
+  second:
+    needs: first
+    if: needs.first.result == 'success' && needs.first.outputs.matched == 'false'
+    uses: ./.github/workflows/english-v6-b14-exact-runtime-slot.yml
+    with:
+      slot: 2
+  third:
+    needs: second
+    if: needs.second.result == 'success' && needs.second.outputs.matched == 'false'
+    uses: ./.github/workflows/english-v6-b14-exact-runtime-slot.yml
+    with:
+      slot: 3
+  fourth:
+    needs: third
+    if: needs.third.result == 'success' && needs.third.outputs.matched == 'false'
+    uses: ./.github/workflows/english-v6-b14-exact-runtime-slot.yml
+    with:
+      slot: 4

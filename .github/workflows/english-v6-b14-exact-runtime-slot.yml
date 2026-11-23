@@ -1,0 +1,123 @@
+name: Single public Ubuntu slot for B14 exact reference control
+on:
+  workflow_call:
+    inputs:
+      slot:
+        required: true
+        type: number
+    outputs:
+      matched:
+        value: ${{ jobs.trial.outputs.matched }}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  trial:
+    runs-on: ubuntu-24.04
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b14-path-retention-20261123' && github.run_attempt == 1
+    timeout-minutes: 28
+    outputs:
+      matched: ${{ steps.machine.outputs.matched }}
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261120'
+    steps:
+      - id: machine
+        name: Record CPU, hosted image and cloud; compare original public B13 platform
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/platform"
+          sys_vendor="$(cat /sys/class/dmi/id/sys_vendor)"
+          image_version="${ImageVersion:-unknown}"
+          lscpu -J > "$RUNNER_TEMP/platform/lscpu.json"
+          uname -a > "$RUNNER_TEMP/platform/uname.txt"
+          printf '%s\n' "$sys_vendor" > "$RUNNER_TEMP/platform/virtualization.txt"
+          printf '%s\n' "$image_version" > "$RUNNER_TEMP/platform/hosted-image-version.txt"
+          echo "VM vendor=$sys_vendor, hosted image=$image_version"
+          if [[ "$sys_vendor" == "Microsoft Corporation" && "$image_version" == 20261116.376.1 ]]; then
+            echo 'matched=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'matched=false' >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: b14-machine-${{ inputs.slot }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/platform/
+          retention-days: 90
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        if: steps.machine.outputs.matched == 'true'
+        with:
+          persist-credentials: false
+          path: current
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        if: steps.machine.outputs.matched == 'true'
+        with:
+          ref: db12ece24e0481b877b9cf46f74f3ed8f8d2fca1
+          persist-credentials: false
+          path: historical
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        if: steps.machine.outputs.matched == 'true'
+        with:
+          python-version: '3.12'
+      - name: Verify frozen registrations and byte-identical TRAIN input archives
+        if: steps.machine.outputs.matched == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -IB current/automation/english_v6_b14_path_retention_pair.py fetch "$RUNNER_TEMP/inputs"
+          cd historical
+          python - <<'PY'
+          import base64, hashlib, json, os, subprocess
+          from pathlib import Path
+          p=json.loads(Path("automation/english_v6_b13_natural_pair_inputs.json").read_bytes())["registered_panels"]
+          for name,entry in p["files"].items():
+              # The unmodified legacy program checks only these registration file digests. No DEV media or scores are read.
+              resource="repos/jiying2007/kws-data/contents/"+entry["path"]+"?ref="+p["commit"]
+              raw=base64.b64decode(json.loads(subprocess.check_output(["gh","api",resource]))["content"])
+              assert hashlib.sha256(raw).hexdigest()==entry["sha256"]
+              (Path(os.environ["RUNNER_TEMP"])/"inputs"/(name+".json")).write_bytes(raw)
+          PY
+      - name: Match original CPU numerical dependencies
+        if: steps.machine.outputs.matched == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 numpy==1.26.4 onnx==1.17.0
+          python -c 'import torch,numpy; print(torch.__config__.show()); numpy.show_config()'
+      - name: Reproduce two historical B13 arms in original order from unmodified cold implementation
+        if: steps.machine.outputs.matched == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C historical rev-parse HEAD)" = db12ece24e0481b877b9cf46f74f3ed8f8d2fca1
+          python -IB historical/automation/english_v6_b13_natural_pair.py execute "$RUNNER_TEMP/inputs" --output "$RUNNER_TEMP/cold"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          proof={"run_id":os.environ["GITHUB_RUN_ID"],"score_head":os.environ["GITHUB_SHA"],
+                 "replayed_head":"db12ece24e0481b877b9cf46f74f3ed8f8d2fca1","including_weight0_warmup_updates":192}
+          (Path(os.environ["RUNNER_TEMP"])/"cold"/"REPLAY_JOB.json").write_text(json.dumps(proof)+"\n")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: steps.machine.outputs.matched == 'true'
+        with:
+          name: b14-same-job-cold-b13-compatibility-${{ github.run_id }}
+          path: ${{ runner.temp }}/cold/
+          retention-days: 90
+          if-no-files-found: error
+      - name: Check every historical tensor and train the single registered B14 intervention on the same CPU
+        if: steps.machine.outputs.matched == 'true'
+        run: python -IB current/automation/english_v6_b14_path_retention_pair.py execute "$RUNNER_TEMP/inputs" --legacy-replay "$RUNNER_TEMP/cold" --output "$RUNNER_TEMP/models"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && steps.machine.outputs.matched == 'true'
+        with:
+          name: english-v6-b14-exact-paired-models-${{ github.run_id }}
+          path: ${{ runner.temp }}/models/
+          retention-days: 90
+          if-no-files-found: warn

@@ -279,7 +279,7 @@ def cache_new_train(rows,source,mel,mean,scale,torch,np):
     return cache
 
 def fit(arm,parent,rows,groups,cache,extra,extra_cache,mel,mean,scale,
-        output,torch,np,F):
+        output,torch,np,F,*,auxiliary_loss=None):
     need(arm in ARMS,"B10_TWO_FROZEN_SINGLE_FACTOR_ARMS")
     weight=HARD_WEIGHT if arm=="hard_negative" else 0.0
     torch.manual_seed(SEED)
@@ -323,6 +323,8 @@ def fit(arm,parent,rows,groups,cache,extra,extra_cache,mel,mean,scale,
                 net,extra_cache[new_id][gain][prefix],0,prefix,
                 newrow["tier"],torch,F,False) for gain in GAINS]
             loss=loss+weight*sum(negative)/len(negative)
+        if auxiliary_loss is not None:
+            loss=loss+auxiliary_loss(step,net)
         need(bool(torch.isfinite(loss)),
              "FINITE_B10_PAIRED_HARD_NEGATIVE_CTC_OBJECTIVE")
         loss.backward()

@@ -1,0 +1,43 @@
+name: English B13 fixed 44-positive TRAIN retention diagnostic
+on:
+  push:
+    branches: [research/en-v6-b13-train-positive-retention-20261123]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b13-train-positive-retention-once
+  cancel-in-progress: false
+jobs:
+  diagnostic:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.event.before == 'db12ece24e0481b877b9cf46f74f3ed8f8d2fca1' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261120'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Authenticate the archived 44-original TRAIN roster and checkpoints
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -IB automation/english_v6_b13_train_positive_retention.py fetch "$RUNNER_TEMP/b13-inputs"
+      - name: Install frozen CPU inference dependencies
+        run: |
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 numpy==1.26.4
+      - name: Score every original at three prior gains with B9 and the matched B13 pair
+        run: python -IB automation/english_v6_b13_train_positive_retention.py execute "$RUNNER_TEMP/b13-inputs" --output "$RUNNER_TEMP/b13-positive"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b13-train-positive-retention-${{ github.run_id }}
+          path: ${{ runner.temp }}/b13-positive/
+          if-no-files-found: error
+          retention-days: 90
