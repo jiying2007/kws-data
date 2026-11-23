@@ -1,0 +1,27 @@
+name: Scan pinned public TRAIN transcripts for human wake-phrase leads
+on:
+  push:
+    branches: [research/en-v6-public-train-transcript-leads-20261123]
+    paths: [.github/workflows/english-v6-real-word-transcript-scan.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  register:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == 'e76ba1c7b8457f4fb2b656ede20154f02b640dda'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - run: python -m pip install --disable-pip-version-check 'pyarrow==19.0.1' 'huggingface-hub==0.36.2'
+      - name: Scan all three official training partitions using transcript columns
+        run: python -IB automation/english_v6_real_word_transcript_scan.py "$RUNNER_TEMP/roster"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: real-word-public-train-transcript-search-${{ github.run_id }}
+          path: ${{ runner.temp }}/roster/
+          retention-days: 90
+          if-no-files-found: error

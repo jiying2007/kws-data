@@ -1,0 +1,65 @@
+{
+  "schema": "english-v6-natural-train-four-model-event-clock-v1",
+  "source_schema": "english-v6-new-natural-train-context24-v1",
+  "project_role": "train",
+  "models": [
+    "B0",
+    "B9",
+    "B13",
+    "B14"
+  ],
+  "model_artifacts": {
+    "pair_schema": "english-v6-b14-train-positive-path-retention-pair-v1",
+    "pair_stems": {
+      "control": "control/models/mero43-b14-control192",
+      "challenger": "challenger/models/mero43-b14-challenger192"
+    },
+    "inputs": {
+      "B0": {
+        "id": 14514228406,
+        "bytes": 501276,
+        "sha256": "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702",
+        "run_id": 44495594627,
+        "run_head": "d0b567fe37147aae6ab5d7bdec3721b879a0b22d"
+      },
+      "B9": {
+        "id": 14689218171,
+        "bytes": 1001753,
+        "sha256": "1a8b270200e0c72ab1025f139d16abde43c209f142d72e71a7201b847e06a612",
+        "run_id": 44860855857,
+        "run_head": "846c745ebcee58a1beb27300ddcd7ec8e2178916"
+      },
+      "pair": {
+        "id": 14790595097,
+        "run_id": 45112365719,
+        "run_head": "eff3c29670882a0be17a9da21dc69dfa16df36da",
+        "sha256": "98c725b30e3b8e958096217f9b846f1d8e4646f1e0393f1b5817aac8b8f9c58c",
+        "bytes": 1026923
+      }
+    }
+  },
+  "pt_locked": {
+    "B13": "643fbbc21f5e2ca7a22c8e320966ddd43c3f2985137e1949ae1e8884565db553",
+    "B14": "fb6926cd07beb63283072a7da1b7fe4abe6fbb9b2c1e1082bdb4561fd784a5af"
+  },
+  "source_admission": "All complete predeclared TRAIN rows with matching native PCM and silver/weak quality from three blind ASR observers, >=2 exact official transcript votes, no blocked word, known adjudication distinct from listening. No scores contribute to source admission. Preserve every unknown ID as excluded.",
+  "sampling_rate": 16000,
+  "channel_count": 1,
+  "fbins": 4,
+  "feature_fft": 512,
+  "feature_window": 400,
+  "feature_hop": 160,
+  "frame_centering": false,
+  "analysis_gain": 1.0,
+  "clock": "All sample offsets are zero-based boundaries from the first native PCM sample, at 16 kHz. Frame i becomes available at sample boundary 160*i+512. This is the exact algorithmic input-ready clock, separate from word alignment and physical trigger latency.",
+  "decoder": "Greedy 4-class argmax with lowest-index tie break. Collapse repeated adjacent indices, then remove blanks. Every consecutive [1,2,3] collapsed sequence is a wake, timestamped at first frame of each token. Store native logits and verify against shared decoder.",
+  "window": "Create one interval per detected sequence on any monitor. Begin at the HEY onset frame start minus 3,200 samples; finish at the RO input-ready boundary plus 3,200 samples; clip to original PCM bounds. Sort and merge touching or overlapping intervals across all models. Keep every individual event and its three clocks. Save the exact whole original and clips without resampling, padding or gain.",
+  "adjacent_nonfiring_context": "For each merged hit window, consider only the non-overlapping gap immediately before or after, bounded by other hit windows and source edges. Prefer the longer eligible stored clip, tie goes to the preceding gap. Store at most 16,000 samples on the nearest edge of the chosen gap, at least 8,000 samples. Report a null control with a reason where neither neighbor qualifies. Any selected context contains no trigger from any monitored model. Identical control ranges may be referenced from multiple windows. Retain all machine-admitted nontriggering originals as source-level controls.",
+  "window_pad_samples": 3200,
+  "control_max_samples": 16000,
+  "control_min_samples": 8000,
+  "human_review_completed": false,
+  "optimization_enabled": false,
+  "promotion_allowed": false,
+  "field_far_per_hour": null
+}

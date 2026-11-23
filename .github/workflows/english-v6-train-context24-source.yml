@@ -1,0 +1,134 @@
+name: English TRAIN context originals and three blind ASR observations
+'on':
+  push:
+    branches:
+    - research/en-v6-natural-train-context24-20261123
+    paths:
+    - .github/workflows/english-v6-train-context24-source.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: en-v6-context24-original-train-sources
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261121'
+jobs:
+  sources:
+    runs-on: ubuntu-24.04
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '5b025fffea2a241b1c7820f83974a5ebf0f2731e'
+    timeout-minutes: 26
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Decode registered full TRAIN originals directly from the verified FLAC bytes
+      run: |
+        set -euo pipefail
+        python -m pip install --disable-pip-version-check 'numpy==1.26.4' 'soundfile==0.13.1' 'pyarrow==19.0.1' 'huggingface-hub==0.36.2'
+        python -IB automation/english_v6_train_context24_observation.py generate "$RUNNER_TEMP/source"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-train-context24-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source/
+        retention-days: 90
+        if-no-files-found: error
+  observers:
+    needs: sources
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        provider:
+        - qwen
+        - parakeet
+        - whisper
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-train-context24-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - name: Install one pinned original unprompted ASR model
+      shell: bash
+      timeout-minutes: 19
+      env:
+        PROVIDER: ${{ matrix.provider }}
+      run: |
+        set -euo pipefail
+        python -m venv "$RUNNER_TEMP/b10-native-env"
+        PIP="$RUNNER_TEMP/b10-native-env/bin/pip"
+        FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+        if [ "$PROVIDER" = "qwen" ] || [ "$PROVIDER" = "whisper" ]; then
+          "$PIP" install $FLAGS 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+        fi
+        case "$PROVIDER" in
+          qwen) "$PIP" install $FLAGS 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2' ;;
+          whisper) "$PIP" install $FLAGS 'openai-whisper==20250625' ;;
+          parakeet) "$PIP" install $FLAGS 'huggingface-hub==0.36.2' 'hf-xet==1.2.0' ;;
+          *) exit 7 ;;
+        esac
+        "$RUNNER_TEMP/b10-native-env/bin/python" -m pip check
+    - name: Observe every full original once without text hints
+      shell: bash
+      run: |
+        set -euo pipefail
+        GITHUB_SHA="$(git rev-parse HEAD)" "$RUNNER_TEMP/b10-native-env/bin/python" -IB automation/english_v6_train_context24_observation.py observe "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/$PROVIDER"
+      env:
+        PROVIDER: ${{ matrix.provider }}
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: train-context24-train-observer-${{ matrix.provider }}
+        path: ${{ runner.temp }}/${{ matrix.provider }}/
+        retention-days: 90
+        if-no-files-found: warn
+  readback:
+    needs: observers
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-train-context24-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        pattern: train-context24-train-observer-*
+        path: ${{ runner.temp }}/providers
+    - name: Authenticate complete native captures and freeze independent source labels
+      shell: bash
+      run: |
+        set -euo pipefail
+        for p in qwen whisper parakeet; do mv "$RUNNER_TEMP/providers/train-context24-train-observer-$p" "$RUNNER_TEMP/providers/$p"; done
+        python -IB automation/english_v6_train_context24_observation.py screen "$RUNNER_TEMP/source" "$RUNNER_TEMP/providers" "$RUNNER_TEMP/final"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-train-context24-frozen-screen-${{ github.run_id }}
+        path: ${{ runner.temp }}/final/
+        retention-days: 90
+        if-no-files-found: error
