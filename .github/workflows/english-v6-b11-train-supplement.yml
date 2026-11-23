@@ -1,0 +1,181 @@
+name: English B11 bounded diverse TRAIN supplement
+'on':
+  pull_request:
+    types:
+    - opened
+    branches:
+    - main
+    paths:
+    - .github/workflows/english-v6-b11-train-supplement.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: b11-once-train-supplement
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261121'
+jobs:
+  sources:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.event.pull_request.head.repo.full_name
+      == github.repository && github.head_ref == 'research/en-v6-b11-supplement-20261123' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: '${{ github.event.pull_request.head.sha }}'
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Authenticate the old TRAIN hardness result, source roles and screen
+      shell: bash
+      run: |
+        set -euo pipefail
+        mkdir -p "$RUNNER_TEMP/old/source" "$RUNNER_TEMP/old/screen"
+        cd "$RUNNER_TEMP/old"
+        gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/14782043774/zip" > old.zip
+        gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/14507208152/zip" > source.zip
+        gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/14509252921/zip" > screen.zip
+        sha256sum -c <<'SUM'
+        e0e029b80fd5ec57d38f9ff588450217432a1132e2bfccd431c87b06689753dd  old.zip
+        2fbc26386136cfd12dddb01074f3c9c4556c8fc7c49819663f2d11a2499eaa1c  source.zip
+        e8bcdf32a0ac138de8bdd90c4f6cd6e419d4ccae42bbd393e75b5daac9502158  screen.zip
+        SUM
+        unzip -p old.zip RESULT.json > old-result.json
+        jq -e '.original_clips == 41 and .source_groups == 35 and .actual_forwards == 123 and .hard_group_gate_passed == false and (.original_gain_hard_groups | length) < 2' old-result.json
+        unzip -p source.zip MANIFEST.json > source/MANIFEST.json
+        unzip -p screen.zip SCREEN.json > screen/SCREEN.json
+      env:
+        GH_TOKEN: '${{ github.token }}'
+    - name: Generate exactly 24 TRAIN originals in the six prequalified voices
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -IB automation/english_v6_b11_supplement.py plan
+        python -m pip install 'piper-tts==1.8.0' 'numpy==1.26.4' 'scipy==1.15.3' 'huggingface-hub==0.36.2'
+        GITHUB_SHA="$(git rev-parse HEAD)" python -IB automation/english_v6_b11_supplement.py generate --out "$RUNNER_TEMP/source" --old-source "$RUNNER_TEMP/old/source" --old-screen "$RUNNER_TEMP/old/screen"
+        cp "$RUNNER_TEMP/old/old-result.json" "$RUNNER_TEMP/source/old-result.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: b11-diverse-train-source-${{ github.run_id }}
+        path: '${{ runner.temp }}/source/'
+        retention-days: 90
+        if-no-files-found: warn
+  observers:
+    needs: sources
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        provider:
+        - qwen
+        - parakeet
+        - xlsr
+        - lv60
+        - whisper
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: '${{ github.event.pull_request.head.sha }}'
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: b11-diverse-train-source-${{ github.run_id }}
+        path: '${{ runner.temp }}/source'
+    - name: Install one pinned original unprompted ASR or native phone model
+      shell: bash
+      timeout-minutes: 19
+      env:
+        PROVIDER: ${{ matrix.provider }}
+      run: |
+        set -euo pipefail
+        python -m venv "$RUNNER_TEMP/b10-native-env"
+        PIP="$RUNNER_TEMP/b10-native-env/bin/pip"
+        FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+        if [ "$PROVIDER" != "parakeet" ]; then
+          if [ "$PROVIDER" = "qwen" ] || [ "$PROVIDER" = "whisper" ]; then
+            "$PIP" install $FLAGS 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          else
+            "$PIP" install $FLAGS 'torch==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          fi
+        fi
+        case "$PROVIDER" in
+          qwen) "$PIP" install $FLAGS 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2' ;;
+          whisper) "$PIP" install $FLAGS 'openai-whisper==20250625' ;;
+          parakeet) "$PIP" install $FLAGS 'huggingface-hub==0.36.2' 'hf-xet==1.2.0' ;;
+          xlsr|lv60) "$PIP" install $FLAGS 'transformers==4.46.3' 'numpy==1.26.4' 'huggingface-hub==0.36.2' ;;
+          *) exit 7 ;;
+        esac
+        "$RUNNER_TEMP/b10-native-env/bin/python" -m pip check
+    - name: Observe every full original once without text hints
+      shell: bash
+      run: |
+        set -euo pipefail
+        GITHUB_SHA="$(git rev-parse HEAD)" "$RUNNER_TEMP/b10-native-env/bin/python" -IB automation/english_v6_b11_supplement_observe.py "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/$PROVIDER"
+      env:
+        PROVIDER: '${{ matrix.provider }}'
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: b11-observer-${{ matrix.provider }}
+        path: '${{ runner.temp }}/${{ matrix.provider }}/'
+        retention-days: 90
+        if-no-files-found: warn
+  readback:
+    needs: observers
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: '${{ github.event.pull_request.head.sha }}'
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: b11-diverse-train-source-${{ github.run_id }}
+        path: '${{ runner.temp }}/source'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        pattern: b11-observer-*
+        path: '${{ runner.temp }}/providers'
+    - name: Freeze independent five-native labels before measuring the frozen B9 parent
+      shell: bash
+      run: |
+        set -euo pipefail
+        for p in qwen whisper parakeet xlsr lv60; do mv "$RUNNER_TEMP/providers/b11-observer-$p" "$RUNNER_TEMP/providers/$p"; done
+        mkdir "$RUNNER_TEMP/final"
+        python -IB automation/english_v6_b11_supplement_screen.py screen "$RUNNER_TEMP/source" "$RUNNER_TEMP/providers" "$RUNNER_TEMP/final/SCREEN.json"
+    - name: Measure the qualified TRAIN originals at the three frozen gains
+      shell: bash
+      run: |
+        set -euo pipefail
+        gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/14689218171/zip" > "$RUNNER_TEMP/b9.zip"
+        python -m pip install 'torch==2.9.1+cpu' --index-url https://download.pytorch.org/whl/cpu
+        python -m pip install 'numpy==1.26.4'
+        python -IB automation/english_v6_b11_supplement_screen.py measure "$RUNNER_TEMP/source" "$RUNNER_TEMP/final/SCREEN.json" "$RUNNER_TEMP/b9.zip" "$RUNNER_TEMP/source/old-result.json" "$RUNNER_TEMP/final/score"
+      env:
+        GH_TOKEN: '${{ github.token }}'
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: b11-diverse-source-screen-and-train-hardness-${{ github.run_id }}
+        path: '${{ runner.temp }}/final/'
+        retention-days: 90
+        if-no-files-found: warn
