@@ -8,7 +8,7 @@ permissions:
   actions: read
 jobs:
   scan:
-    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == 'ac3238008bf5f03fa6699ec0fa13a31ec58a3b92'
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '7e72032ffda7b5d453cc349499908aab5d26be7e'
     runs-on: ubuntu-24.04
     timeout-minutes: 50
     env:
