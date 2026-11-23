@@ -1,0 +1,217 @@
+{
+  "schema": "english-v6-b13-positive-retention-independent-readback",
+  "archive_sha256": "0959221425bc38e8ca6501ace692c858741079f9223c4972d1cc318252d68ea8",
+  "raw_npz_sha256": "8ed93a2983cad45b6ea1782a0f25a67154d2ef6393e6962ebce0b3eb98ef02b8",
+  "authentic_run": 45111029245,
+  "head": "cee2389ab3765b01947f485d8a5cf95dc4e3568f",
+  "originals": 44,
+  "source_groups": 35,
+  "actual_forwards": 396,
+  "complete_frames": 28953,
+  "historical_b9_bit_exact_arrays": 132,
+  "hits_by_gain": {
+    "1.0": {
+      "B9": 43,
+      "control": 42,
+      "challenger": 38
+    },
+    "0.75": {
+      "B9": 42,
+      "control": 43,
+      "challenger": 40
+    },
+    "0.5": {
+      "B9": 36,
+      "control": 39,
+      "challenger": 35
+    }
+  },
+  "regressions_by_gain": {
+    "1.0": {
+      "originals": [
+        "fresh24-bf_emma-mero-merrow",
+        "mero24-449-mero-fast",
+        "mero24-456-mero-fast",
+        "newpiper-409-mero-slow"
+      ],
+      "groups": [
+        "kokoro-v1_0-preset:bf_emma",
+        "piper-libritts-p3905",
+        "piper-libritts-p5007",
+        "piper-libritts-p5189"
+      ]
+    },
+    "0.75": {
+      "originals": [
+        "fresh18-am_santa-mero-fast",
+        "mero24-449-mero-fast",
+        "newpiper-409-mero-slow"
+      ],
+      "groups": [
+        "kokoro-v1_0-preset:am_santa",
+        "piper-libritts-p3905",
+        "piper-libritts-p5189"
+      ]
+    },
+    "0.5": {
+      "originals": [
+        "newpiper-409-mero-slow"
+      ],
+      "groups": [
+        "piper-libritts-p5189"
+      ]
+    }
+  },
+  "regression_paths": {
+    "fresh18-am_santa-mero-fast": {
+      "0.75": {
+        "B9": [
+          1,
+          2,
+          3
+        ],
+        "control": [
+          1,
+          2,
+          3
+        ],
+        "challenger": [
+          2,
+          3
+        ]
+      }
+    },
+    "fresh24-bf_emma-mero-merrow": {
+      "1.0": {
+        "B9": [
+          1,
+          2,
+          3
+        ],
+        "control": [
+          1,
+          2,
+          3
+        ],
+        "challenger": []
+      }
+    },
+    "mero24-449-mero-fast": {
+      "1.0": {
+        "B9": [
+          1,
+          2,
+          3
+        ],
+        "control": [
+          1,
+          2,
+          3
+        ],
+        "challenger": []
+      },
+      "0.75": {
+        "B9": [
+          1,
+          2,
+          3
+        ],
+        "control": [
+          1,
+          2,
+          3
+        ],
+        "challenger": []
+      }
+    },
+    "mero24-456-mero-fast": {
+      "1.0": {
+        "B9": [
+          1,
+          2,
+          3
+        ],
+        "control": [
+          1,
+          2,
+          3
+        ],
+        "challenger": [
+          2,
+          3
+        ]
+      }
+    },
+    "newpiper-409-mero-slow": {
+      "1.0": {
+        "B9": [
+          1,
+          2,
+          3
+        ],
+        "control": [
+          1,
+          2,
+          3
+        ],
+        "challenger": [
+          2,
+          3
+        ]
+      },
+      "0.75": {
+        "B9": [
+          1,
+          2,
+          3
+        ],
+        "control": [
+          1,
+          2,
+          3
+        ],
+        "challenger": [
+          2,
+          3
+        ]
+      },
+      "0.5": {
+        "B9": [
+          1,
+          2,
+          3
+        ],
+        "control": [
+          1,
+          2,
+          3
+        ],
+        "challenger": [
+          3
+        ]
+      }
+    }
+  },
+  "unique_regressed_originals": [
+    "fresh18-am_santa-mero-fast",
+    "fresh24-bf_emma-mero-merrow",
+    "mero24-449-mero-fast",
+    "mero24-456-mero-fast",
+    "newpiper-409-mero-slow"
+  ],
+  "unique_regressed_groups": [
+    "kokoro-v1_0-preset:am_santa",
+    "kokoro-v1_0-preset:bf_emma",
+    "piper-libritts-p3905",
+    "piper-libritts-p5007",
+    "piper-libritts-p5189"
+  ],
+  "gains_meeting_two_group_rule": [
+    "1.0",
+    "0.75"
+  ],
+  "gate": "TRAIN_SIGNAL",
+  "optimizer_updates": 0,
+  "dev_cal_locked_forwards": 0,
+  "promotion_allowed": false
+}
