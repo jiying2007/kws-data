@@ -183,13 +183,15 @@ def self_test():
         if expected not in families(sentence):
             raise AssertionError(f"pattern failed: {expected}")
     rows = []
-    for speaker, partition in (("101", PARTITIONS[0]), ("202", PARTITIONS[1]), ("303", PARTITIONS[2])):
-        for i in range(3):
-            rows.append({"speaker_id": speaker, "source_id": f"{speaker}-{i}",
+    for index in range(16):
+        speaker = str(1000 + index)
+        partition = PARTITIONS[index % len(PARTITIONS)]
+        for ordinal in range(3):
+            rows.append({"speaker_id": speaker, "source_id": f"{speaker}-{ordinal}",
                          "match_families": ["they_may_row"], "partition": partition})
-    one = select(rows, target_speakers=3, per_speaker=2, per_partition=1)
-    two = select(rows, target_speakers=3, per_speaker=2, per_partition=1)
-    if one != two or len(one) != 6:
+    one = select(rows, target_speakers=16, per_speaker=2, per_partition=8)
+    two = select(rows, target_speakers=16, per_speaker=2, per_partition=8)
+    if one != two or len(one) != 32:
         raise AssertionError("selection is not deterministic or bounded")
     import requests
     calls, delays = [], []
