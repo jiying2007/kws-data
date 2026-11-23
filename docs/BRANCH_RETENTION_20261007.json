@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2937,
+  "expected_tracked_files": 2939,
   "expected_retained_files": 2027,
   "new_retained_paths": 1288,
   "integration_files": [
@@ -1145,6 +1145,8 @@
     "automation/english_v6_b10_frozen_dev540_once.py",
     "automation/test_english_v6_b10_frozen_dev540_once.py",
     ".github/workflows/english-v6-b10-frozen-dev540-once.yml",
+    "automation/english_v6_b11_exposed_transfer.py",
+    ".github/workflows/english-v6-b11-exposed-transfer.yml",
     "automation/english_v6_b11_train_hardness.py",
     ".github/workflows/english-v6-b11-train-hardness.yml"
   ],
@@ -32246,15 +32248,26 @@
       "rationale": "Evaluate exact actual B10 192+192 frozen PT/NPZ/ONNX against B9 original parent on 8 machine-qualified untouched new DEV540..545 originals, 3 fixed gains; 72 authentic model forwards only on first public-main event; no source label overrides, training, thresholds or promotion."
     },
     {
-      "campaign": "english-v6-b11-train-hardness-20261123",
+      "campaign": "english-v6-b11-exposed-p1-transfer-20261123",
       "source_commit": "a180e7e6fc20a30618a76b1a1f4492e639cd0f9b",
       "base_commit": "a180e7e6fc20a30618a76b1a1f4492e639cd0f9b",
       "previous_manifest_git_blob_sha1": "b19356d7eeab82b42e7ed7b615d1ed1ae8ffaad9",
       "paths": [
+        "automation/english_v6_b11_exposed_transfer.py",
+        ".github/workflows/english-v6-b11-exposed-transfer.yml"
+      ],
+      "rationale": "Bounded diagnostic on six previously exposed DEV528 originals. Frozen B9 and both B10 arms replayed at three fixed gains, with authentic source, checkpoint and historical logits hashes."
+    },
+    {
+      "campaign": "english-v6-b11-train-hardness-20261123",
+      "source_commit": "9b4177a940fc75f8988832c5832cf49085873e28",
+      "base_commit": "d6abaab9c9e0f3e363882abaa4ca2e0606cabc3d",
+      "previous_manifest_git_blob_sha1": "cee81f583b14c38aee9ff20fa855b96067ecf83f",
+      "paths": [
         "automation/english_v6_b11_train_hardness.py",
         ".github/workflows/english-v6-b11-train-hardness.yml"
       ],
-      "rationale": "Measure frozen B9 on 41 authenticated ordinary TRAIN originals, in 35 groups. Preserve all 123 frame-logit arrays; original-gain full-word events in at least two source groups qualify hardness. No optimizer, DEV/CAL/LOCKED forwards, repeated source generation or model promotion."
+      "rationale": "Measure frozen B9 on 41 authenticated ordinary TRAIN originals, in 35 groups. Preserve all 123 frame-logit arrays; original-gain full-word events in at least two source groups qualify hardness. No optimizer, DEV/CAL/LOCKED forwards, repeated source generation or model promotion. Public run 45093462770 completed all 123 frozen forwards. Zero of 41 complete false-wake clips at each fixed gain and zero qualifying hard groups. Immutable artifact 14782043774, 201339 bytes, SHA256 e0e029b80fd5ec57d38f9ff588450217432a1132e2bfccd431c87b06689753dd; RESULT.json SHA256 742a5ef7d108fcfd0d9ecc0b67971f684f00f1ccb76d32de0bd9153e916f60f9; full frame logits SHA256 979c686f7f25d18aa72c790d8563784177909d296c5d49b7453f08e8a9163392."
     }
   ]
 }
