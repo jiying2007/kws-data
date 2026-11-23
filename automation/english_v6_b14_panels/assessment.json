@@ -1,0 +1,21 @@
+{
+  "schema": "english-v6-b14-prospective-assessment-v1",
+  "hypothesis": "A single positive whole-word nonblank retention loss restores lost wakes on unseen positives while preserving the natural-negative benefit from B13.",
+  "keyword": "Hey Mero",
+  "training_reference": "Use B9 root and reproduce B13 natural-negative optimization in both arms. Require state tensors in the new same-job control to equal the archived B13 challenger. Only challenger adds the registered positive auxiliary loss.",
+  "eligible_train_evidence": {"run":45111029245,"archive_sha256":"0959221425bc38e8ca6501ace692c858741079f9223c4972d1cc318252d68ea8"},
+  "arms": ["B0","B9","control","challenger"],
+  "gains": ["1.0","0.75","0.5"],
+  "source_gate": {"synthetic_min_paired_families":4,"synthetic_min_positive_sources":4,"synthetic_min_positive_originals":4,"synthetic_min_ordinary_originals":8,"synthetic_min_ordinary_forms":3,"natural_min_admitted_speakers":8,"natural_min_admitted_originals":12},
+  "synthetic_plan_sha256": {"primary":"7b2ad480a5e536dd180831308ab7f3e106376ebf581735fec25113e4a6430406","replication":"82188b54daaf27dd2264e37d54c12ff20f5d6ae11b6a34412d2cfa88c243a434"},
+  "natural_sampling": "LibriSpeech dev-other, disjoint prospective rosters of 12+12 readers each with two original utterances, immutable salt ranking and clear numeric identity exclusions. Reuse frozen B13 admission rules on new originals. No outcome-based substitutions or additions.",
+  "minimum_recovered_positive_families": 1,
+  "recovery": "On the same admitted original and gain, B9 completes the wake, the B13-equivalent paired control misses, and challenger completes the wake.",
+  "positive_guard": "At every original and gain, retain every wake hit from B0 and the same-job control. No increase in extra wake events on a positive relative to B9 or the paired control.",
+  "ordinary_guard": "Every admitted human and synthetic ordinary original at every gain has at most as many challenger events as B9 and as the paired control.",
+  "natural_guard": "At 1.0 gain reduce false-event counts against B9 in at least two different human readers; natural totals at each gain must be no higher than B0.",
+  "minimum_improved_readers_vs_B9": 2,
+  "decision": "PASS requires all conditions independently on each panel. Insufficient coverage stops the study before model evaluation. A primary PASS opens the separately frozen replication once; any other outcome closes this intervention. No score-driven second coefficient, threshold search or substituting speakers. Two passes permit further locked/edge work; no offline result releases the product.",
+  "field_targets": {"real_3_to_5m_positive_FRR_max":0.05,"continuous_field_FAR_per_hour_max":0.1,"word_end_to_physical_trigger_P95_ms_max":500},
+  "training_access_to_primary_replication_cal_locked": false
+}

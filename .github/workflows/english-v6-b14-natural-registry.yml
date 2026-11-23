@@ -1,0 +1,48 @@
+name: English B14 dev-other transcript-only prospective roster
+'on':
+  push:
+    branches:
+    - research/en-v6-b14-natural-assessment-20261123
+    paths:
+    - .github/workflows/english-v6-b14-natural-registry.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: en-v6-b14-natural-metadata-once
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261121'
+jobs:
+  sources:
+    runs-on: ubuntu-24.04
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == 'f42b56133a7a06d78dbc8abf22190e790b0fab78'
+    timeout-minutes: 26
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Rank authenticated upstream transcripts and freeze both role rosters
+      run: |
+        set -euo pipefail
+        python -m pip install --disable-pip-version-check 'numpy==1.26.4' 'soundfile==0.13.1'
+        file="$RUNNER_TEMP/dev-other.tar.gz"
+        for mirror in https://www.openslr.org/resources/12 https://openslr.trmal.net/resources/12 https://openslr.elda.org/resources/12; do
+          if curl -fLsS --connect-timeout 10 --speed-limit 20000 --speed-time 25 --max-time 460 -o "$file" "$mirror/dev-other.tar.gz" && echo "12661c48e8c3fe1de2c1caa4c3e135193bfb1811584f11f569dd12645aa84365  $file" | sha256sum --status -c -; then break; fi
+        done
+        python -IB automation/english_v6_b14_natural_sources.py register "$file" "$RUNNER_TEMP/ROSTERS.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b14-natural-rosters-${{ github.run_id }}
+        path: ${{ runner.temp }}/ROSTERS.json
+        retention-days: 90
+        if-no-files-found: error

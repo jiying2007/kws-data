@@ -1,0 +1,80 @@
+{
+  "schema": "english-v6-b14-preregistered-positive-path-retention-v1",
+  "hypothesis": "Adding only a frozen B9-guided positive-path margin-retention loss may preserve complete positive detections while retaining the B13 natural-negative objective.",
+  "feature_frontend": "Identical B9 43876 trainable parameters and signed PCM16 log-mel frontend. Frozen model normalizers and CTC event decoder.",
+  "diagnostic": {
+    "run_id": 45111029245,
+    "head": "cee2389ab3765b01947f485d8a5cf95dc4e3568f",
+    "artifact_id": 14790175198,
+    "bytes": 519148,
+    "sha256": "0959221425bc38e8ca6501ace692c858741079f9223c4972d1cc318252d68ea8",
+    "actual_forwards": 396,
+    "originals": 44,
+    "groups": 35,
+    "retention_gate": "Two or more distinct TRAIN groups at one registered gain have a B9 and matched complete event on an original on which B13 candidate misses.",
+    "observed_groups_by_gain": {
+      "1.0": 4,
+      "0.75": 3,
+      "0.5": 1
+    }
+  },
+  "historical_b13": {
+    "run_id": 45109548793,
+    "head": "db12ece24e0481b877b9cf46f74f3ed8f8d2fca1",
+    "artifact_id": 14789216108,
+    "bytes": 1009570,
+    "sha256": "e66de6d2683c93e434e3d426ef88ffa46c9eba63d89d6940454a81d17e7d29af",
+    "challenger_pt_sha256": "643fbbc21f5e2ca7a22c8e320966ddd43c3f2985137e1949ae1e8884565db553",
+    "common_draw": "B13 archived COMMON_DRAW.json; all 192 original source and prefix assignments identical."
+  },
+  "pair": {
+    "updates_per_arm": 192,
+    "parent_pt_sha256": "7dba86a3fcda6e5f05cb80b414dc372c70a5a03b3aee783f168441a4871e7655",
+    "seed": 20261120,
+    "adamw_learning_rate": 6e-05,
+    "adamw_weight_decay": 0.001,
+    "gradient_norm_clip": 5.0,
+    "natural_negative_ctc_weight": 0.08,
+    "training_base_originals": 79,
+    "new_natural_negative_inputs": 9,
+    "natural_negative_speakers": 8,
+    "control_aux_weight": 0.0,
+    "challenger_aux_weight": 0.08,
+    "control_target": "Reproduce the archived B13 challenger parameters from the same B9 parent, optimizer, training source groups, gain schedule, prefix, natural draws and 192 updates. Compare every float tensor. No downstream opening following a numerical mismatch.",
+    "base_features_and_loss": "Original B13 natural-negative matched mechanism and frozen B10.fit, with original CTC and gain-consistency terms."
+  },
+  "retention": {
+    "eligible": "Every admitted TRAIN original/gain for which B9 and B13 matched (natural weight zero) each greedily produce at least one complete contiguous [1,2,3]. Admission does not depend on B13 challenger response.",
+    "gains": [
+      1.0,
+      0.75,
+      0.5
+    ],
+    "eligible_combinations_by_gain": {
+      "1.0": 42,
+      "0.75": 42,
+      "0.5": 36
+    },
+    "eligible_originals": 43,
+    "eligible_groups": 34,
+    "teacher": "Freeze B9 native logits archived on the exact same original, input gain, native frontend and full utterance, with no prefix. B13 matched supplies the complete-event admission check. The natural-negative B13 challenger is excluded from constructing the objective.",
+    "align": "Use the nonblank frame runs of the first complete contiguous [1,2,3] in the B9 collapsed path on that original/gain. Each target token contributes its entire corresponding run of original frames. No forced linguistic alignments, no shifted indices and no transfer of times between originals.",
+    "loss": "For each registered token frame define margin as its target class logit minus the maximum of the three other class logits, including blank. Compute ReLU(frozen B9 margin minus the student margin). Average frames within token, then tokens within path, gains per original, and originals within the selected source group. Teacher gradients are detached. No temperature, threshold, clipping or margin hyperparameter is added.",
+    "draw": "At zero-based step s use lexicographically sorted eligible source groups[s modulo 34]. Include all eligible source originals and all eligible gains from that group. This gives every eligible pair exposure and separates source, original, gain and token weighting.",
+    "distinction_from_B1": "B1 matched whole-clean-utterance four-class posterior distributions with a 0.22 KL contribution on positive and ordinary data. B14 preserves only target-vs-competing margins on the three nonblank runs of a previously completed positive word at native and reduced gains.",
+    "fixed_weight_rationale": "One coefficient 0.08 fixed to the existing additional natural-negative CTC coefficient. No sweep and no existing DEV signal used to choose its value."
+  },
+  "source_policy": {
+    "allowed": "Only the frozen B9 ordinary/positive TRAIN cohort, the nine reviewed B13 natural negative TRAIN windows, the preexisting 44 TRAIN positives and their actual three-gain B9 and matched outputs.",
+    "forbidden": [
+      "Any primary, replication or other DEV waveform, logits or targets in the optimizer",
+      "CAL or LOCKED audio or metrics",
+      "Fresh TTS, ASR, phone teachers, forced acoustic alignments or replacement sources",
+      "Target-device data or field metrics",
+      "B13 challenger individual errors as a sample filter",
+      "Any threshold or hyperparameter selection on a scored panel"
+    ]
+  },
+  "start_condition": "An independent fresh-panel design with immutable source rosters and decision rules must have been published before training. Training receives only its design file digests for the start gate. Any subsequent research or product decision requires the applicable separately registered independent evidence.",
+  "promotion_allowed": false
+}

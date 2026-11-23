@@ -1,0 +1,44 @@
+name: English B14 one-factor positive word retention TRAIN pair
+on:
+  push:
+    branches: [research/en-v6-b14-path-retention-20261123]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b14-positive-path-train-pair
+  cancel-in-progress: false
+jobs:
+  train:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.event.before == '1a7b7ae571cdc33361d704d0ae4f3b5f406ef7b6' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261120'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Authenticate both registered studies and all TRAIN inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -IB automation/english_v6_b14_path_retention_pair.py fetch "$RUNNER_TEMP/b14-inputs"
+      - name: Match frozen CPU optimizer and export stack
+        run: |
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 numpy==1.26.4 onnx==1.17.0
+      - name: Exactly reproduce B13 numerical controls and train the 192-step B14 positive-retention ablation
+        run: python -IB automation/english_v6_b14_path_retention_pair.py execute "$RUNNER_TEMP/b14-inputs" --output "$RUNNER_TEMP/b14-models"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b14-path-retention-models-${{ github.run_id }}
+          path: ${{ runner.temp }}/b14-models/
+          if-no-files-found: warn
+          retention-days: 90

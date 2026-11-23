@@ -46,14 +46,14 @@ def decision(rows):
                 added_ordinary_events=added,lost_positive_group_gains=lost,panel_gate="PASS" if passed else "NO_PROMOTION")
 
 
-def human_rows(source,review,panel):
+def human_rows(source,review,panel,contract=natural):
     raw=source.read("MANIFEST.json")
     manifest=json.loads(raw)
     labels=json.loads(review.read("SCREEN.json"))
-    design=natural.plan()
-    need(manifest["schema"]==labels["schema"]==natural.SCHEMA and labels["source_manifest_sha256"]==base.sha(raw)
+    design=contract.plan()
+    need(manifest["schema"]==labels["schema"]==contract.SCHEMA and labels["source_manifest_sha256"]==base.sha(raw)
          and labels["kws_forwards"]==manifest["kws_forwards"]==0 and labels["training_allowed"] is False
-         and manifest["design_sha256"]==natural.DESIGN_SHA and manifest["corpus_sha256"]==design["upstream"]["sha256"]
+         and manifest["design_sha256"]==contract.DESIGN_SHA and manifest["corpus_sha256"]==design["upstream"]["sha256"]
          and labels["panel"]==manifest["panel"]==panel,"human source-screen provenance")
     roster_raw=source.read("ROSTERS.json")
     roster=json.loads(roster_raw)

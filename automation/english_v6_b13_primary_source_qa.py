@@ -66,16 +66,17 @@ def history(directory):
     return hashes, groups
 
 
-def groups_check(config, history_groups):
+def groups_check(config, history_groups, *, plan_reader=source_plan, first=598, extra_people=()):
     b12.verify_config(config)
     mapping = json.loads(config.read_bytes())["speaker_id_map"]
     prior = b10.previous.old
     old = {str(s) for s in (*prior.OLD_PIPER_IDS, *prior.OLD_LIBRI_IDS, *(v for _,v in prior.NEW_VOICES))}
     owner = json.loads((PINS.parents[1] / "research/english_hardneg_increment_20261117/OWNER_REVIEW.json").read_bytes())
     old.update(r["source_id"].split("-")[0] for r in owner["candidates"])
+    old.update(extra_people)
     disjoint = set()
-    for name, start in (("primary",598),("replication",610)):
-        roster = {(r["speaker_index"],r["source_speaker_id"]) for r in source_plan(name)["rows"]}
+    for name, start in (("primary",first),("replication",first+12)):
+        roster = {(r["speaker_index"],r["source_speaker_id"]) for r in plan_reader(name)["rows"]}
         qa.need({i for i, _ in roster} == set(range(start, start+12)) and len(roster)==12, "reserved source range")
         for idx, person in roster:
             digits = person.removeprefix("p")
@@ -86,22 +87,27 @@ def groups_check(config, history_groups):
 
 
 def generate(out, original_archives):
+    seen, old_groups = history(original_archives)
+    render_panel(out, source_plan("primary"), FILES["primary"], seen,
+                 lambda config: groups_check(config, old_groups))
+    read_source(out)
+
+
+def render_panel(out, plan, file_sha, seen, verify_config):
     import numpy as np
     import onnxruntime as ort
     from huggingface_hub import hf_hub_download
     from piper import PiperVoice, SynthesisConfig
     from scipy.signal import resample_poly
 
-    plan = source_plan("primary")
     model = plan["model"]
-    seen, old_groups = history(original_archives)
     weights, config = [Path(hf_hub_download(repo_id=model["repo"],filename=model[k],
                        revision=model["commit"],token=False)) for k in ("file","config")]
-    groups_check(config, old_groups)
+    verify_config(config)
     qa.need(version("piper-tts") == model["piper_tts_version"] and weights.stat().st_size == model["file_bytes"]
             and b10.previous.digest(weights) == model["file_sha256"], "frozen source engine and weights")
     out.mkdir()
-    qa.record(out / "STARTED.json", {"plan_sha256":FILES["primary"], "one_shot":True})
+    qa.record(out / "STARTED.json", {"plan_sha256":file_sha, "one_shot":True})
     rows = []
     for row in plan["rows"]:
         sid = row["id"]
@@ -146,14 +152,13 @@ def generate(out, original_archives):
         rows.append(dict(row,**facts,native_chunks=receipts,native_pcm_sha256=b10.sha(native),
                          whole_native_resample=True,crop_calls=0,
                          positive_duration_pass=target!=2 or facts["samples"]<=b10.MAX_POSITIVE_SAMPLES))
-    qa.record(out/"MANIFEST.json",dict(schema=plan["schema"],panel="primary",rows=rows,tts_calls=len(rows),
-              plan_sha256=b10.sha(b10.canon(plan)),registered_plan_file_sha256=FILES["primary"],
+    qa.record(out/"MANIFEST.json",dict(schema=plan["schema"],panel=plan["panel"],rows=rows,tts_calls=len(rows),
+              plan_sha256=b10.sha(b10.canon(plan)),registered_plan_file_sha256=file_sha,
               fresh_cpu_session_each_input=True,new_kws_forwards=0,human_gold=False))
-    read_source(out)
 
 
-def read_source(path):
-    rows=qa.read_panel(path,"primary",source_plan)
+def read_source(path, plan_reader=source_plan, panel="primary"):
+    rows=qa.read_panel(path,panel,plan_reader)
     for r in rows:
         total=hashlib.sha256()
         for i,c in enumerate(r["native_chunks"]):
