@@ -1,0 +1,102 @@
+name: Natural TRAIN four frozen models, exact sample clocks and offline listening
+'on':
+  push:
+    branches: [research/en-v6-natural-train-clock-review-20261123]
+    paths: [.github/workflows/english-v6-natural-train-context-clock.yml]
+permissions:
+  actions: read
+  contents: read
+jobs:
+  clock:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '647180c77328045bde64f79a149b6ccb951894da'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 32
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      SPEC: automation/english_v6_natural_train_context_inputs.json
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Authenticate the three model archives and the original TRAIN-only source and ASR labels
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        python -IB automation/test_english_v6_natural_train_context_clock.py
+        mkdir "$RUNNER_TEMP/inputs"
+        python - <<'PYTHON'
+        import hashlib,json,os,subprocess
+        from pathlib import Path
+        spec=json.loads(Path(os.environ["SPEC"]).read_bytes())
+        if set(spec["inputs"])!={"B0","B9","pair","source","screen"}: raise ValueError("wrong inputs")
+        for name,lock in spec["inputs"].items():
+            ep="repos/jiying2007/kws-data/actions"
+            meta=json.loads(subprocess.check_output(["gh","api",ep+"/artifacts/"+str(lock["id"])]))
+            r=json.loads(subprocess.check_output(["gh","api",ep+"/runs/"+str(lock["run_id"])]))
+            if (meta["expired"] or meta["size_in_bytes"]!=lock["bytes"] or meta["digest"]!="sha256:"+lock["sha256"]
+                or meta["workflow_run"]["head_sha"]!=lock["run_head"] or meta["workflow_run"]["id"]!=r["id"]
+                or r["id"]!=lock["run_id"] or r["head_sha"]!=lock["run_head"] or r["status"]!="completed" or r["conclusion"]!="success"):
+                raise ValueError("upstream provenance mismatch for "+name)
+            raw=subprocess.check_output(["gh","api",ep+"/artifacts/"+str(lock["id"])+"/zip"])
+            if len(raw)!=lock["bytes"] or hashlib.sha256(raw).hexdigest()!=lock["sha256"]: raise ValueError("archive bytes mismatch")
+            (Path(os.environ["RUNNER_TEMP"])/"inputs"/(name+".zip")).write_bytes(raw)
+        PYTHON
+    - name: Score the complete admitted native PCM and verify every logit and candidate clock
+      run: |
+        set -euo pipefail
+        python -m pip install 'torch==2.9.1+cpu' --index-url https://download.pytorch.org/whl/cpu
+        python -m pip install 'numpy==1.26.4'
+        python -IB automation/english_v6_natural_train_context_clock.py "$SPEC" "$RUNNER_TEMP/inputs" "$RUNNER_TEMP/review"
+        python -IB automation/test_english_v6_natural_train_context_clock.py "$RUNNER_TEMP/review" "$RUNNER_TEMP/inputs/source.zip" "$RUNNER_TEMP/inputs/screen.zip"
+        python -IB research/english_v6_train_context_review/render_review.py "$RUNNER_TEMP/review"
+        python - <<'PYTHON'
+        import json,os,zipfile
+        from pathlib import Path
+        root=Path(os.environ["RUNNER_TEMP"])
+        with zipfile.ZipFile(root/"inputs"/"source.zip") as archive:
+            source=json.loads(archive.read("MANIFEST.json"))
+        lines=["LibriSpeech audio and official transcriptions",str(source["attribution"]),
+               str(source["license"]),"https://creativecommons.org/licenses/by/4.0/",
+               "https://www.openslr.org/12/","https://huggingface.co/datasets/"+source["hf_repo"]+"/tree/"+source["hf_revision"],
+               "Source partition: "+str(source["partition"]),
+               "Original samples are unmodified. Candidate and control WAV files are sample-exact time excerpts.",
+               "Automatic model clocks and transcripts are research evidence. Human listening remains pending."]
+        (root/"review"/"SOURCE_CREDITS.txt").write_text("\n".join(lines)+"\n")
+        PYTHON
+    - if: always() && hashFiles('automation/english_v6_natural_train_context_clock.py') != ''
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-natural-train-clock-review-${{ github.run_id }}
+        path: ${{ runner.temp }}/review/
+        if-no-files-found: error
+        retention-days: 90
+  offline-listening:
+    needs: clock
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-natural-train-clock-review-${{ github.run_id }}
+        path: ${{ runner.temp }}/review
+    - name: Verify actual audio playback metadata, initially empty human labels, export and mobile layout in Chrome
+      run: |
+        set -euo pipefail
+        python -m pip install 'playwright==1.55.0'
+        cd "$RUNNER_TEMP/review"
+        sha256sum REVIEW_INDEX.json > "$RUNNER_TEMP/index.sha256"
+        export CHROME_BIN="$(command -v google-chrome)"
+        python -IB "$GITHUB_WORKSPACE/research/english_v6_train_context_review/test_review.py" "$RUNNER_TEMP/review"
+        sha256sum -c "$RUNNER_TEMP/index.sha256"

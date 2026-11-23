@@ -1,0 +1,234 @@
+{
+  "schema": "english-v6-natural-train-four-model-event-clock-v1",
+  "project_role": "train",
+  "design_commit": "9db369b83e12234048e321cd12759d3b55c643a0",
+  "design_sha256": "ae472256363b2d09e85a34434714a34167d6d27e42ed46cd4302c2bc38e69b2e",
+  "scorer_frozen_commit": "38ac500ab592d578093554137129bc99c77c0706",
+  "inputs_commit": "647180c77328045bde64f79a149b6ccb951894da",
+  "run_head": "cc6446a077bb9b8c77783a74759ced4b64044980",
+  "run_id": 45114288521,
+  "public_runner": "ubuntu-24.04",
+  "github": {
+    "run_id": 45114288521,
+    "head_sha": "cc6446a077bb9b8c77783a74759ced4b64044980",
+    "run_attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "artifact_id": 14790708311,
+    "jobs": [
+      {
+        "id": 137493434676,
+        "name": "clock",
+        "conclusion": "success",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "conclusion": "success"
+          },
+          {
+            "name": "Authenticate the three model archives and the original TRAIN-only source and ASR labels",
+            "conclusion": "success"
+          },
+          {
+            "name": "Score the complete admitted native PCM and verify every logit and candidate clock",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 137493677942,
+        "name": "offline-listening",
+        "conclusion": "success",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "steps": [
+          {
+            "name": "Set up job",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify actual audio playback metadata, initially empty human labels, export and mobile layout in Chrome",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ]
+  },
+  "actual_forwards": 64,
+  "raw_logit_frames_across_models": 32760,
+  "native_tensors_checked": 64,
+  "original_flac_sample_for_sample_ffmpeg_checked": 16,
+  "root_zip_bytes": 3775193,
+  "root_zip_sha256": "b1e791fb5d1ebaaaff0afde5a412df4c56027c138a7acecc442d06975a14ec9f",
+  "source_schema": "english-v6-new-natural-train-context24-v1",
+  "source_role": "train",
+  "source_sha256": "321d0a22d7bc0c15fea8181d0bce1544d8f2bce17ca35f551e00544b99c844f7",
+  "screen_sha256": "4eafd37945bde571b24e353f1a9a52816aef3e4c29bcb68c982c707f28c4aa3c",
+  "review_index_sha256": "1e4f32c00bf0f66db8ea4349a8be50b0de52d40002146a65325401f066177a09",
+  "logits_sha256": "78653f8b0a5824c9dadb3b24ed20558063d5402dbad6ad611f38a949b418601b",
+  "exact_audio_bytes": {
+    "originals": 16,
+    "candidate_windows": 23,
+    "adjacent_controls": 22
+  },
+  "admitted_originals": 16,
+  "admitted_readers": 11,
+  "unknown_originals": 8,
+  "source_tier_counts": {
+    "unknown": 8,
+    "silver": 10,
+    "weak": 6
+  },
+  "source_attempts": {
+    "qwen": 24,
+    "whisper": 24,
+    "parakeet": 24
+  },
+  "modeled_seconds": 82.34,
+  "events_by_model": {
+    "B0": {
+      "events": 4,
+      "triggered_originals": 4,
+      "triggered_readers": [
+        "1743",
+        "374",
+        "5390",
+        "8238"
+      ]
+    },
+    "B9": {
+      "events": 26,
+      "triggered_originals": 14,
+      "triggered_readers": [
+        "1088",
+        "1263",
+        "1743",
+        "226",
+        "2514",
+        "374",
+        "4214",
+        "5390",
+        "7800",
+        "8238"
+      ]
+    },
+    "B13": {
+      "events": 6,
+      "triggered_originals": 5,
+      "triggered_readers": [
+        "1088",
+        "1743",
+        "226",
+        "5390",
+        "8238"
+      ]
+    },
+    "B14": {
+      "events": 11,
+      "triggered_originals": 6,
+      "triggered_readers": [
+        "1088",
+        "1743",
+        "226",
+        "374",
+        "5390",
+        "8238"
+      ]
+    }
+  },
+  "B14_vs_B13_unequal_event_counts": [
+    {
+      "recording_id": "train-context24-374-180299-0001",
+      "speaker": "374",
+      "B13": 0,
+      "B14": 1
+    },
+    {
+      "recording_id": "train-context24-8238-283452-0035",
+      "speaker": "8238",
+      "B13": 1,
+      "B14": 2
+    },
+    {
+      "recording_id": "train-context24-1743-142912-0023",
+      "speaker": "1743",
+      "B13": 1,
+      "B14": 2
+    },
+    {
+      "recording_id": "train-context24-1088-134315-0046",
+      "speaker": "1088",
+      "B13": 1,
+      "B14": 2
+    },
+    {
+      "recording_id": "train-context24-226-131532-0032",
+      "speaker": "226",
+      "B13": 1,
+      "B14": 2
+    }
+  ],
+  "originals_with_any_trigger": 14,
+  "readers_with_any_trigger": 10,
+  "originals_with_no_trigger_on_all_four": 2,
+  "windows_without_adjacent_control": 0,
+  "candidate_window_seconds": 19.436,
+  "control_seconds": 21.314,
+  "all_initially_pending": true,
+  "explicit_human_review_count": 0,
+  "field_far_per_hour": null,
+  "optimizer_updates": 0,
+  "promotion_allowed": false
+}
