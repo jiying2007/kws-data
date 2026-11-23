@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2959,
+  "expected_tracked_files": 2965,
   "expected_retained_files": 2027,
   "new_retained_paths": 1288,
   "integration_files": [
@@ -1168,7 +1168,13 @@
     "automation/english_v6_four_model_panel.py",
     "automation/test_english_v6_four_model_panel.py",
     "automation/english_v6_four_model_panel_run.json",
-    ".github/workflows/english-v6-four-model-panel-once.yml"
+    ".github/workflows/english-v6-four-model-panel-once.yml",
+    "automation/english_v6_b12_paired_tempo.py",
+    ".github/workflows/english-v6-b12-paired-tempo.yml",
+    "automation/english_v6_b12_gate_pins.json",
+    "automation/english_v6_b12_panels/primary.json",
+    "automation/english_v6_b12_panels/replication.json",
+    "automation/english_v6_b12_panels/design.json"
   ],
   "baseline_files": [
     {
@@ -32485,6 +32491,21 @@
         "gate": "NO_PROMOTION",
         "product_promotion": false
       }
+    },
+    {
+      "campaign": "english-v6-b12-paired-tempo-train-20261123",
+      "source_commit": "b6d5d394dadaae8ffe39d149cb7521d4473de669",
+      "base_commit": "b6d5d394dadaae8ffe39d149cb7521d4473de669",
+      "previous_manifest_git_blob_sha1": "b4d546ced97f25089ba39eddfd17590f651d5c1b",
+      "paths": [
+        "automation/english_v6_b12_paired_tempo.py",
+        ".github/workflows/english-v6-b12-paired-tempo.yml",
+        "automation/english_v6_b12_gate_pins.json",
+        "automation/english_v6_b12_panels/primary.json",
+        "automation/english_v6_b12_panels/replication.json",
+        "automation/english_v6_b12_panels/design.json"
+      ],
+      "rationale": "Retain actual 192+192 B12 paired TRAIN result with 79 original PCM, source-pinned SoX tempo, two disjoint independent DEV reservations and terminal B11 evidence. The original one-shot is spent."
     }
   ]
 }

@@ -1,0 +1,71 @@
+name: English V6 B12 paired tempo TRAIN
+on:
+  push:
+    branches: [research/en-v6-b12-paired-tempo-20261123]
+    paths: [.github/workflows/english-v6-b12-paired-tempo.yml]
+permissions:
+  actions: read
+  contents: read
+jobs:
+  paired-tempo-train:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/research/en-v6-b12-paired-tempo-20261123' &&
+      github.event.before == '502654fb255b64420ee97b77dc201755c9a2e598' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      SCORE_HEAD: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          path: implementation
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 7881b3058e584d89b72cfd794715c33ccbef13c2
+          persist-credentials: false
+          path: helpers
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Authenticate parent, admitted original TRAIN audio and terminal B11 decision
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/b12inputs"
+          driver=implementation/automation/english_v6_b12_paired_tempo.py
+          while read -r name id; do
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" > "$RUNNER_TEMP/b12inputs/$name.zip"
+          done < <(python -IB "$driver" --helpers helpers --list-inputs)
+          id=$(jq -er '.b11_terminal_artifact' implementation/automation/english_v6_b12_gate_pins.json)
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" > "$RUNNER_TEMP/b11-decision.zip"
+          python -IB "$driver" --helpers helpers --inputs "$RUNNER_TEMP/b12inputs" --audit-only
+      - name: Install CPU-only scoring, native tempo DSP and ONNX validation
+        run: |
+          set -euo pipefail
+          if ! command -v sox; then sudo apt-get update -qq && sudo apt-get -y install --no-install-recommends sox; fi
+          python -m venv "$RUNNER_TEMP/b12env"
+          "$RUNNER_TEMP/b12env/bin/pip" install --disable-pip-version-check --retries 2 --timeout 90 'torch==2.9.1+cpu' --index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/b12env/bin/pip" install --disable-pip-version-check --retries 2 --timeout 90 'numpy==1.26.4' 'onnx==1.17.0'
+          "$RUNNER_TEMP/b12env/bin/python" -m pip check
+      - name: Apply the frozen recipe and execute two matched 192-update optimizations
+        run: |
+          set -euo pipefail
+          test "$(git -C implementation rev-parse HEAD)" = "$SCORE_HEAD"
+          "$RUNNER_TEMP/b12env/bin/python" -IB implementation/automation/english_v6_b12_paired_tempo.py \
+            --helpers helpers --inputs "$RUNNER_TEMP/b12inputs" --decision "$RUNNER_TEMP/b11-decision.zip" \
+            --panel-root implementation/automation/english_v6_b12_panels --output "$RUNNER_TEMP/b12model"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: english-v6-b12-paired-tempo-models-${{ github.run_id }}
+          path: ${{ runner.temp }}/b12model/
+          retention-days: 90
+          if-no-files-found: warn
