@@ -19,8 +19,7 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def screen(source, evidence, output):
-    rows = read_source(source)
+def load_observations(source, evidence, rows, schema):
     source_hash = sha(source / "MANIFEST.json")
     by_id = {r["id"]: r for r in rows}
     texts = {k: {} for k in by_id}
@@ -29,10 +28,10 @@ def screen(source, evidence, output):
     for p in PROVIDERS:
         root = evidence / p
         report = json.loads((root / "RESULT.json").read_bytes())
-        need(report["schema"] == BATCH and report["provider"] == p
+        need(report["schema"] == schema and report["provider"] == p
              and report["source_manifest_sha256"] == source_hash
-             and report["attempted"] == report["denominator"] == 24
-             and len(report["rows"]) == 24 and report["target_conditioned"] is False
+             and report["attempted"] == report["denominator"] == len(rows)
+             and len(report["rows"]) == len(rows) and report["target_conditioned"] is False
              and report["initialization_error"] is None, "provider / dataset binding")
         need({x["id"] for x in report["rows"]} == by_id.keys(), "complete distinct row IDs")
         model = json.loads((root / "MODEL.json").read_bytes())
@@ -75,6 +74,13 @@ def screen(source, evidence, output):
                                      "sha256": item["logits_sha256"]}
             coverage[p] += 1
         need(coverage[p] == report["complete"], "observation count")
+    return texts, posterior, coverage
+
+
+def screen(source, evidence, output):
+    rows = read_source(source)
+    source_hash = sha(source / "MANIFEST.json")
+    texts, posterior, coverage = load_observations(source, evidence, rows, BATCH)
     qualified = []
     for row in rows:
         sid = row["id"]

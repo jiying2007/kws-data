@@ -13,14 +13,14 @@ import english_hifi_phones_once as phone_worker
 import english_pocket12_observe as asr
 
 
-def observe(provider, source, out):
+def observe(provider, source, out, *, read_rows=read_source, schema=BATCH):
     need(provider in PROVIDERS, "registered observer")
     event = {"run": os.environ["GITHUB_RUN_ID"], "sha": os.environ["GITHUB_SHA"]}
-    rows = read_source(source)
+    rows = read_rows(source)
     source_sha = hashlib.sha256((source / "MANIFEST.json").read_bytes()).hexdigest()
     root = Path(out)
     root.mkdir(parents=True, exist_ok=False)
-    c.record(root / "STARTED.json", {"run": event, "batch": BATCH,
+    c.record(root / "STARTED.json", {"run": event, "batch": schema,
              "input_manifest": source_sha, "provider": provider})
     captures = []
     error = None
@@ -123,7 +123,7 @@ def observe(provider, source, out):
     finally:
         complete=sum(x["status"]=="success" for x in captures)
         c.record(root/"RESULT.json",{
-            "schema":BATCH,"provider":provider,"run":event,
+            "schema":schema,"provider":provider,"run":event,
             "source_manifest_sha256":source_sha,
             "denominator":len(rows),"attempted":len(captures),
             "complete":complete,"missing_or_failed":len(rows)-complete,
