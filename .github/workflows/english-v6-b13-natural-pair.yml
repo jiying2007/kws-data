@@ -1,0 +1,44 @@
+name: English B13 one-factor natural TRAIN pair
+on:
+  push:
+    branches: [research/en-v6-b13-natural-weights-20261123]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-one-b13-natural-train-pair
+  cancel-in-progress: false
+jobs:
+  train:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.event.before == '24a170a88eb2d08a7e3a5fee62018cbbec8d61a9' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261120'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Authenticate the prior public study design and gated TRAIN inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -IB automation/english_v6_b13_natural_pair.py fetch "$RUNNER_TEMP/b13-inputs"
+      - name: Match frozen CPU optimizer and export stack
+        run: |
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 numpy==1.26.4 onnx==1.17.0
+      - name: Run the two registered 192-update training arms
+        run: python -IB automation/english_v6_b13_natural_pair.py execute "$RUNNER_TEMP/b13-inputs" --output "$RUNNER_TEMP/b13-models"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b13-natural-paired-models-${{ github.run_id }}
+          path: ${{ runner.temp }}/b13-models/
+          if-no-files-found: warn
+          retention-days: 90
