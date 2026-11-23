@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2944,
+  "expected_tracked_files": 2946,
   "expected_retained_files": 2027,
   "new_retained_paths": 1288,
   "integration_files": [
@@ -1153,7 +1153,9 @@
     "automation/test_english_v6_b11_dev_panel.py",
     "automation/test_english_v6_b11_supplement.py",
     "automation/english_v6_four_model_panel.py",
-    "automation/test_english_v6_four_model_panel.py"
+    "automation/test_english_v6_four_model_panel.py",
+    "automation/english_v6_four_model_panel_run.json",
+    ".github/workflows/english-v6-four-model-panel-once.yml"
   ],
   "baseline_files": [
     {
@@ -32278,6 +32280,17 @@
         "automation/test_english_v6_four_model_panel.py"
       ],
       "rationale": "Freeze 4-model, 3-gain inference and source-group decision definitions before the first eligibility score or candidate checkpoint. Source-only registration, no model execution."
+    },
+    {
+      "campaign": "b11-sealed-primary-four-model-execution",
+      "base_commit": "cd40b1299de4394125c13264348fe6909c6f5d0a",
+      "source_commit": "cd40b1299de4394125c13264348fe6909c6f5d0a",
+      "previous_manifest_git_blob_sha1": "82d43af24d07b85b7c3a23ac8ba7832dabd7d432",
+      "paths": [
+        "automation/english_v6_four_model_panel_run.json",
+        ".github/workflows/english-v6-four-model-panel-once.yml"
+      ],
+      "rationale": "One frozen evaluation on the original panel qualified before scoring and the trained B11 pair. All inputs, model roles and source-group tests bound by original archive SHA; no optimization or threshold selection."
     }
   ]
 }
