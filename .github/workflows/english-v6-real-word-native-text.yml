@@ -1,0 +1,29 @@
+name: Verify complete native TRAIN transcripts for potential real Hey Mero recordings
+on:
+  push:
+    branches: [research/en-v6-public-train-transcript-leads-20261123]
+    paths: [.github/workflows/english-v6-real-word-native-text.yml]
+permissions:
+  contents: read
+jobs:
+  native-text:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '93b3f26880a9876a28690fc5f7713e41327f48f6'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        partition: [train-clean-100, train-clean-360, train-other-500]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - name: Check the official partition checksum and match all native text IDs to audio member names
+        env:
+          PARTITION: ${{ matrix.partition }}
+        run: python3 -IB automation/english_v6_real_word_native_text.py "$PARTITION" "$RUNNER_TEMP/checked"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-official-transcript-result-${{ matrix.partition }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/checked/
+          retention-days: 90
+          if-no-files-found: error
