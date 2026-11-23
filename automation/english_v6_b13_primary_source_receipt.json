@@ -1,0 +1,129 @@
+{
+  "schema": "english-v6-b13-primary-source-audit-receipt-v1",
+  "execution_sha": "2bea64726945a042a8c0c2dec8317e2b15ea1781",
+  "preregistration_sha": "24a170a88eb2d08a7e3a5fee62018cbbec8d61a9",
+  "run_id": 45109606032,
+  "primary_plan_sha256": "3832279dadc95dabb622af08c61f9d1bd9fe74282b43660421569f7fb15a758a",
+  "replication_plan_sha256": "f454483ea44e622a3640e28cfc07d60b8e1939a189f874f3b87a5eb218496de6",
+  "artifacts": {
+    "b13-primary-dev-observer-qwen": {
+      "id": 14789291168,
+      "name": "b13-primary-dev-observer-qwen",
+      "size_in_bytes": 46462,
+      "digest": "sha256:08928c72ba3c385b332061a122340350fc52eec0e00ecab533635cefa61c3803"
+    },
+    "english-v6-b13-primary-frozen-screen-45109606032": {
+      "id": 14788949035,
+      "name": "english-v6-b13-primary-frozen-screen-45109606032",
+      "size_in_bytes": 10607,
+      "digest": "sha256:96eee49777cbdc7e6ef2f6b25dcf625cd53490067d1dae8a86e311af7d9ee7ad"
+    },
+    "b13-primary-dev-observer-whisper": {
+      "id": 14788862517,
+      "name": "b13-primary-dev-observer-whisper",
+      "size_in_bytes": 46604,
+      "digest": "sha256:d789f31a19a1bab759debe4af8883d37f39c8f61e24036fe0cc32eeb0cf4a196"
+    },
+    "b13-primary-dev-observer-lv60": {
+      "id": 14788734628,
+      "name": "b13-primary-dev-observer-lv60",
+      "size_in_bytes": 2710083,
+      "digest": "sha256:170f2f08f57d0279a53ef64ce4115d76dcab75b5b70addbd184b0d241fea5f63"
+    },
+    "en-v6-b13-primary-panel-opened": {
+      "id": 14788549269,
+      "name": "en-v6-b13-primary-panel-opened",
+      "size_in_bytes": 177,
+      "digest": "sha256:445c6caee687d597d51299fd86545069dc54dbdfd5c02077d0511ea36a7ba992"
+    },
+    "english-v6-b13-primary-source-45109606032": {
+      "id": 14788464792,
+      "name": "english-v6-b13-primary-source-45109606032",
+      "size_in_bytes": 2441797,
+      "digest": "sha256:1cc208dd1b83ac6c72b308b1d536bb19b41e5b4d09a4052eefd6d5a7ebdbcfb8"
+    },
+    "b13-primary-dev-observer-xlsr": {
+      "id": 14788454811,
+      "name": "b13-primary-dev-observer-xlsr",
+      "size_in_bytes": 2713421,
+      "digest": "sha256:1d2df12e1948031f3ca4c865845aadb58c838a7655fc2c281b91c8ec422d1021"
+    },
+    "b13-primary-dev-observer-parakeet": {
+      "id": 14788344060,
+      "name": "b13-primary-dev-observer-parakeet",
+      "size_in_bytes": 46665,
+      "digest": "sha256:5c605c87cace85f4525c69b9d46f1fb037f957e41403aa9db6f084d527fd6e66"
+    }
+  },
+  "source_groups": 12,
+  "originals": 48,
+  "verified_distinct_pcm": 48,
+  "registered_fast_shorter_than_own_slow": 12,
+  "complete_source_groups": 6,
+  "paired_source_groups": [
+    "piper-libritts-p4734",
+    "piper-libritts-p594",
+    "piper-libritts-p6446",
+    "piper-libritts-p6727",
+    "piper-libritts-p7258",
+    "piper-libritts-p8742"
+  ],
+  "source_tiers": {
+    "silver": 26,
+    "unknown": 18,
+    "weak": 4
+  },
+  "eligible_positive": 6,
+  "eligible_ordinary": 24,
+  "by_requested_cell": {
+    "mero-fast": {
+      "admitted": 1,
+      "total": 12
+    },
+    "mero-slow": {
+      "admitted": 5,
+      "total": 12
+    },
+    "question": {
+      "admitted": 6,
+      "total": 6
+    },
+    "request": {
+      "admitted": 6,
+      "total": 6
+    },
+    "statement": {
+      "admitted": 6,
+      "total": 6
+    },
+    "yes-no": {
+      "admitted": 6,
+      "total": 6
+    }
+  },
+  "coverage": {
+    "lv60": 48,
+    "parakeet": 47,
+    "qwen": 48,
+    "whisper": 48,
+    "xlsr": 48
+  },
+  "source_manifest_sha256": "e1f70f49c0cb356394162a614eac7aa7c9d6a8467036dd6fa8e87610c4aa3af2",
+  "screen_sha256": "eb2f41464a5624203c66938fab5c597918445608037809590271475423c10845",
+  "optimizer_updates": 0,
+  "kws_forwards": 0,
+  "replication_opened": false,
+  "human_gold": false,
+  "promotion_allowed": false,
+  "observer_attempts": 240,
+  "successful_native_observations": 239,
+  "native_failures": [
+    {
+      "id": "b13-primary-608-mero-fast",
+      "provider": "parakeet",
+      "status": "failed",
+      "error": "ValueError:RAW_UNPROMPTED_COMPLETE_ASR_TEXT",
+      "tier": "unknown"
+    }
+  ]
+}

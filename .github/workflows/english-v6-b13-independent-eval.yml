@@ -1,0 +1,71 @@
+name: B13 frozen assessment of human and synthetic DEV speech
+on:
+  push:
+    branches: [research/en-v6-b13-natural-assessment-20261123]
+    paths: [.github/workflows/english-v6-b13-independent-eval.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  score:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '6000954f747c9e9e4385e48bec145ebf64ac80ac'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PANEL_SPEC: automation/english_v6_b13_primary_eval_inputs.json
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Check frozen gates and authenticate the seven original artifacts
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        python -IB automation/test_english_v6_four_model_panel.py
+        python -IB automation/test_english_v6_b13_independent_eval.py
+        mkdir -p "$RUNNER_TEMP/panel-inputs"
+        python - "$RUNNER_TEMP/panel-inputs" <<'PYTHON'
+        import hashlib, json, os, subprocess, sys
+        from pathlib import Path
+        spec = json.loads(Path(os.environ["PANEL_SPEC"]).read_bytes())
+        ids = spec["inputs"]
+        if (spec["hypothesis"] != "B13" or spec["panel"] != "primary"
+                or spec["design_commit"]!="24a170a88eb2d08a7e3a5fee62018cbbec8d61a9"
+                or set(ids)!={"B0","B9","pair","synth_source","synth_screen","natural_source","natural_screen"}):
+            raise ValueError("wrong B13 cohort or input set")
+        for name, lock in ids.items():
+            prefix = "repos/jiying2007/kws-data/actions/artifacts/" + str(lock["id"])
+            meta = json.loads(subprocess.check_output(["gh","api",prefix]))
+            if (meta["expired"] or meta["size_in_bytes"] != lock["bytes"] or meta["digest"] != "sha256:" + lock["sha256"]
+                    or meta["workflow_run"]["id"] != lock["run_id"] or meta["workflow_run"]["head_sha"] != lock["run_head"]):
+                raise ValueError(name + ": provenance mismatch")
+            r = json.loads(subprocess.check_output(["gh", "api", "repos/jiying2007/kws-data/actions/runs/"+str(lock["run_id"])]))
+            if r["status"] != "completed" or r["conclusion"] != "success":
+                raise ValueError(name + ": upstream run not successful")
+            raw = subprocess.check_output(["gh","api",prefix+"/zip"])
+            if len(raw) != lock["bytes"] or hashlib.sha256(raw).hexdigest() != lock["sha256"]:
+                raise ValueError(name + ": ZIP bytes mismatch")
+            (Path(sys.argv[1])/(name+".zip")).write_bytes(raw)
+        PYTHON
+    - name: Evaluate all admitted ordinary and positive DEV originals across the frozen gains
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -m pip install 'torch==2.9.1+cpu' --index-url https://download.pytorch.org/whl/cpu
+        python -m pip install 'numpy==1.26.4'
+        python -IB automation/english_v6_b13_independent_eval.py "$PANEL_SPEC" "$RUNNER_TEMP/panel-inputs" "$RUNNER_TEMP/decision"
+        printf '{"run":"%s","code":"%s","attempt":"%s"}\n' "$GITHUB_RUN_ID" "$(git rev-parse HEAD)" "$GITHUB_RUN_ATTEMPT" > "$RUNNER_TEMP/decision/RUN.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: v6-b13-primary-full-logits-${{ github.run_id }}
+        path: ${{ runner.temp }}/decision/
+        retention-days: 90
+        if-no-files-found: error

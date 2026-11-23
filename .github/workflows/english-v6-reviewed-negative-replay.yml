@@ -1,0 +1,61 @@
+name: English V6 nine owner-reviewed TRAIN intervals
+on:
+  push:
+    branches: [research/en-v6-owner-reviewed-natural-windows-20261123]
+    paths: [.github/workflows/english-v6-reviewed-negative-replay.yml]
+permissions:
+  actions: read
+  contents: read
+jobs:
+  replay:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '8709eca5be5256034a09541b5ccad8e137b4c7a9'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    env:
+      OMP_NUM_THREADS: 1
+      MKL_NUM_THREADS: 1
+      OPENBLAS_NUM_THREADS: 1
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Authenticate and fetch previously retained source and frozen weights
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        python - <<'PY'
+        from pathlib import Path
+        import hashlib,json,os,subprocess
+        root=Path(os.environ['RUNNER_TEMP'])/'reviewed-inputs'
+        root.mkdir()
+        for name, lock in json.loads(Path('automation/english_v6_owner_negative_replay.json').read_bytes())['inputs'].items():
+            prefix='repos/jiying2007/kws-data/actions/artifacts/'+str(lock['id'])
+            info=json.loads(subprocess.check_output(['gh','api',prefix]))
+            run=json.loads(subprocess.check_output(['gh','api','repos/jiying2007/kws-data/actions/runs/'+str(lock['run_id'])]))
+            if (info['expired'] or info['workflow_run']['id']!=lock['run_id'] or info['workflow_run']['head_sha']!=lock['run_head']
+                  or info['size_in_bytes']!=lock['bytes'] or info['digest']!='sha256:'+lock['sha256'] or run['conclusion']!='success'):
+                raise ValueError(name+' upstream identity')
+            raw=subprocess.check_output(['gh','api',prefix+'/zip'])
+            if len(raw)!=lock['bytes'] or hashlib.sha256(raw).hexdigest()!=lock['sha256']:
+                raise ValueError(name+' ZIP')
+            (root/(name+'.zip')).write_bytes(raw)
+        for trial in ('B11','B12'):
+            (root/trial).mkdir()
+            for src,dst in [('B0','B0'),('B9','B9'),(trial,'pair')]:
+                os.link(root/(src+'.zip'),root/trial/(dst+'.zip'))
+        PY
+    - name: Replay reviewed PCM at its original gain
+      run: |
+        python -m pip install --disable-pip-version-check 'torch==2.9.1+cpu' --index-url https://download.pytorch.org/whl/cpu
+        python -m pip install --disable-pip-version-check 'numpy==1.26.4'
+        python -IB automation/english_v6_owner_negative_replay.py "$RUNNER_TEMP/reviewed-inputs" "$RUNNER_TEMP/reviewed-output"
+        printf '{"run_id":"%s","head":"%s","attempt":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "$GITHUB_RUN_ATTEMPT" > "$RUNNER_TEMP/reviewed-output/RUN.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-nine-reviewed-train-windows-${{ github.run_id }}
+        path: ${{ runner.temp }}/reviewed-output/
+        retention-days: 90
+        if-no-files-found: error

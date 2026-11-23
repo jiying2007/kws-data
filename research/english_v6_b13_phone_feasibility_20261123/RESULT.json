@@ -1,0 +1,2988 @@
+{
+  "acoustic_human_gold": false,
+  "design_sha256": "7962d4d439da8885b79ac2458de48b602e7f61ddaba0409389943c5c625a02ce",
+  "dev_cal_locked_opened": false,
+  "frame_arrays_replayed": 114,
+  "grid": {
+    "conv_kernel": [
+      10,
+      3,
+      3,
+      3,
+      3,
+      2,
+      2
+    ],
+    "conv_stride": [
+      5,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "feature_receptive_field_samples": 400,
+    "hop_samples": 320,
+    "native_model_context": "bidirectional context over entire utterance; not a physical word endpoint",
+    "nominal_frame_center_sample": "320*i+199.5",
+    "sample_rate": 16000
+  },
+  "input_receipts": {
+    "ordinary": {
+      "id": 14783505472,
+      "sha256": "5b8f2dfab1285eb9f544e538dd3508c2c1c9405df12c06f99ba03b61ca29ee8c"
+    },
+    "positive": {
+      "id": 14782234724,
+      "sha256": "59e4f39122debbcb3151977a5f6481ba59cb5766a826840a5abaa8653e215bc3"
+    }
+  },
+  "main": "8709eca5be5256034a09541b5ccad8e137b4c7a9",
+  "measured_gain": 1,
+  "native_observer_runs": 0,
+  "native_observers": {
+    "lv60": {
+      "model": "facebook/wav2vec2-lv-60-espeak-cv-ft",
+      "revision": "ae45363bf3413b374fecd9dc8bc1df0e24c3b7f4",
+      "weights_sha256": "3173bde9e9ce490fa0f989e413c42f25bc1820c020adc1e6b9b87025b3cfcc5e"
+    },
+    "xlsr": {
+      "model": "facebook/wav2vec2-xlsr-53-espeak-cv-ft",
+      "revision": "2c733782da5604684829819a5eb744c193fe9398",
+      "weights_sha256": "04366b6c8d24099ef313cf02f0e58d26f5dddfda16edbfc8eb2c713d94a9f551"
+    }
+  },
+  "observer_archives": {
+    "fresh-source/lv60": {
+      "id": 14508558196,
+      "run": 44481695979,
+      "sha256": "f4f16018aefc0632503339e3d2a4169db560276791ec239c6009ab8cdc461263",
+      "vocab_sha256": "b01d1ec670b4042ec7692e1d32bd5bdd4f471292142cbb4bd6e828c9924b9a84"
+    },
+    "fresh-source/xlsr": {
+      "id": 14508483184,
+      "run": 44481695979,
+      "sha256": "c80be0d6abcf1a19f9435f8d84410f442215a837a1fce28b98975f6e2758fd26",
+      "vocab_sha256": "a40ff9c95a75edab92824f02c4b9c5de191c11d5bc01f359d47c1f64802f7dad"
+    },
+    "fresh18-source/lv60": {
+      "id": 14430509288,
+      "run": 44312719394,
+      "sha256": "457471b122be622f4f6c6f24bbf45efcfffdafc0fa435ffe0a5c4c504f6eb7f1",
+      "vocab_sha256": "b01d1ec670b4042ec7692e1d32bd5bdd4f471292142cbb4bd6e828c9924b9a84"
+    },
+    "fresh18-source/xlsr": {
+      "id": 14430897711,
+      "run": 44312719394,
+      "sha256": "40a740630d4118138669c93344d5e80a186278aa05c68f475ae291fe22848952",
+      "vocab_sha256": "a40ff9c95a75edab92824f02c4b9c5de191c11d5bc01f359d47c1f64802f7dad"
+    },
+    "fresh24-source/lv60": {
+      "id": 14429131716,
+      "run": 44306842000,
+      "sha256": "b1e184ac79d0ab22291e25ce5091fe1bb40064b9256e242a86cf9e6afe201378",
+      "vocab_sha256": "b01d1ec670b4042ec7692e1d32bd5bdd4f471292142cbb4bd6e828c9924b9a84"
+    },
+    "fresh24-source/xlsr": {
+      "id": 14429415842,
+      "run": 44306842000,
+      "sha256": "ee5bacca72862a3e9b169587bd0202dde27524a2ecbcd1d809ade3185d07ef4d",
+      "vocab_sha256": "a40ff9c95a75edab92824f02c4b9c5de191c11d5bc01f359d47c1f64802f7dad"
+    },
+    "newtrain24-source/lv60": {
+      "id": 14486424306,
+      "run": 44433435970,
+      "sha256": "1f068a074b63ef758fa5684e05e889ba1b260b9c02f1e501b3b866bbe89684de",
+      "vocab_sha256": "b01d1ec670b4042ec7692e1d32bd5bdd4f471292142cbb4bd6e828c9924b9a84"
+    },
+    "newtrain24-source/xlsr": {
+      "id": 14486314438,
+      "run": 44433435970,
+      "sha256": "76da32dc12eeb1d96755abda0d4697b3857e1bb5f2fe7a76f22f92b024204059",
+      "vocab_sha256": "a40ff9c95a75edab92824f02c4b9c5de191c11d5bc01f359d47c1f64802f7dad"
+    },
+    "piper24-source/lv60": {
+      "id": 14436142654,
+      "run": 44323694022,
+      "sha256": "51e9938f183721f00ce15d6ab92124a0276405a43fa67382ab2e26180b21e8ea",
+      "vocab_sha256": "b01d1ec670b4042ec7692e1d32bd5bdd4f471292142cbb4bd6e828c9924b9a84"
+    },
+    "piper24-source/xlsr": {
+      "id": 14436655322,
+      "run": 44323694022,
+      "sha256": "c3b90f910c05807033194d6c61c98cebd0b1b4806d278a5d1b06898f13d92994",
+      "vocab_sha256": "a40ff9c95a75edab92824f02c4b9c5de191c11d5bc01f359d47c1f64802f7dad"
+    },
+    "supplement/lv60": {
+      "id": 14782369774,
+      "run": 45094102574,
+      "sha256": "7a05148d3ebf2ce15a9ba4a35fdf2a956351b268d3705233a2b3b2c969366a8d",
+      "vocab_sha256": "b01d1ec670b4042ec7692e1d32bd5bdd4f471292142cbb4bd6e828c9924b9a84"
+    },
+    "supplement/xlsr": {
+      "id": 14782528964,
+      "run": 45094102574,
+      "sha256": "b24bb2099cbdbee10273d3d01c2128319d02e3d772f9b1c2ae19e22ace79d658",
+      "vocab_sha256": "a40ff9c95a75edab92824f02c4b9c5de191c11d5bc01f359d47c1f64802f7dad"
+    }
+  },
+  "optimizer_updates": 0,
+  "populations": {
+    "fast": {
+      "aligned_distinct_groups": 0,
+      "any_contiguous_wake": 3,
+      "any_full": 3,
+      "both_anchors_within_40ms": 0,
+      "both_full": 0,
+      "groups": 14,
+      "originals": 14
+    },
+    "hard_ordinary": {
+      "aligned_distinct_groups": 0,
+      "any_contiguous_wake": 0,
+      "any_full": 0,
+      "both_anchors_within_40ms": 0,
+      "both_full": 0,
+      "groups": 5,
+      "originals": 13
+    },
+    "known_fast_half_miss": {
+      "aligned_distinct_groups": 0,
+      "any_contiguous_wake": 1,
+      "any_full": 1,
+      "both_anchors_within_40ms": 0,
+      "both_full": 0,
+      "groups": 2,
+      "originals": 2
+    },
+    "positive": {
+      "aligned_distinct_groups": 3,
+      "any_contiguous_wake": 15,
+      "any_full": 15,
+      "both_anchors_within_40ms": 3,
+      "both_full": 3,
+      "groups": 35,
+      "originals": 44
+    }
+  },
+  "rows": [
+    {
+      "aligned_within_40ms": false,
+      "group": "kokoro-v1_0-preset:am_santa",
+      "id": "fresh18-am_santa-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": true,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 54,
+          "logits_sha256": "6996c03c438c153b9fe74092c7ec470207e4053600764c03806713005cb3d43d",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "aɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "o"
+          ]
+        },
+        "xlsr": {
+          "frames": 54,
+          "logits_sha256": "fbeb75e01454e59dfc0a94d25ef0742072a43bf186d5ecad9a0af8c2833c3b37",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                13,
+                25,
+                36
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "43a97ed30ca5eea775c91ffff04b778a16c9e66dfff984da27b8edf87d0c6929",
+      "peak_difference_frames": null,
+      "samples": 17600,
+      "source": "fresh18-source",
+      "tier": "silver",
+      "verified_faster": true,
+      "wav_sha256": "59d9e47b9013fb057421c45d1fb34325a11798c6887722730441e1ed26fd84af"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "kokoro-v1_0-preset:af_sky",
+      "id": "fresh24-af_sky-mero-merrow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 39,
+          "logits_sha256": "24da94fbc0481d6ecde8464fc6f5bf91027244435f6b460ee88da35e3810add7",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                9,
+                21,
+                30
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 39,
+          "logits_sha256": "a177f924629b02fc0ff063157df06eecb106d9cddba8d6cbf75cb160e8e135a0",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "eː",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "fe243be71e09277e7b7152a416379d0258fa5ca18c5a10b13f49942d32bbe259",
+      "peak_difference_frames": null,
+      "samples": 12800,
+      "source": "fresh24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "3a29f7f7efb70ba86952deb01d25f6273a6db28494083b1bcba26ca209830761"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "kokoro-v1_0-preset:am_adam",
+      "id": "fresh24-am_adam-mero-marrow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 43,
+          "logits_sha256": "0466dd89d8828d0c80c5949b23eebd67f7e0e868fffd3f8410972795b3c6bc03",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "e",
+            "ɹ",
+            "o"
+          ]
+        },
+        "xlsr": {
+          "frames": 43,
+          "logits_sha256": "1f895c6e711d3c7c38ad16927366e8401d52c8fe3b90b901c2c64b6cf3cd757d",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "eː",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "b08ed1fe8ffd859295918b4d6e4201da2283e3bcef4b42fb3c129efdd049869c",
+      "peak_difference_frames": null,
+      "samples": 14080,
+      "source": "fresh24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "26fdd7f3532ef02322a3758f842936d61bdcd1e1591b1bd1ba6f0dd5a9ed96fa"
+    },
+    {
+      "aligned_within_40ms": true,
+      "group": "kokoro-v1_0-preset:am_eric",
+      "id": "fresh24-am_eric-mero-merrow",
+      "joint_full": true,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 55,
+          "logits_sha256": "e060f4e055dbce72d45209f3386540986253b43767d0ca5266b55a0047eca5da",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                8,
+                18,
+                26
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "o"
+          ]
+        },
+        "xlsr": {
+          "frames": 55,
+          "logits_sha256": "635ffffd8b523577f94da0aefafa5602cf3bb38d69712561421a7f6da0c1f539",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                8,
+                18,
+                26
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "6b50a0aa32eef612936b4d66df4924d27f58acf20c077e511669c29fa3bc62ac",
+      "peak_difference_frames": [
+        0,
+        0,
+        0
+      ],
+      "samples": 17920,
+      "source": "fresh24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "ca19f5909d4242331fafb53b5dad8c1b216f799f226a735fe330286e5664a10c"
+    },
+    {
+      "aligned_within_40ms": true,
+      "group": "kokoro-v1_0-preset:am_liam",
+      "id": "fresh24-am_liam-mero-marrow",
+      "joint_full": true,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 63,
+          "logits_sha256": "80d5cadb4be9290cb0b1542b0b66dce5a6950cb2bfae9610f88f9cf2297e2ee3",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                14,
+                27,
+                38
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "o"
+          ]
+        },
+        "xlsr": {
+          "frames": 63,
+          "logits_sha256": "5fa56dd0fe0ac725b5bd9c904e1e853fa0a30b4b992f77a1116635404efd9aed",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                15,
+                28,
+                38
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "c5a373ad1cc0436d54974e36000fa178158730898b51be82e60752106b2cb11e",
+      "peak_difference_frames": [
+        1,
+        1,
+        0
+      ],
+      "samples": 20480,
+      "source": "fresh24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "94655c1637b30551235675d3df0562a26cad5dded36f14b12a3e0fef1755cad6"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "kokoro-v1_0-preset:am_liam",
+      "id": "fresh24-am_liam-mero-merrow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 51,
+          "logits_sha256": "2cbe4c1d46a7811c02518f10d766cb06741e55d4d16ad55e8be1e80cfd4b513e",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                9,
+                20,
+                29
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 51,
+          "logits_sha256": "cecc86e77a23cd405f32bc0f3625f8b15c870d294bad55df2bf76920171d0623",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "a3c9b4599e3337abe1aa85936bac93935f4dfe9b640c3dc824fd81fe9482f3ac",
+      "peak_difference_frames": null,
+      "samples": 16640,
+      "source": "fresh24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "c7dd145f410f9f1dd25305951d40150c0e1e926436a93afa96918d6fc8101494"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "kokoro-v1_0-preset:bf_alice",
+      "id": "fresh24-bf_alice-mero-merrow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 83,
+          "logits_sha256": "f7ebde3d0872687992a1ee7db02e19b8755014692cf3c673cf26eb97d7801b19",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "əɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oː"
+          ]
+        },
+        "xlsr": {
+          "frames": 83,
+          "logits_sha256": "e89283d085d9e46d1c82477a7d24e9721f9ca6bda6c82fedc5929dde05b58ea0",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                32,
+                44,
+                54
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oʊ"
+          ]
+        }
+      },
+      "pcm_sha256": "5be5c51c5b3eac7ec5fa082dd52c3ce02584a1c98f85d06f106fe5e349cb0287",
+      "peak_difference_frames": null,
+      "samples": 26880,
+      "source": "fresh24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "ed0c8dfa746e6bb98bb061bdf9985434f3c00e9502dd6d43705be02d5f8639cd"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "kokoro-v1_0-preset:bf_emma",
+      "id": "fresh24-bf_emma-mero-merrow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 59,
+          "logits_sha256": "cb342e0c8dbe84424f09db9bee669238f69e0150f2f53b0e910c35ed23918492",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oɪ"
+          ]
+        },
+        "xlsr": {
+          "frames": 59,
+          "logits_sha256": "2a933896fc00fba43c0a6b4047a95677c94a9345ef15671262fbd99535d33245",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                20,
+                34,
+                44
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oʊ"
+          ]
+        }
+      },
+      "pcm_sha256": "31bd05d8776a6fbe5a2b71297db75c66692822b7a834e397c959b886a8c2906b",
+      "peak_difference_frames": null,
+      "samples": 19200,
+      "source": "fresh24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "b36bfe27223a6b2ca31edeb4ea83b8baf41209a0cd57fec09e7d7c7226abdb84"
+    },
+    {
+      "aligned_within_40ms": true,
+      "group": "kokoro-v1_0-preset:bm_daniel",
+      "id": "fresh24-bm_daniel-mero-merrow",
+      "joint_full": true,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 55,
+          "logits_sha256": "56b194271a075f6e6f4f180b64cb810b8c3203c0696f6d6b5346de3e49590015",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                7,
+                21,
+                30
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 55,
+          "logits_sha256": "1acbcaf7eee39ad75ab32f7f465d982da0a95818048e9c9a8c288d6903126ab1",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                7,
+                21,
+                30
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oʊ"
+          ]
+        }
+      },
+      "pcm_sha256": "227315d1853a763b2e4a9dae67639f27984b8b739979c1e8cdcb4e47e962a0fb",
+      "peak_difference_frames": [
+        0,
+        0,
+        0
+      ],
+      "samples": 17920,
+      "source": "fresh24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "e803030cee69422a1360694e8b6285830c7fffe09902cfa829c1c45bc1114443"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "kokoro-v1_0-preset:bm_fable",
+      "id": "fresh24-bm_fable-mero-merrow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 39,
+          "logits_sha256": "baa18ecc7442160a948fbc65697ef474befe05b4b5815d4f360d84141aa49972",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "aɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 39,
+          "logits_sha256": "69cb3c76f7de56b209debc994ff155b77d0fe7c4388f1159e77e0703359f1d32",
+          "path_matches": [],
+          "tokens": [
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "48fa5bbb013c433aa4861d6ec77e9bcdf26f9091ab76c80f7c88ec2b5c09b01a",
+      "peak_difference_frames": null,
+      "samples": 12800,
+      "source": "fresh24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "0add78008d8a9020ae40a97c6a6e906969511e12cd257480d4e498c06f2b0a04"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "kokoro-v1_0-preset:ef_dora",
+      "id": "fresh24-ef_dora-mero-marrow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 39,
+          "logits_sha256": "0ce0dcd004437061f857bdf41a062b1609adcd7013959cacc40b550da0a4ef85",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "aɪ",
+            "m",
+            "a",
+            "ɹ",
+            "o"
+          ]
+        },
+        "xlsr": {
+          "frames": 39,
+          "logits_sha256": "5bbce92c33aad4518e74f7017e9402dbffd1586a97c48c51c62307b3f11a8140",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "41340cf65bb19541497f950918169e61ee2b030da442cb983f6055f2e62bacc2",
+      "peak_difference_frames": null,
+      "samples": 12800,
+      "source": "fresh24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "28f3b1e325ecf65f274c94a9d0a275d2a4c9fcd1e88562c550bbdb4301e055ec"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "kokoro-v1_0-preset:ef_dora",
+      "id": "fresh24-ef_dora-mero-merrow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 43,
+          "logits_sha256": "6dfde0c07428c55be70b49dacee0f77898bdbb18e514b70f6a3574b9c9c5863f",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "aɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 43,
+          "logits_sha256": "558fb87f0d94d3f15f77236bfdb18f4128878bc2627a97b954bdc578ebf528fc",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                10,
+                22,
+                31
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "729c40d99f3f4260e5305713e374b297fa9e4aacc704897332eaf436eb1783b1",
+      "peak_difference_frames": null,
+      "samples": 14080,
+      "source": "fresh24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "7bd0412af0438da4ab1c93bf27841035a1ffaa920269631a02a59faebd45a770"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p7498",
+      "id": "mero24-448-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 36,
+          "logits_sha256": "88a9642e362a646af92aad92355bef6f83be40bfa25f89b822d8f8cef1aaf290",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "n",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 36,
+          "logits_sha256": "c07d252d2421242c573dcbe1084f47e5833781cf0a25fce91fb2020a145c60f9",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eː",
+            "m",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "cd05664ba4cd4a700fec0a6bd97fefaf88ec485532fe8b42b7cdf3f084925a68",
+      "peak_difference_frames": null,
+      "samples": 11703,
+      "source": "fresh-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "78b2f5e9b2f84772c090ee2e16ca0831bf2c57da69ac64d74940f9bafdb44c8f"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p3905",
+      "id": "mero24-449-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": true,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 29,
+          "logits_sha256": "5acaeeccf60d472440e1c79b54148b96ef6265d9b86d74429e70f475bb9a7034",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "n",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 29,
+          "logits_sha256": "ba9bbfd247e5d489a5a9a56a784be30b31a47214f0862a25f9bc98564ac6a661",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "n",
+            "eː",
+            "ɹ",
+            "a"
+          ]
+        }
+      },
+      "pcm_sha256": "fe39e646616c74b63342b05503377919a83be646c7423439f2f8f8e87c3d6e72",
+      "peak_difference_frames": null,
+      "samples": 9474,
+      "source": "fresh-source",
+      "tier": "silver",
+      "verified_faster": true,
+      "wav_sha256": "e4f543c636fe73287c3ec8a3ab13eafa54dbd9bbcda0527361bf0c5221a40f83"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p7384",
+      "id": "mero24-450-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 29,
+          "logits_sha256": "bab576bb6ac09561d5af4eef87afca420465a25396b2e6338a7e015c7d6227a8",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 29,
+          "logits_sha256": "cfa224507dc40dc03dd4e5178ba3a311d4eb28d3dbd4969ac64e15958b4d2e9e",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "e",
+            "m",
+            "e",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "a8e580dbcd6f7c122770674dbfa345ffdc66b856bed822ed9d2ae75c8d7e9375",
+      "peak_difference_frames": null,
+      "samples": 9660,
+      "source": "fresh-source",
+      "tier": "weak",
+      "verified_faster": false,
+      "wav_sha256": "99649237436307ac59d3e6af9e11930fb103328b96b09aa819c1c5c86e9d868a"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p2992",
+      "id": "mero24-451-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 28,
+          "logits_sha256": "023b754dc711a038f928e96550fbd0ceec68a76184830dbcf327ca8c518b580f",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 28,
+          "logits_sha256": "bc23d23be13ef10851c8b6a443500ed1b06bfb2712b45d2cab817103a6f65772",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "3d25a81b40bb00f6614ec3206f8d81ceb3170bc8ddd3805b1e43bce676f7f9b4",
+      "peak_difference_frames": null,
+      "samples": 9103,
+      "source": "fresh-source",
+      "tier": "silver",
+      "verified_faster": true,
+      "wav_sha256": "e338b735b23d015a6a22badce5a0ccf87995cbb76bcb9fa171b52136751d8adb"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p2992",
+      "id": "mero24-451-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 31,
+          "logits_sha256": "ec184a4ac5ef805f7934455fd0a59f2ce7a75db7927d527e3cc3ac962e124dd1",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 31,
+          "logits_sha256": "1916bd3af499544da91d12eeff9957e76ba11532e30674f2b3717a253feed061",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "eː",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "7e90375e81043daf71bd595513cf3369ddd69f2299b27e6ede7c18077ec8e862",
+      "peak_difference_frames": null,
+      "samples": 10217,
+      "source": "fresh-source",
+      "tier": "weak",
+      "verified_faster": false,
+      "wav_sha256": "4af471b8613e8efc02eba74983add60b297b77e34d8645c5f0f08b9948858a21"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p30",
+      "id": "mero24-452-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 35,
+          "logits_sha256": "d17e3c090ccb0eae854aaf722349f3d818900ced4bb0ec2b9138f2b68e724320",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 35,
+          "logits_sha256": "dacbab8ad3d73c9aca274e630d4dfc98425f7d5e70266ed3200ef3da2dfb8a77",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "eː",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "e3ce4f8e448ecf55531f61c6c8de8e23c97e6dbee45157bbc5893b41986cfbf1",
+      "peak_difference_frames": null,
+      "samples": 11518,
+      "source": "fresh-source",
+      "tier": "weak",
+      "verified_faster": true,
+      "wav_sha256": "495e3d210384b441ab449d10efe86c1c73472a36726aca35eb30ed56318b9cc2"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p497",
+      "id": "mero24-453-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 27,
+          "logits_sha256": "2340132f89d467b4dd98f55646cd8a30f9d9e62a2a752a4d606a579bb616e26b",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 27,
+          "logits_sha256": "26a20936d94c444d838c1d3b4488599f211741881ce754095b9b7dde7691083c",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "m",
+            "eː",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "6e7027e89b843c481519ef381fcd851ee3b4716825a6be6299ba6358d2299640",
+      "peak_difference_frames": null,
+      "samples": 8917,
+      "source": "fresh-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "de42cfee864ab9cf676941e27ddba3118e3051dbd3377c9d85a1225ed19fc945"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p227",
+      "id": "mero24-454-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 32,
+          "logits_sha256": "91665af727529e5ac46b4575fe3676c0d29e879d074a9808f0fa02aaed5be7b1",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 32,
+          "logits_sha256": "571a40d87d9caf87b4568b78985c2bbc30f721810357533866b699079846a3dc",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "8e8f0f2032aea863a86b212c629a5a3d1bb3a12d75b2d700926cdd4a5947efc9",
+      "peak_difference_frames": null,
+      "samples": 10403,
+      "source": "fresh-source",
+      "tier": "silver",
+      "verified_faster": true,
+      "wav_sha256": "83c0ba0ce02735a899f07f241bdd8a6db451f414c2682e4ec1edcab19da31e5b"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p227",
+      "id": "mero24-454-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 35,
+          "logits_sha256": "4094edf9b8475c575422a4c0ef184ac88519f6e3956964379e28747d03875404",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 35,
+          "logits_sha256": "58fa4251af7021395fd3ad087ef96e9da416f57b803d8f8a1be1dbc0db86f5ad",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "eː",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "789d73b8461480b10e4ebeec5074f9cf713492a0b25329ad8250917573606b63",
+      "peak_difference_frames": null,
+      "samples": 11518,
+      "source": "fresh-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "ca94b943362b35afda58b3727c14ee80150a7e20db28142a3f5991b31a81d778"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p4226",
+      "id": "mero24-455-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 32,
+          "logits_sha256": "91fd18f55f6c9179ebea4d9f0280789c1cce2068990cf8a0a92938167fde0901",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 32,
+          "logits_sha256": "600682227ce48bf055fe82289c7430332f78dfb6cc49cb2bebcde5cf667822a1",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "eː",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "b705ae74511723fd8c2bb56f35e75e9e74aadbbe1c74b66e85a03c5f95cca7e7",
+      "peak_difference_frames": null,
+      "samples": 10403,
+      "source": "fresh-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "bd32c091eb3428fce7719bc729d7c3c9c6622b7dc3162e9dc585d37e9ccf9f92"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p5007",
+      "id": "mero24-456-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 33,
+          "logits_sha256": "0232308fa8c87a419b0f1345ca257b5b406c02bdaaff0551385798011ce79645",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 33,
+          "logits_sha256": "0a43e4ebb858b3d4f17de007f525d725eff86747caa447c1363276d47dadff1e",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                5,
+                13,
+                22
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "5768c0c6e336a4be5809546f8be686e168162ed8ff17e53b7c92d52e4176d619",
+      "peak_difference_frames": null,
+      "samples": 10775,
+      "source": "fresh-source",
+      "tier": "silver",
+      "verified_faster": true,
+      "wav_sha256": "69abbf4594d1491f666788478bf1fe65e54b8eb6a164aa9980c6d2d821cda036"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p1066",
+      "id": "mero24-457-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 30,
+          "logits_sha256": "ec4582968decc332c6ee980de0d3e697c27b0c428bfb1b2d653411ca631d206b",
+          "path_matches": [],
+          "tokens": [
+            "eɪ",
+            "n",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 30,
+          "logits_sha256": "0e5bc5cba3c1904ea40b6d17749ea0f25052188f19df0c7aec2b7ed3e9e1adc4",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "e",
+            "n",
+            "eː",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "33a34a95ec762bffb2e20a987ae0eb6ff85cfcb16eb9b0f2b0792a18cac67844",
+      "peak_difference_frames": null,
+      "samples": 9846,
+      "source": "fresh-source",
+      "tier": "weak",
+      "verified_faster": false,
+      "wav_sha256": "3123f02ac6c4eb8a27488286dd92413c72b879003adbbbe27b19476100c066a7"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p7688",
+      "id": "mero24-459-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 32,
+          "logits_sha256": "330675bb6b4fed9dbd65c71aecb5d39f5814bcb03ec7b500dfa3b5933ecf92f8",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "aɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 32,
+          "logits_sha256": "4bcb3206ab3099409a27753b3fbabcd000c322cb5685ee09b20d49fe6236e8bd",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "eː",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "ec953159eb011c3f3ab19ef985493bf04c09c14400535dc91a73998af8aae929",
+      "peak_difference_frames": null,
+      "samples": 10403,
+      "source": "fresh-source",
+      "tier": "weak",
+      "verified_faster": true,
+      "wav_sha256": "a905d8994064e99383b4f85e46cdf278c812cb04b5199107aaf8992d3a2138f9"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p7688",
+      "id": "mero24-459-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 34,
+          "logits_sha256": "8c8fed87970ddcf218c5e6322a5d67793c662ccc9883bbd4d659cc7556ada041",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 34,
+          "logits_sha256": "a813985cd850538a2fc83b99562a68e6bd3c7ecf4f79f248bcb5bbe3c17b6451",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "eː",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "d49e43ac0d1d054d6f91cb149f8cb4f16c0b0ba043e9fc96dbd9ef6fe1a2969e",
+      "peak_difference_frames": null,
+      "samples": 11146,
+      "source": "fresh-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "44c8109a549b781a6704ee37168807b949db5d5bf9f9deafa165c798d6d6c279"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p7949",
+      "id": "newpiper-400-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 29,
+          "logits_sha256": "aa5e4e3dc4475d2c2312cb1c3d36369201fd997da15115198423f4a15d63c7c3",
+          "path_matches": [],
+          "tokens": [
+            "eɪ",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 29,
+          "logits_sha256": "383e0780c3224ffb6707de710d38289520779b320ca3490b2595b02c8d2ef971",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "n",
+            "ɛ",
+            "ɹ"
+          ]
+        }
+      },
+      "pcm_sha256": "0bc193b05da016fa6637768f542d9908a6549ac513b692f6f922c2cf89f669d7",
+      "peak_difference_frames": null,
+      "samples": 9660,
+      "source": "piper24-source",
+      "tier": "weak",
+      "verified_faster": true,
+      "wav_sha256": "de5c32ef9315498c1e3fd7f0d0cd665c47b4bf36774f0a0ad8dce98482280657"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p7867",
+      "id": "newpiper-402-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 30,
+          "logits_sha256": "aaf59e9f3cb0e3f09efb9b2f06e44bfe0f7644eee66958c91cb85298430ded64",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "i",
+            "m",
+            "ɛ",
+            "ɹ",
+            "ɔ"
+          ]
+        },
+        "xlsr": {
+          "frames": 30,
+          "logits_sha256": "e3398cfd6df0233cf2d0051654c5a2d26e23dd11fe8a004c81b91a0aa2bc8f95",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "e",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "08310201bce3043313b495e351e2b1a6f9b720f68e93d906adf36a135ddcbaf5",
+      "peak_difference_frames": null,
+      "samples": 9846,
+      "source": "piper24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "77172750076f8177d32e5a5d8c2f52585a0d250a8c4437eaf81ece6c49fb78b3"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p953",
+      "id": "newpiper-404-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 30,
+          "logits_sha256": "40621d67770e60f31cc0ae22668b5c23b7aade7f5f0adf2b3846a619412871a9",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 30,
+          "logits_sha256": "7ed59f109c082b37ae9461f21e59df18fd31ad129ea4c21bdc72bec7132d44d5",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "eː",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "3662a4388f2087cdf38342ecac9f597a208f157d359cebe2c824534df4cfa3ca",
+      "peak_difference_frames": null,
+      "samples": 9846,
+      "source": "piper24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "6b83ee18bd82f4aa03ea9a91777f35a3a304238e359b2b5569bbaa98a319c14d"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p953",
+      "id": "newpiper-404-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 28,
+          "logits_sha256": "9330792a5df649e0415f1b53dab5b5338cedd5bd25874f77da07009247f62406",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 28,
+          "logits_sha256": "252164b5da652e2ca8c3a2a1f5abd2877bee5da3173abba5cbbfdf1702d3a15b",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "e",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "bd146228e28e6289ebaa9f837350baeea45ad8cf97f9a792d3373b95b59f996f",
+      "peak_difference_frames": null,
+      "samples": 9288,
+      "source": "piper24-source",
+      "tier": "silver",
+      "verified_faster": true,
+      "wav_sha256": "46c08474ad01194d482c89820721def72a3f927567f2c29a1d931689dd511aa4"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p5189",
+      "id": "newpiper-409-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 32,
+          "logits_sha256": "f2fcbb02dab6c3fd4ff0b3893e93d4dd5e42d274e8d8d1b3648b7c85c1050ecd",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 32,
+          "logits_sha256": "8f83c44de32589bc932a25fd7f52505aae82e462a09e6dbd17268e283bb1e6f5",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "ɨ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "01ace471565e1987ce22449d37ab5c8cd0d95c92687b2f695f2ab1874099e553",
+      "peak_difference_frames": null,
+      "samples": 10403,
+      "source": "piper24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "f0cbc975bb67eff9710de438498467c817bb4beb56286d194e4cae4b025e33b8"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p5189",
+      "id": "newpiper-409-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 32,
+          "logits_sha256": "ed093416a98da35a7238f8837796ae52354fecde8d422d81e72389a25b397125",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 32,
+          "logits_sha256": "a92c5a76d418a79c383ff97772e6ec7e72409bbb3d10b30e95855cf273c29bf9",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                6,
+                14,
+                21
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "27536497e91641cd2a190b06e75a86eff0a0635f40dfcfff78d76567894ad4b3",
+      "peak_difference_frames": null,
+      "samples": 10403,
+      "source": "piper24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "f36010105f1f48738d65b4ee0dcfd120a0c898eafac3d440f7414ce8b3ce42be"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p6550",
+      "id": "newpiper-426-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 29,
+          "logits_sha256": "1e882aeb6ea01fb10af971c13db33f4251bf1e08b772d6fe4d8bdb09aa7cfabc",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "i",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 29,
+          "logits_sha256": "206186ee4b2d75db544af5d25fa2769b84ac2c32de5bd0116c3e04736f28626e",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "e",
+            "m",
+            "e",
+            "ɹ",
+            "o"
+          ]
+        }
+      },
+      "pcm_sha256": "8102b870451976369e086b8de7715afa6685cf8100187fbfdb12008dd791026d",
+      "peak_difference_frames": null,
+      "samples": 9660,
+      "source": "newtrain24-source",
+      "tier": "silver",
+      "verified_faster": true,
+      "wav_sha256": "0513fe4da665ea43cfca2705ca9c9db6e1adb688b8d80576abbae3a8e15b055d"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p8791",
+      "id": "newpiper-428-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 32,
+          "logits_sha256": "bc1fad0fb4d69ea427e919c545ab21e1108fc0e03202bcb6fa4d212e39145e74",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 32,
+          "logits_sha256": "aa2be82bf19ee0ec860364d4bcd0afc295a3fe84c06b27b84cbb04301decd8a3",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "i",
+            "m",
+            "e",
+            "ɹ",
+            "o"
+          ]
+        }
+      },
+      "pcm_sha256": "faf56b20b837ae24acce0582a4be0b0432c8d5b5e1124203c67611ba833c902e",
+      "peak_difference_frames": null,
+      "samples": 10403,
+      "source": "newtrain24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "c762d1f886da2e65bffd9478d42cf65f2a73e836bb3dc66f73cae85b1f64716f"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p1777",
+      "id": "newpiper-430-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 29,
+          "logits_sha256": "78f591a8fda5147c716dbca0e708d5a8f59f19a3ba30d32eea741c8dbe0fa2df",
+          "path_matches": [],
+          "tokens": [
+            "eɪ",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 29,
+          "logits_sha256": "21db7c4bdaeed356e9482f4b9be0265c8e8a41584a7dd4a366372a31a02a0c5e",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "i",
+            "m",
+            "e",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "4b5155ec8a420c1d45abe1281e59eeb4d4da0639442692c138f888c09b0c65c7",
+      "peak_difference_frames": null,
+      "samples": 9660,
+      "source": "newtrain24-source",
+      "tier": "weak",
+      "verified_faster": false,
+      "wav_sha256": "d07befb9529c0eed49ad1c562bde7c33fe531ea04abc54b32de0e95f329777f4"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p1046",
+      "id": "newpiper-432-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 34,
+          "logits_sha256": "8330b4597ab2c1d87d576ed738c5b9b364cfcd95451add0e12380af6878ccd58",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 34,
+          "logits_sha256": "f6aadf651ab75afde501e068df9e9f0e59696bdf04f80c9de96d9b9a2f60a766",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eː",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "c66cf230268018f432e471d77f997b4b835745718fd4c34bb99e0d214ccb2379",
+      "peak_difference_frames": null,
+      "samples": 11146,
+      "source": "newtrain24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "23ac45b4ada6783eec1473c3eb7cc97604cb321eca1b0b6682ab56e04408e9c8"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p1046",
+      "id": "newpiper-432-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 29,
+          "logits_sha256": "4b5f18a76cc2b0dfc1f63d8b7e02e188fc6db46c5de55cc73307ae6298d5a22a",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 29,
+          "logits_sha256": "4b6e5f876a1d605cfea3167dbeae922e6c28fa8b5660ff8c36914a81461cdf4b",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "i",
+            "m",
+            "ɛ",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "f7c61119087bf7cd77e2a35ee6cde5a15767d93302b49acc430e32cb5f8de5aa",
+      "peak_difference_frames": null,
+      "samples": 9660,
+      "source": "newtrain24-source",
+      "tier": "weak",
+      "verified_faster": true,
+      "wav_sha256": "6234a7869ea19fa8eaa88984192f9cb5560352acce128aab826ba6f473a2020e"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p6269",
+      "id": "newpiper-433-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 35,
+          "logits_sha256": "3b3841f29e190b6d99a6ff570d3a6895cd7fffd0fe284ad9464a353abece358f",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 35,
+          "logits_sha256": "46afbf3fd0e4d3cb6bf2f8fc00c86399e2bf1b45c2bf7aeda1b3be64e4224eba",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "88f61d635dcbe0ae39d60703517715033cedc8f15391613b886ba6786e2e9201",
+      "peak_difference_frames": null,
+      "samples": 11332,
+      "source": "newtrain24-source",
+      "tier": "weak",
+      "verified_faster": true,
+      "wav_sha256": "f4d578bf2e0b638a16fa65bf81e6d8102f171ebd4ecaaa091bbc5ec8490bf8c2"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p6188",
+      "id": "newpiper-434-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 34,
+          "logits_sha256": "32f86c5f9fe948ae0bea1f10a1d13cc4d7230ee95160432f71550f756d2832aa",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 34,
+          "logits_sha256": "9dfc22a744e6abb54690e4e08d641b06d0076b360ff298018010692c69cc8ecd",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                4,
+                13,
+                22
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "8f2f28b519a902b290ec2eb275761cf98176343b5e0e770ba4cd1c7a39c46faa",
+      "peak_difference_frames": null,
+      "samples": 10960,
+      "source": "newtrain24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "ca4f486d53649b50fce026a7a80c3a5ef2407ef4b5d72ec51a7cbefce9892454"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p5266",
+      "id": "newpiper-435-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 38,
+          "logits_sha256": "dbaf1b5d6e218396c6f4e6a1f4d7d7a84162fb36fadd166a45ec9e4b61787150",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "n",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 38,
+          "logits_sha256": "924303a154861abdca21e9de5314fea79029e3fb8abc94882098c90ca97f72d6",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "ɨ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "oʊ"
+          ]
+        }
+      },
+      "pcm_sha256": "ba0ab16c0f2fa9d762d8c11875f6a6b0c73eed29c88c10b1da5c2da510193a83",
+      "peak_difference_frames": null,
+      "samples": 12261,
+      "source": "newtrain24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "e632f2827028c0dcc6511508094e643e7e55ade04d7d679c3d87999bb6994733"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p589",
+      "id": "newpiper-439-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 31,
+          "logits_sha256": "282d337043a64edd571e296b246e371231f5f7f523736c0153932b8e67c4392c",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 31,
+          "logits_sha256": "4f1d5c7c01f2cd1d3a01bca67e354efe149f79ea37734712f020ef7763aa5bd4",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "e",
+            "n",
+            "eː",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "6d1108d62b863ef98fc2001df641b24b738a846d4a7c9494b920ba31fc342911",
+      "peak_difference_frames": null,
+      "samples": 10217,
+      "source": "newtrain24-source",
+      "tier": "silver",
+      "verified_faster": true,
+      "wav_sha256": "34f25c6f77a0a9b095899be66aecf15e60fde3f8c5f9a8e9e81641ec96051f08"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p576",
+      "id": "newpiper-440-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 31,
+          "logits_sha256": "7cbb82b1421c531c7bb62f0f57cd254fa83cbea6ddc91d5118aa674749ed050a",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 31,
+          "logits_sha256": "835e88cc21f5877d810af6e81feb36fa5434670d769eacb02b47cf3b3fdd9952",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                4,
+                13,
+                20
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "5a6c179adea33f12613cad65b57329e4c4676857cdb76972dbe2053ba7308d09",
+      "peak_difference_frames": null,
+      "samples": 10032,
+      "source": "newtrain24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "416e5c06e34bf08d3405cf0f9f4adfaf4622ee10aec8f146cd9585d9aea4d22c"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p1121",
+      "id": "newpiper-441-mero-fast",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 36,
+          "logits_sha256": "8bc8754d328b34c079dee3ce919fb1a522f573a3c1f3986cdc4e833545186a7b",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 36,
+          "logits_sha256": "60645433475caabed13279f0c75386d7657c02467c881f6cf5146b967216eda1",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                4,
+                13,
+                23
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "84292ddf7166dab3a3f4dbbb6428481f07b58bdcb83174726b4335adacd9e9d8",
+      "peak_difference_frames": null,
+      "samples": 11703,
+      "source": "newtrain24-source",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "6e510ea1e7f120dbea76bed8c1f40a4960d85e88a3cc01b1e55a94d0e998e6c9"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p1121",
+      "id": "newpiper-441-mero-slow",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "positive",
+      "observers": {
+        "lv60": {
+          "frames": 29,
+          "logits_sha256": "76dbf0f68006fdf3aac2702659cb0dd373f0565d9dd03f99b16070d17b427cfe",
+          "path_matches": [],
+          "tokens": [
+            "h",
+            "iː",
+            "m",
+            "æ",
+            "ɹ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 29,
+          "logits_sha256": "70971517b25e6d1d2af02dd2bb19644d74db0e6510b1d68c1b79b493493b7918",
+          "path_matches": [
+            {
+              "full": true,
+              "peak_frames": [
+                4,
+                13,
+                20
+              ]
+            }
+          ],
+          "tokens": [
+            "h",
+            "eɪ",
+            "m",
+            "ɛ",
+            "ɹ",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "b61ed6114b37d546119603529188be66ef731997a66b9ab414d6b8bb63c46bf1",
+      "peak_difference_frames": null,
+      "samples": 9660,
+      "source": "newtrain24-source",
+      "tier": "silver",
+      "verified_faster": true,
+      "wav_sha256": "5d2349e0f918f153caf18c8eedfc2a887126d862d24a19cbbe32a0a37956661b"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p7498",
+      "id": "b11-train-448-statement",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "ordinary",
+      "observers": {
+        "lv60": {
+          "frames": 60,
+          "logits_sha256": "572ef611fc43960ab8bf0ebabb4adfb705652f92470bcba230d63704fb167256",
+          "path_matches": [],
+          "tokens": [
+            "ð",
+            "ə",
+            "m",
+            "eɪ",
+            "l",
+            "k",
+            "eɪ",
+            "m",
+            "ɜː",
+            "l",
+            "i"
+          ]
+        },
+        "xlsr": {
+          "frames": 60,
+          "logits_sha256": "53cd800d4a1c3ba888bb20f2343d430bba5a68a1f3fc06c4f8218e5410470964",
+          "path_matches": [],
+          "tokens": [
+            "ð",
+            "ə",
+            "m",
+            "eɪ",
+            "l",
+            "k",
+            "eɪ",
+            "m",
+            "h",
+            "ɚ",
+            "l",
+            "i"
+          ]
+        }
+      },
+      "pcm_sha256": "8d8b0c5a0bbe3348cd182acb6de1be7fe09b3284471bf530863d8cc2570abf2c",
+      "peak_difference_frames": null,
+      "samples": 19320,
+      "source": "supplement",
+      "tier": "weak",
+      "verified_faster": false,
+      "wav_sha256": "389b7095838925194f8fbb74d138e0993b1cbd716a2a4aec1eaa1c3017f66d6b"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p7498",
+      "id": "b11-train-448-command",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "ordinary",
+      "observers": {
+        "lv60": {
+          "frames": 67,
+          "logits_sha256": "f1895065b59cf03adbd7b3a5b979dac658533e6a9fa138aea0d298b9f959814d",
+          "path_matches": [],
+          "tokens": [
+            "t",
+            "ɜː",
+            "n",
+            "ð",
+            "ə",
+            "ɹ",
+            "eɪ",
+            "d",
+            "i",
+            "oʊ",
+            "d",
+            "aʊ",
+            "n"
+          ]
+        },
+        "xlsr": {
+          "frames": 67,
+          "logits_sha256": "38a8fd8117fe3b5307d20cc36b9ecf335ddde8af4d3a110b757d9038e33764ba",
+          "path_matches": [],
+          "tokens": [
+            "t",
+            "ɚ",
+            "n",
+            "ð",
+            "ə",
+            "ɹ",
+            "eɪ",
+            "d",
+            "iː",
+            "oʊ",
+            "d",
+            "aɪ",
+            "n"
+          ]
+        }
+      },
+      "pcm_sha256": "05c14436559fded928ea2856172d3555f20e421417e5a8ddd32c4939d05dd433",
+      "peak_difference_frames": null,
+      "samples": 21734,
+      "source": "supplement",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "256e2f77095fec00ed5277f81afda19ffb5b5b5e055ba36e3eb06b78fb0ee174"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p7498",
+      "id": "b11-train-448-request",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "ordinary",
+      "observers": {
+        "lv60": {
+          "frames": 63,
+          "logits_sha256": "f58efd382e3308508d55a34f06d75a12e5095924977974fb14bf6034b58c758d",
+          "path_matches": [],
+          "tokens": [
+            "k",
+            "ə",
+            "dʒ",
+            "uː",
+            "oʊ",
+            "p",
+            "ə",
+            "n",
+            "ð",
+            "ə",
+            "w",
+            "ɪ",
+            "n",
+            "d",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 63,
+          "logits_sha256": "dfded9abc0f91790861fb9de7e9c35321521a54dc8d339a3cc064a11c17589a8",
+          "path_matches": [],
+          "tokens": [
+            "k",
+            "ʊ",
+            "d",
+            "j",
+            "uː",
+            "oʊ",
+            "p",
+            "ə",
+            "n",
+            "ð",
+            "ə",
+            "w",
+            "ɪ",
+            "n",
+            "d",
+            "oʊ"
+          ]
+        }
+      },
+      "pcm_sha256": "ca9e92e611638a0111662d1ee5a1af02b8ddd5e3d68adc43920ecc9fe7d153eb",
+      "peak_difference_frames": null,
+      "samples": 20434,
+      "source": "supplement",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "bce7675b772665124fc4452aa73a4ec4e981dc032ebbfa46d571b69157c71c7f"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p3905",
+      "id": "b11-train-449-command",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "ordinary",
+      "observers": {
+        "lv60": {
+          "frames": 63,
+          "logits_sha256": "5df39b3dc044713b280e439cf2dce7cbe959a1ea284fdafdee38c4200a7afbd8",
+          "path_matches": [],
+          "tokens": [
+            "t",
+            "ɜː",
+            "n",
+            "ð",
+            "ə",
+            "ɹ",
+            "eɪ",
+            "d",
+            "i",
+            "oʊ",
+            "d",
+            "aʊ",
+            "n"
+          ]
+        },
+        "xlsr": {
+          "frames": 63,
+          "logits_sha256": "0e823e0d3d0dc1eef29d2f8d5a0c19a94c92bccbb49d154d15feb964a5d6934f",
+          "path_matches": [],
+          "tokens": [
+            "t",
+            "ɚ",
+            "n",
+            "ð",
+            "ə",
+            "ɹ",
+            "eɪ",
+            "d",
+            "iː",
+            "oʊ",
+            "d",
+            "æ",
+            "n"
+          ]
+        }
+      },
+      "pcm_sha256": "04da49665b1d5d35f87f11d012b568d2346cda58d812161d6ebec2c2be989926",
+      "peak_difference_frames": null,
+      "samples": 20434,
+      "source": "supplement",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "3323eaaeeb1245e3cad3a130916979ac6fa356367a367ab3677a286061d010c2"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p7384",
+      "id": "b11-train-450-question",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "ordinary",
+      "observers": {
+        "lv60": {
+          "frames": 51,
+          "logits_sha256": "0c95afa872093790eddf5f4527f9022b32ff6e899e1a2a452d036e05aa127ae1",
+          "path_matches": [],
+          "tokens": [
+            "w",
+            "ɜː",
+            "d",
+            "ᵻ",
+            "d",
+            "m",
+            "ɐ",
+            "k",
+            "iː",
+            "z",
+            "ɡ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 51,
+          "logits_sha256": "b398aa89707f87b72c990ad66fc104daf80508ca31e3ebea31aa0f6c95439eb2",
+          "path_matches": [],
+          "tokens": [
+            "w",
+            "ɛ",
+            "d",
+            "ɪ",
+            "d",
+            "m",
+            "ɐ",
+            "k",
+            "iː",
+            "z",
+            "ɡ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "11ff82f2fb0218c9a4c1c3ae21651d043b8728114d1ca88f40eaad0f0045f098",
+      "peak_difference_frames": null,
+      "samples": 16533,
+      "source": "supplement",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "7e68e93ba8e379e612ef9bd0a80e7276ce5efa1a830a3246f29b83ad0446c3b9"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p7384",
+      "id": "b11-train-450-statement",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "ordinary",
+      "observers": {
+        "lv60": {
+          "frames": 54,
+          "logits_sha256": "5c7d8e4cc483528e325ae170bd98edf2d969d7033b0c73f7721b99b24763931f",
+          "path_matches": [],
+          "tokens": [
+            "ð",
+            "ə",
+            "m",
+            "eɪ",
+            "l",
+            "k",
+            "eɪ",
+            "m",
+            "ɜː",
+            "l",
+            "i"
+          ]
+        },
+        "xlsr": {
+          "frames": 54,
+          "logits_sha256": "f35b21b65fb6798a80245bcbf0c2d1bcabb07606dab41ca5a4c9c771adbbba99",
+          "path_matches": [],
+          "tokens": [
+            "ð",
+            "ə",
+            "m",
+            "eɪ",
+            "l",
+            "k",
+            "eɪ",
+            "m",
+            "ɚ",
+            "l",
+            "i"
+          ]
+        }
+      },
+      "pcm_sha256": "dff42894726672c87ce1b50dd4e29b2b2a6bc397f8d81256bc7077fa5746a764",
+      "peak_difference_frames": null,
+      "samples": 17648,
+      "source": "supplement",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "7cbe6eb91046050f5a195ac0f003c4be0f0f10d312eb64439818ce30ad24985d"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p7384",
+      "id": "b11-train-450-command",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "ordinary",
+      "observers": {
+        "lv60": {
+          "frames": 50,
+          "logits_sha256": "01300084c35a197c349d8fe871e5b22f21e970031a25188c53fd85585fbc9f07",
+          "path_matches": [],
+          "tokens": [
+            "ɜː",
+            "n",
+            "ð",
+            "ə",
+            "ɹ",
+            "eɪ",
+            "d",
+            "i",
+            "oʊ",
+            "d",
+            "aʊ",
+            "n"
+          ]
+        },
+        "xlsr": {
+          "frames": 50,
+          "logits_sha256": "114c6d43a648e893d2bdcbe5aeb711cec2cdf5b6a25be015018b0266f4c73ff9",
+          "path_matches": [],
+          "tokens": [
+            "t",
+            "ɚ",
+            "n",
+            "ð",
+            "ə",
+            "ɹ",
+            "eɪ",
+            "ɾ",
+            "iː",
+            "oʊ",
+            "d",
+            "aɪ",
+            "n"
+          ]
+        }
+      },
+      "pcm_sha256": "f12996bd934186910bff7df43fb5bcfc2f23b012d92df072dfaf9ebc3a30067a",
+      "peak_difference_frames": null,
+      "samples": 16347,
+      "source": "supplement",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "743832627a4c0589ea2cb42c2170c4a9fe4e8c2770c66146e46b19c08d958cd8"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p7384",
+      "id": "b11-train-450-request",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "ordinary",
+      "observers": {
+        "lv60": {
+          "frames": 49,
+          "logits_sha256": "850f048a82e9a84cf20684fb45f34a158d88ee42b1bc6b0fd10762baf80d5292",
+          "path_matches": [],
+          "tokens": [
+            "k",
+            "ə",
+            "dʒ",
+            "uː",
+            "oʊ",
+            "p",
+            "ə",
+            "n",
+            "ɐ",
+            "w",
+            "ɪ",
+            "n",
+            "d",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 49,
+          "logits_sha256": "f925b317561d3e4ff83c1061a28c536c129c1cdef4d500443e01560009b40517",
+          "path_matches": [],
+          "tokens": [
+            "k",
+            "ʊ",
+            "d",
+            "j",
+            "uː",
+            "oː",
+            "p",
+            "ə",
+            "n",
+            "ə",
+            "w",
+            "ɪ",
+            "n",
+            "d",
+            "ɔ"
+          ]
+        }
+      },
+      "pcm_sha256": "58d883adef227f285f0c44e498427a2cba6c01cd3b677eaa27ea6c0fb1341e6c",
+      "peak_difference_frames": null,
+      "samples": 15976,
+      "source": "supplement",
+      "tier": "weak",
+      "verified_faster": false,
+      "wav_sha256": "589b267e470e57c38ea402c6e74bad7ad5779da97c7a3bdbd83626dcbe854be9"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p2992",
+      "id": "b11-train-451-question",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "ordinary",
+      "observers": {
+        "lv60": {
+          "frames": 49,
+          "logits_sha256": "2e00a784aea38354b5ef6100cebef11e952326d8deb98ab5236093aeed927d7e",
+          "path_matches": [],
+          "tokens": [
+            "w",
+            "ɜː",
+            "d",
+            "ᵻ",
+            "d",
+            "m",
+            "aɪ",
+            "k",
+            "iː",
+            "s",
+            "ɡ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 49,
+          "logits_sha256": "ec33d2e982ded5deecff2dfad4e5ca5238e06e0eea708960b0bf96faec497b69",
+          "path_matches": [],
+          "tokens": [
+            "w",
+            "ɛ",
+            "d",
+            "ɪ",
+            "d",
+            "m",
+            "aɪ",
+            "k",
+            "iː",
+            "s",
+            "ɡ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "217e516196d9b74956eb4d764e8569fe87239c20b848bf3b9ee82a095319b2d3",
+      "peak_difference_frames": null,
+      "samples": 15790,
+      "source": "supplement",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "ae7ca451fd500ad11125dbbe162e5ea89f1ca94b9b7d456fbc8e8f984066dda5"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p2992",
+      "id": "b11-train-451-command",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "ordinary",
+      "observers": {
+        "lv60": {
+          "frames": 54,
+          "logits_sha256": "4a93c848e7302b750622b34aaada04451eb6df9482d14f7b8d5ea8a043102319",
+          "path_matches": [],
+          "tokens": [
+            "t",
+            "ɜː",
+            "n",
+            "ð",
+            "ə",
+            "ɹ",
+            "eɪ",
+            "d",
+            "i",
+            "oʊ",
+            "d",
+            "aʊ",
+            "n"
+          ]
+        },
+        "xlsr": {
+          "frames": 54,
+          "logits_sha256": "b5fbbbf3747e82ca79b90d88c78069bb90c11e4c3ab8a60d44aaeb0a00e8ccc9",
+          "path_matches": [],
+          "tokens": [
+            "t",
+            "ɚ",
+            "n",
+            "ð",
+            "ə",
+            "ɹ",
+            "eɪ",
+            "d",
+            "iː",
+            "oʊ",
+            "d",
+            "aɪ",
+            "n"
+          ]
+        }
+      },
+      "pcm_sha256": "8d9fde9740d25696f0013b9a32c2a81893eb3c94b4298e6c8889d670ae8c5881",
+      "peak_difference_frames": null,
+      "samples": 17462,
+      "source": "supplement",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "4e45548b25620eaaf1886fe1aaedc91a4e76b73a4dd54ee5b76fc60d2e3c3457"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p30",
+      "id": "b11-train-452-question",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "ordinary",
+      "observers": {
+        "lv60": {
+          "frames": 54,
+          "logits_sha256": "60b71a30826694ea44b3ca5f3087f6f49af5739ccfe77a2455f3d1695b529f3a",
+          "path_matches": [],
+          "tokens": [
+            "w",
+            "ɜː",
+            "d",
+            "ᵻ",
+            "d",
+            "m",
+            "aɪ",
+            "k",
+            "iː",
+            "z",
+            "ɡ",
+            "oʊ"
+          ]
+        },
+        "xlsr": {
+          "frames": 54,
+          "logits_sha256": "4dff542ca0be70079f3928e2bbaf7292cea9385232b352db8096fc1957ec9f10",
+          "path_matches": [],
+          "tokens": [
+            "w",
+            "ɛ",
+            "ɹ",
+            "d",
+            "ɪ",
+            "d",
+            "m",
+            "aɪ",
+            "k",
+            "iː",
+            "z",
+            "ɡ",
+            "oː"
+          ]
+        }
+      },
+      "pcm_sha256": "7db7b3a526558da18f1ec0aa2b255757a7b77b5548ca8d77a30aeaccd53692c4",
+      "peak_difference_frames": null,
+      "samples": 17648,
+      "source": "supplement",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "19c41ecd4caf3e90d38972441c3ea876dbf87f07d002efa854952bbbb5de8436"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p30",
+      "id": "b11-train-452-statement",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "ordinary",
+      "observers": {
+        "lv60": {
+          "frames": 58,
+          "logits_sha256": "c7a72f5a7a86bb4cbc7e859c7b6a6173581574429a91856e4e2081f23e6a6279",
+          "path_matches": [],
+          "tokens": [
+            "ð",
+            "ə",
+            "m",
+            "eɪ",
+            "l",
+            "k",
+            "eɪ",
+            "m",
+            "ɜː",
+            "l",
+            "i"
+          ]
+        },
+        "xlsr": {
+          "frames": 58,
+          "logits_sha256": "e978247e33326f8f188d74a3867d391ad5067c3da7a85b35bcce4693060c22a2",
+          "path_matches": [],
+          "tokens": [
+            "ð",
+            "ə",
+            "m",
+            "eɪ",
+            "l",
+            "k",
+            "eɪ",
+            "m",
+            "ɚ",
+            "l",
+            "i"
+          ]
+        }
+      },
+      "pcm_sha256": "05881ffe0e3e83c2fd2a7c15c6a589207a376eed365a63162a5920bf4836d5a6",
+      "peak_difference_frames": null,
+      "samples": 18762,
+      "source": "supplement",
+      "tier": "weak",
+      "verified_faster": false,
+      "wav_sha256": "8f2476f551c04b9109eb0a65d0447cadb719dc8eb6ec47eb5ce6fa02e031fc86"
+    },
+    {
+      "aligned_within_40ms": false,
+      "group": "piper-libritts-p30",
+      "id": "b11-train-452-command",
+      "joint_full": false,
+      "known_fast_half_miss": false,
+      "observed_class": "ordinary",
+      "observers": {
+        "lv60": {
+          "frames": 63,
+          "logits_sha256": "4a423319e9ccc4b9a0ca27207b4e0537f59ced67db9b392edc3a2bb4b3f6eb02",
+          "path_matches": [],
+          "tokens": [
+            "ɜː",
+            "n",
+            "ð",
+            "ə",
+            "ɹ",
+            "eɪ",
+            "d",
+            "i",
+            "oʊ",
+            "d",
+            "aʊ",
+            "n"
+          ]
+        },
+        "xlsr": {
+          "frames": 63,
+          "logits_sha256": "18e665b8d95f2eb3656769f2401ec35352b4836572692343b43c61da23a4df0b",
+          "path_matches": [],
+          "tokens": [
+            "t",
+            "ɚ",
+            "n",
+            "ð",
+            "ə",
+            "ɹ",
+            "eɪ",
+            "d",
+            "iː",
+            "oʊ",
+            "d",
+            "ɑː",
+            "n"
+          ]
+        }
+      },
+      "pcm_sha256": "bec82d53e1d76f7b68be2be45030b815e90830afa9b4e83208b72a0e7a8279e9",
+      "peak_difference_frames": null,
+      "samples": 20434,
+      "source": "supplement",
+      "tier": "silver",
+      "verified_faster": false,
+      "wav_sha256": "3cf7c3d2038ae9f7e565f4a936e2bf612f3656890c0d9aeef6135ddb2fdd687c"
+    }
+  ],
+  "schema": "english-mero-train-native-phone-free-anchors-v1",
+  "source_archives": {
+    "fresh-source": [
+      14507208152,
+      "2fbc26386136cfd12dddb01074f3c9c4556c8fc7c49819663f2d11a2499eaa1c"
+    ],
+    "fresh18-source": [
+      14429578824,
+      "34cf7879f974f62c9f6046a72a964002f30bf59d2186a423ac382a76ff69d0e9"
+    ],
+    "fresh24-source": [
+      14422271973,
+      "26396073f5be2f91e35575bedb586737405162388e32bfe85633ed3d796a9583"
+    ],
+    "newtrain24-source": [
+      14486048125,
+      "3db5e99caf33e04ae920df1c93205f38f98cbc0f326705e2367dc8c67dc02341"
+    ],
+    "piper24-source": [
+      14434542792,
+      "d1f75716fefd954d59c3289c37e7e6670965ee98917436676896312e4b781aa1"
+    ],
+    "supplement": [
+      14782806405,
+      "47d3076b74ea5c6392e00b2bf110afcb91791e91a4a4b9e1fe78b0d2e2cf9bec"
+    ]
+  }
+}

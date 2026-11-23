@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2972,
+  "expected_tracked_files": 2999,
   "expected_retained_files": 2027,
   "new_retained_paths": 1288,
   "integration_files": [
@@ -1181,7 +1181,34 @@
     "automation/english_v6_b12_four_model_panel_run.json",
     "automation/english_v6_question_source_pair.py",
     ".github/workflows/english-v6-question-source-paired.yml",
-    "automation/english_v6_question_source_pair_receipt.json"
+    "automation/english_v6_question_source_pair_receipt.json",
+    ".github/workflows/english-v6-b13-independent-eval.yml",
+    ".github/workflows/english-v6-b13-natural-pair.yml",
+    ".github/workflows/english-v6-b13-natural-source.yml",
+    ".github/workflows/english-v6-b13-primary-source-qa.yml",
+    ".github/workflows/english-v6-reviewed-negative-replay.yml",
+    "automation/english_v6_b13_independent_eval.py",
+    "automation/english_v6_b13_natural_pair.py",
+    "automation/english_v6_b13_natural_pair_inputs.json",
+    "automation/english_v6_b13_natural_sources.py",
+    "automation/english_v6_b13_panels/natural-design.json",
+    "automation/english_v6_b13_panels/primary.json",
+    "automation/english_v6_b13_panels/replication.json",
+    "automation/english_v6_b13_primary_eval_inputs.json",
+    "automation/english_v6_b13_primary_source_qa.py",
+    "automation/english_v6_b13_primary_source_receipt.json",
+    "automation/english_v6_owner_negative_replay.json",
+    "automation/english_v6_owner_negative_replay.py",
+    "automation/test_english_v6_b13_independent_eval.py",
+    "research/english_v6_b13_phone_feasibility_20261123/DESIGN.json",
+    "research/english_v6_b13_phone_feasibility_20261123/OBSERVER_LOCK.json",
+    "research/english_v6_b13_phone_feasibility_20261123/README.zh-CN.md",
+    "research/english_v6_b13_phone_feasibility_20261123/RESULT.json",
+    "research/english_v6_b13_phone_feasibility_20261123/readback.py",
+    "research/english_v6_b13_results_20261123/RECEIPT.json",
+    "research/english_v6_b13_results_20261123/natural_train_lineage.json",
+    "research/english_v6_b13_results_20261123/trained_weight_readback.json",
+    "research/english_v6_b13_results_20261123/verify_saved_primary.py"
   ],
   "baseline_files": [
     {
@@ -32551,6 +32578,42 @@
         "automation/english_v6_question_source_pair_receipt.json"
       ],
       "rationale": "One spent public source-only campaign 45108917466. Four source-diagnostic-only speakers (594–597) disjoint from 1148 retained PCM, 212 families and B11/B12 reserved rosters. Eight original question recordings from matched, same-seed plain-text vs direct-IPA conditions and 40 blinded ASR/phone observations. Full authenticated source artifact 14788787525, sha256:12285464b64f6dbe5c37ab3fb17e9fac887c7c1cc84ce11c40d115226c701b1c; source screen 14789200396, sha256:d3aabb070dd1e98ca5b2c785eeac11c486e77cf0eeb0650dfbc109bc961c6e26. Frozen result IPA_ADVANTAGE_ON_MATCHED_SOURCES and arm counts {\"ipa\": {\"exact_asr_votes\": 12, \"qualified\": 4}, \"text\": {\"exact_asr_votes\": 0, \"qualified\": 0}}. All raw PCM chunks, phone IDs, transcripts and posterior receipts bound. Outcome applies to wording/rendering on these four sources; no KWS model, training, DEV, CAL, LOCKED or physical evidence. Registered all preserved source/code/receipt paths."
+    },
+    {
+      "campaign": "english-v6-b13-owner-reviewed-human-train-and-independent-primary-20261123",
+      "base_commit": "b9db9fbe7f594897699647e36fefe78443282c75",
+      "source_commit": "70c3d72f0b8ce6359ba844a891828cff56691818",
+      "previous_manifest_git_blob_sha1": "cbc79953d7cf37d778fba78f27140fe8370c66c3",
+      "paths": [
+        ".github/workflows/english-v6-b13-independent-eval.yml",
+        ".github/workflows/english-v6-b13-natural-pair.yml",
+        ".github/workflows/english-v6-b13-natural-source.yml",
+        ".github/workflows/english-v6-b13-primary-source-qa.yml",
+        ".github/workflows/english-v6-reviewed-negative-replay.yml",
+        "automation/english_v6_b13_independent_eval.py",
+        "automation/english_v6_b13_natural_pair.py",
+        "automation/english_v6_b13_natural_pair_inputs.json",
+        "automation/english_v6_b13_natural_sources.py",
+        "automation/english_v6_b13_panels/natural-design.json",
+        "automation/english_v6_b13_panels/primary.json",
+        "automation/english_v6_b13_panels/replication.json",
+        "automation/english_v6_b13_primary_eval_inputs.json",
+        "automation/english_v6_b13_primary_source_qa.py",
+        "automation/english_v6_b13_primary_source_receipt.json",
+        "automation/english_v6_owner_negative_replay.json",
+        "automation/english_v6_owner_negative_replay.py",
+        "automation/test_english_v6_b13_independent_eval.py",
+        "research/english_v6_b13_phone_feasibility_20261123/DESIGN.json",
+        "research/english_v6_b13_phone_feasibility_20261123/OBSERVER_LOCK.json",
+        "research/english_v6_b13_phone_feasibility_20261123/README.zh-CN.md",
+        "research/english_v6_b13_phone_feasibility_20261123/RESULT.json",
+        "research/english_v6_b13_phone_feasibility_20261123/readback.py",
+        "research/english_v6_b13_results_20261123/RECEIPT.json",
+        "research/english_v6_b13_results_20261123/natural_train_lineage.json",
+        "research/english_v6_b13_results_20261123/trained_weight_readback.json",
+        "research/english_v6_b13_results_20261123/verify_saved_primary.py"
+      ],
+      "rationale": "B13 genuinely trained two 43,876-param models for 192 AdamW updates each with the nine owner-reviewed TRAIN windows as the added intervention. All model, source and scorer identities are captured in english_v6_b13_results_20261123/RECEIPT.json. Independent synthetic and human read-speech source qualification, original-gain/fixed-gain per-utterance arrays and terminal registered primary outcome NO_PROMOTION. Physical SSC305 and release FAR/h were not measured."
     }
   ]
 }
