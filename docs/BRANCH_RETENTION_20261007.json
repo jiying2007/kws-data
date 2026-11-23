@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2935,
+  "expected_tracked_files": 2942,
   "expected_retained_files": 2027,
   "new_retained_paths": 1288,
   "integration_files": [
@@ -1144,7 +1144,14 @@
     ".github/workflows/english-v6-b10-hardneg-paired-trainonce.yml",
     "automation/english_v6_b10_frozen_dev540_once.py",
     "automation/test_english_v6_b10_frozen_dev540_once.py",
-    ".github/workflows/english-v6-b10-frozen-dev540-once.yml"
+    ".github/workflows/english-v6-b10-frozen-dev540-once.yml",
+    ".github/workflows/english-v6-b11-train-supplement.yml",
+    "automation/english_v6_b11_dev_panel.py",
+    "automation/english_v6_b11_supplement.py",
+    "automation/english_v6_b11_supplement_observe.py",
+    "automation/english_v6_b11_supplement_screen.py",
+    "automation/test_english_v6_b11_dev_panel.py",
+    "automation/test_english_v6_b11_supplement.py"
   ],
   "baseline_files": [
     {
@@ -32242,6 +32249,22 @@
         ".github/workflows/english-v6-b10-frozen-dev540-once.yml"
       ],
       "rationale": "Evaluate exact actual B10 192+192 frozen PT/NPZ/ONNX against B9 original parent on 8 machine-qualified untouched new DEV540..545 originals, 3 fixed gains; 72 authentic model forwards only on first public-main event; no source label overrides, training, thresholds or promotion."
+    },
+    {
+      "campaign": "b11-diverse-ordinary-supplement-and-blinded-dev-panel",
+      "source_commit": "a180e7e6fc20a30618a76b1a1f4492e639cd0f9b",
+      "base_commit": "a180e7e6fc20a30618a76b1a1f4492e639cd0f9b",
+      "previous_manifest_git_blob_sha1": "b19356d7eeab82b42e7ed7b615d1ed1ae8ffaad9",
+      "paths": [
+        ".github/workflows/english-v6-b11-train-supplement.yml",
+        "automation/english_v6_b11_dev_panel.py",
+        "automation/english_v6_b11_supplement.py",
+        "automation/english_v6_b11_supplement_observe.py",
+        "automation/english_v6_b11_supplement_screen.py",
+        "automation/test_english_v6_b11_dev_panel.py",
+        "automation/test_english_v6_b11_supplement.py"
+      ],
+      "rationale": "Single 24-original diverse TRAIN supplement conditioned on archived 0/35 hard groups. Five independent observers, original-gain B9 hardness. Freeze both future DEV panels before any synthesis or score."
     }
   ]
 }
