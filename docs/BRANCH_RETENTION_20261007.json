@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2942,
+  "expected_tracked_files": 2944,
   "expected_retained_files": 2027,
   "new_retained_paths": 1288,
   "integration_files": [
@@ -1151,7 +1151,9 @@
     "automation/english_v6_b11_supplement_observe.py",
     "automation/english_v6_b11_supplement_screen.py",
     "automation/test_english_v6_b11_dev_panel.py",
-    "automation/test_english_v6_b11_supplement.py"
+    "automation/test_english_v6_b11_supplement.py",
+    "automation/english_v6_four_model_panel.py",
+    "automation/test_english_v6_four_model_panel.py"
   ],
   "baseline_files": [
     {
@@ -32265,6 +32267,17 @@
         "automation/test_english_v6_b11_supplement.py"
       ],
       "rationale": "Single 24-original diverse TRAIN supplement conditioned on archived 0/35 hard groups. Five independent observers, original-gain B9 hardness. Freeze both future DEV panels before any synthesis or score."
+    },
+    {
+      "campaign": "b11-b12-sealed-panel-decision",
+      "base_commit": "8af4f15156d6498a8223a1bbef05fd55c3f179d1",
+      "source_commit": "8af4f15156d6498a8223a1bbef05fd55c3f179d1",
+      "previous_manifest_git_blob_sha1": "994bd73071f05a46f3624c0a37534970f020175b",
+      "paths": [
+        "automation/english_v6_four_model_panel.py",
+        "automation/test_english_v6_four_model_panel.py"
+      ],
+      "rationale": "Freeze 4-model, 3-gain inference and source-group decision definitions before the first eligibility score or candidate checkpoint. Source-only registration, no model execution."
     }
   ]
 }
