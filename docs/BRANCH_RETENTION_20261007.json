@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2969,
+  "expected_tracked_files": 2972,
   "expected_retained_files": 2027,
   "new_retained_paths": 1288,
   "integration_files": [
@@ -1178,7 +1178,10 @@
     ".github/workflows/english-v6-b12-primary-source-qa.yml",
     "automation/english_v6_b12_primary_source_qa.py",
     "automation/english_v6_b12_panels/source_archive_hashes.json",
-    "automation/english_v6_b12_four_model_panel_run.json"
+    "automation/english_v6_b12_four_model_panel_run.json",
+    "automation/english_v6_question_source_pair.py",
+    ".github/workflows/english-v6-question-source-paired.yml",
+    "automation/english_v6_question_source_pair_receipt.json"
   ],
   "baseline_files": [
     {
@@ -32536,6 +32539,18 @@
         "automation/english_v6_b12_four_model_panel_run.json"
       ],
       "rationale": "Retain the spent B12 primary four-model audit. Public run 45098806390 scored 23 source-audited originals from independent reserved DEV groups at gains 1, 0.75 and 0.5 with B0, B9, matched B12 control and B12 challenger. Original artifact 14783729142 (434757 bytes, SHA256 4c31df61ac98e9ae3fcf031906fb88284ef1bbdb722737ddea0c87a862f5f44d) includes all 276 finite frame arrays. No newly recovered fast groups of two eligible. No positive family regressions. Two admitted ordinary statements gained one extra complete event each at 0.75 vs the matched control. Challenger positive hits 5,4,4 of 6 and ordinary false clips 3,4,4 of 17. NO_PROMOTION. No replication, CAL or LOCKED opened. B0 remains the software baseline."
+    },
+    {
+      "campaign": "english-v6-ordinary-question-pairs-20261123",
+      "base_commit": "8709eca5be5256034a09541b5ccad8e137b4c7a9",
+      "source_commit": "f7430a89649036c636eb6f7fdfe4b2244fbd411e",
+      "previous_manifest_git_blob_sha1": "4248f4d02d1a1dc715ec0cd3fa6f72b7ab978a5e",
+      "paths": [
+        "automation/english_v6_question_source_pair.py",
+        ".github/workflows/english-v6-question-source-paired.yml",
+        "automation/english_v6_question_source_pair_receipt.json"
+      ],
+      "rationale": "One spent public source-only campaign 45108917466. Four source-diagnostic-only speakers (594–597) disjoint from 1148 retained PCM, 212 families and B11/B12 reserved rosters. Eight original question recordings from matched, same-seed plain-text vs direct-IPA conditions and 40 blinded ASR/phone observations. Full authenticated source artifact 14788787525, sha256:12285464b64f6dbe5c37ab3fb17e9fac887c7c1cc84ce11c40d115226c701b1c; source screen 14789200396, sha256:d3aabb070dd1e98ca5b2c785eeac11c486e77cf0eeb0650dfbc109bc961c6e26. Frozen result IPA_ADVANTAGE_ON_MATCHED_SOURCES and arm counts {\"ipa\": {\"exact_asr_votes\": 12, \"qualified\": 4}, \"text\": {\"exact_asr_votes\": 0, \"qualified\": 0}}. All raw PCM chunks, phone IDs, transcripts and posterior receipts bound. Outcome applies to wording/rendering on these four sources; no KWS model, training, DEV, CAL, LOCKED or physical evidence. Registered all preserved source/code/receipt paths."
     }
   ]
 }
