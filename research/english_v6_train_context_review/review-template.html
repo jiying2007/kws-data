@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hey Mero 录音核听</title>
+<style>
+:root{color-scheme:light;--ink:#112f2a;--muted:#4f6862;--line:#b9cac1;--paper:#fcfbf6;--green:#145342;--focus:#af4b0b}
+*{box-sizing:border-box}body{margin:0;background:#edf1e9;color:var(--ink);font:16px/1.6 "Source Sans 3","Noto Sans SC",system-ui,sans-serif}
+main{max-width:890px;margin:auto;padding:32px 20px 68px}
+header{border-top:5px solid var(--green);padding:19px 0 12px}h1{font-size:clamp(27px,4vw,40px);margin:0;letter-spacing:-.04em}h2{font-size:20px;margin:.2em 0}
+p{margin:.3em 0;color:var(--muted)}button,select{font:inherit;color:inherit}button,select{border:1px solid var(--line);border-radius:6px;background:var(--paper);padding:7px 12px}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}
+button:focus-visible,select:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.bar,.nav,.choice{display:flex;align-items:center;flex-wrap:wrap;gap:9px}.bar{justify-content:space-between;border-block:1px solid var(--line);padding:12px 0}.export{background:var(--green);color:white;border-color:var(--green)}
+.panel{margin:18px 0;padding:22px;background:var(--paper);border:1px solid var(--line);border-radius:10px}.track{margin:16px 0}audio{display:block;margin:4px 0;width:100%;height:42px}
+.meta{font-size:14px;color:var(--muted)}.nav{margin:12px 0}.nav select{flex:1;min-width:100px}.choice label{display:flex;align-items:center;gap:5px;cursor:pointer;padding:7px 12px;border:1px solid var(--line);border-radius:6px}.choice input{accent-color:var(--green)}fieldset{border:0;padding:0;margin:16px 0}legend{font-weight:650;margin-bottom:5px}summary{cursor:pointer}.hidden{display:none}.orig{padding:12px 0;border-bottom:1px solid var(--line)}.orig code{overflow-wrap:anywhere} .status{min-height:1.4em}
+</style>
+<main>
+<header><h1>Hey Mero 录音核听</h1><p>听完选中片段后，标记是否听到完整的英文唤醒词 “Hey Mero”。可播放整句核对。</p></header>
+<section class="bar"><strong id="progress"></strong><button class="export" id="export">导出核听记录</button></section>
+<p id="saveState" class="meta status" aria-live="polite"></p>
+<section class="nav"><button id="prev">上一段</button><select id="picker" aria-label="选择片段"></select><button id="next">下一段</button></section>
+<article id="entry" class="panel"></article>
+<details class="panel"><summary id="originalHeader"></summary><div id="originals"></div></details>
+<script id="manifest" type="application/json">__MANIFEST__</script>
+<script>
+"use strict";
+const fingerprint="__MANIFEST_SHA__";
+const data=JSON.parse(document.getElementById("manifest").textContent);
+const originals=new Map(data.originals.map(x=>[x.id,x]));
+const controls=new Map(data.controls.map(x=>[x.id,x]));
+const windows=data.windows;
+const key="heym43-owner-review-"+fingerprint;
+const choices=[["N","没有唤醒词"],["Y","听到完整唤醒词"],["U","听不清 / 不确定"]];
+const allowed=new Set(choices.map(c=>c[0]));
+const $=id=>document.getElementById(id);
+const make=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
+let recorded={};let localAvailable=true;
+try{const stored=JSON.parse(localStorage.getItem(key)||"{}");for(const w of windows){if(allowed.has(stored[w.id]))recorded[w.id]=stored[w.id];}}catch{localAvailable=false;}
+let active=0;
+function audioTrack(title,path,parent){const box=make("div",undefined,"track");box.append(make("strong",title));const audio=make("audio");audio.controls=true;audio.preload="none";audio.src=path;box.append(audio);parent.append(box);}
+function interval(w){return (w.start_sample/16000).toFixed(3)+"–"+(w.end_sample/16000).toFixed(3)+" 秒";}
+function updateBar(){const n=Object.keys(recorded).length;$("progress").textContent="已标记 "+n+" / "+windows.length+" 段";$("export").disabled=n===0;
+  $("prev").disabled=active<=0;$("next").disabled=active>=windows.length-1;
+  for(const [i,w] of windows.entries()){$("picker").options[i].textContent=(i+1)+" · "+originals.get(w.original_id).speaker+" · "+(choices.find(c=>c[0]===recorded[w.id])?.[1]||"待核听");}
+  $("saveState").textContent=localAvailable?"标记保存在本浏览器，可随时导出 JSON。":"本浏览器仅在当前页面保留标记，关闭前请导出 JSON。";
+}
+function render(){const entry=$("entry");entry.replaceChildren();if(!windows.length){entry.append(make("p","这批录音没有模型触发片段。"));$("picker").disabled=true;updateBar();return;}
+ const w=windows[active],r=originals.get(w.original_id);$("picker").selectedIndex=active;
+ entry.append(make("h2","片段 "+(active+1)),make("div","读者 "+r.speaker+" · "+r.source_id+" · "+interval(w),"meta"));
+ audioTrack("触发片段",w.wav_path,entry);
+ const fs=make("fieldset"),options=make("div",undefined,"choice");fs.append(make("legend","这段录音中有完整的 “Hey Mero” 吗？"));
+ for(const [value,label] of choices){const radio=make("input");radio.type="radio";radio.name="decision";radio.value=value;radio.checked=recorded[w.id]===value;
+  radio.addEventListener("change",()=>{recorded[w.id]=value;try{localStorage.setItem(key,JSON.stringify(recorded));}catch{localAvailable=false;}updateBar();});
+  const wrap=make("label");wrap.append(radio,document.createTextNode(label));options.append(wrap);}
+ fs.append(options);entry.append(fs);const detail=make("details");detail.append(make("summary","对照整句、相邻音频与模型时钟"));
+ audioTrack("完整原句",r.wav_path,detail);detail.append(make("p",r.transcript));
+ if(controls.has(w.control_id))audioTrack("相邻未触发片段",controls.get(w.control_id).wav_path,detail);
+ const times=(w.events||[]).map(e=>e.model+" "+(e.trigger_sample/16000).toFixed(3)+" 秒");if(times.length)detail.append(make("p","模型输入时钟　"+times.join("、"),"meta"));
+ entry.append(detail);updateBar();
+}
+for(const w of windows)$("picker").add(new Option(w.id));
+$("picker").addEventListener("change",()=>{active=$("picker").selectedIndex;render();});
+$("prev").onclick=()=>{if(active>0){active--;render();}};$("next").onclick=()=>{if(active<windows.length-1){active++;render();}};
+$("originalHeader").textContent="完整原始录音（"+originals.size+" 条）";
+for(const r of originals.values()){const section=make("div",undefined,"orig");section.append(make("strong",r.source_id+" · 读者 "+r.speaker),make("p",r.transcript));audioTrack("整句",r.wav_path,section);$("originals").append(section);}
+$("export").onclick=()=>{const result={schema:"heym43-explicit-window-review-v1",source_index_sha256:fingerprint,target:"Hey Mero",sample_rate:16000,exported_at:new Date().toISOString(),decisions:windows.map(w=>({window_id:w.id,recording_id:w.original_id,source_pcm_sha256:originals.get(w.original_id).pcm_sha256,start_sample:w.start_sample,end_sample_exclusive:w.end_sample,decision:recorded[w.id]||null}))};
+ const blob=new Blob([JSON.stringify(result,null,2)+"\n"],{type:"application/json"});const u=URL.createObjectURL(blob);const a=make("a");a.href=u;a.download="HeyMero_Window_Review.json";a.click();setTimeout(()=>URL.revokeObjectURL(u),1200);};
+render();
+</script>
+</main></html>
