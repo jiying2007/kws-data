@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2942,
+  "expected_tracked_files": 2949,
   "expected_retained_files": 2027,
   "new_retained_paths": 1288,
   "integration_files": [
@@ -1151,7 +1151,14 @@
     ".github/workflows/english-v6-b11-train-hardness.yml",
     "automation/english_v6_b12_positive_train.py",
     ".github/workflows/english-v6-b12-positive-train.yml",
-    "automation/english_v6_b12_conditional_tempo_plan.json"
+    "automation/english_v6_b12_conditional_tempo_plan.json",
+    ".github/workflows/english-v6-b11-train-supplement.yml",
+    "automation/english_v6_b11_dev_panel.py",
+    "automation/english_v6_b11_supplement.py",
+    "automation/english_v6_b11_supplement_observe.py",
+    "automation/english_v6_b11_supplement_screen.py",
+    "automation/test_english_v6_b11_dev_panel.py",
+    "automation/test_english_v6_b11_supplement.py"
   ],
   "baseline_files": [
     {
@@ -32283,6 +32290,43 @@
         "automation/english_v6_b12_conditional_tempo_plan.json"
       ],
       "rationale": "132 public frozen B9 forwards on 44 independently admitted original TRAIN positives across 35 groups. Pin the conditional single-factor tempo recipe after two verified faster source families lose HEY at half gain; no optimizer or holdout inference."
+    },
+    {
+      "campaign": "b11-diverse-ordinary-supplement-and-blinded-dev-panel",
+      "source_commit": "8af4f15156d6498a8223a1bbef05fd55c3f179d1",
+      "base_commit": "8d50bbdecf73dfce404805426a169f77ad6cc17f",
+      "previous_manifest_git_blob_sha1": "00a475a1988ccfa9ebb862229bc09c91aadbccb5",
+      "paths": [
+        ".github/workflows/english-v6-b11-train-supplement.yml",
+        "automation/english_v6_b11_dev_panel.py",
+        "automation/english_v6_b11_supplement.py",
+        "automation/english_v6_b11_supplement_observe.py",
+        "automation/english_v6_b11_supplement_screen.py",
+        "automation/test_english_v6_b11_dev_panel.py",
+        "automation/test_english_v6_b11_supplement.py"
+      ],
+      "rationale": "Single 24-original diverse TRAIN supplement conditioned on archived 0/35 hard groups. Five independent observers, original-gain B9 hardness. Freeze both future DEV panels before any synthesis or score.",
+      "research_evidence": {
+        "run_id": 45094102574,
+        "execution_sha": "8af4f15156d6498a8223a1bbef05fd55c3f179d1",
+        "source_originals": 24,
+        "source_artifact_id": 14782806405,
+        "source_zip_sha256": "47d3076b74ea5c6392e00b2bf110afcb91791e91a4a4b9e1fe78b0d2e2cf9bec",
+        "blind_observations": 120,
+        "result_artifact_id": 14783505472,
+        "result_zip_sha256": "5b8f2dfab1285eb9f544e538dd3508c2c1c9405df12c06f99ba03b61ca29ee8c",
+        "accepted": 23,
+        "unknown": 1,
+        "parent_false_event_clips_by_gain": {
+          "1.0": 13,
+          "0.75": 12,
+          "0.5": 11
+        },
+        "measured_original_gain_hard_train_groups": 5,
+        "kws_forwards": 69,
+        "optimizer_updates": 0,
+        "promotion_allowed": false
+      }
     }
   ]
 }
