@@ -171,16 +171,17 @@ def infer(wav, row, nets, arrays, torch, np):
     return conditions
 
 
-def select(source, review, panel_name):
+def select(source, review, panel_name, registered_plan=None):
     manifest_bytes = source.read("MANIFEST.json")
     manifest = json.loads(manifest_bytes)
-    plan = panel.source_plan(panel_name)
+    plan = panel.source_plan(panel_name) if registered_plan is None else registered_plan
+    need(plan["panel"] == panel_name and plan["max_source_calls"] == 48, "registered cohort identity")
     plan_sha = sha(panel.b10.canon(plan))
     labels = json.loads(review.read("SCREEN.json"))
     template = plan["rows"]
     originals = manifest["rows"]
     decisions = labels["rows"]
-    need(manifest["schema"] == panel.SCHEMA and manifest["panel"] == panel_name
+    need(manifest["schema"] == plan["schema"] and manifest["panel"] == panel_name
          and manifest["plan_sha256"] == plan_sha and manifest["tts_calls"] == len(originals) == len(template) == 48
          and manifest["new_kws_forwards"] == 0 and manifest["human_gold"] is False
          and labels["source_manifest_sha256"] == sha(manifest_bytes) and labels["plan_sha256"] == plan_sha
@@ -226,7 +227,21 @@ def run(spec, directory, output):
     output.mkdir(parents=True, exist_ok=False)
     with opened(directory / "source.zip", spec["inputs"]["source"]) as source, opened(
             directory / "screen.zip", spec["inputs"]["screen"]) as screen:
-        rows, paired, faster = select(source, screen, spec["panel"])
+        registered = None
+        if spec["hypothesis"] == "B12":
+            # The second study has separate pre-outcome source families.
+            # Reuse the published event decision unchanged and bind its roster.
+            expected = {"primary": "75abad59c37c1953b74566607ced904f43ed2d65e7c624da64e0c55f6f19c995",
+                        "replication": "dd49276732f28c9dcd6af6248b6cdce48ca2dfc18dfd232d72b22d35ab6283b4"}[spec["panel"]]
+            raw_plan = (directory / "panel-plan.json").read_bytes()
+            metadata = json.loads(source.read("MANIFEST.json"))
+            need(sha(raw_plan) == spec["registered_panel"]["sha256"] == expected
+                 and metadata["registered_plan_file_sha256"] == expected,
+                 "immutable B12 panel plan bytes")
+            registered = json.loads(raw_plan)
+            need(registered["schema"] == "english-v6-b12-frozen-dev-panel-v1",
+                 "distinct B12 source schema")
+        rows, paired, faster = select(source, screen, spec["panel"], registered)
         models = snapshots(directory, spec, torch, np)
         records, arrays = [], {}
         for row in rows:
