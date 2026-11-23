@@ -2,7 +2,7 @@ name: English V6 independent primary 48-source blind QA
 'on':
   pull_request:
     types:
-    - opened
+    - synchronize
     branches:
     - main
     paths:
@@ -24,7 +24,8 @@ env:
 jobs:
   sources:
     if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.event.pull_request.head.repo.full_name
-      == github.repository && github.head_ref == 'research/en-v6-primary-source-qa-20261123' && github.run_attempt == 1
+      == github.repository && github.head_ref == 'research/en-v6-primary-source-qa-20261123' && github.run_attempt == 1 &&
+      github.event.before == 'f56ea0d30c7c8f59fe8cae70050c14c6c7179ca3'
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
