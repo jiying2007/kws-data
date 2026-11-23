@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2951,
+  "expected_tracked_files": 2955,
   "expected_retained_files": 2027,
   "new_retained_paths": 1288,
   "integration_files": [
@@ -1160,7 +1160,11 @@
     "automation/test_english_v6_b11_dev_panel.py",
     "automation/test_english_v6_b11_supplement.py",
     "automation/english_v6_primary_source_qa.py",
-    ".github/workflows/english-v6-primary-source-qa.yml"
+    ".github/workflows/english-v6-primary-source-qa.yml",
+    ".github/workflows/english-v6-b11-hardnegative-pair.yml",
+    "automation/english_v6_b11_hardnegative_inputs.py",
+    "automation/english_v6_b11_hardnegative_pair.py",
+    "automation/test_english_v6_b11_hardnegative_pair.py"
   ],
   "baseline_files": [
     {
@@ -32342,6 +32346,19 @@
         "automation/english_v6_b11_supplement_screen.py"
       ],
       "rationale": "Frozen independent primary DEV source definition d3763b66f6e7f0e555da4ed6634f36f6f45c2d59, 48 originals, 12 previously unseen groups, 5 native observers, whole-PCM capture, distinct positive contrast and row-specific ordinary admission. B12 trigger archived as 14782234724. Source and blind labels only; no KWS selection, gradients, CAL/LOCKED, or replication. Public run 45095073669 succeeded. Source artifact 14782913094 (935138 bytes, SHA256 fe7906969ff3707cf684e9c0ad92a53760c775077f870a1439acb327b42551a8, manifest 590d79cb529978b50674c9d6070b934ebaf8b192aafaa92394d21881ccf14a6e). All 240 full-input observations succeeded. Fingerprinted provider archives: Qwen 14783820329, Whisper 14782379711, Parakeet 14783306260, XLSR 14783456188, LV60 14783167378. Native screen artifact 14782844738 (8556 bytes, ZIP SHA256 057df6611130ee3b6e5d2075fec81b8a8bdfc74a619325088aa87777b9613680; SCREEN.json c3f9297c331bbd276ecd7b5f3d0d8132600cae055b0b140830f02b7c15c3961e). SHA/CRC-verified readback and independent saved-only admission replay matched exactly: 6 positive and 17 ordinary across three accepted sentence forms, 5 paired source groups, 25 unknown; zero KWS or optimizer evaluations. Primary cohort allocated to B11 before KWS scoring."
+    },
+    {
+      "campaign": "english-v6-b11-measured-hardnegative-paired-training-20261123",
+      "base_commit": "564fe47a1e9e84daa256302aebf5f67a7fb34d94",
+      "source_commit": "c96fe2da0c54b035a7986a0f7706a1c7482fd242",
+      "previous_manifest_git_blob_sha1": "7ef48272c1dee9c492941ba9388a195d3d26d6bc",
+      "paths": [
+        ".github/workflows/english-v6-b11-hardnegative-pair.yml",
+        "automation/english_v6_b11_hardnegative_inputs.py",
+        "automation/english_v6_b11_hardnegative_pair.py",
+        "automation/test_english_v6_b11_hardnegative_pair.py"
+      ],
+      "rationale": "Public run 45096170903 performed 192+192 AdamW updates on two 43876-parameter FSMN-CTC arms after both frozen source gates. TRAIN supplement #321 run 45094102574 (source artifact 14782806405, independent screen and scores 14783505472, ZIP SHA256 5b8f2dfab1285eb9f544e538dd3508c2c1c9405df12c06f99ba03b61ca29ee8c) supplied 13 measured ordinary full-word false events among 23 eligible originals, covering five source families. The two arms shared the same 79 B9 TRAIN originals, seed, source groups and draw; 192 auxiliary slots for the five families were 39/39/38/38/38. The control coefficient was zero and the challenger coefficient 0.08. Primary source-only screen #322 run 45095073669, artifact 14782844738, supplied five independently paired DEV families; zero DEV/CAL/LOCKED model forwards in training. Pair artifact 14782904388, 1010398 bytes, ZIP SHA256 89ba0db434db0e52c39988fa1038ae69d9a35bf0c1ede603bd2c5196461b9058, draw SHA256 5e7cf725189a7ff3117c0028aef817343371c9c3e47006f8e0dbe660c7b7261a. PT SHA256 control 43e8dc8e1e4150421e55d44b4ad6c5813201947f1560408c0a47d83439608352 (byte-identical to historical B10 control), challenger b4535be7e3ba59d647dab94d103872cc921ecb452405c8b32bb033cc76d4aaa3. 43849 parameter values differ. Both PT/NPZ/ONNX exports were hash and CRC verified. These are real research weights pending independent acoustic evidence; product promotion is false."
     }
   ]
 }
