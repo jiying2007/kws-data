@@ -33,3 +33,5 @@ python verify_source.py INPUTS SOURCE_RUNS.json source-readback.json
 四个模型共运行 64 次，保存 32,760 帧完整输出。在 5 位读者的 5 条原句上，B14 分别比 B13 多触发一次。总共 14 条原句、10 位读者产生至少一个事件。以所有模型的触发区域合并成 23 个可听窗口，22 个窗口有可用的相邻无触发对照片段，其中一段对照由多个窗口共享。全部 16 条送评原句、模型输出、原始采样时钟、听审页面和音频保存在同一复核包中。包内标注初始为空，使用者可保存或导出自己的核听结果。
 
 [四模型评分与离线浏览器测试](https://github.com/jiying2007/kws-data/actions/runs/45114288521) · [数据取得与盲转写](https://github.com/jiying2007/kws-data/actions/runs/45113854481) · [元数据注册](https://github.com/jiying2007/kws-data/actions/runs/45113585559)
+
+补充的三分区转写词组检索在上游分片范围读取时超时，未生成全库计数。匹配数仍未知。本次对 24 条原件的来源核验与四模型诊断已完成。[全库检索首次运行](https://github.com/jiying2007/kws-data/actions/runs/45114160328)
