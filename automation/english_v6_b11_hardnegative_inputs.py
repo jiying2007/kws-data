@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import time
 from zipfile import ZipFile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -31,7 +32,13 @@ def download(record, destination):
 
 def main(work):
     work.mkdir()
-    run = json.loads(gh(f"/actions/runs/{RUN}"))
+    # The five observer artifacts have already been authenticated. Wait only for
+    # the same registered run to finish uploading its immutable frozen screen.
+    for _ in range(40):
+        run = json.loads(gh(f"/actions/runs/{RUN}"))
+        if run["status"] == "completed":
+            break
+        time.sleep(15)
     pair.need(run["head_sha"] == HEAD and run["run_attempt"] == 1 and
               run["status"] == "completed" and run["conclusion"] == "success",
               "expected successful complete primary blind source QA")
@@ -45,6 +52,8 @@ def main(work):
     with ZipFile(work / "primary-review.zip") as ar:
         screen = ar.read("SCREEN.json")
     screen_sha = hashlib.sha256(screen).hexdigest()
+    pair.need(screen_sha == "c3f9297c331bbd276ecd7b5f3d0d8132600cae055b0b140830f02b7c15c3961e",
+              "identical independently replayed primary screen from all five native observers")
     pair.reviewed_primary(screen, screen_sha, [])
     (work / "primary-screen.json").write_bytes(screen)
     with open(os.environ["GITHUB_ENV"], "a") as env:
