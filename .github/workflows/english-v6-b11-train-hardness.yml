@@ -1,0 +1,56 @@
+name: English V6 B11 frozen B9 ordinary TRAIN hardness
+on:
+  pull_request:
+    types: [opened]
+    branches: [main]
+    paths: [.github/workflows/english-v6-b11-train-hardness.yml]
+permissions:
+  actions: read
+  contents: read
+jobs:
+  measure:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.head_ref == 'research/en-v6-b11-train-hardness-20261123' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Authenticate frozen source PCM and original B9 package
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/inputs"
+          while read -r name id; do
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" > "$RUNNER_TEMP/inputs/$name.zip"
+          done < <(python -IB automation/english_v6_b11_train_hardness.py --list-inputs)
+          python -IB automation/english_v6_b11_train_hardness.py --inputs "$RUNNER_TEMP/inputs" --audit-only
+      - name: Install frozen public CPU dependencies
+        run: |
+          python -m pip install --disable-pip-version-check --retries 2 'torch==2.9.1+cpu' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 2 'numpy==1.26.4'
+      - name: Measure all 41 original TRAIN clips at the three preregistered gains
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          GITHUB_SHA="$EXPECTED_HEAD" python -IB automation/english_v6_b11_train_hardness.py --inputs "$RUNNER_TEMP/inputs" --output "$RUNNER_TEMP/hardness"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b11-frozen-b9-train-hardness-${{ github.run_id }}
+          path: ${{ runner.temp }}/hardness/
+          retention-days: 90
+          if-no-files-found: error
