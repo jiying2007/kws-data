@@ -5,6 +5,7 @@ from collections import Counter, defaultdict
 import io
 import json
 import os
+import shutil
 from pathlib import Path
 import sys
 import zipfile
@@ -140,7 +141,34 @@ def retention_loss(by_group, weight, trace, torch):
     return calculate
 
 
-def execute(inputs,output):
+def verify_legacy_replay(path, pair_zip, output, torch):
+    """Authenticate both same-job cold replays against their original parameter tensors."""
+    replay=json.loads((path/"RESULT.json").read_bytes())
+    proof=json.loads((path/"REPLAY_JOB.json").read_bytes())
+    need(proof["run_id"]==os.environ["GITHUB_RUN_ID"] and proof["score_head"]==os.environ["GITHUB_SHA"] and
+         proof["replayed_head"]=="db12ece24e0481b877b9cf46f74f3ed8f8d2fca1","same hosted job and historical source")
+    need(replay["actual_optimizer_updates"]==384 and replay["dev_cal_locked_forwards"]==0,"cold historical pair")
+    summary={}
+    with zipfile.ZipFile(pair_zip) as old:
+        original=json.loads(old.read("RESULT.json"))
+        need(old.read("COMMON_DRAW.json")==(path/"COMMON_DRAW.json").read_bytes(),"historical source schedule bytes")
+        for arm in ("control","challenger"):
+            stem=original[arm]["stem"]
+            raw=(path/(stem+".pt")).read_bytes()
+            need(b10.digest(raw)==replay[arm]["files"][Path(stem+".pt").name]["sha256"],"replayed fresh arm")
+            left=torch.load(io.BytesIO(raw),map_location="cpu",weights_only=True)
+            right=torch.load(io.BytesIO(old.read(stem+".pt")),map_location="cpu",weights_only=True)
+            need(left.keys()==right.keys(),"same tensor roles")
+            n=sum(int(torch.count_nonzero(t-right[k])) for k,t in left.items())
+            summary[arm]=dict(different_float_values=n,exact=n==0,
+                              max_abs=max(float(torch.max(torch.abs(t-right[k]))) for k,t in left.items()),
+                              same_job_pt_sha256=b10.digest(raw),reference_pt_sha256=b10.digest(old.read(stem+".pt")))
+    b10.write(output/"HISTORICAL_B13_COLD_REPLAY.json",dict(job=proof,arms=summary))
+    need(all(r["exact"] for r in summary.values()),"same-platform historic B13 control and challenger must be exactly reproduced")
+    return replay
+
+
+def execute(inputs,output,legacy_replay=None):
     import numpy as np
     import torch
     import torch.nn.functional as F
@@ -178,6 +206,7 @@ def execute(inputs,output):
             need(slot[key]==dict(id=base["id"],group=group,pcm_sha256=base["source_pcm_sha256"]),"base source draw")
     need(len(draws)==len(slots)==192 and b10.digest(schedule)==past["common_hard_draw_sha256"],"192 frozen steps")
     output.mkdir()
+    replicated=verify_legacy_replay(legacy_replay,inputs/"pair.zip",output,torch) if legacy_replay else None
     (output/"COMMON_DRAW.json").write_bytes(schedule)
     nets,_=b10.b9.verify_b9_archive(inputs/"b9.zip",torch,np)
     parent,*frontend=nets["B9_control"]
@@ -191,11 +220,19 @@ def execute(inputs,output):
     for arm,weight in (("control",0.0),("challenger",design["pair"]["challenger_aux_weight"])):
         dest=output/arm;dest.mkdir()
         aux=retention_loss(by_group,weight,trace,torch) if weight else None
-        report=b10.fit("hard_negative",original,rows,groups,cache,draws,hard_cache,*frontend,dest,torch,np,F,auxiliary_loss=aux)
+        old_stem=b10.MODEL_STEMS["hard_negative"]
+        if arm=="control" and replicated is not None:
+            # This is the natural arm just trained on this exact hosted job, after the historical weight-zero warmup.
+            cold=replicated["challenger"]
+            old_stem=Path(cold["stem"]).name
+            shutil.copytree(legacy_replay/"challenger"/"models",dest/"models")
+            report=cold
+        else:
+            report=b10.fit("hard_negative",original,rows,groups,cache,draws,hard_cache,*frontend,dest,torch,np,F,auxiliary_loss=aux)
         stem="mero43-b14-"+arm+"192"
         files={}
         for ext in ("pt","npz","onnx"):
-            old=b10.MODEL_STEMS["hard_negative"]+"."+ext
+            old=old_stem+"."+ext
             current=stem+"."+ext
             path=dest/"models"/old
             path.rename(path.with_name(current))
@@ -221,15 +258,18 @@ def execute(inputs,output):
               **arms,actual_optimizer_updates=384,trained_model_parameters=43876,different_trained_float_values=different,
               b13_challenger_reproduced_bit_exact=True,common_draw_sha256=b10.digest(schedule),positive_path_combinations=len(audit),
               positive_originals=43,positive_families=34,baseline_originals=79,natural_originals=9,
+              additional_historical_warmup_updates=192 if replicated is not None else 0,
+              job_total_optimizer_updates=576 if replicated is not None else 384,
               dev_cal_locked_forwards=0,new_tts_asr_calls=0,promotion_allowed=False))
 
 
 if __name__=="__main__":
     ap=argparse.ArgumentParser()
     ap.add_argument("mode",choices=("fetch","execute"));ap.add_argument("inputs",type=Path);ap.add_argument("--output",type=Path)
+    ap.add_argument("--legacy-replay",type=Path)
     a=ap.parse_args()
     if a.mode=="fetch":
         fetch(a.inputs)
     else:
         need(a.output is not None,"expected output directory")
-        execute(a.inputs,a.output)
+        execute(a.inputs,a.output,a.legacy_replay)
