@@ -1,0 +1,477 @@
+{
+  "schema": "english-v6-b13-execution-evidence-v1",
+  "target": "Hey Mero",
+  "base": "B0",
+  "training_inputs": {
+    "B0": {
+      "windows": 2,
+      "sources": 2,
+      "speakers": [
+        "7976",
+        "8297"
+      ],
+      "events": 2
+    },
+    "B9": {
+      "windows": 6,
+      "sources": 5,
+      "speakers": [
+        "2035",
+        "2902",
+        "5536",
+        "7976",
+        "8297"
+      ],
+      "events": 11
+    },
+    "B11_control": {
+      "windows": 5,
+      "sources": 4,
+      "speakers": [
+        "2035",
+        "2902",
+        "5536",
+        "8297"
+      ],
+      "events": 10
+    },
+    "B11_challenger": {
+      "windows": 2,
+      "sources": 2,
+      "speakers": [
+        "2035",
+        "2902"
+      ],
+      "events": 2
+    },
+    "B12_control": {
+      "windows": 5,
+      "sources": 4,
+      "speakers": [
+        "2035",
+        "2902",
+        "5536",
+        "8297"
+      ],
+      "events": 10
+    },
+    "B12_challenger": {
+      "windows": 5,
+      "sources": 4,
+      "speakers": [
+        "2035",
+        "2902",
+        "5536",
+        "8297"
+      ],
+      "events": 10
+    }
+  },
+  "user_reviewed_windows": 9,
+  "user_reviewed_speakers": 8,
+  "user_reviewed_samples": 488880,
+  "natural_train_scope": "solely reviewed intervals; no new natural negative label outside the nine windows",
+  "natural_train_replay": {
+    "run": 45109057561,
+    "artifact": 14787969097,
+    "bytes": 283897,
+    "sha256": "855f0ab5cc24c03833e507eafbd08c7cc93866622458d8a217a3827c829cd93c",
+    "arrays": 54
+  },
+  "training": {
+    "id": 14789216108,
+    "bytes": 1009570,
+    "sha256": "e66de6d2683c93e434e3d426ef88ffa46c9eba63d89d6940454a81d17e7d29af",
+    "run_id": 45109548793,
+    "run_head": "db12ece24e0481b877b9cf46f74f3ed8f8d2fca1"
+  },
+  "base_train_originals": 79,
+  "base_train_source_groups": 35,
+  "updates": {
+    "control": 192,
+    "challenger": 192
+  },
+  "training_speaker_draws_per_person": 24,
+  "optimizer_development_forwards": 0,
+  "study": {
+    "hypothesis": "B13",
+    "panel": "primary",
+    "design_commit": "24a170a88eb2d08a7e3a5fee62018cbbec8d61a9",
+    "score_registration_commit": "6000954f747c9e9e4385e48bec145ebf64ac80ac",
+    "pair_schema": "english-v6-b13-train-only-owner-natural-pair-v1",
+    "pair_stems": {
+      "control": "control/models/mero43-b13-control192",
+      "challenger": "challenger/models/mero43-b13-challenger192"
+    },
+    "inputs": {
+      "B0": {
+        "id": 14514228406,
+        "bytes": 501276,
+        "sha256": "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702",
+        "run_id": 44495594627,
+        "run_head": "d0b567fe37147aae6ab5d7bdec3721b879a0b22d"
+      },
+      "B9": {
+        "id": 14689218171,
+        "bytes": 1001753,
+        "sha256": "1a8b270200e0c72ab1025f139d16abde43c209f142d72e71a7201b847e06a612",
+        "run_id": 44860855857,
+        "run_head": "846c745ebcee58a1beb27300ddcd7ec8e2178916"
+      },
+      "pair": {
+        "id": 14789216108,
+        "bytes": 1009570,
+        "sha256": "e66de6d2683c93e434e3d426ef88ffa46c9eba63d89d6940454a81d17e7d29af",
+        "run_id": 45109548793,
+        "run_head": "db12ece24e0481b877b9cf46f74f3ed8f8d2fca1"
+      },
+      "synth_source": {
+        "id": 14788464792,
+        "bytes": 2441797,
+        "sha256": "1cc208dd1b83ac6c72b308b1d536bb19b41e5b4d09a4052eefd6d5a7ebdbcfb8",
+        "run_id": 45109606032,
+        "run_head": "2bea64726945a042a8c0c2dec8317e2b15ea1781"
+      },
+      "synth_screen": {
+        "id": 14788949035,
+        "bytes": 10607,
+        "sha256": "96eee49777cbdc7e6ef2f6b25dcf625cd53490067d1dae8a86e311af7d9ee7ad",
+        "run_id": 45109606032,
+        "run_head": "2bea64726945a042a8c0c2dec8317e2b15ea1781"
+      },
+      "natural_source": {
+        "id": 14788972705,
+        "bytes": 4153893,
+        "sha256": "cc647c2164218dfdc314e5505c94f1f72389def90787cbce7d6d4f24d0c2a611",
+        "run_id": 45109632629,
+        "run_head": "fdb706efe0782681b20bacfbce888a69d14d2102"
+      },
+      "natural_screen": {
+        "id": 14788874784,
+        "bytes": 5080,
+        "sha256": "0b549d833dd9eaea517dc5e4aef6cc779bd6e9c8b077060213bd0a5bb5beb1fd",
+        "run_id": 45109632629,
+        "run_head": "fdb706efe0782681b20bacfbce888a69d14d2102"
+      }
+    }
+  },
+  "natural_source_admission": {
+    "coverage": {
+      "qwen": 24,
+      "whisper": 24,
+      "parakeet": 24,
+      "xlsr": 24,
+      "lv60": 24
+    },
+    "reviewed_originals": 24,
+    "admitted": 20,
+    "speakers": 12,
+    "rosters": {
+      "primary": [
+        "1284",
+        "2830",
+        "2961",
+        "3570",
+        "3729",
+        "4077",
+        "4992",
+        "61",
+        "672",
+        "7021",
+        "8455",
+        "8463"
+      ],
+      "replication": [
+        "1320",
+        "1580",
+        "2094",
+        "260",
+        "3575",
+        "4446",
+        "5105",
+        "5639",
+        "5683",
+        "7127",
+        "7729",
+        "908"
+      ]
+    },
+    "summary_file_sha256": "0b549d833dd9eaea517dc5e4aef6cc779bd6e9c8b077060213bd0a5bb5beb1fd"
+  },
+  "synthetic_source_receipt": "automation/english_v6_b13_primary_source_receipt.json",
+  "primary_result": {
+    "run_id": 45110518207,
+    "artifact_id": 14789172994,
+    "bytes": 2031197,
+    "sha256": "bfc265f493da53d8fd88723430af7ebdd3196f0da2465919218dd43c840c3dc4",
+    "head": "70c3d72f0b8ce6359ba844a891828cff56691818"
+  },
+  "primary_forward_calls": 600,
+  "primary_source_coverage": {
+    "synthetic_min_paired_families": 6,
+    "synthetic_min_positive_sources": 6,
+    "synthetic_min_positive_originals": 6,
+    "synthetic_min_ordinary_originals": 24,
+    "synthetic_min_ordinary_forms": 4,
+    "natural_min_admitted_speakers": 12,
+    "natural_min_admitted_originals": 20
+  },
+  "primary_gate": "NO_PROMOTION",
+  "natural_speaker_improvements": [
+    "librispeech-test-clean-1284",
+    "librispeech-test-clean-2830",
+    "librispeech-test-clean-2961",
+    "librispeech-test-clean-3570",
+    "librispeech-test-clean-3729",
+    "librispeech-test-clean-4077",
+    "librispeech-test-clean-4992",
+    "librispeech-test-clean-61",
+    "librispeech-test-clean-7021",
+    "librispeech-test-clean-8455",
+    "librispeech-test-clean-8463"
+  ],
+  "summary": {
+    "natural_ordinary": {
+      "B0": {
+        "1.0": {
+          "originals": 20,
+          "with_event": 8,
+          "events": 8
+        },
+        "0.75": {
+          "originals": 20,
+          "with_event": 4,
+          "events": 4
+        },
+        "0.5": {
+          "originals": 20,
+          "with_event": 4,
+          "events": 4
+        }
+      },
+      "B9": {
+        "1.0": {
+          "originals": 20,
+          "with_event": 15,
+          "events": 34
+        },
+        "0.75": {
+          "originals": 20,
+          "with_event": 13,
+          "events": 23
+        },
+        "0.5": {
+          "originals": 20,
+          "with_event": 12,
+          "events": 25
+        }
+      },
+      "control": {
+        "1.0": {
+          "originals": 20,
+          "with_event": 15,
+          "events": 34
+        },
+        "0.75": {
+          "originals": 20,
+          "with_event": 13,
+          "events": 26
+        },
+        "0.5": {
+          "originals": 20,
+          "with_event": 12,
+          "events": 26
+        }
+      },
+      "challenger": {
+        "1.0": {
+          "originals": 20,
+          "with_event": 3,
+          "events": 5
+        },
+        "0.75": {
+          "originals": 20,
+          "with_event": 2,
+          "events": 4
+        },
+        "0.5": {
+          "originals": 20,
+          "with_event": 6,
+          "events": 8
+        }
+      }
+    },
+    "synthetic_ordinary": {
+      "B0": {
+        "1.0": {
+          "originals": 24,
+          "with_event": 2,
+          "events": 2
+        },
+        "0.75": {
+          "originals": 24,
+          "with_event": 2,
+          "events": 2
+        },
+        "0.5": {
+          "originals": 24,
+          "with_event": 1,
+          "events": 1
+        }
+      },
+      "B9": {
+        "1.0": {
+          "originals": 24,
+          "with_event": 4,
+          "events": 5
+        },
+        "0.75": {
+          "originals": 24,
+          "with_event": 4,
+          "events": 4
+        },
+        "0.5": {
+          "originals": 24,
+          "with_event": 3,
+          "events": 4
+        }
+      },
+      "control": {
+        "1.0": {
+          "originals": 24,
+          "with_event": 3,
+          "events": 4
+        },
+        "0.75": {
+          "originals": 24,
+          "with_event": 4,
+          "events": 4
+        },
+        "0.5": {
+          "originals": 24,
+          "with_event": 3,
+          "events": 4
+        }
+      },
+      "challenger": {
+        "1.0": {
+          "originals": 24,
+          "with_event": 2,
+          "events": 2
+        },
+        "0.75": {
+          "originals": 24,
+          "with_event": 0,
+          "events": 0
+        },
+        "0.5": {
+          "originals": 24,
+          "with_event": 1,
+          "events": 1
+        }
+      }
+    },
+    "synthetic_positive": {
+      "B0": {
+        "1.0": {
+          "originals": 6,
+          "with_event": 6,
+          "events": 6
+        },
+        "0.75": {
+          "originals": 6,
+          "with_event": 6,
+          "events": 6
+        },
+        "0.5": {
+          "originals": 6,
+          "with_event": 4,
+          "events": 4
+        }
+      },
+      "B9": {
+        "1.0": {
+          "originals": 6,
+          "with_event": 6,
+          "events": 6
+        },
+        "0.75": {
+          "originals": 6,
+          "with_event": 6,
+          "events": 6
+        },
+        "0.5": {
+          "originals": 6,
+          "with_event": 6,
+          "events": 6
+        }
+      },
+      "control": {
+        "1.0": {
+          "originals": 6,
+          "with_event": 6,
+          "events": 6
+        },
+        "0.75": {
+          "originals": 6,
+          "with_event": 6,
+          "events": 6
+        },
+        "0.5": {
+          "originals": 6,
+          "with_event": 6,
+          "events": 6
+        }
+      },
+      "challenger": {
+        "1.0": {
+          "originals": 6,
+          "with_event": 5,
+          "events": 5
+        },
+        "0.75": {
+          "originals": 6,
+          "with_event": 6,
+          "events": 6
+        },
+        "0.5": {
+          "originals": 6,
+          "with_event": 5,
+          "events": 5
+        }
+      }
+    }
+  },
+  "added_events": [
+    [
+      "b13-primary-600-request",
+      "1.0",
+      "B9"
+    ],
+    [
+      "b13-primary-600-request",
+      "1.0",
+      "control"
+    ]
+  ],
+  "lost_positive_group_gains": [
+    [
+      "piper-libritts-p6446",
+      "1.0",
+      "B0"
+    ],
+    [
+      "piper-libritts-p6446",
+      "1.0",
+      "control"
+    ],
+    [
+      "piper-libritts-p7258",
+      "0.5",
+      "control"
+    ]
+  ],
+  "confirmed_device": "NOT_RUN",
+  "replication": "SEALED_PRIMARY_NO_PROMOTION",
+  "product_release": false
+}

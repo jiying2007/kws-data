@@ -1,0 +1,9 @@
+{
+  "role": "offline_TRAIN_feasibility_only",
+  "selection": "All 44 independently source-admitted positives in gain artifact 14782234724 and the 13 admitted original-gain B9 ordinary false wakes in 14783505472, unchanged.",
+  "observers": ["xlsr","lv60"],
+  "unconditioned_paths": "Decode each of 392 native phone logits by frame argmax, collapse duplicates then blank; contiguous optional h, eɪ, m, ɛ, r or ɹ, oʊ or o or ɔ. Optional initial h and vowel variants come from the pre-existing project eSpeak lexicon; r and ɹ are the two recognizer symbols for the broad rhotic. A matched phrase must be the full output for positives. Also search each negative for a matching contiguous subsequence.",
+  "anchors": "Take each highest-posterior frame within the native eɪ, ɛ, final vowel runs. Compare the two independent-output grids; diagnose agreement if all three peak frames differ by no more than 2 native strides (40 ms). No forced alignments are eligible for supervision.",
+  "planned_primary": "Check each of the two B9 full-hit/half-miss verified fast TRAIN source families for unforced three-anchor support from both observers. Check every known hard negative for native free whole-phrase paths. Native gains only 1.0; no teacher half-gain result or quality lift inferred.",
+  "transparency": "Design recorded before batch scoring after a preliminary inspection of the two XLSR capture-row transcriptions. No parameter sweep, no independent test claim, the same observers contributed to source QA."
+}
