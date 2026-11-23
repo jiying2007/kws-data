@@ -1,14 +1,14 @@
 name: Scan pinned public TRAIN transcripts for human wake-phrase leads
 on:
   push:
-    branches: [fix/en-v6-train-transcript-scan-timeout-20261123]
+    branches: [research/en-v6-train-transcript-scan-20261123]
     paths: [.github/workflows/english-v6-real-word-transcript-scan.yml]
 permissions:
   contents: read
   actions: read
 jobs:
   register:
-    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '8528ab662ee6a5baf21b8141dce46b963af24a16'
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == 'ac3238008bf5f03fa6699ec0fa13a31ec58a3b92'
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
