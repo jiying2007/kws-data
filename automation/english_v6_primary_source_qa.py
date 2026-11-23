@@ -21,12 +21,14 @@ PARENT = "7dba86a3fcda6e5f05cb80b414dc372c70a5a03b3aee783f168441a4871e7655"
 PLAN_SHA = panel.b10.sha(panel.b10.canon(panel.source_plan("primary")))
 
 
-def read_primary(source):
+def read_panel(source, panel_name, recipe=panel.source_plan):
     manifest = json.loads((source / "MANIFEST.json").read_bytes())
-    planned = panel.planned("primary")
+    plan = recipe(panel_name)
+    planned = plan["rows"]
+    plan_sha = panel.b10.sha(panel.b10.canon(plan))
     rows = manifest["rows"]
-    need(manifest["schema"] == panel.SCHEMA and manifest["panel"] == "primary"
-         and manifest["plan_sha256"] == PLAN_SHA and manifest["new_kws_forwards"] == 0
+    need(manifest["schema"] == plan["schema"] and manifest["panel"] == panel_name
+         and manifest["plan_sha256"] == plan_sha and manifest["new_kws_forwards"] == 0
          and manifest["tts_calls"] == len(rows) == 48 and manifest["human_gold"] is False
          and len({r["pcm_sha256"] for r in rows}) == 48, "complete original primary cohort")
     for row, expected in zip(rows, planned, strict=True):
@@ -36,6 +38,10 @@ def read_primary(source):
         need(facts["basic_audio_ok"] and all(row[k] == v for k, v in facts.items()),
              "original WAV and PCM digests")
     return rows
+
+
+def read_primary(source):
+    return read_panel(source, "primary")
 
 
 def admit(row, texts, posteriors):
@@ -67,9 +73,9 @@ def admit(row, texts, posteriors):
                 reason="BLIND_EXACT_SENTENCE_NO_WAKE")
 
 
-def screen(source, evidence, output):
-    rows = read_primary(source)
-    texts, posteriors, coverage = load_observations(source, evidence, rows, SCHEMA)
+def screen(source, evidence, output, *, panel_name="primary", schema=SCHEMA, recipe=panel.source_plan):
+    rows = read_panel(source, panel_name, recipe)
+    texts, posteriors, coverage = load_observations(source, evidence, rows, schema)
     decisions = []
     qualified = defaultdict(set)
     for row in rows:
@@ -83,13 +89,14 @@ def screen(source, evidence, output):
         decisions.append(dict(row, observed_class=observed, tier=result["tier"],
                               reason=result["reason"], phone_margins=result["margins"]))
     paired = sorted(g for g, classes in qualified.items() if classes == {0, 2})
-    record(output, dict(schema=SCHEMA, source_manifest_sha256=sha(source / "MANIFEST.json"),
-                        plan_sha256=PLAN_SHA, rows=decisions, coverage=coverage,
-                        reviewed_source_groups=12, primary_originals=48,
+    metadata = {"primary_originals": 48} if panel_name == "primary" else {"replication_originals": 48}
+    record(output, dict(schema=schema, source_manifest_sha256=sha(source / "MANIFEST.json"),
+                        plan_sha256=panel.b10.sha(panel.b10.canon(recipe(panel_name))),
+                        rows=decisions, coverage=coverage, reviewed_source_groups=12, **metadata,
                         paired_source_groups=paired, meets_four_pair_minimum=len(paired) >= 4,
                         tier_counts=dict(Counter(r["tier"] for r in decisions)),
                         frozen_before_kws=True, kws_forwards=0, optimizer_updates=0,
-                        human_gold=False, replication_opened=False, promotion_allowed=False))
+                        human_gold=False, replication_opened=panel_name == "replication", promotion_allowed=False))
 
 
 def check_train_gate(archive, expected_digest):
@@ -133,13 +140,13 @@ def check_b12_gate(archive, expected_digest):
          r["optimizer_updates"] == r["dev_cal_locked_forwards"] == 0, "B12 TRAIN trigger")
 
 
-def generate(output):
+def generate(output, *, panel_name="primary"):
     from huggingface_hub import hf_hub_download
-    model = panel.source_plan("primary")["model"]
+    model = panel.source_plan(panel_name)["model"]
     paths = [Path(hf_hub_download(repo_id=model["repo"], filename=model[k],
                                  revision=model["commit"], token=False)) for k in ("file", "config")]
-    panel.generate_panel("primary", *paths, output)
-    read_primary(output)
+    panel.generate_panel(panel_name, *paths, output)
+    read_panel(output, panel_name)
 
 
 if __name__ == "__main__":
