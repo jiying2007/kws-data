@@ -1,8 +1,9 @@
-name: English V6 independent 4-model frozen B11 primary DEV evaluation
+name: English V6 independent four-model frozen DEV evaluation
 'on':
   push:
     branches:
     - research/en-v6-four-frozen-dev-panel-20261123
+    - research/en-v6-b12-four-frozen-dev-20261123
     paths:
     - .github/workflows/english-v6-four-model-panel-once.yml
 permissions:
@@ -11,13 +12,16 @@ permissions:
 jobs:
   score:
     if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1
-      && github.ref == 'refs/heads/research/en-v6-four-frozen-dev-panel-20261123' && github.event.before == 'cd40b1299de4394125c13264348fe6909c6f5d0a'
+      && ((github.ref == 'refs/heads/research/en-v6-four-frozen-dev-panel-20261123' && github.event.before == 'cd40b1299de4394125c13264348fe6909c6f5d0a')
+      || (github.ref == 'refs/heads/research/en-v6-b12-four-frozen-dev-20261123' && github.event.before == 'c251be8ef8780dbd5018d6bd6afc7c65babbd092'))
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     env:
       OMP_NUM_THREADS: '1'
       MKL_NUM_THREADS: '1'
       OPENBLAS_NUM_THREADS: '1'
+      PANEL_SPEC: ${{ github.ref_name == 'research/en-v6-b12-four-frozen-dev-20261123' && 'automation/english_v6_b12_four_model_panel_run.json'
+        || 'automation/english_v6_four_model_panel_run.json' }}
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       with:
@@ -34,9 +38,18 @@ jobs:
         python -IB automation/test_english_v6_four_model_panel.py
         mkdir -p "$RUNNER_TEMP/panel-inputs"
         python - "$RUNNER_TEMP/panel-inputs" <<'PYTHON'
-        import hashlib, json, subprocess, sys
+        import base64, hashlib, json, os, subprocess, sys
         from pathlib import Path
-        ids = json.loads(Path("automation/english_v6_four_model_panel_run.json").read_bytes())["inputs"]
+        spec = json.loads(Path(os.environ["PANEL_SPEC"]).read_bytes())
+        ids = spec["inputs"]
+        if spec["hypothesis"] == "B12":
+            ref = spec["registered_panel"]
+            url = "repos/jiying2007/kws-data/contents/" + ref["path"] + "?ref=" + ref["commit"]
+            metadata = json.loads(subprocess.check_output(["gh","api",url]))
+            raw = base64.b64decode(metadata["content"])
+            if hashlib.sha256(raw).hexdigest() != ref["sha256"]:
+                raise ValueError("changed B12 preregistered panel bytes")
+            (Path(sys.argv[1])/"panel-plan.json").write_bytes(raw)
         assert set(ids) == {"B0","B9","pair","source","screen"}
         for name, lock in ids.items():
             prefix = "repos/jiying2007/kws-data/actions/artifacts/" + str(lock["id"])
@@ -58,11 +71,11 @@ jobs:
         set -euo pipefail
         python -m pip install 'torch==2.9.1+cpu' --index-url https://download.pytorch.org/whl/cpu
         python -m pip install 'numpy==1.26.4'
-        python -IB automation/english_v6_four_model_panel.py automation/english_v6_four_model_panel_run.json "$RUNNER_TEMP/panel-inputs" "$RUNNER_TEMP/decision"
+        python -IB automation/english_v6_four_model_panel.py "$PANEL_SPEC" "$RUNNER_TEMP/panel-inputs" "$RUNNER_TEMP/decision"
         printf '{"run":"%s","code":"%s","attempt":"%s"}\n' "$GITHUB_RUN_ID" "$(git rev-parse HEAD)" "$GITHUB_RUN_ATTEMPT" > "$RUNNER_TEMP/decision/RUN.json"
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
-        name: v6-b11-primary-4model-full-logits-${{ github.run_id }}
+        name: v6-four-model-primary-full-logits-${{ github.run_id }}
         path: ${{ runner.temp }}/decision/
         retention-days: 90
         if-no-files-found: error
