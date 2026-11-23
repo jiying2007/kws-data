@@ -1,0 +1,282 @@
+{
+  "schema": "english-v6-question-source-paired-receipt-v1",
+  "execution_commit": "f7430a89649036c636eb6f7fdfe4b2244fbd411e",
+  "run_id": 45108917466,
+  "source_groups": 4,
+  "originals": 8,
+  "native_observations": 40,
+  "independent_screen_sha256": "8b59eb4896ff6fcdf2e27ca13e4d8dfecd5bcf4cd25326de14ae7225fc9d0fc7",
+  "outcome": "IPA_ADVANTAGE_ON_MATCHED_SOURCES",
+  "counts": {
+    "ipa": {
+      "qualified": 4,
+      "exact_asr_votes": 12
+    },
+    "text": {
+      "qualified": 0,
+      "exact_asr_votes": 0
+    }
+  },
+  "pairs": [
+    {
+      "group": "piper-libritts-p1343",
+      "ipa_admitted": true,
+      "ipa_samples": 15419,
+      "text_admitted": false,
+      "text_samples": 7802
+    },
+    {
+      "group": "piper-libritts-p7241",
+      "ipa_admitted": true,
+      "ipa_samples": 13375,
+      "text_admitted": false,
+      "text_samples": 6874
+    },
+    {
+      "group": "piper-libritts-p451",
+      "ipa_admitted": true,
+      "ipa_samples": 16347,
+      "text_admitted": false,
+      "text_samples": 7617
+    },
+    {
+      "group": "piper-libritts-p5401",
+      "ipa_admitted": true,
+      "ipa_samples": 14490,
+      "text_admitted": false,
+      "text_samples": 7059
+    }
+  ],
+  "rows": [
+    {
+      "class": null,
+      "exact_votes": 0,
+      "group": "piper-libritts-p1343",
+      "id": "qpair-01",
+      "margins": {},
+      "mode": "text",
+      "pcm_sha256": "18c8b54167cda54f7a7c2e86ad78bf1fd8d28e71d88bfbd74036774ff6f497d3",
+      "phones_sha256": {
+        "lv60": "cf2b533a489fdd556c0e9d657570ee9e1fdb463f43f687080094734a468ef65e",
+        "xlsr": "ad6e6637b54441ff5a7cb93b68b3530ea4fba1b3277c78b6633d6ccf6a8ad2aa"
+      },
+      "reason": "INSUFFICIENT_EXACT_SENTENCE_AGREEMENT",
+      "samples": 7802,
+      "texts": {
+        "parakeet": "Turns it.",
+        "qwen": "Turns it.",
+        "whisper": " It chimes it."
+      },
+      "tier": "unknown",
+      "training_allowed": false
+    },
+    {
+      "class": 0,
+      "exact_votes": 3,
+      "group": "piper-libritts-p1343",
+      "id": "qpair-02",
+      "margins": {},
+      "mode": "ipa",
+      "pcm_sha256": "ba8ba261b627011450f3644ab2842b3e450968d606d103c80ca76af7bcb95662",
+      "phones_sha256": {
+        "lv60": "730558736b18aec74de1ee49ec6a6b7b7357c00245044edd38a13005df5127bc",
+        "xlsr": "c7d9611b0cdbb4316c011a70f4c39d6ecb3e52ca170676120a936ae3d7442104"
+      },
+      "reason": "BLIND_EXACT_SENTENCE_NO_WAKE",
+      "samples": 15419,
+      "texts": {
+        "parakeet": "What time is it?",
+        "qwen": "What time is it?",
+        "whisper": " What time is it?"
+      },
+      "tier": "silver",
+      "training_allowed": false
+    },
+    {
+      "class": 0,
+      "exact_votes": 3,
+      "group": "piper-libritts-p7241",
+      "id": "qpair-03",
+      "margins": {},
+      "mode": "ipa",
+      "pcm_sha256": "9ec2a226730ccb0a686568fc353966b52892c5ab42fa409a52fa05378db29361",
+      "phones_sha256": {
+        "lv60": "3a86ae7347261ce1dbe3b330c276b4e8764e5303a5668826fc10b39cc502cb85",
+        "xlsr": "f96394327bfd19bb816e672547f4cd572af645eac8b5ce3eb912d5cfd2cc80b9"
+      },
+      "reason": "BLIND_EXACT_SENTENCE_NO_WAKE",
+      "samples": 13375,
+      "texts": {
+        "parakeet": "What time is it?",
+        "qwen": "What time is it?",
+        "whisper": " What time is it?"
+      },
+      "tier": "silver",
+      "training_allowed": false
+    },
+    {
+      "class": null,
+      "exact_votes": 0,
+      "group": "piper-libritts-p7241",
+      "id": "qpair-04",
+      "margins": {},
+      "mode": "text",
+      "pcm_sha256": "0e39e93fbaee7045d23d46189ce533ebc1d70d91563d7b9981f05895390c11b3",
+      "phones_sha256": {
+        "lv60": "547d8c620d23072039bb19f5504eac46a7e3112f0a9595ea823b5e332265518c",
+        "xlsr": "7af3750a63682a75fdeea35038a6cdf9d76cb36b4b41c341c2737323749a9a07"
+      },
+      "reason": "INSUFFICIENT_EXACT_SENTENCE_AGREEMENT",
+      "samples": 6874,
+      "texts": {
+        "parakeet": "Chines.",
+        "qwen": "Change it.",
+        "whisper": " change it."
+      },
+      "tier": "unknown",
+      "training_allowed": false
+    },
+    {
+      "class": null,
+      "exact_votes": 0,
+      "group": "piper-libritts-p451",
+      "id": "qpair-05",
+      "margins": {},
+      "mode": "text",
+      "pcm_sha256": "e2dfdb853b82fa7e47c3c126d61ea90a6fa7764f8a2837c2660cb124551d1570",
+      "phones_sha256": {
+        "lv60": "99f63d0d095cc4f49658266d80587f5815b0fb47414f40ba9da0e282a7d75bf0",
+        "xlsr": "6bbec55cfca4bcc7e554b34d32d8e87986a481d20e82805b875f04af0e631c08"
+      },
+      "reason": "INSUFFICIENT_EXACT_SENTENCE_AGREEMENT",
+      "samples": 7617,
+      "texts": {
+        "parakeet": "Times.",
+        "qwen": "Chinese.",
+        "whisper": " Kind of z-"
+      },
+      "tier": "unknown",
+      "training_allowed": false
+    },
+    {
+      "class": 0,
+      "exact_votes": 3,
+      "group": "piper-libritts-p451",
+      "id": "qpair-06",
+      "margins": {},
+      "mode": "ipa",
+      "pcm_sha256": "b7cdbae6a5275e0569a535732543b582c24a415df234f4ac47a817cedbaea3dc",
+      "phones_sha256": {
+        "lv60": "04f11241bb21095a81d8338febb5626926ace693f89268c02ad207059eabf8d3",
+        "xlsr": "ea095c6c0a1bf88fba91f4dc478dbd01e97221bc4e88278c70e89c28ff0f8770"
+      },
+      "reason": "BLIND_EXACT_SENTENCE_NO_WAKE",
+      "samples": 16347,
+      "texts": {
+        "parakeet": "What time is it?",
+        "qwen": "What time is it?",
+        "whisper": " What time is it?"
+      },
+      "tier": "silver",
+      "training_allowed": false
+    },
+    {
+      "class": 0,
+      "exact_votes": 3,
+      "group": "piper-libritts-p5401",
+      "id": "qpair-07",
+      "margins": {},
+      "mode": "ipa",
+      "pcm_sha256": "51feb8f7b8c79ca34c4f306877b0af7b0739377d508f85a4a737cdccc2ab5563",
+      "phones_sha256": {
+        "lv60": "006c04ceaa854f2c8ecab4c962ba7b8cbbd437919c1c969d7540112fa220328a",
+        "xlsr": "a1845b31ad4ef21a611011c51439cca90ffedea8d284c8c8673dc0d88aa9284d"
+      },
+      "reason": "BLIND_EXACT_SENTENCE_NO_WAKE",
+      "samples": 14490,
+      "texts": {
+        "parakeet": "What time is it?",
+        "qwen": "What time is it?",
+        "whisper": " What time is it?"
+      },
+      "tier": "silver",
+      "training_allowed": false
+    },
+    {
+      "class": null,
+      "exact_votes": 0,
+      "group": "piper-libritts-p5401",
+      "id": "qpair-08",
+      "margins": {},
+      "mode": "text",
+      "pcm_sha256": "aeb4569c14a7e61f9449f5d6e2be6735086e2297cb416e95aea6bef1457b49e4",
+      "phones_sha256": {
+        "lv60": "fb01a19f9b48b734848a1fc41895c50852dc1f7aa4dd36bd2935f3bd8a2cbe9a",
+        "xlsr": "688a15c5ea37cd95df89ea5ad17041b0ec8a8e169abe236c0266522085921400"
+      },
+      "reason": "INSUFFICIENT_EXACT_SENTENCE_AGREEMENT",
+      "samples": 7059,
+      "texts": {
+        "parakeet": "Change it.",
+        "qwen": "Changes it.",
+        "whisper": " change it."
+      },
+      "tier": "unknown",
+      "training_allowed": false
+    }
+  ],
+  "artifacts": {
+    "english-v6-question-paired-screen-45108917466": {
+      "id": 14789200396,
+      "name": "english-v6-question-paired-screen-45108917466",
+      "size_in_bytes": 1946,
+      "digest": "sha256:d3aabb070dd1e98ca5b2c785eeac11c486e77cf0eeb0650dfbc109bc961c6e26"
+    },
+    "v6-question-pair-observer-parakeet": {
+      "id": 14789155465,
+      "name": "v6-question-pair-observer-parakeet",
+      "size_in_bytes": 8273,
+      "digest": "sha256:3c4fb78ed95ceefce6f6d323cf1edc34d2f4996ed60674bac929b9bc5dcdd5a6"
+    },
+    "v6-question-pair-observer-whisper": {
+      "id": 14788892074,
+      "name": "v6-question-pair-observer-whisper",
+      "size_in_bytes": 8303,
+      "digest": "sha256:6c56768d3a4748cf9ebc09131a84ccb12db1b71a7b515eed2ddc9dcb997df611"
+    },
+    "en-v6-question-pair-source-opened": {
+      "id": 14788827220,
+      "name": "en-v6-question-pair-source-opened",
+      "size_in_bytes": 178,
+      "digest": "sha256:28eab452ff7cc1337f281e9e7aa745d8fe2531850b1307bd7f63ea010eb6fc76"
+    },
+    "english-v6-question-paired-source-45108917466": {
+      "id": 14788787525,
+      "name": "english-v6-question-paired-source-45108917466",
+      "size_in_bytes": 351496,
+      "digest": "sha256:12285464b64f6dbe5c37ab3fb17e9fac887c7c1cc84ce11c40d115226c701b1c"
+    },
+    "v6-question-pair-observer-qwen": {
+      "id": 14788374398,
+      "name": "v6-question-pair-observer-qwen",
+      "size_in_bytes": 8282,
+      "digest": "sha256:85cfe1ba5492f6ea10438f45f75f6ebdf9c3dc5bae9d6e384d151bb0fa04ccff"
+    },
+    "v6-question-pair-observer-lv60": {
+      "id": 14788263338,
+      "name": "v6-question-pair-observer-lv60",
+      "size_in_bytes": 394868,
+      "digest": "sha256:672602f2d2d87f3c0eafe937b0a4248a2d35496de35e0c740888028039216ca5"
+    },
+    "v6-question-pair-observer-xlsr": {
+      "id": 14788088731,
+      "name": "v6-question-pair-observer-xlsr",
+      "size_in_bytes": 394150,
+      "digest": "sha256:c793c4e069a65b4c46013976a67edca3b94bfdc537c68ff34574cc6737f7f87d"
+    }
+  },
+  "qualification": "source-diagnostic-only",
+  "kws_forwards": 0,
+  "optimizer_updates": 0,
+  "physical_ssc305": false
+}
