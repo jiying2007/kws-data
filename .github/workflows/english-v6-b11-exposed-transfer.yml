@@ -1,0 +1,72 @@
+name: Frozen B11 P1 exposed transfer diagnostic
+on:
+  pull_request:
+    types: [opened]
+    branches: [main]
+    paths: ['.github/workflows/english-v6-b11-exposed-transfer.yml', 'automation/english_v6_b11_exposed_transfer.py']
+permissions:
+  actions: read
+  contents: read
+jobs:
+  frozen-exposed-transfer:
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.head_ref == 'research/en-v6-b11-exposed-transfer-p1-20261123' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          path: implementation
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: a180e7e6fc20a30618a76b1a1f4492e639cd0f9b
+          persist-credentials: false
+          path: frozen
+      - name: Bind each original Actions archive to its successful public run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/p1-inputs"
+          while read -r artifact run; do
+            actual=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$artifact" --jq '.workflow_run.id')
+            test "$actual" = "$run"
+            conclusion=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run" --jq '.conclusion')
+            test "$conclusion" = success
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$artifact/zip" > "$RUNNER_TEMP/p1-inputs/$artifact.zip"
+          done <<'ARCHIVES'
+          14693632800 44870282676
+          14694540474 44871646677
+          14689218171 44860855857
+          14740303244 44987190871
+          14697439433 44881040200
+          ARCHIVES
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install the frozen CPU scoring environment
+        run: |
+          python -m venv "$RUNNER_TEMP/p1-env"
+          "$RUNNER_TEMP/p1-env/bin/pip" install --disable-pip-version-check --retries 1 --timeout 90 --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+          "$RUNNER_TEMP/p1-env/bin/pip" install --disable-pip-version-check --retries 1 --timeout 90 'numpy==1.26.4'
+          "$RUNNER_TEMP/p1-env/bin/pip" check
+      - name: Score 54 exposed conditions and verify the old B9 output
+        env:
+          SCORE_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          "$RUNNER_TEMP/p1-env/bin/python" -I -B implementation/automation/english_v6_b11_exposed_transfer.py \
+            --inputs "$RUNNER_TEMP/p1-inputs" --output "$RUNNER_TEMP/p1-results" --data-repo "$GITHUB_WORKSPACE/frozen"
+      - name: Archive hash receipts, full logits at every gain and source clock
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b11-exposed-transfer-${{ github.run_id }}
+          path: ${{ runner.temp }}/p1-results/
+          retention-days: 90
+          if-no-files-found: warn
