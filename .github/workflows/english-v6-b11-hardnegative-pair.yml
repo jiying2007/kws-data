@@ -1,0 +1,51 @@
+name: English B11 real matched diverse-hard-negative training
+'on':
+  pull_request:
+    types: [opened]
+    branches: [main]
+    paths: [.github/workflows/english-v6-b11-hardnegative-pair.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: en-v6-b11-one-paired-hardnegative-fit
+  cancel-in-progress: false
+env:
+  OMP_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261120'
+jobs:
+  train:
+    if: github.repository == 'jiying2007/kws-data' && !github.event.repository.private && github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'research/en-v6-b11-hardnegative-weights-20261123' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 36
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Verify the registered 192-step source-balanced draw
+        run: python -I -S -B automation/test_english_v6_b11_hardnegative_pair.py
+      - name: Bind complete five-native blind primary screen and authenticate all TRAIN inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -I -B automation/english_v6_b11_hardnegative_inputs.py "$RUNNER_TEMP/inputs"
+      - name: Install matching CPU optimizer and ONNX export versions
+        run: |
+          python -m pip install --disable-pip-version-check --retries 1 --timeout 60 'torch==2.9.1+cpu' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 1 --timeout 60 'numpy==1.26.4' 'onnx==1.17.0'
+      - name: Train two 43876-parameter FSMN-CTC arms on frozen TRAIN PCM
+        run: |
+          set -eu
+          python -IB automation/english_v6_b11_hardnegative_pair.py "$RUNNER_TEMP/inputs/original" "$RUNNER_TEMP/inputs/source" "$RUNNER_TEMP/inputs/supplement-result.zip" "$RUNNER_TEMP/inputs/primary-screen.json" "$RUNNER_TEMP/pair"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b11-diverse-hardnegative-pair-${{ github.run_id }}
+          path: ${{ runner.temp }}/pair/
+          if-no-files-found: warn
+          retention-days: 90

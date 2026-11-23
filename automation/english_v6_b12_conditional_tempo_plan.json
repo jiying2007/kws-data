@@ -1,0 +1,37 @@
+{
+  "schema": "english-v6-conditional-fast-positive-train-v1",
+  "status": "CONDITIONAL_NOT_TRAINED",
+  "snapshot": {
+    "positive_train_diagnostic_commit": "6129dcc7e9c7fc4675f049892f3dcea4a8bb812c",
+    "positive_train_run": 45094053219,
+    "parent_artifact": 14689218171,
+    "parent_pt_sha256": "7dba86a3fcda6e5f05cb80b414dc372c70a5a03b3aee783f168441a4871e7655",
+    "prior_matched_continuation_source": "jiying2007/kws-data@a180e7e6fc20a30618a76b1a1f4492e639cd0f9b:automation/english_v6_b10_hardneg_paired_trainonce.py"
+  },
+  "eligibility": {
+    "b11_must_have_reached_a_terminal_nonpromotion_state": true,
+    "minimum_verified_faster_positive_train_source_groups_with_clean_hit_and_half_gain_miss": 2,
+    "report_half_gain_HEY_absent_groups_separately": true,
+    "freeze_unexposed_source_group_roles_and_decoder_before_scoring": true
+  },
+  "arms": {
+    "initialization": "Identical B9 control PT; all 79 previously admitted TRAIN PCM across 35 sources",
+    "common_schedule": "192 AdamW updates per arm; preserve B10 matched-control seeds, class order, source-group draws, ordinary loss, CTC/KL, prefix, gains and frozen normalization",
+    "control": "Existing unwarped clean and half-gain siblings",
+    "challenger": "For both classes when floor(zero_based_step/35) is odd, apply a single deterministic pitch-preserving SoX tempo -s 1.08 to original PCM16 first, then derive both 1.0 and 0.5 gain siblings and the unchanged silence prefixes. All other slots use the originals.",
+    "single_changed_factor": "Fixed pitch-preserving tempo augmentation on scheduled TRAIN waveform pairs",
+    "implementation_receipt": "Pin SoX binary/version and flags, disable dither; save original/derived PCM hashes and sample lengths, model inputs and per-step draws. Derived PCM adds zero independent sources.",
+    "no_additional_hardnegative_or_HEY_loss": true,
+    "threshold_tuning": false
+  },
+  "development": {
+    "comparators": ["B0", "B9_PARENT", "MATCHED_CONTROL", "TEMPO_CHALLENGER"],
+    "fixed_gains": [1.0, 0.75, 0.5],
+    "primary": "Recover a complete 0.5-gain target on at least two independent previously untouched verified faster positive families versus both B9 parent and matched control, while those examples are original-gain hits",
+    "negative_control": "No new ordinary full-phrase false or extra event on any new source at any fixed gain relative to B9 and matched control",
+    "positive_control": "No loss of previously correct positive group conditions versus B0 or matched control at any fixed gain",
+    "confirmation": "Repeat these predeclared directional and no-regression criteria on a second unseen source-family-disjoint cohort before candidate advancement",
+    "otherwise": "INCONCLUSIVE_OR_FAIL_NO_PROMOTION",
+    "model_input_for_training": "TRAIN only; existing DEV, CAL and LOCKED forbidden"
+  }
+}
