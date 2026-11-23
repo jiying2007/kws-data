@@ -233,7 +233,7 @@
     "README.md": "Insert current scientific navigation; retain the entire previous body after its first heading.",
     "tests/test_dataset_integrity.py": "Identical existing PR19/PR20 deterministic required-catalog-WAV fixture; no production export change."
   },
-  "expected_tracked_files": 2957,
+  "expected_tracked_files": 2965,
   "expected_retained_files": 2027,
   "new_retained_paths": 1288,
   "integration_files": [
@@ -1161,6 +1161,14 @@
     "automation/test_english_v6_b11_supplement.py",
     "automation/english_v6_primary_source_qa.py",
     ".github/workflows/english-v6-primary-source-qa.yml",
+    ".github/workflows/english-v6-b11-hardnegative-pair.yml",
+    "automation/english_v6_b11_hardnegative_inputs.py",
+    "automation/english_v6_b11_hardnegative_pair.py",
+    "automation/test_english_v6_b11_hardnegative_pair.py",
+    "automation/english_v6_four_model_panel.py",
+    "automation/test_english_v6_four_model_panel.py",
+    "automation/english_v6_four_model_panel_run.json",
+    ".github/workflows/english-v6-four-model-panel-once.yml",
     "automation/english_v6_b12_paired_tempo.py",
     ".github/workflows/english-v6-b12-paired-tempo.yml",
     "automation/english_v6_b12_gate_pins.json",
@@ -32350,10 +32358,145 @@
       "rationale": "Frozen independent primary DEV source definition d3763b66f6e7f0e555da4ed6634f36f6f45c2d59, 48 originals, 12 previously unseen groups, 5 native observers, whole-PCM capture, distinct positive contrast and row-specific ordinary admission. B12 trigger archived as 14782234724. Source and blind labels only; no KWS selection, gradients, CAL/LOCKED, or replication. Public run 45095073669 succeeded. Source artifact 14782913094 (935138 bytes, SHA256 fe7906969ff3707cf684e9c0ad92a53760c775077f870a1439acb327b42551a8, manifest 590d79cb529978b50674c9d6070b934ebaf8b192aafaa92394d21881ccf14a6e). All 240 full-input observations succeeded. Fingerprinted provider archives: Qwen 14783820329, Whisper 14782379711, Parakeet 14783306260, XLSR 14783456188, LV60 14783167378. Native screen artifact 14782844738 (8556 bytes, ZIP SHA256 057df6611130ee3b6e5d2075fec81b8a8bdfc74a619325088aa87777b9613680; SCREEN.json c3f9297c331bbd276ecd7b5f3d0d8132600cae055b0b140830f02b7c15c3961e). SHA/CRC-verified readback and independent saved-only admission replay matched exactly: 6 positive and 17 ordinary across three accepted sentence forms, 5 paired source groups, 25 unknown; zero KWS or optimizer evaluations. Primary cohort allocated to B11 before KWS scoring."
     },
     {
-      "campaign": "english-v6-b12-paired-tempo-train-20261123",
-      "source_commit": "564fe47a1e9e84daa256302aebf5f67a7fb34d94",
+      "campaign": "english-v6-b11-measured-hardnegative-paired-training-20261123",
       "base_commit": "564fe47a1e9e84daa256302aebf5f67a7fb34d94",
+      "source_commit": "c96fe2da0c54b035a7986a0f7706a1c7482fd242",
       "previous_manifest_git_blob_sha1": "7ef48272c1dee9c492941ba9388a195d3d26d6bc",
+      "paths": [
+        ".github/workflows/english-v6-b11-hardnegative-pair.yml",
+        "automation/english_v6_b11_hardnegative_inputs.py",
+        "automation/english_v6_b11_hardnegative_pair.py",
+        "automation/test_english_v6_b11_hardnegative_pair.py"
+      ],
+      "rationale": "Public run 45096170903 performed 192+192 AdamW updates on two 43876-parameter FSMN-CTC arms after both frozen source gates. TRAIN supplement #321 run 45094102574 (source artifact 14782806405, independent screen and scores 14783505472, ZIP SHA256 5b8f2dfab1285eb9f544e538dd3508c2c1c9405df12c06f99ba03b61ca29ee8c) supplied 13 measured ordinary full-word false events among 23 eligible originals, covering five source families. The two arms shared the same 79 B9 TRAIN originals, seed, source groups and draw; 192 auxiliary slots for the five families were 39/39/38/38/38. The control coefficient was zero and the challenger coefficient 0.08. Primary source-only screen #322 run 45095073669, artifact 14782844738, supplied five independently paired DEV families; zero DEV/CAL/LOCKED model forwards in training. Pair artifact 14782904388, 1010398 bytes, ZIP SHA256 89ba0db434db0e52c39988fa1038ae69d9a35bf0c1ede603bd2c5196461b9058, draw SHA256 5e7cf725189a7ff3117c0028aef817343371c9c3e47006f8e0dbe660c7b7261a. PT SHA256 control 43e8dc8e1e4150421e55d44b4ad6c5813201947f1560408c0a47d83439608352 (byte-identical to historical B10 control), challenger b4535be7e3ba59d647dab94d103872cc921ecb452405c8b32bb033cc76d4aaa3. 43849 parameter values differ. Both PT/NPZ/ONNX exports were hash and CRC verified. These are real research weights pending independent acoustic evidence; product promotion is false."
+    },
+    {
+      "campaign": "b11-frozen-panel-4model-primary-decision",
+      "source_commit": "ba1315cde0a3e76406542adf096f426c638c7602",
+      "base_commit": "8d211c87e007804023c8b93c9e99b48fefc1d0da",
+      "previous_manifest_git_blob_sha1": "8e5f59f04329a99b7b54daad0c2f6e4410c26952",
+      "paths": [
+        "automation/english_v6_four_model_panel.py",
+        "automation/test_english_v6_four_model_panel.py",
+        "automation/english_v6_four_model_panel_run.json",
+        ".github/workflows/english-v6-four-model-panel-once.yml"
+      ],
+      "rationale": "Archive pre-registered B11 independent DEV execution and all frame logits; preserve B0 and the unopened replication panel.",
+      "research_evidence": {
+        "frozen_decision_sha": "cd40b1299de4394125c13264348fe6909c6f5d0a",
+        "run_id": 45096526424,
+        "result_artifact_id": 14783767153,
+        "result_zip_sha256": "00fbad5f68b2a4db707e5be2d1d6577781a8a2217db40fca20ec66b0318d74b4",
+        "actual_forwards": 276,
+        "ordinary_originals": 17,
+        "positive_originals": 6,
+        "models": {
+          "B0": {
+            "1.0": {
+              "positive_hits": 6,
+              "positive_originals": 6,
+              "ordinary_false_clips": 2,
+              "ordinary_events": 2,
+              "ordinary_originals": 17
+            },
+            "0.75": {
+              "positive_hits": 5,
+              "positive_originals": 6,
+              "ordinary_false_clips": 3,
+              "ordinary_events": 3,
+              "ordinary_originals": 17
+            },
+            "0.5": {
+              "positive_hits": 5,
+              "positive_originals": 6,
+              "ordinary_false_clips": 0,
+              "ordinary_events": 0,
+              "ordinary_originals": 17
+            }
+          },
+          "B9": {
+            "1.0": {
+              "positive_hits": 6,
+              "positive_originals": 6,
+              "ordinary_false_clips": 1,
+              "ordinary_events": 1,
+              "ordinary_originals": 17
+            },
+            "0.75": {
+              "positive_hits": 6,
+              "positive_originals": 6,
+              "ordinary_false_clips": 5,
+              "ordinary_events": 5,
+              "ordinary_originals": 17
+            },
+            "0.5": {
+              "positive_hits": 5,
+              "positive_originals": 6,
+              "ordinary_false_clips": 5,
+              "ordinary_events": 6,
+              "ordinary_originals": 17
+            }
+          },
+          "control": {
+            "1.0": {
+              "positive_hits": 6,
+              "positive_originals": 6,
+              "ordinary_false_clips": 2,
+              "ordinary_events": 2,
+              "ordinary_originals": 17
+            },
+            "0.75": {
+              "positive_hits": 6,
+              "positive_originals": 6,
+              "ordinary_false_clips": 5,
+              "ordinary_events": 5,
+              "ordinary_originals": 17
+            },
+            "0.5": {
+              "positive_hits": 5,
+              "positive_originals": 6,
+              "ordinary_false_clips": 5,
+              "ordinary_events": 6,
+              "ordinary_originals": 17
+            }
+          },
+          "challenger": {
+            "1.0": {
+              "positive_hits": 6,
+              "positive_originals": 6,
+              "ordinary_false_clips": 0,
+              "ordinary_events": 0,
+              "ordinary_originals": 17
+            },
+            "0.75": {
+              "positive_hits": 6,
+              "positive_originals": 6,
+              "ordinary_false_clips": 0,
+              "ordinary_events": 0,
+              "ordinary_originals": 17
+            },
+            "0.5": {
+              "positive_hits": 5,
+              "positive_originals": 6,
+              "ordinary_false_clips": 2,
+              "ordinary_events": 2,
+              "ordinary_originals": 17
+            }
+          }
+        },
+        "improved_groups": [
+          "piper-libritts-p6317"
+        ],
+        "new_ordinary_false_or_extra": [],
+        "gate": "NO_PROMOTION",
+        "product_promotion": false
+      }
+    },
+    {
+      "campaign": "english-v6-b12-paired-tempo-train-20261123",
+      "source_commit": "b6d5d394dadaae8ffe39d149cb7521d4473de669",
+      "base_commit": "b6d5d394dadaae8ffe39d149cb7521d4473de669",
+      "previous_manifest_git_blob_sha1": "b4d546ced97f25089ba39eddfd17590f651d5c1b",
       "paths": [
         "automation/english_v6_b12_paired_tempo.py",
         ".github/workflows/english-v6-b12-paired-tempo.yml",
@@ -32362,7 +32505,7 @@
         "automation/english_v6_b12_panels/replication.json",
         "automation/english_v6_b12_panels/design.json"
       ],
-      "rationale": "Frozen B12 matched training after numerical acoustic nonpromotion of B11 and two verified positive TRAIN half-gain HEY failures. Both independent B12 DEV panels are newly reserved and separate from B11."
+      "rationale": "Retain actual 192+192 B12 paired TRAIN result with 79 original PCM, source-pinned SoX tempo, two disjoint independent DEV reservations and terminal B11 evidence. The original one-shot is spent."
     }
   ]
 }
