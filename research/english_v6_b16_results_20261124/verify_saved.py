@@ -37,10 +37,9 @@ def verify(artifact):
         require(r["model_pt_sha256"][m]==model["pt_sha256"],"same frozen actual model "+m)
     for cohort,arms in doc["cohort_events"].items():
         for arm,expected in arms.items():
-            actual=[r["summary"][cohort][arm][g]["events" if cohort!="synthetic_positive_hits" else "with_event"]
-                    for g in ("1.0","0.75","0.5")] if cohort!="synthetic_positive_hits" else [
-                        r["summary"]["synthetic_positive"][arm][g]["with_event"] for g in ("1.0","0.75","0.5")]
-                    ]
+            key = "synthetic_positive" if cohort == "synthetic_positive_hits" else cohort
+            metric = "with_event" if cohort == "synthetic_positive_hits" else "events"
+            actual = [r["summary"][key][arm][g][metric] for g in ("1.0", "0.75", "0.5")]
             require(actual==expected,"cohort original/gain score "+cohort+"/"+arm)
     require(len(r["added_ordinary_events"])==4 and
             not (r["lost_positives"] or r["extra_positive_events"]) and
