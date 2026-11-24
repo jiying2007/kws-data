@@ -1,0 +1,608 @@
+﻿2026-11-24T13:23:25.2949140Z Current runner version: '2.338.2'
+2026-11-24T13:23:25.2967198Z ##[group]Runner Image Provisioner
+2026-11-24T13:23:25.2967941Z Hosted Compute Agent
+2026-11-24T13:23:25.2968370Z Version: 20261111.635
+2026-11-24T13:23:25.2968819Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-24T13:23:25.2969354Z Build Date: 2026-11-11T01:49:01Z
+2026-11-24T13:23:25.2969833Z Worker ID: {9fd0abbb-e891-40f6-8522-e099266bba37}
+2026-11-24T13:23:25.2970322Z Region: us-west-2
+2026-11-24T13:23:25.2971009Z Cloud: AWS
+2026-11-24T13:23:25.2971438Z ##[endgroup]
+2026-11-24T13:23:25.2972450Z ##[group]Operating System
+2026-11-24T13:23:25.2972880Z Ubuntu
+2026-11-24T13:23:25.2973248Z 24.04.5
+2026-11-24T13:23:25.2973628Z LTS
+2026-11-24T13:23:25.2973987Z ##[endgroup]
+2026-11-24T13:23:25.2974370Z ##[group]Runner Image
+2026-11-24T13:23:25.2974794Z Image: ubuntu-24.04
+2026-11-24T13:23:25.2975202Z Version: 20261116.133.1
+2026-11-24T13:23:25.2976121Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.133/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-24T13:23:25.2977203Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.133
+2026-11-24T13:23:25.2977899Z ##[endgroup]
+2026-11-24T13:23:25.2978769Z ##[group]GITHUB_TOKEN Permissions
+2026-11-24T13:23:25.2980466Z Actions: read
+2026-11-24T13:23:25.2981132Z Contents: read
+2026-11-24T13:23:25.2981601Z Metadata: read
+2026-11-24T13:23:25.2982024Z ##[endgroup]
+2026-11-24T13:23:25.2983637Z Secret source: Actions
+2026-11-24T13:23:25.2984275Z Cache mode: write
+2026-11-24T13:23:25.2984785Z Prepare workflow directory
+2026-11-24T13:23:25.3264544Z Prepare all required actions
+2026-11-24T13:23:25.3313840Z Getting action download info
+2026-11-24T13:23:25.6946988Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-24T13:23:27.6561774Z Download action repository 'actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1' (SHA:ece7cb06caefa5fff74198d8649806c4678c61a1)
+2026-11-24T13:23:27.8144734Z Download action repository 'actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c' (SHA:3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+2026-11-24T13:23:28.3091771Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-24T13:23:28.5546559Z Complete job name: observers (whisper)
+2026-11-24T13:23:28.6178708Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-24T13:23:28.6179571Z with:
+2026-11-24T13:23:28.6180029Z   ref: 54c5f514d0aed0bf276927c8b6631245d833167c
+2026-11-24T13:23:28.6180409Z   persist-credentials: false
+2026-11-24T13:23:28.6181035Z   fetch-depth: 2
+2026-11-24T13:23:28.6181326Z   repository: jiying2007/kws-data
+2026-11-24T13:23:28.6183289Z   token: ***
+2026-11-24T13:23:28.6183574Z   ssh-strict: true
+2026-11-24T13:23:28.6183818Z   ssh-user: git
+2026-11-24T13:23:28.6184116Z   clean: true
+2026-11-24T13:23:28.6184449Z   sparse-checkout-cone-mode: true
+2026-11-24T13:23:28.6184823Z   fetch-tags: false
+2026-11-24T13:23:28.6185091Z   show-progress: true
+2026-11-24T13:23:28.6185341Z   lfs: false
+2026-11-24T13:23:28.6185609Z   submodules: false
+2026-11-24T13:23:28.6185874Z   set-safe-directory: true
+2026-11-24T13:23:28.6186192Z   allow-unsafe-pr-checkout: false
+2026-11-24T13:23:28.6187004Z env:
+2026-11-24T13:23:28.6187562Z   PREPARED_PARENT: b13379a895e5229dd2a3503fa246011357041fa2
+2026-11-24T13:23:28.6188008Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T13:23:28.6188315Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T13:23:28.6188623Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T13:23:28.6188940Z   OMP_NUM_THREADS: 2
+2026-11-24T13:23:28.6189194Z   MKL_NUM_THREADS: 2
+2026-11-24T13:23:28.6189461Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T13:23:28.6189764Z   PYTHONHASHSEED: 20261124
+2026-11-24T13:23:28.6190055Z ##[endgroup]
+2026-11-24T13:23:33.0894876Z Syncing repository: jiying2007/kws-data
+2026-11-24T13:23:33.0896166Z ##[group]Getting Git version info
+2026-11-24T13:23:33.0896874Z Working directory is '/home/runner/work/kws-data/kws-data'
+2026-11-24T13:23:33.0897532Z [command]/usr/bin/git version
+2026-11-24T13:23:33.3495764Z git version 2.56.1
+2026-11-24T13:23:33.3509781Z ##[endgroup]
+2026-11-24T13:23:33.3517968Z Temporarily overriding HOME='/home/runner/work/_temp/02c07dd9-fe6d-4fc5-b314-16c634dc8ba4' before making global git config changes
+2026-11-24T13:23:33.3519000Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T13:23:33.3523052Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/kws-data/kws-data
+2026-11-24T13:23:33.3897778Z Deleting the contents of '/home/runner/work/kws-data/kws-data'
+2026-11-24T13:23:33.3900383Z ##[group]Determining repository object format
+2026-11-24T13:23:33.3902016Z ##[endgroup]
+2026-11-24T13:23:33.3902635Z ##[group]Initializing the repository
+2026-11-24T13:23:33.3905906Z [command]/usr/bin/git init /home/runner/work/kws-data/kws-data
+2026-11-24T13:23:33.4845442Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-24T13:23:33.4846509Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-24T13:23:33.4847176Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-24T13:23:33.4847704Z hint: call:
+2026-11-24T13:23:33.4848200Z hint:
+2026-11-24T13:23:33.4848712Z hint: 	git config --global init.defaultBranch <name>
+2026-11-24T13:23:33.4849038Z hint:
+2026-11-24T13:23:33.4849331Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-24T13:23:33.4849758Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-24T13:23:33.4850098Z hint:
+2026-11-24T13:23:33.4850329Z hint: 	git branch -m <name>
+2026-11-24T13:23:33.4850595Z hint:
+2026-11-24T13:23:33.4851100Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-24T13:23:33.4853711Z Initialized empty Git repository in /home/runner/work/kws-data/kws-data/.git/
+2026-11-24T13:23:33.4862884Z [command]/usr/bin/git remote add origin https://github.com/jiying2007/kws-data
+2026-11-24T13:23:33.4918827Z ##[endgroup]
+2026-11-24T13:23:33.4919426Z ##[group]Disabling automatic garbage collection
+2026-11-24T13:23:33.4923315Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-24T13:23:33.4947101Z ##[endgroup]
+2026-11-24T13:23:33.4947832Z ##[group]Setting up auth
+2026-11-24T13:23:33.4948500Z Removing SSH command configuration
+2026-11-24T13:23:33.4952257Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T13:23:33.4981405Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T13:23:33.8439601Z Removing HTTP extra header
+2026-11-24T13:23:33.8444669Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T13:23:33.8473356Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-24T13:23:33.8619776Z Removing includeIf entries pointing to credentials config files
+2026-11-24T13:23:33.8624628Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T13:23:33.8650600Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-24T13:23:33.8803405Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-05cca4ce-5591-4086-b901-8cfa2b0abe98.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-24T13:23:33.8833045Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/kws-data/kws-data/.git.path /home/runner/work/_temp/git-credentials-05cca4ce-5591-4086-b901-8cfa2b0abe98.config
+2026-11-24T13:23:33.8854774Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/kws-data/kws-data/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-05cca4ce-5591-4086-b901-8cfa2b0abe98.config
+2026-11-24T13:23:33.8877931Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-05cca4ce-5591-4086-b901-8cfa2b0abe98.config
+2026-11-24T13:23:33.8904153Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-05cca4ce-5591-4086-b901-8cfa2b0abe98.config
+2026-11-24T13:23:33.8924032Z ##[endgroup]
+2026-11-24T13:23:33.8924486Z ##[group]Fetching the repository
+2026-11-24T13:23:33.8929583Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=2 origin 54c5f514d0aed0bf276927c8b6631245d833167c
+2026-11-24T13:23:47.8022013Z From https://github.com/jiying2007/kws-data
+2026-11-24T13:23:47.8022486Z  * branch            54c5f514d0aed0bf276927c8b6631245d833167c -> FETCH_HEAD
+2026-11-24T13:23:47.8029815Z [command]/usr/bin/git rev-parse --verify --quiet 54c5f514d0aed0bf276927c8b6631245d833167c^{object}
+2026-11-24T13:23:47.8053567Z 54c5f514d0aed0bf276927c8b6631245d833167c
+2026-11-24T13:23:47.8058278Z ##[endgroup]
+2026-11-24T13:23:47.8058776Z ##[group]Determining the checkout info
+2026-11-24T13:23:47.8059225Z ##[endgroup]
+2026-11-24T13:23:47.8062805Z [command]/usr/bin/git sparse-checkout disable
+2026-11-24T13:23:47.8134048Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-24T13:23:47.8158349Z ##[group]Checking out the ref
+2026-11-24T13:23:47.8162364Z [command]/usr/bin/git checkout --progress --force 54c5f514d0aed0bf276927c8b6631245d833167c
+2026-11-24T13:23:48.5497624Z Note: switching to '54c5f514d0aed0bf276927c8b6631245d833167c'.
+2026-11-24T13:23:48.5498253Z 
+2026-11-24T13:23:48.5499119Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-24T13:23:48.5500391Z changes and commit them, and you can discard any commits you make in this
+2026-11-24T13:23:48.5501049Z state without impacting any branches by switching back to a branch.
+2026-11-24T13:23:48.5501297Z 
+2026-11-24T13:23:48.5501481Z If you want to create a new branch to retain commits you create, you may
+2026-11-24T13:23:48.5502038Z do so (now or later) by using -c with the switch command. Example:
+2026-11-24T13:23:48.5502339Z 
+2026-11-24T13:23:48.5502651Z   git switch -c <new-branch-name>
+2026-11-24T13:23:48.5502877Z 
+2026-11-24T13:23:48.5503045Z Or undo this operation with:
+2026-11-24T13:23:48.5503441Z 
+2026-11-24T13:23:48.5503571Z   git switch -
+2026-11-24T13:23:48.5503704Z 
+2026-11-24T13:23:48.5504098Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-24T13:23:48.5504434Z 
+2026-11-24T13:23:48.5504761Z HEAD is now at 54c5f51 Execute B22's frozen fresh PRIMARY sources and five native observers once
+2026-11-24T13:23:48.5542702Z ##[endgroup]
+2026-11-24T13:23:48.5591813Z [command]/usr/bin/git log -1 --format=%H
+2026-11-24T13:23:48.5614077Z 54c5f514d0aed0bf276927c8b6631245d833167c
+2026-11-24T13:23:48.5623854Z ##[group]Removing auth
+2026-11-24T13:23:48.5624166Z Removing SSH command configuration
+2026-11-24T13:23:48.5625456Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T13:23:48.5651788Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T13:23:48.5811791Z Removing HTTP extra header
+2026-11-24T13:23:48.5814705Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T13:23:48.5837995Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-24T13:23:48.5987102Z Removing includeIf entries pointing to credentials config files
+2026-11-24T13:23:48.5990043Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T13:23:48.6012173Z includeif.gitdir:/home/runner/work/kws-data/kws-data/.git.path
+2026-11-24T13:23:48.6012831Z includeif.gitdir:/home/runner/work/kws-data/kws-data/.git/worktrees/*.path
+2026-11-24T13:23:48.6013343Z includeif.gitdir:/github/workspace/.git.path
+2026-11-24T13:23:48.6013690Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-24T13:23:48.6028410Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/kws-data/kws-data/.git.path
+2026-11-24T13:23:48.6047793Z /home/runner/work/_temp/git-credentials-05cca4ce-5591-4086-b901-8cfa2b0abe98.config
+2026-11-24T13:23:48.6070365Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/kws-data/kws-data/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-05cca4ce\-5591\-4086\-b901\-8cfa2b0abe98\.config
+2026-11-24T13:23:48.6089344Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/kws-data/kws-data/.git/worktrees/*.path
+2026-11-24T13:23:48.6106919Z /home/runner/work/_temp/git-credentials-05cca4ce-5591-4086-b901-8cfa2b0abe98.config
+2026-11-24T13:23:48.6118145Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/kws-data/kws-data/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-05cca4ce\-5591\-4086\-b901\-8cfa2b0abe98\.config
+2026-11-24T13:23:48.6138236Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-24T13:23:48.6156728Z /github/runner_temp/git-credentials-05cca4ce-5591-4086-b901-8cfa2b0abe98.config
+2026-11-24T13:23:48.6161604Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-05cca4ce\-5591\-4086\-b901\-8cfa2b0abe98\.config
+2026-11-24T13:23:48.6187561Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-24T13:23:48.6205052Z /github/runner_temp/git-credentials-05cca4ce-5591-4086-b901-8cfa2b0abe98.config
+2026-11-24T13:23:48.6209746Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-05cca4ce\-5591\-4086\-b901\-8cfa2b0abe98\.config
+2026-11-24T13:23:48.6234658Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-24T13:23:48.6383062Z Removing credentials config '/home/runner/work/_temp/git-credentials-05cca4ce-5591-4086-b901-8cfa2b0abe98.config'
+2026-11-24T13:23:48.6390177Z ##[endgroup]
+2026-11-24T13:23:48.6580021Z ##[group]Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+2026-11-24T13:23:48.6580369Z with:
+2026-11-24T13:23:48.6580596Z   python-version: 3.12
+2026-11-24T13:23:48.6581148Z   check-latest: false
+2026-11-24T13:23:48.6583033Z   token: ***
+2026-11-24T13:23:48.6583286Z   update-environment: true
+2026-11-24T13:23:48.6583558Z   allow-prereleases: false
+2026-11-24T13:23:48.6583807Z   freethreaded: false
+2026-11-24T13:23:48.6584025Z env:
+2026-11-24T13:23:48.6584270Z   PREPARED_PARENT: b13379a895e5229dd2a3503fa246011357041fa2
+2026-11-24T13:23:48.6584624Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T13:23:48.6584911Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T13:23:48.6585385Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T13:23:48.6585636Z   OMP_NUM_THREADS: 2
+2026-11-24T13:23:48.6585865Z   MKL_NUM_THREADS: 2
+2026-11-24T13:23:48.6586116Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T13:23:48.6586470Z   PYTHONHASHSEED: 20261124
+2026-11-24T13:23:48.6586717Z ##[endgroup]
+2026-11-24T13:23:48.7582508Z ##[group]Installed versions
+2026-11-24T13:23:49.0049449Z Successfully set up CPython (3.12.16)
+2026-11-24T13:23:49.0050180Z ##[endgroup]
+2026-11-24T13:23:49.0187028Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-11-24T13:23:49.0187444Z with:
+2026-11-24T13:23:49.0187729Z   name: english-v6-b22-primary-source-producer-45402179335
+2026-11-24T13:23:49.0188194Z   path: /home/runner/work/_temp/b22-source-producer
+2026-11-24T13:23:49.0188518Z   merge-multiple: false
+2026-11-24T13:23:49.0188767Z   repository: jiying2007/kws-data
+2026-11-24T13:23:49.0189053Z   run-id: 45402179335
+2026-11-24T13:23:49.0189282Z   skip-decompress: false
+2026-11-24T13:23:49.0189521Z   digest-mismatch: error
+2026-11-24T13:23:49.0189771Z env:
+2026-11-24T13:23:49.0190030Z   PREPARED_PARENT: b13379a895e5229dd2a3503fa246011357041fa2
+2026-11-24T13:23:49.0190348Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T13:23:49.0190607Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T13:23:49.0191044Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T13:23:49.0191341Z   OMP_NUM_THREADS: 2
+2026-11-24T13:23:49.0191564Z   MKL_NUM_THREADS: 2
+2026-11-24T13:23:49.0191876Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T13:23:49.0192114Z   PYTHONHASHSEED: 20261124
+2026-11-24T13:23:49.0192449Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:23:49.0192844Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T13:23:49.0193206Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:23:49.0193565Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:23:49.0193904Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:23:49.0194243Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T13:23:49.0194566Z ##[endgroup]
+2026-11-24T13:23:49.1265334Z Downloading single artifact
+2026-11-24T13:23:49.4477430Z Preparing to download the following artifacts:
+2026-11-24T13:23:49.4478580Z - english-v6-b22-primary-source-producer-45402179335 (ID: 14923562621, Size: 15016263, Expected Digest: sha256:a12f2c66431846821e7b279582cf0019c17f3d173d3a160562ef96ce8a9a7cf5)
+2026-11-24T13:23:50.0482254Z Redirecting to blob download url: https://productionresultssa4.blob.core.windows.net/actions-results/9c8756c7-c677-8302-8b0b-a152d9888e36/workflow-job-run-7fc752c7-1544-55a0-a184-77d8585ed9b8/artifacts/2a9a48a91b4e738ac9931e53dafb59cf60d1cd9fad62c04857944b2d2419cf56.zip
+2026-11-24T13:23:50.0483281Z Starting download of artifact to: /home/runner/work/_temp/b22-source-producer
+2026-11-24T13:23:50.4355510Z (node:2270) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-11-24T13:23:50.4356421Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T13:23:52.3849031Z SHA256 digest of downloaded artifact is a12f2c66431846821e7b279582cf0019c17f3d173d3a160562ef96ce8a9a7cf5
+2026-11-24T13:23:52.3850061Z Artifact download completed successfully.
+2026-11-24T13:23:52.3850484Z Total of 1 artifact(s) downloaded
+2026-11-24T13:23:52.3852830Z Download artifact has finished successfully
+2026-11-24T13:23:52.3999040Z ##[group]Run python -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source.py" guard "$PREPARED_PARENT"
+2026-11-24T13:23:52.3999844Z [36;1mpython -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source.py" guard "$PREPARED_PARENT"[0m
+2026-11-24T13:23:52.7485410Z shell: /usr/bin/bash -e {0}
+2026-11-24T13:23:52.7485978Z env:
+2026-11-24T13:23:52.7486278Z   PREPARED_PARENT: b13379a895e5229dd2a3503fa246011357041fa2
+2026-11-24T13:23:52.7486625Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T13:23:52.7486963Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T13:23:52.7487219Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T13:23:52.7487496Z   OMP_NUM_THREADS: 2
+2026-11-24T13:23:52.7487723Z   MKL_NUM_THREADS: 2
+2026-11-24T13:23:52.7488010Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T13:23:52.7488256Z   PYTHONHASHSEED: 20261124
+2026-11-24T13:23:52.7488537Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:23:52.7489065Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T13:23:52.7489488Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:23:52.7490005Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:23:52.7490399Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:23:52.7490969Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T13:23:52.7491305Z ##[endgroup]
+2026-11-24T13:23:57.0719026Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-11-24T13:23:57.0719435Z with:
+2026-11-24T13:23:57.0719688Z   name: english-v6-b22-primary-source-45402179335
+2026-11-24T13:23:57.0720026Z   path: /home/runner/work/_temp/source
+2026-11-24T13:23:57.0720290Z   merge-multiple: false
+2026-11-24T13:23:57.0720539Z   repository: jiying2007/kws-data
+2026-11-24T13:23:57.0721044Z   run-id: 45402179335
+2026-11-24T13:23:57.0721303Z   skip-decompress: false
+2026-11-24T13:23:57.0721556Z   digest-mismatch: error
+2026-11-24T13:23:57.0721782Z env:
+2026-11-24T13:23:57.0722043Z   PREPARED_PARENT: b13379a895e5229dd2a3503fa246011357041fa2
+2026-11-24T13:23:57.0722399Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T13:23:57.0722674Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T13:23:57.0722937Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T13:23:57.0723177Z   OMP_NUM_THREADS: 2
+2026-11-24T13:23:57.0723442Z   MKL_NUM_THREADS: 2
+2026-11-24T13:23:57.0723744Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T13:23:57.0723982Z   PYTHONHASHSEED: 20261124
+2026-11-24T13:23:57.0724275Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:23:57.0724669Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T13:23:57.0725081Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:23:57.0725422Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:23:57.0725761Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:23:57.0726116Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T13:23:57.0726441Z ##[endgroup]
+2026-11-24T13:23:57.1772800Z Downloading single artifact
+2026-11-24T13:23:57.4416076Z Preparing to download the following artifacts:
+2026-11-24T13:23:57.4416861Z - english-v6-b22-primary-source-45402179335 (ID: 14923907567, Size: 19885943, Expected Digest: sha256:7c869feef32ad40e2854ea55fb87b0e5cd31a7375cf21cd2a3e4533eabd568ec)
+2026-11-24T13:23:57.9850391Z Redirecting to blob download url: https://productionresultssa4.blob.core.windows.net/actions-results/9c8756c7-c677-8302-8b0b-a152d9888e36/workflow-job-run-7fc752c7-1544-55a0-a184-77d8585ed9b8/artifacts/440bbddffcaa5a0d9e8fa5d9cbeec9d353db6780388f3e628b50414082792f90.zip
+2026-11-24T13:23:57.9851998Z Starting download of artifact to: /home/runner/work/_temp/source
+2026-11-24T13:23:58.3508021Z (node:2287) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-11-24T13:23:58.3508914Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T13:24:00.5560841Z SHA256 digest of downloaded artifact is 7c869feef32ad40e2854ea55fb87b0e5cd31a7375cf21cd2a3e4533eabd568ec
+2026-11-24T13:24:00.5561580Z Artifact download completed successfully.
+2026-11-24T13:24:00.5561908Z Total of 1 artifact(s) downloaded
+2026-11-24T13:24:00.5565314Z Download artifact has finished successfully
+2026-11-24T13:24:00.5662464Z ##[group]Run python -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source.py" verify-source "$RUNNER_TEMP/source"
+2026-11-24T13:24:00.5663229Z [36;1mpython -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source.py" verify-source "$RUNNER_TEMP/source"[0m
+2026-11-24T13:24:00.5690813Z shell: /usr/bin/bash -e {0}
+2026-11-24T13:24:00.5691249Z env:
+2026-11-24T13:24:00.5691605Z   PREPARED_PARENT: b13379a895e5229dd2a3503fa246011357041fa2
+2026-11-24T13:24:00.5691990Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T13:24:00.5692294Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T13:24:00.5692565Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T13:24:00.5692831Z   OMP_NUM_THREADS: 2
+2026-11-24T13:24:00.5693228Z   MKL_NUM_THREADS: 2
+2026-11-24T13:24:00.5693500Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T13:24:00.5693791Z   PYTHONHASHSEED: 20261124
+2026-11-24T13:24:00.5694097Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:00.5694587Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T13:24:00.5695011Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:00.5695364Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:00.5695723Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:00.5696135Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T13:24:00.5696443Z ##[endgroup]
+2026-11-24T13:24:06.6168540Z ##[group]Run python -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source.py" consume-observer "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/observer-consumed" "$PREPARED_PARENT"
+2026-11-24T13:24:06.6170027Z [36;1mpython -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source.py" consume-observer "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/observer-consumed" "$PREPARED_PARENT"[0m
+2026-11-24T13:24:06.6199328Z shell: /usr/bin/bash -e {0}
+2026-11-24T13:24:06.6199663Z env:
+2026-11-24T13:24:06.6199979Z   PREPARED_PARENT: b13379a895e5229dd2a3503fa246011357041fa2
+2026-11-24T13:24:06.6200350Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T13:24:06.6200774Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T13:24:06.6201104Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T13:24:06.6201371Z   OMP_NUM_THREADS: 2
+2026-11-24T13:24:06.6201611Z   MKL_NUM_THREADS: 2
+2026-11-24T13:24:06.6201900Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T13:24:06.6202262Z   PYTHONHASHSEED: 20261124
+2026-11-24T13:24:06.6202568Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:06.6202985Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T13:24:06.6203392Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:06.6203782Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:06.6204142Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:06.6204516Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T13:24:06.6206795Z   GH_TOKEN: ***
+2026-11-24T13:24:06.6207067Z   PROVIDER: whisper
+2026-11-24T13:24:06.6207285Z ##[endgroup]
+2026-11-24T13:24:16.2263723Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-24T13:24:16.2264177Z with:
+2026-11-24T13:24:16.2264478Z   name: english-v6-b22-primary-observer-whisper-consumed
+2026-11-24T13:24:16.2264881Z   path: /home/runner/work/_temp/observer-consumed/
+2026-11-24T13:24:16.2265213Z   include-hidden-files: true
+2026-11-24T13:24:16.2265502Z   retention-days: 90
+2026-11-24T13:24:16.2265759Z   if-no-files-found: error
+2026-11-24T13:24:16.2266013Z   compression-level: 6
+2026-11-24T13:24:16.2266579Z   overwrite: false
+2026-11-24T13:24:16.2266831Z env:
+2026-11-24T13:24:16.2267119Z   PREPARED_PARENT: b13379a895e5229dd2a3503fa246011357041fa2
+2026-11-24T13:24:16.2267491Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T13:24:16.2267759Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T13:24:16.2268090Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T13:24:16.2268351Z   OMP_NUM_THREADS: 2
+2026-11-24T13:24:16.2268614Z   MKL_NUM_THREADS: 2
+2026-11-24T13:24:16.2268932Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T13:24:16.2269227Z   PYTHONHASHSEED: 20261124
+2026-11-24T13:24:16.2269523Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:16.2269942Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T13:24:16.2270326Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:16.2270881Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:16.2271267Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:16.2271678Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T13:24:16.2272158Z ##[endgroup]
+2026-11-24T13:24:16.3484191Z (node:2331) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-24T13:24:16.3484767Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T13:24:16.3543547Z With the provided path, there will be 1 file uploaded
+2026-11-24T13:24:16.3550806Z Artifact name is valid!
+2026-11-24T13:24:16.3552102Z Root directory input is valid!
+2026-11-24T13:24:16.9722195Z Beginning upload of artifact content to blob storage
+2026-11-24T13:24:16.9848396Z (node:2331) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-24T13:24:17.3127218Z Uploaded bytes 903
+2026-11-24T13:24:17.4052332Z Finished uploading artifact content to blob storage!
+2026-11-24T13:24:17.4052931Z SHA256 digest of uploaded artifact zip is e99f165fe6b3ee5d5877401b39357ade282556d672690b15d39a42794d150940
+2026-11-24T13:24:17.4053746Z Finalizing artifact upload
+2026-11-24T13:24:17.8736282Z Artifact english-v6-b22-primary-observer-whisper-consumed.zip successfully finalized. Artifact ID 14923997529
+2026-11-24T13:24:17.8737497Z Artifact english-v6-b22-primary-observer-whisper-consumed has been successfully uploaded! Final size is 903 bytes. Artifact ID is 14923997529
+2026-11-24T13:24:17.8742071Z Artifact download URL: https://github.com/jiying2007/kws-data/actions/runs/45402179335/artifacts/14923997529
+2026-11-24T13:24:17.8838463Z ##[group]Run set -euo pipefail
+2026-11-24T13:24:17.8838864Z [36;1mset -euo pipefail[0m
+2026-11-24T13:24:17.8839156Z [36;1mpython -m venv "$RUNNER_TEMP/b22-native-env"[0m
+2026-11-24T13:24:17.8839541Z [36;1mPIP="$RUNNER_TEMP/b22-native-env/bin/pip"[0m
+2026-11-24T13:24:17.8839952Z [36;1mFLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"[0m
+2026-11-24T13:24:17.8840425Z [36;1mif [ "$PROVIDER" != "parakeet" ]; then[0m
+2026-11-24T13:24:17.8840988Z [36;1m  if [ "$PROVIDER" = "qwen" ] || [ "$PROVIDER" = "whisper" ]; then[0m
+2026-11-24T13:24:17.8841570Z [36;1m    "$PIP" install $FLAGS 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu[0m
+2026-11-24T13:24:17.8842048Z [36;1m  else[0m
+2026-11-24T13:24:17.8842418Z [36;1m    "$PIP" install $FLAGS 'torch==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu[0m
+2026-11-24T13:24:17.8842873Z [36;1m  fi[0m
+2026-11-24T13:24:17.8843190Z [36;1mfi[0m
+2026-11-24T13:24:17.8843421Z [36;1mcase "$PROVIDER" in[0m
+2026-11-24T13:24:17.8843819Z [36;1m  qwen) "$PIP" install $FLAGS 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2' ;;[0m
+2026-11-24T13:24:17.8844276Z [36;1m  whisper) "$PIP" install $FLAGS 'openai-whisper==20250625' ;;[0m
+2026-11-24T13:24:17.8844736Z [36;1m  parakeet) "$PIP" install $FLAGS 'huggingface-hub==0.36.2' 'hf-xet==1.2.0' ;;[0m
+2026-11-24T13:24:17.8845285Z [36;1m  xlsr|lv60) "$PIP" install $FLAGS 'transformers==4.46.3' 'numpy==1.26.4' 'huggingface-hub==0.36.2' ;;[0m
+2026-11-24T13:24:17.8845692Z [36;1m  *) exit 7 ;;[0m
+2026-11-24T13:24:17.8845983Z [36;1mesac[0m
+2026-11-24T13:24:17.8846293Z [36;1m"$RUNNER_TEMP/b22-native-env/bin/python" -m pip check[0m
+2026-11-24T13:24:17.8877482Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T13:24:17.8877819Z env:
+2026-11-24T13:24:17.8878205Z   PREPARED_PARENT: b13379a895e5229dd2a3503fa246011357041fa2
+2026-11-24T13:24:17.8878550Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T13:24:17.8878889Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T13:24:17.8879187Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T13:24:17.8879492Z   OMP_NUM_THREADS: 2
+2026-11-24T13:24:17.8879729Z   MKL_NUM_THREADS: 2
+2026-11-24T13:24:17.8880006Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T13:24:17.8880294Z   PYTHONHASHSEED: 20261124
+2026-11-24T13:24:17.8880621Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:17.8881351Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T13:24:17.8881757Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:17.8882179Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:17.8882547Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:17.8882952Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T13:24:17.8883273Z   PROVIDER: whisper
+2026-11-24T13:24:17.8883844Z ##[endgroup]
+2026-11-24T13:24:21.6411260Z Looking in indexes: https://pypi.org/simple, https://download.pytorch.org/whl/cpu
+2026-11-24T13:24:21.8204477Z Collecting torch==2.9.1+cpu
+2026-11-24T13:24:21.8832967Z   Downloading https://download-r2.pytorch.org/whl/cpu/torch-2.9.1%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (29 kB)
+2026-11-24T13:24:21.9606115Z Collecting torchaudio==2.9.1+cpu
+2026-11-24T13:24:21.9820190Z   Downloading https://download-r2.pytorch.org/whl/cpu/torchaudio-2.9.1%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (6.9 kB)
+2026-11-24T13:24:22.0245371Z Collecting filelock (from torch==2.9.1+cpu)
+2026-11-24T13:24:22.0623268Z   Downloading filelock-4.3.1-py3-none-any.whl.metadata (2.3 kB)
+2026-11-24T13:24:22.0896321Z Collecting typing-extensions>=4.10.0 (from torch==2.9.1+cpu)
+2026-11-24T13:24:22.0975411Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-11-24T13:24:22.1748315Z Collecting setuptools (from torch==2.9.1+cpu)
+2026-11-24T13:24:22.1827891Z   Downloading setuptools-84.2.1-py3-none-any.whl.metadata (6.6 kB)
+2026-11-24T13:24:22.2157801Z Collecting sympy>=1.13.3 (from torch==2.9.1+cpu)
+2026-11-24T13:24:22.2236280Z   Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+2026-11-24T13:24:22.2611367Z Collecting networkx>=2.5.1 (from torch==2.9.1+cpu)
+2026-11-24T13:24:22.2688996Z   Downloading networkx-3.7-py3-none-any.whl.metadata (6.7 kB)
+2026-11-24T13:24:22.2926794Z Collecting jinja2 (from torch==2.9.1+cpu)
+2026-11-24T13:24:22.3001907Z   Downloading https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+2026-11-24T13:24:22.3351703Z Collecting fsspec>=0.8.5 (from torch==2.9.1+cpu)
+2026-11-24T13:24:22.3435613Z   Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+2026-11-24T13:24:22.3858614Z Collecting mpmath<1.4,>=1.1.0 (from sympy>=1.13.3->torch==2.9.1+cpu)
+2026-11-24T13:24:22.3933189Z   Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+2026-11-24T13:24:22.4406609Z Collecting MarkupSafe>=2.0 (from jinja2->torch==2.9.1+cpu)
+2026-11-24T13:24:22.4489221Z   Downloading markupsafe-3.0.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+2026-11-24T13:24:22.4652013Z Downloading https://download-r2.pytorch.org/whl/cpu/torch-2.9.1%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl (184.4 MB)
+2026-11-24T13:24:23.0169183Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 184.4/184.4 MB 343.8 MB/s eta 0:00:00
+2026-11-24T13:24:23.0321797Z Downloading https://download-r2.pytorch.org/whl/cpu/torchaudio-2.9.1%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl (495 kB)
+2026-11-24T13:24:23.0432342Z Downloading fsspec-2026.9.0-py3-none-any.whl (221 kB)
+2026-11-24T13:24:23.0698515Z Downloading networkx-3.7-py3-none-any.whl (2.1 MB)
+2026-11-24T13:24:23.0993158Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 87.7 MB/s eta 0:00:00
+2026-11-24T13:24:23.1073061Z Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
+2026-11-24T13:24:23.1247398Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 386.7 MB/s eta 0:00:00
+2026-11-24T13:24:23.1325222Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-11-24T13:24:23.1406222Z Downloading filelock-4.3.1-py3-none-any.whl (244 kB)
+2026-11-24T13:24:23.1567224Z Downloading https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl (134 kB)
+2026-11-24T13:24:23.1649070Z Downloading setuptools-84.2.1-py3-none-any.whl (876 kB)
+2026-11-24T13:24:23.1683009Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 876.3/876.3 kB 418.0 MB/s eta 0:00:00
+2026-11-24T13:24:23.1759833Z Downloading markupsafe-3.0.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+2026-11-24T13:24:23.1837809Z Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+2026-11-24T13:24:23.1855256Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 1.4 GB/s eta 0:00:00
+2026-11-24T13:24:23.4642013Z Installing collected packages: mpmath, typing-extensions, sympy, setuptools, networkx, MarkupSafe, fsspec, filelock, jinja2, torch, torchaudio
+2026-11-24T13:24:36.2452975Z Successfully installed MarkupSafe-3.0.4 filelock-4.3.1 fsspec-2026.9.0 jinja2-3.1.6 mpmath-1.3.0 networkx-3.7 setuptools-84.2.1 sympy-1.14.0 torch-2.9.1+cpu torchaudio-2.9.1+cpu typing-extensions-4.16.0
+2026-11-24T13:24:37.2096709Z Collecting openai-whisper==20250625
+2026-11-24T13:24:37.2481775Z   Downloading openai_whisper-20250625.tar.gz (803 kB)
+2026-11-24T13:24:37.3101871Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 803.2/803.2 kB 16.1 MB/s eta 0:00:00
+2026-11-24T13:24:37.3372754Z   Installing build dependencies: started
+2026-11-24T13:24:38.7127945Z   Installing build dependencies: finished with status 'done'
+2026-11-24T13:24:38.7132767Z   Getting requirements to build wheel: started
+2026-11-24T13:24:39.0299316Z   Getting requirements to build wheel: finished with status 'done'
+2026-11-24T13:24:39.0306356Z   Preparing metadata (pyproject.toml): started
+2026-11-24T13:24:39.1732238Z   Preparing metadata (pyproject.toml): finished with status 'done'
+2026-11-24T13:24:39.1908664Z Collecting more-itertools (from openai-whisper==20250625)
+2026-11-24T13:24:39.1987881Z   Downloading more_itertools-11.2.1-py3-none-any.whl.metadata (42 kB)
+2026-11-24T13:24:39.2746217Z Collecting numba (from openai-whisper==20250625)
+2026-11-24T13:24:39.2826085Z   Downloading numba-0.68.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (2.8 kB)
+2026-11-24T13:24:39.4121484Z Collecting numpy (from openai-whisper==20250625)
+2026-11-24T13:24:39.4202214Z   Downloading numpy-2.5.5-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-11-24T13:24:39.4445898Z Collecting tiktoken (from openai-whisper==20250625)
+2026-11-24T13:24:39.4521896Z   Downloading tiktoken-0.14.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (6.7 kB)
+2026-11-24T13:24:39.4539538Z Requirement already satisfied: torch in /home/runner/work/_temp/b22-native-env/lib/python3.12/site-packages (from openai-whisper==20250625) (2.9.1+cpu)
+2026-11-24T13:24:39.4753563Z Collecting tqdm (from openai-whisper==20250625)
+2026-11-24T13:24:39.4832555Z   Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+2026-11-24T13:24:39.5020074Z Collecting triton>=2 (from openai-whisper==20250625)
+2026-11-24T13:24:39.5098957Z   Downloading triton-3.9.0-cp312-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (978 bytes)
+2026-11-24T13:24:39.5444889Z Collecting llvmlite<0.51,>=0.50.0dev0 (from numba->openai-whisper==20250625)
+2026-11-24T13:24:39.5521463Z   Downloading llvmlite-0.50.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.1 kB)
+2026-11-24T13:24:39.8035339Z Collecting regex (from tiktoken->openai-whisper==20250625)
+2026-11-24T13:24:39.8114107Z   Downloading regex-2026.11.23-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+2026-11-24T13:24:39.8325559Z Collecting requests (from tiktoken->openai-whisper==20250625)
+2026-11-24T13:24:39.8406582Z   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+2026-11-24T13:24:39.8438726Z Requirement already satisfied: filelock in /home/runner/work/_temp/b22-native-env/lib/python3.12/site-packages (from torch->openai-whisper==20250625) (4.3.1)
+2026-11-24T13:24:39.8439846Z Requirement already satisfied: typing-extensions>=4.10.0 in /home/runner/work/_temp/b22-native-env/lib/python3.12/site-packages (from torch->openai-whisper==20250625) (4.16.0)
+2026-11-24T13:24:39.8444653Z Requirement already satisfied: setuptools in /home/runner/work/_temp/b22-native-env/lib/python3.12/site-packages (from torch->openai-whisper==20250625) (84.2.1)
+2026-11-24T13:24:39.8446121Z Requirement already satisfied: sympy>=1.13.3 in /home/runner/work/_temp/b22-native-env/lib/python3.12/site-packages (from torch->openai-whisper==20250625) (1.14.0)
+2026-11-24T13:24:39.8447126Z Requirement already satisfied: networkx>=2.5.1 in /home/runner/work/_temp/b22-native-env/lib/python3.12/site-packages (from torch->openai-whisper==20250625) (3.7)
+2026-11-24T13:24:39.8449844Z Requirement already satisfied: jinja2 in /home/runner/work/_temp/b22-native-env/lib/python3.12/site-packages (from torch->openai-whisper==20250625) (3.1.6)
+2026-11-24T13:24:39.8452580Z Requirement already satisfied: fsspec>=0.8.5 in /home/runner/work/_temp/b22-native-env/lib/python3.12/site-packages (from torch->openai-whisper==20250625) (2026.9.0)
+2026-11-24T13:24:39.8555137Z Requirement already satisfied: mpmath<1.4,>=1.1.0 in /home/runner/work/_temp/b22-native-env/lib/python3.12/site-packages (from sympy>=1.13.3->torch->openai-whisper==20250625) (1.3.0)
+2026-11-24T13:24:39.8569759Z Requirement already satisfied: MarkupSafe>=2.0 in /home/runner/work/_temp/b22-native-env/lib/python3.12/site-packages (from jinja2->torch->openai-whisper==20250625) (3.0.4)
+2026-11-24T13:24:39.9312878Z Collecting charset_normalizer<4,>=2 (from requests->tiktoken->openai-whisper==20250625)
+2026-11-24T13:24:39.9391072Z   Downloading charset_normalizer-3.5.3-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (43 kB)
+2026-11-24T13:24:39.9544905Z Collecting idna<4,>=2.5 (from requests->tiktoken->openai-whisper==20250625)
+2026-11-24T13:24:39.9621384Z   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+2026-11-24T13:24:39.9824981Z Collecting urllib3<3,>=1.26 (from requests->tiktoken->openai-whisper==20250625)
+2026-11-24T13:24:39.9902190Z   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+2026-11-24T13:24:40.0071720Z Collecting certifi>=2023.5.7 (from requests->tiktoken->openai-whisper==20250625)
+2026-11-24T13:24:40.0146921Z   Downloading certifi-2026.11.20-py3-none-any.whl.metadata (2.5 kB)
+2026-11-24T13:24:40.0311665Z Downloading triton-3.9.0-cp312-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (285.7 MB)
+2026-11-24T13:24:40.8554475Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 285.7/285.7 MB 498.7 MB/s eta 0:00:00
+2026-11-24T13:24:40.8651064Z Downloading more_itertools-11.2.1-py3-none-any.whl (74 kB)
+2026-11-24T13:24:40.8759128Z Downloading numba-0.68.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (3.9 MB)
+2026-11-24T13:24:40.8918116Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.9/3.9 MB 258.3 MB/s eta 0:00:00
+2026-11-24T13:24:40.8999509Z Downloading numpy-2.5.5-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (15.7 MB)
+2026-11-24T13:24:40.9605400Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.7/15.7 MB 263.5 MB/s eta 0:00:00
+2026-11-24T13:24:40.9705756Z Downloading tiktoken-0.14.0-cp312-cp312-manylinux_2_28_x86_64.whl (1.2 MB)
+2026-11-24T13:24:40.9741948Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 524.4 MB/s eta 0:00:00
+2026-11-24T13:24:40.9821059Z Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+2026-11-24T13:24:40.9901869Z Downloading llvmlite-0.50.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (59.7 MB)
+2026-11-24T13:24:41.2172244Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 59.7/59.7 MB 265.9 MB/s eta 0:00:00
+2026-11-24T13:24:41.2248983Z Downloading regex-2026.11.23-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (809 kB)
+2026-11-24T13:24:41.2278164Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 809.2/809.2 kB 496.3 MB/s eta 0:00:00
+2026-11-24T13:24:41.2359233Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-11-24T13:24:41.2439265Z Downloading certifi-2026.11.20-py3-none-any.whl (127 kB)
+2026-11-24T13:24:41.2520169Z Downloading charset_normalizer-3.5.3-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (257 kB)
+2026-11-24T13:24:41.2601712Z Downloading idna-3.20-py3-none-any.whl (69 kB)
+2026-11-24T13:24:41.2680864Z Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+2026-11-24T13:24:41.5317369Z Building wheels for collected packages: openai-whisper
+2026-11-24T13:24:41.5323656Z   Building wheel for openai-whisper (pyproject.toml): started
+2026-11-24T13:24:41.7855480Z   Building wheel for openai-whisper (pyproject.toml): finished with status 'done'
+2026-11-24T13:24:41.7865576Z   Created wheel for openai-whisper: filename=openai_whisper-20250625-py3-none-any.whl size=803979 sha256=68e9c3f87ad1aec5bf29ef7db47f6f95206640874f24649477c15fef9d7071ca
+2026-11-24T13:24:41.7866733Z   Stored in directory: /tmp/pip-ephem-wheel-cache-ue37b2h0/wheels/61/d2/20/09ec9bef734d126cba375b15898010b6cc28578d8afdde5869
+2026-11-24T13:24:41.7884079Z Successfully built openai-whisper
+2026-11-24T13:24:41.8192110Z Installing collected packages: urllib3, triton, tqdm, regex, numpy, more-itertools, llvmlite, idna, charset_normalizer, certifi, requests, numba, tiktoken, openai-whisper
+2026-11-24T13:24:49.1990963Z Successfully installed certifi-2026.11.20 charset_normalizer-3.5.3 idna-3.20 llvmlite-0.50.0 more-itertools-11.2.1 numba-0.68.1 numpy-2.5.5 openai-whisper-20250625 regex-2026.11.23 requests-2.34.2 tiktoken-0.14.0 tqdm-4.70.1 triton-3.9.0 urllib3-2.8.0
+2026-11-24T13:24:49.4696865Z No broken requirements found.
+2026-11-24T13:24:49.5039639Z ##[group]Run set -euo pipefail
+2026-11-24T13:24:49.5040002Z [36;1mset -euo pipefail[0m
+2026-11-24T13:24:49.5041316Z [36;1m"$RUNNER_TEMP/b22-native-env/bin/python" -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source.py" observe "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/$PROVIDER" "$PREPARED_PARENT"[0m
+2026-11-24T13:24:49.5069103Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T13:24:49.5069553Z env:
+2026-11-24T13:24:49.5069841Z   PREPARED_PARENT: b13379a895e5229dd2a3503fa246011357041fa2
+2026-11-24T13:24:49.5070206Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T13:24:49.5070490Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T13:24:49.5070941Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T13:24:49.5071275Z   OMP_NUM_THREADS: 2
+2026-11-24T13:24:49.5071540Z   MKL_NUM_THREADS: 2
+2026-11-24T13:24:49.5071808Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T13:24:49.5072063Z   PYTHONHASHSEED: 20261124
+2026-11-24T13:24:49.5072479Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:49.5072876Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T13:24:49.5073312Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:49.5073676Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:49.5074091Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:24:49.5074462Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T13:24:49.5076536Z   GH_TOKEN: ***
+2026-11-24T13:24:49.5076811Z   PROVIDER: whisper
+2026-11-24T13:24:49.5077049Z ##[endgroup]
+2026-11-24T13:25:08.9175777Z Traceback (most recent call last):
+2026-11-24T13:25:08.9185636Z   File "/home/runner/work/_temp/b22-source-producer/repository/automation/english_v6_b22_source.py", line 277, in <module>
+2026-11-24T13:25:08.9186623Z     elif args.mode == "observe": observe(args.provider, args.source, args.out, args.prepared_parent)
+2026-11-24T13:25:08.9187161Z                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-24T13:25:08.9187699Z   File "/home/runner/work/_temp/b22-source-producer/repository/automation/english_v6_b22_source.py", line 187, in observe
+2026-11-24T13:25:08.9188378Z     return observers.observe(provider, source, out, read_rows=read_source, schema=BATCH, registration=expected)
+2026-11-24T13:25:08.9188899Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-24T13:25:08.9189460Z   File "/home/runner/work/_temp/b22-source-producer/repository/automation/english_v6_b22_source_observe.py", line 173, in observe
+2026-11-24T13:25:08.9190069Z     need(complete, "WHOLE_PANEL_STOP_NATIVE_RETURN_OR_PAYLOAD_FAILURE_NO_RETRY")
+2026-11-24T13:25:08.9191049Z   File "/home/runner/work/_temp/b22-source-producer/repository/automation/english_v6_b18_asr_adapter.py", line 42, in need
+2026-11-24T13:25:08.9191588Z     raise ValueError(reason)
+2026-11-24T13:25:08.9191984Z ValueError: WHOLE_PANEL_STOP_NATIVE_RETURN_OR_PAYLOAD_FAILURE_NO_RETRY
+2026-11-24T13:25:08.9679085Z ##[error]Process completed with exit code 1.
+2026-11-24T13:25:08.9735717Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-24T13:25:08.9736119Z with:
+2026-11-24T13:25:08.9736387Z   name: b22-primary-dev-observer-whisper
+2026-11-24T13:25:08.9736703Z   path: /home/runner/work/_temp/whisper/
+2026-11-24T13:25:08.9737013Z   include-hidden-files: true
+2026-11-24T13:25:08.9737258Z   retention-days: 90
+2026-11-24T13:25:08.9737665Z   if-no-files-found: warn
+2026-11-24T13:25:08.9737909Z   compression-level: 6
+2026-11-24T13:25:08.9738208Z   overwrite: false
+2026-11-24T13:25:08.9738427Z env:
+2026-11-24T13:25:08.9738741Z   PREPARED_PARENT: b13379a895e5229dd2a3503fa246011357041fa2
+2026-11-24T13:25:08.9739063Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T13:25:08.9739377Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T13:25:08.9739651Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T13:25:08.9739921Z   OMP_NUM_THREADS: 2
+2026-11-24T13:25:08.9740171Z   MKL_NUM_THREADS: 2
+2026-11-24T13:25:08.9740441Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T13:25:08.9740969Z   PYTHONHASHSEED: 20261124
+2026-11-24T13:25:08.9741279Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:25:08.9741697Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T13:25:08.9742127Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:25:08.9742522Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:25:08.9742878Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T13:25:08.9743427Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T13:25:08.9743741Z ##[endgroup]
+2026-11-24T13:25:09.0972610Z (node:2494) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-24T13:25:09.0973265Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T13:25:09.1029927Z With the provided path, there will be 6 files uploaded
+2026-11-24T13:25:09.1067357Z Artifact name is valid!
+2026-11-24T13:25:09.1081533Z Root directory input is valid!
+2026-11-24T13:25:09.4973270Z Beginning upload of artifact content to blob storage
+2026-11-24T13:25:09.5162353Z (node:2494) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-24T13:25:09.9263624Z Uploaded bytes 16377
+2026-11-24T13:25:10.0196520Z Finished uploading artifact content to blob storage!
+2026-11-24T13:25:10.0197210Z SHA256 digest of uploaded artifact zip is 65406f179a88e05c660606c66653df8f72279aebc5508af2e204d41c76a81a80
+2026-11-24T13:25:10.0197945Z Finalizing artifact upload
+2026-11-24T13:25:10.4468253Z Artifact b22-primary-dev-observer-whisper.zip successfully finalized. Artifact ID 14923418714
+2026-11-24T13:25:10.4469236Z Artifact b22-primary-dev-observer-whisper has been successfully uploaded! Final size is 16377 bytes. Artifact ID is 14923418714
+2026-11-24T13:25:10.4473632Z Artifact download URL: https://github.com/jiying2007/kws-data/actions/runs/45402179335/artifacts/14923418714
+2026-11-24T13:25:10.4629351Z Post job cleanup.
+2026-11-24T13:25:10.5417798Z [command]/usr/bin/git version
+2026-11-24T13:25:10.5462085Z git version 2.56.1
+2026-11-24T13:25:10.5478909Z Temporarily overriding HOME='/home/runner/work/_temp/7ea22eb1-e61a-4a68-a0b4-6f1e77566546' before making global git config changes
+2026-11-24T13:25:10.5480095Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T13:25:10.5483390Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/kws-data/kws-data
+2026-11-24T13:25:10.5508927Z Removing SSH command configuration
+2026-11-24T13:25:10.5513594Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T13:25:10.5538633Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T13:25:10.5702958Z Removing HTTP extra header
+2026-11-24T13:25:10.5706504Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T13:25:10.5728461Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-24T13:25:10.5891767Z Removing includeIf entries pointing to credentials config files
+2026-11-24T13:25:10.5897405Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T13:25:10.5926524Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-24T13:25:10.6219932Z Cleaning up orphan processes
+2026-11-24T13:25:10.6451277Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

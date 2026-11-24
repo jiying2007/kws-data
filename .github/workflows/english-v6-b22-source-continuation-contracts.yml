@@ -1,0 +1,59 @@
+name: English B22 text continuation contracts and original zero-call proof
+'on':
+  pull_request:
+    paths:
+    - 'automation/*b22*'
+    - '.github/workflows/*b22*'
+    - 'research/english_v6_b22_source_20261124/**'
+    - 'research/auto-tts-voice-clone-20261102/campaign.py'
+    - 'research/auto-tts-voice-clone-20261102/runner.py'
+  push:
+    branches: [main]
+    paths:
+    - 'automation/*b22*'
+    - '.github/workflows/*b22*'
+    - 'research/english_v6_b22_source_20261124/**'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  no-science-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+        fetch-depth: 1
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Verify unchanged science and real dynamic loader imports without native runtimes
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -SIB automation/english_v6_b22_source_continuation.py check
+        python -SIB automation/test_english_v6_b22_source_dynamic_preflight.py -v
+        python -SIB automation/test_english_v6_b22_source_origin.py -v
+        python -SIB automation/test_english_v6_b22_source_continuation.py -v
+    - name: Download and verify the original failed run and all seven immutable artifacts
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python -SIB automation/english_v6_b22_source_origin.py fetch "$RUNNER_TEMP/b22-original-source" > "$RUNNER_TEMP/B22_ORIGIN_READBACK.json"
+    - name: Independently reuse actual audio and phone bytes with synthetic local identity only
+      env:
+        B22_ORIGIN_DIRECTORY: ${{ runner.temp }}/b22-original-source
+      run: python -SIB automation/test_english_v6_b22_source_continuation.py -v
+    - name: Verify sealed later stages without opening or executing them
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -SIB automation/test_english_v6_b22_replication_sources.py -v
+        python -SIB automation/test_english_v6_b22_replication_eval.py -v
+        python -SIB automation/test_english_v6_b22_engineering.py -v
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b22-original-source-readback-contract-${{ github.run_id }}
+        path: ${{ runner.temp }}/B22_ORIGIN_READBACK.json
+        if-no-files-found: error
+        retention-days: 90

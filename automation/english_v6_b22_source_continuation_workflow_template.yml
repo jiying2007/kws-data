@@ -1,0 +1,216 @@
+name: English B22 first text-only source continuation with original audio and phones
+'on':
+  push:
+    branches:
+    - research/en-v6-b22-primary-source-continuation-once-20261124
+    paths:
+    - .github/workflows/english-v6-b22-primary-source-continuation-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: en-v6-b22-primary-text360-continuation-once
+  cancel-in-progress: false
+env:
+  PREPARED_PARENT: '__B22_REVIEWED_SOURCE_CONTINUATION_PARENT__'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261124'
+jobs:
+  sources:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b22-primary-source-continuation-once-20261124' && github.run_attempt == 1 && github.event.before == '__B22_REVIEWED_SOURCE_CONTINUATION_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 115
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Capture exact Git-bound scientific producer
+      run: |
+        python -IB automation/test_english_v6_b22_source_continuation.py -v
+        python -IB automation/english_v6_b22_source_continuation_producer.py "$RUNNER_TEMP/b22-source-producer" --prepared-parent "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b22-primary-source-producer-${{ github.run_id }}
+        path: ${{ runner.temp }}/b22-source-producer/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - name: Authenticate all original failure evidence before any new budget
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        python -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source_continuation.py" guard "$PREPARED_PARENT"
+        python -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source_continuation.py" check
+        python -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source_continuation.py" fetch-origin "$RUNNER_TEMP/original-source" "$PREPARED_PARENT"
+    - name: Consume exactly the three original zero-call text observers
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source_continuation.py" consume "$RUNNER_TEMP/original-source" "$RUNNER_TEMP/continuation-consumed" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b22-primary-source-text-continuation-consumed
+        path: ${{ runner.temp }}/continuation-consumed/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - name: Verify durable budget and copy original audio and completed phone evidence byte for byte
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source_continuation.py" reuse "$RUNNER_TEMP/original-source" "$RUNNER_TEMP/source" "$RUNNER_TEMP/phones" "$RUNNER_TEMP/continuation-consumed" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b22-primary-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: b22-primary-dev-observer-xlsr
+        path: ${{ runner.temp }}/phones/xlsr/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: b22-primary-dev-observer-lv60
+        path: ${{ runner.temp }}/phones/lv60/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+  observers:
+    needs: sources
+    runs-on: ubuntu-24.04
+    timeout-minutes: 145
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        provider: [qwen, parakeet, whisper]
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b22-primary-source-producer-${{ github.run_id }}
+        path: ${{ runner.temp }}/b22-source-producer
+    - name: Guard the actual first continuation before text-model installation
+      run: python -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source_continuation.py" guard "$PREPARED_PARENT"
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b22-primary-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - name: Read every original including natural rejects before observer installation
+      run: python -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source_continuation.py" verify-source "$RUNNER_TEMP/source"
+    - name: Consume this provider's exact original-observation budget before model installation
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PROVIDER: ${{ matrix.provider }}
+      run: python -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source_continuation.py" consume-observer "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/observer-consumed" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b22-primary-text-continuation-${{ matrix.provider }}-consumed
+        path: ${{ runner.temp }}/observer-consumed/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - name: Install one pinned native observer runtime
+      shell: bash
+      timeout-minutes: 19
+      env:
+        PROVIDER: ${{ matrix.provider }}
+      run: |
+        set -euo pipefail
+        python -m venv "$RUNNER_TEMP/b22-native-env"
+        PIP="$RUNNER_TEMP/b22-native-env/bin/pip"
+        FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+        if [ "$PROVIDER" != "parakeet" ]; then
+          "$PIP" install $FLAGS 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+        fi
+        case "$PROVIDER" in
+          qwen) "$PIP" install $FLAGS 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2' ;;
+          whisper) "$PIP" install $FLAGS 'openai-whisper==20250625' ;;
+          parakeet) "$PIP" install $FLAGS 'huggingface-hub==0.36.2' 'hf-xet==1.2.0' ;;
+          *) exit 7 ;;
+        esac
+        "$RUNNER_TEMP/b22-native-env/bin/python" -m pip check
+    - name: Save native return before validation for each full original
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PROVIDER: ${{ matrix.provider }}
+      run: |
+        set -euo pipefail
+        "$RUNNER_TEMP/b22-native-env/bin/python" -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source_continuation.py" observe "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/$PROVIDER" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: b22-primary-dev-observer-${{ matrix.provider }}
+        path: ${{ runner.temp }}/${{ matrix.provider }}/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: warn
+  readback:
+    needs: [sources, observers]
+    if: always() && needs.sources.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b22-primary-source-producer-${{ github.run_id }}
+        path: ${{ runner.temp }}/b22-source-producer
+    - name: Guard the actual continuation event before mixed-origin source readback
+      run: python -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source_continuation.py" guard "$PREPARED_PARENT"
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b22-primary-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        pattern: b22-primary-dev-observer-*
+        path: ${{ runner.temp }}/providers
+    - name: Require five valid raw receipts per source before unchanged admission
+      shell: bash
+      run: |
+        set -euo pipefail
+        for p in qwen whisper parakeet xlsr lv60; do
+          mv "$RUNNER_TEMP/providers/b22-primary-dev-observer-$p" "$RUNNER_TEMP/providers/$p"
+        done
+        mkdir "$RUNNER_TEMP/final"
+        python -IB "$RUNNER_TEMP/b22-source-producer/repository/automation/english_v6_b22_source_continuation.py" screen "$RUNNER_TEMP/source" "$RUNNER_TEMP/providers" "$RUNNER_TEMP/final/SCREEN.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b22-primary-frozen-screen-${{ github.run_id }}
+        path: ${{ runner.temp }}/final/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
