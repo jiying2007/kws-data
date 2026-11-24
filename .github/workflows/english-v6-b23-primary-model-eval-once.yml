@@ -1,0 +1,95 @@
+name: B23 independent primary of new challenger and immutable historical control
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b23_primary_eval.py
+      - automation/english_v6_b23_primary_inputs.json
+      - automation/english_v6_b23_primary_producer.json
+      - automation/english_v6_b23_primary_workflow_template.yml
+      - automation/test_english_v6_b23_primary_eval.py
+      - automation/bind_b23_primary.py
+      - automation/english_v6_b23_quality_readback.py
+      - automation/test_english_v6_b23_quality_readback.py
+      - automation/test_bind_b23_primary.py
+      - .github/workflows/english-v6-b23-primary-model-eval-once.yml
+  push:
+    branches: [research/en-v6-b23-primary-scoring-once-20261124]
+    paths: [.github/workflows/english-v6-b23-primary-model-eval-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b23-one-frozen-primary-assessment
+  cancel-in-progress: false
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Offline provenance, source-identity and no-replay contracts only
+        run: |
+          python -SIB automation/test_english_v6_b23_primary_eval.py -v
+          python -SIB -O automation/test_english_v6_b23_primary_eval.py -v
+          python -SIB -OO automation/test_english_v6_b23_primary_eval.py -v
+          python -SIB automation/test_english_v6_b23_quality_readback.py -v
+          python -SIB automation/test_bind_b23_primary.py -v
+          python -SIB automation/english_v6_b23_primary_eval.py check
+  score:
+    needs: contracts
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B23_REVIEWED_SCORING_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261124'
+      PREPARED_PARENT: '__B23_REVIEWED_SCORING_PARENT__'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: '${{ github.sha }}', persist-credentials: false, fetch-depth: 2}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Authenticate all original artifacts and both actual producer closures
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python -SIB automation/english_v6_b23_primary_eval.py fetch --inputs "$RUNNER_TEMP/b23-inputs" --prepared-parent "$PREPARED_PARENT"
+      - name: Complete raw-source, native SCREEN, lineage and TRAIN checks before Torch exists
+        run: python -SIB automation/english_v6_b23_primary_eval.py preflight --inputs "$RUNNER_TEMP/b23-inputs" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b23-primary-consumed
+          path: ${{ runner.temp }}/b23-inputs/CONSUMPTION.json
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+      - name: Install only the original CPU scoring runtime after all evidence passes
+        run: |
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 numpy==1.26.4
+      - name: Score each exact original and gain once; preserve every actual output
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python -IB automation/english_v6_b23_primary_eval.py score --inputs "$RUNNER_TEMP/b23-inputs" --output "$RUNNER_TEMP/b23-result" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b23-historical-control-primary-logits-${{ github.run_id }}
+          path: ${{ runner.temp }}/b23-result/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b23-primary-producer-evidence-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/b23-inputs/FETCH.json
+            ${{ runner.temp }}/b23-inputs/CONSUMPTION.json
+            ${{ runner.temp }}/b23-inputs/primary_producer/
+            ${{ runner.temp }}/b23-inputs/source_producer/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn

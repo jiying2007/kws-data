@@ -1,0 +1,6429 @@
+{
+  "b23_execution_authorized": false,
+  "new_model_forwards": 0,
+  "new_source_calls": 0,
+  "numpy_version": "2.3.5",
+  "optimizer_updates": 0,
+  "original_b22_failure_gate_bypassed": false,
+  "schema": "b23-preserved-b22-train-isolated-preflight-v1",
+  "source": {
+    "architecture": {
+      "batchnorm": false,
+      "dropout": false,
+      "historical_numerical_replay_claimed": false,
+      "random_forward": false,
+      "unchanged": true
+    },
+    "base_train": [
+      {
+        "group": "kokoro-v1_0-preset:am_santa",
+        "id": "fresh18-am_santa-mero-fast",
+        "pcm_sha256": "43a97ed30ca5eea775c91ffff04b778a16c9e66dfff984da27b8edf87d0c6929"
+      },
+      {
+        "group": "kokoro-v1_0-preset:af_sky",
+        "id": "fresh24-af_sky-mero-merrow",
+        "pcm_sha256": "fe243be71e09277e7b7152a416379d0258fa5ca18c5a10b13f49942d32bbe259"
+      },
+      {
+        "group": "kokoro-v1_0-preset:am_adam",
+        "id": "fresh24-am_adam-mero-marrow",
+        "pcm_sha256": "b08ed1fe8ffd859295918b4d6e4201da2283e3bcef4b42fb3c129efdd049869c"
+      },
+      {
+        "group": "kokoro-v1_0-preset:am_eric",
+        "id": "fresh24-am_eric-mero-merrow",
+        "pcm_sha256": "6b50a0aa32eef612936b4d66df4924d27f58acf20c077e511669c29fa3bc62ac"
+      },
+      {
+        "group": "kokoro-v1_0-preset:am_liam",
+        "id": "fresh24-am_liam-mero-marrow",
+        "pcm_sha256": "c5a373ad1cc0436d54974e36000fa178158730898b51be82e60752106b2cb11e"
+      },
+      {
+        "group": "kokoro-v1_0-preset:am_liam",
+        "id": "fresh24-am_liam-mero-merrow",
+        "pcm_sha256": "a3c9b4599e3337abe1aa85936bac93935f4dfe9b640c3dc824fd81fe9482f3ac"
+      },
+      {
+        "group": "kokoro-v1_0-preset:bf_alice",
+        "id": "fresh24-bf_alice-mero-merrow",
+        "pcm_sha256": "5be5c51c5b3eac7ec5fa082dd52c3ce02584a1c98f85d06f106fe5e349cb0287"
+      },
+      {
+        "group": "kokoro-v1_0-preset:bf_emma",
+        "id": "fresh24-bf_emma-mero-merrow",
+        "pcm_sha256": "31bd05d8776a6fbe5a2b71297db75c66692822b7a834e397c959b886a8c2906b"
+      },
+      {
+        "group": "kokoro-v1_0-preset:bm_daniel",
+        "id": "fresh24-bm_daniel-mero-merrow",
+        "pcm_sha256": "227315d1853a763b2e4a9dae67639f27984b8b739979c1e8cdcb4e47e962a0fb"
+      },
+      {
+        "group": "kokoro-v1_0-preset:bm_fable",
+        "id": "fresh24-bm_fable-mero-merrow",
+        "pcm_sha256": "48fa5bbb013c433aa4861d6ec77e9bcdf26f9091ab76c80f7c88ec2b5c09b01a"
+      },
+      {
+        "group": "kokoro-v1_0-preset:ef_dora",
+        "id": "fresh24-ef_dora-mero-marrow",
+        "pcm_sha256": "41340cf65bb19541497f950918169e61ee2b030da442cb983f6055f2e62bacc2"
+      },
+      {
+        "group": "kokoro-v1_0-preset:ef_dora",
+        "id": "fresh24-ef_dora-mero-merrow",
+        "pcm_sha256": "729c40d99f3f4260e5305713e374b297fa9e4aacc704897332eaf436eb1783b1"
+      },
+      {
+        "group": "piper-libritts-p7498",
+        "id": "mero24-448-mero-slow",
+        "pcm_sha256": "cd05664ba4cd4a700fec0a6bd97fefaf88ec485532fe8b42b7cdf3f084925a68"
+      },
+      {
+        "group": "piper-libritts-p3905",
+        "id": "mero24-449-mero-fast",
+        "pcm_sha256": "fe39e646616c74b63342b05503377919a83be646c7423439f2f8f8e87c3d6e72"
+      },
+      {
+        "group": "piper-libritts-p7384",
+        "id": "mero24-450-mero-slow",
+        "pcm_sha256": "a8e580dbcd6f7c122770674dbfa345ffdc66b856bed822ed9d2ae75c8d7e9375"
+      },
+      {
+        "group": "piper-libritts-p2992",
+        "id": "mero24-451-mero-fast",
+        "pcm_sha256": "3d25a81b40bb00f6614ec3206f8d81ceb3170bc8ddd3805b1e43bce676f7f9b4"
+      },
+      {
+        "group": "piper-libritts-p2992",
+        "id": "mero24-451-mero-slow",
+        "pcm_sha256": "7e90375e81043daf71bd595513cf3369ddd69f2299b27e6ede7c18077ec8e862"
+      },
+      {
+        "group": "piper-libritts-p30",
+        "id": "mero24-452-mero-fast",
+        "pcm_sha256": "e3ce4f8e448ecf55531f61c6c8de8e23c97e6dbee45157bbc5893b41986cfbf1"
+      },
+      {
+        "group": "piper-libritts-p497",
+        "id": "mero24-453-mero-slow",
+        "pcm_sha256": "6e7027e89b843c481519ef381fcd851ee3b4716825a6be6299ba6358d2299640"
+      },
+      {
+        "group": "piper-libritts-p227",
+        "id": "mero24-454-mero-fast",
+        "pcm_sha256": "8e8f0f2032aea863a86b212c629a5a3d1bb3a12d75b2d700926cdd4a5947efc9"
+      },
+      {
+        "group": "piper-libritts-p227",
+        "id": "mero24-454-mero-slow",
+        "pcm_sha256": "789d73b8461480b10e4ebeec5074f9cf713492a0b25329ad8250917573606b63"
+      },
+      {
+        "group": "piper-libritts-p4226",
+        "id": "mero24-455-mero-slow",
+        "pcm_sha256": "b705ae74511723fd8c2bb56f35e75e9e74aadbbe1c74b66e85a03c5f95cca7e7"
+      },
+      {
+        "group": "piper-libritts-p5007",
+        "id": "mero24-456-mero-fast",
+        "pcm_sha256": "5768c0c6e336a4be5809546f8be686e168162ed8ff17e53b7c92d52e4176d619"
+      },
+      {
+        "group": "piper-libritts-p1066",
+        "id": "mero24-457-mero-slow",
+        "pcm_sha256": "33a34a95ec762bffb2e20a987ae0eb6ff85cfcb16eb9b0f2b0792a18cac67844"
+      },
+      {
+        "group": "piper-libritts-p7688",
+        "id": "mero24-459-mero-fast",
+        "pcm_sha256": "ec953159eb011c3f3ab19ef985493bf04c09c14400535dc91a73998af8aae929"
+      },
+      {
+        "group": "piper-libritts-p7688",
+        "id": "mero24-459-mero-slow",
+        "pcm_sha256": "d49e43ac0d1d054d6f91cb149f8cb4f16c0b0ba043e9fc96dbd9ef6fe1a2969e"
+      },
+      {
+        "group": "piper-libritts-p7949",
+        "id": "newpiper-400-mero-slow",
+        "pcm_sha256": "0bc193b05da016fa6637768f542d9908a6549ac513b692f6f922c2cf89f669d7"
+      },
+      {
+        "group": "piper-libritts-p7867",
+        "id": "newpiper-402-mero-slow",
+        "pcm_sha256": "08310201bce3043313b495e351e2b1a6f9b720f68e93d906adf36a135ddcbaf5"
+      },
+      {
+        "group": "piper-libritts-p953",
+        "id": "newpiper-404-mero-fast",
+        "pcm_sha256": "3662a4388f2087cdf38342ecac9f597a208f157d359cebe2c824534df4cfa3ca"
+      },
+      {
+        "group": "piper-libritts-p953",
+        "id": "newpiper-404-mero-slow",
+        "pcm_sha256": "bd146228e28e6289ebaa9f837350baeea45ad8cf97f9a792d3373b95b59f996f"
+      },
+      {
+        "group": "piper-libritts-p5189",
+        "id": "newpiper-409-mero-fast",
+        "pcm_sha256": "01ace471565e1987ce22449d37ab5c8cd0d95c92687b2f695f2ab1874099e553"
+      },
+      {
+        "group": "piper-libritts-p5189",
+        "id": "newpiper-409-mero-slow",
+        "pcm_sha256": "27536497e91641cd2a190b06e75a86eff0a0635f40dfcfff78d76567894ad4b3"
+      },
+      {
+        "group": "piper-libritts-p6550",
+        "id": "newpiper-426-mero-slow",
+        "pcm_sha256": "8102b870451976369e086b8de7715afa6685cf8100187fbfdb12008dd791026d"
+      },
+      {
+        "group": "piper-libritts-p8791",
+        "id": "newpiper-428-mero-fast",
+        "pcm_sha256": "faf56b20b837ae24acce0582a4be0b0432c8d5b5e1124203c67611ba833c902e"
+      },
+      {
+        "group": "piper-libritts-p1777",
+        "id": "newpiper-430-mero-slow",
+        "pcm_sha256": "4b5155ec8a420c1d45abe1281e59eeb4d4da0639442692c138f888c09b0c65c7"
+      },
+      {
+        "group": "piper-libritts-p1046",
+        "id": "newpiper-432-mero-fast",
+        "pcm_sha256": "c66cf230268018f432e471d77f997b4b835745718fd4c34bb99e0d214ccb2379"
+      },
+      {
+        "group": "piper-libritts-p1046",
+        "id": "newpiper-432-mero-slow",
+        "pcm_sha256": "f7c61119087bf7cd77e2a35ee6cde5a15767d93302b49acc430e32cb5f8de5aa"
+      },
+      {
+        "group": "piper-libritts-p6269",
+        "id": "newpiper-433-mero-slow",
+        "pcm_sha256": "88f61d635dcbe0ae39d60703517715033cedc8f15391613b886ba6786e2e9201"
+      },
+      {
+        "group": "piper-libritts-p6188",
+        "id": "newpiper-434-mero-fast",
+        "pcm_sha256": "8f2f28b519a902b290ec2eb275761cf98176343b5e0e770ba4cd1c7a39c46faa"
+      },
+      {
+        "group": "piper-libritts-p5266",
+        "id": "newpiper-435-mero-fast",
+        "pcm_sha256": "ba0ab16c0f2fa9d762d8c11875f6a6b0c73eed29c88c10b1da5c2da510193a83"
+      },
+      {
+        "group": "piper-libritts-p589",
+        "id": "newpiper-439-mero-slow",
+        "pcm_sha256": "6d1108d62b863ef98fc2001df641b24b738a846d4a7c9494b920ba31fc342911"
+      },
+      {
+        "group": "piper-libritts-p576",
+        "id": "newpiper-440-mero-fast",
+        "pcm_sha256": "5a6c179adea33f12613cad65b57329e4c4676857cdb76972dbe2053ba7308d09"
+      },
+      {
+        "group": "piper-libritts-p1121",
+        "id": "newpiper-441-mero-fast",
+        "pcm_sha256": "84292ddf7166dab3a3f4dbbb6428481f07b58bdcb83174726b4335adacd9e9d8"
+      },
+      {
+        "group": "piper-libritts-p1121",
+        "id": "newpiper-441-mero-slow",
+        "pcm_sha256": "b61ed6114b37d546119603529188be66ef731997a66b9ab414d6b8bb63c46bf1"
+      },
+      {
+        "group": "kokoro-v1_0-preset:am_santa",
+        "id": "fresh18-am_santa-ordinary-time",
+        "pcm_sha256": "9db160bc2e5ecd9a44e5fc585d147725ce098d00db2e14ec2574282b6905279a"
+      },
+      {
+        "group": "kokoro-v1_0-preset:af_sky",
+        "id": "fresh24-af_sky-ordinary-time",
+        "pcm_sha256": "aeca9fc255cf2d5e36b48e651646025c1c18107c368b046c3d02df6a54a831f2"
+      },
+      {
+        "group": "kokoro-v1_0-preset:am_adam",
+        "id": "fresh24-am_adam-ordinary-time",
+        "pcm_sha256": "922d8463d26ebe79d9456f30712cde569e31f13a8a4f7bdf84c34161afe24c95"
+      },
+      {
+        "group": "kokoro-v1_0-preset:am_eric",
+        "id": "fresh24-am_eric-ordinary-time",
+        "pcm_sha256": "03605b34e35da76d375a99074934eb6e6cf88ad401f6c640874c17c27596bff5"
+      },
+      {
+        "group": "kokoro-v1_0-preset:am_liam",
+        "id": "fresh24-am_liam-ordinary-time",
+        "pcm_sha256": "7e870dda23ee36087c78985c041717f7aae46c9ee937a1c2f02f89781e01cf07"
+      },
+      {
+        "group": "kokoro-v1_0-preset:bf_alice",
+        "id": "fresh24-bf_alice-ordinary-time",
+        "pcm_sha256": "1018ee8649ea6882bd8973bcbb198d370aed6ff2e14950e1cd9734ffdf7b85d2"
+      },
+      {
+        "group": "kokoro-v1_0-preset:bf_emma",
+        "id": "fresh24-bf_emma-ordinary-time",
+        "pcm_sha256": "5334bcc1b0f4ebbb0c8b26295b76192d95d050abb644cfe2509e0d3d391a4bef"
+      },
+      {
+        "group": "kokoro-v1_0-preset:bm_daniel",
+        "id": "fresh24-bm_daniel-ordinary-time",
+        "pcm_sha256": "06b4eb12060cec5cb52b1a5f8525bdbeb86efda5e79f879fe5a48ce83ac22f10"
+      },
+      {
+        "group": "kokoro-v1_0-preset:bm_fable",
+        "id": "fresh24-bm_fable-ordinary-time",
+        "pcm_sha256": "b3e9c7575e78c200b1ce1debffd4823f3b3e35c4bc8df20f71579264523c95da"
+      },
+      {
+        "group": "kokoro-v1_0-preset:ef_dora",
+        "id": "fresh24-ef_dora-ordinary-time",
+        "pcm_sha256": "b469684343be93427169d68f9138c9cdb6086cf134eebc01df4fb5306f7323f3"
+      },
+      {
+        "group": "piper-libritts-p7498",
+        "id": "mero24-448-ordinary-time",
+        "pcm_sha256": "5e0faabe69d0626a41541c26eff0ddcd63eab1bf0228421f5a408e51f20a9523"
+      },
+      {
+        "group": "piper-libritts-p3905",
+        "id": "mero24-449-ordinary-time",
+        "pcm_sha256": "7e4ec887c202e70669ad9f2e2d007202352e608f64ffb3f1655b7395f8269844"
+      },
+      {
+        "group": "piper-libritts-p7384",
+        "id": "mero24-450-ordinary-time",
+        "pcm_sha256": "9e49e580fbd81bbd96b84218694905acf6867f452956708f2f080ae52a131509"
+      },
+      {
+        "group": "piper-libritts-p2992",
+        "id": "mero24-451-ordinary-time",
+        "pcm_sha256": "b12af0c55e3a24f93f1ecb1db3fc47a53db2142da40a4edb4e20c1d06639dfd4"
+      },
+      {
+        "group": "piper-libritts-p30",
+        "id": "mero24-452-ordinary-time",
+        "pcm_sha256": "d32fe8edcfe13966753c5ac73cac81e56050b06907faff1ece48c8061bf9b97c"
+      },
+      {
+        "group": "piper-libritts-p497",
+        "id": "mero24-453-ordinary-time",
+        "pcm_sha256": "8a849d9b2d2b08e4f1ef1f1611b3b52483213116a858d77dac9bcee91c93a4a6"
+      },
+      {
+        "group": "piper-libritts-p227",
+        "id": "mero24-454-ordinary-time",
+        "pcm_sha256": "837f30e80bb1091df442df811b129f7c6d6a810127ffd16cde68b849cd073caf"
+      },
+      {
+        "group": "piper-libritts-p4226",
+        "id": "mero24-455-ordinary-time",
+        "pcm_sha256": "c0bb57908db69c0df571e42c43ee1efa74938965bc1905ac20518355c50883a0"
+      },
+      {
+        "group": "piper-libritts-p5007",
+        "id": "mero24-456-ordinary-time",
+        "pcm_sha256": "8c4d4939ebca6d6a632f2f34afa6bf25f93fe90027b99ae85f4437b7172aabde"
+      },
+      {
+        "group": "piper-libritts-p1066",
+        "id": "mero24-457-ordinary-time",
+        "pcm_sha256": "b35e50ce79748c63389ab4afa1f723f456c04ad1e95ba7b3e80453ff6717099c"
+      },
+      {
+        "group": "piper-libritts-p7688",
+        "id": "mero24-459-ordinary-time",
+        "pcm_sha256": "ddd26aec3a2237e978fb4d82b9b8b009f8ade79012d96cd06dfc6887e0bb8457"
+      },
+      {
+        "group": "piper-libritts-p7949",
+        "id": "newpiper-400-ordinary-time",
+        "pcm_sha256": "c82e8aa7ec7ce3047a9d4f28b0a61350f397974faa0ddfc82ca27c29a82c48d9"
+      },
+      {
+        "group": "piper-libritts-p7867",
+        "id": "newpiper-402-ordinary-time",
+        "pcm_sha256": "279480cbf489989a880c2af81dae57667943a8b00c20613a0fbf2f502ccaa7d4"
+      },
+      {
+        "group": "piper-libritts-p953",
+        "id": "newpiper-404-ordinary-time",
+        "pcm_sha256": "e5a134b03c66f6f0521fc051430477db33b11e5feae35e4fe44fcd36e4f0ba6f"
+      },
+      {
+        "group": "piper-libritts-p5189",
+        "id": "newpiper-409-ordinary-time",
+        "pcm_sha256": "a822c3cedb5ea670f21a7d139fccd1195735877d724b6a9227d91ece1fcba653"
+      },
+      {
+        "group": "piper-libritts-p6550",
+        "id": "newpiper-426-ordinary-time",
+        "pcm_sha256": "a5af1685dccf7ceb17bac6e585e0545958bf84f737542447604e20809bedab44"
+      },
+      {
+        "group": "piper-libritts-p8791",
+        "id": "newpiper-428-ordinary-time",
+        "pcm_sha256": "04d58e985ec38dd747e42a6b20e64e466d7b778969f0ce4f15d4b6fbf2e4dfab"
+      },
+      {
+        "group": "piper-libritts-p1777",
+        "id": "newpiper-430-ordinary-time",
+        "pcm_sha256": "62cb7e0267ccf0c6db8eb3fcf18d382dbd77e4c07394934e59865b13d18dd26c"
+      },
+      {
+        "group": "piper-libritts-p1046",
+        "id": "newpiper-432-ordinary-time",
+        "pcm_sha256": "4862e5379066dc012c5aede85fc7868d07251e04fae4eca53bcbe5f5aa32df9c"
+      },
+      {
+        "group": "piper-libritts-p6269",
+        "id": "newpiper-433-ordinary-time",
+        "pcm_sha256": "5ef7c52cee26784a6a5a9d02361a919eccfd0d1bf12d015adcc0658f68901560"
+      },
+      {
+        "group": "piper-libritts-p6188",
+        "id": "newpiper-434-ordinary-time",
+        "pcm_sha256": "9dbf384d4fdb2456d442cc73047cdfc4a47461be84ef0d5c4a16cb4bc49ebf75"
+      },
+      {
+        "group": "piper-libritts-p5266",
+        "id": "newpiper-435-ordinary-time",
+        "pcm_sha256": "8778cf62723ee3a0b05c43a8a097cb7d31201f8406184a9c93ea075659e88385"
+      },
+      {
+        "group": "piper-libritts-p589",
+        "id": "newpiper-439-ordinary-time",
+        "pcm_sha256": "50563c34a6abe804d971e497710d6782dba81ea27ff4ffb8feb3082f6c3b503b"
+      },
+      {
+        "group": "piper-libritts-p576",
+        "id": "newpiper-440-ordinary-time",
+        "pcm_sha256": "852e9aa5d4406beed80a2c557d228e910e3c4830c8c75017a38c53892d8438aa"
+      },
+      {
+        "group": "piper-libritts-p1121",
+        "id": "newpiper-441-ordinary-time",
+        "pcm_sha256": "211eadd0220b3a15ad94f5a410d54bde1269301032013803afab3cec68b1034d"
+      }
+    ],
+    "input_archives": {
+      "B0.zip": {
+        "artifact_id": 14514228406,
+        "bytes": 501276,
+        "sha256": "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702"
+      },
+      "b10-screen.zip": {
+        "artifact_id": 14740257228,
+        "sha256": "ff4d647a224f430e50a76c1f7b42854ad9b41324db0f6b2f2823aaa4c63adb12"
+      },
+      "b10-source.zip": {
+        "artifact_id": 14708400220,
+        "sha256": "dbc57d762922e60ff23253af2463d5d64e1c8021c74fad6e2f0a9ecb9fd87465"
+      },
+      "b17.zip": {
+        "artifact_id": 14887048023,
+        "bytes": 2506252,
+        "sha256": "1e31bd9c801657c7850fa6fb05c5468cbe8b4ab5bb459b0146c07c4c905ff86d"
+      },
+      "b21_producer.zip": {
+        "artifact_id": 14901261272,
+        "bytes": 1260473,
+        "sha256": "377296c5e0ade26c5cd02782f40b033c97ca5007ee267f014f39d136a6f02af8"
+      },
+      "b21_weights.zip": {
+        "artifact_id": 14900878022,
+        "bytes": 1801215,
+        "sha256": "35fa747026589d3db83a9b24508a3d480d88392080b5c07a910c109b5912ba81"
+      },
+      "b9.zip": {
+        "artifact_id": 14689218171,
+        "sha256": "1a8b270200e0c72ab1025f139d16abde43c209f142d72e71a7201b847e06a612"
+      },
+      "diagnostic.zip": {
+        "artifact_id": 14790175198,
+        "sha256": "0959221425bc38e8ca6501ace692c858741079f9223c4972d1cc318252d68ea8"
+      },
+      "fresh-screen.zip": {
+        "artifact_id": 14509252921,
+        "sha256": "e8bcdf32a0ac138de8bdd90c4f6cd6e419d4ccae42bbd393e75b5daac9502158"
+      },
+      "fresh-source.zip": {
+        "artifact_id": 14507208152,
+        "sha256": "2fbc26386136cfd12dddb01074f3c9c4556c8fc7c49819663f2d11a2499eaa1c"
+      },
+      "fresh18-source.zip": {
+        "artifact_id": 14429578824,
+        "sha256": "34cf7879f974f62c9f6046a72a964002f30bf59d2186a423ac382a76ff69d0e9"
+      },
+      "fresh24-source.zip": {
+        "artifact_id": 14422271973,
+        "sha256": "26396073f5be2f91e35575bedb586737405162388e32bfe85633ed3d796a9583"
+      },
+      "mono70-audit.zip": {
+        "artifact_id": 14503604626,
+        "sha256": "12a1eb39c7a458a466fec2e93ba59e5036319bd9db4b4bdc47e7e6e1c5990f1b"
+      },
+      "natural.zip": {
+        "artifact_id": 14318639588,
+        "sha256": "03e2d7e1953ead05736dc2ff1de60c115bc24ee45442a2322886fc3d02050807"
+      },
+      "newtrain24-source.zip": {
+        "artifact_id": 14486048125,
+        "sha256": "3db5e99caf33e04ae920df1c93205f38f98cbc0f326705e2367dc8c67dc02341"
+      },
+      "pair.zip": {
+        "artifact_id": 14789216108,
+        "sha256": "e66de6d2683c93e434e3d426ef88ffa46c9eba63d89d6940454a81d17e7d29af"
+      },
+      "piper24-source.zip": {
+        "artifact_id": 14434542792,
+        "sha256": "d1f75716fefd954d59c3289c37e7e6670965ee98917436676896312e4b781aa1"
+      },
+      "replay.zip": {
+        "artifact_id": 14787969097,
+        "sha256": "855f0ab5cc24c03833e507eafbd08c7cc93866622458d8a217a3827c829cd93c"
+      }
+    },
+    "natural_originals": 9,
+    "natural_readers": 8,
+    "natural_train": [
+      {
+        "b9_original_gain_events": 4,
+        "end_sample_exclusive": 62720,
+        "id": "hardneg-review-126c75ff8f9dd06471dbe836",
+        "label_basis": "owner-reviewed exact interval",
+        "loss_scaling": 1.0,
+        "mono_class": 0,
+        "recording_id": "hardneg-natural32-f5285e7ff90614b34b4032ce",
+        "role": "train",
+        "samples": 56960,
+        "source_group_id": "librispeech:2902",
+        "source_pcm_sha256": "ee3ceff5b0e46571602aa5dbe401f615d2028e83408350bfba07e177a81d37f1",
+        "speaker_id": "2902",
+        "start_sample": 5760,
+        "tier": "silver"
+      },
+      {
+        "b9_original_gain_events": 0,
+        "end_sample_exclusive": 99840,
+        "id": "hardneg-review-45a335ec7666c14ecebee983",
+        "label_basis": "owner-reviewed exact interval",
+        "loss_scaling": 1.0,
+        "mono_class": 0,
+        "recording_id": "hardneg-natural32-3a5e6b5613dc10fa4eda499e",
+        "role": "train",
+        "samples": 55680,
+        "source_group_id": "librispeech:3170",
+        "source_pcm_sha256": "452f05074689731371fcb6cb40a0444d2c0645edf32e6cda0be8b8a70605c474",
+        "speaker_id": "3170",
+        "start_sample": 44160,
+        "tier": "silver"
+      },
+      {
+        "b9_original_gain_events": 0,
+        "end_sample_exclusive": 76080,
+        "id": "hardneg-review-88130e9b038827bceb012b7c",
+        "label_basis": "owner-reviewed exact interval",
+        "loss_scaling": 1.0,
+        "mono_class": 0,
+        "recording_id": "hardneg-natural32-ea5ccde841410381dd7b1877",
+        "role": "train",
+        "samples": 42160,
+        "source_group_id": "librispeech:3000",
+        "source_pcm_sha256": "1823fe1f3874d8fa4f9befc112e28a5cca6a1ff4e99d62e2a8140a8c5364346e",
+        "speaker_id": "3000",
+        "start_sample": 33920,
+        "tier": "silver"
+      },
+      {
+        "b9_original_gain_events": 1,
+        "end_sample_exclusive": 160000,
+        "id": "hardneg-review-8d3e4e2b4ee60c9d2dde30cd",
+        "label_basis": "owner-reviewed exact interval",
+        "loss_scaling": 1.0,
+        "mono_class": 0,
+        "recording_id": "hardneg-natural32-56fb1ab73515dd777887cf0d",
+        "role": "train",
+        "samples": 56960,
+        "source_group_id": "librispeech:5536",
+        "source_pcm_sha256": "452422b0aa2ae08522ea27edd024877d48daa8bad98d99d75e3b226cd855b3f4",
+        "speaker_id": "5536",
+        "start_sample": 103040,
+        "tier": "silver"
+      },
+      {
+        "b9_original_gain_events": 1,
+        "end_sample_exclusive": 62720,
+        "id": "hardneg-review-af48e3b081d315446259e030",
+        "label_basis": "owner-reviewed exact interval",
+        "loss_scaling": 1.0,
+        "mono_class": 0,
+        "recording_id": "hardneg-natural32-a8b6ba18291b7b0ea167167f",
+        "role": "train",
+        "samples": 54400,
+        "source_group_id": "librispeech:8297",
+        "source_pcm_sha256": "b120c0474b62bdb057bfb95aab8f87bfd1c67ac8fc1719afb7f2527fe90dd8c5",
+        "speaker_id": "8297",
+        "start_sample": 8320,
+        "tier": "silver"
+      },
+      {
+        "b9_original_gain_events": 1,
+        "end_sample_exclusive": 69120,
+        "id": "hardneg-review-c24b3291eb69c7b8e2c8f072",
+        "label_basis": "owner-reviewed exact interval",
+        "loss_scaling": 1.0,
+        "mono_class": 0,
+        "recording_id": "hardneg-natural32-56fb1ab73515dd777887cf0d",
+        "role": "train",
+        "samples": 55680,
+        "source_group_id": "librispeech:5536",
+        "source_pcm_sha256": "a4189fc721da9aa0c5b4c19c18d3e890b505570981adf1ad2013d5963b8f8e93",
+        "speaker_id": "5536",
+        "start_sample": 13440,
+        "tier": "silver"
+      },
+      {
+        "b9_original_gain_events": 3,
+        "end_sample_exclusive": 116480,
+        "id": "hardneg-review-cdc37ba59e88d60cea36c8d3",
+        "label_basis": "owner-reviewed exact interval",
+        "loss_scaling": 1.0,
+        "mono_class": 0,
+        "recording_id": "hardneg-natural32-30d4fab328671543e2240f1c",
+        "role": "train",
+        "samples": 55680,
+        "source_group_id": "librispeech:2035",
+        "source_pcm_sha256": "9f05ccc758f44bd85b4b86991965aee70870377455fbde7bf160660846f5289c",
+        "speaker_id": "2035",
+        "start_sample": 60800,
+        "tier": "silver"
+      },
+      {
+        "b9_original_gain_events": 1,
+        "end_sample_exclusive": 80640,
+        "id": "hardneg-review-e95c9f1a5f79f391d712f9f0",
+        "label_basis": "owner-reviewed exact interval",
+        "loss_scaling": 1.0,
+        "mono_class": 0,
+        "recording_id": "hardneg-natural32-2edb8ff99387fcae1281fa83",
+        "role": "train",
+        "samples": 54400,
+        "source_group_id": "librispeech:7976",
+        "source_pcm_sha256": "17f7096bc0c2c163fed65aef624446e66d36a89bc50b2a679463900a9f6fecd7",
+        "speaker_id": "7976",
+        "start_sample": 26240,
+        "tier": "silver"
+      },
+      {
+        "b9_original_gain_events": 0,
+        "end_sample_exclusive": 62720,
+        "id": "hardneg-review-f161ff1d0b091609ceb7ff89",
+        "label_basis": "owner-reviewed exact interval",
+        "loss_scaling": 1.0,
+        "mono_class": 0,
+        "recording_id": "hardneg-natural32-5ca7d4f96507274401bb156b",
+        "role": "train",
+        "samples": 56960,
+        "source_group_id": "librispeech:1272",
+        "source_pcm_sha256": "f354360c1203cfc3b36081571e269f80eb7cbd326a1dc1b8b0e2694b52a0bb54",
+        "speaker_id": "1272",
+        "start_sample": 5760,
+        "tier": "silver"
+      }
+    ],
+    "new_dev_reads": 0,
+    "new_model_forwards": 0,
+    "new_source_calls": 0,
+    "ordinary_teachers_reused": 264,
+    "originals": 88,
+    "positive_retention": [
+      {
+        "b9_array_sha256": "d27f504c760da96afdac103749dbcb13bb3192b62f74460c0f6bd2a56c9c4eea",
+        "b9_registered_spans": [
+          [
+            1,
+            68,
+            69
+          ],
+          [
+            2,
+            69,
+            70
+          ],
+          [
+            3,
+            70,
+            81
+          ]
+        ],
+        "gain": "0.75",
+        "group": "kokoro-v1_0-preset:am_santa",
+        "id": "fresh18-am_santa-mero-fast",
+        "matched_array_sha256": "9bd83f1b9fec1908853d29e33818039319229b247088df644ae58ecc557ac494",
+        "matched_complete_spans": [
+          [
+            1,
+            68,
+            69
+          ],
+          [
+            2,
+            69,
+            70
+          ],
+          [
+            3,
+            70,
+            81
+          ]
+        ],
+        "pcm_sha256": "43a97ed30ca5eea775c91ffff04b778a16c9e66dfff984da27b8edf87d0c6929"
+      },
+      {
+        "b9_array_sha256": "a48582aba4141f76d4cde0ea4b006eb234954c21d8a83557c9823ae86c4e54ef",
+        "b9_registered_spans": [
+          [
+            1,
+            48,
+            50
+          ],
+          [
+            2,
+            50,
+            52
+          ],
+          [
+            3,
+            52,
+            67
+          ]
+        ],
+        "gain": "1.0",
+        "group": "kokoro-v1_0-preset:af_sky",
+        "id": "fresh24-af_sky-mero-merrow",
+        "matched_array_sha256": "869f56a134f43a66863e22b6cc58613ff7c77f68ac5efb7eea38d459800ee912",
+        "matched_complete_spans": [
+          [
+            1,
+            48,
+            51
+          ],
+          [
+            2,
+            51,
+            52
+          ],
+          [
+            3,
+            52,
+            67
+          ]
+        ],
+        "pcm_sha256": "fe243be71e09277e7b7152a416379d0258fa5ca18c5a10b13f49942d32bbe259"
+      },
+      {
+        "b9_array_sha256": "e17e5b0e833affa5b12388424617809fa5f5824467f9b916b2d32f0ca5c87932",
+        "b9_registered_spans": [
+          [
+            1,
+            47,
+            50
+          ],
+          [
+            2,
+            50,
+            52
+          ],
+          [
+            3,
+            52,
+            71
+          ]
+        ],
+        "gain": "0.75",
+        "group": "kokoro-v1_0-preset:af_sky",
+        "id": "fresh24-af_sky-mero-merrow",
+        "matched_array_sha256": "1c9b1c8980097adfc814f2bb59a0863ad7a78cc29c40e7522997ee3898b89cdf",
+        "matched_complete_spans": [
+          [
+            1,
+            48,
+            50
+          ],
+          [
+            2,
+            50,
+            52
+          ],
+          [
+            3,
+            52,
+            70
+          ]
+        ],
+        "pcm_sha256": "fe243be71e09277e7b7152a416379d0258fa5ca18c5a10b13f49942d32bbe259"
+      },
+      {
+        "b9_array_sha256": "00800e8d9da89cad0727128008ee1daa896b12d7f3833152ed22bab89251fac9",
+        "b9_registered_spans": [
+          [
+            1,
+            47,
+            49
+          ],
+          [
+            2,
+            49,
+            51
+          ],
+          [
+            3,
+            51,
+            73
+          ]
+        ],
+        "gain": "0.5",
+        "group": "kokoro-v1_0-preset:af_sky",
+        "id": "fresh24-af_sky-mero-merrow",
+        "matched_array_sha256": "eeeaf18dc8f1f09dd609fad04938c3aa8ae3cdd44a45a45fa2db651dd9c00e79",
+        "matched_complete_spans": [
+          [
+            1,
+            47,
+            49
+          ],
+          [
+            2,
+            49,
+            51
+          ],
+          [
+            3,
+            51,
+            73
+          ]
+        ],
+        "pcm_sha256": "fe243be71e09277e7b7152a416379d0258fa5ca18c5a10b13f49942d32bbe259"
+      },
+      {
+        "b9_array_sha256": "9c1d2f878dacce63b986e126351bee6d1e6efeb42b54e49a4c9ddd2b20b274af",
+        "b9_registered_spans": [
+          [
+            1,
+            40,
+            43
+          ],
+          [
+            2,
+            43,
+            44
+          ],
+          [
+            3,
+            44,
+            68
+          ]
+        ],
+        "gain": "1.0",
+        "group": "kokoro-v1_0-preset:am_adam",
+        "id": "fresh24-am_adam-mero-marrow",
+        "matched_array_sha256": "022cc25124e96e33d1175b8d33120e5b87b43edacdfc87b4bbe3a2960894f42f",
+        "matched_complete_spans": [
+          [
+            1,
+            40,
+            43
+          ],
+          [
+            2,
+            43,
+            45
+          ],
+          [
+            3,
+            45,
+            69
+          ]
+        ],
+        "pcm_sha256": "b08ed1fe8ffd859295918b4d6e4201da2283e3bcef4b42fb3c129efdd049869c"
+      },
+      {
+        "b9_array_sha256": "55b04470bb474467c6128b166ab847d316b3c0c2c668460949faa6e9e24544b0",
+        "b9_registered_spans": [
+          [
+            1,
+            40,
+            42
+          ],
+          [
+            2,
+            42,
+            44
+          ],
+          [
+            3,
+            44,
+            67
+          ]
+        ],
+        "gain": "0.75",
+        "group": "kokoro-v1_0-preset:am_adam",
+        "id": "fresh24-am_adam-mero-marrow",
+        "matched_array_sha256": "c0dcd09769b577d4c99a39449b516ed0b65800398f70e8a9658d8dfd43c3fc95",
+        "matched_complete_spans": [
+          [
+            1,
+            40,
+            42
+          ],
+          [
+            2,
+            42,
+            44
+          ],
+          [
+            3,
+            44,
+            67
+          ]
+        ],
+        "pcm_sha256": "b08ed1fe8ffd859295918b4d6e4201da2283e3bcef4b42fb3c129efdd049869c"
+      },
+      {
+        "b9_array_sha256": "6d2c2426f3e0a7f3f5125e6f7708d048005185827943cec2bf6dd264193ca851",
+        "b9_registered_spans": [
+          [
+            1,
+            39,
+            41
+          ],
+          [
+            2,
+            41,
+            43
+          ],
+          [
+            3,
+            43,
+            64
+          ]
+        ],
+        "gain": "0.5",
+        "group": "kokoro-v1_0-preset:am_adam",
+        "id": "fresh24-am_adam-mero-marrow",
+        "matched_array_sha256": "1abd998ebd4eab939513ddfb6c03df9759c66e61365dacf475066f29afaf83a2",
+        "matched_complete_spans": [
+          [
+            1,
+            39,
+            41
+          ],
+          [
+            2,
+            41,
+            43
+          ],
+          [
+            3,
+            43,
+            65
+          ]
+        ],
+        "pcm_sha256": "b08ed1fe8ffd859295918b4d6e4201da2283e3bcef4b42fb3c129efdd049869c"
+      },
+      {
+        "b9_array_sha256": "674ab7fcc898f3790623823673d184864feb639ab7caf44aba5f84d1ffb6b7b4",
+        "b9_registered_spans": [
+          [
+            1,
+            41,
+            43
+          ],
+          [
+            2,
+            43,
+            45
+          ],
+          [
+            3,
+            45,
+            62
+          ]
+        ],
+        "gain": "1.0",
+        "group": "kokoro-v1_0-preset:am_eric",
+        "id": "fresh24-am_eric-mero-merrow",
+        "matched_array_sha256": "2748f6f8e71f9ca62b6dfa9fe424e1026d10b6052aa573e70cb0c25f9527846d",
+        "matched_complete_spans": [
+          [
+            1,
+            41,
+            43
+          ],
+          [
+            2,
+            43,
+            45
+          ],
+          [
+            3,
+            45,
+            62
+          ]
+        ],
+        "pcm_sha256": "6b50a0aa32eef612936b4d66df4924d27f58acf20c077e511669c29fa3bc62ac"
+      },
+      {
+        "b9_array_sha256": "9b981b1b541faff1c962bd82519bdb539218c81f5c62f21a26e42a46dc1a7021",
+        "b9_registered_spans": [
+          [
+            1,
+            40,
+            42
+          ],
+          [
+            2,
+            42,
+            44
+          ],
+          [
+            3,
+            44,
+            65
+          ]
+        ],
+        "gain": "0.75",
+        "group": "kokoro-v1_0-preset:am_eric",
+        "id": "fresh24-am_eric-mero-merrow",
+        "matched_array_sha256": "ac492b86ff51a0cd0751acf1852e6834cd58448c389b9038f37afaba91ad5432",
+        "matched_complete_spans": [
+          [
+            1,
+            41,
+            43
+          ],
+          [
+            2,
+            43,
+            44
+          ],
+          [
+            3,
+            44,
+            65
+          ]
+        ],
+        "pcm_sha256": "6b50a0aa32eef612936b4d66df4924d27f58acf20c077e511669c29fa3bc62ac"
+      },
+      {
+        "b9_array_sha256": "adb234967b8d5027c3fcd55aa36a62313f02d93049b1e63e3a8a684221fe9fce",
+        "b9_registered_spans": [
+          [
+            1,
+            40,
+            42
+          ],
+          [
+            2,
+            42,
+            43
+          ],
+          [
+            3,
+            43,
+            64
+          ]
+        ],
+        "gain": "0.5",
+        "group": "kokoro-v1_0-preset:am_eric",
+        "id": "fresh24-am_eric-mero-merrow",
+        "matched_array_sha256": "0cabd3f8e4cdd97f86f8be31de48971efa0d03f1f792851a7cef44e4f801643d",
+        "matched_complete_spans": [
+          [
+            1,
+            40,
+            42
+          ],
+          [
+            2,
+            42,
+            44
+          ],
+          [
+            3,
+            44,
+            64
+          ]
+        ],
+        "pcm_sha256": "6b50a0aa32eef612936b4d66df4924d27f58acf20c077e511669c29fa3bc62ac"
+      },
+      {
+        "b9_array_sha256": "2f6ea856d796b8e5e73aaf11c34cfd718b9af6f4fd3e0c92fc28c952dc6681cd",
+        "b9_registered_spans": [
+          [
+            1,
+            64,
+            66
+          ],
+          [
+            2,
+            66,
+            68
+          ],
+          [
+            3,
+            68,
+            82
+          ]
+        ],
+        "gain": "1.0",
+        "group": "kokoro-v1_0-preset:am_liam",
+        "id": "fresh24-am_liam-mero-marrow",
+        "matched_array_sha256": "ee2a0b610e42da9e8eb55a4c8cbe83b03a43ace99af12609aacf5e916d9a835b",
+        "matched_complete_spans": [
+          [
+            1,
+            64,
+            66
+          ],
+          [
+            2,
+            66,
+            68
+          ],
+          [
+            3,
+            68,
+            82
+          ]
+        ],
+        "pcm_sha256": "c5a373ad1cc0436d54974e36000fa178158730898b51be82e60752106b2cb11e"
+      },
+      {
+        "b9_array_sha256": "19edde4cfb5471f7cd496a224234269a85ee3d1f6220341596c839f4a0e66e79",
+        "b9_registered_spans": [
+          [
+            1,
+            63,
+            65
+          ],
+          [
+            2,
+            65,
+            67
+          ],
+          [
+            3,
+            67,
+            84
+          ]
+        ],
+        "gain": "0.75",
+        "group": "kokoro-v1_0-preset:am_liam",
+        "id": "fresh24-am_liam-mero-marrow",
+        "matched_array_sha256": "0f4a59fc0b61994e224813de8c497f98c4ee35340476ed76190208399bcd7546",
+        "matched_complete_spans": [
+          [
+            1,
+            63,
+            66
+          ],
+          [
+            2,
+            66,
+            67
+          ],
+          [
+            3,
+            67,
+            85
+          ]
+        ],
+        "pcm_sha256": "c5a373ad1cc0436d54974e36000fa178158730898b51be82e60752106b2cb11e"
+      },
+      {
+        "b9_array_sha256": "04c166d84ae1fd45b084fb131e63fbdea6f176e30b743acb66842a1554dc6106",
+        "b9_registered_spans": [
+          [
+            1,
+            62,
+            64
+          ],
+          [
+            2,
+            64,
+            66
+          ],
+          [
+            3,
+            66,
+            88
+          ]
+        ],
+        "gain": "0.5",
+        "group": "kokoro-v1_0-preset:am_liam",
+        "id": "fresh24-am_liam-mero-marrow",
+        "matched_array_sha256": "1b5101bd1980df2163c636e8d020ce25afbc918e331f209a928f68ef0e52b9bd",
+        "matched_complete_spans": [
+          [
+            1,
+            63,
+            65
+          ],
+          [
+            2,
+            65,
+            67
+          ],
+          [
+            3,
+            67,
+            88
+          ]
+        ],
+        "pcm_sha256": "c5a373ad1cc0436d54974e36000fa178158730898b51be82e60752106b2cb11e"
+      },
+      {
+        "b9_array_sha256": "7e8424d208e3ff1c15c0d0bb3f0a5322a2ad92ad2a157144d09f83f30caf2c2a",
+        "b9_registered_spans": [
+          [
+            1,
+            45,
+            47
+          ],
+          [
+            2,
+            47,
+            49
+          ],
+          [
+            3,
+            49,
+            72
+          ]
+        ],
+        "gain": "1.0",
+        "group": "kokoro-v1_0-preset:am_liam",
+        "id": "fresh24-am_liam-mero-merrow",
+        "matched_array_sha256": "b71e4d3b300f82df395a2f3dd7289e296d84709eeb441f23e51906d6c6f9f33c",
+        "matched_complete_spans": [
+          [
+            1,
+            45,
+            47
+          ],
+          [
+            2,
+            47,
+            49
+          ],
+          [
+            3,
+            49,
+            72
+          ]
+        ],
+        "pcm_sha256": "a3c9b4599e3337abe1aa85936bac93935f4dfe9b640c3dc824fd81fe9482f3ac"
+      },
+      {
+        "b9_array_sha256": "a2ea6df747073fc48c22d1fa3fbcba27b554a598783a0a568ddbcceacab342c8",
+        "b9_registered_spans": [
+          [
+            1,
+            44,
+            46
+          ],
+          [
+            2,
+            46,
+            48
+          ],
+          [
+            3,
+            48,
+            73
+          ]
+        ],
+        "gain": "0.75",
+        "group": "kokoro-v1_0-preset:am_liam",
+        "id": "fresh24-am_liam-mero-merrow",
+        "matched_array_sha256": "5c6ebf425533b76e821185ae288aa81056f88727cfdd516c48c2af40b65b28ca",
+        "matched_complete_spans": [
+          [
+            1,
+            44,
+            46
+          ],
+          [
+            2,
+            46,
+            48
+          ],
+          [
+            3,
+            48,
+            74
+          ]
+        ],
+        "pcm_sha256": "a3c9b4599e3337abe1aa85936bac93935f4dfe9b640c3dc824fd81fe9482f3ac"
+      },
+      {
+        "b9_array_sha256": "4d0ef2e09c79c971ae92d8993663dec95c278793bd2bae00db552cdab94c0125",
+        "b9_registered_spans": [
+          [
+            1,
+            43,
+            45
+          ],
+          [
+            2,
+            45,
+            47
+          ],
+          [
+            3,
+            47,
+            70
+          ]
+        ],
+        "gain": "0.5",
+        "group": "kokoro-v1_0-preset:am_liam",
+        "id": "fresh24-am_liam-mero-merrow",
+        "matched_array_sha256": "c6bcfcf80f901190bb953e5e90a8414716ee2c4ac54f000e4818f47c140bb65f",
+        "matched_complete_spans": [
+          [
+            1,
+            43,
+            45
+          ],
+          [
+            2,
+            45,
+            47
+          ],
+          [
+            3,
+            47,
+            71
+          ]
+        ],
+        "pcm_sha256": "a3c9b4599e3337abe1aa85936bac93935f4dfe9b640c3dc824fd81fe9482f3ac"
+      },
+      {
+        "b9_array_sha256": "5a192046a4ef3cac32831efb19b03a1b531880485146c0646fefa7d243be6b39",
+        "b9_registered_spans": [
+          [
+            1,
+            98,
+            99
+          ],
+          [
+            2,
+            99,
+            101
+          ],
+          [
+            3,
+            101,
+            110
+          ]
+        ],
+        "gain": "1.0",
+        "group": "kokoro-v1_0-preset:bf_alice",
+        "id": "fresh24-bf_alice-mero-merrow",
+        "matched_array_sha256": "d9c7ce13db6a90ef68963dd280e817d3232d1e3a3eef5d0f2ff7dcd9e4cbf542",
+        "matched_complete_spans": [
+          [
+            1,
+            98,
+            99
+          ],
+          [
+            2,
+            99,
+            101
+          ],
+          [
+            3,
+            101,
+            110
+          ]
+        ],
+        "pcm_sha256": "5be5c51c5b3eac7ec5fa082dd52c3ce02584a1c98f85d06f106fe5e349cb0287"
+      },
+      {
+        "b9_array_sha256": "4b081c4e9fcad850ccf73bbecddada3b584e335bb3575cec70ba5fc4702ded80",
+        "b9_registered_spans": [
+          [
+            1,
+            88,
+            90
+          ],
+          [
+            2,
+            90,
+            91
+          ],
+          [
+            3,
+            91,
+            127
+          ]
+        ],
+        "gain": "0.5",
+        "group": "kokoro-v1_0-preset:bf_alice",
+        "id": "fresh24-bf_alice-mero-merrow",
+        "matched_array_sha256": "1fb8c0447bf8f03ba86dd25be49a5dcfb193854b354a0ea98f58c164e253cd5c",
+        "matched_complete_spans": [
+          [
+            1,
+            88,
+            90
+          ],
+          [
+            2,
+            90,
+            91
+          ],
+          [
+            3,
+            91,
+            127
+          ]
+        ],
+        "pcm_sha256": "5be5c51c5b3eac7ec5fa082dd52c3ce02584a1c98f85d06f106fe5e349cb0287"
+      },
+      {
+        "b9_array_sha256": "1ce6f042f51377d21c29d6d51aedbe35e69bbbdde947d229df6e3d45b3956c8c",
+        "b9_registered_spans": [
+          [
+            1,
+            81,
+            84
+          ],
+          [
+            2,
+            84,
+            85
+          ],
+          [
+            3,
+            85,
+            91
+          ]
+        ],
+        "gain": "1.0",
+        "group": "kokoro-v1_0-preset:bf_emma",
+        "id": "fresh24-bf_emma-mero-merrow",
+        "matched_array_sha256": "ba7b0864a3d3dd6ee65ae1c5c403ca055a4e6a1f273231912313b4cf0632f70d",
+        "matched_complete_spans": [
+          [
+            1,
+            81,
+            84
+          ],
+          [
+            2,
+            84,
+            86
+          ],
+          [
+            3,
+            86,
+            91
+          ]
+        ],
+        "pcm_sha256": "31bd05d8776a6fbe5a2b71297db75c66692822b7a834e397c959b886a8c2906b"
+      },
+      {
+        "b9_array_sha256": "5c2dc4c50b8e95794eecb9680ea7091d903edf2933d49dd972fb178ec2e13ac3",
+        "b9_registered_spans": [
+          [
+            1,
+            80,
+            83
+          ],
+          [
+            2,
+            83,
+            84
+          ],
+          [
+            3,
+            84,
+            95
+          ]
+        ],
+        "gain": "0.75",
+        "group": "kokoro-v1_0-preset:bf_emma",
+        "id": "fresh24-bf_emma-mero-merrow",
+        "matched_array_sha256": "2d7b5bf835fcdc5149d59a2624b6e7940cfcf99a8bdce0b36a2c4b0327b2cae5",
+        "matched_complete_spans": [
+          [
+            1,
+            80,
+            83
+          ],
+          [
+            2,
+            83,
+            84
+          ],
+          [
+            3,
+            84,
+            95
+          ]
+        ],
+        "pcm_sha256": "31bd05d8776a6fbe5a2b71297db75c66692822b7a834e397c959b886a8c2906b"
+      },
+      {
+        "b9_array_sha256": "9bad9565775184555b5384f5b1d7ab1a891970762cdc071a172e18954f584942",
+        "b9_registered_spans": [
+          [
+            1,
+            79,
+            81
+          ],
+          [
+            2,
+            81,
+            83
+          ],
+          [
+            3,
+            83,
+            109
+          ]
+        ],
+        "gain": "0.5",
+        "group": "kokoro-v1_0-preset:bf_emma",
+        "id": "fresh24-bf_emma-mero-merrow",
+        "matched_array_sha256": "c1b1ac337d18afff4abcf1545e0a743d9b626e26377bf11a331d57e937c45602",
+        "matched_complete_spans": [
+          [
+            1,
+            79,
+            82
+          ],
+          [
+            2,
+            82,
+            83
+          ],
+          [
+            3,
+            83,
+            109
+          ]
+        ],
+        "pcm_sha256": "31bd05d8776a6fbe5a2b71297db75c66692822b7a834e397c959b886a8c2906b"
+      },
+      {
+        "b9_array_sha256": "a7085388cbeb627b6caa96788697e61596610e126c0f9170f2c20b38f2685f28",
+        "b9_registered_spans": [
+          [
+            1,
+            48,
+            49
+          ],
+          [
+            2,
+            49,
+            51
+          ],
+          [
+            3,
+            51,
+            76
+          ]
+        ],
+        "gain": "1.0",
+        "group": "kokoro-v1_0-preset:bm_daniel",
+        "id": "fresh24-bm_daniel-mero-merrow",
+        "matched_array_sha256": "3139237d04c6966257ca19c8c9b9be9ef6fba4f4f99e5b19b49d6c7796a45dd7",
+        "matched_complete_spans": [
+          [
+            1,
+            48,
+            49
+          ],
+          [
+            2,
+            49,
+            51
+          ],
+          [
+            3,
+            51,
+            77
+          ]
+        ],
+        "pcm_sha256": "227315d1853a763b2e4a9dae67639f27984b8b739979c1e8cdcb4e47e962a0fb"
+      },
+      {
+        "b9_array_sha256": "fff3f48e2b1f6d5d9f8d9716455cc8b0c31ea5700b37fb3f745e7c9e0c3dcb6d",
+        "b9_registered_spans": [
+          [
+            1,
+            46,
+            47
+          ],
+          [
+            2,
+            47,
+            50
+          ],
+          [
+            3,
+            50,
+            74
+          ]
+        ],
+        "gain": "0.75",
+        "group": "kokoro-v1_0-preset:bm_daniel",
+        "id": "fresh24-bm_daniel-mero-merrow",
+        "matched_array_sha256": "fbf25049ae481f21909df9bb8ea57950dcf232b1d3df130f1625a3befdcd5e86",
+        "matched_complete_spans": [
+          [
+            1,
+            47,
+            48
+          ],
+          [
+            2,
+            48,
+            50
+          ],
+          [
+            3,
+            50,
+            75
+          ]
+        ],
+        "pcm_sha256": "227315d1853a763b2e4a9dae67639f27984b8b739979c1e8cdcb4e47e962a0fb"
+      },
+      {
+        "b9_array_sha256": "f4321ec72485225db0a02e944aa96844b8bb1a2f5e0fa950a3374ff237172f90",
+        "b9_registered_spans": [
+          [
+            1,
+            44,
+            46
+          ],
+          [
+            2,
+            46,
+            48
+          ],
+          [
+            3,
+            48,
+            71
+          ]
+        ],
+        "gain": "0.5",
+        "group": "kokoro-v1_0-preset:bm_daniel",
+        "id": "fresh24-bm_daniel-mero-merrow",
+        "matched_array_sha256": "5e5b7817bdfc8553beaf945243faf727bf0758413535ba6982485a83551242d5",
+        "matched_complete_spans": [
+          [
+            1,
+            44,
+            46
+          ],
+          [
+            2,
+            46,
+            48
+          ],
+          [
+            3,
+            48,
+            71
+          ]
+        ],
+        "pcm_sha256": "227315d1853a763b2e4a9dae67639f27984b8b739979c1e8cdcb4e47e962a0fb"
+      },
+      {
+        "b9_array_sha256": "d7ba342018caec4e72fb2aefe7d2e88369c34336fbb7e76817cff341049fb96c",
+        "b9_registered_spans": [
+          [
+            1,
+            48,
+            49
+          ],
+          [
+            2,
+            49,
+            51
+          ],
+          [
+            3,
+            51,
+            67
+          ]
+        ],
+        "gain": "1.0",
+        "group": "kokoro-v1_0-preset:bm_fable",
+        "id": "fresh24-bm_fable-mero-merrow",
+        "matched_array_sha256": "5bc06a8cfa4ea5a62a568db9db4725f5165ff251621936be18af017e31d45446",
+        "matched_complete_spans": [
+          [
+            1,
+            48,
+            50
+          ],
+          [
+            2,
+            50,
+            51
+          ],
+          [
+            3,
+            51,
+            67
+          ]
+        ],
+        "pcm_sha256": "48fa5bbb013c433aa4861d6ec77e9bcdf26f9091ab76c80f7c88ec2b5c09b01a"
+      },
+      {
+        "b9_array_sha256": "fbd6accf37f8da4cbb0231900408d1b40f01a730da2a58463e83639f51f765d2",
+        "b9_registered_spans": [
+          [
+            1,
+            46,
+            48
+          ],
+          [
+            2,
+            48,
+            50
+          ],
+          [
+            3,
+            50,
+            69
+          ]
+        ],
+        "gain": "0.75",
+        "group": "kokoro-v1_0-preset:bm_fable",
+        "id": "fresh24-bm_fable-mero-merrow",
+        "matched_array_sha256": "69157da7466938d2caeca4a832d0ee3b81d0116304fe4958ac5ebfd87528d049",
+        "matched_complete_spans": [
+          [
+            1,
+            47,
+            49
+          ],
+          [
+            2,
+            49,
+            51
+          ],
+          [
+            3,
+            51,
+            69
+          ]
+        ],
+        "pcm_sha256": "48fa5bbb013c433aa4861d6ec77e9bcdf26f9091ab76c80f7c88ec2b5c09b01a"
+      },
+      {
+        "b9_array_sha256": "70826ab1ed43a64147ea89e1d4a7989ccbc1499ff03a6135f8a096013b2453dd",
+        "b9_registered_spans": [
+          [
+            1,
+            46,
+            48
+          ],
+          [
+            2,
+            48,
+            50
+          ],
+          [
+            3,
+            50,
+            70
+          ]
+        ],
+        "gain": "0.5",
+        "group": "kokoro-v1_0-preset:bm_fable",
+        "id": "fresh24-bm_fable-mero-merrow",
+        "matched_array_sha256": "c2d22173197c3ac1b39209f19daef7c0125459e1835efcadfe76ae556d4e9e41",
+        "matched_complete_spans": [
+          [
+            1,
+            46,
+            48
+          ],
+          [
+            2,
+            48,
+            50
+          ],
+          [
+            3,
+            50,
+            71
+          ]
+        ],
+        "pcm_sha256": "48fa5bbb013c433aa4861d6ec77e9bcdf26f9091ab76c80f7c88ec2b5c09b01a"
+      },
+      {
+        "b9_array_sha256": "97720c1096d5e5951f8be0829f3ab7dd663a40291f70e386343ba4fac7fdcf0e",
+        "b9_registered_spans": [
+          [
+            1,
+            40,
+            42
+          ],
+          [
+            2,
+            42,
+            44
+          ],
+          [
+            3,
+            44,
+            62
+          ]
+        ],
+        "gain": "1.0",
+        "group": "kokoro-v1_0-preset:ef_dora",
+        "id": "fresh24-ef_dora-mero-marrow",
+        "matched_array_sha256": "9c07fd66cc0ea28de6853d74bbc5d3107ca3325ebdee92a04d64813081708ffc",
+        "matched_complete_spans": [
+          [
+            1,
+            40,
+            42
+          ],
+          [
+            2,
+            42,
+            44
+          ],
+          [
+            3,
+            44,
+            62
+          ]
+        ],
+        "pcm_sha256": "41340cf65bb19541497f950918169e61ee2b030da442cb983f6055f2e62bacc2"
+      },
+      {
+        "b9_array_sha256": "057697c37373dbc4ff27612f6d452e71c0fbb8e923c4b6d98310a04430e896ae",
+        "b9_registered_spans": [
+          [
+            1,
+            39,
+            41
+          ],
+          [
+            2,
+            41,
+            43
+          ],
+          [
+            3,
+            43,
+            66
+          ]
+        ],
+        "gain": "0.75",
+        "group": "kokoro-v1_0-preset:ef_dora",
+        "id": "fresh24-ef_dora-mero-marrow",
+        "matched_array_sha256": "61c2f2c971204f092d725883780ad76bc163c3112890dd1487d5888ee11cd1f4",
+        "matched_complete_spans": [
+          [
+            1,
+            39,
+            41
+          ],
+          [
+            2,
+            41,
+            43
+          ],
+          [
+            3,
+            43,
+            66
+          ]
+        ],
+        "pcm_sha256": "41340cf65bb19541497f950918169e61ee2b030da442cb983f6055f2e62bacc2"
+      },
+      {
+        "b9_array_sha256": "46196d085883d44154019c4f8b93d37a0880687e4a34b09e0c47e2d787292661",
+        "b9_registered_spans": [
+          [
+            1,
+            38,
+            39
+          ],
+          [
+            2,
+            39,
+            41
+          ],
+          [
+            3,
+            41,
+            67
+          ]
+        ],
+        "gain": "0.5",
+        "group": "kokoro-v1_0-preset:ef_dora",
+        "id": "fresh24-ef_dora-mero-marrow",
+        "matched_array_sha256": "6575cd300598b73330f614d184deb3d0e9a875b3474fa49c77c4952564c6775c",
+        "matched_complete_spans": [
+          [
+            1,
+            38,
+            40
+          ],
+          [
+            2,
+            40,
+            41
+          ],
+          [
+            3,
+            41,
+            67
+          ]
+        ],
+        "pcm_sha256": "41340cf65bb19541497f950918169e61ee2b030da442cb983f6055f2e62bacc2"
+      },
+      {
+        "b9_array_sha256": "62510b8f916f1ae6fd2bf1b61007402cde0f406b8eddfcac1adec2c820b7697b",
+        "b9_registered_spans": [
+          [
+            1,
+            48,
+            50
+          ],
+          [
+            2,
+            50,
+            52
+          ],
+          [
+            3,
+            52,
+            78
+          ]
+        ],
+        "gain": "1.0",
+        "group": "kokoro-v1_0-preset:ef_dora",
+        "id": "fresh24-ef_dora-mero-merrow",
+        "matched_array_sha256": "ea27a33a69512d467944d3ecf543953d15a394de05abf90acfe9c22fd916106a",
+        "matched_complete_spans": [
+          [
+            1,
+            48,
+            50
+          ],
+          [
+            2,
+            50,
+            52
+          ],
+          [
+            3,
+            52,
+            78
+          ]
+        ],
+        "pcm_sha256": "729c40d99f3f4260e5305713e374b297fa9e4aacc704897332eaf436eb1783b1"
+      },
+      {
+        "b9_array_sha256": "1df4bded88de77ee908280b588d902e12c9f1ada3c841234a10dd3284ea10d81",
+        "b9_registered_spans": [
+          [
+            1,
+            48,
+            50
+          ],
+          [
+            2,
+            50,
+            51
+          ],
+          [
+            3,
+            51,
+            77
+          ]
+        ],
+        "gain": "0.75",
+        "group": "kokoro-v1_0-preset:ef_dora",
+        "id": "fresh24-ef_dora-mero-merrow",
+        "matched_array_sha256": "f7970339131bd00cdcfa377efaba9c72bb639890bc98f175afa2d49b7b00e9a0",
+        "matched_complete_spans": [
+          [
+            1,
+            48,
+            50
+          ],
+          [
+            2,
+            50,
+            52
+          ],
+          [
+            3,
+            52,
+            77
+          ]
+        ],
+        "pcm_sha256": "729c40d99f3f4260e5305713e374b297fa9e4aacc704897332eaf436eb1783b1"
+      },
+      {
+        "b9_array_sha256": "32002d006c5835f21faceffcc8fab2228ded4da26d943703cc6255611a0747a7",
+        "b9_registered_spans": [
+          [
+            1,
+            48,
+            50
+          ],
+          [
+            2,
+            50,
+            51
+          ],
+          [
+            3,
+            51,
+            71
+          ]
+        ],
+        "gain": "0.5",
+        "group": "kokoro-v1_0-preset:ef_dora",
+        "id": "fresh24-ef_dora-mero-merrow",
+        "matched_array_sha256": "234a7293d0e8a53c1d5dac84eb99b9ce712a1aa47608c100364e3ca136b970df",
+        "matched_complete_spans": [
+          [
+            1,
+            48,
+            50
+          ],
+          [
+            2,
+            50,
+            51
+          ],
+          [
+            3,
+            51,
+            72
+          ]
+        ],
+        "pcm_sha256": "729c40d99f3f4260e5305713e374b297fa9e4aacc704897332eaf436eb1783b1"
+      },
+      {
+        "b9_array_sha256": "413aac0fff43486dbb9a63e0a6a7622df1ed12f2dbaa755c76320420b88e3445",
+        "b9_registered_spans": [
+          [
+            1,
+            35,
+            37
+          ],
+          [
+            2,
+            37,
+            39
+          ],
+          [
+            3,
+            39,
+            55
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p7498",
+        "id": "mero24-448-mero-slow",
+        "matched_array_sha256": "da61424cccb60095ff8fc1969e7bcdcc6561aca637906d838c329c3f823323ae",
+        "matched_complete_spans": [
+          [
+            1,
+            35,
+            37
+          ],
+          [
+            2,
+            37,
+            39
+          ],
+          [
+            3,
+            39,
+            56
+          ]
+        ],
+        "pcm_sha256": "cd05664ba4cd4a700fec0a6bd97fefaf88ec485532fe8b42b7cdf3f084925a68"
+      },
+      {
+        "b9_array_sha256": "6820502ce5fcb4ffdb81fcfbe6e08cf7a6a60ec9927af931bc721ac60b95e45e",
+        "b9_registered_spans": [
+          [
+            1,
+            34,
+            36
+          ],
+          [
+            2,
+            36,
+            38
+          ],
+          [
+            3,
+            38,
+            54
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p7498",
+        "id": "mero24-448-mero-slow",
+        "matched_array_sha256": "a74742cea10fa4a9d55d912bc0f60826d873c57ff91e0cf6c0a98c7be623fe32",
+        "matched_complete_spans": [
+          [
+            1,
+            34,
+            36
+          ],
+          [
+            2,
+            36,
+            38
+          ],
+          [
+            3,
+            38,
+            54
+          ]
+        ],
+        "pcm_sha256": "cd05664ba4cd4a700fec0a6bd97fefaf88ec485532fe8b42b7cdf3f084925a68"
+      },
+      {
+        "b9_array_sha256": "5e8446563fc6df54ebe3efaa537936f71fb4fc33a936bac843c581430d041d8c",
+        "b9_registered_spans": [
+          [
+            1,
+            34,
+            36
+          ],
+          [
+            2,
+            36,
+            37
+          ],
+          [
+            3,
+            37,
+            50
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p7498",
+        "id": "mero24-448-mero-slow",
+        "matched_array_sha256": "c9d99888b9b311d27811aecbe8e4fa6f1922e39039a4612eeb6e5f6570a37cc1",
+        "matched_complete_spans": [
+          [
+            1,
+            34,
+            36
+          ],
+          [
+            2,
+            36,
+            37
+          ],
+          [
+            3,
+            37,
+            51
+          ]
+        ],
+        "pcm_sha256": "cd05664ba4cd4a700fec0a6bd97fefaf88ec485532fe8b42b7cdf3f084925a68"
+      },
+      {
+        "b9_array_sha256": "197d26e276b197d0909248df96f5822446a3ec374328c4eac10d441246ed6743",
+        "b9_registered_spans": [
+          [
+            1,
+            34,
+            35
+          ],
+          [
+            2,
+            35,
+            37
+          ],
+          [
+            3,
+            37,
+            44
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p3905",
+        "id": "mero24-449-mero-fast",
+        "matched_array_sha256": "fd4e0850a6fd62be23456b9b85100070fe19e4066bac4a75d6b937e6c8e75d6d",
+        "matched_complete_spans": [
+          [
+            1,
+            34,
+            35
+          ],
+          [
+            2,
+            35,
+            37
+          ],
+          [
+            3,
+            37,
+            44
+          ]
+        ],
+        "pcm_sha256": "fe39e646616c74b63342b05503377919a83be646c7423439f2f8f8e87c3d6e72"
+      },
+      {
+        "b9_array_sha256": "ead446ba73ef705ebc20f5659a6d37e0aaa0ac6ad35cdc98dd868bd344eb9ba5",
+        "b9_registered_spans": [
+          [
+            1,
+            33,
+            34
+          ],
+          [
+            2,
+            34,
+            35
+          ],
+          [
+            3,
+            35,
+            41
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p3905",
+        "id": "mero24-449-mero-fast",
+        "matched_array_sha256": "fdb39143ac462fc97e186de76e8c7b932d3aee17ea1eebf87cae155e921c91ad",
+        "matched_complete_spans": [
+          [
+            1,
+            33,
+            34
+          ],
+          [
+            2,
+            34,
+            35
+          ],
+          [
+            3,
+            35,
+            41
+          ]
+        ],
+        "pcm_sha256": "fe39e646616c74b63342b05503377919a83be646c7423439f2f8f8e87c3d6e72"
+      },
+      {
+        "b9_array_sha256": "85302f2e0581ecd006a44d80e48015ecc19b9a3d4719a9e325be5780111d6983",
+        "b9_registered_spans": [
+          [
+            1,
+            23,
+            25
+          ],
+          [
+            2,
+            25,
+            28
+          ],
+          [
+            3,
+            28,
+            43
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p7384",
+        "id": "mero24-450-mero-slow",
+        "matched_array_sha256": "47aad11676a90f5e9f6006876de8367d4ae79d8e4ee18c4bde4e2f05ce70bff0",
+        "matched_complete_spans": [
+          [
+            1,
+            23,
+            25
+          ],
+          [
+            2,
+            25,
+            28
+          ],
+          [
+            3,
+            28,
+            44
+          ]
+        ],
+        "pcm_sha256": "a8e580dbcd6f7c122770674dbfa345ffdc66b856bed822ed9d2ae75c8d7e9375"
+      },
+      {
+        "b9_array_sha256": "b48272909a1fa2f0509379fe7617d152d268ff868a74d597cede5fee0cc66073",
+        "b9_registered_spans": [
+          [
+            1,
+            25,
+            26
+          ],
+          [
+            2,
+            26,
+            28
+          ],
+          [
+            3,
+            28,
+            38
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p7384",
+        "id": "mero24-450-mero-slow",
+        "matched_array_sha256": "c9f3c569290c3df7f3bbd0f3c866f9e0532e2b121100da1535d29c11757c21f2",
+        "matched_complete_spans": [
+          [
+            1,
+            24,
+            26
+          ],
+          [
+            2,
+            26,
+            28
+          ],
+          [
+            3,
+            28,
+            39
+          ]
+        ],
+        "pcm_sha256": "a8e580dbcd6f7c122770674dbfa345ffdc66b856bed822ed9d2ae75c8d7e9375"
+      },
+      {
+        "b9_array_sha256": "512779329432c0c262353813eeff0cdf82cb7669409c21c37d802d6217d8aecc",
+        "b9_registered_spans": [
+          [
+            1,
+            27,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            46
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p2992",
+        "id": "mero24-451-mero-fast",
+        "matched_array_sha256": "6d62f36196a34960fe1761d4704ff91ec082d07687c2178c99931ee56f7afeb5",
+        "matched_complete_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            46
+          ]
+        ],
+        "pcm_sha256": "3d25a81b40bb00f6614ec3206f8d81ceb3170bc8ddd3805b1e43bce676f7f9b4"
+      },
+      {
+        "b9_array_sha256": "c09a18ac9e8f87702c928e5decaf49219a4617bb8b0b6b5e9b6a0813995a74d5",
+        "b9_registered_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            46
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p2992",
+        "id": "mero24-451-mero-fast",
+        "matched_array_sha256": "33e70f8892f6d82302f4caaf8dc3ac3e4ac418253a90eba61f60dd2bd86e5900",
+        "matched_complete_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            46
+          ]
+        ],
+        "pcm_sha256": "3d25a81b40bb00f6614ec3206f8d81ceb3170bc8ddd3805b1e43bce676f7f9b4"
+      },
+      {
+        "b9_array_sha256": "671f630c9b5df42d1d02ff1245cd4be354324620e1b0cf40f94f931ebf457ae5",
+        "b9_registered_spans": [
+          [
+            1,
+            26,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            44
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p2992",
+        "id": "mero24-451-mero-fast",
+        "matched_array_sha256": "0ffc7c834989b748a879a8be73fa597bbaed7930941c6a93dd61c52d15557640",
+        "matched_complete_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            45
+          ]
+        ],
+        "pcm_sha256": "3d25a81b40bb00f6614ec3206f8d81ceb3170bc8ddd3805b1e43bce676f7f9b4"
+      },
+      {
+        "b9_array_sha256": "da96d02c7b94b2fb43e43d1e886f18b45b3edd245ab4c37dd83214200ee71d60",
+        "b9_registered_spans": [
+          [
+            1,
+            29,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            51
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p2992",
+        "id": "mero24-451-mero-slow",
+        "matched_array_sha256": "f632c9a10b12f4b10c26daad735be28570db865b40028f98802db7463610eae1",
+        "matched_complete_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            51
+          ]
+        ],
+        "pcm_sha256": "7e90375e81043daf71bd595513cf3369ddd69f2299b27e6ede7c18077ec8e862"
+      },
+      {
+        "b9_array_sha256": "ed7d50b5e192fa6aaafed21bd15b7140b3d40666300637effc9a4bd0f572164e",
+        "b9_registered_spans": [
+          [
+            1,
+            28,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            51
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p2992",
+        "id": "mero24-451-mero-slow",
+        "matched_array_sha256": "c40a52125a0d4b6137088955e13d6a5b5652de0f7798a268e46a83f10bdd3d35",
+        "matched_complete_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            51
+          ]
+        ],
+        "pcm_sha256": "7e90375e81043daf71bd595513cf3369ddd69f2299b27e6ede7c18077ec8e862"
+      },
+      {
+        "b9_array_sha256": "d1b11b2fb86676343fea7da20bf4151883a93f31c1f1ecdb6daf24fe4b222b20",
+        "b9_registered_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            49
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p2992",
+        "id": "mero24-451-mero-slow",
+        "matched_array_sha256": "7ea9e5098fc8a3c68e9ee44037b2bc8ae0d397099ddf2842a68f8c7f7aefd061",
+        "matched_complete_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            49
+          ]
+        ],
+        "pcm_sha256": "7e90375e81043daf71bd595513cf3369ddd69f2299b27e6ede7c18077ec8e862"
+      },
+      {
+        "b9_array_sha256": "cbc82ae0c8d2f76f8809c5c0dfc736156864da9a6817484e07d52cee6922b6d0",
+        "b9_registered_spans": [
+          [
+            1,
+            34,
+            37
+          ],
+          [
+            2,
+            37,
+            39
+          ],
+          [
+            3,
+            39,
+            55
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p30",
+        "id": "mero24-452-mero-fast",
+        "matched_array_sha256": "4986b4d3894f40287b71c421df915867c1ca4eaf89bb809b19315ec2dc922dbc",
+        "matched_complete_spans": [
+          [
+            1,
+            35,
+            37
+          ],
+          [
+            2,
+            37,
+            39
+          ],
+          [
+            3,
+            39,
+            55
+          ]
+        ],
+        "pcm_sha256": "e3ce4f8e448ecf55531f61c6c8de8e23c97e6dbee45157bbc5893b41986cfbf1"
+      },
+      {
+        "b9_array_sha256": "8401c5080d824ae6d750c6a6422f95b4d2cc500096dcb83455cd3541e817e66a",
+        "b9_registered_spans": [
+          [
+            1,
+            34,
+            36
+          ],
+          [
+            2,
+            36,
+            38
+          ],
+          [
+            3,
+            38,
+            54
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p30",
+        "id": "mero24-452-mero-fast",
+        "matched_array_sha256": "c2808229c7f8521f4ceb2768295fb38c4072ccb8192ceb097e8bd250e1604ac7",
+        "matched_complete_spans": [
+          [
+            1,
+            34,
+            36
+          ],
+          [
+            2,
+            36,
+            38
+          ],
+          [
+            3,
+            38,
+            54
+          ]
+        ],
+        "pcm_sha256": "e3ce4f8e448ecf55531f61c6c8de8e23c97e6dbee45157bbc5893b41986cfbf1"
+      },
+      {
+        "b9_array_sha256": "e3cebf79bcef664cd74191ffa6116a2abeeb5a8d355d9cff9705cd0668c75afd",
+        "b9_registered_spans": [
+          [
+            1,
+            33,
+            35
+          ],
+          [
+            2,
+            35,
+            37
+          ],
+          [
+            3,
+            37,
+            52
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p30",
+        "id": "mero24-452-mero-fast",
+        "matched_array_sha256": "3e58b0fb9d281ba188b8727e88346b7d4626771b7c4ca3fac16791d9fc2d0b14",
+        "matched_complete_spans": [
+          [
+            1,
+            33,
+            35
+          ],
+          [
+            2,
+            35,
+            37
+          ],
+          [
+            3,
+            37,
+            52
+          ]
+        ],
+        "pcm_sha256": "e3ce4f8e448ecf55531f61c6c8de8e23c97e6dbee45157bbc5893b41986cfbf1"
+      },
+      {
+        "b9_array_sha256": "5b696ca582df8de71c203f5d1008323eaad35f4bd6369170b8a24958d64534c1",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            50
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p227",
+        "id": "mero24-454-mero-fast",
+        "matched_array_sha256": "d749b6306082515ca809dd05181646766f320bbc71c4ecc822b37f148e514b79",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            50
+          ]
+        ],
+        "pcm_sha256": "8e8f0f2032aea863a86b212c629a5a3d1bb3a12d75b2d700926cdd4a5947efc9"
+      },
+      {
+        "b9_array_sha256": "9632cf99b11ec36e6a011e4ab8193250ca0fddacf7883ab1220347d7a385f775",
+        "b9_registered_spans": [
+          [
+            1,
+            30,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            52
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p227",
+        "id": "mero24-454-mero-fast",
+        "matched_array_sha256": "06f6cc99cbf0855cd2b87a8cc20461f18469851ae769ca9c010a23aadba138f3",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            52
+          ]
+        ],
+        "pcm_sha256": "8e8f0f2032aea863a86b212c629a5a3d1bb3a12d75b2d700926cdd4a5947efc9"
+      },
+      {
+        "b9_array_sha256": "9d3d528b88252e9c4a372c7e16e838348c1e556af640c621ae47b97a96918766",
+        "b9_registered_spans": [
+          [
+            1,
+            29,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            52
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p227",
+        "id": "mero24-454-mero-fast",
+        "matched_array_sha256": "d60a7f6961a2c4aded5b137848b18e9f5a395ee822c2b3fe32ce8c5de69910c9",
+        "matched_complete_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            52
+          ]
+        ],
+        "pcm_sha256": "8e8f0f2032aea863a86b212c629a5a3d1bb3a12d75b2d700926cdd4a5947efc9"
+      },
+      {
+        "b9_array_sha256": "8c2e199c1e8b035f962ceb8a8943f5bf0a33dd6a71b232301934d8fe7012b46f",
+        "b9_registered_spans": [
+          [
+            1,
+            36,
+            38
+          ],
+          [
+            2,
+            38,
+            40
+          ],
+          [
+            3,
+            40,
+            58
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p227",
+        "id": "mero24-454-mero-slow",
+        "matched_array_sha256": "6b3438023b18f2fd163b461a125c7921c7bf9b6c09d0621cc24f7bb4310be7c4",
+        "matched_complete_spans": [
+          [
+            1,
+            36,
+            39
+          ],
+          [
+            2,
+            39,
+            41
+          ],
+          [
+            3,
+            41,
+            58
+          ]
+        ],
+        "pcm_sha256": "789d73b8461480b10e4ebeec5074f9cf713492a0b25329ad8250917573606b63"
+      },
+      {
+        "b9_array_sha256": "cc75643f63a7eb94009bff751308ad06eac4f9ce1dfc1aa01fc06c9944549f43",
+        "b9_registered_spans": [
+          [
+            1,
+            35,
+            38
+          ],
+          [
+            2,
+            38,
+            40
+          ],
+          [
+            3,
+            40,
+            60
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p227",
+        "id": "mero24-454-mero-slow",
+        "matched_array_sha256": "4c2de0f83891e82a4abab7e81aa4292bd2c792ee19f0a45f953df1cce093dfa2",
+        "matched_complete_spans": [
+          [
+            1,
+            35,
+            38
+          ],
+          [
+            2,
+            38,
+            40
+          ],
+          [
+            3,
+            40,
+            60
+          ]
+        ],
+        "pcm_sha256": "789d73b8461480b10e4ebeec5074f9cf713492a0b25329ad8250917573606b63"
+      },
+      {
+        "b9_array_sha256": "c3242e4ecc73a4f08cff5bba16c5304962b7a384dfaf7b713c8a8d94893a47e3",
+        "b9_registered_spans": [
+          [
+            1,
+            33,
+            36
+          ],
+          [
+            2,
+            36,
+            38
+          ],
+          [
+            3,
+            38,
+            60
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p227",
+        "id": "mero24-454-mero-slow",
+        "matched_array_sha256": "2da326fc8e606da40dd13d8ae4b9183acf713dcb7726bdb3313bc5409749061c",
+        "matched_complete_spans": [
+          [
+            1,
+            34,
+            36
+          ],
+          [
+            2,
+            36,
+            38
+          ],
+          [
+            3,
+            38,
+            60
+          ]
+        ],
+        "pcm_sha256": "789d73b8461480b10e4ebeec5074f9cf713492a0b25329ad8250917573606b63"
+      },
+      {
+        "b9_array_sha256": "48ad3c68760223b07e2b2a121446a1346e957bf1c535563522a6ffa4fbd3a566",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            53
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p4226",
+        "id": "mero24-455-mero-slow",
+        "matched_array_sha256": "194bf239c4321e13022d8e7e49c118a264ababfcffa08aa9e832ebb4b0c98ad9",
+        "matched_complete_spans": [
+          [
+            1,
+            32,
+            34
+          ],
+          [
+            2,
+            34,
+            35
+          ],
+          [
+            3,
+            35,
+            53
+          ]
+        ],
+        "pcm_sha256": "b705ae74511723fd8c2bb56f35e75e9e74aadbbe1c74b66e85a03c5f95cca7e7"
+      },
+      {
+        "b9_array_sha256": "95cb136238e49ea6c9d3d34b287f7852892d6093c5c6d03a5976626ac970542e",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            51
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p4226",
+        "id": "mero24-455-mero-slow",
+        "matched_array_sha256": "cbed3d15068609ffc0df59fef6ca62637e609276bb7bb03925789466369d5037",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            52
+          ]
+        ],
+        "pcm_sha256": "b705ae74511723fd8c2bb56f35e75e9e74aadbbe1c74b66e85a03c5f95cca7e7"
+      },
+      {
+        "b9_array_sha256": "070f0d7456eaab318fffaf3889189487c203bc68dd1d55e509a54e215144e4c9",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            34
+          ],
+          [
+            3,
+            34,
+            48
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p4226",
+        "id": "mero24-455-mero-slow",
+        "matched_array_sha256": "1cb667d3da1c1bfeac789d1ad0f695561853b67e3eb3e32bfccccb46f201bf1f",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            34
+          ],
+          [
+            3,
+            34,
+            48
+          ]
+        ],
+        "pcm_sha256": "b705ae74511723fd8c2bb56f35e75e9e74aadbbe1c74b66e85a03c5f95cca7e7"
+      },
+      {
+        "b9_array_sha256": "aa5740e5ebd14e3fdf5c5259c24082c49e12d7c57e0ec90fab6d81041b4cb9ce",
+        "b9_registered_spans": [
+          [
+            1,
+            28,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            53
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p5007",
+        "id": "mero24-456-mero-fast",
+        "matched_array_sha256": "d7d5f03cd5d1cc1b03fd42b88be2a01a567ef69d56207040100cd468c6aa8979",
+        "matched_complete_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            53
+          ]
+        ],
+        "pcm_sha256": "5768c0c6e336a4be5809546f8be686e168162ed8ff17e53b7c92d52e4176d619"
+      },
+      {
+        "b9_array_sha256": "4127c380e9276f96dec4c57b20630f72c2404d0643df779457c7f00ac54699f0",
+        "b9_registered_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            54
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p5007",
+        "id": "mero24-456-mero-fast",
+        "matched_array_sha256": "da66b30d89740be67b1d7fd440bbb93f0568a3dd727779b8d5bb84332c9947df",
+        "matched_complete_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            54
+          ]
+        ],
+        "pcm_sha256": "5768c0c6e336a4be5809546f8be686e168162ed8ff17e53b7c92d52e4176d619"
+      },
+      {
+        "b9_array_sha256": "9c5e9542d450ada591ec2ac1f404173da968450e079e88f152c86c79d94b8715",
+        "b9_registered_spans": [
+          [
+            1,
+            30,
+            31
+          ],
+          [
+            2,
+            31,
+            32
+          ],
+          [
+            3,
+            32,
+            52
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p5007",
+        "id": "mero24-456-mero-fast",
+        "matched_array_sha256": "37192fcb59085488ae4e3c22358bc64ddd0e8d4b5c2897c2f973b5b8795c876e",
+        "matched_complete_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            32
+          ],
+          [
+            3,
+            32,
+            52
+          ]
+        ],
+        "pcm_sha256": "5768c0c6e336a4be5809546f8be686e168162ed8ff17e53b7c92d52e4176d619"
+      },
+      {
+        "b9_array_sha256": "27eeb3eb22285edf15f9eedcf89a96b0b37d10231fc68954056bece8bacdfc8a",
+        "b9_registered_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            51
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p1066",
+        "id": "mero24-457-mero-slow",
+        "matched_array_sha256": "07971d2dfa6fdb6fb10aae7f39aae34d553828dd4fdf3ed74fa3411f8a323fab",
+        "matched_complete_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            32
+          ],
+          [
+            3,
+            32,
+            52
+          ]
+        ],
+        "pcm_sha256": "33a34a95ec762bffb2e20a987ae0eb6ff85cfcb16eb9b0f2b0792a18cac67844"
+      },
+      {
+        "b9_array_sha256": "c7143db4b24ef188924919d4d9c025d558029dbd6bd28f4bf4e1696912e45e4b",
+        "b9_registered_spans": [
+          [
+            1,
+            26,
+            28
+          ],
+          [
+            2,
+            28,
+            30
+          ],
+          [
+            3,
+            30,
+            47
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p1066",
+        "id": "mero24-457-mero-slow",
+        "matched_array_sha256": "2b12cc6a91c474a153f023977c2352c71094ac44ddcf767146d81dc3bbb4ab2a",
+        "matched_complete_spans": [
+          [
+            1,
+            26,
+            28
+          ],
+          [
+            2,
+            28,
+            30
+          ],
+          [
+            3,
+            30,
+            48
+          ]
+        ],
+        "pcm_sha256": "33a34a95ec762bffb2e20a987ae0eb6ff85cfcb16eb9b0f2b0792a18cac67844"
+      },
+      {
+        "b9_array_sha256": "2bdd8cef626aee259f40905c6898e1d873358c3a9e8fbd6c6b79ee8184a8e366",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            54
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p7688",
+        "id": "mero24-459-mero-fast",
+        "matched_array_sha256": "def256cd51d8e76650c6feef1fa9fd6dcdc74ce7c24bf72f5b084272e9d21f0f",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            54
+          ]
+        ],
+        "pcm_sha256": "ec953159eb011c3f3ab19ef985493bf04c09c14400535dc91a73998af8aae929"
+      },
+      {
+        "b9_array_sha256": "734742bae80ee34002895d6e51e15fe676f9b49ca74abeabc5a8c765034bec73",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            52
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p7688",
+        "id": "mero24-459-mero-fast",
+        "matched_array_sha256": "f6f23ebbd8ac265ac3e76180f9c719f9a1daa31458f26485b811e83ae831fe0d",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            53
+          ]
+        ],
+        "pcm_sha256": "ec953159eb011c3f3ab19ef985493bf04c09c14400535dc91a73998af8aae929"
+      },
+      {
+        "b9_array_sha256": "fbb15a3b5061eeeece6302c60f5df4f783a370d514460ed90af56cd058a65f37",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            47
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p7688",
+        "id": "mero24-459-mero-fast",
+        "matched_array_sha256": "d59bdeb454ec3686a83aa4a49b6cfcacd8b63a6dccfef719e6a789722a1f52bf",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            48
+          ]
+        ],
+        "pcm_sha256": "ec953159eb011c3f3ab19ef985493bf04c09c14400535dc91a73998af8aae929"
+      },
+      {
+        "b9_array_sha256": "815607c98b114d631f09ef99bafd436a31504eba167fbb991277e6006537e4b1",
+        "b9_registered_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            57
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p7688",
+        "id": "mero24-459-mero-slow",
+        "matched_array_sha256": "f97cc8feb24becebefcd8c1e3e9b9676d29b329820e7d7ab7c660cd168c26ed3",
+        "matched_complete_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            33
+          ],
+          [
+            3,
+            33,
+            57
+          ]
+        ],
+        "pcm_sha256": "d49e43ac0d1d054d6f91cb149f8cb4f16c0b0ba043e9fc96dbd9ef6fe1a2969e"
+      },
+      {
+        "b9_array_sha256": "33680e0eeab55e7e2f53f63955dd476ec47dfac85cd47a1adf3ce6c2bc2a4266",
+        "b9_registered_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            53
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p7688",
+        "id": "mero24-459-mero-slow",
+        "matched_array_sha256": "b6ad7566c42d1c97f2b6b17796fbeca3818e4c8604175c034bfd4c1589e2927c",
+        "matched_complete_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            54
+          ]
+        ],
+        "pcm_sha256": "d49e43ac0d1d054d6f91cb149f8cb4f16c0b0ba043e9fc96dbd9ef6fe1a2969e"
+      },
+      {
+        "b9_array_sha256": "7b3f25bdee61a7223be4070940fbdcd0156b6fb2d5a86f90410d75c53aebd640",
+        "b9_registered_spans": [
+          [
+            1,
+            30,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            46
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p7688",
+        "id": "mero24-459-mero-slow",
+        "matched_array_sha256": "3090ef4f9e9b2bc63b0ac7342fda073b3d937c08fc6ab84d17670a8621bb7cc8",
+        "matched_complete_spans": [
+          [
+            1,
+            30,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            48
+          ]
+        ],
+        "pcm_sha256": "d49e43ac0d1d054d6f91cb149f8cb4f16c0b0ba043e9fc96dbd9ef6fe1a2969e"
+      },
+      {
+        "b9_array_sha256": "19a91b125b362ad5ff47b1b3c4037f308d11823c91eb2851aeadcd06b19d1550",
+        "b9_registered_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            50
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p7949",
+        "id": "newpiper-400-mero-slow",
+        "matched_array_sha256": "27974b3ae359478a94690ac5f6f955311c1e5933c52209e541397870d3198261",
+        "matched_complete_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            51
+          ]
+        ],
+        "pcm_sha256": "0bc193b05da016fa6637768f542d9908a6549ac513b692f6f922c2cf89f669d7"
+      },
+      {
+        "b9_array_sha256": "6dfba0e7ed8667960db7eacc70850c9e8aa276c08bb80830bff831bb167726f2",
+        "b9_registered_spans": [
+          [
+            1,
+            26,
+            28
+          ],
+          [
+            2,
+            28,
+            30
+          ],
+          [
+            3,
+            30,
+            49
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p7949",
+        "id": "newpiper-400-mero-slow",
+        "matched_array_sha256": "c9c04c4facbcb2e4a472e8185ea0b02e0c3d47574353f8912116392a1e7a67e2",
+        "matched_complete_spans": [
+          [
+            1,
+            26,
+            28
+          ],
+          [
+            2,
+            28,
+            30
+          ],
+          [
+            3,
+            30,
+            49
+          ]
+        ],
+        "pcm_sha256": "0bc193b05da016fa6637768f542d9908a6549ac513b692f6f922c2cf89f669d7"
+      },
+      {
+        "b9_array_sha256": "f4c95c8c40264084b2d1e91a919d74ee4e123d430fe329dfa5b780a5057e3364",
+        "b9_registered_spans": [
+          [
+            1,
+            25,
+            27
+          ],
+          [
+            2,
+            27,
+            29
+          ],
+          [
+            3,
+            29,
+            46
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p7949",
+        "id": "newpiper-400-mero-slow",
+        "matched_array_sha256": "90c85efc3319531211838fd7925c1b9337c239427fcb80f5fc0abd63dbb016ca",
+        "matched_complete_spans": [
+          [
+            1,
+            25,
+            27
+          ],
+          [
+            2,
+            27,
+            29
+          ],
+          [
+            3,
+            29,
+            47
+          ]
+        ],
+        "pcm_sha256": "0bc193b05da016fa6637768f542d9908a6549ac513b692f6f922c2cf89f669d7"
+      },
+      {
+        "b9_array_sha256": "b5a60713d34347285bfb6af9ed106caf7abdcddbdc7f00b145893cb38d95e8b0",
+        "b9_registered_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            46
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p7867",
+        "id": "newpiper-402-mero-slow",
+        "matched_array_sha256": "5dc8f4f3e6f3b4cd69b3b4f68f5f47494120cd695942b33311b7192dae46326f",
+        "matched_complete_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            46
+          ]
+        ],
+        "pcm_sha256": "08310201bce3043313b495e351e2b1a6f9b720f68e93d906adf36a135ddcbaf5"
+      },
+      {
+        "b9_array_sha256": "60c7d48963385051e2ddb68b80d25eb5213faedef643ee72caa03c5ea6c6f547",
+        "b9_registered_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            43
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p7867",
+        "id": "newpiper-402-mero-slow",
+        "matched_array_sha256": "faf736815c367b514595ad236ea008a9524c7f6a3c400a5b22325248e91d7519",
+        "matched_complete_spans": [
+          [
+            1,
+            27,
+            30
+          ],
+          [
+            2,
+            30,
+            31
+          ],
+          [
+            3,
+            31,
+            44
+          ]
+        ],
+        "pcm_sha256": "08310201bce3043313b495e351e2b1a6f9b720f68e93d906adf36a135ddcbaf5"
+      },
+      {
+        "b9_array_sha256": "5be79167d192cea85fbc79dbcec47b8c807d5a9f55b60fd1e79098ff70720e24",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            54
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p953",
+        "id": "newpiper-404-mero-fast",
+        "matched_array_sha256": "e710a1b543d9d44e599ed2075a8578afdb31d3dd26e6d47317cf002d8b01dcde",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            54
+          ]
+        ],
+        "pcm_sha256": "3662a4388f2087cdf38342ecac9f597a208f157d359cebe2c824534df4cfa3ca"
+      },
+      {
+        "b9_array_sha256": "33a7626c6ef7e729bfe1153f808eb5053a33f5febd36539537cd50134d0f7a65",
+        "b9_registered_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            52
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p953",
+        "id": "newpiper-404-mero-fast",
+        "matched_array_sha256": "c28d324cd899e460df93bb3694a339db06d01fde9a6903e4ba6118b40b770c28",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            52
+          ]
+        ],
+        "pcm_sha256": "3662a4388f2087cdf38342ecac9f597a208f157d359cebe2c824534df4cfa3ca"
+      },
+      {
+        "b9_array_sha256": "b561191f9b653b9e2acb356b86c191af67bfe9608fd8862e072e6b0a447005a0",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            47
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p953",
+        "id": "newpiper-404-mero-fast",
+        "matched_array_sha256": "7e97ae5264b5033ccd29de7224cbcaccd259c13b7c2967bef054579a62cb6dc4",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            34
+          ],
+          [
+            3,
+            34,
+            48
+          ]
+        ],
+        "pcm_sha256": "3662a4388f2087cdf38342ecac9f597a208f157d359cebe2c824534df4cfa3ca"
+      },
+      {
+        "b9_array_sha256": "4e306235eeae57679c71e1a0155e92112280dac01735c1fc7670c5bbb3ed5111",
+        "b9_registered_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            49
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p953",
+        "id": "newpiper-404-mero-slow",
+        "matched_array_sha256": "9c6a4af3d9766c4d878756ec96069296ceb685c12ecbd6dc8f0fc2916119d7f5",
+        "matched_complete_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            50
+          ]
+        ],
+        "pcm_sha256": "bd146228e28e6289ebaa9f837350baeea45ad8cf97f9a792d3373b95b59f996f"
+      },
+      {
+        "b9_array_sha256": "8ce378c1107e43d93a989d7fa32d663d9196d430a2699c251b680d669406d0f4",
+        "b9_registered_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            48
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p953",
+        "id": "newpiper-404-mero-slow",
+        "matched_array_sha256": "bc62a90ef9cea7685f3ca06429844ab41052c72bd264ddc740dfb68692b61ed1",
+        "matched_complete_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            48
+          ]
+        ],
+        "pcm_sha256": "bd146228e28e6289ebaa9f837350baeea45ad8cf97f9a792d3373b95b59f996f"
+      },
+      {
+        "b9_array_sha256": "0bf5f36b180368ef444ea4fb3a5a552c7793c6fb63c7c1879c0a1c5ddcdd4976",
+        "b9_registered_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            45
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p953",
+        "id": "newpiper-404-mero-slow",
+        "matched_array_sha256": "ba34cde25f866da4a0265832752648f0c908ea0201132659a62d047c3bfb7a35",
+        "matched_complete_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            45
+          ]
+        ],
+        "pcm_sha256": "bd146228e28e6289ebaa9f837350baeea45ad8cf97f9a792d3373b95b59f996f"
+      },
+      {
+        "b9_array_sha256": "8bc4224cc4556af8e9e02f96346a0c1b78cc29f4bb8aacc9f2d284a89cfbb4c4",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            36
+          ],
+          [
+            3,
+            36,
+            56
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p5189",
+        "id": "newpiper-409-mero-fast",
+        "matched_array_sha256": "dab1f0042e5d117a50741d2d8ae53a28f176565f3580ec60a749868df6651d34",
+        "matched_complete_spans": [
+          [
+            1,
+            32,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            56
+          ]
+        ],
+        "pcm_sha256": "01ace471565e1987ce22449d37ab5c8cd0d95c92687b2f695f2ab1874099e553"
+      },
+      {
+        "b9_array_sha256": "ad61fb2facb50879f0d62b9b49adba59ea68722caef28c39f17e6b8a2d963c82",
+        "b9_registered_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            35
+          ],
+          [
+            3,
+            35,
+            54
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p5189",
+        "id": "newpiper-409-mero-fast",
+        "matched_array_sha256": "bd6213633f42e26cd46289a68ae3a9148a6924e27aaf23b56b69b2c0a7854ceb",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            55
+          ]
+        ],
+        "pcm_sha256": "01ace471565e1987ce22449d37ab5c8cd0d95c92687b2f695f2ab1874099e553"
+      },
+      {
+        "b9_array_sha256": "97951842f01961f6bcac49e9f77552150ee237fc312f5f7365bd70fa516a6efb",
+        "b9_registered_spans": [
+          [
+            1,
+            30,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            51
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p5189",
+        "id": "newpiper-409-mero-fast",
+        "matched_array_sha256": "627ad5e85de22162c191def71a8278c2ef170bf29fbd9fc8871052a1f9c2ce55",
+        "matched_complete_spans": [
+          [
+            1,
+            30,
+            31
+          ],
+          [
+            2,
+            31,
+            34
+          ],
+          [
+            3,
+            34,
+            51
+          ]
+        ],
+        "pcm_sha256": "01ace471565e1987ce22449d37ab5c8cd0d95c92687b2f695f2ab1874099e553"
+      },
+      {
+        "b9_array_sha256": "24a24ea894df9d3624b6d06d31f4970598878398574088fac6b7f632221560d7",
+        "b9_registered_spans": [
+          [
+            1,
+            32,
+            34
+          ],
+          [
+            2,
+            34,
+            37
+          ],
+          [
+            3,
+            37,
+            56
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p5189",
+        "id": "newpiper-409-mero-slow",
+        "matched_array_sha256": "08242b35cf69f76449b7a357d0e69f7f7051b2e475396fd7807aa08fcd4d19b2",
+        "matched_complete_spans": [
+          [
+            1,
+            32,
+            35
+          ],
+          [
+            2,
+            35,
+            37
+          ],
+          [
+            3,
+            37,
+            56
+          ]
+        ],
+        "pcm_sha256": "27536497e91641cd2a190b06e75a86eff0a0635f40dfcfff78d76567894ad4b3"
+      },
+      {
+        "b9_array_sha256": "72b0690d6fc8e2175a050b99c5af436683a2200ee36e0b5cb87247e876da2d1d",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            53
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p5189",
+        "id": "newpiper-409-mero-slow",
+        "matched_array_sha256": "b996f881ecbbbb3e71a8bab6807724d08396fbe4586937f50e0a0ed40cf610cb",
+        "matched_complete_spans": [
+          [
+            1,
+            32,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            54
+          ]
+        ],
+        "pcm_sha256": "27536497e91641cd2a190b06e75a86eff0a0635f40dfcfff78d76567894ad4b3"
+      },
+      {
+        "b9_array_sha256": "8b9982612e2596ee1946f4606b583941783e0350ba8d081c585b88147c781343",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            48
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p5189",
+        "id": "newpiper-409-mero-slow",
+        "matched_array_sha256": "aafa844e49fa0287f3b1070189dfe2e243d3e16a1c0bd81e230e768860934da4",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            49
+          ]
+        ],
+        "pcm_sha256": "27536497e91641cd2a190b06e75a86eff0a0635f40dfcfff78d76567894ad4b3"
+      },
+      {
+        "b9_array_sha256": "3c392d4602edddb9d9a912657d0f8312cfe68253ff6096b5d45513bf71ae40bc",
+        "b9_registered_spans": [
+          [
+            1,
+            32,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            51
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p6550",
+        "id": "newpiper-426-mero-slow",
+        "matched_array_sha256": "7e15e62547881dc280a146ab791428669f78c13c5227bc286548d07a86ad3b76",
+        "matched_complete_spans": [
+          [
+            1,
+            32,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            52
+          ]
+        ],
+        "pcm_sha256": "8102b870451976369e086b8de7715afa6685cf8100187fbfdb12008dd791026d"
+      },
+      {
+        "b9_array_sha256": "27d3d894117bf432f4e6a073dbe682731eba2bff11df48df2a6b0549da43258a",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            50
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p6550",
+        "id": "newpiper-426-mero-slow",
+        "matched_array_sha256": "6a61069949062286eb4bf68b71f9eb064809b8a574381a93f3eb1231d6ec7976",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            51
+          ]
+        ],
+        "pcm_sha256": "8102b870451976369e086b8de7715afa6685cf8100187fbfdb12008dd791026d"
+      },
+      {
+        "b9_array_sha256": "e6b899317e5bdafc442582f40290e5ae804380737eb642b7921510ea891ba660",
+        "b9_registered_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            33
+          ],
+          [
+            3,
+            33,
+            46
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p6550",
+        "id": "newpiper-426-mero-slow",
+        "matched_array_sha256": "130f970c76ac2df6b8fa0af97dfa94d2f7e73ede5f816837be11d032000143a2",
+        "matched_complete_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            47
+          ]
+        ],
+        "pcm_sha256": "8102b870451976369e086b8de7715afa6685cf8100187fbfdb12008dd791026d"
+      },
+      {
+        "b9_array_sha256": "e6f85b26f3853f2a73e672508a7fdf669fe65da25cc117c9df161935f5e7c467",
+        "b9_registered_spans": [
+          [
+            1,
+            26,
+            28
+          ],
+          [
+            2,
+            28,
+            30
+          ],
+          [
+            3,
+            30,
+            49
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p8791",
+        "id": "newpiper-428-mero-fast",
+        "matched_array_sha256": "684f2492731a18ff0e732d524c3f3d635af457ce0086cd89440a6a3762a1cfec",
+        "matched_complete_spans": [
+          [
+            1,
+            26,
+            28
+          ],
+          [
+            2,
+            28,
+            30
+          ],
+          [
+            3,
+            30,
+            49
+          ]
+        ],
+        "pcm_sha256": "faf56b20b837ae24acce0582a4be0b0432c8d5b5e1124203c67611ba833c902e"
+      },
+      {
+        "b9_array_sha256": "869b8db859c0ed185ae6fa3a05ab6ad7692d3bdd2c110c8b2e84d2335f115a30",
+        "b9_registered_spans": [
+          [
+            1,
+            26,
+            28
+          ],
+          [
+            2,
+            28,
+            30
+          ],
+          [
+            3,
+            30,
+            47
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p8791",
+        "id": "newpiper-428-mero-fast",
+        "matched_array_sha256": "5d54375b1fa8b2ba39aada813f7c8f10bed9b8f37fff796a3a0cef63fbcb1113",
+        "matched_complete_spans": [
+          [
+            1,
+            26,
+            28
+          ],
+          [
+            2,
+            28,
+            30
+          ],
+          [
+            3,
+            30,
+            48
+          ]
+        ],
+        "pcm_sha256": "faf56b20b837ae24acce0582a4be0b0432c8d5b5e1124203c67611ba833c902e"
+      },
+      {
+        "b9_array_sha256": "8c69b0242f340dbff006d110692affb02bc03517efb3b4f36567454e815c29ef",
+        "b9_registered_spans": [
+          [
+            1,
+            26,
+            28
+          ],
+          [
+            2,
+            28,
+            30
+          ],
+          [
+            3,
+            30,
+            43
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p8791",
+        "id": "newpiper-428-mero-fast",
+        "matched_array_sha256": "521320fe066d16c635dc6ea3f446c859aab9bf53faab2da047415c6b63e80b15",
+        "matched_complete_spans": [
+          [
+            1,
+            26,
+            28
+          ],
+          [
+            2,
+            28,
+            30
+          ],
+          [
+            3,
+            30,
+            44
+          ]
+        ],
+        "pcm_sha256": "faf56b20b837ae24acce0582a4be0b0432c8d5b5e1124203c67611ba833c902e"
+      },
+      {
+        "b9_array_sha256": "f177efef8a9f833a40be1c9e79259346f6a7bd40ae76e992ae1b9004b9e0e3bb",
+        "b9_registered_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            48
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p1777",
+        "id": "newpiper-430-mero-slow",
+        "matched_array_sha256": "37e8ef17733af9cfa66802497de3171308786f7e0ac195476571853970e6584f",
+        "matched_complete_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            34
+          ],
+          [
+            3,
+            34,
+            49
+          ]
+        ],
+        "pcm_sha256": "4b5155ec8a420c1d45abe1281e59eeb4d4da0639442692c138f888c09b0c65c7"
+      },
+      {
+        "b9_array_sha256": "bdec30367b06fc4a736649d6b59c2937d7de176ddbc7abafba47a3d9e72f0b89",
+        "b9_registered_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            46
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p1777",
+        "id": "newpiper-430-mero-slow",
+        "matched_array_sha256": "2db3896b9fcdd18c39cb396eaceadc92a3396e645290e490dd1c77dab7d3cf7c",
+        "matched_complete_spans": [
+          [
+            1,
+            29,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            47
+          ]
+        ],
+        "pcm_sha256": "4b5155ec8a420c1d45abe1281e59eeb4d4da0639442692c138f888c09b0c65c7"
+      },
+      {
+        "b9_array_sha256": "78fa00c6bfef0a463a6779b60cfce2cc7d7bedc464fedfd33cbb4955eefd3e8b",
+        "b9_registered_spans": [
+          [
+            1,
+            29,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            58
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p1046",
+        "id": "newpiper-432-mero-fast",
+        "matched_array_sha256": "080d3c0e57eb63f14907dd4a4447cf15332e61b038cf2570f38e0513ca212583",
+        "matched_complete_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            58
+          ]
+        ],
+        "pcm_sha256": "c66cf230268018f432e471d77f997b4b835745718fd4c34bb99e0d214ccb2379"
+      },
+      {
+        "b9_array_sha256": "943283b3189a04d936c71587250585e6223fa922c1d3152e651ad0d849847684",
+        "b9_registered_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            56
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p1046",
+        "id": "newpiper-432-mero-fast",
+        "matched_array_sha256": "0e632f972a728afdab4ad78ad8126a810e1b8a0c9f0d91811ad497206239d585",
+        "matched_complete_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            57
+          ]
+        ],
+        "pcm_sha256": "c66cf230268018f432e471d77f997b4b835745718fd4c34bb99e0d214ccb2379"
+      },
+      {
+        "b9_array_sha256": "a08c749eee1e5ba6d41b80551e82a1af8b825eb17618a0f8e899e7b2ff52339b",
+        "b9_registered_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            54
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p1046",
+        "id": "newpiper-432-mero-fast",
+        "matched_array_sha256": "4cc2abd98c3d35aee2c763e537d771f47c7fa5cd3340dbf13591a2cf4529cedb",
+        "matched_complete_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            54
+          ]
+        ],
+        "pcm_sha256": "c66cf230268018f432e471d77f997b4b835745718fd4c34bb99e0d214ccb2379"
+      },
+      {
+        "b9_array_sha256": "6dbbcf6944b144d4887a699e28be3b1d818e8abe1c8cc7e37c1932fe2ef008e4",
+        "b9_registered_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            32
+          ],
+          [
+            3,
+            32,
+            49
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p1046",
+        "id": "newpiper-432-mero-slow",
+        "matched_array_sha256": "f37672033f975759d1cb4aa18ba197963ebf7d46e0b06bbf0b5dbc07d6a418fb",
+        "matched_complete_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            50
+          ]
+        ],
+        "pcm_sha256": "f7c61119087bf7cd77e2a35ee6cde5a15767d93302b49acc430e32cb5f8de5aa"
+      },
+      {
+        "b9_array_sha256": "e1c5019cd76688a36c8541f04da929a5d27001bd305efa763ac15f4cd45dd9dc",
+        "b9_registered_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            48
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p1046",
+        "id": "newpiper-432-mero-slow",
+        "matched_array_sha256": "7fe11ca62e2359789db3cdc89bceabb523e21e21e275da56648c4cca51da1f51",
+        "matched_complete_spans": [
+          [
+            1,
+            27,
+            29
+          ],
+          [
+            2,
+            29,
+            31
+          ],
+          [
+            3,
+            31,
+            48
+          ]
+        ],
+        "pcm_sha256": "f7c61119087bf7cd77e2a35ee6cde5a15767d93302b49acc430e32cb5f8de5aa"
+      },
+      {
+        "b9_array_sha256": "977a88159cf8b8829603d4603e1b5d210457b054bd319e6a75ead25182e830d8",
+        "b9_registered_spans": [
+          [
+            1,
+            26,
+            28
+          ],
+          [
+            2,
+            28,
+            30
+          ],
+          [
+            3,
+            30,
+            44
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p1046",
+        "id": "newpiper-432-mero-slow",
+        "matched_array_sha256": "7f4320f82076c254561b1730b9b798df8b126d9e83570625ca0250ddd1a71dae",
+        "matched_complete_spans": [
+          [
+            1,
+            26,
+            28
+          ],
+          [
+            2,
+            28,
+            30
+          ],
+          [
+            3,
+            30,
+            45
+          ]
+        ],
+        "pcm_sha256": "f7c61119087bf7cd77e2a35ee6cde5a15767d93302b49acc430e32cb5f8de5aa"
+      },
+      {
+        "b9_array_sha256": "879f9dddada8f65d782d52434aa1a2152b5ef6935e32b23778919296d3d439b0",
+        "b9_registered_spans": [
+          [
+            1,
+            32,
+            34
+          ],
+          [
+            2,
+            34,
+            37
+          ],
+          [
+            3,
+            37,
+            56
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p6269",
+        "id": "newpiper-433-mero-slow",
+        "matched_array_sha256": "c40e2abc460d9b028498b5179e998ea2c7159ba855c12ce364c2a644574dd378",
+        "matched_complete_spans": [
+          [
+            1,
+            33,
+            35
+          ],
+          [
+            2,
+            35,
+            37
+          ],
+          [
+            3,
+            37,
+            57
+          ]
+        ],
+        "pcm_sha256": "88f61d635dcbe0ae39d60703517715033cedc8f15391613b886ba6786e2e9201"
+      },
+      {
+        "b9_array_sha256": "8e4beb435a139cfaf5d9c3c8d4d462269526ab76e54e565e96db9aad1ce77522",
+        "b9_registered_spans": [
+          [
+            1,
+            32,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            52
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p6269",
+        "id": "newpiper-433-mero-slow",
+        "matched_array_sha256": "b1cd45c8e97187c99d1425f00edca0715060e9886efb683ed53a86ea41565eff",
+        "matched_complete_spans": [
+          [
+            1,
+            32,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            53
+          ]
+        ],
+        "pcm_sha256": "88f61d635dcbe0ae39d60703517715033cedc8f15391613b886ba6786e2e9201"
+      },
+      {
+        "b9_array_sha256": "4493ec4bc910bf64f70ce4907841fb01f5c8fc3d3ccf5d04ef60e2dcc0d8df6f",
+        "b9_registered_spans": [
+          [
+            1,
+            32,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            46
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p6269",
+        "id": "newpiper-433-mero-slow",
+        "matched_array_sha256": "b3097ad2f29c10c1cd16f3b9e1bdc7224e04b805c35f89380b696eb995970254",
+        "matched_complete_spans": [
+          [
+            1,
+            32,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            48
+          ]
+        ],
+        "pcm_sha256": "88f61d635dcbe0ae39d60703517715033cedc8f15391613b886ba6786e2e9201"
+      },
+      {
+        "b9_array_sha256": "c783cdb0130343c3ce0d3ff8ae327382982a566c336386df41e162222bcbf7e7",
+        "b9_registered_spans": [
+          [
+            1,
+            32,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            50
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p6188",
+        "id": "newpiper-434-mero-fast",
+        "matched_array_sha256": "528b44cebab2c8abee9a0728d25d5e4f977a7e36d6a707e0d0e8b1271ca1d3d8",
+        "matched_complete_spans": [
+          [
+            1,
+            32,
+            35
+          ],
+          [
+            2,
+            35,
+            36
+          ],
+          [
+            3,
+            36,
+            50
+          ]
+        ],
+        "pcm_sha256": "8f2f28b519a902b290ec2eb275761cf98176343b5e0e770ba4cd1c7a39c46faa"
+      },
+      {
+        "b9_array_sha256": "dae858444a6a4115c081e221e8616e67842406f9c242da10187b2833285e076a",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            48
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p6188",
+        "id": "newpiper-434-mero-fast",
+        "matched_array_sha256": "a2601368bd37d8c70e7ad02519157324f3033055fb632a1728761910fdb8f5ca",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            49
+          ]
+        ],
+        "pcm_sha256": "8f2f28b519a902b290ec2eb275761cf98176343b5e0e770ba4cd1c7a39c46faa"
+      },
+      {
+        "b9_array_sha256": "bf985e9d31387ba42d623d89cc33088f6767c98adff6c7d1cff10ce2ab5f1d2f",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            44
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p6188",
+        "id": "newpiper-434-mero-fast",
+        "matched_array_sha256": "b5b4c69c39ff190d3c86cd1dbc287dc94b0e10ea1d6e25189e2895cfab41169d",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            45
+          ]
+        ],
+        "pcm_sha256": "8f2f28b519a902b290ec2eb275761cf98176343b5e0e770ba4cd1c7a39c46faa"
+      },
+      {
+        "b9_array_sha256": "f427834c59332f42d1aa3a8e40fe54ba180344e14179751581612747ee9bef70",
+        "b9_registered_spans": [
+          [
+            1,
+            39,
+            41
+          ],
+          [
+            2,
+            41,
+            43
+          ],
+          [
+            3,
+            43,
+            63
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p5266",
+        "id": "newpiper-435-mero-fast",
+        "matched_array_sha256": "5cd125b773080026f8ba6fe6ba31bc67158328e23a2e0e48ab333d53d0a1973e",
+        "matched_complete_spans": [
+          [
+            1,
+            39,
+            41
+          ],
+          [
+            2,
+            41,
+            43
+          ],
+          [
+            3,
+            43,
+            64
+          ]
+        ],
+        "pcm_sha256": "ba0ab16c0f2fa9d762d8c11875f6a6b0c73eed29c88c10b1da5c2da510193a83"
+      },
+      {
+        "b9_array_sha256": "ffd036528b467eb4df592b7b857f75289d3dee159b9df466fc65fe950ec6e9e1",
+        "b9_registered_spans": [
+          [
+            1,
+            39,
+            40
+          ],
+          [
+            2,
+            40,
+            42
+          ],
+          [
+            3,
+            42,
+            61
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p5266",
+        "id": "newpiper-435-mero-fast",
+        "matched_array_sha256": "b8bd1bb97b18f54767771a50dffc0203cfa52f1ba6330c6bff185ee4c268dd75",
+        "matched_complete_spans": [
+          [
+            1,
+            39,
+            40
+          ],
+          [
+            2,
+            40,
+            42
+          ],
+          [
+            3,
+            42,
+            62
+          ]
+        ],
+        "pcm_sha256": "ba0ab16c0f2fa9d762d8c11875f6a6b0c73eed29c88c10b1da5c2da510193a83"
+      },
+      {
+        "b9_array_sha256": "cc2ee8959ed27cb7ad1d6bd81b100ae4b46470566c469be48abfcaa3ad5ffb11",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            49
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p589",
+        "id": "newpiper-439-mero-slow",
+        "matched_array_sha256": "678de25a8e3984754751da965f921a7064b0ed4f6447433404adde644118ec5b",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            36
+          ],
+          [
+            3,
+            36,
+            50
+          ]
+        ],
+        "pcm_sha256": "6d1108d62b863ef98fc2001df641b24b738a846d4a7c9494b920ba31fc342911"
+      },
+      {
+        "b9_array_sha256": "dee5ffa6859c393770a2b8069050c3f33618f28d394ec5df661fd14d0f01e230",
+        "b9_registered_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            47
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p589",
+        "id": "newpiper-439-mero-slow",
+        "matched_array_sha256": "ffd1abc87423173ac75962f49bc43b747a5c8d63e31632c16719fae2fd17039f",
+        "matched_complete_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            34
+          ],
+          [
+            3,
+            34,
+            47
+          ]
+        ],
+        "pcm_sha256": "6d1108d62b863ef98fc2001df641b24b738a846d4a7c9494b920ba31fc342911"
+      },
+      {
+        "b9_array_sha256": "1bc677572bf3c62001cb5647902babdb08eeafe8c018703ff06f61a3f78068d2",
+        "b9_registered_spans": [
+          [
+            1,
+            29,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            42
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p589",
+        "id": "newpiper-439-mero-slow",
+        "matched_array_sha256": "fd70f2171adf715423d21d3da8b140d437223e28f62ac0eaa5ef3979f9d07365",
+        "matched_complete_spans": [
+          [
+            1,
+            29,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            43
+          ]
+        ],
+        "pcm_sha256": "6d1108d62b863ef98fc2001df641b24b738a846d4a7c9494b920ba31fc342911"
+      },
+      {
+        "b9_array_sha256": "0cd6f9a52b629945251686afe447ad232437ff65dc635d42d28f804ee6ddf21d",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            50
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p576",
+        "id": "newpiper-440-mero-fast",
+        "matched_array_sha256": "7eded61e2ec6d6118f60dc089db38d4388ffa4c58f68e6e437775866420f5b5a",
+        "matched_complete_spans": [
+          [
+            1,
+            32,
+            34
+          ],
+          [
+            2,
+            34,
+            36
+          ],
+          [
+            3,
+            36,
+            50
+          ]
+        ],
+        "pcm_sha256": "5a6c179adea33f12613cad65b57329e4c4676857cdb76972dbe2053ba7308d09"
+      },
+      {
+        "b9_array_sha256": "c17797c2f06218f29e6c32eadd0ff4ca9c8eb2b7241bd22a3cf5b366040ed002",
+        "b9_registered_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            49
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p576",
+        "id": "newpiper-440-mero-fast",
+        "matched_array_sha256": "405885d0aeb7cab2148dba2d4ae5814932b70249a6a5a45592568c3700ac3759",
+        "matched_complete_spans": [
+          [
+            1,
+            31,
+            33
+          ],
+          [
+            2,
+            33,
+            35
+          ],
+          [
+            3,
+            35,
+            49
+          ]
+        ],
+        "pcm_sha256": "5a6c179adea33f12613cad65b57329e4c4676857cdb76972dbe2053ba7308d09"
+      },
+      {
+        "b9_array_sha256": "4c773ec5b58e5cb9ed3e9729b030875794e9e344d2d545b677aa60325b0f1907",
+        "b9_registered_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            46
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p576",
+        "id": "newpiper-440-mero-fast",
+        "matched_array_sha256": "0e0acbd5809ae3a00572ea5d23ffd53e5a4f697f478009623bb32e4cff82439e",
+        "matched_complete_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            47
+          ]
+        ],
+        "pcm_sha256": "5a6c179adea33f12613cad65b57329e4c4676857cdb76972dbe2053ba7308d09"
+      },
+      {
+        "b9_array_sha256": "6d1a8dc43e6c7494a60734f17ee0491814ef0c872f2d63942493848b123e59d6",
+        "b9_registered_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            58
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p1121",
+        "id": "newpiper-441-mero-fast",
+        "matched_array_sha256": "4c85dbcf2d0726041e1984aa68a1ca08c7315817dd1216741b5609cce4e1a444",
+        "matched_complete_spans": [
+          [
+            1,
+            30,
+            32
+          ],
+          [
+            2,
+            32,
+            34
+          ],
+          [
+            3,
+            34,
+            59
+          ]
+        ],
+        "pcm_sha256": "84292ddf7166dab3a3f4dbbb6428481f07b58bdcb83174726b4335adacd9e9d8"
+      },
+      {
+        "b9_array_sha256": "82ea2fdf91d5af6a5bee309f30cad2abf74935c40337a975cc57457264894862",
+        "b9_registered_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            57
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p1121",
+        "id": "newpiper-441-mero-fast",
+        "matched_array_sha256": "ebd52622b8d191b1e59b83c6e8df20a3a17541f9ba90828af9b0d6cd288dde7c",
+        "matched_complete_spans": [
+          [
+            1,
+            29,
+            32
+          ],
+          [
+            2,
+            32,
+            33
+          ],
+          [
+            3,
+            33,
+            58
+          ]
+        ],
+        "pcm_sha256": "84292ddf7166dab3a3f4dbbb6428481f07b58bdcb83174726b4335adacd9e9d8"
+      },
+      {
+        "b9_array_sha256": "14ea4e934c0b7180903cd6f09cb9adcd6b628388faf87313cea45f64a9ec3761",
+        "b9_registered_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            54
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p1121",
+        "id": "newpiper-441-mero-fast",
+        "matched_array_sha256": "2067219a2419012403410b4eea57c0b68bedf0e3a86beb091851e123783a2bd7",
+        "matched_complete_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            33
+          ],
+          [
+            3,
+            33,
+            55
+          ]
+        ],
+        "pcm_sha256": "84292ddf7166dab3a3f4dbbb6428481f07b58bdcb83174726b4335adacd9e9d8"
+      },
+      {
+        "b9_array_sha256": "ebd962fed0e924e3f66cabf6d893916d7eca1f8cd8799bbed0dcc484b27c48c1",
+        "b9_registered_spans": [
+          [
+            1,
+            29,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            50
+          ]
+        ],
+        "gain": "1.0",
+        "group": "piper-libritts-p1121",
+        "id": "newpiper-441-mero-slow",
+        "matched_array_sha256": "4fc63c619896f20a4876c21f78637c75b8aafc5064ba17802ab4e11d6f639982",
+        "matched_complete_spans": [
+          [
+            1,
+            29,
+            31
+          ],
+          [
+            2,
+            31,
+            32
+          ],
+          [
+            3,
+            32,
+            50
+          ]
+        ],
+        "pcm_sha256": "b61ed6114b37d546119603529188be66ef731997a66b9ab414d6b8bb63c46bf1"
+      },
+      {
+        "b9_array_sha256": "b05c66b5520e793c32f8c0648363b9f86dc44016a6fb27d1d9bbdf45ab1a7e8f",
+        "b9_registered_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            49
+          ]
+        ],
+        "gain": "0.75",
+        "group": "piper-libritts-p1121",
+        "id": "newpiper-441-mero-slow",
+        "matched_array_sha256": "0655b7c04ca8a76896c716007a8cbc0cee8b75f85ab6e6dc17212e2243a1424e",
+        "matched_complete_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            49
+          ]
+        ],
+        "pcm_sha256": "b61ed6114b37d546119603529188be66ef731997a66b9ab414d6b8bb63c46bf1"
+      },
+      {
+        "b9_array_sha256": "5b752641e602e47f51e69ed60a16bd0749ce0c88944d92dc714e9ea537091b3a",
+        "b9_registered_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            47
+          ]
+        ],
+        "gain": "0.5",
+        "group": "piper-libritts-p1121",
+        "id": "newpiper-441-mero-slow",
+        "matched_array_sha256": "9bad38795835d21ac550ace10d63529c47f9dd4be5bd2b0f329071017ea1a9e9",
+        "matched_complete_spans": [
+          [
+            1,
+            28,
+            30
+          ],
+          [
+            2,
+            30,
+            32
+          ],
+          [
+            3,
+            32,
+            47
+          ]
+        ],
+        "pcm_sha256": "b61ed6114b37d546119603529188be66ef731997a66b9ab414d6b8bb63c46bf1"
+      }
+    ],
+    "prospective_assessment_frozen": true,
+    "registered_base_ctc_forwards": 1152,
+    "registered_positive_retention_forwards": 692,
+    "retention_additions": [
+      {
+        "gain": "1.0",
+        "group": "kokoro-v1_0-preset:am_santa",
+        "id": "fresh18-am_santa-mero-fast",
+        "pcm_sha256": "43a97ed30ca5eea775c91ffff04b778a16c9e66dfff984da27b8edf87d0c6929",
+        "teacher": "B9",
+        "teacher_array": "r000__g1_0__B9",
+        "teacher_array_sha256": "db3f19b86092fd2620c64e5d7affab02c28ae9ea30a9ae8ba29ada7aa985c096",
+        "teacher_spans": [
+          [
+            1,
+            69,
+            70
+          ],
+          [
+            2,
+            70,
+            71
+          ],
+          [
+            3,
+            71,
+            80
+          ]
+        ]
+      },
+      {
+        "gain": "0.75",
+        "group": "kokoro-v1_0-preset:bf_alice",
+        "id": "fresh24-bf_alice-mero-merrow",
+        "pcm_sha256": "5be5c51c5b3eac7ec5fa082dd52c3ce02584a1c98f85d06f106fe5e349cb0287",
+        "teacher": "B0",
+        "teacher_array": "r011__g0_75__B0",
+        "teacher_array_sha256": "6578f620ca971ce85c8620c119ccf5095d7d5d446dba06229baad392cc15cdff",
+        "teacher_spans": [
+          [
+            1,
+            0,
+            1
+          ],
+          [
+            2,
+            98,
+            100
+          ],
+          [
+            3,
+            100,
+            113
+          ]
+        ]
+      }
+    ],
+    "same_common_draw": true,
+    "schema": "english-v6-b22-authenticated-train-source-v1",
+    "synthetic_originals": 79,
+    "train_originals": [
+      {
+        "id": "fresh18-am_santa-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:am_santa",
+        "source_pcm_sha256": "43a97ed30ca5eea775c91ffff04b778a16c9e66dfff984da27b8edf87d0c6929"
+      },
+      {
+        "id": "fresh18-am_santa-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:am_santa",
+        "source_pcm_sha256": "9db160bc2e5ecd9a44e5fc585d147725ce098d00db2e14ec2574282b6905279a"
+      },
+      {
+        "id": "fresh24-af_sky-mero-merrow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:af_sky",
+        "source_pcm_sha256": "fe243be71e09277e7b7152a416379d0258fa5ca18c5a10b13f49942d32bbe259"
+      },
+      {
+        "id": "fresh24-af_sky-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:af_sky",
+        "source_pcm_sha256": "aeca9fc255cf2d5e36b48e651646025c1c18107c368b046c3d02df6a54a831f2"
+      },
+      {
+        "id": "fresh24-am_adam-mero-marrow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:am_adam",
+        "source_pcm_sha256": "b08ed1fe8ffd859295918b4d6e4201da2283e3bcef4b42fb3c129efdd049869c"
+      },
+      {
+        "id": "fresh24-am_adam-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:am_adam",
+        "source_pcm_sha256": "922d8463d26ebe79d9456f30712cde569e31f13a8a4f7bdf84c34161afe24c95"
+      },
+      {
+        "id": "fresh24-am_eric-mero-merrow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:am_eric",
+        "source_pcm_sha256": "6b50a0aa32eef612936b4d66df4924d27f58acf20c077e511669c29fa3bc62ac"
+      },
+      {
+        "id": "fresh24-am_eric-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:am_eric",
+        "source_pcm_sha256": "03605b34e35da76d375a99074934eb6e6cf88ad401f6c640874c17c27596bff5"
+      },
+      {
+        "id": "fresh24-am_liam-mero-marrow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:am_liam",
+        "source_pcm_sha256": "c5a373ad1cc0436d54974e36000fa178158730898b51be82e60752106b2cb11e"
+      },
+      {
+        "id": "fresh24-am_liam-mero-merrow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:am_liam",
+        "source_pcm_sha256": "a3c9b4599e3337abe1aa85936bac93935f4dfe9b640c3dc824fd81fe9482f3ac"
+      },
+      {
+        "id": "fresh24-am_liam-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:am_liam",
+        "source_pcm_sha256": "7e870dda23ee36087c78985c041717f7aae46c9ee937a1c2f02f89781e01cf07"
+      },
+      {
+        "id": "fresh24-bf_alice-mero-merrow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:bf_alice",
+        "source_pcm_sha256": "5be5c51c5b3eac7ec5fa082dd52c3ce02584a1c98f85d06f106fe5e349cb0287"
+      },
+      {
+        "id": "fresh24-bf_alice-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:bf_alice",
+        "source_pcm_sha256": "1018ee8649ea6882bd8973bcbb198d370aed6ff2e14950e1cd9734ffdf7b85d2"
+      },
+      {
+        "id": "fresh24-bf_emma-mero-merrow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:bf_emma",
+        "source_pcm_sha256": "31bd05d8776a6fbe5a2b71297db75c66692822b7a834e397c959b886a8c2906b"
+      },
+      {
+        "id": "fresh24-bf_emma-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:bf_emma",
+        "source_pcm_sha256": "5334bcc1b0f4ebbb0c8b26295b76192d95d050abb644cfe2509e0d3d391a4bef"
+      },
+      {
+        "id": "fresh24-bm_daniel-mero-merrow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:bm_daniel",
+        "source_pcm_sha256": "227315d1853a763b2e4a9dae67639f27984b8b739979c1e8cdcb4e47e962a0fb"
+      },
+      {
+        "id": "fresh24-bm_daniel-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:bm_daniel",
+        "source_pcm_sha256": "06b4eb12060cec5cb52b1a5f8525bdbeb86efda5e79f879fe5a48ce83ac22f10"
+      },
+      {
+        "id": "fresh24-bm_fable-mero-merrow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:bm_fable",
+        "source_pcm_sha256": "48fa5bbb013c433aa4861d6ec77e9bcdf26f9091ab76c80f7c88ec2b5c09b01a"
+      },
+      {
+        "id": "fresh24-bm_fable-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:bm_fable",
+        "source_pcm_sha256": "b3e9c7575e78c200b1ce1debffd4823f3b3e35c4bc8df20f71579264523c95da"
+      },
+      {
+        "id": "fresh24-ef_dora-mero-marrow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:ef_dora",
+        "source_pcm_sha256": "41340cf65bb19541497f950918169e61ee2b030da442cb983f6055f2e62bacc2"
+      },
+      {
+        "id": "fresh24-ef_dora-mero-merrow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:ef_dora",
+        "source_pcm_sha256": "729c40d99f3f4260e5305713e374b297fa9e4aacc704897332eaf436eb1783b1"
+      },
+      {
+        "id": "fresh24-ef_dora-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "kokoro-v1_0-preset:ef_dora",
+        "source_pcm_sha256": "b469684343be93427169d68f9138c9cdb6086cf134eebc01df4fb5306f7323f3"
+      },
+      {
+        "id": "hardneg-review-126c75ff8f9dd06471dbe836",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "librispeech:2902",
+        "source_pcm_sha256": "ee3ceff5b0e46571602aa5dbe401f615d2028e83408350bfba07e177a81d37f1"
+      },
+      {
+        "id": "hardneg-review-45a335ec7666c14ecebee983",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "librispeech:3170",
+        "source_pcm_sha256": "452f05074689731371fcb6cb40a0444d2c0645edf32e6cda0be8b8a70605c474"
+      },
+      {
+        "id": "hardneg-review-88130e9b038827bceb012b7c",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "librispeech:3000",
+        "source_pcm_sha256": "1823fe1f3874d8fa4f9befc112e28a5cca6a1ff4e99d62e2a8140a8c5364346e"
+      },
+      {
+        "id": "hardneg-review-8d3e4e2b4ee60c9d2dde30cd",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "librispeech:5536",
+        "source_pcm_sha256": "452422b0aa2ae08522ea27edd024877d48daa8bad98d99d75e3b226cd855b3f4"
+      },
+      {
+        "id": "hardneg-review-af48e3b081d315446259e030",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "librispeech:8297",
+        "source_pcm_sha256": "b120c0474b62bdb057bfb95aab8f87bfd1c67ac8fc1719afb7f2527fe90dd8c5"
+      },
+      {
+        "id": "hardneg-review-c24b3291eb69c7b8e2c8f072",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "librispeech:5536",
+        "source_pcm_sha256": "a4189fc721da9aa0c5b4c19c18d3e890b505570981adf1ad2013d5963b8f8e93"
+      },
+      {
+        "id": "hardneg-review-cdc37ba59e88d60cea36c8d3",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "librispeech:2035",
+        "source_pcm_sha256": "9f05ccc758f44bd85b4b86991965aee70870377455fbde7bf160660846f5289c"
+      },
+      {
+        "id": "hardneg-review-e95c9f1a5f79f391d712f9f0",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "librispeech:7976",
+        "source_pcm_sha256": "17f7096bc0c2c163fed65aef624446e66d36a89bc50b2a679463900a9f6fecd7"
+      },
+      {
+        "id": "hardneg-review-f161ff1d0b091609ceb7ff89",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "librispeech:1272",
+        "source_pcm_sha256": "f354360c1203cfc3b36081571e269f80eb7cbd326a1dc1b8b0e2694b52a0bb54"
+      },
+      {
+        "id": "mero24-448-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p7498",
+        "source_pcm_sha256": "cd05664ba4cd4a700fec0a6bd97fefaf88ec485532fe8b42b7cdf3f084925a68"
+      },
+      {
+        "id": "mero24-448-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p7498",
+        "source_pcm_sha256": "5e0faabe69d0626a41541c26eff0ddcd63eab1bf0228421f5a408e51f20a9523"
+      },
+      {
+        "id": "mero24-449-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p3905",
+        "source_pcm_sha256": "fe39e646616c74b63342b05503377919a83be646c7423439f2f8f8e87c3d6e72"
+      },
+      {
+        "id": "mero24-449-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p3905",
+        "source_pcm_sha256": "7e4ec887c202e70669ad9f2e2d007202352e608f64ffb3f1655b7395f8269844"
+      },
+      {
+        "id": "mero24-450-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p7384",
+        "source_pcm_sha256": "a8e580dbcd6f7c122770674dbfa345ffdc66b856bed822ed9d2ae75c8d7e9375"
+      },
+      {
+        "id": "mero24-450-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p7384",
+        "source_pcm_sha256": "9e49e580fbd81bbd96b84218694905acf6867f452956708f2f080ae52a131509"
+      },
+      {
+        "id": "mero24-451-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p2992",
+        "source_pcm_sha256": "3d25a81b40bb00f6614ec3206f8d81ceb3170bc8ddd3805b1e43bce676f7f9b4"
+      },
+      {
+        "id": "mero24-451-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p2992",
+        "source_pcm_sha256": "7e90375e81043daf71bd595513cf3369ddd69f2299b27e6ede7c18077ec8e862"
+      },
+      {
+        "id": "mero24-451-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p2992",
+        "source_pcm_sha256": "b12af0c55e3a24f93f1ecb1db3fc47a53db2142da40a4edb4e20c1d06639dfd4"
+      },
+      {
+        "id": "mero24-452-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p30",
+        "source_pcm_sha256": "e3ce4f8e448ecf55531f61c6c8de8e23c97e6dbee45157bbc5893b41986cfbf1"
+      },
+      {
+        "id": "mero24-452-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p30",
+        "source_pcm_sha256": "d32fe8edcfe13966753c5ac73cac81e56050b06907faff1ece48c8061bf9b97c"
+      },
+      {
+        "id": "mero24-453-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p497",
+        "source_pcm_sha256": "6e7027e89b843c481519ef381fcd851ee3b4716825a6be6299ba6358d2299640"
+      },
+      {
+        "id": "mero24-453-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p497",
+        "source_pcm_sha256": "8a849d9b2d2b08e4f1ef1f1611b3b52483213116a858d77dac9bcee91c93a4a6"
+      },
+      {
+        "id": "mero24-454-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p227",
+        "source_pcm_sha256": "8e8f0f2032aea863a86b212c629a5a3d1bb3a12d75b2d700926cdd4a5947efc9"
+      },
+      {
+        "id": "mero24-454-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p227",
+        "source_pcm_sha256": "789d73b8461480b10e4ebeec5074f9cf713492a0b25329ad8250917573606b63"
+      },
+      {
+        "id": "mero24-454-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p227",
+        "source_pcm_sha256": "837f30e80bb1091df442df811b129f7c6d6a810127ffd16cde68b849cd073caf"
+      },
+      {
+        "id": "mero24-455-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p4226",
+        "source_pcm_sha256": "b705ae74511723fd8c2bb56f35e75e9e74aadbbe1c74b66e85a03c5f95cca7e7"
+      },
+      {
+        "id": "mero24-455-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p4226",
+        "source_pcm_sha256": "c0bb57908db69c0df571e42c43ee1efa74938965bc1905ac20518355c50883a0"
+      },
+      {
+        "id": "mero24-456-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p5007",
+        "source_pcm_sha256": "5768c0c6e336a4be5809546f8be686e168162ed8ff17e53b7c92d52e4176d619"
+      },
+      {
+        "id": "mero24-456-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p5007",
+        "source_pcm_sha256": "8c4d4939ebca6d6a632f2f34afa6bf25f93fe90027b99ae85f4437b7172aabde"
+      },
+      {
+        "id": "mero24-457-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p1066",
+        "source_pcm_sha256": "33a34a95ec762bffb2e20a987ae0eb6ff85cfcb16eb9b0f2b0792a18cac67844"
+      },
+      {
+        "id": "mero24-457-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p1066",
+        "source_pcm_sha256": "b35e50ce79748c63389ab4afa1f723f456c04ad1e95ba7b3e80453ff6717099c"
+      },
+      {
+        "id": "mero24-459-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p7688",
+        "source_pcm_sha256": "ec953159eb011c3f3ab19ef985493bf04c09c14400535dc91a73998af8aae929"
+      },
+      {
+        "id": "mero24-459-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p7688",
+        "source_pcm_sha256": "d49e43ac0d1d054d6f91cb149f8cb4f16c0b0ba043e9fc96dbd9ef6fe1a2969e"
+      },
+      {
+        "id": "mero24-459-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p7688",
+        "source_pcm_sha256": "ddd26aec3a2237e978fb4d82b9b8b009f8ade79012d96cd06dfc6887e0bb8457"
+      },
+      {
+        "id": "newpiper-400-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p7949",
+        "source_pcm_sha256": "0bc193b05da016fa6637768f542d9908a6549ac513b692f6f922c2cf89f669d7"
+      },
+      {
+        "id": "newpiper-400-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p7949",
+        "source_pcm_sha256": "c82e8aa7ec7ce3047a9d4f28b0a61350f397974faa0ddfc82ca27c29a82c48d9"
+      },
+      {
+        "id": "newpiper-402-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p7867",
+        "source_pcm_sha256": "08310201bce3043313b495e351e2b1a6f9b720f68e93d906adf36a135ddcbaf5"
+      },
+      {
+        "id": "newpiper-402-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p7867",
+        "source_pcm_sha256": "279480cbf489989a880c2af81dae57667943a8b00c20613a0fbf2f502ccaa7d4"
+      },
+      {
+        "id": "newpiper-404-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p953",
+        "source_pcm_sha256": "3662a4388f2087cdf38342ecac9f597a208f157d359cebe2c824534df4cfa3ca"
+      },
+      {
+        "id": "newpiper-404-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p953",
+        "source_pcm_sha256": "bd146228e28e6289ebaa9f837350baeea45ad8cf97f9a792d3373b95b59f996f"
+      },
+      {
+        "id": "newpiper-404-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p953",
+        "source_pcm_sha256": "e5a134b03c66f6f0521fc051430477db33b11e5feae35e4fe44fcd36e4f0ba6f"
+      },
+      {
+        "id": "newpiper-409-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p5189",
+        "source_pcm_sha256": "01ace471565e1987ce22449d37ab5c8cd0d95c92687b2f695f2ab1874099e553"
+      },
+      {
+        "id": "newpiper-409-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p5189",
+        "source_pcm_sha256": "27536497e91641cd2a190b06e75a86eff0a0635f40dfcfff78d76567894ad4b3"
+      },
+      {
+        "id": "newpiper-409-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p5189",
+        "source_pcm_sha256": "a822c3cedb5ea670f21a7d139fccd1195735877d724b6a9227d91ece1fcba653"
+      },
+      {
+        "id": "newpiper-426-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p6550",
+        "source_pcm_sha256": "8102b870451976369e086b8de7715afa6685cf8100187fbfdb12008dd791026d"
+      },
+      {
+        "id": "newpiper-426-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p6550",
+        "source_pcm_sha256": "a5af1685dccf7ceb17bac6e585e0545958bf84f737542447604e20809bedab44"
+      },
+      {
+        "id": "newpiper-428-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p8791",
+        "source_pcm_sha256": "faf56b20b837ae24acce0582a4be0b0432c8d5b5e1124203c67611ba833c902e"
+      },
+      {
+        "id": "newpiper-428-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p8791",
+        "source_pcm_sha256": "04d58e985ec38dd747e42a6b20e64e466d7b778969f0ce4f15d4b6fbf2e4dfab"
+      },
+      {
+        "id": "newpiper-430-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p1777",
+        "source_pcm_sha256": "4b5155ec8a420c1d45abe1281e59eeb4d4da0639442692c138f888c09b0c65c7"
+      },
+      {
+        "id": "newpiper-430-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p1777",
+        "source_pcm_sha256": "62cb7e0267ccf0c6db8eb3fcf18d382dbd77e4c07394934e59865b13d18dd26c"
+      },
+      {
+        "id": "newpiper-432-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p1046",
+        "source_pcm_sha256": "c66cf230268018f432e471d77f997b4b835745718fd4c34bb99e0d214ccb2379"
+      },
+      {
+        "id": "newpiper-432-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p1046",
+        "source_pcm_sha256": "f7c61119087bf7cd77e2a35ee6cde5a15767d93302b49acc430e32cb5f8de5aa"
+      },
+      {
+        "id": "newpiper-432-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p1046",
+        "source_pcm_sha256": "4862e5379066dc012c5aede85fc7868d07251e04fae4eca53bcbe5f5aa32df9c"
+      },
+      {
+        "id": "newpiper-433-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p6269",
+        "source_pcm_sha256": "88f61d635dcbe0ae39d60703517715033cedc8f15391613b886ba6786e2e9201"
+      },
+      {
+        "id": "newpiper-433-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p6269",
+        "source_pcm_sha256": "5ef7c52cee26784a6a5a9d02361a919eccfd0d1bf12d015adcc0658f68901560"
+      },
+      {
+        "id": "newpiper-434-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p6188",
+        "source_pcm_sha256": "8f2f28b519a902b290ec2eb275761cf98176343b5e0e770ba4cd1c7a39c46faa"
+      },
+      {
+        "id": "newpiper-434-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p6188",
+        "source_pcm_sha256": "9dbf384d4fdb2456d442cc73047cdfc4a47461be84ef0d5c4a16cb4bc49ebf75"
+      },
+      {
+        "id": "newpiper-435-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p5266",
+        "source_pcm_sha256": "ba0ab16c0f2fa9d762d8c11875f6a6b0c73eed29c88c10b1da5c2da510193a83"
+      },
+      {
+        "id": "newpiper-435-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p5266",
+        "source_pcm_sha256": "8778cf62723ee3a0b05c43a8a097cb7d31201f8406184a9c93ea075659e88385"
+      },
+      {
+        "id": "newpiper-439-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p589",
+        "source_pcm_sha256": "6d1108d62b863ef98fc2001df641b24b738a846d4a7c9494b920ba31fc342911"
+      },
+      {
+        "id": "newpiper-439-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p589",
+        "source_pcm_sha256": "50563c34a6abe804d971e497710d6782dba81ea27ff4ffb8feb3082f6c3b503b"
+      },
+      {
+        "id": "newpiper-440-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p576",
+        "source_pcm_sha256": "5a6c179adea33f12613cad65b57329e4c4676857cdb76972dbe2053ba7308d09"
+      },
+      {
+        "id": "newpiper-440-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p576",
+        "source_pcm_sha256": "852e9aa5d4406beed80a2c557d228e910e3c4830c8c75017a38c53892d8438aa"
+      },
+      {
+        "id": "newpiper-441-mero-fast",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p1121",
+        "source_pcm_sha256": "84292ddf7166dab3a3f4dbbb6428481f07b58bdcb83174726b4335adacd9e9d8"
+      },
+      {
+        "id": "newpiper-441-mero-slow",
+        "mono_class": 1,
+        "role": "train",
+        "source_group_id": "piper-libritts-p1121",
+        "source_pcm_sha256": "b61ed6114b37d546119603529188be66ef731997a66b9ab414d6b8bb63c46bf1"
+      },
+      {
+        "id": "newpiper-441-ordinary-time",
+        "mono_class": 0,
+        "role": "train",
+        "source_group_id": "piper-libritts-p1121",
+        "source_pcm_sha256": "211eadd0220b3a15ad94f5a410d54bde1269301032013803afab3cec68b1034d"
+      }
+    ],
+    "union": {
+      "additions": [
+        {
+          "gain": "1.0",
+          "group": "kokoro-v1_0-preset:am_santa",
+          "id": "fresh18-am_santa-mero-fast",
+          "pcm_sha256": "43a97ed30ca5eea775c91ffff04b778a16c9e66dfff984da27b8edf87d0c6929",
+          "teacher": "B9",
+          "teacher_array": "r000__g1_0__B9",
+          "teacher_array_sha256": "db3f19b86092fd2620c64e5d7affab02c28ae9ea30a9ae8ba29ada7aa985c096",
+          "teacher_spans": [
+            [
+              1,
+              69,
+              70
+            ],
+            [
+              2,
+              70,
+              71
+            ],
+            [
+              3,
+              71,
+              80
+            ]
+          ]
+        },
+        {
+          "gain": "0.75",
+          "group": "kokoro-v1_0-preset:bf_alice",
+          "id": "fresh24-bf_alice-mero-merrow",
+          "pcm_sha256": "5be5c51c5b3eac7ec5fa082dd52c3ce02584a1c98f85d06f106fe5e349cb0287",
+          "teacher": "B0",
+          "teacher_array": "r011__g0_75__B0",
+          "teacher_array_sha256": "6578f620ca971ce85c8620c119ccf5095d7d5d446dba06229baad392cc15cdff",
+          "teacher_spans": [
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              2,
+              98,
+              100
+            ],
+            [
+              3,
+              100,
+              113
+            ]
+          ]
+        }
+      ],
+      "existing_conditions": 120,
+      "new_dev_reads": 0,
+      "new_model_forwards": 0,
+      "schema": "english-v6-b22-original-train-union-evidence-v1",
+      "union_conditions": 122
+    }
+  },
+  "source_sha256": "58261881620ff3f646909bd766c18ed92737ee7566cd6e21e96519d50a02e25b",
+  "status": "PASS"
+}

@@ -70,5 +70,41 @@ metadata inventory and explicit new code roots. A copied minimal root containing
 engine preparation, 11 nonnumeric source/objective contracts and eight metadata
 contracts without access to the checkout. Tensor-only fixtures require the
 pinned public CPU Torch runtime and are part of the dedicated contract workflow.
-No actual model, TTS, ASR, source decode or optimizer operation was performed
-while preparing these files.
+No model forward, TTS, ASR or optimizer operation was performed while preparing
+these files. The later saved-input check is detailed below.
+
+## Independent PRIMARY interface and real saved-input preflight
+
+The inert PRIMARY evaluator, offline binder and complete original-array reader
+now use the B23 candidate and unchanged original B22 control. Every original
+TRAIN and SOURCE producer member is inherited in full; SOURCE must actually
+pass before its twelve input artifacts can be bound. No admitted count or
+candidate checksum is assumed. The entire scoring function is AST-identical to
+B22 after removing one added historical-preservation report field. All event
+clocks, four model roles, gains, the 1,440-forward ceiling and original B14
+numerical decisions are unchanged.
+
+The adapter verifies the flat TRAIN source report, original `OPENING.json`,
+complete historical-failure proof and model formats. The binder requires new
+B23 observer artifact names and denies runtime, subprocess and network use.
+Scoring, training, replica and engineering permissions remain closed until their
+separate original-evidence conditions are satisfied. The prospective source and
+quality metadata were frozen before any B23 optimizer or source execution.
+
+All eighteen actual original TRAIN archives were downloaded and verified by
+their preregistered SHA-256 hashes and ZIP CRCs. The original preserved B22
+`source_preflight` was then run from the actual 306-member copied producer root.
+It verified 79 synthetic plus nine natural originals, eight natural readers,
+264 saved ordinary teacher arrays, the original 120 retention conditions plus
+two union additions, and the registered 1,152 base plus 692 retention forwards.
+It passed without a model, optimizer or source-generation call. This local
+saved-input check used NumPy 2.3.5; actual execution continues to require the
+unchanged pinned runtime. It neither called the B23 entrypoint nor bypassed its
+NO_PROMOTION prerequisite. Complete B23 source preflight remains conditional on
+the real original B22 primary failure and immutable historical-control ZIP.
+
+`SAVED_TRAIN_INPUT_PREFLIGHT.json` preserves the complete saved-input report;
+`ISOLATED_TRAIN_CAPTURE.json` preserves every copied member and its hash. All
+306 member hashes still matched the current code at final preparation. The
+local PRIMARY checks passed 19 evaluator, 12 original-array readback and six
+binder fixtures using only the standard library.
