@@ -1,0 +1,74 @@
+name: B15 primary original-source admission decision before model inference
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b15_primary_source_gate.py
+      - .github/workflows/english-v6-b15-primary-source-gate.yml
+  push:
+    branches: [research/en-v6-b15-primary-source-gate-once-20261124]
+    paths: [.github/workflows/english-v6-b15-primary-source-gate.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Fail-closed source denominator tests, without model/audio calls
+        run: |
+          python -IB automation/english_v6_b15_primary_source_gate.py --self-test
+          python -OIB automation/english_v6_b15_primary_source_gate.py --self-test
+          python -OOIB automation/english_v6_b15_primary_source_gate.py --self-test
+  admission:
+    needs: contract
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B15_GATE_PREDECESSOR__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Verify original GitHub run, source archive hashes and bounded upload identities
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/source"
+          python - "$RUNNER_TEMP/source" <<'PYTHON'
+          import hashlib,json,subprocess,sys
+          from pathlib import Path
+          sys.path.insert(0,"automation")
+          import english_v6_b15_primary_source_gate as src
+          target=Path(sys.argv[1])
+          for role,lock in src.LOCKS.items():
+              prefix="repos/jiying2007/kws-data/actions/"
+              meta=json.loads(subprocess.check_output(["gh","api",prefix+"artifacts/"+str(lock["id"])]))
+              run=json.loads(subprocess.check_output(["gh","api",prefix+"runs/"+str(lock["run"])]))
+              if (meta["expired"] or meta["size_in_bytes"]!=lock["bytes"]
+                  or meta["digest"]!="sha256:"+lock["sha256"]
+                  or meta["workflow_run"]["id"]!=lock["run"]
+                  or meta["workflow_run"]["head_sha"]!=lock["head"]
+                  or run["head_sha"]!=lock["head"]
+                  or run["conclusion"]!="success" or run["status"]!="completed" or run["run_attempt"]!=1):
+                  raise ValueError("original source ZIP/run provenance changed: "+role)
+              raw=subprocess.check_output(["gh","api",prefix+"artifacts/"+str(lock["id"])+"/zip"])
+              if len(raw)!=lock["bytes"] or hashlib.sha256(raw).hexdigest()!=lock["sha256"]:
+                  raise ValueError("original ZIP download changed: "+role)
+              (target/(role+".zip")).write_bytes(raw)
+          PYTHON
+      - name: Read actual original audio/labels and publish immutable source STOP before KWS scoring
+        run: |
+          python -IB automation/english_v6_b15_primary_source_gate.py --inputs "$RUNNER_TEMP/source" --output "$RUNNER_TEMP/b15-gate"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b15-independent-primary-source-stop-${{ github.run_id }}
+          path: ${{ runner.temp }}/b15-gate/
+          retention-days: 90
+          if-no-files-found: error
