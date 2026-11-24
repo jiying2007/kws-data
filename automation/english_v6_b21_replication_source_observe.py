@@ -93,6 +93,7 @@ def observe(provider, source, out, *, read_rows, schema, registration):
     lineage.read_plan()
     need(provider in PROVIDERS and schema == BATCH, "ONLY_REGISTERED_B21_FIVE_OBSERVER_SOURCE")
     run = guard(registration)
+    budget = lineage.require_observer_permit(provider, registration)
     source, root = Path(source), Path(out)
     rows = read_rows(source)
     count = len(rows)
@@ -103,6 +104,7 @@ def observe(provider, source, out, *, read_rows, schema, registration):
     need(root.is_absolute() and not root.exists() and root.parent.is_dir()
          and not any(p.is_symlink() for p in (root, *root.parents)), "FRESH_OBSERVER_OUTPUT_ONLY")
     root.mkdir(mode=0o700)
+    record(root / "OBSERVER_BUDGET.json", budget)
     record(root / "STARTED.json", {"run": run, "batch": schema, "provider": provider,
             "input_manifest": source_sha, "registration": registration,
             "parser_contract_sha256": raw_asr.PARSER_CONTRACT_SHA256,
@@ -187,6 +189,7 @@ def load_observations(source, evidence, rows, schema, *, registration=None):
     registrations = []
     for provider in PROVIDERS:
         root = evidence / provider
+        lineage.validate_observer_budget(json.loads((root / "OBSERVER_BUDGET.json").read_bytes()), provider, registration)
         closure = json.loads((root / "FILES.json").read_bytes())
         need(closure == {"schema": "english-v6-b18-observer-file-closure-v1", "self_excluded": "FILES.json",
                          "files": file_closure(root)}, "FULL_RAW_OBSERVER_FILE_CLOSURE")

@@ -19,6 +19,7 @@ import english_v6_b21_source_ancestry as frozen
 import english_v6_b21_fixed_mirror_source_ancestry as fixed
 import english_v6_b21_natural_amendment as selection
 import english_v6_b21_reuse_synthetic as reuse
+import english_v6_b21_natural_amendment_auth_origin as auth_origin
 
 qa, need, digest, canonical = frozen.qa, frozen.need, frozen.digest, frozen.canonical
 PLANS, ASSESSMENT, ASSESSMENT_SHA = frozen.PLANS, frozen.ASSESSMENT, frozen.ASSESSMENT_SHA
@@ -26,10 +27,10 @@ ANCESTRY_SHA, REPO, SOURCE_PIN = frozen.ANCESTRY_SHA, frozen.REPO, frozen.SOURCE
 read_ancestry = frozen.read_ancestry
 origin = fixed.origin
 CORPUS_BYTES, CORPUS_SHA = fixed.CORPUS_BYTES, fixed.CORPUS_SHA
-BRANCH = "refs/heads/research/en-v6-b21-natural-amendment-sources-once-20261124"
-WORKFLOW = ".github/workflows/english-v6-b21-natural-amendment-sources-once.yml"
+BRANCH = "refs/heads/research/en-v6-b21-natural-amendment-sources-auth-once-20261124"
+WORKFLOW = ".github/workflows/english-v6-b21-natural-amendment-sources-auth-once.yml"
 SCHEMA = "english-v6-b21-reused96-natural24-amendment-authorization-v1"
-MARKER = "english-v6-b21-natural-amendment-source-consumed"
+MARKER = "english-v6-b21-natural-amendment-auth-source-consumed"
 PROVIDERS = ("qwen", "whisper", "parakeet", "xlsr", "lv60")
 REUSED_SOURCE_PIN = dict(id=14907672424, run_id=45367984097,
     run_head="c262e4b5cf06de8a6950c2c797c7aefcf43498d8", bytes=5726331,
@@ -67,7 +68,8 @@ def amendment_binding():
         original_failed_source_status="STOP", retained_original_synthetic_sources=96,
         original_public_tts_calls=96, new_public_tts_calls=0, maximum_new_natural_decodes=24,
         maximum_new_observer_calls=600, primary_natural_slots=24,
-        replication_audio_opened=False, training_allowed=False, promotion_allowed=False)
+        replication_audio_opened=False, training_allowed=False, promotion_allowed=False,
+        authorization_continuation=True, authorization_origin=auth_origin.verify())
 
 
 def validate_identity(identity):
@@ -83,6 +85,8 @@ def execution_guard(prepared_parent, env=None, event=None, parent=None):
     read_plan()
     registered()
     origin.verify()
+    auth_origin.verify()
+    auth_origin.verify_current_producer()
     e = os.environ if env is None else env
     need(all(e.get(k) == v for k, v in {"GITHUB_ACTIONS": "true", "GITHUB_REPOSITORY": REPO,
          "GITHUB_REF": BRANCH, "GITHUB_EVENT_NAME": "push", "GITHUB_RUN_ATTEMPT": "1"}.items()),
@@ -102,12 +106,25 @@ def execution_guard(prepared_parent, env=None, event=None, parent=None):
 
 def gh(endpoint):
     path = endpoint if endpoint.startswith("repos/" + REPO + "/") else "repos/" + REPO + "/" + endpoint
-    return subprocess.check_output(["gh", "api", path])
+    return subprocess.run(["gh", "api", path, "--allow-escape-sequences"],
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True).stdout
 
 
 def marker_name(provider=None):
     need(provider is None or provider in PROVIDERS, "registered native provider only")
-    return MARKER if provider is None else "english-v6-b21-natural-amendment-observer-" + provider + "-consumed"
+    return MARKER if provider is None else "english-v6-b21-natural-amendment-auth-observer-" + provider + "-consumed"
+
+
+def prior_budget_names():
+    return ("english-v6-b21-natural-amendment-source-consumed", *(
+        "english-v6-b21-natural-amendment-observer-" + provider + "-consumed" for provider in PROVIDERS))
+
+
+def validate_prior_unconsumed(document):
+    need(set(document) == set(prior_budget_names())
+         and all(value["total_count"] == 0 and value["artifacts"] == [] for value in document.values()),
+         "every old source/provider budget is absent; a fresh name never bypasses consumption")
+    return document
 
 
 def one_execution(identity, marker_present, provider=None):
@@ -172,6 +189,17 @@ def authorize(out, prepared_parent):
     out = Path(out)
     need(out.is_absolute() and out.parent.is_dir() and not out.exists(), "fresh joint authorization")
     out.mkdir()
+    failed = auth_origin.verify()
+    failed_run = str(failed["failed_run_id"])
+    failed_live = {name: json.loads(gh(endpoint)) for name, endpoint in {
+        "run": "actions/runs/" + failed_run,
+        "jobs": "actions/runs/" + failed_run + "/jobs?filter=all&per_page=100",
+        "artifacts": "actions/runs/" + failed_run + "/artifacts?per_page=100"}.items()}
+    auth_origin.validate_remote(failed_live["run"], failed_live["jobs"], failed_live["artifacts"])
+    qa.record(out / "AUTHORIZATION_STOP_LIVE.json", failed_live)
+    old_budgets = validate_prior_unconsumed({name: json.loads(gh("actions/artifacts?name=" + name + "&per_page=100"))
+        for name in prior_budget_names()})
+    qa.record(out / "PRIOR_BUDGETS_LIVE.json", old_budgets)
     metadata_run = registered()["metadata_execution"]["run_id"]
     metadata_live = validate_metadata_live(dict(run=json.loads(gh("actions/runs/" + metadata_run)),
         artifacts=json.loads(gh("actions/runs/" + metadata_run + "/artifacts?per_page=100"))))
@@ -188,6 +216,8 @@ def authorize(out, prepared_parent):
         natural_amendment=amendment_binding(), original_synthetic_execution=proof["original_identity"],
         history_sha256=qa.sha(out / "HISTORY.json"), complete_history_sha256=qa.sha(out / "COMPLETE_HISTORY.json"),
         metadata_live_sha256=qa.sha(out / "METADATA_LIVE.json"),
+        authorization_stop_live_sha256=qa.sha(out / "AUTHORIZATION_STOP_LIVE.json"),
+        prior_budgets_live_sha256=qa.sha(out / "PRIOR_BUDGETS_LIVE.json"),
         new_tts_calls_allowed=0, maximum_natural_decodes=24, maximum_native_observer_calls=600,
         training_allowed=False, promotion_allowed=False, replication_audio_opened=False))
     return require_authorization(out)
@@ -209,13 +239,18 @@ def require_authorization(directory):
     frozen.validate_history(prior)
     validate_history(complete)
     validate_metadata_live(json.loads((directory / "METADATA_LIVE.json").read_bytes()))
+    failed_live = json.loads((directory / "AUTHORIZATION_STOP_LIVE.json").read_bytes())
+    auth_origin.validate_remote(failed_live["run"], failed_live["jobs"], failed_live["artifacts"])
+    validate_prior_unconsumed(json.loads((directory / "PRIOR_BUDGETS_LIVE.json").read_bytes()))
     value = json.loads((directory / "AUTHORIZATION.json").read_bytes())
     identity = validate_identity(value["source_execution"])
     need(value == dict(schema=SCHEMA, source_execution=identity, assessment_sha256=ASSESSMENT_SHA,
         ancestry_sha256=ANCESTRY_SHA, transport_origin=origin.verify(), natural_amendment=amendment_binding(),
         original_synthetic_execution=proof["original_identity"], history_sha256=qa.sha(directory / "HISTORY.json"),
         complete_history_sha256=qa.sha(directory / "COMPLETE_HISTORY.json"),
-        metadata_live_sha256=qa.sha(directory / "METADATA_LIVE.json"), new_tts_calls_allowed=0,
+        metadata_live_sha256=qa.sha(directory / "METADATA_LIVE.json"),
+        authorization_stop_live_sha256=qa.sha(directory / "AUTHORIZATION_STOP_LIVE.json"),
+        prior_budgets_live_sha256=qa.sha(directory / "PRIOR_BUDGETS_LIVE.json"), new_tts_calls_allowed=0,
         maximum_natural_decodes=24, maximum_native_observer_calls=600, training_allowed=False,
         promotion_allowed=False, replication_audio_opened=False), "exact joint provenance, no synthetic regeneration grant")
     return value
@@ -334,7 +369,8 @@ def retain_proof(directory, output):
     directory, output = Path(directory), Path(output)
     require_saved_consumption(directory)
     for name in ("AUTHORIZATION.json", "HISTORY.json", "COMPLETE_HISTORY.json", "CONSUMPTION.json",
-                 "CONSUMPTION_UPLOAD.json", "CORPUS_TRANSPORT.json", "METADATA_LIVE.json"):
+                 "CONSUMPTION_UPLOAD.json", "CORPUS_TRANSPORT.json", "METADATA_LIVE.json",
+                 "AUTHORIZATION_STOP_LIVE.json", "PRIOR_BUDGETS_LIVE.json"):
         need(not (output / name).exists(), "preserve original synthetic members")
         shutil.copyfile(directory / name, output / name)
     for name in ("REUSE", "TRANSPORT"):

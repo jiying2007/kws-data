@@ -191,7 +191,8 @@ def guard(prepared):
 
 
 def gh(path):
-    return subprocess.check_output(["gh", "api", "repos/" + REPO + "/" + path], timeout=180)
+    return subprocess.run(["gh", "api", "repos/" + REPO + "/" + path, "--allow-escape-sequences"],
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, timeout=180).stdout
 
 
 def one_execution(identity, marker_present):

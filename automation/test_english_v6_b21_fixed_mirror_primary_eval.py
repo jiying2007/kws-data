@@ -39,7 +39,16 @@ def label(original, unknown=False):
 
 
 class BoundaryTests(unittest.TestCase):
-    def test_amendment_changes_only_routing_constants(self):
+    def test_api_preserves_control_and_non_utf8_bytes_without_terminal_output(self):
+        raw = b"PK\x03\x04\x1b[31m\xff\x00\x80\r\n"
+        with patch.object(primary.subprocess, "run") as run:
+            run.return_value.stdout = raw
+            self.assertEqual(primary.gh("actions/artifacts/123/zip"), raw)
+            run.assert_called_once_with(["gh", "api", "repos/" + primary.REPO + "/actions/artifacts/123/zip",
+                                         "--allow-escape-sequences"], stdout=primary.subprocess.PIPE,
+                                        stderr=primary.subprocess.PIPE, check=True)
+
+    def test_amendment_changes_only_routing_constants_and_raw_byte_fetch(self):
         original = (HERE / "english_v6_b21_continuation_primary_eval.py").read_bytes()
         self.assertEqual(hashlib.sha256(original).hexdigest(), "79a2a4e9cf28f7da40b985cadfb2e1c06e7fa1c50e52b4e91242f2abc48f7245")
         def bodies(raw):
@@ -47,7 +56,9 @@ class BoundaryTests(unittest.TestCase):
                     if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))}
         old, new = bodies(original), bodies(Path(primary.__file__).read_bytes())
         self.assertEqual(len(old), 35)  # 34 functions, including remote_file, plus Ledger.
-        self.assertEqual(old, new)
+        self.assertEqual({key for key in old if old[key] != new[key]}, {"gh"})
+        self.assertEqual({key: value for key, value in old.items() if key != "gh"},
+                         {key: value for key, value in new.items() if key != "gh"})
         def assignments(raw):
             return {node.targets[0].id: ast.dump(node.value, include_attributes=False)
                     for node in ast.parse(raw).body
@@ -59,7 +70,7 @@ class BoundaryTests(unittest.TestCase):
             "SPEC", "PRODUCER", "WORKFLOW_TEMPLATE", "SOURCE_MODULE", "SOURCE_SCHEMA",
             "SCREEN_SCHEMA", "SOURCE_BRANCH", "SOURCE_WORKFLOW", "PRODUCER_ROOTS"})
         self.assertEqual(primary.SOURCE_MODULE, "english_v6_b21_natural_amendment_source")
-        self.assertEqual(primary.SOURCE_BRANCH, "research/en-v6-b21-natural-amendment-sources-once-20261124")
+        self.assertEqual(primary.SOURCE_BRANCH, "research/en-v6-b21-natural-amendment-sources-auth-once-20261124")
         self.assertEqual(primary.BRANCH, "refs/heads/research/en-v6-b21-primary-scoring-once-20261124")
         self.assertEqual(primary.WORKFLOW, ".github/workflows/english-v6-b21-primary-model-eval-once.yml")
         self.assertEqual(primary.MARKER, "english-v6-b21-primary-consumed")

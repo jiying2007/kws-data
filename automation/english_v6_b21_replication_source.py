@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import english_v6_b21_replication_source_ancestry as lineage
 import english_v6_b21_source as primary
 import english_v6_b21_replication_source_observe as observers
-import english_v6_b21_replication_natural_sources as natural
+import english_v6_b21_natural_amendment_replication_natural_sources as natural
 
 qa, B13 = lineage.qa, primary.B13
 PLANS, ASSESSMENT, ASSESSMENT_SHA = lineage.PLANS, lineage.ASSESSMENT, lineage.ASSESSMENT_SHA
@@ -50,7 +50,8 @@ def source_binding():
         original_primary_pass_required=True, opening_sha256=lineage.opening_sha256(),
         training_allowed=False,
         promotion_allowed=False, threshold_search=False, new_kws_forwards=0,
-        project_role="development", natural_upstream_partition="train-clean-100")
+        project_role="development", natural_upstream_partition="train-clean-100",
+        natural_panel_amendment=True, natural_amendment=lineage.amendment_binding())
 
 
 def generate(out, archives, corpus, prepared_parent):
@@ -62,6 +63,7 @@ def generate(out, archives, corpus, prepared_parent):
     qa.need(out.is_absolute() and not out.exists() and out.parent.is_dir(), "one fresh absolute source output")
     receipt = json.loads((archives / "HISTORY.json").read_bytes())
     seen, groups, people = lineage.validate_history(receipt)
+    lineage.require_generation_permit(archives, prepared_parent)
     natural.verify_corpus(corpus)  # Source availability before the first TTS call.
     B13.render_panel(out, source_plan(), FILES["replication"], seen, validate_config)
     original_manifest = out / "MANIFEST.json"
@@ -70,8 +72,8 @@ def generate(out, archives, corpus, prepared_parent):
     # byte-for-byte under its own name, then create the combined receipt once.
     qa.need(not (out / "SYNTHETIC_MANIFEST.json").exists(), "fresh original synthetic receipt destination")
     original_manifest.rename(out / "SYNTHETIC_MANIFEST.json")
-    natural_meta = natural.extract(out, corpus, receipt)
     lineage.retain_proof(archives, out)
+    natural_meta = natural.extract(out, corpus, receipt)
     meta = dict(schema=SCHEMA, panel="replication", **source_binding(), source_execution=identity,
         synthetic=synthetic, synthetic_manifest_sha256=qa.sha(out / "SYNTHETIC_MANIFEST.json"),
         natural=natural_meta, rows=synthetic["rows"] + natural_meta["rows"],
@@ -121,6 +123,7 @@ def _read(directory):
     lineage.read_plan()
     directory = Path(directory)
     permission = lineage.require_authorization(directory)
+    lineage.require_saved_generation(directory)
     history = json.loads((directory / "HISTORY.json").read_bytes())
     seen, groups, people = lineage.validate_history(history)
     meta = json.loads((directory / "MANIFEST.json").read_bytes())
@@ -246,8 +249,9 @@ if __name__ == "__main__":
     item = modes.add_parser("verify-source"); item.add_argument("source", type=Path)
     item = modes.add_parser("generate"); item.add_argument("out", type=Path); item.add_argument("archives", type=Path)
     item.add_argument("corpus", type=Path); item.add_argument("prepared_parent")
-    item = modes.add_parser("observe"); item.add_argument("provider", choices=observers.PROVIDERS)
-    item.add_argument("source", type=Path); item.add_argument("out", type=Path); item.add_argument("prepared_parent")
+    for mode in ("consume-observer", "observe"):
+        item = modes.add_parser(mode); item.add_argument("provider", choices=observers.PROVIDERS)
+        item.add_argument("source", type=Path); item.add_argument("out", type=Path); item.add_argument("prepared_parent")
     item = modes.add_parser("screen"); item.add_argument("source", type=Path); item.add_argument("providers", type=Path); item.add_argument("out", type=Path)
     args = parser.parse_args()
     if args.mode == "check": check()
@@ -258,5 +262,6 @@ if __name__ == "__main__":
         natural.verify_corpus(args.corpus)
     elif args.mode == "verify-source": registration(args.source)
     elif args.mode == "generate": generate(args.out, args.archives, args.corpus, args.prepared_parent)
+    elif args.mode == "consume-observer": lineage.consume_observer(args.provider, args.source, args.out, args.prepared_parent)
     elif args.mode == "observe": observe(args.provider, args.source, args.out, args.prepared_parent)
     else: screen(args.source, args.providers, args.out)

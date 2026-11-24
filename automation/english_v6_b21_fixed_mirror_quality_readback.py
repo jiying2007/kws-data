@@ -27,7 +27,7 @@ import zipfile
 from unittest import mock
 
 REPO = "jiying2007/kws-data"
-PRIMARY_CODE_SHA = "9e882b077bebb96a3c023216bce4c5db7a73fdda5f0ba9835d7c6132c17a912c"
+PRIMARY_CODE_SHA = "ca14214dbfe3946e737806aec6cfc099e01e7985cb7d38b9031fd9b641200434"
 EVALUATOR_STEMS = {"primary": "english_v6_b21_fixed_mirror_primary", "replication": "english_v6_b21_replication"}
 QUALITY_CODE_SHA = "6aa5f999598e47b41eb0a946acd82fdc5b47d30aea8990871c1c1a01065e4023"
 QUALITY_ASSESSMENT_SHA = "944f5df3c7bc3244977a8a33f7e1c393bffff9f7f5c32d2d8cc79e2628e265d9"
@@ -547,7 +547,8 @@ def fetch_quality_original(directory: Path, lock: dict) -> dict:
     directory = Path(directory).resolve()
     need(not directory.exists() and directory.parent.is_dir(), "new original quality directory only")
     def gh(endpoint):
-        return subprocess.check_output(["gh", "api", "repos/" + REPO + "/" + endpoint])
+        return subprocess.run(["gh", "api", "repos/" + REPO + "/" + endpoint, "--allow-escape-sequences"],
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True).stdout
     directory.mkdir()
     for name in ("api", "originals", "inputs"):
         (directory / name).mkdir()

@@ -106,6 +106,30 @@ def fixture(panel="primary"):
 
 
 class ReadbackTests(unittest.TestCase):
+    def test_fetch_saves_original_control_bytes_and_never_renders_them(self):
+        raw = b"PK\x03\x04\x1b[31m\xff\x00\x80\r\n"
+        def pin(number):
+            return dict(id=number, run_id=123, run_head="a" * 40,
+                        bytes=len(raw), sha256=reader.sha(raw))
+        lock = dict(schema="english-v6-b21-original-quality-lock-v1", panel="primary",
+                    result=pin(1), producer=pin(2), consumed=pin(3),
+                    evaluator_sha256=reader.PRIMARY_CODE_SHA, inputs_sha256="b" * 64,
+                    producer_manifest_sha256="c" * 64, original_result_sha256="d" * 64)
+        def captured(argv, **kwargs):
+            self.assertEqual(argv[:2], ["gh", "api"])
+            self.assertEqual(argv[-1], "--allow-escape-sequences")
+            self.assertEqual(kwargs, dict(stdout=reader.subprocess.PIPE, stderr=reader.subprocess.PIPE, check=True))
+            return reader.subprocess.CompletedProcess(argv, 0, raw, b"")
+        with tempfile.TemporaryDirectory() as temp:
+            destination = Path(temp) / "originals"
+            with patch.object(reader.subprocess, "run", side_effect=captured) as run, \
+                 patch.object(reader, "original", side_effect=ValueError("stop before archive interpretation")):
+                with self.assertRaisesRegex(ValueError, "stop before archive interpretation"):
+                    reader.fetch_quality_original(destination, lock)
+                self.assertEqual(run.call_count, 6)
+            for key in ("result", "producer", "consumed"):
+                self.assertEqual((destination / "originals" / (key + ".zip")).read_bytes(), raw)
+
     @classmethod
     def setUpClass(cls):
         cls.base = fixture()
@@ -157,7 +181,8 @@ class ReadbackTests(unittest.TestCase):
             with self.assertRaises(ValueError): self.verify(members)
 
     def test_unbound_lock_rejects_before_io_process_or_network(self):
-        with patch.object(reader.subprocess, "check_output", side_effect=AssertionError("process/network forbidden")):
+        with patch.object(reader.subprocess, "check_output", side_effect=AssertionError("process/network forbidden")), \
+             patch.object(reader.subprocess, "run", side_effect=AssertionError("process/network forbidden")):
             for call in (reader.verify_quality_original, reader.fetch_quality_original):
                 with self.assertRaises(ValueError): call(Path("/not-created"), {})
 

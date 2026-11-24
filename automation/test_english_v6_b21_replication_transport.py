@@ -53,6 +53,7 @@ def fixture(valid_hash=True):
         corpus = root / "train-clean-100.tar.gz"
         stack.enter_context(patch.object(replica.lineage, "execution_guard", return_value=identity))
         stack.enter_context(patch.object(replica.lineage, "require_authorization", return_value=permission))
+        stack.enter_context(patch.object(replica.lineage, "require_uploaded_opening", return_value=permission))
         stack.enter_context(patch.object(replica.lineage, "read_plan", return_value={"replication": {"natural": {"upstream": upstream}}}))
         stack.enter_context(patch.object(replica.transport, "plan", return_value=spec))
         stack.enter_context(patch.object(replica.transport.urllib.request, "build_opener", side_effect=lambda *args: Opener(data, calls)))

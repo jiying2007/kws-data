@@ -1,4 +1,4 @@
-name: English B21 sealed replication sources after original primary PASS
+name: English B21 sealed amended natural replication after original primary PASS
 'on':
   push:
     branches:
@@ -38,6 +38,7 @@ jobs:
       run: |
         python -IB automation/test_english_v6_b21_replication_sources.py -v
         python -SIB automation/test_english_v6_b21_replication_transport.py -v
+        python -SIB automation/test_english_v6_b21_natural_amendment_replication.py -v
         python -IB automation/english_v6_b21_replication_source_producer.py "$RUNNER_TEMP/b21-replication-source-producer" --prepared-parent "$PREPARED_PARENT"
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
@@ -66,6 +67,8 @@ jobs:
         retention-days: 90
         if-no-files-found: error
     - name: Download eight fixed magicdatatech ranges after original primary PASS
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: python -SIB automation/english_v6_b21_replication_transport.py download "$RUNNER_TEMP/train-clean-100.tar.gz" "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
@@ -77,7 +80,9 @@ jobs:
         include-hidden-files: true
         retention-days: 90
         if-no-files-found: error
-    - name: Generate96synthetic and retain24whole natural originals exactly once
+    - name: Generate96synthetic and retain24committed new natural originals exactly once
+      env:
+        GH_TOKEN: ${{ github.token }}
       shell: bash
       run: |
         set -euo pipefail
@@ -118,6 +123,17 @@ jobs:
         path: ${{ runner.temp }}/source
     - name: Read every original including natural rejects before observer installation
       run: python -IB automation/english_v6_b21_replication_source.py verify-source "$RUNNER_TEMP/source"
+    - name: Consume this provider budget before any native model installation
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PROVIDER: ${{ matrix.provider }}
+      run: python -IB automation/english_v6_b21_replication_source.py consume-observer "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/observer-consumed" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b21-replication-observer-${{ matrix.provider }}-consumed
+        path: ${{ runner.temp }}/observer-consumed/
+        retention-days: 90
+        if-no-files-found: error
     - name: Install one pinned native observer runtime
       shell: bash
       timeout-minutes: 19
@@ -146,6 +162,7 @@ jobs:
     - name: Save native return before validation for each full original
       shell: bash
       env:
+        GH_TOKEN: ${{ github.token }}
         PROVIDER: ${{ matrix.provider }}
       run: |
         set -euo pipefail

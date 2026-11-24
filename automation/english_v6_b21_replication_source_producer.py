@@ -15,7 +15,9 @@ ROOT = Path(__file__).resolve().parents[1]
 ROOTS = ("english_v6_b21_replication_source", "test_english_v6_b21_replication_sources",
          "english_v6_b21_replication_source_producer", "english_v6_b21_fixed_mirror_quality_readback",
          "english_v6_b21_fixed_mirror_primary_eval", "english_v6_b21_replication_transport",
-         "test_english_v6_b21_replication_transport")
+         "test_english_v6_b21_replication_transport",
+         "test_english_v6_b21_natural_amendment_replication",
+         "english_v6_b21_natural_amendment_source")
 
 
 def validate_event(prepared, head, parents, changed, env, event):
@@ -47,6 +49,13 @@ def capture(output, prepared, root=ROOT):
         "automation/english_v6_b21_replication_opening.json",
         "automation/english_v6_b21_fixed_mirror_transport.json",
         "automation/english_v6_b21_replication_source_workflow_template.yml"}
+    resources |= set(lineage.amended_primary.selection.resource_paths(root))
+    resources |= set(lineage.amended_primary.selection.FROZEN_PATHS.values())
+    resources |= set(lineage.amended_primary.auth_origin.resource_paths(root))
+    template = (root / "automation/english_v6_b21_replication_source_workflow_template.yml").read_bytes()
+    common.need((root / lineage.WORKFLOW).read_bytes() == template.replace(
+        b"__B21_REPLICATION_SOURCE_MAIN_SHA__", prepared.encode()),
+        "exact reviewed replication source workflow with only parent substitutions")
     # The actual primary source now carries a byte-frozen transport-stop proof.
     # Its ZIP/log payloads are required resources, outside the old text suffix scan.
     failure = root / "automation/english_v6_b21_continuation_failure"

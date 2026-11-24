@@ -15,7 +15,8 @@ import english_v6_b21_fixed_mirror_source_producer as frozen_producer
 ROOT = Path(__file__).resolve().parents[1]
 ROOTS = ("english_v6_b21_natural_amendment_source", "english_v6_b21_natural_amendment_source_producer",
          "english_v6_b21_natural_amendment_transport", "test_english_v6_b21_natural_amendment_sources",
-         "test_english_v6_b21_natural_amendment", "test_english_v6_b21_reuse_synthetic")
+         "test_english_v6_b21_natural_amendment", "test_english_v6_b21_reuse_synthetic",
+         "test_english_v6_b21_natural_amendment_auth_origin", "test_english_v6_b21_natural_amendment_auth_continuation")
 
 
 def validate_event(prepared, head, parents, changed, env, event):
@@ -47,9 +48,12 @@ def capture(output, prepared, root=ROOT):
         "automation/english_v6_b21_fixed_mirror_transport.json",
         "automation/english_v6_b21_fixed_mirror_source_workflow_template.yml",
         "automation/english_v6_b21_natural_amendment_source_workflow_template.yml",
+        "automation/english_v6_b21_natural_amendment_source_auth_workflow_template.yml",
+        "automation/english_v6_b21_natural_amendment_escape_fixture.bin",
         lineage.fixed.WORKFLOW}
     resources |= set(lineage.selection.resource_paths(root))
     resources |= set(lineage.selection.FROZEN_PATHS.values()) - python
+    resources |= set(lineage.auth_origin.resource_paths(root))
     for name in lineage.fixed.verify_frozen_producer(root):
         (python if name.endswith(".py") else resources).add(name)
     for folder in ("english_v6_b21_continuation_failure", "english_v6_b21_continuation_probe",
@@ -57,8 +61,8 @@ def capture(output, prepared, root=ROOT):
         retained = {p.relative_to(root).as_posix() for p in (root / "automation" / folder).rglob("*") if p.is_file()}
         common.need(bool(retained), "every original ZIP/log/metadata proof resource " + folder)
         resources |= retained
-    template = (root / "automation/english_v6_b21_natural_amendment_source_workflow_template.yml").read_bytes()
-    common.need((root / lineage.WORKFLOW).read_bytes() == template.replace(b"__B21_NATURAL_AMENDMENT_MAIN_SHA__", prepared.encode()),
+    template = (root / "automation/english_v6_b21_natural_amendment_source_auth_workflow_template.yml").read_bytes()
+    common.need((root / lineage.WORKFLOW).read_bytes() == template.replace(b"__B21_NATURAL_AMENDMENT_AUTH_MAIN_SHA__", prepared.encode()),
         "actual continuation workflow differs from reviewed template only by exact parent substitution")
     paths = python | resources | {lineage.WORKFLOW}
     tracked = common.tree_entries(common.git(root, "ls-tree", "-rz", "--full-tree", "HEAD"), paths)

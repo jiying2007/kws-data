@@ -13,7 +13,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import english_v6_b21_replication_source as source
 import english_v6_b21_replication_source_ancestry as lineage
-import english_v6_b21_replication_natural_sources as natural
+import english_v6_b21_natural_amendment_replication_natural_sources as natural
 import english_v6_b21_replication_source_producer as producer
 
 
@@ -31,7 +31,8 @@ def primary_fixture():
     inventory = dict(original_count=120,
         pcm_sha256=sorted(hashlib.sha256(("unit-primary-" + str(i)).encode()).hexdigest() for i in range(120)),
         source_group_id=[f"unit-primary-group-{i:02d}" for i in range(36)],
-        canonical_people=[str(100000 + i) for i in range(36)])
+        canonical_people=sorted({p.removeprefix("p") for p in lineage.read_plan()["primary"]["synthetic"]["speaker_id_map"].values()}
+                                | set(lineage.registered()["primary_design"]["speakers"])))
     summary = dict(panel_gate="PASS", model_pt_sha256=lineage.MODEL_PT,
         assessment_sha256=lineage.ASSESSMENT_SHA, training_design_sha256=lineage.DESIGN_SHA,
         original_result_sha256=result_sha, pair_pin=lineage.PAIR, admission={}, source_inventory=inventory,
@@ -120,11 +121,11 @@ class ReplicationSources(unittest.TestCase):
                 sha256=lineage.digest(text.encode())))
         catalog = dict(schema="english-v6-b21-replication-natural-original-metadata-v1",
             speakers_text=(lineage.PLANS / "SPEAKERS.TXT").read_text(), transcripts=sorted(transcripts, key=lambda r:r["path"]))
-        rows = natural.rank_metadata(catalog, design)
+        rows = natural.original.rank_metadata(catalog, design)
         self.assertEqual([r["speaker"] for r in rows], [sp for sp in design["speakers"] for _ in range(2)])
         self.assertEqual(set(json.loads(natural.roster_bytes(rows))), {"replication"})
         bad = copy.deepcopy(catalog); bad["transcripts"].pop()
-        with self.assertRaises(ValueError): natural.rank_metadata(bad, design)
+        with self.assertRaises(ValueError): natural.original.rank_metadata(bad, design)
 
     def test_generator_preserves_frozen_renderer_manifest_before_combined_receipt(self):
         identity = dict(run_id="123", run_head="2" * 40, prepared_parent="1" * 40,
@@ -144,6 +145,7 @@ class ReplicationSources(unittest.TestCase):
                  patch.object(lineage, "validate_history", return_value=(set(), set(), set())), \
                  patch.object(lineage, "opening_sha256", return_value="f" * 64), \
                  patch.object(lineage, "retain_proof", side_effect=retain), \
+                 patch.object(lineage, "require_generation_permit", return_value={}), \
                  patch.object(natural, "verify_corpus", return_value="a" * 64), \
                  patch.object(natural, "extract", return_value={"rows": [{"id": "natural-" + str(i)} for i in range(24)]}), \
                  patch.object(source.B13, "render_panel", side_effect=render), \
@@ -172,6 +174,8 @@ class ReplicationSources(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp, ExitStack() as stack:
             root = Path(tmp); src = root / "source"; src.mkdir(); (src / "MANIFEST.json").write_text("{}")
             stack.enter_context(patch.object(lineage, "execution_guard", return_value=identity))
+            stack.enter_context(patch.object(lineage, "require_observer_permit", return_value={"fixture": True}))
+            stack.enter_context(patch.object(lineage, "validate_observer_budget", return_value={}))
             stack.enter_context(patch.object(source, "_read", return_value=(rows, rows, {}, {"source_execution": identity})))
             # Keep real replica owner registration, guard, source identity and
             # schema validation. Only the authenticated source content is a fixture.
@@ -220,7 +224,7 @@ class ReplicationSources(unittest.TestCase):
             # missing raw receipt; a primary hardcode would fail earlier.
             with self.assertRaises(FileNotFoundError) as caught:
                 observers.load_observations(src, evidence, rows, source.BATCH, registration=registration)
-            self.assertTrue(str(caught.exception.filename).endswith("FILES.json"))
+            self.assertTrue(str(caught.exception.filename).endswith("OBSERVER_BUDGET.json"))
             bad = copy.deepcopy(rows); bad[0]["id"] = "b21-primary-wrong-panel"
             with self.assertRaises(ValueError): observers.validate_rows(bad, registration["source_manifest_sha256"], registration)
             with self.assertRaises(ValueError):

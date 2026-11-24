@@ -1,0 +1,76 @@
+{
+  "ast": {
+    "english_v6_b21_engineering.py": {
+      "changed": [
+        "gh"
+      ],
+      "unchanged": 32
+    },
+    "english_v6_b21_fixed_mirror_primary_eval.py": {
+      "changed": [
+        "gh"
+      ],
+      "unchanged": 34
+    },
+    "english_v6_b21_fixed_mirror_quality_readback.py": {
+      "changed": [
+        "fetch_quality_original"
+      ],
+      "unchanged": 18
+    }
+  },
+  "bytes_preserved": "stdout/stderr pipes, check=True, no text decode or normalization; engineering 180s timeout unchanged",
+  "engineering_enabled": false,
+  "existing_source292_overlap": [],
+  "files": {
+    "automation/bind_b21_fixed_mirror_primary.py": {
+      "bytes": 22731,
+      "sha256": "43db2744980b6fcf2472286361a679830989d930181df6e7ba3878076986a662"
+    },
+    "automation/english_v6_b21_engineering.py": {
+      "bytes": 43423,
+      "sha256": "4b70f6245fbe3e823d587ec8a1d8d02f8c3808805ab5a100bb998ee46bcbb5a8"
+    },
+    "automation/english_v6_b21_fixed_mirror_primary_eval.py": {
+      "bytes": 50993,
+      "sha256": "ca14214dbfe3946e737806aec6cfc099e01e7985cb7d38b9031fd9b641200434"
+    },
+    "automation/english_v6_b21_fixed_mirror_primary_producer.json": {
+      "bytes": 432,
+      "sha256": "d3f5a8cc50daae471fc4cb1e7340186485a1b7dca74e371966016fc35513252b"
+    },
+    "automation/english_v6_b21_fixed_mirror_quality_readback.py": {
+      "bytes": 40318,
+      "sha256": "5258da3d6428a8bef5b7eee939806137edf5a95ef4aee50a160e8588d1d24cee"
+    },
+    "automation/test_english_v6_b21_engineering.py": {
+      "bytes": 13195,
+      "sha256": "6d87b8508a7ebc11b11e08d955e286fb259171bb41b337663129c0759d9a3723"
+    },
+    "automation/test_english_v6_b21_fixed_mirror_downstream_routing.py": {
+      "bytes": 4976,
+      "sha256": "f75986bf5003466e37e6471cf6af42a8ea978ee1fe584b2ccb639da993571deb"
+    },
+    "automation/test_english_v6_b21_fixed_mirror_primary_eval.py": {
+      "bytes": 13853,
+      "sha256": "dc392c1e6ae77ba2434b3e9e127ab70c96e93b5258b78c3bfc8ab7606dff7786"
+    },
+    "automation/test_english_v6_b21_fixed_mirror_quality_readback.py": {
+      "bytes": 12317,
+      "sha256": "170a1a44b4cee07845577dcb82e3c87b3122c2fc415bd040abe50b72ed2ebfb5"
+    }
+  },
+  "late_test_only_update": "Exactly one nested gh body inside fetch_quality_original is normalized to Pass on both sides; every other AST node remains equal, and raw-byte downloader behavior is separately tested.",
+  "primary_producer_frozen": false,
+  "reader_only_nested_gh_changed": true,
+  "remote_mutations": 0,
+  "scientific_calls": 0,
+  "status": "PASS_RAW_BYTE_COMPATIBILITY_AND_OPERATIONAL_ROUTING_ONLY",
+  "tests_independently_run": {
+    "binding": 4,
+    "downstream_routing": 4,
+    "engineering": 11,
+    "primary": 15,
+    "reader": 11
+  }
+}

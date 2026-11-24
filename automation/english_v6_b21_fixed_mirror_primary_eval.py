@@ -43,8 +43,8 @@ SCREEN_SCHEMA = "english-v6-b21-120-original-natural-amendment-screen-v1"
 REPO = "jiying2007/kws-data"
 BRANCH = "refs/heads/research/en-v6-b21-primary-scoring-once-20261124"
 WORKFLOW = ".github/workflows/english-v6-b21-primary-model-eval-once.yml"
-SOURCE_BRANCH = "research/en-v6-b21-natural-amendment-sources-once-20261124"
-SOURCE_WORKFLOW = ".github/workflows/english-v6-b21-natural-amendment-sources-once.yml"
+SOURCE_BRANCH = "research/en-v6-b21-natural-amendment-sources-auth-once-20261124"
+SOURCE_WORKFLOW = ".github/workflows/english-v6-b21-natural-amendment-sources-auth-once.yml"
 TRAIN_BRANCH = "research/en-v6-b21-blank-retention-train-once-20261124"
 PARENT_TOKEN = "__B21_REVIEWED_SCORING_PARENT__"
 MARKER = "english-v6-b21-primary-consumed"
@@ -348,7 +348,8 @@ def helpers(spec):
 
 
 def gh(endpoint):
-    return subprocess.check_output(["gh", "api", "repos/" + REPO + "/" + endpoint])
+    return subprocess.run(["gh", "api", "repos/" + REPO + "/" + endpoint, "--allow-escape-sequences"],
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True).stdout
 
 
 def git_blob(raw):
