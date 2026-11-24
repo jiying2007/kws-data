@@ -34,7 +34,7 @@ class B15ProtocolTests(unittest.TestCase):
         self.assertEqual(len(p),len(r),12)
         self.assertFalse(p & r)
         self.assertTrue(all(x>645 for x in p|r))
-        self.assertIn("score",str(panel["primary_gate"]))
+        self.assertIn("natural",panel["primary_gate"]["ordinary"])
 
 if __name__=="__main__":
     unittest.main()
