@@ -36,6 +36,11 @@ class FrozenOriginalSource(unittest.TestCase):
         with patch.object(src,"blob_sha",return_value="0"*40):
             with self.assertRaises(ValueError):
                 src.source_plan("primary")
+    def test_original_frozen_gate_cli_is_available(self):
+        from unittest.mock import patch
+        with patch.object(src.b14,"gate",return_value=None) as check:
+            src.gate(Path("/nonexistent-original-fixture.zip"))
+            check.assert_called_once()
     def test_previous_model_and_audio_are_not_admitted_for_training(self):
         p=src.source_plan("primary")
         self.assertEqual(p["independent_model_training"]["run"],45296300913)
