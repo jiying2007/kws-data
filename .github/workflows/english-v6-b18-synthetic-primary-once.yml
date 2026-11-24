@@ -12,7 +12,7 @@ concurrency:
   group: en-v6-b18-primary-96-once
   cancel-in-progress: false
 env:
-  PREPARED_PARENT: '__B18_SYNTHETIC_MAIN_SHA__'
+  PREPARED_PARENT: 'c9f05302b258ae75eddda343fb2052432f0f6f21'
   HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
   HF_HUB_DISABLE_TELEMETRY: '1'
   TOKENIZERS_PARALLELISM: 'false'
@@ -22,7 +22,7 @@ env:
   PYTHONHASHSEED: '20261124'
 jobs:
   sources:
-    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b18-synthetic-primary-once-20261124' && github.run_attempt == 1 && github.event.before == '__B18_SYNTHETIC_MAIN_SHA__'
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b18-synthetic-primary-once-20261124' && github.run_attempt == 1 && github.event.before == 'c9f05302b258ae75eddda343fb2052432f0f6f21'
     runs-on: ubuntu-24.04
     timeout-minutes: 85
     steps:
