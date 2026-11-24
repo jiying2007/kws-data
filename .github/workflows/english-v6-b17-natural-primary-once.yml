@@ -22,7 +22,7 @@ env:
 jobs:
   sources:
     runs-on: ubuntu-24.04
-    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b17-natural-primary-once-20261124' && github.run_attempt == 1 && github.event.before == '__B17_NATURAL_MAIN_SHA__'
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b17-natural-primary-once-20261124' && github.run_attempt == 1 && github.event.before == 'e46a54fb3e39b3a7a7abd8e8b1afdc00d1ec8cde'
     timeout-minutes: 36
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
