@@ -1,0 +1,49 @@
+name: B21 fixed official mirror source contracts
+'on':
+  pull_request:
+    paths:
+      - 'automation/english_v6_b21_fixed_mirror*'
+      - 'automation/english_v6_b21_fixed_mirror*/**'
+      - 'automation/test_english_v6_b21_fixed_mirror*.py'
+      - 'automation/bind_b21_fixed_mirror_primary.py'
+      - 'automation/test_bind_b21_fixed_mirror_primary.py'
+      - '.github/workflows/english-v6-b21-fixed-mirror-contracts.yml'
+      - '.github/workflows/english-v6-b21-primary-source-fixed-mirror-once.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'automation/english_v6_b21_fixed_mirror*'
+      - 'automation/english_v6_b21_fixed_mirror*/**'
+      - 'automation/test_english_v6_b21_fixed_mirror*.py'
+      - 'automation/bind_b21_fixed_mirror_primary.py'
+      - 'automation/test_bind_b21_fixed_mirror_primary.py'
+      - '.github/workflows/english-v6-b21-fixed-mirror-contracts.yml'
+      - '.github/workflows/english-v6-b21-primary-source-fixed-mirror-once.yml'
+permissions:
+  contents: read
+concurrency:
+  group: b21-fixed-mirror-contracts-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  source-contracts:
+    name: B21 fixed mirror (${{ matrix.flags }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        flags: [-SIB, -SIBO, -SIBOO]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Verify both zero-source failures, unchanged science and inert scoring
+        shell: bash
+        run: |
+          set -euo pipefail
+          python ${{ matrix.flags }} automation/english_v6_b21_fixed_mirror_source.py check
+          python ${{ matrix.flags }} automation/test_english_v6_b21_fixed_mirror_origin.py -v
+          python ${{ matrix.flags }} automation/test_english_v6_b21_fixed_mirror_sources.py -v
+          python ${{ matrix.flags }} automation/test_english_v6_b21_fixed_mirror_primary_eval.py -v
+          python ${{ matrix.flags }} automation/test_bind_b21_fixed_mirror_primary.py -v
