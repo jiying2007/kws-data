@@ -22,7 +22,8 @@ STUDY_SHA="daa45200d226dd004a41e74a3cf5ff876a1f3fc41dd2def7c5ed937efbf085f8"
 def source_plan(panel):
     qa.need(panel in FILES,"only preregistered source roles")
     path=PIN_ROOT/(panel+"-synthetic.json")
-    qa.need(qa.sha(path)==FILES[panel],"immutable B15 synthetic speaker/utterance roster")
+    actual=qa.sha(path)
+    qa.need(actual==FILES[panel],f"immutable B15 synthetic speaker/utterance roster: actual={actual}, expected={FILES[panel]}, bytes={path.stat().st_size}")
     plan=json.loads(path.read_bytes())
     qa.need(plan["schema"]=="english-v6-b15-frozen-dev-panel-v1"
             and plan["panel"]==panel and len(plan["rows"])==48
