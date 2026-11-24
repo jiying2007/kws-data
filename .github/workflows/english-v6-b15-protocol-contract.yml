@@ -1,0 +1,47 @@
+name: B15 independent research protocol and nonblank contrast source tests
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b15_nonblank_contrast_design.json
+      - automation/english_v6_b15_nonblank_contrast_pair.py
+      - automation/test_english_v6_b15_nonblank_contrast_pair.py
+      - automation/english_v6_b15_panels/assessment.json
+      - .github/workflows/english-v6-b15-protocol-contract.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths:
+      - automation/english_v6_b15_nonblank_contrast_pair.py
+      - automation/english_v6_b15_nonblank_contrast_design.json
+      - automation/english_v6_b15_panels/assessment.json
+permissions:
+  contents: read
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Actual B15 mechanism and frozen source tests in normal and optimized Python
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python -I -B "${args[@]}" automation/test_english_v6_b15_nonblank_contrast_pair.py -v
+          done
+      - name: Reject violations of unchanged historical retention and test file syntax
+        run: |
+          python -I -S -B tools/verify_branch_retention.py
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+          for p in (Path("automation/english_v6_b15_nonblank_contrast_pair.py"), Path("automation/test_english_v6_b15_nonblank_contrast_pair.py")):
+              ast.parse(p.read_text(encoding="utf-8"), filename=str(p))
+          print("B15 source syntax verified")
+          PY
