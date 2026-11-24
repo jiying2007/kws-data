@@ -1,0 +1,237 @@
+{
+  "schema": "english-v6-b17-prospective-b0-ceiling-assessment-v1",
+  "keyword": "Hey Mero",
+  "canonical_ipa": "/heɪ ˈmɛroʊ/",
+  "hypothesis": "From the shared B0 initialization, preserve blank-vs-token ordinary TRAIN margins with a one-sided ceiling while retaining independently admitted positive token paths; fixed matched ablation tests whether the ceiling reduces false-event drift without sacrificing positive recovery.",
+  "freeze_before_optimizer": true,
+  "source_ancestry_sha256": "41c45e6bc5dcbf691551cf0565d1d3e1618a1b96280e6e39a8f2b0c1e9c15cf9",
+  "training": {
+    "shared_parent": "B0",
+    "shared_parent_pt_sha256": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+    "synthetic_train_originals": 79,
+    "owner_reviewed_natural_windows": 9,
+    "steps_per_arm": 192,
+    "same_optimizer_and_source_draws": true,
+    "shared_natural_negative_ctc_weight": 0.08,
+    "shared_positive_nonblank_retention_weight": 0.08,
+    "control_ordinary_b0_ceiling_weight": 0,
+    "challenger_ordinary_b0_ceiling_weight": 0.08,
+    "train_signal_before_optimizer": "The source-bound TRAIN-only diagnostic must establish >=2 ordinary groups with increased nonblank-vs-blank margin vs B0 and >=1 positive group with a complete B9 event that B0 misses, at registered gains. No DEV waveform, logit, decision or threshold is used."
+  },
+  "primary": {
+    "synthetic": {
+      "speaker_indices": [
+        718,
+        719,
+        720,
+        721,
+        722,
+        723,
+        724,
+        725,
+        726,
+        727,
+        728,
+        729,
+        730,
+        731,
+        732,
+        733,
+        734,
+        735,
+        736,
+        737,
+        738,
+        739,
+        740,
+        741
+      ],
+      "requested_speakers": 24,
+      "cells_per_speaker": [
+        "mero-fast",
+        "mero-slow",
+        "question",
+        "request"
+      ],
+      "requested_total": 96
+    },
+    "natural": {
+      "corpus_split": "test-clean",
+      "salt": "b17-b0-ceiling-primary-test-clean-20261124-v1",
+      "requested_speakers": 12,
+      "speakers": [
+        "6829",
+        "8555",
+        "5142",
+        "1221",
+        "8224",
+        "7176",
+        "1188",
+        "4970",
+        "121",
+        "4507",
+        "6930",
+        "8230"
+      ],
+      "available_census": [
+        "1089",
+        "1188",
+        "121",
+        "1221",
+        "1995",
+        "2300",
+        "237",
+        "4507",
+        "4970",
+        "5142",
+        "6829",
+        "6930",
+        "7176",
+        "8224",
+        "8230",
+        "8555"
+      ],
+      "upstream": {
+        "bytes": 346663984,
+        "sha256": "39fde525e59672dc6d1551919b1478f724438a95aa55f874b576be21967e6c23",
+        "corpus": "LibriSpeech test-clean",
+        "license": "CC BY 4.0",
+        "attribution": "V. Panayotov, G. Chen, D. Povey and S. Khudanpur, LibriSpeech, OpenSLR 12"
+      },
+      "corpus": "LibriSpeech test-clean",
+      "utterances_per_speaker": 2,
+      "source_slots": 24,
+      "rank_utterances_before_audio": true,
+      "no_replacement_after_quality_rejection": true,
+      "minimum_approved_speakers": 8,
+      "minimum_approved_utterances": 12
+    }
+  },
+  "replication": {
+    "synthetic": {
+      "speaker_indices": [
+        742,
+        743,
+        744,
+        745,
+        746,
+        747,
+        748,
+        749,
+        750,
+        751,
+        752,
+        753,
+        754,
+        755,
+        756,
+        757,
+        758,
+        759,
+        760,
+        761,
+        762,
+        763,
+        764,
+        765
+      ],
+      "requested_speakers": 24,
+      "cells_per_speaker": [
+        "mero-fast",
+        "mero-slow",
+        "question",
+        "request"
+      ],
+      "requested_total": 96
+    },
+    "natural": {
+      "corpus_split": "dev-other",
+      "salt": "b17-b0-ceiling-replication-dev-other-20261124-v1",
+      "requested_speakers": 9,
+      "speakers": [
+        "5849",
+        "8173",
+        "6599",
+        "6455",
+        "1686",
+        "1585",
+        "6267",
+        "4831",
+        "7641"
+      ],
+      "available_census": [
+        "1585",
+        "1686",
+        "4831",
+        "5849",
+        "6267",
+        "6455",
+        "6599",
+        "7641",
+        "8173"
+      ],
+      "upstream": {
+        "bytes": 314305928,
+        "sha256": "12661c48e8c3fe1de2c1caa4c3e135193bfb1811584f11f569dd12645aa84365",
+        "license": "CC BY 4.0",
+        "attribution": "V. Panayotov, G. Chen, D. Povey and S. Khudanpur, LibriSpeech, OpenSLR 12",
+        "md5": "c8d0bcc9cca99d4f8b62fcc847357931",
+        "corpus": "LibriSpeech dev-other"
+      },
+      "corpus": "LibriSpeech dev-other",
+      "utterances_per_speaker": 2,
+      "source_slots": 18,
+      "rank_utterances_before_audio": true,
+      "no_replacement_after_quality_rejection": true,
+      "minimum_approved_speakers": 8,
+      "minimum_approved_utterances": 12
+    },
+    "opening": "Only a fully authenticated B17 independent primary PASS permits a separately registered replication execution. No old B13/B14/B15/B16 replication is opened."
+  },
+  "condition_gains": [
+    1,
+    0.75,
+    0.5
+  ],
+  "primary_gate": {
+    "source_minimums": {
+      "synthetic_qualified_positive_originals": 12,
+      "synthetic_qualified_ordinary_originals": 24,
+      "synthetic_paired_voice_families": 8,
+      "natural_qualified_speakers": 8,
+      "natural_qualified_originals": 12
+    },
+    "same_unchanged_quality_function": "automation/english_v6_b14_decision.py",
+    "quality_function_sha256": "6aa5f999598e47b41eb0a946acd82fdc5b47d30aea8990871c1c1a01065e4023",
+    "quality_assessment_sha256": "944f5df3c7bc3244977a8a33f7e1c393bffff9f7f5c32d2d8cc79e2628e265d9",
+    "minimum_recovered_positive_families": 1,
+    "minimum_improved_readers_vs_B9": 2,
+    "positive": "Preserve every B0 and same-run control positive original/gain hit; no extra duplicate events versus B9/control. Recover >=1 qualified positive family with B9 hit, control miss and challenger hit.",
+    "ordinary": "No added event on any qualified ordinary original/gain versus B9/control; natural false-event totals at each gain no higher than B0. Improve >=2 natural readers at original gain versus B9.",
+    "reject_if": "Any missing source, same-speaker ancestry, failed source minima, lost positive, extra positive event, added ordinary event or B0 natural regression. No threshold or coefficient sweep.",
+    "promote_only_after": "Untouched B17 replication PASS; actual PT/ONNX/C11/Cortex-A32 numerical/event parity; target SSC305 AFE/callback/FRR/FAR/latency evidence."
+  },
+  "observers": [
+    "qwen",
+    "whisper",
+    "parakeet",
+    "xlsr",
+    "lv60"
+  ],
+  "constraints": {
+    "training_uses_dev_cal_locked": false,
+    "preexisting_dev_not_reused_for_selection": true,
+    "no_new_tts_or_asr_during_training": true,
+    "no_unreviewed_24_train_windows": true,
+    "no_threshold_search": true,
+    "all_old_replication_sealed": true,
+    "model_released": false
+  },
+  "false_alarm_reporting": "Isolated source clips report event counts only. Continuous real background exposure is required for FAR/hour.",
+  "target": {
+    "field_frr_max": 0.05,
+    "field_far_per_hour_max": 0.1,
+    "word_end_to_callback_p95_ms_max": 500
+  },
+  "promotion_allowed": false
+}

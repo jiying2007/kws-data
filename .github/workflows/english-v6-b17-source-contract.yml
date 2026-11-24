@@ -1,0 +1,42 @@
+name: B17 TRAIN mechanism, complete source ancestry and frozen quality contracts
+'on':
+  pull_request:
+    paths:
+      - automation/*english_v6_b17*
+      - automation/english_v6_b17_natural_sources.py
+      - automation/test_english_v6_b17_sources.py
+      - automation/english_v6_b17_panels/**
+      - .github/workflows/english-v6-b17-source-contract.yml
+      - .github/workflows/english-v6-b17-natural-primary-once.yml
+      - .github/workflows/english-v6-b17-synthetic-primary-once.yml
+  push:
+    branches: [main]
+    paths:
+      - automation/*english_v6_b17*
+      - automation/english_v6_b17_natural_sources.py
+      - automation/test_english_v6_b17_sources.py
+      - automation/english_v6_b17_panels/**
+permissions:
+  contents: read
+jobs:
+  b17-new-source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Reject historical-reader leakage, incomplete ancestry and replacement sources
+        run: |
+          python -IB automation/test_english_v6_b17_sources.py -v
+          python -IB -O automation/test_english_v6_b17_sources.py -v
+          python -IB -OO automation/test_english_v6_b17_sources.py -v
+          python -IB automation/english_v6_b17_source.py self-test
+          python -IB automation/test_english_v6_b17_b0_margin_pair.py -v
+          python -OIB automation/test_english_v6_b17_b0_margin_pair.py -v
+          python -OOIB automation/test_english_v6_b17_b0_margin_pair.py -v
+          python -IB automation/test_english_v6_b17_primary_eval.py -v
+          python -OIB automation/test_english_v6_b17_primary_eval.py -v
+          python -OOIB automation/test_english_v6_b17_primary_eval.py -v
+          python -IB research/english_v6_b16_results_20261124/test_source_lineage.py -v
