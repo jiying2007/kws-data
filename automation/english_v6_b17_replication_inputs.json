@@ -1,0 +1,62 @@
+{
+  "schema": "english-v6-b17-unseen-replication-four-frozen-models-v1",
+  "keyword": "Hey Mero",
+  "scoring_allowed": false,
+  "opening_lock_sha256": null,
+  "primary_result_sha256": null,
+  "model_pt_sha256": null,
+  "pair_schema": "english-v6-b17-b0-ordinary-margin-pair-v1",
+  "pair_stems": {
+    "control": "control/models/mero43-b17-control192",
+    "challenger": "challenger/models/mero43-b17-challenger192"
+  },
+  "parent_pt_sha256": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+  "assessment_sha256": "7fdfe9cd47b18f64429fece944468af8adfde6c6ba012a57236a8a33aae1a948",
+  "source_ancestry_sha256": "41c45e6bc5dcbf691551cf0565d1d3e1618a1b96280e6e39a8f2b0c1e9c15cf9",
+  "training_design_sha256": "f9ba0ce59b0deed805b313063e648470e61af6c9122d08f6fe9aa5ea9e324831",
+  "source_gate": {
+    "synthetic_positive": 12,
+    "synthetic_ordinary": 24,
+    "synthetic_paired": 8,
+    "natural_originals": 12,
+    "natural_speakers": 8
+  },
+  "acoustic_gate": "Exact unchanged original B14 decision independently reapplied to new replication sources, same four primary checkpoints and all three frozen gains. No selection of thresholds, weights or sources after seeing replication outcomes.",
+  "inputs": {
+    "B0": {
+      "id": 14514228406,
+      "run_id": 44495594627,
+      "run_head": "d0b567fe37147aae6ab5d7bdec3721b879a0b22d",
+      "bytes": 501276,
+      "sha256": "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702"
+    },
+    "B9": {
+      "id": 14689218171,
+      "run_id": 44860855857,
+      "run_head": "846c745ebcee58a1beb27300ddcd7ec8e2178916",
+      "bytes": 1001753,
+      "sha256": "1a8b270200e0c72ab1025f139d16abde43c209f142d72e71a7201b847e06a612"
+    },
+    "pair": null,
+    "synth_source": null,
+    "synth_screen": null,
+    "natural_source": null,
+    "natural_screen": null
+  },
+  "only_new_B17_replication": true,
+  "new_synthetic_indices": [
+    742,
+    765
+  ],
+  "new_natural_split": "dev-other",
+  "new_natural_readers": 9,
+  "old_replication_opened": false,
+  "training_allowed": false,
+  "threshold_search": false,
+  "promotion_allowed": false,
+  "product_released": false,
+  "physical_ssc305": false,
+  "cal_locked_access": false,
+  "field_far_per_hour": null,
+  "operator_note": "INERT. Do not populate unless the exact original B17 primary is independently authenticated PASS, unchanged primary checkpoints are bound, and the preregistered B17 replication sources complete independent five-observer QA. A separate exact-predecessor one-shot workflow is required. Passing replication permits software/hardware qualification work only; B0 remains installed."
+}
