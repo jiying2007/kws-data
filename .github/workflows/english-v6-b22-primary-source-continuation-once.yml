@@ -12,7 +12,7 @@ concurrency:
   group: en-v6-b22-primary-text360-continuation-once
   cancel-in-progress: false
 env:
-  PREPARED_PARENT: '__B22_REVIEWED_SOURCE_CONTINUATION_PARENT__'
+  PREPARED_PARENT: '3ce347fc1a0dbceef0de0303413293e4adf43d0f'
   HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
   HF_HUB_DISABLE_TELEMETRY: '1'
   TOKENIZERS_PARALLELISM: 'false'
@@ -22,7 +22,7 @@ env:
   PYTHONHASHSEED: '20261124'
 jobs:
   sources:
-    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b22-primary-source-continuation-once-20261124' && github.run_attempt == 1 && github.event.before == '__B22_REVIEWED_SOURCE_CONTINUATION_PARENT__'
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b22-primary-source-continuation-once-20261124' && github.run_attempt == 1 && github.event.before == '3ce347fc1a0dbceef0de0303413293e4adf43d0f'
     runs-on: ubuntu-24.04
     timeout-minutes: 115
     steps:
