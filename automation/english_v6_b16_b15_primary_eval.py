@@ -19,6 +19,7 @@ SCHEMA="english-v6-b16-b15-unseen-primary-four-frozen-models-v1"
 REGISTERED=Path(__file__).with_name("english_v6_b16_b15_primary_inputs.json")
 B15_ASSESSMENT_SHA="daa45200d226dd004a41e74a3cf5ff876a1f3fc41dd2def7c5ed937efbf085f8"
 UNCHANGED_QUALITY_SHA="944f5df3c7bc3244977a8a33f7e1c393bffff9f7f5c32d2d8cc79e2628e265d9"
+GAINS=("1.0","0.75","0.5")
 GATE={"synthetic_positive":12,"synthetic_ordinary":24,"synthetic_paired":8,
       "natural_originals":12,"natural_speakers":8}
 
