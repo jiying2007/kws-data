@@ -1,0 +1,35 @@
+name: B16 source-disjoint B0 B9 B15 model-quality protocol source tests
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b16_b15_primary_eval.py
+      - automation/english_v6_b16_b15_primary_inputs.json
+      - automation/test_english_v6_b16_b15_primary_eval.py
+      - .github/workflows/english-v6-b16-b15-model-quality-contract.yml
+  push:
+    branches: [main]
+    paths:
+      - automation/english_v6_b16_b15_primary_eval.py
+      - automation/english_v6_b16_b15_primary_inputs.json
+permissions:
+  contents: read
+jobs:
+  protocol:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Verify all frozen B16 source and B15 acoustic safeguards without inference
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
+            python -I -B "${args[@]}" automation/test_english_v6_b16_b15_primary_eval.py -v
+          done
+          python -I -S -B tools/verify_branch_retention.py
