@@ -1,0 +1,51 @@
+name: B21 continuation standard-library contracts
+'on':
+  pull_request:
+    paths:
+    - automation/english_v6_b21_continuation*
+    - automation/english_v6_b21_continuation*/**
+    - automation/test_english_v6_b21_continuation*.py
+    - automation/english_v6_b21_quality_readback.py
+    - automation/test_english_v6_b21_quality_readback.py
+    - .github/workflows/english-v6-b21-continuation-contracts.yml
+    - .github/workflows/english-v6-b21-primary-source-continuation-once.yml
+  push:
+    branches: [main]
+    paths:
+    - automation/english_v6_b21_continuation*
+    - automation/english_v6_b21_continuation*/**
+    - automation/test_english_v6_b21_continuation*.py
+    - automation/english_v6_b21_quality_readback.py
+    - automation/test_english_v6_b21_quality_readback.py
+    - .github/workflows/english-v6-b21-continuation-contracts.yml
+    - .github/workflows/english-v6-b21-primary-source-continuation-once.yml
+permissions:
+  contents: read
+concurrency:
+  group: b21-continuation-contracts-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  stdlib-contracts:
+    name: B21 pure contracts (${{ matrix.flags }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        flags: [-SIB, -SIBO, -SIBOO]
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Verify exact failure, bounded transport, source identity and saved-quality contracts
+      shell: bash
+      run: |
+        set -euo pipefail
+        python ${{ matrix.flags }} automation/english_v6_b21_continuation_source.py check
+        python ${{ matrix.flags }} automation/test_english_v6_b21_continuation_origin.py -v
+        python ${{ matrix.flags }} automation/test_english_v6_b21_continuation_sources.py -v
+        python ${{ matrix.flags }} automation/test_english_v6_b21_continuation_primary_eval.py -v
+        python ${{ matrix.flags }} automation/test_english_v6_b21_quality_readback.py -v

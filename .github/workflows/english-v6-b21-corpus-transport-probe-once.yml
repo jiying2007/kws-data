@@ -1,0 +1,29 @@
+name: B21 bounded official corpus transport probe without audio or models
+'on':
+  push:
+    branches: [research/en-v6-b21-corpus-transport-probe-once-20261124]
+    paths: [.github/workflows/english-v6-b21-corpus-transport-probe-once.yml]
+permissions:
+  contents: read
+concurrency:
+  group: english-v6-b21-corpus-transport-probe-once
+  cancel-in-progress: false
+jobs:
+  metadata-only:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '60f1e6507216ae605d601f3f09ab15177b46aae2'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false, fetch-depth: 2}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Inspect at most four fixed4MiB compressed ranges without archive parsing
+        run: python -SIB automation/english_v6_b21_transport_probe.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: b21-corpus-transport-probe-${{ github.run_id }}
+          path: ${{ runner.temp }}/b21-transport-probe/
+          retention-days: 90
+          if-no-files-found: error

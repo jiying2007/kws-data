@@ -1,0 +1,89 @@
+{
+  "assessment_sha256": "65ad9c7204755f1cd0b639added163387af39604818f9bd26b9da9fe8bd098fc",
+  "closure": {
+    "bytes": 6972787,
+    "original_failure_resource_files": 10,
+    "original_probe_resource_files": 4,
+    "original_scientific_files": 220,
+    "python_files": 132,
+    "resource_files": 114,
+    "unique_files": 246
+  },
+  "fixed_finding": {
+    "finding": "PRIOR/AUTHORIZATION.json previously bound only its original run_id and a self-computed hash.",
+    "function": "require_authorization",
+    "negative_fixture": "Changing the old prepared_parent while retaining run_id fails before the old reader.",
+    "path": "automation/english_v6_b21_continuation_source_ancestry.py",
+    "resolution": "Retained bytes now must equal AUTHORIZATION.json inside the independently pinned original opened-marker ZIP before historical authorization is consumed."
+  },
+  "independent_fixtures": {
+    "command": "python -SIB automation/test_english_v6_b21_continuation_sources.py -v",
+    "count": 9,
+    "directory": "/workspace/scratch/8e7fc7aaa120/b21_source_continuation_test_overlay",
+    "elapsed_seconds": 6.533,
+    "fixtures_use_invented_bytes_and_fake_native_backend": true,
+    "status": "PASS"
+  },
+  "original_failure_proof_manifest_sha256": "8e4745c640a6729361d70f73f20b5ad18c0972ebcd108fb1d5ca258f22479aeb",
+  "original_run_head": "d6db2375632adc8a627d094fcf23c5e87b22eddd",
+  "original_run_id": 45352507569,
+  "remaining_concrete_blockers": [],
+  "reviewed_files": {
+    ".github/workflows/english-v6-b21-primary-source-continuation-once.yml": {
+      "bytes": 9949,
+      "sha256": "3b8d5da5032c1114b8a38f9ca4eb2d4617a45e37605300db9eb72abab3c26f72"
+    },
+    "automation/english_v6_b21_continuation_source.py": {
+      "bytes": 14406,
+      "sha256": "3e2f6f41026dff26aa6c991edc9d02de818a8abfdd88a11182b3abd03baf5507"
+    },
+    "automation/english_v6_b21_continuation_source_ancestry.py": {
+      "bytes": 13283,
+      "sha256": "bfa560a5fd8414e99ecdcea881e350dcb3a062075612aac60600caa944e033b6"
+    },
+    "automation/english_v6_b21_continuation_source_observe.py": {
+      "bytes": 16434,
+      "sha256": "e89403e46c97569d5c6d5c08514723dfac1a801137654f1f4e57b33deb4c0da3"
+    },
+    "automation/english_v6_b21_continuation_source_producer.py": {
+      "bytes": 5760,
+      "sha256": "685455f9ae34aeca554b5da4b2d46daa9f15e270b41c19e250dc3be740b88c50"
+    },
+    "automation/english_v6_b21_continuation_source_workflow_template.yml": {
+      "bytes": 9949,
+      "sha256": "3b8d5da5032c1114b8a38f9ca4eb2d4617a45e37605300db9eb72abab3c26f72"
+    },
+    "automation/english_v6_b21_continuation_transport.json": {
+      "bytes": 1727,
+      "sha256": "2848fefaf7d0c23f23b364be558b4f7a34792f64754ca0004d05a93e6823aef1"
+    },
+    "automation/english_v6_b21_continuation_transport.py": {
+      "bytes": 14667,
+      "sha256": "3b4c59aa31c0ab9a47f80a6fb77ded65551443240469a156df02298113fc3cd1"
+    },
+    "automation/test_english_v6_b21_continuation_sources.py": {
+      "bytes": 15790,
+      "sha256": "10baee10d812a7e4aa329236e5ba6f15f2a603e463b964c926b62f922fdf0a5a"
+    }
+  },
+  "reviewed_utc": "2026-11-24T08:49:16.946060+00:00",
+  "runtime_execution": {
+    "network_calls": 0,
+    "new_model_forwards": 0,
+    "new_source_calls": 0,
+    "optimizer_updates": 0
+  },
+  "schema": "english-v6-b21-continuation-independent-runtime-review-v1",
+  "scope": "Independent review of peer continuation runtime files. The origin proof module was authored by this reviewer and is undergoing separate peer/root review. This receipt is not an actual source-quality PASS or model promotion.",
+  "status": "PASS_AFTER_EXACT_ORIGINAL_AUTHORIZATION_BINDING",
+  "verified_properties": [
+    "Exact original failed producer and opened marker remain preserved; complete live original API inventories reject source artifacts or started/unknown observers.",
+    "All 220 original scientific code/resource bytes are compared directly with the original Git-bound producer; its separate activation workflow is the only exemption.",
+    "New first-attempt public push must change only the new workflow from its reviewed parent; only one continuation run and one independent consumption marker are allowed.",
+    "Generation requires a complete whole-corpus SHA plus exact uploaded consumption ZIP, before the first original Piper call.",
+    "Eight nonoverlapping ranges cover all 6387309499 bytes once, use four fixed official URLs with index modulo four, enforce206 range/length/encoding, do not retry/fallback, and rename only after the frozen whole SHA passes.",
+    "Actual continuation observer owner/schema wiring reaches all120 fake original rows; scientific observer/admission ASTs and frozen846..869 roster remain unchanged.",
+    "All raw originals, including natural quality rejects, remain retained and histories/gates stay frozen.",
+    "Producer closure explicitly includes every original failure ZIP/log/tree and all four original probe files; hidden workflow upload is preserved."
+  ]
+}

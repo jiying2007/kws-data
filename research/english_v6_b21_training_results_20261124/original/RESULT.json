@@ -1,0 +1,94 @@
+{
+  "actual_new_diagnostic_forwards": 0,
+  "actual_optimizer_updates": 384,
+  "actual_ordinary_teacher_forwards": 264,
+  "actual_student_forwards": 3670,
+  "assessment_sha256": "65ad9c7204755f1cd0b639added163387af39604818f9bd26b9da9fe8bd098fc",
+  "baseline_originals": 79,
+  "challenger": {
+    "files": {
+      "mero43-b21-challenger192.npz": {
+        "bytes": 223130,
+        "sha256": "923e493d72672e1f4cf0747794a25aa6e823a05601f63947574add0337aab3d0"
+      },
+      "mero43-b21-challenger192.onnx": {
+        "bytes": 187405,
+        "sha256": "cfafe0d3083be8a22183d7ee7aa5d98ae8795e1dd961c11aafc75179044e807c"
+      },
+      "mero43-b21-challenger192.pt": {
+        "bytes": 183137,
+        "sha256": "4947d017142f3b01f5dd4cf7706cc3c6978cf1a072ca022c26ea847ec0dc2f04"
+      }
+    },
+    "forward_counts": {
+      "checkpoint_reload_parity": 2,
+      "onnx_export_trace": 1,
+      "optimization": 1832
+    },
+    "natural_loss_weight": 0.08,
+    "optimizer_seconds": 22.927,
+    "optimizer_updates": 192,
+    "ordinary_ceiling_weight": 0.08,
+    "parent_pt_sha256": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+    "positive_competitors": "other_three_including_blank",
+    "positive_retention_weight": 0.08,
+    "stem": "challenger/models/mero43-b21-challenger192"
+  },
+  "common_draw_sha256": "90b41a650ad5439524bef4bc6d13394fd65034e98c2c5a7862e0a0c1de78a83d",
+  "common_learning_rate": 6e-05,
+  "control": {
+    "files": {
+      "mero43-b21-control192.npz": {
+        "bytes": 223130,
+        "sha256": "aab1c36d997145f1f0214748b1b86e8144f754c7a29ab8154d1d011e02ec8783"
+      },
+      "mero43-b21-control192.onnx": {
+        "bytes": 187405,
+        "sha256": "78919b2809845b918d143bc65562833a0b93eff70258308da0699729e768f470"
+      },
+      "mero43-b21-control192.pt": {
+        "bytes": 182995,
+        "sha256": "5f8863d4ef3f10fd35edd8278ac9c01bd48138184e18e08bff9d6f44b4699b05"
+      }
+    },
+    "forward_counts": {
+      "checkpoint_reload_parity": 2,
+      "onnx_export_trace": 1,
+      "optimization": 1832
+    },
+    "natural_loss_weight": 0.08,
+    "optimizer_seconds": 23.52,
+    "optimizer_updates": 192,
+    "ordinary_ceiling_weight": 0.08,
+    "parent_pt_sha256": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+    "positive_competitors": "other_two_nonblank",
+    "positive_retention_weight": 0.08,
+    "stem": "control/models/mero43-b21-control192"
+  },
+  "design_sha256": "76a1fd1353de00f712023a2b20256a8e622557551823cacd8b808d3f0549b0a1",
+  "dev_cal_locked_forwards": 0,
+  "different_trained_float_values": 43869,
+  "draw_coverage_sha256": "960ad7b5454ddf6f18a6b6136df297c4c4665b7160ad5da56fdd3b32fd70ab2c",
+  "field_far_per_hour": "NOT_MEASURED",
+  "head": "eb386f2b8e489bbd8e69c6a7972708dd667aa685",
+  "independent_assessment_sha256": "65ad9c7204755f1cd0b639added163387af39604818f9bd26b9da9fe8bd098fc",
+  "natural_families": 8,
+  "natural_originals": 9,
+  "new_tts_asr_calls": 0,
+  "numerical_B17_replay_claimed": false,
+  "parent": "60f1e6507216ae605d601f3f09ab15177b46aae2",
+  "parent_pt_sha256": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+  "physical_ssc305": "NOT_RUN",
+  "positive_families": 34,
+  "positive_originals": 43,
+  "positive_path_combinations": 120,
+  "promotion_allowed": false,
+  "registration": "B21_FULL_COMPETITOR_TRAIN_FIXED_20261124",
+  "reused_saved_diagnostic_arrays": 528,
+  "run_id": "45352494611",
+  "schema": "english-v6-b21-positive-competing-margin-pair-v1",
+  "seed": 20261120,
+  "status": "TRAINED_PAIR_REQUIRES_FRESH_INDEPENDENT_DEV",
+  "train_mechanism_sha256": "d666112703dec3c3bdd2635a8259cbef108511e49f9f9ba4646c5108cb348e8d",
+  "trained_model_parameters": 43876
+}
