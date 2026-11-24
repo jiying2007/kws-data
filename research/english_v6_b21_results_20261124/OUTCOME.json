@@ -1,0 +1,98 @@
+{
+  "actual_forwards": 1080,
+  "actual_frames": 171732,
+  "added_ordinary_event_comparisons": [
+    [
+      "b21-primary-natural-8324-286683-0029",
+      "0.75",
+      "control"
+    ],
+    [
+      "b21-primary-natural-8226-274371-0020",
+      "0.5",
+      "B9"
+    ],
+    [
+      "b21-primary-natural-8226-274371-0020",
+      "0.5",
+      "control"
+    ],
+    [
+      "b21-primary-natural-405-130895-0033",
+      "0.75",
+      "B9"
+    ]
+  ],
+  "admitted_originals": 90,
+  "all_frame_logits_sha256": "d2b96d72d4d8795c9bb5139234f67915aefe5285ba2b34c2a6f875d2bfd945f6",
+  "candidate_engineering_validation_allowed": false,
+  "failed_positive_conditions": [
+    [
+      "b21-primary-854-mero-slow",
+      "1.0",
+      "B0"
+    ]
+  ],
+  "field_3_5m_frr": null,
+  "gate_checks": {
+    "minimum_natural_readers_improved_vs_B9": {
+      "actual": 7,
+      "minimum": 2,
+      "passed": true
+    },
+    "minimum_recovered_positive_families": {
+      "actual": 0,
+      "minimum": 1,
+      "passed": false
+    },
+    "natural_event_totals_no_higher_than_B0_each_gain": {
+      "above_baseline_gains": [],
+      "passed": true
+    },
+    "no_added_ordinary_event_vs_B9_and_control": {
+      "passed": false,
+      "violating_original_gain_conditions": 3,
+      "violating_reference_comparisons": 4
+    },
+    "no_extra_positive_event": {
+      "passed": true,
+      "violations": 0
+    },
+    "preserve_all_B0_and_control_positive_hits": {
+      "lost_comparisons": 1,
+      "passed": false
+    }
+  },
+  "independent_readback_sha256": "483be35deb1634bb2d60ffb5c6b539d7b7708cf96e2177b6eec75d5fd275d415",
+  "installed_software_baseline": "B0",
+  "model_forward_calls": {
+    "B0": 270,
+    "B9": 270,
+    "challenger": 270,
+    "control": 270
+  },
+  "natural_field_far_per_hour": null,
+  "new_model_forwards_for_readback": 0,
+  "original_producer_archive_complete": false,
+  "panel_gate": "NO_PROMOTION",
+  "prepared_parent": "1059a5e70098934ac4261c98d6eed8fa213c8338",
+  "product_released": false,
+  "promotion_allowed": false,
+  "raw_originals_modified": false,
+  "raw_source_originals": 120,
+  "replication_opened": false,
+  "result_sha256": "f34493166b2ac21248670a7d58bac408b1a564bfc30891c950666dc7dc5cbd87",
+  "retrospective_supplement_files": 40,
+  "run_head": "6b8cc1b559dab3a9622283b36c737a61380ee4b2",
+  "run_id": 45387856667,
+  "schema": "english-v6-b21-actual-primary-quality-closure-v1",
+  "source_coverage": {
+    "natural_originals": 20,
+    "natural_speakers": 12,
+    "synthetic_ordinary": 48,
+    "synthetic_paired": 15,
+    "synthetic_positive": 22
+  },
+  "source_gate": "SOURCE_GATE_PASS",
+  "ssc305_physical": false
+}
