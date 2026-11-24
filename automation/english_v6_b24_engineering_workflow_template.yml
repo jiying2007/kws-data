@@ -1,0 +1,122 @@
+name: B24 dual-quality-gated software SDK engineering once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b24_engineering.py
+      - automation/english_v6_b24_engineering_inputs.json
+      - automation/english_v6_b24_engineering_pipeline.json
+      - automation/english_v6_b24_engineering_workflow_template.yml
+      - automation/test_english_v6_b24_engineering.py
+      - .github/workflows/english-v6-b24-engineering-once.yml
+  push:
+    branches: [research/en-v6-b24-engineering-once-20261124]
+    paths: [.github/workflows/english-v6-b24-engineering-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b24-one-fixed-engineering-experiment
+  cancel-in-progress: false
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Offline closed-gate and invented-array contracts; no compiler or model
+        run: |
+          python -SIB automation/test_english_v6_b24_engineering.py -v
+          python -SIB -O automation/test_english_v6_b24_engineering.py -v
+          python -SIB -OO automation/test_english_v6_b24_engineering.py -v
+          python -SIB automation/english_v6_b24_engineering.py check
+  engineering:
+    needs: contracts
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B24_REVIEWED_ENGINEERING_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261124'
+      HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+      PREPARED_PARENT: '__B24_REVIEWED_ENGINEERING_PARENT__'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {path: data, ref: '${{ github.sha }}', persist-credentials: false, fetch-depth: 2}
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: 88a043c6c00bb3a1a62f45098a023c7601042ded
+          path: pipeline
+          persist-credentials: false
+          sparse-checkout: |
+            research/english_v5_mero
+            LICENSE
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Authenticate original primary and replication PASSes before checkpoints or engineering PCM
+        working-directory: data
+        timeout-minutes: 20
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python -SIB automation/english_v6_b24_engineering.py fetch --inputs "$RUNNER_TEMP/b24-engineering-inputs" --pipeline "$GITHUB_WORKSPACE/pipeline" --prepared-parent "$PREPARED_PARENT"
+      - name: Preserve actual original producer before dependency installation
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b24-engineering-producer-${{ github.run_id }}
+          path: ${{ runner.temp }}/b24-engineering-inputs/producer/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn
+      - name: Independently re-read both quality proofs and all candidate/source bytes before runtime installation
+        working-directory: data
+        timeout-minutes: 12
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python -SIB automation/english_v6_b24_engineering.py preflight --inputs "$RUNNER_TEMP/b24-engineering-inputs" --pipeline "$GITHUB_WORKSPACE/pipeline" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b24-engineering-consumed
+          path: ${{ runner.temp }}/b24-engineering-inputs/CONSUMPTION.json
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+      - name: Install public CPU runtime and ARM software toolchain after both original quality PASSes
+        timeout-minutes: 35
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 numpy==1.26.4 onnxruntime==1.22.1
+          python -m pip check
+          timeout --signal=TERM --kill-after=30s 180s sudo apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=45 update -qq
+          timeout --signal=TERM --kill-after=30s 1050s sudo apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=45 install -y --no-install-recommends gcc-arm-linux-gnueabihf libc6-dev-armhf-cross qemu-user binutils
+      - name: One immutable B24 pack and 28 fixed PCM conditions through five actual backends
+        working-directory: data
+        timeout-minutes: 25
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          set -euo pipefail
+          python -IB automation/english_v6_b24_engineering.py execute --inputs "$RUNNER_TEMP/b24-engineering-inputs" --pipeline "$GITHUB_WORKSPACE/pipeline" --output "$RUNNER_TEMP/b24-engineering-result" --prepared-parent "$PREPARED_PARENT"
+          test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b24-software-sdk-evidence-${{ github.run_id }}
+          path: ${{ runner.temp }}/b24-engineering-result/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b24-engineering-input-proof-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/b24-engineering-inputs/FETCH.json
+            ${{ runner.temp }}/b24-engineering-inputs/CONSUMPTION.json
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn
