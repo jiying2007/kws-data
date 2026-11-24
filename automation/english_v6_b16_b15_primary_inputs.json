@@ -11,7 +11,7 @@
     "natural_speakers": 8
   },
   "acoustic_gate": "Unchanged independently preregistered B14 strict criterion: at least one rescued positive family vs B9/control, at least two human readers improved, no added ordinary events versus B9/control at any 1.0/0.75/0.5 gain, no lost positives or extra positive events, natural false-event totals no higher than B0. No threshold sweep.",
-  "scoring_allowed": false,
+  "scoring_allowed": true,
   "pair_schema": "english-v6-b15-train-nonblank-contrast-pair-v1",
   "pair_stems": {
     "control": "control/models/mero43-b15-control192",
@@ -46,7 +46,13 @@
       "bytes": 5264089,
       "sha256": "3c4f10258276f7f02f8a8ebdc105254b4e190e675c380280cc0d8e6ac66ed63c"
     },
-    "synth_screen": null,
+    "synth_screen": {
+      "id": 14885180327,
+      "run_id": 45312299981,
+      "run_head": "504bc01a869448ed0083416aab1fec1dccc22822",
+      "bytes": 19102,
+      "sha256": "2ebcc9858ce0f71cf1690fa5a35be926cf4f6aece433206954985ea907680d82"
+    },
     "natural_source": {
       "id": 14878351529,
       "run_id": 45297962939,
@@ -68,5 +74,16 @@
   "promotion_allowed": false,
   "physical_ssc305": false,
   "cal_locked_access": false,
-  "field_far_per_hour": null
+  "field_far_per_hour": null,
+  "activation_evidence": {
+    "source_only_run": 45312299981,
+    "source_gate": "SOURCE_GATE_PASS",
+    "actual_originals": {
+      "positive": 12,
+      "ordinary": 46,
+      "paired_voice_groups": 9
+    },
+    "preregistration_commit": "4813f58448bc6df686ec982d644aa769e80dadac",
+    "notes": "No model forward or threshold fitting on source-only B16 QA. No test-set reuse; scorer still reports no product promotion."
+  }
 }
