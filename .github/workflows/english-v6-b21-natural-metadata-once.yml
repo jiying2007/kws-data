@@ -12,11 +12,11 @@ concurrency:
   group: en-v6-b21-natural-metadata-once
   cancel-in-progress: false
 env:
-  PREPARED_PARENT: '__B21_NATURAL_METADATA_MAIN_SHA__'
+  PREPARED_PARENT: 'fa7e6bc8af5b6f784cedf91708a312b3353eca7c'
   PYTHONHASHSEED: '20261124'
 jobs:
   metadata:
-    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b21-natural-metadata-once-20261124' && github.run_attempt == 1 && github.event.before == '__B21_NATURAL_METADATA_MAIN_SHA__'
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b21-natural-metadata-once-20261124' && github.run_attempt == 1 && github.event.before == 'fa7e6bc8af5b6f784cedf91708a312b3353eca7c'
     runs-on: ubuntu-24.04
     timeout-minutes: 65
     steps:
