@@ -1,0 +1,35 @@
+name: B17 sealed replication permission and source contracts
+'on':
+  pull_request:
+    paths:
+      - automation/english_v6_b17_replication_*.py
+      - automation/english_v6_b17_replication_*.json
+      - automation/test_english_v6_b17_replication_*.py
+      - .github/workflows/english-v6-b17-*-replication-once.yml
+      - .github/workflows/english-v6-b17-replication-model-eval-once.yml
+      - .github/workflows/english-v6-b17-replication-source-contract.yml
+  push:
+    branches: [main]
+    paths:
+      - automation/english_v6_b17_replication_*.py
+      - automation/english_v6_b17_replication_*.json
+      - automation/test_english_v6_b17_replication_*.py
+permissions:
+  contents: read
+jobs:
+  b17-replication-opening-source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Reject forged primary permission, source leakage, replay and replacement slots without inference
+        run: |
+          python -IB automation/test_english_v6_b17_replication_sources.py -v
+          python -OIB automation/test_english_v6_b17_replication_sources.py -v
+          python -OOIB automation/test_english_v6_b17_replication_sources.py -v
+          python -IB automation/test_english_v6_b17_replication_eval.py -v
+          python -OIB automation/test_english_v6_b17_replication_eval.py -v
+          python -OOIB automation/test_english_v6_b17_replication_eval.py -v
