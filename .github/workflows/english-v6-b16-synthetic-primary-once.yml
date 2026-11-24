@@ -2,7 +2,7 @@ name: English B16 prospective independent 96 Piper originals and five blind obse
 'on':
   push:
     branches:
-    - research/en-v6-b16-synthetic-primary-once-20261124
+    - research/en-v6-b16-synthetic-sourcefix-once-20261124
     paths:
     - .github/workflows/english-v6-b16-synthetic-primary-once.yml
 permissions:
@@ -21,8 +21,8 @@ env:
   PYTHONHASHSEED: '20261121'
 jobs:
   sources:
-    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b16-synthetic-primary-once-20261124'
-      && github.run_attempt == 1 && github.event.before == '__B16_PREPARED_MAIN_SHA__'
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b16-synthetic-sourcefix-once-20261124'
+      && github.run_attempt == 1 && github.event.before == 'b68fc9918f6968f3d5b620d565b1b392c24db2c9'
     runs-on: ubuntu-24.04
     timeout-minutes: 75
     steps:
