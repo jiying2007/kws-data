@@ -22,7 +22,7 @@ env:
 jobs:
   sources:
     runs-on: ubuntu-24.04
-    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B15_NATURAL_MAIN_SHA__'
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == 'd4c0e3290f321382e0f404f7be0c8cf808c85fc8'
     timeout-minutes: 36
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
