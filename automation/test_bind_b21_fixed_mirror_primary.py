@@ -1,14 +1,77 @@
 """Offline invented provenance fixtures; never generate or score a source."""
 import copy
+from contextlib import contextmanager
 import hashlib
 import importlib.util
+import io
+import json
 from pathlib import Path
+import tempfile
 import unittest
+import zipfile
 
 HERE = Path(__file__).resolve().parent
 definition = importlib.util.spec_from_file_location("b21_fixed_mirror_binding", HERE / "bind_b21_fixed_mirror_primary.py")
 binding = importlib.util.module_from_spec(definition)
 definition.loader.exec_module(binding)
+
+
+@contextmanager
+def snapshot_fixture(primary, role="source", workflow=None, comparison=False):
+    """Build a real small producer ZIP and content-bound saved Git tree."""
+    workflow = workflow or (".github/workflows/english-v6-b21-blank-retention-train-once.yml"
+                            if role == "train" else primary.SOURCE_WORKFLOW)
+    parent, head, tree_sha = "1" * 40, "2" * 40, "3" * 40
+    token = (b"__B21_REVIEWED_TRAIN_PARENT__" if role == "train"
+             else b"__B21_NATURAL_AMENDMENT_AUTH_MAIN_SHA__")
+    template = b"name: saved-producer-fixture\nparent: " + token + b"\nbefore: " + token + b"\n"
+    template_path = (workflow if role == "train" else
+                     "automation/english_v6_b21_natural_amendment_source_auth_workflow_template.yml")
+    code_path = "automation/saved_producer_fixture.py"
+    raw_files = {code_path: b'"""Saved stdlib-only fixture; no execution entrypoint."""\n',
+                 workflow: template.replace(token, parent.encode())}
+    resources = []
+    if role == "source":
+        raw_files[template_path] = template
+        resources.append(template_path)
+    files = {name: dict(mode="100644", bytes=len(raw), sha256=binding.sha(raw),
+                       git_blob_sha1=primary.git_blob(raw)) for name, raw in raw_files.items()}
+    document = dict(schema="english-v6-b21-original-git-producer-snapshot-v1",
+        role="source_natural_amendment" if role == "source" else role,
+        run_id=123, run_head=head, run_attempt=1,
+        run_branch=primary.TRAIN_BRANCH if role == "train" else primary.SOURCE_BRANCH,
+        runtime_workflow=workflow, git_tree=tree_sha, prepared_parent=parent,
+        runtime_workflow_preserved_hidden=True, source_code_reads_only=True,
+        network_calls=0, new_source_calls=0, new_model_forwards=0, optimizer_updates=0,
+        files=files, python_files=[code_path], resource_files=resources)
+    meta = dict(run=dict(id=123, head_sha=head, path=workflow),
+        commit=dict(sha=head, commit=dict(tree=dict(sha=tree_sha)), parents=[dict(sha=parent)],
+                    files=[dict(filename=workflow)]),
+        tree=dict(sha=tree_sha, truncated=False, tree=[dict(path=name, type="blob",
+                    mode=pin["mode"], size=pin["bytes"], sha=pin["git_blob_sha1"])
+                    for name, pin in files.items()]))
+    if comparison:
+        del meta["commit"]["files"]
+        meta["comparison"] = dict(base_commit=dict(sha=parent), head=head, total_commits=1,
+                                  ahead_by=1, behind_by=0, files=[dict(filename=workflow)])
+    with tempfile.TemporaryDirectory() as temporary:
+        repository = Path(temporary)
+        for name, raw in raw_files.items():
+            path = repository / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(raw)
+        (repository / template_path).write_bytes(template)
+        yield repository, document, meta, raw_files
+
+
+def original_zip_fixture(document, raw_files):
+    stream = io.BytesIO()
+    with zipfile.ZipFile(stream, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr("PRODUCER.json", binding.serialized(document))
+        for name, raw in raw_files.items():
+            archive.writestr("repository/" + name, raw)
+    stream.seek(0)
+    return zipfile.ZipFile(stream)
 
 
 def proof_fixture():
@@ -77,6 +140,58 @@ class BindingBoundaryTests(unittest.TestCase):
             proof[field] = True
             with self.subTest(field=field), self.assertRaises(ValueError):
                 binding.validate_transport_origin(proof, copy.deepcopy(proof))
+
+
+class SnapshotRoutingTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        with binding.source_protection():
+            cls.primary = binding.load(HERE / "english_v6_b21_fixed_mirror_primary_eval.py",
+                                       "b21_snapshot_fixture_primary")
+
+    def verify(self, repository, document, meta, raw_files, role="source"):
+        with original_zip_fixture(document, raw_files) as archive, binding.source_protection():
+            return binding.snapshot(archive, role, meta, self.primary, repository)
+
+    def test_new_auth_source_zip_manifest_and_git_tree_are_accepted(self):
+        with snapshot_fixture(self.primary) as fixture:
+            result = self.verify(*fixture)
+            self.assertEqual(result["runtime_workflow"], self.primary.SOURCE_WORKFLOW)
+            self.assertEqual(result, fixture[1])
+
+    def test_new_auth_source_accepts_saved_parent_comparison(self):
+        with snapshot_fixture(self.primary, comparison=True) as fixture:
+            self.assertEqual(self.verify(*fixture), fixture[1])
+
+    def test_old_source_workflow_is_rejected_even_with_consistent_zip_and_tree(self):
+        old = ".github/workflows/english-v6-b21-natural-amendment-sources-once.yml"
+        with snapshot_fixture(self.primary, workflow=old) as fixture:
+            with self.assertRaisesRegex(ValueError, "actual pre-execution Git-bound producer snapshot source"):
+                self.verify(*fixture)
+
+    def test_train_snapshot_keeps_its_original_workflow(self):
+        with snapshot_fixture(self.primary, role="train") as fixture:
+            result = self.verify(*fixture, role="train")
+            self.assertEqual(result["runtime_workflow"],
+                             ".github/workflows/english-v6-b21-blank-retention-train-once.yml")
+
+    def test_source_run_cannot_claim_old_path_while_zip_claims_auth_path(self):
+        with snapshot_fixture(self.primary) as fixture:
+            fixture[2]["run"]["path"] = ".github/workflows/english-v6-b21-natural-amendment-sources-once.yml"
+            with self.assertRaisesRegex(ValueError, "actual pre-execution Git-bound producer snapshot source"):
+                self.verify(*fixture)
+
+    def test_source_git_tree_must_authenticate_actual_zip_members(self):
+        with snapshot_fixture(self.primary) as fixture:
+            fixture[2]["tree"]["tree"][0]["sha"] = "0" * 40
+            with self.assertRaisesRegex(ValueError, "actual authenticated Git tree member"):
+                self.verify(*fixture)
+
+    def test_source_zip_bytes_must_match_manifest(self):
+        with snapshot_fixture(self.primary) as fixture:
+            fixture[3]["automation/saved_producer_fixture.py"] += b"# changed\n"
+            with self.assertRaisesRegex(ValueError, "original producer content/Git blob identity"):
+                self.verify(*fixture)
 
 
 if __name__ == "__main__":

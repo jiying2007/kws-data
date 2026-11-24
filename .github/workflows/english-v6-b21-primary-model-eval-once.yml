@@ -2,11 +2,11 @@ name: B21 independent primary assessment of new TRAIN-only matched pair
 on:
   pull_request:
     paths:
-      - automation/english_v6_b21_primary_eval.py
-      - automation/english_v6_b21_primary_inputs.json
-      - automation/english_v6_b21_primary_producer.json
-      - automation/english_v6_b21_primary_workflow_template.yml
-      - automation/test_english_v6_b21_primary_eval.py
+      - automation/english_v6_b21_fixed_mirror_primary_eval.py
+      - automation/english_v6_b21_fixed_mirror_primary_inputs.json
+      - automation/english_v6_b21_fixed_mirror_primary_producer.json
+      - automation/english_v6_b21_fixed_mirror_primary_workflow_template.yml
+      - automation/test_english_v6_b21_fixed_mirror_primary_eval.py
       - .github/workflows/english-v6-b21-primary-model-eval-once.yml
   push:
     branches: [research/en-v6-b21-primary-scoring-once-20261124]
@@ -28,10 +28,10 @@ jobs:
         with: {python-version: '3.12'}
       - name: Offline provenance, source-identity and no-replay contracts only
         run: |
-          python -SIB automation/test_english_v6_b21_primary_eval.py -v
-          python -SIB -O automation/test_english_v6_b21_primary_eval.py -v
-          python -SIB -OO automation/test_english_v6_b21_primary_eval.py -v
-          python -SIB automation/english_v6_b21_primary_eval.py check
+          python -SIB automation/test_english_v6_b21_fixed_mirror_primary_eval.py -v
+          python -SIB -O automation/test_english_v6_b21_fixed_mirror_primary_eval.py -v
+          python -SIB -OO automation/test_english_v6_b21_fixed_mirror_primary_eval.py -v
+          python -SIB automation/english_v6_b21_fixed_mirror_primary_eval.py check
   score:
     needs: contracts
     if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B21_REVIEWED_SCORING_PARENT__'
@@ -50,9 +50,9 @@ jobs:
         with: {python-version: '3.12'}
       - name: Authenticate all original artifacts and both actual producer closures
         env: {GH_TOKEN: '${{ github.token }}'}
-        run: python -SIB automation/english_v6_b21_primary_eval.py fetch --inputs "$RUNNER_TEMP/b21-inputs" --prepared-parent "$PREPARED_PARENT"
+        run: python -SIB automation/english_v6_b21_fixed_mirror_primary_eval.py fetch --inputs "$RUNNER_TEMP/b21-inputs" --prepared-parent "$PREPARED_PARENT"
       - name: Complete raw-source, native SCREEN, lineage and TRAIN checks before Torch exists
-        run: python -SIB automation/english_v6_b21_primary_eval.py preflight --inputs "$RUNNER_TEMP/b21-inputs" --prepared-parent "$PREPARED_PARENT"
+        run: python -SIB automation/english_v6_b21_fixed_mirror_primary_eval.py preflight --inputs "$RUNNER_TEMP/b21-inputs" --prepared-parent "$PREPARED_PARENT"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: english-v6-b21-primary-consumed
@@ -66,7 +66,7 @@ jobs:
           python -m pip install --disable-pip-version-check --retries 0 --timeout 90 numpy==1.26.4
       - name: Score each exact original and gain once; preserve every actual output
         env: {GH_TOKEN: '${{ github.token }}'}
-        run: python -IB automation/english_v6_b21_primary_eval.py score --inputs "$RUNNER_TEMP/b21-inputs" --output "$RUNNER_TEMP/b21-result" --prepared-parent "$PREPARED_PARENT"
+        run: python -IB automation/english_v6_b21_fixed_mirror_primary_eval.py score --inputs "$RUNNER_TEMP/b21-inputs" --output "$RUNNER_TEMP/b21-result" --prepared-parent "$PREPARED_PARENT"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
