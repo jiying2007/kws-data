@@ -1,0 +1,190 @@
+{
+  "schema": "english-v6-b16-b15-independent-primary-readback-v1",
+  "keyword": "Hey Mero",
+  "decision": "NO_PROMOTION",
+  "software_baseline": "B0",
+  "run": {
+    "id": 45314679545,
+    "head": "737fc6ccf129b82e74d595ff7ea985f60f2d136b",
+    "conclusion": "success",
+    "artifact_id": 14884732009,
+    "artifact_bytes": 2425605,
+    "artifact_sha256": "aa57b2dae6859f12f1e939a1815c58678a1db270e8bb21b66378783be6fe3f2b",
+    "result_json_bytes": 339050,
+    "result_json_sha256": "034a02f77afd53fb0cca50d5ffc54088b6ba745dcd3fc243a957aaaa9fc4b7cf",
+    "npz_sha256": "e7ffc7f33686376a78dba3f0fcb0a019554afdab16e380f478b35b0bad958a3d"
+  },
+  "source": {
+    "new_b16_run": 45312299981,
+    "new_b16_source_artifact": 14883618584,
+    "new_b16_screen_artifact": 14885180327,
+    "natural_dev_clean_run": 45297962939,
+    "synthetic_admitted_positive": 12,
+    "synthetic_admitted_ordinary": 46,
+    "new_synthetic_paired_groups": 9,
+    "natural_ordinary": 18,
+    "natural_speakers": 12,
+    "original_total": 76,
+    "gains": [
+      1,
+      0.75,
+      0.5
+    ],
+    "models": [
+      "B0",
+      "B9",
+      "control",
+      "challenger"
+    ],
+    "total_frame_logits_arrays": 912,
+    "source_gate": "SOURCE_GATE_PASS",
+    "no_source_replacement": true,
+    "source_gate_interpretation": "Historical scorer reported SOURCE_GATE_PASS; later original-archive lineage audit invalidates historical-source independence.",
+    "effective_independent_source_gate": "SOURCE_LEAKAGE",
+    "independent_natural_readers_after_lineage_audit": 0,
+    "independent_natural_originals_after_lineage_audit": 0
+  },
+  "models": {
+    "B0": {
+      "pt_sha256": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7"
+    },
+    "B9": {
+      "pt_sha256": "7dba86a3fcda6e5f05cb80b414dc372c70a5a03b3aee783f168441a4871e7655"
+    },
+    "control": {
+      "pt_sha256": "5763ae09409493eb5f2bce8982e4bdd9f37d02bb3ab680310c141224bdbd3086"
+    },
+    "challenger": {
+      "pt_sha256": "a7fab3598e84340bbb3083323d63adcbaa3fd87cf1836b801e61a3ff2f034d6c"
+    }
+  },
+  "cohort_events": {
+    "natural_ordinary": {
+      "B0": [
+        2,
+        1,
+        4
+      ],
+      "B9": [
+        8,
+        18,
+        18
+      ],
+      "control": [
+        3,
+        4,
+        4
+      ],
+      "challenger": [
+        4,
+        3,
+        6
+      ]
+    },
+    "synthetic_ordinary": {
+      "B0": [
+        4,
+        1,
+        1
+      ],
+      "B9": [
+        7,
+        4,
+        1
+      ],
+      "control": [
+        4,
+        2,
+        0
+      ],
+      "challenger": [
+        3,
+        2,
+        0
+      ]
+    },
+    "synthetic_positive_hits": {
+      "B0": [
+        11,
+        11,
+        7
+      ],
+      "B9": [
+        11,
+        11,
+        11
+      ],
+      "control": [
+        10,
+        11,
+        10
+      ],
+      "challenger": [
+        11,
+        11,
+        10
+      ]
+    }
+  },
+  "gate_details": {
+    "restored_positive": [
+      {
+        "id": "b16-primary-677-mero-slow",
+        "group": "piper-libritts-p6060",
+        "gain": "1.0"
+      }
+    ],
+    "lost_positive_events": 0,
+    "extra_positive_events": 0,
+    "added_ordinary_conditions": [
+      {
+        "id": "b16-primary-672-request",
+        "gain": "0.75",
+        "reference": "control"
+      },
+      {
+        "id": "b15-natural-2803-154328-0007",
+        "gain": "0.5",
+        "reference": "control"
+      },
+      {
+        "id": "b15-natural-6295-64301-0001",
+        "gain": "1.0",
+        "reference": "control"
+      },
+      {
+        "id": "b15-natural-2078-142845-0040",
+        "gain": "0.5",
+        "reference": "control"
+      }
+    ],
+    "readers_improved_vs_B9": [
+      "librispeech-dev-clean-2412",
+      "librispeech-dev-clean-2803",
+      "librispeech-dev-clean-6319"
+    ],
+    "natural_above_B0_gains": [
+      "1.0",
+      "0.75",
+      "0.5"
+    ],
+    "replication_open_allowed": false,
+    "b14_b15_b16_replications_sealed": true,
+    "cal_locked_opened": false,
+    "threshold_search": false,
+    "field_far_per_hour": null,
+    "field_3_5m_frr": null,
+    "ssc305_board_measured": false,
+    "product_promoted": false
+  },
+  "note": "Original GitHub artifact CRC and saved numerical hashes remain valid: 912 finite four-class arrays over 76 within-run PCM-unique originals. Historical scorer SOURCE_GATE_PASS was subsequently invalidated by canonical speaker ancestry: all 18 natural originals/12 readers were already exposed in historical project TRAIN/DEV; two whole originals match old decoded PCM. Numerical NO_PROMOTION is preserved and SOURCE_LEAKAGE independently prohibits promotion or replication. Do not discard overlapping rows and recompute a new selectable outcome. B0 remains installed.",
+  "source_lineage_audit": {
+    "path": "SOURCE_LINEAGE_AUDIT.json",
+    "sha256": "bf7b4a6a4382413824cc26c3d5f9a0ca9922a7bd9a372418e6e9ac509474fdbf",
+    "status": "SOURCE_LEAKAGE",
+    "independent_primary_usable": false,
+    "overlapping_readers": 12,
+    "overlapping_natural_originals": 18,
+    "same_historical_decoded_pcm_originals": 2
+  }
+}
