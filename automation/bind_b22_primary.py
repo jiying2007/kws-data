@@ -26,7 +26,7 @@ import tempfile
 
 from unittest import mock
 
-DRIVER_SHA = "27cf8d081f2dabcd09186be175086dc8f87f21a904ca17ed21190855c9f7e3f3"
+DRIVER_SHA = "a679d9a2410d55315c4ed93e4f93b3b632e79fe826b53788424004db5c5aeed8"
 
 GROUPS = ("B0", "B9", "train", "source")
 

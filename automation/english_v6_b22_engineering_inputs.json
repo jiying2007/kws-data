@@ -1,0 +1,67 @@
+{
+  "schema": "english-v6-b22-dual-pass-software-sdk-v1",
+  "enabled": false,
+  "candidate_role": "challenger",
+  "quality_reader": "english_v6_b22_quality_readback",
+  "quality_reader_sha256": null,
+  "quality_locks": {
+    "primary": null,
+    "replication": null
+  },
+  "candidate_files": null,
+  "model_pt_sha256": {
+    "B0": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+    "B9": "7dba86a3fcda6e5f05cb80b414dc372c70a5a03b3aee783f168441a4871e7655",
+    "control": "4947d017142f3b01f5dd4cf7706cc3c6978cf1a072ca022c26ea847ec0dc2f04",
+    "challenger": null
+  },
+  "assessment_sha256": "1b4e043838c1313b14e31c45395fcce394526892562fb1c4e6c6793c5e45370e",
+  "training_design_sha256": "6a73fe3996397784e8f6c8df0e5d22692f6ba17d516c66236d5adc37d12a1964",
+  "pipeline_commit": "88a043c6c00bb3a1a62f45098a023c7601042ded",
+  "prepared_parent": null,
+  "parent_authority": "reviewed_workflow",
+  "inputs": {
+    "pair": null,
+    "B0": {
+      "id": 14514228406,
+      "run_id": 44495594627,
+      "run_head": "d0b567fe37147aae6ab5d7bdec3721b879a0b22d",
+      "bytes": 501276,
+      "sha256": "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702"
+    },
+    "engineering_source": {
+      "id": 14543254675,
+      "run_id": 44554345276,
+      "run_head": "3af2027d2ca9d195e18b1cf8da8e07663d841bc6",
+      "bytes": 646524,
+      "sha256": "530fccdd25abca9e76331dd8dad1f2440181158e140f2279ee952833a8d220f6"
+    },
+    "engineering_screen": {
+      "id": 14545584039,
+      "run_id": 44558582911,
+      "run_head": "e7f3e56819b4156cec4fd965e5f0529adcc99a73",
+      "bytes": 5586,
+      "sha256": "9fd68b177823a24446c50c163a4838967de7b6e9d3e2be23861d136d93af0c9e"
+    }
+  },
+  "original_count": 14,
+  "conditions": [
+    "original",
+    "one_second_zero_prefix"
+  ],
+  "maximum_backend_calls": 140,
+  "onnx_max_abs": 0.001,
+  "onnx_mean_abs": 0.0001,
+  "c_max_abs": 0.005,
+  "c_mean_abs": 0.0005,
+  "training_allowed": false,
+  "threshold_search": false,
+  "new_source_allowed": false,
+  "cal_locked_access": false,
+  "physical_ssc305": false,
+  "product_promotion_allowed": false,
+  "product_decoder_settings_defined": false,
+  "same_job_matched_control": false,
+  "historical_control_retrained": false,
+  "model_comparison": "B22_new_challenger_against_immutable_historical_B21_challenger"
+}
