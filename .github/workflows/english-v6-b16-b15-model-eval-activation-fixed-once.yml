@@ -1,0 +1,101 @@
+name: B16 source-disjoint B15 four-model primary after proven pre-inference test failure
+on:
+  push:
+    branches: [research/en-v6-b16-b15-primary-score-activation-fix-once-20261124]
+    paths: [.github/workflows/english-v6-b16-b15-model-eval-activation-fixed-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: b16-b15-four-model-prospective-pretest-fix-once
+  cancel-in-progress: false
+jobs:
+  score:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == 'e7388737342d5d580a2c4bd4b87968cc1877bd62'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261120'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Prove previous one-shot stopped before any audio, weights, or KWS forwards
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,subprocess
+          prefix="repos/jiying2007/kws-data/actions/"
+          def get(path):
+              return json.loads(subprocess.check_output(["gh","api",prefix+path]))
+          r=get("runs/45314199916")
+          assert (r["head_sha"]=="e7388737342d5d580a2c4bd4b87968cc1877bd62"
+                  and r["status"]=="completed" and r["conclusion"]=="failure"
+                  and r["run_attempt"]==1),"previous one-shot identity/status"
+          jobs=get("runs/45314199916/jobs?per_page=100")["jobs"]
+          assert len(jobs)==1 and jobs[0]["name"]=="score" and jobs[0]["conclusion"]=="failure"
+          steps={s["name"]:s["conclusion"] for s in jobs[0]["steps"]}
+          assert steps["Authenticate immutable source and decision contracts with zero model calls"]=="failure"
+          for name in ("Prove exact seven original public artifacts and GitHub runs before downloading",
+                       "Run genuine frozen B16 human and synthetic primary on original PCM only"):
+              assert steps[name]=="skipped",name
+          assert get("runs/45314199916/artifacts?per_page=100")["total_count"]==0
+          print("EARLIER_B16_ZERO_FORWARD_PRETEST_FAILURE_PROVEN")
+          PY
+      - name: Authenticate immutable source and decision contracts with zero model calls
+        run: python -IB automation/test_english_v6_b16_b15_primary_eval.py -v
+      - name: Prove exact seven original public artifacts and GitHub runs before downloading
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/b16-inputs"
+          python - "$RUNNER_TEMP/b16-inputs" <<'PYTHON'
+          import hashlib,json,subprocess,sys
+          from pathlib import Path
+          spec=json.loads(Path("automation/english_v6_b16_b15_primary_inputs.json").read_bytes())
+          if spec["scoring_allowed"] is not True or spec["promotion_allowed"] is not False:
+              raise ValueError("B16 source QA not independently qualified or implicit model promotion")
+          required={"B0","B9","pair","synth_source","synth_screen","natural_source","natural_screen"}
+          if set(spec["inputs"])!=required:
+              raise ValueError("seven original B16/B15 registered source archive roles")
+          prefix="repos/jiying2007/kws-data/actions/"
+          for key,locked in spec["inputs"].items():
+              if not isinstance(locked,dict) or set(locked)!={"id","run_id","run_head","bytes","sha256"}:
+                  raise ValueError("source role not frozen: "+key)
+              meta=json.loads(subprocess.check_output(["gh","api",prefix+"artifacts/"+str(locked["id"])]))
+              run=json.loads(subprocess.check_output(["gh","api",prefix+"runs/"+str(locked["run_id"])]))
+              if (meta["expired"] or meta["size_in_bytes"]!=locked["bytes"] or
+                  meta["digest"]!="sha256:"+locked["sha256"] or
+                  meta["workflow_run"]["id"]!=locked["run_id"] or
+                  meta["workflow_run"]["head_sha"]!=locked["run_head"] or
+                  run["status"]!="completed" or run["conclusion"]!="success" or
+                  run["run_attempt"]!=1 or run["head_sha"]!=locked["run_head"]):
+                  raise ValueError("unverified public source or checkpoint: "+key)
+              raw=subprocess.check_output(["gh","api",prefix+"artifacts/"+str(locked["id"])+"/zip"])
+              if len(raw)!=locked["bytes"] or hashlib.sha256(raw).hexdigest()!=locked["sha256"]:
+                  raise ValueError("source or weight ZIP bytes mismatched: "+key)
+              (Path(sys.argv[1])/(key+".zip")).write_bytes(raw)
+          PYTHON
+      - name: Run genuine frozen B16 human and synthetic primary on original PCM only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 numpy==1.26.4
+          python -IB automation/english_v6_b16_b15_primary_eval.py automation/english_v6_b16_b15_primary_inputs.json "$RUNNER_TEMP/b16-inputs" "$RUNNER_TEMP/b16-result"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b16-b15-pretest-fixed-original-primary-logits-${{ github.run_id }}
+          path: ${{ runner.temp }}/b16-result/
+          retention-days: 90
+          if-no-files-found: warn
