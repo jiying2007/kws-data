@@ -79,8 +79,8 @@ def history(directory):
     groups.update(r["source_group_id"] for r in entries)
     people.update(r["source_speaker_id"].removeprefix("p") for r in entries)
     # Previous B15 reservation is not opened or regenerated as a B16 source.
-    b15=json.loads((Path(__file__).with_name("english_v6_b15_panels")/"replication-synthetic.json").read_bytes())
-    people.update(r["source_speaker_id"].removeprefix("p") for r in b15["rows"])
+    reserved_b15=json.loads((Path(__file__).with_name("english_v6_b15_panels")/"replication-synthetic.json").read_bytes())
+    people.update(r["source_speaker_id"].removeprefix("p") for r in reserved_b15["rows"])
     readers=json.loads((Path(__file__).with_name("english_v6_b14_panels")/"natural-rosters.json").read_bytes())
     people.update(str(r["speaker"]) for x in readers.values() for r in x)
     b15_readers=json.loads((Path(__file__).with_name("english_v6_train_context24_roster.json")).read_bytes())
