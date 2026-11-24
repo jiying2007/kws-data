@@ -1,0 +1,232 @@
+{
+  "base_exclusion_rule": {
+    "canonicalize_digits_by_integer_value": true,
+    "historical_unknowns_and_sealed_reserves_retained": true,
+    "original_failed_primary12": [
+      "3983",
+      "3112",
+      "302",
+      "839",
+      "6437",
+      "7226",
+      "909",
+      "5750",
+      "4362",
+      "2843",
+      "103",
+      "328"
+    ],
+    "original_failed_primary_exposure": "metadata_attempted_only_not_audio_decoded",
+    "original_sealed_replication12": [
+      "625",
+      "2159",
+      "4406",
+      "2182",
+      "1963",
+      "7635",
+      "2092",
+      "3879",
+      "587",
+      "403",
+      "7511",
+      "5022"
+    ],
+    "union": [
+      "ancestry.natural_excluded_people",
+      "ancestry.canonical_people",
+      "assessment.primary.natural.excluded_canonical_speakers",
+      "assessment.replication.natural.excluded_canonical_speakers",
+      "original_failed_primary12",
+      "original_sealed_replication12",
+      "all_primary_and_replication_synthetic_canonical_people"
+    ]
+  },
+  "catalog_authentication_required_before_binding": true,
+  "catalog_binding": {
+    "bound": false,
+    "catalog_sha256": null,
+    "diagnostic_sha256": null,
+    "exact_roster_sha256": null,
+    "metadata_artifact_pin": null,
+    "metadata_producer_pin": null,
+    "metadata_run": null
+  },
+  "catalog_schema": "english-v6-b21-full-train-clean-100-text-metadata-v1",
+  "corpus": {
+    "attribution": "V. Panayotov, G. Chen, D. Povey and S. Khudanpur, LibriSpeech, OpenSLR 12",
+    "bytes": 6387309499,
+    "license": "CC BY 4.0",
+    "md5": "2a93770f6d5c6c964bc36631d331a522",
+    "md5_index": "https://www.openslr.org/resources/12/md5sum.txt",
+    "project_role": "development",
+    "sha256": "d4ddd1d5a6ab303066f14971d768ee43278a5f2a0aa43dc716b0e64ecbbbf6e2",
+    "sha256_index": "https://docs.pytorch.org/audio/2.7.0/_modules/torchaudio/datasets/librispeech.html",
+    "size_provenance": "HEAD 2026-11-24 05:00:59 GMT, HTTP 200, Content-Length 6387309499; no response body read",
+    "split": "train-clean-100",
+    "training_allowed": false,
+    "url": "https://www.openslr.org/resources/12/train-clean-100.tar.gz"
+  },
+  "execution_authorized": false,
+  "failure_policy": {
+    "after_exact_ids_frozen": "NO_REPLACEMENT_AFTER_ANY_AUDIO_OR_OBSERVER_REJECTION",
+    "duplicate_or_incomplete_catalog": "STOP",
+    "insufficient_eligible_people": "STOP_WITHOUT_PARTIAL_PANEL_OR_NEW_SALT",
+    "original_failed_panel_preserved": true
+  },
+  "frozen_inputs": {
+    "ancestry_sha256": "26cf48813b5e712bc8820a2429fc0917db9f6e3eaa809a008d98c533714be2b0",
+    "assessment_sha256": "65ad9c7204755f1cd0b639added163387af39604818f9bd26b9da9fe8bd098fc",
+    "primary_natural_code_sha256": "e271b75276a1b8cd3928f4f6cd25be8bfb74481063ae55f4e3c9cf5d3fef3fda",
+    "primary_natural_sha256": "ae52045c4d6b8159e221fe4e0c8a3140fdb337c8fa86e573bf4866fa2f925f3c",
+    "quality_assessment_sha256": "944f5df3c7bc3244977a8a33f7e1c393bffff9f7f5c32d2d8cc79e2628e265d9",
+    "quality_function_sha256": "6aa5f999598e47b41eb0a946acd82fdc5b47d30aea8990871c1c1a01065e4023",
+    "replication_natural_code_sha256": "ff5189ee2fecca22e2dd7588868e4db5ccf83b9b5fa1cf221ff4f42f55ebb24e",
+    "replication_natural_sha256": "45b8e6cee46f7a9da6eb4a8e4f52cc64ee6fea6c6909eafb53072bf7ba49d063",
+    "speakers_sha256": "3350f093382f8baa1d589c9f5a5cee8ec3705e656f521d6eafbaa31a5fcd8f76"
+  },
+  "gains": [
+    "1.0",
+    "0.75",
+    "0.5"
+  ],
+  "metadata_only_selection": true,
+  "new_kws_forwards": 0,
+  "new_observer_calls": 0,
+  "new_optimizer_updates": 0,
+  "new_replication_reserve": {
+    "audio_member_reads_allowed": false,
+    "kws_allowed": false,
+    "metadata_selection_only": true,
+    "natural_decodes_allowed": false,
+    "observers_allowed": false,
+    "opening_requirement": "Authenticated actual unchanged-model amended-primary numerical PASS and a separately registered first replication execution; all old reserves remain sealed.",
+    "source_opened": false
+  },
+  "new_source_calls": 0,
+  "original_failed_source": {
+    "kws_forwards": 0,
+    "natural_original_decodes": 0,
+    "observer_calls": 0,
+    "old_status_may_be_redefined": false,
+    "original_complete_natural_roster_existed": false,
+    "original_natural_intended_slots": 24,
+    "original_natural_readers": [
+      "3983",
+      "3112",
+      "302",
+      "839",
+      "6437",
+      "7226",
+      "909",
+      "5750",
+      "4362",
+      "2843",
+      "103",
+      "328"
+    ],
+    "retained_synthetic_originals": 96,
+    "run_attempt": 1,
+    "run_head": "c262e4b5cf06de8a6950c2c797c7aefcf43498d8",
+    "run_id": 45367984097,
+    "source_artifact": {
+      "bytes": 5726331,
+      "id": 14907672424,
+      "sha256": "e7a9cb7c22c701222806ec53cdd241b8d1fdd9e2d5ec38fea03dc46d90980bfd"
+    },
+    "status": "STOP_WITHOUT_REPLACEMENT_CONSUMED",
+    "synthetic_manifest_sha256": "d09c3c7032d199a5d4a953545106e9242d87c5da37ddcc366bb676f0f20af0f8"
+  },
+  "panels": {
+    "primary": {
+      "exclude_previous_panel_people": false,
+      "salt": "b21-blank-inclusive-primary-train-clean-100-20261124-v1",
+      "selected_speakers": null,
+      "selected_utterance_ids": null,
+      "selection": "first12_eligible_after_base_exclusions",
+      "source_opened": false,
+      "source_slots": 24,
+      "speaker_count": 12,
+      "speaker_rank": [
+        "sha256(UTF8(salt + /speaker/ + canonical_speaker_id))",
+        "canonical_speaker_id"
+      ],
+      "utterance_rank": [
+        "sha256(UTF8(salt + /utterance/ + source_id))",
+        "source_id"
+      ],
+      "utterances_per_speaker": 2
+    },
+    "replication": {
+      "exclude_previous_panel_people": true,
+      "salt": "b21-blank-inclusive-replication-train-clean-100-20261124-v1",
+      "selected_speakers": null,
+      "selected_utterance_ids": null,
+      "selection": "first12_remaining_eligible_after_base_exclusions_and_new_primary",
+      "source_opened": false,
+      "source_slots": 24,
+      "speaker_count": 12,
+      "speaker_rank": [
+        "sha256(UTF8(salt + /speaker/ + canonical_speaker_id))",
+        "canonical_speaker_id"
+      ],
+      "utterance_rank": [
+        "sha256(UTF8(salt + /utterance/ + source_id))",
+        "source_id"
+      ],
+      "utterances_per_speaker": 2
+    }
+  },
+  "primary_cumulative_limits": {
+    "kws_forwards": 1440,
+    "native_observer_calls": 600,
+    "natural_original_decodes": 24,
+    "tts_calls": 96
+  },
+  "promotion_allowed": false,
+  "purpose": "Explicit natural-panel amendment after the original fixed-reader metadata STOP; preserve the exact96 unscored synthetic originals and all unchanged model, source-admission and numerical gates.",
+  "registration_stage": "PROSPECTIVE_RULE_BEFORE_METADATA_DIAGNOSTIC_RESULT",
+  "retained_synthetic_policy": {
+    "additional_primary_tts_calls": 0,
+    "all96_wav_native_start_and_manifest_bytes_unchanged": true,
+    "explicit_exact_component_reuse_not_new_audio": true,
+    "original_execution_preserved_separately": true
+  },
+  "schema": "english-v6-b21-prospective-natural-panel-amendment-rule-v1",
+  "selection_sequence": [
+    "primary",
+    "replication"
+  ],
+  "source_gate": {
+    "natural_originals": 12,
+    "natural_speakers": 8,
+    "synthetic_ordinary": 24,
+    "synthetic_paired": 8,
+    "synthetic_positive": 12
+  },
+  "source_panels_opened": false,
+  "speaker_eligibility": {
+    "all_census_speakers_and_all_transcript_members_required": true,
+    "apply_before_speaker_ranking": true,
+    "minimum_eligible_transcripts_per_speaker": 2
+  },
+  "text_predicate": {
+    "audio_duration_quality_headers_or_model_results_used": false,
+    "blocked_exact_tokens": [
+      "HAY",
+      "HEY",
+      "MARROW",
+      "MEERO",
+      "MERO",
+      "MERROW",
+      "MIRO"
+    ],
+    "identifier_fullmatch": "speaker-chapter-[0-9]+",
+    "maximum_words": 14,
+    "minimum_words": 4,
+    "normalization": null,
+    "token_fullmatch_regex": "[A-Z]+(?:'[A-Z]+)*",
+    "word_split": "literal_single_space"
+  },
+  "threshold_search": false,
+  "training_allowed": false
+}
