@@ -90,6 +90,12 @@ def history(directory):
     return seen,groups,people
 
 
+def required_archives():
+    """One immutable source lineage, including the previously verified B14 primary."""
+    return (*B13.locks(),"14788464792","14788972705",
+            str(b15.B14_PRIMARY_ID),str(B15_SOURCE_ID))
+
+
 def validate_config(config,history_groups,people):
     # Reuse exact SHA-pinned 904-voice config and previously exposed speaker checks,
     # in four disjoint fixed ranges of 12 to avoid weakening the mature upstream guard.
@@ -213,7 +219,7 @@ if __name__=="__main__":
     a=p.parse_args()
     if a.mode=="self-test":self_test()
     elif a.mode=="gate":gate(a.archive)
-    elif a.mode=="history":print("\n".join((*B13.locks(),"14788464792","14788972705",str(B15_SOURCE_ID))))
+    elif a.mode=="history":print("\n".join(required_archives()))
     elif a.mode=="generate":generate(a.out,a.previous)
     elif a.mode=="observe":qa.observers.observe(a.provider,a.source,a.out,read_rows=read_source,schema=BATCH)
     elif a.mode=="screen":screen(a.source,a.observers,a.out)
