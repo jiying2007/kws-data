@@ -1,0 +1,110 @@
+{
+  "synthetic": {
+    "raw_source_rows": 96,
+    "coverage": {
+      "qwen": 96,
+      "whisper": 96,
+      "parakeet": 94,
+      "xlsr": 96,
+      "lv60": 96
+    },
+    "original_attempts": 480,
+    "retained_valid_captures": 478,
+    "failed_rows": [
+      {
+        "provider": "parakeet",
+        "error": "ValueError:RAW_UNPROMPTED_COMPLETE_ASR_TEXT",
+        "id": "b17-primary-725-mero-slow",
+        "source_pcm_sha256": "e50e647a0f57d2d6aa49dbedf94828522a927d39eabf02a2ef041cdfa354d42e",
+        "source_samples": 12261,
+        "source_wav_sha256": "2d591b08556784ebb562f19ce2a527819be60f428c31a7137b5fdab09df9a3c5",
+        "status": "failed",
+        "target_conditioned": false,
+        "training_allowed": false
+      },
+      {
+        "provider": "parakeet",
+        "error": "ValueError:RAW_UNPROMPTED_COMPLETE_ASR_TEXT",
+        "id": "b17-primary-730-mero-slow",
+        "source_pcm_sha256": "11bd5864fd10529e6e94cef2b0c77726ee5e0eff3e993e1a4679aa8b99051d3d",
+        "source_samples": 12632,
+        "source_wav_sha256": "639a38e2e66b5f303bbc8ed77d5c20ea72fc810a7cfdf31b9bb1a8b5fc945d7d",
+        "status": "failed",
+        "target_conditioned": false,
+        "training_allowed": false
+      }
+    ],
+    "all_original_model_identity_and_raw_capture_joins_verified": true,
+    "all_phone_float32_hash_finite_vocab_and_ctc_parity_verified": true,
+    "new_models_loaded_by_audit": 0,
+    "new_model_forwards_by_audit": 0,
+    "source_gate": "STOP_INCOMPLETE_NATIVE_CAPTURE_COVERAGE",
+    "screen_artifact_created": false,
+    "original_failure": "ValueError: exact five original native model forwards x 96",
+    "admission_not_finalized": true,
+    "kws_forwards": 0
+  },
+  "natural": {
+    "raw_source_rows": 24,
+    "coverage": {
+      "qwen": 24,
+      "whisper": 24,
+      "parakeet": 24,
+      "xlsr": 24,
+      "lv60": 24
+    },
+    "original_attempts": 120,
+    "retained_valid_captures": 120,
+    "failed_rows": [],
+    "all_original_model_identity_and_raw_capture_joins_verified": true,
+    "all_phone_float32_hash_finite_vocab_and_ctc_parity_verified": true,
+    "new_models_loaded_by_audit": 0,
+    "new_model_forwards_by_audit": 0,
+    "source_gate": "SOURCE_GATE_PASS",
+    "admitted_counts": {
+      "natural_originals": 21,
+      "natural_speakers": 11
+    },
+    "tier_counts": {
+      "silver": 16,
+      "unknown": 3,
+      "weak": 5
+    },
+    "original_screen_decisions_verified_without_relabeling": true,
+    "kws_forwards": 0,
+    "original_SCREEN_json_sha256": "1ef5129b5fff1ac97b7102efb59fbf1eb4adeb4fd0afc7e2c66009c1ae3a9709"
+  },
+  "tts_accounting": {
+    "zip_members": 290,
+    "member_prefix_counts": {
+      "MANIFEST.json": 1,
+      "native": 96,
+      "STARTED.json": 1,
+      "starts": 96,
+      "wav": 96
+    },
+    "original_wavs": 96,
+    "logical_source_requests": 96,
+    "successful_PiperVoice_synthesize_api_invocations": 96,
+    "native_output_chunks": 96,
+    "native_chunk_count_per_original": {
+      "1": 96
+    },
+    "PiperVoice_load_invocations_in_render_loop": 96,
+    "actual_onnx_session_run_calls": null,
+    "actual_internal_tts_model_forward_count": null,
+    "internal_forwards_instrumented": false,
+    "explanation": "tts_calls and max_source_calls count one logical original/synthesize API invocation per frozen row. The original code does not instrument internal Piper/ONNX model forwards; native chunk count alone cannot establish that count."
+  },
+  "overall": {
+    "original_observer_attempts": 600,
+    "valid_captures": 598,
+    "failed_captures": 2,
+    "new_observer_attempts_during_audit": 0,
+    "new_kws_forwards_during_audit": 0,
+    "B17_four_model_scoring_eligible": false,
+    "reason": "No synthetic SCREEN exists because the frozen five-by-96 valid-capture guard failed. Natural alone passes its original source gate.",
+    "replication_open_allowed": false,
+    "promotion_allowed": false
+  }
+}

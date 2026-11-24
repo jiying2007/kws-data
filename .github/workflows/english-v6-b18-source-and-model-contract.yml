@@ -1,0 +1,51 @@
+name: B18 complete raw source evidence and unchanged frozen-model contracts
+'on':
+  pull_request:
+    paths:
+      - automation/*english_v6_b18*
+      - automation/english_v6_b18_panels/**
+      - .github/workflows/english-v6-b18-*.yml
+      - research/english_v6_b17_training_20261124/**
+      - research/english_v6_b17_source_results_20261124/**
+  push:
+    branches: [main]
+    paths:
+      - automation/*english_v6_b18*
+      - automation/english_v6_b18_panels/**
+      - .github/workflows/english-v6-b18-*.yml
+      - research/english_v6_b17_training_20261124/**
+      - research/english_v6_b17_source_results_20261124/**
+permissions:
+  contents: read
+jobs:
+  b18-source-and-frozen-model-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Install array fixture support without model runtimes
+        run: python -m pip install --disable-pip-version-check numpy==1.26.4
+      - name: Check source, raw receipts, actual counters and same-model gates in every Python mode
+        run: |
+          python -IB -m unittest discover -s automation -p 'test_english_v6_b18_*.py' -v
+          python -OIB -m unittest discover -s automation -p 'test_english_v6_b18_*.py' -v
+          python -OOIB -m unittest discover -s automation -p 'test_english_v6_b18_*.py' -v
+          python -IB automation/english_v6_b18_primary_eval.py check
+      - name: Preserve all retained original B17 source evidence bytes
+        run: |
+          python -IB - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path('research/english_v6_b17_source_results_20261124')
+          inventory = json.loads((root / 'FILE_SHA256.json').read_bytes())
+          if {row['path'] for row in inventory} != {str(p.relative_to(root)) for p in root.rglob('*') if p.is_file() and p.name != 'FILE_SHA256.json'}:
+              raise ValueError('complete original source-evidence file inventory')
+          for row in inventory:
+              raw = (root / row['path']).read_bytes()
+              if len(raw) != row['bytes'] or hashlib.sha256(raw).hexdigest() != row['sha256']:
+                  raise ValueError('changed retained original evidence: ' + row['path'])
+          print('all original B17 source evidence retained; zero model/data calls')
+          PY

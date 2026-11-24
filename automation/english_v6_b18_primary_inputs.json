@@ -1,0 +1,80 @@
+{
+  "schema": "english-v6-b18-b17-frozen-models-primary-v1",
+  "keyword": "Hey Mero",
+  "scoring_allowed": false,
+  "assessment_sha256": "4020b29b55efc8199a2fc6eed964b72fa842bb581504cf2c37e17ea8027e2490",
+  "training_assessment_sha256": "7fdfe9cd47b18f64429fece944468af8adfde6c6ba012a57236a8a33aae1a948",
+  "training_design_sha256": "f9ba0ce59b0deed805b313063e648470e61af6c9122d08f6fe9aa5ea9e324831",
+  "pair_schema": "english-v6-b17-b0-ordinary-margin-pair-v1",
+  "pair_stems": {
+    "control": "control/models/mero43-b17-control192",
+    "challenger": "challenger/models/mero43-b17-challenger192"
+  },
+  "parent_pt_sha256": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+  "gains": [
+    "1.0",
+    "0.75",
+    "0.5"
+  ],
+  "source_gate": {
+    "synthetic_positive": 12,
+    "synthetic_ordinary": 24,
+    "synthetic_paired": 8,
+    "natural_originals": 12,
+    "natural_speakers": 8
+  },
+  "maximum_model_forwards": 1404,
+  "model_pt_sha256": {
+    "B0": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+    "B9": "7dba86a3fcda6e5f05cb80b414dc372c70a5a03b3aee783f168441a4871e7655",
+    "control": "144370e96fcf58da50114280d728867781934e3c6538d2b2d769babb7934c81e",
+    "challenger": "61c79221d2cc2299929b18812cd4bce2ef0383e3505ad017ed90bf625401bc07"
+  },
+  "inputs": {
+    "B0": {
+      "id": 14514228406,
+      "run_id": 44495594627,
+      "run_head": "d0b567fe37147aae6ab5d7bdec3721b879a0b22d",
+      "bytes": 501276,
+      "sha256": "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702"
+    },
+    "B9": {
+      "id": 14689218171,
+      "run_id": 44860855857,
+      "run_head": "846c745ebcee58a1beb27300ddcd7ec8e2178916",
+      "bytes": 1001753,
+      "sha256": "1a8b270200e0c72ab1025f139d16abde43c209f142d72e71a7201b847e06a612"
+    },
+    "pair": {
+      "id": 14887048023,
+      "run_id": 45319580193,
+      "run_head": "9654cfe1c28ed84fe7d1d2a91dab450d8efb1abf",
+      "bytes": 2506252,
+      "sha256": "1e31bd9c801657c7850fa6fb05c5468cbe8b4ab5bb459b0146c07c4c905ff86d"
+    },
+    "synth_source": null,
+    "synth_screen": null,
+    "natural_source": {
+      "id": 14885854460,
+      "run_id": 45319592567,
+      "run_head": "5c031522a2c9e06117aee756490d7793ea6350aa",
+      "bytes": 4065973,
+      "sha256": "3798010ec657e5408a60edbd71d92c8c98588ebfd78e71766874e811a770d035"
+    },
+    "natural_screen": {
+      "id": 14887522111,
+      "run_id": 45319592567,
+      "run_head": "5c031522a2c9e06117aee756490d7793ea6350aa",
+      "bytes": 5283,
+      "sha256": "25ebcf834b491021baef934e47fd58f2b28bf00dc212fc6bf4da454dcef1c1a1"
+    }
+  },
+  "training_allowed": false,
+  "threshold_search": false,
+  "promotion_allowed": false,
+  "product_released": false,
+  "cal_locked_access": false,
+  "B17_failed_synthetic_used_for_scoring": false,
+  "replication_opened": false,
+  "operator_note": "INERT. B17 synthetic remains STOP; its lost native results are not reconstructed or replayed. This new data-only assessment uses unchanged B17 checkpoints, new fixed synthetic voices and the original successful unscored 21/11 B17 natural admission. Bind only the new authentic complete source/screen after five-by-96 qualification. New primary PASS is needed before a separate B18 inherited-replication gate can open. B0 remains installed."
+}

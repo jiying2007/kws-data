@@ -1,0 +1,207 @@
+{
+  "actual_model_hashes": {
+    "challenger": {
+      "files": {
+        "mero43-b17-challenger192.npz": {
+          "bytes": 223130,
+          "sha256": "ac65594c91ce60e6225ecbc0b433be1f6ec9c34b885460c919aaa8c404e334dd"
+        },
+        "mero43-b17-challenger192.onnx": {
+          "bytes": 187405,
+          "sha256": "6400c1b7f2363e8bbc7c0f6d930d3ad987d791138319a207bf49d4416abd1931"
+        },
+        "mero43-b17-challenger192.pt": {
+          "bytes": 183137,
+          "sha256": "61c79221d2cc2299929b18812cd4bce2ef0383e3505ad017ed90bf625401bc07"
+        }
+      },
+      "pt_sha256": "61c79221d2cc2299929b18812cd4bce2ef0383e3505ad017ed90bf625401bc07"
+    },
+    "control": {
+      "files": {
+        "mero43-b17-control192.npz": {
+          "bytes": 223130,
+          "sha256": "080c5641523723622d5af985eb7e2ae7bb600259e296461240e584dc48c4368d"
+        },
+        "mero43-b17-control192.onnx": {
+          "bytes": 187405,
+          "sha256": "7c79f45ab68d8115dade8ead6b5f32f1fcae9251c255a13fd3bafbe646f62976"
+        },
+        "mero43-b17-control192.pt": {
+          "bytes": 182995,
+          "sha256": "144370e96fcf58da50114280d728867781934e3c6538d2b2d769babb7934c81e"
+        }
+      },
+      "pt_sha256": "144370e96fcf58da50114280d728867781934e3c6538d2b2d769babb7934c81e"
+    }
+  },
+  "actual_optimizer_updates": 384,
+  "actual_ordinary_teacher_forwards": 124,
+  "actual_student_forwards": 3670,
+  "artifact_metadata": {
+    "archive_download_url": "https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/14887048023/zip",
+    "created_at": "2026-11-24T03:28:50Z",
+    "digest": "sha256:1e31bd9c801657c7850fa6fb05c5468cbe8b4ab5bb459b0146c07c4c905ff86d",
+    "expired": false,
+    "expires_at": "2027-02-22T03:26:58Z",
+    "id": 14887048023,
+    "name": "english-v6-b17-b0-margin-weights-45319580193",
+    "node_id": "MDg6QXJ0aWZhY3QxNDg4NzA0ODAyMw==",
+    "size_in_bytes": 2506252,
+    "updated_at": "2026-11-24T03:28:50Z",
+    "url": "https://api.github.com/repos/jiying2007/kws-data/actions/artifacts/14887048023",
+    "workflow_run": {
+      "head_branch": "research/en-v6-b17-b0-margin-train-once-20261124",
+      "head_repository_id": 1397319075,
+      "head_sha": "9654cfe1c28ed84fe7d1d2a91dab450d8efb1abf",
+      "id": 45319580193,
+      "repository_id": 1397319075
+    }
+  },
+  "artifact_url": "https://github.com/jiying2007/kws-data/actions/runs/45319580193/artifacts/14887048023",
+  "assessment_sha256": "7fdfe9cd47b18f64429fece944468af8adfde6c6ba012a57236a8a33aae1a948",
+  "audit_execution": {
+    "new_audio_asr_calls": 0,
+    "new_model_forwards": 0,
+    "optimizer_updates": 0,
+    "saved_data_only": true,
+    "torch_imported": false
+  },
+  "commit_metadata": {
+    "message": "run(en-v6): execute frozen B17 train once from approved main",
+    "parents": [
+      {
+        "html_url": "https://github.com/jiying2007/kws-data/commit/e46a54fb3e39b3a7a7abd8e8b1afdc00d1ec8cde",
+        "sha": "e46a54fb3e39b3a7a7abd8e8b1afdc00d1ec8cde",
+        "url": "https://api.github.com/repos/jiying2007/kws-data/git/commits/e46a54fb3e39b3a7a7abd8e8b1afdc00d1ec8cde"
+      }
+    ],
+    "sha": "9654cfe1c28ed84fe7d1d2a91dab450d8efb1abf",
+    "tree": {
+      "sha": "19210c3b7fbb86dd2ce23997a8601ccad7a93015",
+      "url": "https://api.github.com/repos/jiying2007/kws-data/git/trees/19210c3b7fbb86dd2ce23997a8601ccad7a93015"
+    }
+  },
+  "design_sha256": "f9ba0ce59b0deed805b313063e648470e61af6c9122d08f6fe9aa5ea9e324831",
+  "diagnostic": {
+    "b9_recovered_b0_positive_groups": 11,
+    "new_train_forwards": 396,
+    "optimizer_updates_at_diagnostic": 0,
+    "ordinary_margin_elevation_groups": 43,
+    "reused_b9_arrays": 132,
+    "saved_arrays": 528,
+    "status": "TRAIN_SIGNAL"
+  },
+  "expected_result_status": "TRAINED_PAIR_REQUIRES_FRESH_INDEPENDENT_DEV",
+  "field_far_per_hour": "NOT_MEASURED",
+  "job": {
+    "all_steps_succeeded": true,
+    "conclusion": "success",
+    "decoded_job_log_sha256": "c1f5267085e4c2bb810c5335a15ce72752d9a89cd0ea43830babf297c4e75166",
+    "final_tensor_test_skips": 0,
+    "id": 138194609765,
+    "name": "train",
+    "required_tensor_and_source_tests": 12
+  },
+  "original_archive_filename": "b17-train-original.zip",
+  "original_member_sha256": {
+    "B0_ORDINARY_TEACHER.json": {
+      "bytes": 53348,
+      "sha256": "8e8cc7a32f7146a5a92f103ec8621c3a6d2e2de5d2537952a6f7a6d11a1da5f4"
+    },
+    "B0_ORDINARY_TEACHER_LOGITS.npz": {
+      "bytes": 436595,
+      "sha256": "fe962d278ec812efd2f0841cacc2363429f9f6253b6226cc3a94f8ab51139947"
+    },
+    "COMMON_DRAW.json": {
+      "bytes": 495359,
+      "sha256": "004ee868dde578b68d2e08827fa1a46d7adc9a4300e313b02298d9046a071551"
+    },
+    "RESULT.json": {
+      "bytes": 3352,
+      "sha256": "80e9a951df9c78fe56fc70f57c0f2f5fed5e6fc2d37a8bb020839b447e8af14c"
+    },
+    "SOURCE.json": {
+      "bytes": 122107,
+      "sha256": "90779521f6fe2c0b97ff586c9c7fdd1c4942a0259b3fc0c2cdeaac4c34f55a63"
+    },
+    "STARTED.json": {
+      "bytes": 499,
+      "sha256": "177ce50851720153a9765848fbf0dc574b7a9d53a5d9dae0ea38b40eed40c484"
+    },
+    "TRAIN_DIAGNOSTIC.json": {
+      "bytes": 232510,
+      "sha256": "2035f85a8acbe40c981a6e9440b6e8195fdc1112dfb76c8ddaa4f36eb1a7878e"
+    },
+    "TRAIN_DIAGNOSTIC_LOGITS.npz": {
+      "bytes": 1000265,
+      "sha256": "9f569f783ec9f21af173c821d49485be2ab31881ef21be9bdc69ac9792451f4f"
+    },
+    "challenger/OPTIMIZER_TRACE.json": {
+      "bytes": 68296,
+      "sha256": "c585ee402d3176d04a37deb20f9eebb51f6848f1498ae222a454c58af6c11f0b"
+    },
+    "challenger/POSITIVE_RETENTION_TRACE.json": {
+      "bytes": 25790,
+      "sha256": "eb8fa4ceebcb3d65014dd6880f2599394acb26c9d46caec12c1a97a35620051d"
+    },
+    "challenger/models/mero43-b17-challenger192.npz": {
+      "bytes": 223130,
+      "sha256": "ac65594c91ce60e6225ecbc0b433be1f6ec9c34b885460c919aaa8c404e334dd"
+    },
+    "challenger/models/mero43-b17-challenger192.onnx": {
+      "bytes": 187405,
+      "sha256": "6400c1b7f2363e8bbc7c0f6d930d3ad987d791138319a207bf49d4416abd1931"
+    },
+    "challenger/models/mero43-b17-challenger192.pt": {
+      "bytes": 183137,
+      "sha256": "61c79221d2cc2299929b18812cd4bce2ef0383e3505ad017ed90bf625401bc07"
+    },
+    "control/OPTIMIZER_TRACE.json": {
+      "bytes": 68057,
+      "sha256": "9fd7869a19fa9e41d9082bfe9a1b8eddd9b9ad575c35e46bb349fbe111befe63"
+    },
+    "control/POSITIVE_RETENTION_TRACE.json": {
+      "bytes": 25810,
+      "sha256": "9fcf69a990d40e0002e4006d7659f80e95c9e8482faac6da9525deb4510f5b1f"
+    },
+    "control/models/mero43-b17-control192.npz": {
+      "bytes": 223130,
+      "sha256": "080c5641523723622d5af985eb7e2ae7bb600259e296461240e584dc48c4368d"
+    },
+    "control/models/mero43-b17-control192.onnx": {
+      "bytes": 187405,
+      "sha256": "7c79f45ab68d8115dade8ead6b5f32f1fcae9251c255a13fd3bafbe646f62976"
+    },
+    "control/models/mero43-b17-control192.pt": {
+      "bytes": 182995,
+      "sha256": "144370e96fcf58da50114280d728867781934e3c6538d2b2d769babb7934c81e"
+    }
+  },
+  "parent_pt_sha256": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+  "physical_ssc305": "NOT_RUN",
+  "positive_teacher_pt_sha256": "7dba86a3fcda6e5f05cb80b414dc372c70a5a03b3aee783f168441a4871e7655",
+  "promotion_allowed": false,
+  "run_metadata": {
+    "conclusion": "success",
+    "created_at": "2026-11-24T03:26:58Z",
+    "event": "push",
+    "head_branch": "research/en-v6-b17-b0-margin-train-once-20261124",
+    "head_sha": "9654cfe1c28ed84fe7d1d2a91dab450d8efb1abf",
+    "id": 45319580193,
+    "name": "B17 B0-origin ordinary margin ceiling paired TRAIN experiment",
+    "path": ".github/workflows/english-v6-b17-b0-margin-train-once.yml",
+    "repository": {
+      "full_name": "jiying2007/kws-data",
+      "id": 1397319075,
+      "private": false
+    },
+    "run_attempt": 1,
+    "run_started_at": "2026-11-24T03:26:58Z",
+    "status": "completed",
+    "updated_at": "2026-11-24T03:28:53Z"
+  },
+  "run_url": "https://github.com/jiying2007/kws-data/actions/runs/45319580193",
+  "schema": "english-v6-b17-training-original-artifact-receipt-v1",
+  "scope": "Authenticates one completed TRAIN-only paired experiment; no DEV selection or promotion claim."
+}
