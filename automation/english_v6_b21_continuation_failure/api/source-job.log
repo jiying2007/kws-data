@@ -1,0 +1,1702 @@
+﻿2026-11-24T08:04:40.4431723Z Current runner version: '2.338.2'
+2026-11-24T08:04:40.4471264Z ##[group]Runner Image Provisioner
+2026-11-24T08:04:40.4473244Z Hosted Compute Agent
+2026-11-24T08:04:40.4474722Z Version: 20261111.635
+2026-11-24T08:04:40.4475878Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-24T08:04:40.4477582Z Build Date: 2026-11-11T01:49:01Z
+2026-11-24T08:04:40.4479063Z Worker ID: {c0a432a7-c28c-41ec-94b6-6e27594145a3}
+2026-11-24T08:04:40.4480407Z Region: eastus
+2026-11-24T08:04:40.4481580Z Cloud: Azure
+2026-11-24T08:04:40.4482601Z ##[endgroup]
+2026-11-24T08:04:40.4485436Z ##[group]Operating System
+2026-11-24T08:04:40.4486894Z Ubuntu
+2026-11-24T08:04:40.4487790Z 24.04.5
+2026-11-24T08:04:40.4488778Z LTS
+2026-11-24T08:04:40.4489624Z ##[endgroup]
+2026-11-24T08:04:40.4490681Z ##[group]Runner Image
+2026-11-24T08:04:40.4491929Z Image: ubuntu-24.04
+2026-11-24T08:04:40.4492947Z Version: 20261116.376.1
+2026-11-24T08:04:40.4495326Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.376/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-24T08:04:40.4498679Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.376
+2026-11-24T08:04:40.4500693Z ##[endgroup]
+2026-11-24T08:04:40.4502870Z ##[group]GITHUB_TOKEN Permissions
+2026-11-24T08:04:40.4505927Z Actions: read
+2026-11-24T08:04:40.4507264Z Contents: read
+2026-11-24T08:04:40.4508258Z Metadata: read
+2026-11-24T08:04:40.4509152Z ##[endgroup]
+2026-11-24T08:04:40.4512569Z Secret source: Actions
+2026-11-24T08:04:40.4514187Z Cache mode: write
+2026-11-24T08:04:40.4515438Z Prepare workflow directory
+2026-11-24T08:04:40.5100488Z Prepare all required actions
+2026-11-24T08:04:40.5172655Z Getting action download info
+2026-11-24T08:04:40.7275608Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-24T08:04:40.9087267Z Download action repository 'actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1' (SHA:ece7cb06caefa5fff74198d8649806c4678c61a1)
+2026-11-24T08:04:41.0239066Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-24T08:04:41.3020893Z Complete job name: sources
+2026-11-24T08:04:41.3942090Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-24T08:04:41.3943228Z with:
+2026-11-24T08:04:41.3943763Z   ref: d6db2375632adc8a627d094fcf23c5e87b22eddd
+2026-11-24T08:04:41.3944434Z   persist-credentials: false
+2026-11-24T08:04:41.3944981Z   fetch-depth: 2
+2026-11-24T08:04:41.3945486Z   repository: jiying2007/kws-data
+2026-11-24T08:04:41.3949754Z   token: ***
+2026-11-24T08:04:41.3950356Z   ssh-strict: true
+2026-11-24T08:04:41.3950843Z   ssh-user: git
+2026-11-24T08:04:41.3951432Z   clean: true
+2026-11-24T08:04:41.3951933Z   sparse-checkout-cone-mode: true
+2026-11-24T08:04:41.3952513Z   fetch-tags: false
+2026-11-24T08:04:41.3952997Z   show-progress: true
+2026-11-24T08:04:41.3953494Z   lfs: false
+2026-11-24T08:04:41.3953949Z   submodules: false
+2026-11-24T08:04:41.3954473Z   set-safe-directory: true
+2026-11-24T08:04:41.3955041Z   allow-unsafe-pr-checkout: false
+2026-11-24T08:04:41.3955899Z env:
+2026-11-24T08:04:41.3956703Z   PREPARED_PARENT: 60f1e6507216ae605d601f3f09ab15177b46aae2
+2026-11-24T08:04:41.3957461Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T08:04:41.3958062Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T08:04:41.3958638Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T08:04:41.3959192Z   OMP_NUM_THREADS: 2
+2026-11-24T08:04:41.3959673Z   MKL_NUM_THREADS: 2
+2026-11-24T08:04:41.3960179Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T08:04:41.3960721Z   PYTHONHASHSEED: 20261124
+2026-11-24T08:04:41.3961257Z ##[endgroup]
+2026-11-24T08:04:42.1409397Z Syncing repository: jiying2007/kws-data
+2026-11-24T08:04:42.1411668Z ##[group]Getting Git version info
+2026-11-24T08:04:42.1412895Z Working directory is '/home/runner/work/kws-data/kws-data'
+2026-11-24T08:04:42.1414992Z [command]/usr/bin/git version
+2026-11-24T08:04:42.1523679Z git version 2.56.1
+2026-11-24T08:04:42.1550602Z ##[endgroup]
+2026-11-24T08:04:42.1562379Z Temporarily overriding HOME='/home/runner/work/_temp/69592398-c659-4e27-8543-2e2639c0044c' before making global git config changes
+2026-11-24T08:04:42.1565043Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T08:04:42.1571558Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/kws-data/kws-data
+2026-11-24T08:04:42.1628553Z Deleting the contents of '/home/runner/work/kws-data/kws-data'
+2026-11-24T08:04:42.1632202Z ##[group]Determining repository object format
+2026-11-24T08:04:42.1634046Z ##[endgroup]
+2026-11-24T08:04:42.1635617Z ##[group]Initializing the repository
+2026-11-24T08:04:42.1638572Z [command]/usr/bin/git init /home/runner/work/kws-data/kws-data
+2026-11-24T08:04:42.1792406Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-24T08:04:42.1794698Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-24T08:04:42.1796668Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-24T08:04:42.1798059Z hint: call:
+2026-11-24T08:04:42.1799132Z hint:
+2026-11-24T08:04:42.1800281Z hint: 	git config --global init.defaultBranch <name>
+2026-11-24T08:04:42.1801437Z hint:
+2026-11-24T08:04:42.1802486Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-24T08:04:42.1804388Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-24T08:04:42.1805892Z hint:
+2026-11-24T08:04:42.1806948Z hint: 	git branch -m <name>
+2026-11-24T08:04:42.1807803Z hint:
+2026-11-24T08:04:42.1808974Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-24T08:04:42.1811048Z Initialized empty Git repository in /home/runner/work/kws-data/kws-data/.git/
+2026-11-24T08:04:42.1819584Z [command]/usr/bin/git remote add origin https://github.com/jiying2007/kws-data
+2026-11-24T08:04:42.1887787Z ##[endgroup]
+2026-11-24T08:04:42.1889061Z ##[group]Disabling automatic garbage collection
+2026-11-24T08:04:42.1892409Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-24T08:04:42.1933373Z ##[endgroup]
+2026-11-24T08:04:42.1935709Z ##[group]Setting up auth
+2026-11-24T08:04:42.1937476Z Removing SSH command configuration
+2026-11-24T08:04:42.1940882Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T08:04:42.1984139Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T08:04:42.2465359Z Removing HTTP extra header
+2026-11-24T08:04:42.2471578Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T08:04:42.2517307Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-24T08:04:42.2773740Z Removing includeIf entries pointing to credentials config files
+2026-11-24T08:04:42.2778272Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T08:04:42.2825665Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-24T08:04:42.3083244Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-01866e1e-922f-42fc-87ed-7d7ad778f3ea.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-24T08:04:42.3137672Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/kws-data/kws-data/.git.path /home/runner/work/_temp/git-credentials-01866e1e-922f-42fc-87ed-7d7ad778f3ea.config
+2026-11-24T08:04:42.3182241Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/kws-data/kws-data/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-01866e1e-922f-42fc-87ed-7d7ad778f3ea.config
+2026-11-24T08:04:42.3229206Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-01866e1e-922f-42fc-87ed-7d7ad778f3ea.config
+2026-11-24T08:04:42.3276959Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-01866e1e-922f-42fc-87ed-7d7ad778f3ea.config
+2026-11-24T08:04:42.3334116Z ##[endgroup]
+2026-11-24T08:04:42.3335675Z ##[group]Fetching the repository
+2026-11-24T08:04:42.3342222Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=2 origin d6db2375632adc8a627d094fcf23c5e87b22eddd
+2026-11-24T08:04:46.2086621Z From https://github.com/jiying2007/kws-data
+2026-11-24T08:04:46.2092154Z  * branch            d6db2375632adc8a627d094fcf23c5e87b22eddd -> FETCH_HEAD
+2026-11-24T08:04:46.2097319Z [command]/usr/bin/git rev-parse --verify --quiet d6db2375632adc8a627d094fcf23c5e87b22eddd^{object}
+2026-11-24T08:04:46.2238575Z d6db2375632adc8a627d094fcf23c5e87b22eddd
+2026-11-24T08:04:46.2241231Z ##[endgroup]
+2026-11-24T08:04:46.2242163Z ##[group]Determining the checkout info
+2026-11-24T08:04:46.2242774Z ##[endgroup]
+2026-11-24T08:04:46.2243282Z [command]/usr/bin/git sparse-checkout disable
+2026-11-24T08:04:46.2246378Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-24T08:04:46.2292303Z ##[group]Checking out the ref
+2026-11-24T08:04:46.2296861Z [command]/usr/bin/git checkout --progress --force d6db2375632adc8a627d094fcf23c5e87b22eddd
+2026-11-24T08:04:46.9585039Z Note: switching to 'd6db2375632adc8a627d094fcf23c5e87b22eddd'.
+2026-11-24T08:04:46.9585605Z 
+2026-11-24T08:04:46.9585865Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-24T08:04:46.9586848Z changes and commit them, and you can discard any commits you make in this
+2026-11-24T08:04:46.9587396Z state without impacting any branches by switching back to a branch.
+2026-11-24T08:04:46.9587758Z 
+2026-11-24T08:04:46.9588011Z If you want to create a new branch to retain commits you create, you may
+2026-11-24T08:04:46.9588467Z do so (now or later) by using -c with the switch command. Example:
+2026-11-24T08:04:46.9588781Z 
+2026-11-24T08:04:46.9589296Z   git switch -c <new-branch-name>
+2026-11-24T08:04:46.9589515Z 
+2026-11-24T08:04:46.9589630Z Or undo this operation with:
+2026-11-24T08:04:46.9589795Z 
+2026-11-24T08:04:46.9589887Z   git switch -
+2026-11-24T08:04:46.9590018Z 
+2026-11-24T08:04:46.9590234Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-24T08:04:46.9590550Z 
+2026-11-24T08:04:46.9590806Z HEAD is now at d6db237 Open B21 fresh primary originals and five-native source audit once
+2026-11-24T08:04:46.9656242Z ##[endgroup]
+2026-11-24T08:04:46.9716497Z [command]/usr/bin/git log -1 --format=%H
+2026-11-24T08:04:46.9759096Z d6db2375632adc8a627d094fcf23c5e87b22eddd
+2026-11-24T08:04:46.9769776Z ##[group]Removing auth
+2026-11-24T08:04:46.9770287Z Removing SSH command configuration
+2026-11-24T08:04:46.9773426Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T08:04:46.9820074Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T08:04:47.0075815Z Removing HTTP extra header
+2026-11-24T08:04:47.0080556Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T08:04:47.0127387Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-24T08:04:47.0374736Z Removing includeIf entries pointing to credentials config files
+2026-11-24T08:04:47.0379534Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T08:04:47.0420217Z includeif.gitdir:/home/runner/work/kws-data/kws-data/.git.path
+2026-11-24T08:04:47.0421895Z includeif.gitdir:/home/runner/work/kws-data/kws-data/.git/worktrees/*.path
+2026-11-24T08:04:47.0423027Z includeif.gitdir:/github/workspace/.git.path
+2026-11-24T08:04:47.0423750Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-24T08:04:47.0433172Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/kws-data/kws-data/.git.path
+2026-11-24T08:04:47.0474303Z /home/runner/work/_temp/git-credentials-01866e1e-922f-42fc-87ed-7d7ad778f3ea.config
+2026-11-24T08:04:47.0486517Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/kws-data/kws-data/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-01866e1e\-922f\-42fc\-87ed\-7d7ad778f3ea\.config
+2026-11-24T08:04:47.0536486Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/kws-data/kws-data/.git/worktrees/*.path
+2026-11-24T08:04:47.0577342Z /home/runner/work/_temp/git-credentials-01866e1e-922f-42fc-87ed-7d7ad778f3ea.config
+2026-11-24T08:04:47.0586291Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/kws-data/kws-data/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-01866e1e\-922f\-42fc\-87ed\-7d7ad778f3ea\.config
+2026-11-24T08:04:47.0638781Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-24T08:04:47.0683194Z /github/runner_temp/git-credentials-01866e1e-922f-42fc-87ed-7d7ad778f3ea.config
+2026-11-24T08:04:47.0691327Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-01866e1e\-922f\-42fc\-87ed\-7d7ad778f3ea\.config
+2026-11-24T08:04:47.0752011Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-24T08:04:47.0791288Z /github/runner_temp/git-credentials-01866e1e-922f-42fc-87ed-7d7ad778f3ea.config
+2026-11-24T08:04:47.0800958Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-01866e1e\-922f\-42fc\-87ed\-7d7ad778f3ea\.config
+2026-11-24T08:04:47.0849955Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-24T08:04:47.1102064Z Removing credentials config '/home/runner/work/_temp/git-credentials-01866e1e-922f-42fc-87ed-7d7ad778f3ea.config'
+2026-11-24T08:04:47.1112821Z ##[endgroup]
+2026-11-24T08:04:47.1378722Z ##[group]Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+2026-11-24T08:04:47.1379165Z with:
+2026-11-24T08:04:47.1379365Z   python-version: 3.12
+2026-11-24T08:04:47.1379593Z   check-latest: false
+2026-11-24T08:04:47.1381989Z   token: ***
+2026-11-24T08:04:47.1382201Z   update-environment: true
+2026-11-24T08:04:47.1382442Z   allow-prereleases: false
+2026-11-24T08:04:47.1382666Z   freethreaded: false
+2026-11-24T08:04:47.1382869Z env:
+2026-11-24T08:04:47.1383115Z   PREPARED_PARENT: 60f1e6507216ae605d601f3f09ab15177b46aae2
+2026-11-24T08:04:47.1383464Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T08:04:47.1383714Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T08:04:47.1383954Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T08:04:47.1384185Z   OMP_NUM_THREADS: 2
+2026-11-24T08:04:47.1384380Z   MKL_NUM_THREADS: 2
+2026-11-24T08:04:47.1384578Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T08:04:47.1384800Z   PYTHONHASHSEED: 20261124
+2026-11-24T08:04:47.1385014Z ##[endgroup]
+2026-11-24T08:04:47.2812480Z ##[group]Installed versions
+2026-11-24T08:04:47.2950544Z Successfully set up CPython (3.12.16)
+2026-11-24T08:04:47.2951429Z ##[endgroup]
+2026-11-24T08:04:47.3079375Z ##[group]Run python -IB automation/test_english_v6_b21_producer_snapshot.py -v
+2026-11-24T08:04:47.3080059Z [36;1mpython -IB automation/test_english_v6_b21_producer_snapshot.py -v[0m
+2026-11-24T08:04:47.3080854Z [36;1mpython -IB automation/english_v6_b21_producer_snapshot.py source "$RUNNER_TEMP/b21-source-producer" --prepared-parent "$PREPARED_PARENT"[0m
+2026-11-24T08:04:47.3120236Z shell: /usr/bin/bash -e {0}
+2026-11-24T08:04:47.3120493Z env:
+2026-11-24T08:04:47.3120762Z   PREPARED_PARENT: 60f1e6507216ae605d601f3f09ab15177b46aae2
+2026-11-24T08:04:47.3121110Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T08:04:47.3121363Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T08:04:47.3121606Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T08:04:47.3121844Z   OMP_NUM_THREADS: 2
+2026-11-24T08:04:47.3122038Z   MKL_NUM_THREADS: 2
+2026-11-24T08:04:47.3122231Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T08:04:47.3122460Z   PYTHONHASHSEED: 20261124
+2026-11-24T08:04:47.3122791Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:04:47.3123237Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T08:04:47.3123656Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:04:47.3124029Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:04:47.3124401Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:04:47.3124791Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T08:04:47.3125110Z ##[endgroup]
+2026-11-24T08:04:47.5691600Z test_git_blob_matches_known_empty_file_object (__main__.ProducerSnapshot.test_git_blob_matches_known_empty_file_object) ... ok
+2026-11-24T08:04:47.5693581Z test_hidden_runtime_workflow_is_preserved_in_tree_parser (__main__.ProducerSnapshot.test_hidden_runtime_workflow_is_preserved_in_tree_parser) ... ok
+2026-11-24T08:04:47.5695561Z test_only_original_workflow_child_can_be_snapshotted (__main__.ProducerSnapshot.test_only_original_workflow_child_can_be_snapshotted) ... ok
+2026-11-24T08:04:47.5696795Z 
+2026-11-24T08:04:47.5697051Z ----------------------------------------------------------------------
+2026-11-24T08:04:47.5697606Z Ran 3 tests in 0.001s
+2026-11-24T08:04:47.5697831Z 
+2026-11-24T08:04:47.5697952Z OK
+2026-11-24T08:04:52.2118136Z {"role": "source", "files": 221, "bytes": 4268943, "manifest_sha256": "4733a26aef3e84a17c095ebfa28038c8a11ad2a9981ea57818b5e64dada3f2a8", "run_head": "d6db2375632adc8a627d094fcf23c5e87b22eddd", "prepared_parent": "60f1e6507216ae605d601f3f09ab15177b46aae2", "new_model_forwards": 0}
+2026-11-24T08:04:52.2318801Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-24T08:04:52.2319246Z with:
+2026-11-24T08:04:52.2319501Z   name: english-v6-b21-source-producer-45352507569
+2026-11-24T08:04:52.2319876Z   path: /home/runner/work/_temp/b21-source-producer/
+2026-11-24T08:04:52.2320207Z   include-hidden-files: true
+2026-11-24T08:04:52.2320447Z   retention-days: 90
+2026-11-24T08:04:52.2320656Z   if-no-files-found: error
+2026-11-24T08:04:52.2320878Z   compression-level: 6
+2026-11-24T08:04:52.2321084Z   overwrite: false
+2026-11-24T08:04:52.2321268Z env:
+2026-11-24T08:04:52.2321509Z   PREPARED_PARENT: 60f1e6507216ae605d601f3f09ab15177b46aae2
+2026-11-24T08:04:52.2321854Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T08:04:52.2322105Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T08:04:52.2322347Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T08:04:52.2322594Z   OMP_NUM_THREADS: 2
+2026-11-24T08:04:52.2322785Z   MKL_NUM_THREADS: 2
+2026-11-24T08:04:52.2323018Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T08:04:52.2323238Z   PYTHONHASHSEED: 20261124
+2026-11-24T08:04:52.2323522Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:04:52.2323945Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T08:04:52.2324358Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:04:52.2324726Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:04:52.2325098Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:04:52.2325485Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T08:04:52.2325798Z ##[endgroup]
+2026-11-24T08:04:52.4260526Z (node:2426) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-24T08:04:52.4261958Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T08:04:52.5352516Z With the provided path, there will be 222 files uploaded
+2026-11-24T08:04:52.5353660Z Artifact name is valid!
+2026-11-24T08:04:52.5354186Z Root directory input is valid!
+2026-11-24T08:04:52.7314598Z Beginning upload of artifact content to blob storage
+2026-11-24T08:04:53.0140686Z (node:2426) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-24T08:04:53.1246535Z Uploaded bytes 1260477
+2026-11-24T08:04:53.1427039Z Finished uploading artifact content to blob storage!
+2026-11-24T08:04:53.1428173Z SHA256 digest of uploaded artifact zip is 36cc252052a0f31240866312a1cae13dee5b90cebe719bbbb4922d9134b0fc4e
+2026-11-24T08:04:53.1429958Z Finalizing artifact upload
+2026-11-24T08:04:53.4852713Z Artifact english-v6-b21-source-producer-45352507569.zip successfully finalized. Artifact ID 14900722688
+2026-11-24T08:04:53.4854239Z Artifact english-v6-b21-source-producer-45352507569 has been successfully uploaded! Final size is 1260477 bytes. Artifact ID is 14900722688
+2026-11-24T08:04:53.4861052Z Artifact download URL: https://github.com/jiying2007/kws-data/actions/runs/45352507569/artifacts/14900722688
+2026-11-24T08:04:53.5045639Z ##[group]Run set -euo pipefail
+2026-11-24T08:04:53.5046285Z [36;1mset -euo pipefail[0m
+2026-11-24T08:04:53.5046692Z [36;1mpython -IB automation/english_v6_b21_source.py guard "$PREPARED_PARENT"[0m
+2026-11-24T08:04:53.5047189Z [36;1mpython -IB automation/english_v6_b21_source.py check[0m
+2026-11-24T08:04:53.5047603Z [36;1mpython -IB automation/test_english_v6_b21_sources.py -v[0m
+2026-11-24T08:04:53.5048280Z [36;1mgh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=en-v6-b21-primary-panel-opened&per_page=1" | jq -e '.total_count == 0'[0m
+2026-11-24T08:04:53.5049117Z [36;1mpython -IB automation/english_v6_b21_source.py authorize "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"[0m
+2026-11-24T08:04:53.5049655Z [36;1mmkdir "$RUNNER_TEMP/panel-opened"[0m
+2026-11-24T08:04:53.5050160Z [36;1mcp "$RUNNER_TEMP/prior-source/AUTHORIZATION.json" "$RUNNER_TEMP/panel-opened/AUTHORIZATION.json"[0m
+2026-11-24T08:04:53.5074047Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T08:04:53.5074395Z env:
+2026-11-24T08:04:53.5074656Z   PREPARED_PARENT: 60f1e6507216ae605d601f3f09ab15177b46aae2
+2026-11-24T08:04:53.5075001Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T08:04:53.5075257Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T08:04:53.5075509Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T08:04:53.5075745Z   OMP_NUM_THREADS: 2
+2026-11-24T08:04:53.5075946Z   MKL_NUM_THREADS: 2
+2026-11-24T08:04:53.5076438Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T08:04:53.5076668Z   PYTHONHASHSEED: 20261124
+2026-11-24T08:04:53.5076946Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:04:53.5077364Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T08:04:53.5077788Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:04:53.5078167Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:04:53.5078539Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:04:53.5078922Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T08:04:53.5081480Z   GH_TOKEN: ***
+2026-11-24T08:04:53.5081684Z ##[endgroup]
+2026-11-24T08:05:00.9093668Z PASS: B21 fixed source metadata and strict five-provider policy; zero model/source calls
+2026-11-24T08:05:04.9142672Z test_event_guard_rejects_replay_and_private_before_fetch (__main__.SourceContract.test_event_guard_rejects_replay_and_private_before_fetch) ... ok
+2026-11-24T08:05:04.9144417Z test_flac_full_length_and_checksum_required (__main__.SourceContract.test_flac_full_length_and_checksum_required) ... ok
+2026-11-24T08:05:05.6015624Z test_frozen_metadata_is_disjoint_and_bounded (__main__.SourceContract.test_frozen_metadata_is_disjoint_and_bounded) ... ok
+2026-11-24T08:05:05.8702881Z test_generate_preserves_immutable_renderer_receipt (__main__.SourceContract.test_generate_preserves_immutable_renderer_receipt) ... ok
+2026-11-24T08:05:05.8729597Z test_history_omission_of_unknown_original_is_rejected (__main__.SourceContract.test_history_omission_of_unknown_original_is_rejected) ... ok
+2026-11-24T08:05:06.0146638Z test_mixed_observer_budget_cannot_add_unregistered_extra_rows (__main__.SourceContract.test_mixed_observer_budget_cannot_add_unregistered_extra_rows) ... ok
+2026-11-24T08:05:06.1503863Z test_native_policy_and_strict_return_contract_remain_frozen (__main__.SourceContract.test_native_policy_and_strict_return_contract_remain_frozen) ... ok
+2026-11-24T08:05:06.3528704Z test_natural_roster_rank_is_independent_and_no_replacement (__main__.SourceContract.test_natural_roster_rank_is_independent_and_no_replacement) ... ok
+2026-11-24T08:05:06.4967922Z test_observer_denominator_cannot_drop_replace_or_relabel_source (__main__.SourceContract.test_observer_denominator_cannot_drop_replace_or_relabel_source) ... ok
+2026-11-24T08:05:07.2752053Z test_real_observe_completion_uses_all120_retained_originals (__main__.SourceContract.test_real_observe_completion_uses_all120_retained_originals) ... ok
+2026-11-24T08:05:07.2761908Z test_source_checkpoint_hash_is_checked_before_unzip (__main__.SourceContract.test_source_checkpoint_hash_is_checked_before_unzip) ... ok
+2026-11-24T08:05:07.2762857Z 
+2026-11-24T08:05:07.2763135Z ----------------------------------------------------------------------
+2026-11-24T08:05:07.2763738Z Ran 11 tests in 2.847s
+2026-11-24T08:05:07.2764000Z 
+2026-11-24T08:05:07.2764142Z OK
+2026-11-24T08:05:07.2777480Z PASS: B21 fixed source metadata and strict five-provider policy; zero model/source calls
+2026-11-24T08:05:07.7589632Z true
+2026-11-24T08:05:14.1673856Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-24T08:05:14.1674282Z with:
+2026-11-24T08:05:14.1674498Z   name: en-v6-b21-primary-panel-opened
+2026-11-24T08:05:14.1674831Z   path: /home/runner/work/_temp/panel-opened/
+2026-11-24T08:05:14.1675126Z   retention-days: 90
+2026-11-24T08:05:14.1675347Z   if-no-files-found: error
+2026-11-24T08:05:14.1675580Z   compression-level: 6
+2026-11-24T08:05:14.1675799Z   overwrite: false
+2026-11-24T08:05:14.1676315Z   include-hidden-files: false
+2026-11-24T08:05:14.1676681Z env:
+2026-11-24T08:05:14.1676943Z   PREPARED_PARENT: 60f1e6507216ae605d601f3f09ab15177b46aae2
+2026-11-24T08:05:14.1677286Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T08:05:14.1677541Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T08:05:14.1677780Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T08:05:14.1678012Z   OMP_NUM_THREADS: 2
+2026-11-24T08:05:14.1678215Z   MKL_NUM_THREADS: 2
+2026-11-24T08:05:14.1678417Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T08:05:14.1678666Z   PYTHONHASHSEED: 20261124
+2026-11-24T08:05:14.1678945Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:05:14.1679366Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T08:05:14.1679798Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:05:14.1680169Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:05:14.1680544Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:05:14.1680927Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T08:05:14.1681248Z ##[endgroup]
+2026-11-24T08:05:14.3426505Z (node:2512) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-24T08:05:14.3427375Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T08:05:14.3514820Z With the provided path, there will be 1 file uploaded
+2026-11-24T08:05:14.3515771Z Artifact name is valid!
+2026-11-24T08:05:14.3516464Z Root directory input is valid!
+2026-11-24T08:05:14.5544125Z Beginning upload of artifact content to blob storage
+2026-11-24T08:05:14.5741567Z (node:2512) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-24T08:05:14.6185845Z Uploaded bytes 2504
+2026-11-24T08:05:14.6361131Z Finished uploading artifact content to blob storage!
+2026-11-24T08:05:14.6362605Z SHA256 digest of uploaded artifact zip is 69d64b227e0b2ca611006a16fff7419accfe833a2981114446c9756cc0ff897b
+2026-11-24T08:05:14.6364408Z Finalizing artifact upload
+2026-11-24T08:05:14.9893738Z Artifact en-v6-b21-primary-panel-opened.zip successfully finalized. Artifact ID 14901610526
+2026-11-24T08:05:14.9894896Z Artifact en-v6-b21-primary-panel-opened has been successfully uploaded! Final size is 2504 bytes. Artifact ID is 14901610526
+2026-11-24T08:05:14.9900073Z Artifact download URL: https://github.com/jiying2007/kws-data/actions/runs/45352507569/artifacts/14901610526
+2026-11-24T08:05:15.0039854Z ##[group]Run set -euo pipefail
+2026-11-24T08:05:15.0040203Z [36;1mset -euo pipefail[0m
+2026-11-24T08:05:15.0040961Z [36;1mpython -m pip install --disable-pip-version-check --no-cache-dir --retries 0 --timeout 90 'piper-tts==1.8.0' 'numpy==1.26.4' 'scipy==1.15.3' 'huggingface-hub==0.36.2' 'soundfile==0.13.1'[0m
+2026-11-24T08:05:15.0042223Z [36;1mcurl --fail --location --connect-timeout 30 --max-time 1200 --retry 0 https://www.openslr.org/resources/12/train-clean-100.tar.gz --output "$RUNNER_TEMP/train-clean-100.tar.gz"[0m
+2026-11-24T08:05:15.0043236Z [36;1mpython -IB automation/english_v6_b21_source.py verify-corpus "$RUNNER_TEMP/train-clean-100.tar.gz"[0m
+2026-11-24T08:05:15.0044167Z [36;1mpython -IB automation/english_v6_b21_source.py generate "$RUNNER_TEMP/source" "$RUNNER_TEMP/prior-source" "$RUNNER_TEMP/train-clean-100.tar.gz" "$PREPARED_PARENT"[0m
+2026-11-24T08:05:15.0065420Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T08:05:15.0065790Z env:
+2026-11-24T08:05:15.0066373Z   PREPARED_PARENT: 60f1e6507216ae605d601f3f09ab15177b46aae2
+2026-11-24T08:05:15.0066738Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T08:05:15.0067009Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T08:05:15.0067261Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T08:05:15.0067504Z   OMP_NUM_THREADS: 2
+2026-11-24T08:05:15.0067719Z   MKL_NUM_THREADS: 2
+2026-11-24T08:05:15.0067930Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T08:05:15.0068162Z   PYTHONHASHSEED: 20261124
+2026-11-24T08:05:15.0068460Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:05:15.0068887Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T08:05:15.0069315Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:05:15.0069691Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:05:15.0070069Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:05:15.0070463Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T08:05:15.0070790Z ##[endgroup]
+2026-11-24T08:05:15.7833862Z Collecting piper-tts==1.8.0
+2026-11-24T08:05:15.8294496Z   Downloading piper_tts-1.8.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+2026-11-24T08:05:16.0653330Z Collecting numpy==1.26.4
+2026-11-24T08:05:16.0685528Z   Downloading numpy-1.26.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+2026-11-24T08:05:16.2114278Z Collecting scipy==1.15.3
+2026-11-24T08:05:16.2148054Z   Downloading scipy-1.15.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+2026-11-24T08:05:16.2628008Z Collecting huggingface-hub==0.36.2
+2026-11-24T08:05:16.2658298Z   Downloading huggingface_hub-0.36.2-py3-none-any.whl.metadata (15 kB)
+2026-11-24T08:05:16.2879906Z Collecting soundfile==0.13.1
+2026-11-24T08:05:16.2927231Z   Downloading soundfile-0.13.1-py2.py3-none-manylinux_2_28_x86_64.whl.metadata (16 kB)
+2026-11-24T08:05:16.3538277Z Collecting onnxruntime<2,>=1 (from piper-tts==1.8.0)
+2026-11-24T08:05:16.3569128Z   Downloading onnxruntime-1.32.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (5.8 kB)
+2026-11-24T08:05:16.3710066Z Collecting pathvalidate<4,>=3 (from piper-tts==1.8.0)
+2026-11-24T08:05:16.3742810Z   Downloading pathvalidate-3.3.1-py3-none-any.whl.metadata (12 kB)
+2026-11-24T08:05:16.4001450Z Collecting filelock (from huggingface-hub==0.36.2)
+2026-11-24T08:05:16.4033429Z   Downloading filelock-4.3.1-py3-none-any.whl.metadata (2.3 kB)
+2026-11-24T08:05:16.4182422Z Collecting fsspec>=2023.5.0 (from huggingface-hub==0.36.2)
+2026-11-24T08:05:16.4225937Z   Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+2026-11-24T08:05:16.4757875Z Collecting hf-xet<2.0.0,>=1.1.3 (from huggingface-hub==0.36.2)
+2026-11-24T08:05:16.4785838Z   Downloading hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
+2026-11-24T08:05:16.4904490Z Collecting packaging>=20.9 (from huggingface-hub==0.36.2)
+2026-11-24T08:05:16.4933041Z   Downloading packaging-26.4-py3-none-any.whl.metadata (3.5 kB)
+2026-11-24T08:05:16.5274988Z Collecting pyyaml>=5.1 (from huggingface-hub==0.36.2)
+2026-11-24T08:05:16.5305733Z   Downloading pyyaml-6.0.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.3 kB)
+2026-11-24T08:05:16.5497483Z Collecting requests (from huggingface-hub==0.36.2)
+2026-11-24T08:05:16.5526845Z   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+2026-11-24T08:05:16.5758488Z Collecting tqdm>=4.42.1 (from huggingface-hub==0.36.2)
+2026-11-24T08:05:16.5788624Z   Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+2026-11-24T08:05:16.5960117Z Collecting typing-extensions>=3.7.4.3 (from huggingface-hub==0.36.2)
+2026-11-24T08:05:16.5988359Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-11-24T08:05:16.6951118Z Collecting cffi>=1.0 (from soundfile==0.13.1)
+2026-11-24T08:05:16.6982065Z   Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+2026-11-24T08:05:16.7081733Z Collecting flatbuffers (from onnxruntime<2,>=1->piper-tts==1.8.0)
+2026-11-24T08:05:16.7109939Z   Downloading flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+2026-11-24T08:05:16.8740703Z Collecting protobuf>=4.25.8 (from onnxruntime<2,>=1->piper-tts==1.8.0)
+2026-11-24T08:05:16.8775346Z   Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+2026-11-24T08:05:16.8867891Z Collecting pycparser (from cffi>=1.0->soundfile==0.13.1)
+2026-11-24T08:05:16.8896206Z   Downloading pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+2026-11-24T08:05:17.0207463Z Collecting charset_normalizer<4,>=2 (from requests->huggingface-hub==0.36.2)
+2026-11-24T08:05:17.0239855Z   Downloading charset_normalizer-3.5.3-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (43 kB)
+2026-11-24T08:05:17.0448673Z Collecting idna<4,>=2.5 (from requests->huggingface-hub==0.36.2)
+2026-11-24T08:05:17.0477966Z   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+2026-11-24T08:05:17.0657151Z Collecting urllib3<3,>=1.26 (from requests->huggingface-hub==0.36.2)
+2026-11-24T08:05:17.0696154Z   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+2026-11-24T08:05:17.0843860Z Collecting certifi>=2023.5.7 (from requests->huggingface-hub==0.36.2)
+2026-11-24T08:05:17.0872461Z   Downloading certifi-2026.11.20-py3-none-any.whl.metadata (2.5 kB)
+2026-11-24T08:05:17.0944441Z Downloading piper_tts-1.8.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_28_x86_64.whl (34.1 MB)
+2026-11-24T08:05:17.1999315Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 34.1/34.1 MB 343.1 MB/s  0:00:00
+2026-11-24T08:05:17.2038081Z Downloading numpy-1.26.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.0 MB)
+2026-11-24T08:05:17.2390987Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.0/18.0 MB 540.5 MB/s  0:00:00
+2026-11-24T08:05:17.2423177Z Downloading scipy-1.15.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (37.3 MB)
+2026-11-24T08:05:17.3258657Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 37.3/37.3 MB 457.9 MB/s  0:00:00
+2026-11-24T08:05:17.3290311Z Downloading huggingface_hub-0.36.2-py3-none-any.whl (566 kB)
+2026-11-24T08:05:17.3314958Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 566.4/566.4 kB 793.7 MB/s  0:00:00
+2026-11-24T08:05:17.3346755Z Downloading soundfile-0.13.1-py2.py3-none-manylinux_2_28_x86_64.whl (1.3 MB)
+2026-11-24T08:05:17.3382771Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 821.0 MB/s  0:00:00
+2026-11-24T08:05:17.3416796Z Downloading hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.3 MB)
+2026-11-24T08:05:17.3508319Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 658.7 MB/s  0:00:00
+2026-11-24T08:05:17.3539839Z Downloading onnxruntime-1.32.0-cp312-cp312-manylinux_2_28_x86_64.whl (27.8 MB)
+2026-11-24T08:05:17.4088379Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 27.8/27.8 MB 530.4 MB/s  0:00:00
+2026-11-24T08:05:17.4119424Z Downloading pathvalidate-3.3.1-py3-none-any.whl (24 kB)
+2026-11-24T08:05:17.4150603Z Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+2026-11-24T08:05:17.4183342Z Downloading fsspec-2026.9.0-py3-none-any.whl (221 kB)
+2026-11-24T08:05:17.4215640Z Downloading packaging-26.4-py3-none-any.whl (140 kB)
+2026-11-24T08:05:17.4248165Z Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl (343 kB)
+2026-11-24T08:05:17.4283898Z Downloading pyyaml-6.0.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (849 kB)
+2026-11-24T08:05:17.4313045Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 849.2/849.2 kB 790.1 MB/s  0:00:00
+2026-11-24T08:05:17.4341250Z Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+2026-11-24T08:05:17.4369924Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-11-24T08:05:17.4397830Z Downloading filelock-4.3.1-py3-none-any.whl (244 kB)
+2026-11-24T08:05:17.4428118Z Downloading flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+2026-11-24T08:05:17.4455988Z Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+2026-11-24T08:05:17.4484557Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-11-24T08:05:17.4514296Z Downloading charset_normalizer-3.5.3-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (257 kB)
+2026-11-24T08:05:17.4543527Z Downloading idna-3.20-py3-none-any.whl (69 kB)
+2026-11-24T08:05:17.4572485Z Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+2026-11-24T08:05:17.4604808Z Downloading certifi-2026.11.20-py3-none-any.whl (127 kB)
+2026-11-24T08:05:17.7736824Z Installing collected packages: flatbuffers, urllib3, typing-extensions, tqdm, pyyaml, pycparser, protobuf, pathvalidate, packaging, numpy, idna, hf-xet, fsspec, filelock, charset_normalizer, certifi, scipy, requests, onnxruntime, cffi, soundfile, piper-tts, huggingface-hub
+2026-11-24T08:05:26.4079955Z 
+2026-11-24T08:05:26.4108718Z Successfully installed certifi-2026.11.20 cffi-2.1.1 charset_normalizer-3.5.3 filelock-4.3.1 flatbuffers-25.12.19 fsspec-2026.9.0 hf-xet-1.8.0 huggingface-hub-0.36.2 idna-3.20 numpy-1.26.4 onnxruntime-1.32.0 packaging-26.4 pathvalidate-3.3.1 piper-tts-1.8.0 protobuf-7.36.2 pycparser-3.12 pyyaml-6.0.4 requests-2.34.2 scipy-1.15.3 soundfile-0.13.1 tqdm-4.70.1 typing-extensions-4.16.0 urllib3-2.8.0
+2026-11-24T08:05:26.5214787Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+2026-11-24T08:05:26.5215586Z                                  Dload  Upload   Total   Spent    Left  Speed
+2026-11-24T08:05:26.5215873Z 
+2026-11-24T08:05:26.8427793Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-11-24T08:05:27.7537315Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-11-24T08:05:28.7548867Z   0 6091M    0  601k    0     0   488k      0  3:32:59  0:00:01  3:32:58  487k
+2026-11-24T08:05:29.8644055Z   0 6091M    0 1499k    0     0   671k      0  2:34:48  0:00:02  2:34:46  671k
+2026-11-24T08:05:30.7575017Z   0 6091M    0 2289k    0     0   684k      0  2:31:49  0:00:03  2:31:46  684k
+2026-11-24T08:05:31.7547132Z   0 6091M    0 3046k    0     0   719k      0  2:24:32  0:00:04  2:24:28  719k
+2026-11-24T08:05:32.7539479Z   0 6091M    0 3703k    0     0   707k      0  2:26:55  0:00:05  2:26:50  753k
+2026-11-24T08:05:33.7553691Z   0 6091M    0 4367k    0     0   700k      0  2:28:21  0:00:06  2:28:15  753k
+2026-11-24T08:05:34.7547279Z   0 6091M    0 5078k    0     0   701k      0  2:28:05  0:00:07  2:27:58  715k
+2026-11-24T08:05:35.7539525Z   0 6091M    0 5867k    0     0   712k      0  2:25:53  0:00:08  2:25:45  731k
+2026-11-24T08:05:36.7553371Z   0 6091M    0 6710k    0     0   726k      0  2:23:01  0:00:09  2:22:52  733k
+2026-11-24T08:05:37.7557864Z   0 6091M    0 7578k    0     0   740k      0  2:20:23  0:00:10  2:20:13  775k
+2026-11-24T08:05:38.7559400Z   0 6091M    0 8414k    0     0   748k      0  2:18:48  0:00:11  2:18:37  809k
+2026-11-24T08:05:39.7531483Z   0 6091M    0 9367k    0     0   765k      0  2:15:46  0:00:12  2:15:34  857k
+2026-11-24T08:05:40.7542313Z   0 6091M    0  9.9M    0     0   772k      0  2:14:36  0:00:13  2:14:23  870k
+2026-11-24T08:05:41.7553567Z   0 6091M    0 10.7M    0     0   773k      0  2:14:24  0:00:14  2:14:10  859k
+2026-11-24T08:05:42.7558840Z   0 6091M    0 11.5M    0     0   774k      0  2:14:14  0:00:15  2:13:59  843k
+2026-11-24T08:05:43.7534707Z   0 6091M    0 12.3M    0     0   777k      0  2:13:40  0:00:16  2:13:24  842k
+2026-11-24T08:05:44.7547024Z   0 6091M    0 13.1M    0     0   783k      0  2:12:37  0:00:17  2:12:20  828k
+2026-11-24T08:05:45.7559847Z   0 6091M    0 14.0M    0     0   790k      0  2:11:30  0:00:18  2:11:12  838k
+2026-11-24T08:05:46.7555691Z   0 6091M    0 14.9M    0     0   795k      0  2:10:43  0:00:19  2:10:24  857k
+2026-11-24T08:05:47.7549778Z   0 6091M    0 15.8M    0     0   800k      0  2:09:53  0:00:20  2:09:33  879k
+2026-11-24T08:05:48.7551010Z   0 6091M    0 16.6M    0     0   804k      0  2:09:15  0:00:21  2:08:54  890k
+2026-11-24T08:05:49.7560157Z   0 6091M    0 17.5M    0     0   809k      0  2:08:28  0:00:22  2:08:06  896k
+2026-11-24T08:05:50.7538694Z   0 6091M    0 18.4M    0     0   812k      0  2:07:58  0:00:23  2:07:35  892k
+2026-11-24T08:05:51.7536573Z   0 6091M    0 19.2M    0     0   814k      0  2:07:36  0:00:24  2:07:12  889k
+2026-11-24T08:05:52.7550810Z   0 6091M    0 20.1M    0     0   819k      0  2:06:50  0:00:25  2:06:25  897k
+2026-11-24T08:05:53.7555342Z   0 6091M    0 21.0M    0     0   820k      0  2:06:42  0:00:26  2:06:16  889k
+2026-11-24T08:05:54.7534439Z   0 6091M    0 21.8M    0     0   820k      0  2:06:42  0:00:27  2:06:15  870k
+2026-11-24T08:05:55.7543020Z   0 6091M    0 22.5M    0     0   819k      0  2:06:52  0:00:28  2:06:24  851k
+2026-11-24T08:05:56.7555915Z   0 6091M    0 23.3M    0     0   819k      0  2:06:49  0:00:29  2:06:20  843k
+2026-11-24T08:05:57.7563797Z   0 6091M    0 24.1M    0     0   816k      0  2:07:21  0:00:30  2:06:51  799k
+2026-11-24T08:05:58.7536971Z   0 6091M    0 24.8M    0     0   815k      0  2:07:25  0:00:31  2:06:54  792k
+2026-11-24T08:05:59.7551936Z   0 6091M    0 25.6M    0     0   816k      0  2:07:23  0:00:32  2:06:51  792k
+2026-11-24T08:06:00.7534466Z   0 6091M    0 26.3M    0     0   813k      0  2:07:51  0:00:33  2:07:18  777k
+2026-11-24T08:06:01.7542639Z   0 6091M    0 27.2M    0     0   813k      0  2:07:44  0:00:34  2:07:10  779k
+2026-11-24T08:06:02.7543094Z   0 6091M    0 28.0M    0     0   815k      0  2:07:26  0:00:35  2:06:51  812k
+2026-11-24T08:06:03.7546556Z   0 6091M    0 28.9M    0     0   817k      0  2:07:08  0:00:36  2:06:32  828k
+2026-11-24T08:06:04.7555735Z   0 6091M    0 29.8M    0     0   820k      0  2:06:40  0:00:37  2:06:03  850k
+2026-11-24T08:06:05.7539436Z   0 6091M    0 30.7M    0     0   822k      0  2:06:24  0:00:38  2:05:46  884k
+2026-11-24T08:06:06.7546988Z   0 6091M    0 31.5M    0     0   823k      0  2:06:11  0:00:39  2:05:32  892k
+2026-11-24T08:06:07.7535393Z   0 6091M    0 32.3M    0     0   824k      0  2:06:05  0:00:40  2:05:25  885k
+2026-11-24T08:06:08.7549122Z   0 6091M    0 33.3M    0     0   828k      0  2:05:33  0:00:41  2:04:52  903k
+2026-11-24T08:06:09.7557811Z   0 6091M    0 34.3M    0     0   832k      0  2:04:49  0:00:42  2:04:07  923k
+2026-11-24T08:06:10.7555730Z   0 6091M    0 35.3M    0     0   836k      0  2:04:20  0:00:43  2:03:37  940k
+2026-11-24T08:06:11.7552992Z   0 6091M    0 36.2M    0     0   839k      0  2:03:48  0:00:44  2:03:04  963k
+2026-11-24T08:06:12.7545302Z   0 6091M    0 37.2M    0     0   843k      0  2:03:17  0:00:45  2:02:32  993k
+2026-11-24T08:06:13.7553439Z   0 6091M    0 38.4M    0     0   850k      0  2:02:11  0:00:46  2:01:25 1039k
+2026-11-24T08:06:14.7554406Z   0 6091M    0 39.5M    0     0   857k      0  2:01:17  0:00:47  2:00:30 1062k
+2026-11-24T08:06:15.7540808Z   0 6091M    0 40.6M    0     0   862k      0  2:00:31  0:00:48  1:59:43 1090k
+2026-11-24T08:06:16.7541885Z   0 6091M    0 41.7M    0     0   868k      0  1:59:44  0:00:49  1:58:55 1120k
+2026-11-24T08:06:17.7537149Z   0 6091M    0 42.8M    0     0   874k      0  1:58:53  0:00:50  1:58:03 1156k
+2026-11-24T08:06:18.7555737Z   0 6091M    0 44.0M    0     0   880k      0  1:58:05  0:00:51  1:57:14 1153k
+2026-11-24T08:06:19.7550743Z   0 6091M    0 45.2M    0     0   886k      0  1:57:13  0:00:52  1:56:21 1167k
+2026-11-24T08:06:20.7547440Z   0 6091M    0 46.4M    0     0   892k      0  1:56:25  0:00:53  1:55:32 1185k
+2026-11-24T08:06:21.7551436Z   0 6091M    0 47.5M    0     0   897k      0  1:55:49  0:00:54  1:54:55 1187k
+2026-11-24T08:06:22.7551120Z   0 6091M    0 48.6M    0     0   902k      0  1:55:13  0:00:55  1:54:18 1182k
+2026-11-24T08:06:23.7561011Z   0 6091M    0 49.7M    0     0   906k      0  1:54:41  0:00:56  1:53:45 1173k
+2026-11-24T08:06:24.7546339Z   0 6091M    0 50.8M    0     0   910k      0  1:54:14  0:00:57  1:53:17 1153k
+2026-11-24T08:06:25.7552240Z   0 6091M    0 51.9M    0     0   913k      0  1:53:45  0:00:58  1:52:47 1137k
+2026-11-24T08:06:26.7550187Z   0 6091M    0 53.0M    0     0   916k      0  1:53:26  0:00:59  1:52:27 1120k
+2026-11-24T08:06:27.7557482Z   0 6091M    0 54.0M    0     0   918k      0  1:53:13  0:01:00  1:52:13 1093k
+2026-11-24T08:06:28.7544321Z   0 6091M    0 55.0M    0     0   919k      0  1:53:00  0:01:01  1:51:59 1071k
+2026-11-24T08:06:29.7557288Z   0 6091M    0 56.0M    0     0   922k      0  1:52:39  0:01:02  1:51:37 1068k
+2026-11-24T08:06:30.7561785Z   0 6091M    0 57.1M    0     0   926k      0  1:52:16  0:01:03  1:51:13 1066k
+2026-11-24T08:06:31.7548089Z   0 6091M    0 58.2M    0     0   929k      0  1:51:53  0:01:04  1:50:49 1079k
+2026-11-24T08:06:32.7549222Z   0 6091M    0 59.4M    0     0   932k      0  1:51:29  0:01:05  1:50:24 1104k
+2026-11-24T08:06:33.7558762Z   0 6091M    0 60.4M    0     0   935k      0  1:51:09  0:01:06  1:50:03 1123k
+2026-11-24T08:06:34.7544636Z   1 6091M    1 61.5M    0     0   938k      0  1:50:49  0:01:07  1:49:42 1127k
+2026-11-24T08:06:35.7559259Z   1 6091M    1 62.6M    0     0   940k      0  1:50:29  0:01:08  1:49:21 1128k
+2026-11-24T08:06:36.7546516Z   1 6091M    1 63.8M    0     0   944k      0  1:50:04  0:01:09  1:48:55 1140k
+2026-11-24T08:06:37.7539970Z   1 6091M    1 65.0M    0     0   947k      0  1:49:40  0:01:10  1:48:30 1148k
+2026-11-24T08:06:38.7552742Z   1 6091M    1 66.2M    0     0   951k      0  1:49:12  0:01:11  1:48:01 1172k
+2026-11-24T08:06:39.7553437Z   1 6091M    1 67.4M    0     0   955k      0  1:48:46  0:01:12  1:47:34 1192k
+2026-11-24T08:06:40.7559352Z   1 6091M    1 68.6M    0     0   960k      0  1:48:17  0:01:13  1:47:04 1221k
+2026-11-24T08:06:41.7563981Z   1 6091M    1 69.9M    0     0   964k      0  1:47:45  0:01:14  1:46:31 1246k
+2026-11-24T08:06:42.7562649Z   1 6091M    1 71.1M    0     0   968k      0  1:47:17  0:01:15  1:46:02 1265k
+2026-11-24T08:06:43.7558202Z   1 6091M    1 72.3M    0     0   971k      0  1:46:57  0:01:16  1:45:41 1257k
+2026-11-24T08:06:44.7552104Z   1 6091M    1 73.5M    0     0   975k      0  1:46:34  0:01:17  1:45:17 1260k
+2026-11-24T08:06:45.7549406Z   1 6091M    1 74.8M    0     0   979k      0  1:46:08  0:01:18  1:44:50 1264k
+2026-11-24T08:06:46.7541611Z   1 6091M    1 76.0M    0     0   983k      0  1:45:45  0:01:19  1:44:26 1254k
+2026-11-24T08:06:47.7566742Z   1 6091M    1 77.2M    0     0   986k      0  1:45:23  0:01:20  1:44:03 1248k
+2026-11-24T08:06:48.7542897Z   1 6091M    1 78.4M    0     0   989k      0  1:45:03  0:01:21  1:43:42 1257k
+2026-11-24T08:06:49.7557801Z   1 6091M    1 79.6M    0     0   992k      0  1:44:45  0:01:22  1:43:23 1254k
+2026-11-24T08:06:50.7558763Z   1 6091M    1 80.8M    0     0   994k      0  1:44:29  0:01:23  1:43:06 1237k
+2026-11-24T08:06:51.7545082Z   1 6091M    1 82.0M    0     0   998k      0  1:44:09  0:01:24  1:42:45 1235k
+2026-11-24T08:06:52.7564637Z   1 6091M    1 83.3M    0     0  1001k      0  1:43:50  0:01:25  1:42:25 1237k
+2026-11-24T08:06:53.7555063Z   1 6091M    1 84.5M    0     0  1003k      0  1:43:33  0:01:26  1:42:07 1237k
+2026-11-24T08:06:54.7563509Z   1 6091M    1 85.7M    0     0  1006k      0  1:43:17  0:01:27  1:41:50 1237k
+2026-11-24T08:06:55.7568604Z   1 6091M    1 86.9M    0     0  1008k      0  1:43:03  0:01:28  1:41:35 1239k
+2026-11-24T08:06:56.7542496Z   1 6091M    1 88.0M    0     0  1010k      0  1:42:53  0:01:29  1:41:24 1217k
+2026-11-24T08:06:57.7545691Z   1 6091M    1 89.1M    0     0  1011k      0  1:42:46  0:01:30  1:41:16 1189k
+2026-11-24T08:06:58.7561617Z   1 6091M    1 90.3M    0     0  1013k      0  1:42:33  0:01:31  1:41:02 1183k
+2026-11-24T08:06:59.7554157Z   1 6091M    1 91.5M    0     0  1015k      0  1:42:19  0:01:32  1:40:47 1181k
+2026-11-24T08:07:00.7542910Z   1 6091M    1 92.6M    0     0  1017k      0  1:42:10  0:01:33  1:40:37 1171k
+2026-11-24T08:07:01.7544538Z   1 6091M    1 93.7M    0     0  1018k      0  1:42:03  0:01:34  1:40:29 1167k
+2026-11-24T08:07:02.7559101Z   1 6091M    1 94.9M    0     0  1020k      0  1:41:49  0:01:35  1:40:14 1190k
+2026-11-24T08:07:03.7563848Z   1 6091M    1 96.1M    0     0  1023k      0  1:41:34  0:01:36  1:39:58 1201k
+2026-11-24T08:07:04.7547234Z   1 6091M    1 97.5M    0     0  1027k      0  1:41:10  0:01:37  1:39:33 1242k
+2026-11-24T08:07:05.7555558Z   1 6091M    1 98.9M    0     0  1031k      0  1:40:49  0:01:38  1:39:11 1284k
+2026-11-24T08:07:06.7564238Z   1 6091M    1  100M    0     0  1034k      0  1:40:30  0:01:39  1:38:51 1330k
+2026-11-24T08:07:07.7546536Z   1 6091M    1  101M    0     0  1037k      0  1:40:11  0:01:40  1:38:31 1355k
+2026-11-24T08:07:08.7545102Z   1 6091M    1  102M    0     0  1041k      0  1:39:51  0:01:41  1:38:10 1381k
+2026-11-24T08:07:09.7549757Z   1 6091M    1  104M    0     0  1044k      0  1:39:31  0:01:42  1:37:49 1375k
+2026-11-24T08:07:10.7568600Z   1 6091M    1  105M    0     0  1047k      0  1:39:15  0:01:43  1:37:32 1367k
+2026-11-24T08:07:11.7554783Z   1 6091M    1  106M    0     0  1049k      0  1:39:01  0:01:44  1:37:17 1357k
+2026-11-24T08:07:12.7563541Z   1 6091M    1  108M    0     0  1052k      0  1:38:47  0:01:45  1:37:02 1345k
+2026-11-24T08:07:13.7550520Z   1 6091M    1  109M    0     0  1054k      0  1:38:33  0:01:46  1:36:47 1330k
+2026-11-24T08:07:14.7555791Z   1 6091M    1  110M    0     0  1057k      0  1:38:19  0:01:47  1:36:32 1317k
+2026-11-24T08:07:15.7545534Z   1 6091M    1  111M    0     0  1059k      0  1:38:09  0:01:48  1:36:21 1301k
+2026-11-24T08:07:16.7545165Z   1 6091M    1  113M    0     0  1061k      0  1:37:58  0:01:49  1:36:09 1292k
+2026-11-24T08:07:17.7558696Z   1 6091M    1  114M    0     0  1062k      0  1:37:49  0:01:50  1:35:59 1281k
+2026-11-24T08:07:18.7568735Z   1 6091M    1  115M    0     0  1064k      0  1:37:40  0:01:51  1:35:49 1265k
+2026-11-24T08:07:19.7562517Z   1 6091M    1  116M    0     0  1065k      0  1:37:34  0:01:52  1:35:42 1241k
+2026-11-24T08:07:20.7572759Z   1 6091M    1  117M    0     0  1066k      0  1:37:26  0:01:53  1:35:33 1234k
+2026-11-24T08:07:21.7556356Z   1 6091M    1  119M    0     0  1068k      0  1:37:20  0:01:54  1:35:26 1221k
+2026-11-24T08:07:22.7546551Z   1 6091M    1  120M    0     0  1069k      0  1:37:14  0:01:55  1:35:19 1210k
+2026-11-24T08:07:23.7557690Z   1 6091M    1  121M    0     0  1069k      0  1:37:09  0:01:56  1:35:13 1195k
+2026-11-24T08:07:24.7569432Z   2 6091M    2  122M    0     0  1070k      0  1:37:07  0:01:57  1:35:10 1179k
+2026-11-24T08:07:25.7560270Z   2 6091M    2  123M    0     0  1070k      0  1:37:06  0:01:58  1:35:08 1156k
+2026-11-24T08:07:26.7553386Z   2 6091M    2  124M    0     0  1070k      0  1:37:05  0:01:59  1:35:06 1133k
+2026-11-24T08:07:27.7560684Z   2 6091M    2  125M    0     0  1071k      0  1:37:03  0:02:00  1:35:03 1115k
+2026-11-24T08:07:28.7558593Z   2 6091M    2  126M    0     0  1071k      0  1:37:00  0:02:01  1:34:59 1110k
+2026-11-24T08:07:29.7567371Z   2 6091M    2  128M    0     0  1072k      0  1:36:56  0:02:02  1:34:54 1118k
+2026-11-24T08:07:30.7565346Z   2 6091M    2  129M    0     0  1073k      0  1:36:53  0:02:03  1:34:50 1129k
+2026-11-24T08:07:31.7554895Z   2 6091M    2  130M    0     0  1073k      0  1:36:49  0:02:04  1:34:45 1143k
+2026-11-24T08:07:32.7547667Z   2 6091M    2  131M    0     0  1074k      0  1:36:43  0:02:05  1:34:38 1164k
+2026-11-24T08:07:33.7570570Z   2 6091M    2  132M    0     0  1075k      0  1:36:38  0:02:06  1:34:32 1173k
+2026-11-24T08:07:34.7574183Z   2 6091M    2  133M    0     0  1076k      0  1:36:35  0:02:07  1:34:28 1173k
+2026-11-24T08:07:35.7565592Z   2 6091M    2  134M    0     0  1076k      0  1:36:34  0:02:08  1:34:26 1162k
+2026-11-24T08:07:36.7564984Z   2 6091M    2  135M    0     0  1076k      0  1:36:35  0:02:09  1:34:26 1139k
+2026-11-24T08:07:37.7562213Z   2 6091M    2  136M    0     0  1075k      0  1:36:39  0:02:10  1:34:29 1096k
+2026-11-24T08:07:38.7551515Z   2 6091M    2  137M    0     0  1075k      0  1:36:41  0:02:11  1:34:30 1065k
+2026-11-24T08:07:39.7559689Z   2 6091M    2  138M    0     0  1075k      0  1:36:38  0:02:12  1:34:26 1059k
+2026-11-24T08:07:40.7561652Z   2 6091M    2  140M    0     0  1076k      0  1:36:32  0:02:13  1:34:19 1084k
+2026-11-24T08:07:41.7557119Z   2 6091M    2  141M    0     0  1078k      0  1:36:26  0:02:14  1:34:12 1123k
+2026-11-24T08:07:42.7564408Z   2 6091M    2  142M    0     0  1079k      0  1:36:15  0:02:15  1:34:00 1193k
+2026-11-24T08:07:43.7561476Z   2 6091M    2  143M    0     0  1081k      0  1:36:06  0:02:16  1:33:50 1251k
+2026-11-24T08:07:44.7554396Z   2 6091M    2  145M    0     0  1083k      0  1:35:57  0:02:17  1:33:40 1289k
+2026-11-24T08:07:45.7563139Z   2 6091M    2  146M    0     0  1085k      0  1:35:47  0:02:18  1:33:29 1312k
+2026-11-24T08:07:46.7558458Z   2 6091M    2  147M    0     0  1087k      0  1:35:37  0:02:19  1:33:18 1331k
+2026-11-24T08:07:47.7552452Z   2 6091M    2  149M    0     0  1088k      0  1:35:29  0:02:20  1:33:09 1323k
+2026-11-24T08:07:48.7555171Z   2 6091M    2  150M    0     0  1089k      0  1:35:24  0:02:21  1:33:03 1303k
+2026-11-24T08:07:49.7560475Z   2 6091M    2  151M    0     0  1090k      0  1:35:20  0:02:22  1:32:58 1279k
+2026-11-24T08:07:50.7567719Z   2 6091M    2  152M    0     0  1091k      0  1:35:15  0:02:23  1:32:52 1254k
+2026-11-24T08:07:51.7553948Z   2 6091M    2  153M    0     0  1092k      0  1:35:11  0:02:24  1:32:47 1229k
+2026-11-24T08:07:52.7572848Z   2 6091M    2  155M    0     0  1092k      0  1:35:07  0:02:25  1:32:42 1214k
+2026-11-24T08:07:53.7558991Z   2 6091M    2  156M    0     0  1093k      0  1:35:02  0:02:26  1:32:36 1216k
+2026-11-24T08:07:54.7558242Z   2 6091M    2  157M    0     0  1094k      0  1:34:57  0:02:27  1:32:30 1223k
+2026-11-24T08:07:55.7569304Z   2 6091M    2  158M    0     0  1095k      0  1:34:51  0:02:28  1:32:23 1229k
+2026-11-24T08:07:56.7561513Z   2 6091M    2  159M    0     0  1096k      0  1:34:47  0:02:29  1:32:18 1234k
+2026-11-24T08:07:57.7562440Z   2 6091M    2  161M    0     0  1097k      0  1:34:42  0:02:30  1:32:12 1235k
+2026-11-24T08:07:58.7567895Z   2 6091M    2  162M    0     0  1098k      0  1:34:39  0:02:31  1:32:08 1226k
+2026-11-24T08:07:59.7567453Z   2 6091M    2  163M    0     0  1098k      0  1:34:36  0:02:32  1:32:04 1215k
+2026-11-24T08:08:00.7561888Z   2 6091M    2  164M    0     0  1099k      0  1:34:34  0:02:33  1:32:01 1195k
+2026-11-24T08:08:01.7572269Z   2 6091M    2  165M    0     0  1099k      0  1:34:34  0:02:34  1:32:00 1173k
+2026-11-24T08:08:02.7553027Z   2 6091M    2  166M    0     0  1099k      0  1:34:33  0:02:35  1:31:58 1148k
+2026-11-24T08:08:03.7571822Z   2 6091M    2  167M    0     0  1099k      0  1:34:33  0:02:36  1:31:57 1133k
+2026-11-24T08:08:04.7552012Z   2 6091M    2  168M    0     0  1099k      0  1:34:33  0:02:37  1:31:56 1118k
+2026-11-24T08:08:05.7569725Z   2 6091M    2  169M    0     0  1099k      0  1:34:31  0:02:38  1:31:53 1117k
+2026-11-24T08:08:06.7559885Z   2 6091M    2  171M    0     0  1100k      0  1:34:28  0:02:39  1:31:49 1135k
+2026-11-24T08:08:07.7563057Z   2 6091M    2  172M    0     0  1100k      0  1:34:26  0:02:40  1:31:46 1147k
+2026-11-24T08:08:08.7571639Z   2 6091M    2  173M    0     0  1101k      0  1:34:23  0:02:41  1:31:42 1162k
+2026-11-24T08:08:09.7576211Z   2 6091M    2  174M    0     0  1101k      0  1:34:22  0:02:42  1:31:40 1168k
+2026-11-24T08:08:10.7554129Z   2 6091M    2  175M    0     0  1101k      0  1:34:20  0:02:43  1:31:37 1172k
+2026-11-24T08:08:11.7569148Z   2 6091M    2  176M    0     0  1102k      0  1:34:18  0:02:44  1:31:34 1164k
+2026-11-24T08:08:12.7565327Z   2 6091M    2  177M    0     0  1102k      0  1:34:15  0:02:45  1:31:30 1167k
+2026-11-24T08:08:13.7566115Z   2 6091M    2  179M    0     0  1103k      0  1:34:13  0:02:46  1:31:27 1165k
+2026-11-24T08:08:14.7563544Z   2 6091M    2  180M    0     0  1103k      0  1:34:11  0:02:47  1:31:24 1173k
+2026-11-24T08:08:15.7560217Z   2 6091M    2  181M    0     0  1104k      0  1:34:08  0:02:48  1:31:20 1181k
+2026-11-24T08:08:16.7558077Z   2 6091M    2  182M    0     0  1105k      0  1:34:04  0:02:49  1:31:15 1195k
+2026-11-24T08:08:17.7564566Z   3 6091M    3  183M    0     0  1105k      0  1:34:01  0:02:50  1:31:11 1200k
+2026-11-24T08:08:18.7557897Z   3 6091M    3  184M    0     0  1105k      0  1:33:59  0:02:51  1:31:08 1195k
+2026-11-24T08:08:19.7570695Z   3 6091M    3  186M    0     0  1106k      0  1:33:58  0:02:52  1:31:06 1192k
+2026-11-24T08:08:20.7555242Z   3 6091M    3  187M    0     0  1106k      0  1:33:57  0:02:53  1:31:04 1178k
+2026-11-24T08:08:21.7558217Z   3 6091M    3  188M    0     0  1106k      0  1:33:56  0:02:54  1:31:02 1160k
+2026-11-24T08:08:22.7560265Z   3 6091M    3  189M    0     0  1107k      0  1:33:53  0:02:55  1:30:58 1160k
+2026-11-24T08:08:23.7567859Z   3 6091M    3  190M    0     0  1108k      0  1:33:48  0:02:56  1:30:52 1182k
+2026-11-24T08:08:24.7559231Z   3 6091M    3  191M    0     0  1109k      0  1:33:43  0:02:57  1:30:46 1210k
+2026-11-24T08:08:25.7556511Z   3 6091M    3  193M    0     0  1110k      0  1:33:35  0:02:58  1:30:37 1256k
+2026-11-24T08:08:26.7570714Z   3 6091M    3  194M    0     0  1112k      0  1:33:28  0:02:59  1:30:29 1303k
+2026-11-24T08:08:27.7568752Z   3 6091M    3  196M    0     0  1113k      0  1:33:20  0:03:00  1:30:20 1338k
+2026-11-24T08:08:28.7562807Z   3 6091M    3  197M    0     0  1115k      0  1:33:13  0:03:01  1:30:12 1357k
+2026-11-24T08:08:29.7568720Z   3 6091M    3  198M    0     0  1116k      0  1:33:06  0:03:02  1:30:04 1375k
+2026-11-24T08:08:30.7575461Z   3 6091M    3  200M    0     0  1118k      0  1:32:58  0:03:03  1:29:55 1382k
+2026-11-24T08:08:31.7570100Z   3 6091M    3  201M    0     0  1119k      0  1:32:52  0:03:04  1:29:48 1377k
+2026-11-24T08:08:32.7565065Z   3 6091M    3  202M    0     0  1120k      0  1:32:46  0:03:05  1:29:41 1367k
+2026-11-24T08:08:33.7557308Z   3 6091M    3  203M    0     0  1121k      0  1:32:41  0:03:06  1:29:35 1354k
+2026-11-24T08:08:34.7574025Z   3 6091M    3  205M    0     0  1122k      0  1:32:37  0:03:07  1:29:30 1335k
+2026-11-24T08:08:35.7577448Z   3 6091M    3  206M    0     0  1123k      0  1:32:33  0:03:08  1:29:25 1307k
+2026-11-24T08:08:36.7564959Z   3 6091M    3  207M    0     0  1123k      0  1:32:30  0:03:09  1:29:21 1284k
+2026-11-24T08:08:37.7567962Z   3 6091M    3  208M    0     0  1124k      0  1:32:27  0:03:10  1:29:17 1265k
+2026-11-24T08:08:38.7574917Z   3 6091M    3  210M    0     0  1125k      0  1:32:24  0:03:11  1:29:13 1256k
+2026-11-24T08:08:39.7556774Z   3 6091M    3  211M    0     0  1125k      0  1:32:22  0:03:12  1:29:10 1238k
+2026-11-24T08:08:40.7558706Z   3 6091M    3  212M    0     0  1126k      0  1:32:18  0:03:13  1:29:05 1239k
+2026-11-24T08:08:41.7569854Z   3 6091M    3  213M    0     0  1126k      0  1:32:15  0:03:14  1:29:01 1240k
+2026-11-24T08:08:42.7567283Z   3 6091M    3  214M    0     0  1127k      0  1:32:12  0:03:15  1:28:57 1245k
+2026-11-24T08:08:43.7576660Z   3 6091M    3  216M    0     0  1128k      0  1:32:07  0:03:16  1:28:51 1259k
+2026-11-24T08:08:44.7557664Z   3 6091M    3  217M    0     0  1129k      0  1:32:03  0:03:17  1:28:46 1279k
+2026-11-24T08:08:45.7560875Z   3 6091M    3  218M    0     0  1130k      0  1:31:58  0:03:18  1:28:40 1289k
+2026-11-24T08:08:46.7558494Z   3 6091M    3  220M    0     0  1131k      0  1:31:55  0:03:19  1:28:36 1295k
+2026-11-24T08:08:47.7576599Z   3 6091M    3  221M    0     0  1132k      0  1:31:50  0:03:20  1:28:30 1309k
+2026-11-24T08:08:48.7559288Z   3 6091M    3  222M    0     0  1132k      0  1:31:45  0:03:21  1:28:24 1307k
+2026-11-24T08:08:49.7567839Z   3 6091M    3  223M    0     0  1133k      0  1:31:41  0:03:22  1:28:19 1309k
+2026-11-24T08:08:50.7571622Z   3 6091M    3  225M    0     0  1134k      0  1:31:36  0:03:23  1:28:13 1315k
+2026-11-24T08:08:51.7578091Z   3 6091M    3  226M    0     0  1135k      0  1:31:32  0:03:24  1:28:08 1321k
+2026-11-24T08:08:52.7567376Z   3 6091M    3  227M    0     0  1136k      0  1:31:30  0:03:25  1:28:05 1301k
+2026-11-24T08:08:53.7577705Z   3 6091M    3  228M    0     0  1136k      0  1:31:28  0:03:26  1:28:02 1276k
+2026-11-24T08:08:54.7576141Z   3 6091M    3  230M    0     0  1136k      0  1:31:28  0:03:27  1:28:01 1248k
+2026-11-24T08:08:55.7559103Z   3 6091M    3  231M    0     0  1136k      0  1:31:26  0:03:28  1:27:58 1221k
+2026-11-24T08:08:56.7568761Z   3 6091M    3  232M    0     0  1137k      0  1:31:24  0:03:29  1:27:55 1204k
+2026-11-24T08:08:57.7581265Z   3 6091M    3  233M    0     0  1137k      0  1:31:21  0:03:30  1:27:51 1212k
+2026-11-24T08:08:58.7564241Z   3 6091M    3  234M    0     0  1138k      0  1:31:18  0:03:31  1:27:47 1226k
+2026-11-24T08:08:59.7578685Z   3 6091M    3  236M    0     0  1139k      0  1:31:14  0:03:32  1:27:42 1259k
+2026-11-24T08:09:00.7582148Z   3 6091M    3  237M    0     0  1139k      0  1:31:13  0:03:33  1:27:40 1251k
+2026-11-24T08:09:01.7560157Z   3 6091M    3  238M    0     0  1139k      0  1:31:15  0:03:34  1:27:41 1216k
+2026-11-24T08:09:02.7566463Z   3 6091M    3  239M    0     0  1138k      0  1:31:17  0:03:35  1:27:42 1168k
+2026-11-24T08:09:03.7573097Z   3 6091M    3  240M    0     0  1138k      0  1:31:20  0:03:36  1:27:44 1120k
+2026-11-24T08:09:04.7571108Z   3 6091M    3  241M    0     0  1137k      0  1:31:24  0:03:37  1:27:47 1045k
+2026-11-24T08:09:05.7572552Z   3 6091M    3  242M    0     0  1136k      0  1:31:28  0:03:38  1:27:50 1007k
+2026-11-24T08:09:06.7571020Z   3 6091M    3  243M    0     0  1135k      0  1:31:31  0:03:39  1:27:52  989k
+2026-11-24T08:09:07.7581406Z   4 6091M    4  244M    0     0  1134k      0  1:31:35  0:03:40  1:27:55  974k
+2026-11-24T08:09:08.7578048Z   4 6091M    4  245M    0     0  1134k      0  1:31:38  0:03:41  1:27:57  974k
+2026-11-24T08:09:09.7577791Z   4 6091M    4  246M    0     0  1134k      0  1:31:38  0:03:42  1:27:56 1004k
+2026-11-24T08:09:10.7582288Z   4 6091M    4  247M    0     0  1134k      0  1:31:38  0:03:43  1:27:55 1043k
+2026-11-24T08:09:11.7563341Z   4 6091M    4  248M    0     0  1134k      0  1:31:36  0:03:44  1:27:52 1092k
+2026-11-24T08:09:12.7562719Z   4 6091M    4  249M    0     0  1135k      0  1:31:34  0:03:45  1:27:49 1146k
+2026-11-24T08:09:13.7577219Z   4 6091M    4  250M    0     0  1135k      0  1:31:33  0:03:46  1:27:47 1178k
+2026-11-24T08:09:14.7578868Z   4 6091M    4  251M    0     0  1135k      0  1:31:34  0:03:47  1:27:47 1173k
+2026-11-24T08:09:15.7581739Z   4 6091M    4  253M    0     0  1135k      0  1:31:34  0:03:48  1:27:46 1167k
+2026-11-24T08:09:16.7570080Z   4 6091M    4  254M    0     0  1135k      0  1:31:34  0:03:49  1:27:45 1154k
+2026-11-24T08:09:17.7562886Z   4 6091M    4  255M    0     0  1135k      0  1:31:34  0:03:50  1:27:44 1139k
+2026-11-24T08:09:18.7580846Z   4 6091M    4  256M    0     0  1135k      0  1:31:33  0:03:51  1:27:42 1139k
+2026-11-24T08:09:19.7575125Z   4 6091M    4  257M    0     0  1135k      0  1:31:33  0:03:52  1:27:41 1151k
+2026-11-24T08:09:20.7577087Z   4 6091M    4  258M    0     0  1136k      0  1:31:29  0:03:53  1:27:36 1182k
+2026-11-24T08:09:21.7563830Z   4 6091M    4  260M    0     0  1137k      0  1:31:24  0:03:54  1:27:30 1232k
+2026-11-24T08:09:22.7569283Z   4 6091M    4  261M    0     0  1138k      0  1:31:20  0:03:55  1:27:25 1270k
+2026-11-24T08:09:23.7577279Z   4 6091M    4  262M    0     0  1139k      0  1:31:16  0:03:56  1:27:20 1306k
+2026-11-24T08:09:24.7578015Z   4 6091M    4  264M    0     0  1139k      0  1:31:12  0:03:57  1:27:15 1339k
+2026-11-24T08:09:25.7579381Z   4 6091M    4  265M    0     0  1140k      0  1:31:07  0:03:58  1:27:09 1351k
+2026-11-24T08:09:26.7579988Z   4 6091M    4  266M    0     0  1141k      0  1:31:04  0:03:59  1:27:05 1340k
+2026-11-24T08:09:27.7570608Z   4 6091M    4  267M    0     0  1142k      0  1:31:00  0:04:00  1:27:00 1334k
+2026-11-24T08:09:28.7580324Z   4 6091M    4  269M    0     0  1143k      0  1:30:56  0:04:01  1:26:55 1331k
+2026-11-24T08:09:29.7573233Z   4 6091M    4  270M    0     0  1143k      0  1:30:52  0:04:02  1:26:50 1337k
+2026-11-24T08:09:30.7577339Z   4 6091M    4  271M    0     0  1144k      0  1:30:48  0:04:03  1:26:45 1334k
+2026-11-24T08:09:31.7577272Z   4 6091M    4  273M    0     0  1145k      0  1:30:45  0:04:04  1:26:41 1335k
+2026-11-24T08:09:32.7583383Z   4 6091M    4  274M    0     0  1146k      0  1:30:40  0:04:05  1:26:35 1353k
+2026-11-24T08:09:33.7577561Z   4 6091M    4  275M    0     0  1147k      0  1:30:35  0:04:06  1:26:29 1368k
+2026-11-24T08:09:34.7572997Z   4 6091M    4  277M    0     0  1148k      0  1:30:29  0:04:07  1:26:22 1384k
+2026-11-24T08:09:35.7576297Z   4 6091M    4  278M    0     0  1149k      0  1:30:24  0:04:08  1:26:16 1398k
+2026-11-24T08:09:36.7570472Z   4 6091M    4  280M    0     0  1150k      0  1:30:19  0:04:09  1:26:10 1412k
+2026-11-24T08:09:37.7573279Z   4 6091M    4  281M    0     0  1152k      0  1:30:14  0:04:10  1:26:04 1421k
+2026-11-24T08:09:38.7571199Z   4 6091M    4  282M    0     0  1152k      0  1:30:10  0:04:11  1:25:59 1415k
+2026-11-24T08:09:39.7574704Z   4 6091M    4  284M    0     0  1153k      0  1:30:05  0:04:12  1:25:53 1404k
+2026-11-24T08:09:40.7579537Z   4 6091M    4  285M    0     0  1154k      0  1:30:02  0:04:13  1:25:49 1393k
+2026-11-24T08:09:41.7579730Z   4 6091M    4  286M    0     0  1155k      0  1:29:58  0:04:14  1:25:44 1379k
+2026-11-24T08:09:42.7584165Z   4 6091M    4  288M    0     0  1155k      0  1:29:55  0:04:15  1:25:40 1353k
+2026-11-24T08:09:43.7576830Z   4 6091M    4  289M    0     0  1156k      0  1:29:53  0:04:16  1:25:37 1332k
+2026-11-24T08:09:44.7567260Z   4 6091M    4  290M    0     0  1157k      0  1:29:50  0:04:17  1:25:33 1321k
+2026-11-24T08:09:45.7578053Z   4 6091M    4  291M    0     0  1157k      0  1:29:47  0:04:18  1:25:29 1310k
+2026-11-24T08:09:46.7573463Z   4 6091M    4  293M    0     0  1158k      0  1:29:46  0:04:19  1:25:27 1292k
+2026-11-24T08:09:47.7576504Z   4 6091M    4  294M    0     0  1158k      0  1:29:44  0:04:20  1:25:24 1278k
+2026-11-24T08:09:48.7577112Z   4 6091M    4  295M    0     0  1158k      0  1:29:43  0:04:21  1:25:22 1271k
+2026-11-24T08:09:49.7580643Z   4 6091M    4  296M    0     0  1159k      0  1:29:41  0:04:22  1:25:19 1259k
+2026-11-24T08:09:50.7574952Z   4 6091M    4  298M    0     0  1159k      0  1:29:39  0:04:23  1:25:16 1251k
+2026-11-24T08:09:51.7580321Z   4 6091M    4  299M    0     0  1159k      0  1:29:38  0:04:24  1:25:14 1251k
+2026-11-24T08:09:52.7586479Z   4 6091M    4  300M    0     0  1160k      0  1:29:36  0:04:25  1:25:11 1256k
+2026-11-24T08:09:53.7567761Z   4 6091M    4  301M    0     0  1160k      0  1:29:34  0:04:26  1:25:08 1260k
+2026-11-24T08:09:54.7591880Z   4 6091M    4  303M    0     0  1161k      0  1:29:32  0:04:27  1:25:05 1267k
+2026-11-24T08:09:55.7568512Z   4 6091M    4  304M    0     0  1161k      0  1:29:30  0:04:28  1:25:02 1263k
+2026-11-24T08:09:56.7585347Z   5 6091M    5  305M    0     0  1161k      0  1:29:28  0:04:29  1:24:59 1265k
+2026-11-24T08:09:57.7569741Z   5 6091M    5  306M    0     0  1162k      0  1:29:27  0:04:30  1:24:57 1264k
+2026-11-24T08:09:58.7586870Z   5 6091M    5  307M    0     0  1162k      0  1:29:25  0:04:31  1:24:54 1262k
+2026-11-24T08:09:59.7568824Z   5 6091M    5  309M    0     0  1163k      0  1:29:23  0:04:32  1:24:51 1266k
+2026-11-24T08:10:00.7577166Z   5 6091M    5  310M    0     0  1163k      0  1:29:21  0:04:33  1:24:48 1275k
+2026-11-24T08:10:01.7586139Z   5 6091M    5  311M    0     0  1163k      0  1:29:19  0:04:34  1:24:45 1275k
+2026-11-24T08:10:02.7589601Z   5 6091M    5  312M    0     0  1164k      0  1:29:17  0:04:35  1:24:42 1279k
+2026-11-24T08:10:03.7584690Z   5 6091M    5  314M    0     0  1164k      0  1:29:15  0:04:36  1:24:39 1284k
+2026-11-24T08:10:04.7570269Z   5 6091M    5  315M    0     0  1165k      0  1:29:13  0:04:37  1:24:36 1276k
+2026-11-24T08:10:05.7580141Z   5 6091M    5  316M    0     0  1165k      0  1:29:11  0:04:38  1:24:33 1275k
+2026-11-24T08:10:06.7570247Z   5 6091M    5  317M    0     0  1166k      0  1:29:09  0:04:39  1:24:30 1289k
+2026-11-24T08:10:07.7581643Z   5 6091M    5  319M    0     0  1166k      0  1:29:05  0:04:40  1:24:25 1306k
+2026-11-24T08:10:08.7588140Z   5 6091M    5  320M    0     0  1167k      0  1:29:02  0:04:41  1:24:21 1320k
+2026-11-24T08:10:09.7570845Z   5 6091M    5  321M    0     0  1168k      0  1:28:59  0:04:42  1:24:17 1342k
+2026-11-24T08:10:10.7581023Z   5 6091M    5  323M    0     0  1168k      0  1:28:57  0:04:43  1:24:14 1345k
+2026-11-24T08:10:11.7584993Z   5 6091M    5  324M    0     0  1169k      0  1:28:55  0:04:44  1:24:11 1337k
+2026-11-24T08:10:12.7593452Z   5 6091M    5  325M    0     0  1169k      0  1:28:53  0:04:45  1:24:08 1324k
+2026-11-24T08:10:13.7573785Z   5 6091M    5  327M    0     0  1169k      0  1:28:51  0:04:46  1:24:05 1307k
+2026-11-24T08:10:14.7573600Z   5 6091M    5  328M    0     0  1170k      0  1:28:50  0:04:47  1:24:03 1275k
+2026-11-24T08:10:15.7573952Z   5 6091M    5  329M    0     0  1170k      0  1:28:49  0:04:48  1:24:01 1273k
+2026-11-24T08:10:16.7584515Z   5 6091M    5  330M    0     0  1171k      0  1:28:46  0:04:49  1:23:57 1287k
+2026-11-24T08:10:17.7587249Z   5 6091M    5  332M    0     0  1171k      0  1:28:42  0:04:50  1:23:52 1301k
+2026-11-24T08:10:18.7572189Z   5 6091M    5  333M    0     0  1172k      0  1:28:39  0:04:51  1:23:48 1331k
+2026-11-24T08:10:19.7579306Z   5 6091M    5  334M    0     0  1173k      0  1:28:35  0:04:52  1:23:43 1373k
+2026-11-24T08:10:20.7575202Z   5 6091M    5  336M    0     0  1174k      0  1:28:30  0:04:53  1:23:37 1409k
+2026-11-24T08:10:21.7581561Z   5 6091M    5  337M    0     0  1175k      0  1:28:25  0:04:54  1:23:31 1443k
+2026-11-24T08:10:22.7588579Z   5 6091M    5  339M    0     0  1176k      0  1:28:19  0:04:55  1:23:24 1476k
+2026-11-24T08:10:23.7581526Z   5 6091M    5  340M    0     0  1177k      0  1:28:15  0:04:56  1:23:19 1484k
+2026-11-24T08:10:24.7578645Z   5 6091M    5  342M    0     0  1178k      0  1:28:10  0:04:57  1:23:13 1493k
+2026-11-24T08:10:25.7576511Z   5 6091M    5  343M    0     0  1180k      0  1:28:05  0:04:58  1:23:07 1504k
+2026-11-24T08:10:26.7574312Z   5 6091M    5  345M    0     0  1181k      0  1:28:00  0:04:59  1:23:01 1503k
+2026-11-24T08:10:27.7578130Z   5 6091M    5  346M    0     0  1182k      0  1:27:55  0:05:00  1:22:55 1498k
+2026-11-24T08:10:28.7578828Z   5 6091M    5  348M    0     0  1183k      0  1:27:51  0:05:01  1:22:50 1503k
+2026-11-24T08:10:29.7584579Z   5 6091M    5  349M    0     0  1184k      0  1:27:46  0:05:02  1:22:44 1507k
+2026-11-24T08:10:30.7576647Z   5 6091M    5  351M    0     0  1185k      0  1:27:41  0:05:03  1:22:38 1504k
+2026-11-24T08:10:31.7586585Z   5 6091M    5  352M    0     0  1186k      0  1:27:37  0:05:04  1:22:33 1498k
+2026-11-24T08:10:32.7579372Z   5 6091M    5  353M    0     0  1187k      0  1:27:32  0:05:05  1:22:27 1496k
+2026-11-24T08:10:33.7574143Z   5 6091M    5  355M    0     0  1188k      0  1:27:28  0:05:06  1:22:22 1500k
+2026-11-24T08:10:34.7580514Z   5 6091M    5  356M    0     0  1189k      0  1:27:23  0:05:07  1:22:16 1500k
+2026-11-24T08:10:35.7586593Z   5 6091M    5  358M    0     0  1190k      0  1:27:19  0:05:08  1:22:11 1501k
+2026-11-24T08:10:36.7579126Z   5 6091M    5  359M    0     0  1191k      0  1:27:13  0:05:09  1:22:04 1517k
+2026-11-24T08:10:37.7592404Z   5 6091M    5  361M    0     0  1193k      0  1:27:07  0:05:10  1:21:57 1542k
+2026-11-24T08:10:38.7579368Z   5 6091M    5  363M    0     0  1194k      0  1:27:01  0:05:11  1:21:50 1568k
+2026-11-24T08:10:39.7576523Z   5 6091M    5  364M    0     0  1196k      0  1:26:54  0:05:12  1:21:42 1601k
+2026-11-24T08:10:40.7591870Z   6 6091M    6  366M    0     0  1197k      0  1:26:47  0:05:13  1:21:34 1640k
+2026-11-24T08:10:41.7575630Z   6 6091M    6  368M    0     0  1199k      0  1:26:41  0:05:14  1:21:27 1662k
+2026-11-24T08:10:42.7591351Z   6 6091M    6  369M    0     0  1200k      0  1:26:35  0:05:15  1:21:20 1664k
+2026-11-24T08:10:43.7575471Z   6 6091M    6  371M    0     0  1201k      0  1:26:29  0:05:16  1:21:13 1657k
+2026-11-24T08:10:44.7581387Z   6 6091M    6  372M    0     0  1203k      0  1:26:24  0:05:17  1:21:07 1642k
+2026-11-24T08:10:45.7580490Z   6 6091M    6  374M    0     0  1204k      0  1:26:19  0:05:18  1:21:01 1607k
+2026-11-24T08:10:46.7579548Z   6 6091M    6  375M    0     0  1205k      0  1:26:15  0:05:19  1:20:56 1578k
+2026-11-24T08:10:47.7578375Z   6 6091M    6  377M    0     0  1206k      0  1:26:11  0:05:20  1:20:51 1557k
+2026-11-24T08:10:48.7581060Z   6 6091M    6  378M    0     0  1207k      0  1:26:06  0:05:21  1:20:45 1544k
+2026-11-24T08:10:49.7590388Z   6 6091M    6  380M    0     0  1208k      0  1:26:02  0:05:22  1:20:40 1531k
+2026-11-24T08:10:50.7588848Z   6 6091M    6  381M    0     0  1209k      0  1:25:58  0:05:23  1:20:35 1529k
+2026-11-24T08:10:51.7588746Z   6 6091M    6  383M    0     0  1210k      0  1:25:54  0:05:24  1:20:30 1529k
+2026-11-24T08:10:52.7585833Z   6 6091M    6  384M    0     0  1211k      0  1:25:49  0:05:25  1:20:24 1528k
+2026-11-24T08:10:53.7577893Z   6 6091M    6  386M    0     0  1212k      0  1:25:45  0:05:26  1:20:19 1537k
+2026-11-24T08:10:54.7597748Z   6 6091M    6  387M    0     0  1213k      0  1:25:41  0:05:27  1:20:14 1534k
+2026-11-24T08:10:55.7594886Z   6 6091M    6  389M    0     0  1214k      0  1:25:38  0:05:28  1:20:10 1521k
+2026-11-24T08:10:56.7579369Z   6 6091M    6  390M    0     0  1214k      0  1:25:34  0:05:29  1:20:05 1507k
+2026-11-24T08:10:57.7596904Z   6 6091M    6  392M    0     0  1215k      0  1:25:31  0:05:30  1:20:01 1501k
+2026-11-24T08:10:58.7590098Z   6 6091M    6  393M    0     0  1216k      0  1:25:27  0:05:31  1:19:56 1489k
+2026-11-24T08:10:59.7589978Z   6 6091M    6  395M    0     0  1217k      0  1:25:23  0:05:32  1:19:51 1496k
+2026-11-24T08:11:00.7577197Z   6 6091M    6  396M    0     0  1218k      0  1:25:18  0:05:33  1:19:45 1518k
+2026-11-24T08:11:01.7584380Z   6 6091M    6  398M    0     0  1219k      0  1:25:14  0:05:34  1:19:40 1542k
+2026-11-24T08:11:02.7588589Z   6 6091M    6  399M    0     0  1220k      0  1:25:09  0:05:35  1:19:34 1560k
+2026-11-24T08:11:03.7580368Z   6 6091M    6  401M    0     0  1221k      0  1:25:05  0:05:36  1:19:29 1564k
+2026-11-24T08:11:04.7588201Z   6 6091M    6  402M    0     0  1222k      0  1:25:01  0:05:37  1:19:24 1569k
+2026-11-24T08:11:05.7579698Z   6 6091M    6  404M    0     0  1224k      0  1:24:55  0:05:38  1:19:17 1587k
+2026-11-24T08:11:06.7587842Z   6 6091M    6  405M    0     0  1225k      0  1:24:50  0:05:39  1:19:11 1598k
+2026-11-24T08:11:07.7594402Z   6 6091M    6  407M    0     0  1226k      0  1:24:46  0:05:40  1:19:06 1598k
+2026-11-24T08:11:08.7589709Z   6 6091M    6  408M    0     0  1227k      0  1:24:42  0:05:41  1:19:01 1607k
+2026-11-24T08:11:09.7591814Z   6 6091M    6  410M    0     0  1228k      0  1:24:38  0:05:42  1:18:56 1600k
+2026-11-24T08:11:10.7593289Z   6 6091M    6  411M    0     0  1229k      0  1:24:35  0:05:43  1:18:52 1570k
+2026-11-24T08:11:11.7593383Z   6 6091M    6  413M    0     0  1230k      0  1:24:31  0:05:44  1:18:47 1554k
+2026-11-24T08:11:12.7579256Z   6 6091M    6  415M    0     0  1230k      0  1:24:27  0:05:45  1:18:42 1548k
+2026-11-24T08:11:13.7592951Z   6 6091M    6  416M    0     0  1231k      0  1:24:24  0:05:46  1:18:38 1519k
+2026-11-24T08:11:14.7579257Z   6 6091M    6  417M    0     0  1231k      0  1:24:24  0:05:47  1:18:37 1457k
+2026-11-24T08:11:15.7607928Z   6 6091M    6  418M    0     0  1230k      0  1:24:27  0:05:48  1:18:39 1348k
+2026-11-24T08:11:16.7607682Z   6 6091M    6  419M    0     0  1229k      0  1:24:31  0:05:49  1:18:42 1220k
+2026-11-24T08:11:17.7582115Z   6 6091M    6  420M    0     0  1228k      0  1:24:36  0:05:50  1:18:46 1081k
+2026-11-24T08:11:18.7605610Z   6 6091M    6  421M    0     0  1227k      0  1:24:40  0:05:51  1:18:49  957k
+2026-11-24T08:11:19.7594145Z   6 6091M    6  421M    0     0  1226k      0  1:24:47  0:05:52  1:18:55  851k
+2026-11-24T08:11:20.7603029Z   6 6091M    6  422M    0     0  1224k      0  1:24:52  0:05:53  1:18:59  809k
+2026-11-24T08:11:21.7585907Z   6 6091M    6  423M    0     0  1223k      0  1:24:57  0:05:54  1:19:03  790k
+2026-11-24T08:11:22.7588807Z   6 6091M    6  424M    0     0  1222k      0  1:25:01  0:05:55  1:19:06  794k
+2026-11-24T08:11:23.7586905Z   6 6091M    6  425M    0     0  1221k      0  1:25:05  0:05:56  1:19:09  807k
+2026-11-24T08:11:24.7610048Z   6 6091M    6  425M    0     0  1220k      0  1:25:10  0:05:57  1:19:13  828k
+2026-11-24T08:11:25.7588299Z   7 6091M    7  426M    0     0  1219k      0  1:25:14  0:05:58  1:19:16  846k
+2026-11-24T08:11:26.7589467Z   7 6091M    7  427M    0     0  1218k      0  1:25:19  0:05:59  1:19:20  837k
+2026-11-24T08:11:27.7589816Z   7 6091M    7  428M    0     0  1217k      0  1:25:24  0:06:00  1:19:24  821k
+2026-11-24T08:11:28.7590746Z   7 6091M    7  428M    0     0  1216k      0  1:25:29  0:06:01  1:19:28  810k
+2026-11-24T08:11:29.7595928Z   7 6091M    7  429M    0     0  1214k      0  1:25:34  0:06:02  1:19:32  807k
+2026-11-24T08:11:30.7589100Z   7 6091M    7  430M    0     0  1213k      0  1:25:39  0:06:03  1:19:36  789k
+2026-11-24T08:11:31.7602680Z   7 6091M    7  431M    0     0  1212k      0  1:25:43  0:06:04  1:19:39  807k
+2026-11-24T08:11:32.7610448Z   7 6091M    7  432M    0     0  1211k      0  1:25:49  0:06:05  1:19:44  795k
+2026-11-24T08:11:33.7596910Z   7 6091M    7  432M    0     0  1210k      0  1:25:53  0:06:06  1:19:47  793k
+2026-11-24T08:11:34.7585684Z   7 6091M    7  433M    0     0  1209k      0  1:25:58  0:06:07  1:19:51  798k
+2026-11-24T08:11:35.7586725Z   7 6091M    7  434M    0     0  1207k      0  1:26:03  0:06:08  1:19:55  795k
+2026-11-24T08:11:36.7620193Z   7 6091M    7  435M    0     0  1206k      0  1:26:08  0:06:09  1:19:59  778k
+2026-11-24T08:11:37.7612112Z   7 6091M    7  435M    0     0  1205k      0  1:26:14  0:06:10  1:20:04  771k
+2026-11-24T08:11:38.7597635Z   7 6091M    7  436M    0     0  1204k      0  1:26:19  0:06:11  1:20:08  757k
+2026-11-24T08:11:39.7588023Z   7 6091M    7  437M    0     0  1203k      0  1:26:24  0:06:12  1:20:12  759k
+2026-11-24T08:11:40.7611966Z   7 6091M    7  438M    0     0  1202k      0  1:26:28  0:06:13  1:20:15  782k
+2026-11-24T08:11:41.7604618Z   7 6091M    7  438M    0     0  1201k      0  1:26:33  0:06:14  1:20:19  780k
+2026-11-24T08:11:42.7599844Z   7 6091M    7  439M    0     0  1200k      0  1:26:37  0:06:15  1:20:22  804k
+2026-11-24T08:11:43.7607879Z   7 6091M    7  440M    0     0  1199k      0  1:26:41  0:06:16  1:20:25  825k
+2026-11-24T08:11:44.7611007Z   7 6091M    7  441M    0     0  1198k      0  1:26:46  0:06:17  1:20:29  823k
+2026-11-24T08:11:45.7599760Z   7 6091M    7  442M    0     0  1197k      0  1:26:50  0:06:18  1:20:32  809k
+2026-11-24T08:11:46.7617685Z   7 6091M    7  442M    0     0  1195k      0  1:26:56  0:06:19  1:20:37  801k
+2026-11-24T08:11:47.7600609Z   7 6091M    7  443M    0     0  1194k      0  1:27:01  0:06:20  1:20:41  787k
+2026-11-24T08:11:48.7613382Z   7 6091M    7  444M    0     0  1193k      0  1:27:05  0:06:21  1:20:44  775k
+2026-11-24T08:11:49.7657256Z   7 6091M    7  445M    0     0  1192k      0  1:27:09  0:06:22  1:20:47  782k
+2026-11-24T08:11:50.7616938Z   7 6091M    7  445M    0     0  1191k      0  1:27:14  0:06:23  1:20:51  779k
+2026-11-24T08:11:51.7612615Z   7 6091M    7  446M    0     0  1190k      0  1:27:19  0:06:24  1:20:55  790k
+2026-11-24T08:11:52.7601101Z   7 6091M    7  447M    0     0  1189k      0  1:27:23  0:06:25  1:20:58  810k
+2026-11-24T08:11:53.7607305Z   7 6091M    7  448M    0     0  1188k      0  1:27:26  0:06:26  1:21:00  823k
+2026-11-24T08:11:54.7602647Z   7 6091M    7  449M    0     0  1187k      0  1:27:31  0:06:27  1:21:04  804k
+2026-11-24T08:11:55.7616011Z   7 6091M    7  449M    0     0  1186k      0  1:27:36  0:06:28  1:21:08  811k
+2026-11-24T08:11:56.7594475Z   7 6091M    7  450M    0     0  1185k      0  1:27:41  0:06:29  1:21:12  793k
+2026-11-24T08:11:57.7616292Z   7 6091M    7  451M    0     0  1184k      0  1:27:46  0:06:30  1:21:16  772k
+2026-11-24T08:11:58.7598215Z   7 6091M    7  452M    0     0  1183k      0  1:27:51  0:06:31  1:21:20  757k
+2026-11-24T08:11:59.7604362Z   7 6091M    7  452M    0     0  1182k      0  1:27:55  0:06:32  1:21:23  771k
+2026-11-24T08:12:00.7597321Z   7 6091M    7  453M    0     0  1181k      0  1:27:59  0:06:33  1:21:26  778k
+2026-11-24T08:12:01.7605282Z   7 6091M    7  454M    0     0  1180k      0  1:28:04  0:06:34  1:21:30  786k
+2026-11-24T08:12:02.7594705Z   7 6091M    7  455M    0     0  1179k      0  1:28:08  0:06:35  1:21:33  804k
+2026-11-24T08:12:03.7608430Z   7 6091M    7  456M    0     0  1178k      0  1:28:13  0:06:36  1:21:37  800k
+2026-11-24T08:12:04.7602975Z   7 6091M    7  456M    0     0  1177k      0  1:28:17  0:06:37  1:21:40  789k
+2026-11-24T08:12:05.7610996Z   7 6091M    7  457M    0     0  1176k      0  1:28:21  0:06:38  1:21:43  779k
+2026-11-24T08:12:06.8421005Z   7 6091M    7  458M    0     0  1175k      0  1:28:25  0:06:39  1:21:46  802k
+2026-11-24T08:12:07.7617012Z   7 6091M    7  459M    0     0  1174k      0  1:28:30  0:06:40  1:21:50  787k
+2026-11-24T08:12:08.7609830Z   7 6091M    7  459M    0     0  1173k      0  1:28:34  0:06:41  1:21:53  804k
+2026-11-24T08:12:09.7620309Z   7 6091M    7  460M    0     0  1173k      0  1:28:37  0:06:42  1:21:55  823k
+2026-11-24T08:12:10.7597198Z   7 6091M    7  461M    0     0  1171k      0  1:28:42  0:06:43  1:21:59  809k
+2026-11-24T08:12:11.7594398Z   7 6091M    7  462M    0     0  1170k      0  1:28:46  0:06:44  1:22:02  793k
+2026-11-24T08:12:12.7612190Z   7 6091M    7  463M    0     0  1170k      0  1:28:50  0:06:45  1:22:05  806k
+2026-11-24T08:12:13.7601680Z   7 6091M    7  463M    0     0  1169k      0  1:28:54  0:06:46  1:22:08  812k
+2026-11-24T08:12:14.7604420Z   7 6091M    7  464M    0     0  1168k      0  1:28:57  0:06:47  1:22:10  818k
+2026-11-24T08:12:15.7595151Z   7 6091M    7  465M    0     0  1167k      0  1:29:01  0:06:48  1:22:13  829k
+2026-11-24T08:12:16.7632983Z   7 6091M    7  466M    0     0  1166k      0  1:29:05  0:06:49  1:22:16  846k
+2026-11-24T08:12:17.7591635Z   7 6091M    7  467M    0     0  1166k      0  1:29:08  0:06:50  1:22:18  854k
+2026-11-24T08:12:18.7595634Z   7 6091M    7  467M    0     0  1165k      0  1:29:12  0:06:51  1:22:21  839k
+2026-11-24T08:12:19.7588890Z   7 6091M    7  468M    0     0  1164k      0  1:29:16  0:06:52  1:22:24  826k
+2026-11-24T08:12:20.7597796Z   7 6091M    7  469M    0     0  1163k      0  1:29:20  0:06:53  1:22:27  820k
+2026-11-24T08:12:21.7608208Z   7 6091M    7  470M    0     0  1162k      0  1:29:24  0:06:54  1:22:30  807k
+2026-11-24T08:12:22.7651784Z   7 6091M    7  471M    0     0  1161k      0  1:29:28  0:06:55  1:22:33  803k
+2026-11-24T08:12:23.7593870Z   7 6091M    7  471M    0     0  1160k      0  1:29:32  0:06:56  1:22:36  799k
+2026-11-24T08:12:24.7597096Z   7 6091M    7  472M    0     0  1159k      0  1:29:37  0:06:57  1:22:40  779k
+2026-11-24T08:12:25.7603123Z   7 6091M    7  473M    0     0  1158k      0  1:29:43  0:06:58  1:22:45  764k
+2026-11-24T08:12:26.7591258Z   7 6091M    7  473M    0     0  1157k      0  1:29:47  0:06:59  1:22:48  746k
+2026-11-24T08:12:27.7590560Z   7 6091M    7  474M    0     0  1156k      0  1:29:52  0:07:00  1:22:52  728k
+2026-11-24T08:12:28.7594617Z   7 6091M    7  475M    0     0  1155k      0  1:29:58  0:07:01  1:22:57  702k
+2026-11-24T08:12:29.7605841Z   7 6091M    7  476M    0     0  1154k      0  1:30:02  0:07:02  1:23:00  709k
+2026-11-24T08:12:30.7594190Z   7 6091M    7  476M    0     0  1153k      0  1:30:06  0:07:03  1:23:03  735k
+2026-11-24T08:12:31.7596543Z   7 6091M    7  477M    0     0  1152k      0  1:30:10  0:07:04  1:23:06  754k
+2026-11-24T08:12:32.7612524Z   7 6091M    7  478M    0     0  1152k      0  1:30:13  0:07:05  1:23:08  771k
+2026-11-24T08:12:33.7658422Z   7 6091M    7  479M    0     0  1151k      0  1:30:18  0:07:06  1:23:12  787k
+2026-11-24T08:12:34.7604037Z   7 6091M    7  479M    0     0  1150k      0  1:30:23  0:07:07  1:23:16  780k
+2026-11-24T08:12:35.7605712Z   7 6091M    7  480M    0     0  1149k      0  1:30:28  0:07:08  1:23:20  757k
+2026-11-24T08:12:36.7640720Z   7 6091M    7  481M    0     0  1148k      0  1:30:32  0:07:09  1:23:23  743k
+2026-11-24T08:12:37.7599344Z   7 6091M    7  481M    0     0  1147k      0  1:30:37  0:07:10  1:23:27  715k
+2026-11-24T08:12:38.7609657Z   7 6091M    7  482M    0     0  1146k      0  1:30:42  0:07:11  1:23:31  709k
+2026-11-24T08:12:39.8640174Z   7 6091M    7  483M    0     0  1145k      0  1:30:46  0:07:12  1:23:34  717k
+2026-11-24T08:12:40.7615081Z   7 6091M    7  484M    0     0  1144k      0  1:30:51  0:07:13  1:23:38  736k
+2026-11-24T08:12:41.7592078Z   7 6091M    7  484M    0     0  1143k      0  1:30:56  0:07:14  1:23:42  715k
+2026-11-24T08:12:42.7624593Z   7 6091M    7  485M    0     0  1142k      0  1:31:00  0:07:15  1:23:45  727k
+2026-11-24T08:12:43.7601050Z   7 6091M    7  486M    0     0  1141k      0  1:31:04  0:07:16  1:23:48  746k
+2026-11-24T08:12:44.7639535Z   7 6091M    7  487M    0     0  1140k      0  1:31:08  0:07:17  1:23:51  751k
+2026-11-24T08:12:45.8364068Z   8 6091M    8  487M    0     0  1139k      0  1:31:13  0:07:18  1:23:55  733k
+2026-11-24T08:12:46.7631636Z   8 6091M    8  488M    0     0  1138k      0  1:31:18  0:07:19  1:23:59  735k
+2026-11-24T08:12:47.7624170Z   8 6091M    8  489M    0     0  1137k      0  1:31:23  0:07:20  1:24:03  729k
+2026-11-24T08:12:48.7595362Z   8 6091M    8  489M    0     0  1136k      0  1:31:28  0:07:21  1:24:07  706k
+2026-11-24T08:12:49.7623899Z   8 6091M    8  490M    0     0  1135k      0  1:31:33  0:07:22  1:24:11  673k
+2026-11-24T08:12:50.7620865Z   8 6091M    8  490M    0     0  1134k      0  1:31:38  0:07:23  1:24:15  665k
+2026-11-24T08:12:51.7613726Z   8 6091M    8  491M    0     0  1133k      0  1:31:43  0:07:24  1:24:19  677k
+2026-11-24T08:12:52.7607214Z   8 6091M    8  492M    0     0  1132k      0  1:31:48  0:07:25  1:24:23  668k
+2026-11-24T08:12:53.7621660Z   8 6091M    8  492M    0     0  1131k      0  1:31:54  0:07:26  1:24:28  659k
+2026-11-24T08:12:54.7617547Z   8 6091M    8  493M    0     0  1130k      0  1:31:58  0:07:27  1:24:31  676k
+2026-11-24T08:12:55.7619281Z   8 6091M    8  494M    0     0  1129k      0  1:32:02  0:07:28  1:24:34  695k
+2026-11-24T08:12:56.7634435Z   8 6091M    8  495M    0     0  1128k      0  1:32:07  0:07:29  1:24:38  701k
+2026-11-24T08:12:57.7618016Z   8 6091M    8  495M    0     0  1127k      0  1:32:12  0:07:30  1:24:42  701k
+2026-11-24T08:12:58.7667420Z   8 6091M    8  496M    0     0  1126k      0  1:32:16  0:07:31  1:24:45  717k
+2026-11-24T08:12:59.7603646Z   8 6091M    8  497M    0     0  1125k      0  1:32:22  0:07:32  1:24:50  694k
+2026-11-24T08:13:00.7627761Z   8 6091M    8  497M    0     0  1124k      0  1:32:27  0:07:33  1:24:54  679k
+2026-11-24T08:13:01.7605923Z   8 6091M    8  498M    0     0  1123k      0  1:32:31  0:07:34  1:24:57  676k
+2026-11-24T08:13:02.7597068Z   8 6091M    8  499M    0     0  1122k      0  1:32:35  0:07:35  1:25:00  687k
+2026-11-24T08:13:03.7611019Z   8 6091M    8  499M    0     0  1121k      0  1:32:40  0:07:36  1:25:04  679k
+2026-11-24T08:13:04.7620265Z   8 6091M    8  500M    0     0  1120k      0  1:32:45  0:07:37  1:25:08  702k
+2026-11-24T08:13:05.7619758Z   8 6091M    8  501M    0     0  1119k      0  1:32:50  0:07:38  1:25:12  692k
+2026-11-24T08:13:06.7624057Z   8 6091M    8  501M    0     0  1118k      0  1:32:55  0:07:39  1:25:16  681k
+2026-11-24T08:13:07.7610433Z   8 6091M    8  502M    0     0  1117k      0  1:32:59  0:07:40  1:25:19  684k
+2026-11-24T08:13:08.7623253Z   8 6091M    8  503M    0     0  1117k      0  1:33:02  0:07:41  1:25:21  710k
+2026-11-24T08:13:09.7607138Z   8 6091M    8  503M    0     0  1116k      0  1:33:06  0:07:42  1:25:24  715k
+2026-11-24T08:13:10.7644413Z   8 6091M    8  504M    0     0  1115k      0  1:33:10  0:07:43  1:25:27  742k
+2026-11-24T08:13:11.7643279Z   8 6091M    8  505M    0     0  1114k      0  1:33:15  0:07:44  1:25:31  743k
+2026-11-24T08:13:12.7604655Z   8 6091M    8  506M    0     0  1113k      0  1:33:20  0:07:45  1:25:35  734k
+2026-11-24T08:13:13.7607806Z   8 6091M    8  506M    0     0  1112k      0  1:33:24  0:07:46  1:25:38  718k
+2026-11-24T08:13:14.7617618Z   8 6091M    8  507M    0     0  1112k      0  1:33:28  0:07:47  1:25:41  723k
+2026-11-24T08:13:15.7597472Z   8 6091M    8  508M    0     0  1111k      0  1:33:32  0:07:48  1:25:44  707k
+2026-11-24T08:13:16.7599854Z   8 6091M    8  508M    0     0  1110k      0  1:33:36  0:07:49  1:25:47  725k
+2026-11-24T08:13:17.7625160Z   8 6091M    8  509M    0     0  1109k      0  1:33:40  0:07:50  1:25:50  734k
+2026-11-24T08:13:18.7602840Z   8 6091M    8  510M    0     0  1108k      0  1:33:44  0:07:51  1:25:53  735k
+2026-11-24T08:13:19.7626454Z   8 6091M    8  511M    0     0  1108k      0  1:33:47  0:07:52  1:25:55  745k
+2026-11-24T08:13:20.7616741Z   8 6091M    8  511M    0     0  1107k      0  1:33:50  0:07:53  1:25:57  778k
+2026-11-24T08:13:21.7609126Z   8 6091M    8  512M    0     0  1107k      0  1:33:53  0:07:54  1:25:59  793k
+2026-11-24T08:13:22.7606851Z   8 6091M    8  513M    0     0  1106k      0  1:33:57  0:07:55  1:26:02  789k
+2026-11-24T08:13:23.7603237Z   8 6091M    8  514M    0     0  1105k      0  1:34:00  0:07:56  1:26:04  806k
+2026-11-24T08:13:24.7633288Z   8 6091M    8  514M    0     0  1105k      0  1:34:04  0:07:57  1:26:07  789k
+2026-11-24T08:13:25.7623226Z   8 6091M    8  515M    0     0  1104k      0  1:34:08  0:07:58  1:26:10  773k
+2026-11-24T08:13:26.7612869Z   8 6091M    8  516M    0     0  1103k      0  1:34:13  0:07:59  1:26:14  735k
+2026-11-24T08:13:27.7611448Z   8 6091M    8  517M    0     0  1102k      0  1:34:17  0:08:00  1:26:17  737k
+2026-11-24T08:13:28.7617136Z   8 6091M    8  517M    0     0  1101k      0  1:34:20  0:08:01  1:26:19  728k
+2026-11-24T08:13:29.7621269Z   8 6091M    8  518M    0     0  1101k      0  1:34:24  0:08:02  1:26:22  732k
+2026-11-24T08:13:30.7621213Z   8 6091M    8  519M    0     0  1100k      0  1:34:28  0:08:03  1:26:25  725k
+2026-11-24T08:13:31.7615602Z   8 6091M    8  520M    0     0  1099k      0  1:34:31  0:08:04  1:26:27  754k
+2026-11-24T08:13:32.7609102Z   8 6091M    8  520M    0     0  1098k      0  1:34:36  0:08:05  1:26:31  750k
+2026-11-24T08:13:33.7642696Z   8 6091M    8  521M    0     0  1098k      0  1:34:39  0:08:06  1:26:33  750k
+2026-11-24T08:13:34.7599871Z   8 6091M    8  522M    0     0  1097k      0  1:34:43  0:08:07  1:26:36  741k
+2026-11-24T08:13:35.7629054Z   8 6091M    8  522M    0     0  1096k      0  1:34:47  0:08:08  1:26:39  734k
+2026-11-24T08:13:36.7615240Z   8 6091M    8  523M    0     0  1095k      0  1:34:51  0:08:09  1:26:42  720k
+2026-11-24T08:13:37.7674524Z   8 6091M    8  524M    0     0  1095k      0  1:34:55  0:08:10  1:26:45  734k
+2026-11-24T08:13:38.7602386Z   8 6091M    8  524M    0     0  1094k      0  1:34:59  0:08:11  1:26:48  714k
+2026-11-24T08:13:39.7621965Z   8 6091M    8  525M    0     0  1093k      0  1:35:02  0:08:12  1:26:50  730k
+2026-11-24T08:13:40.7628336Z   8 6091M    8  526M    0     0  1093k      0  1:35:06  0:08:13  1:26:53  740k
+2026-11-24T08:13:41.7622698Z   8 6091M    8  527M    0     0  1092k      0  1:35:10  0:08:14  1:26:56  732k
+2026-11-24T08:13:42.7626887Z   8 6091M    8  527M    0     0  1091k      0  1:35:14  0:08:15  1:26:59  739k
+2026-11-24T08:13:43.7634876Z   8 6091M    8  528M    0     0  1091k      0  1:35:16  0:08:16  1:27:00  769k
+2026-11-24T08:13:44.7639956Z   8 6091M    8  529M    0     0  1090k      0  1:35:19  0:08:17  1:27:02  779k
+2026-11-24T08:13:45.7631281Z   8 6091M    8  530M    0     0  1090k      0  1:35:22  0:08:18  1:27:04  795k
+2026-11-24T08:13:46.8224111Z   8 6091M    8  531M    0     0  1089k      0  1:35:26  0:08:19  1:27:07  804k
+2026-11-24T08:13:47.7613145Z   8 6091M    8  531M    0     0  1088k      0  1:35:30  0:08:20  1:27:10  784k
+2026-11-24T08:13:48.7620793Z   8 6091M    8  532M    0     0  1087k      0  1:35:33  0:08:21  1:27:12  772k
+2026-11-24T08:13:49.7621310Z   8 6091M    8  533M    0     0  1087k      0  1:35:37  0:08:22  1:27:15  751k
+2026-11-24T08:13:50.7611960Z   8 6091M    8  534M    0     0  1086k      0  1:35:40  0:08:23  1:27:17  747k
+2026-11-24T08:13:51.7625844Z   8 6091M    8  534M    0     0  1086k      0  1:35:42  0:08:24  1:27:18  765k
+2026-11-24T08:13:52.7611297Z   8 6091M    8  535M    0     0  1085k      0  1:35:45  0:08:25  1:27:20  792k
+2026-11-24T08:13:53.8411777Z   8 6091M    8  536M    0     0  1084k      0  1:35:49  0:08:26  1:27:23  787k
+2026-11-24T08:13:54.7623253Z   8 6091M    8  537M    0     0  1084k      0  1:35:52  0:08:27  1:27:25  798k
+2026-11-24T08:13:55.7620970Z   8 6091M    8  537M    0     0  1083k      0  1:35:56  0:08:28  1:27:28  776k
+2026-11-24T08:13:56.7620484Z   8 6091M    8  538M    0     0  1082k      0  1:35:59  0:08:29  1:27:30  759k
+2026-11-24T08:13:57.7678873Z   8 6091M    8  539M    0     0  1082k      0  1:36:03  0:08:30  1:27:33  751k
+2026-11-24T08:13:58.7632801Z   8 6091M    8  539M    0     0  1081k      0  1:36:07  0:08:31  1:27:36  741k
+2026-11-24T08:13:59.7637765Z   8 6091M    8  540M    0     0  1080k      0  1:36:10  0:08:32  1:27:38  736k
+2026-11-24T08:14:00.7627613Z   8 6091M    8  541M    0     0  1080k      0  1:36:14  0:08:33  1:27:41  743k
+2026-11-24T08:14:01.7612345Z   8 6091M    8  542M    0     0  1079k      0  1:36:17  0:08:34  1:27:43  740k
+2026-11-24T08:14:02.7607250Z   8 6091M    8  542M    0     0  1078k      0  1:36:21  0:08:35  1:27:46  718k
+2026-11-24T08:14:03.7613122Z   8 6091M    8  543M    0     0  1078k      0  1:36:26  0:08:36  1:27:50  716k
+2026-11-24T08:14:04.7687897Z   8 6091M    8  544M    0     0  1077k      0  1:36:29  0:08:37  1:27:52  707k
+2026-11-24T08:14:05.7604630Z   8 6091M    8  544M    0     0  1076k      0  1:36:33  0:08:38  1:27:55  701k
+2026-11-24T08:14:06.7614664Z   8 6091M    8  545M    0     0  1075k      0  1:36:37  0:08:39  1:27:58  701k
+2026-11-24T08:14:07.7604891Z   8 6091M    8  546M    0     0  1075k      0  1:36:40  0:08:40  1:28:00  720k
+2026-11-24T08:14:08.7630636Z   8 6091M    8  546M    0     0  1074k      0  1:36:44  0:08:41  1:28:03  720k
+2026-11-24T08:14:09.7603769Z   8 6091M    8  547M    0     0  1073k      0  1:36:48  0:08:42  1:28:06  721k
+2026-11-24T08:14:10.7629270Z   9 6091M    9  548M    0     0  1073k      0  1:36:50  0:08:43  1:28:07  746k
+2026-11-24T08:14:11.7619077Z   9 6091M    9  549M    0     0  1072k      0  1:36:55  0:08:44  1:28:11  727k
+2026-11-24T08:14:12.7637318Z   9 6091M    9  549M    0     0  1072k      0  1:36:58  0:08:45  1:28:13  725k
+2026-11-24T08:14:13.7617494Z   9 6091M    9  550M    0     0  1071k      0  1:37:02  0:08:46  1:28:16  724k
+2026-11-24T08:14:14.7605227Z   9 6091M    9  551M    0     0  1070k      0  1:37:06  0:08:47  1:28:19  709k
+2026-11-24T08:14:15.7618547Z   9 6091M    9  551M    0     0  1069k      0  1:37:10  0:08:48  1:28:22  689k
+2026-11-24T08:14:16.7617664Z   9 6091M    9  552M    0     0  1069k      0  1:37:14  0:08:49  1:28:25  692k
+2026-11-24T08:14:17.7661424Z   9 6091M    9  553M    0     0  1068k      0  1:37:19  0:08:50  1:28:29  671k
+2026-11-24T08:14:18.7656331Z   9 6091M    9  553M    0     0  1067k      0  1:37:22  0:08:51  1:28:31  685k
+2026-11-24T08:14:19.7625684Z   9 6091M    9  554M    0     0  1066k      0  1:37:26  0:08:52  1:28:34  685k
+2026-11-24T08:14:20.7629164Z   9 6091M    9  555M    0     0  1066k      0  1:37:30  0:08:53  1:28:37  685k
+2026-11-24T08:14:21.7608320Z   9 6091M    9  555M    0     0  1065k      0  1:37:35  0:08:54  1:28:41  670k
+2026-11-24T08:14:22.7627323Z   9 6091M    9  556M    0     0  1064k      0  1:37:39  0:08:55  1:28:44  664k
+2026-11-24T08:14:23.7633555Z   9 6091M    9  557M    0     0  1063k      0  1:37:43  0:08:56  1:28:47  650k
+2026-11-24T08:14:24.7607020Z   9 6091M    9  557M    0     0  1063k      0  1:37:47  0:08:57  1:28:50  665k
+2026-11-24T08:14:25.7634545Z   9 6091M    9  558M    0     0  1062k      0  1:37:51  0:08:58  1:28:53  651k
+2026-11-24T08:14:26.7661867Z   9 6091M    9  559M    0     0  1061k      0  1:37:54  0:08:59  1:28:55  679k
+2026-11-24T08:14:27.7607592Z   9 6091M    9  559M    0     0  1061k      0  1:37:58  0:09:00  1:28:58  697k
+2026-11-24T08:14:28.7631665Z   9 6091M    9  560M    0     0  1060k      0  1:38:02  0:09:01  1:29:01  694k
+2026-11-24T08:14:29.7643496Z   9 6091M    9  561M    0     0  1059k      0  1:38:05  0:09:02  1:29:03  698k
+2026-11-24T08:14:30.7630202Z   9 6091M    9  561M    0     0  1059k      0  1:38:08  0:09:03  1:29:05  724k
+2026-11-24T08:14:31.7634946Z   9 6091M    9  562M    0     0  1058k      0  1:38:13  0:09:04  1:29:09  706k
+2026-11-24T08:14:32.7626623Z   9 6091M    9  563M    0     0  1057k      0  1:38:16  0:09:05  1:29:11  709k
+2026-11-24T08:14:33.7636801Z   9 6091M    9  563M    0     0  1057k      0  1:38:20  0:09:06  1:29:14  710k
+2026-11-24T08:14:34.7622268Z   9 6091M    9  564M    0     0  1056k      0  1:38:24  0:09:07  1:29:17  696k
+2026-11-24T08:14:35.7621613Z   9 6091M    9  565M    0     0  1055k      0  1:38:28  0:09:08  1:29:20  662k
+2026-11-24T08:14:36.7658777Z   9 6091M    9  565M    0     0  1054k      0  1:38:33  0:09:09  1:29:24  660k
+2026-11-24T08:14:37.7627332Z   9 6091M    9  566M    0     0  1054k      0  1:38:37  0:09:10  1:29:27  637k
+2026-11-24T08:14:38.7627237Z   9 6091M    9  566M    0     0  1053k      0  1:38:42  0:09:11  1:29:31  623k
+2026-11-24T08:14:39.7621294Z   9 6091M    9  567M    0     0  1052k      0  1:38:46  0:09:12  1:29:34  621k
+2026-11-24T08:14:40.7620804Z   9 6091M    9  568M    0     0  1051k      0  1:38:49  0:09:13  1:29:36  640k
+2026-11-24T08:14:41.9079166Z   9 6091M    9  569M    0     0  1051k      0  1:38:53  0:09:14  1:29:39  662k
+2026-11-24T08:14:42.7617551Z   9 6091M    9  569M    0     0  1050k      0  1:38:56  0:09:15  1:29:41  689k
+2026-11-24T08:14:43.8644663Z   9 6091M    9  570M    0     0  1050k      0  1:39:00  0:09:16  1:29:44  703k
+2026-11-24T08:14:44.7614770Z   9 6091M    9  571M    0     0  1049k      0  1:39:04  0:09:17  1:29:47  706k
+2026-11-24T08:14:45.7635100Z   9 6091M    9  571M    0     0  1048k      0  1:39:07  0:09:18  1:29:49  714k
+2026-11-24T08:14:46.7637300Z   9 6091M    9  572M    0     0  1048k      0  1:39:10  0:09:19  1:29:51  709k
+2026-11-24T08:14:47.7614461Z   9 6091M    9  573M    0     0  1047k      0  1:39:13  0:09:20  1:29:53  711k
+2026-11-24T08:14:48.7612785Z   9 6091M    9  573M    0     0  1047k      0  1:39:16  0:09:21  1:29:55  729k
+2026-11-24T08:14:49.7661620Z   9 6091M    9  574M    0     0  1046k      0  1:39:19  0:09:22  1:29:57  730k
+2026-11-24T08:14:50.7626616Z   9 6091M    9  575M    0     0  1045k      0  1:39:24  0:09:23  1:30:01  707k
+2026-11-24T08:14:51.7613101Z   9 6091M    9  575M    0     0  1045k      0  1:39:28  0:09:24  1:30:04  696k
+2026-11-24T08:14:52.7775416Z   9 6091M    9  576M    0     0  1044k      0  1:39:31  0:09:25  1:30:06  686k
+2026-11-24T08:14:53.7617819Z   9 6091M    9  577M    0     0  1043k      0  1:39:35  0:09:26  1:30:09  668k
+2026-11-24T08:14:54.7610228Z   9 6091M    9  577M    0     0  1043k      0  1:39:38  0:09:27  1:30:11  671k
+2026-11-24T08:14:55.7620347Z   9 6091M    9  578M    0     0  1042k      0  1:39:41  0:09:28  1:30:13  699k
+2026-11-24T08:14:56.7619745Z   9 6091M    9  579M    0     0  1042k      0  1:39:45  0:09:29  1:30:16  703k
+2026-11-24T08:14:57.7669093Z   9 6091M    9  580M    0     0  1041k      0  1:39:48  0:09:30  1:30:18  704k
+2026-11-24T08:14:58.7615671Z   9 6091M    9  580M    0     0  1040k      0  1:39:51  0:09:31  1:30:20  715k
+2026-11-24T08:14:59.7689524Z   9 6091M    9  581M    0     0  1040k      0  1:39:55  0:09:32  1:30:23  704k
+2026-11-24T08:15:00.7662915Z   9 6091M    9  582M    0     0  1039k      0  1:39:59  0:09:33  1:30:26  689k
+2026-11-24T08:15:01.7614975Z   9 6091M    9  582M    0     0  1039k      0  1:40:03  0:09:34  1:30:29  688k
+2026-11-24T08:15:02.7628612Z   9 6091M    9  583M    0     0  1038k      0  1:40:06  0:09:35  1:30:31  679k
+2026-11-24T08:15:03.7652948Z   9 6091M    9  584M    0     0  1037k      0  1:40:10  0:09:36  1:30:34  680k
+2026-11-24T08:15:04.7638057Z   9 6091M    9  584M    0     0  1037k      0  1:40:13  0:09:37  1:30:36  687k
+2026-11-24T08:15:05.7635595Z   9 6091M    9  585M    0     0  1036k      0  1:40:17  0:09:38  1:30:39  688k
+2026-11-24T08:15:06.7625236Z   9 6091M    9  586M    0     0  1036k      0  1:40:19  0:09:39  1:30:40  706k
+2026-11-24T08:15:07.7640292Z   9 6091M    9  586M    0     0  1035k      0  1:40:23  0:09:40  1:30:43  710k
+2026-11-24T08:15:08.7632585Z   9 6091M    9  587M    0     0  1034k      0  1:40:26  0:09:41  1:30:45  701k
+2026-11-24T08:15:09.7634800Z   9 6091M    9  588M    0     0  1034k      0  1:40:29  0:09:42  1:30:47  715k
+2026-11-24T08:15:10.7652583Z   9 6091M    9  588M    0     0  1033k      0  1:40:33  0:09:43  1:30:50  707k
+2026-11-24T08:15:11.7628404Z   9 6091M    9  589M    0     0  1033k      0  1:40:36  0:09:44  1:30:52  698k
+2026-11-24T08:15:12.7620642Z   9 6091M    9  590M    0     0  1032k      0  1:40:40  0:09:45  1:30:55  685k
+2026-11-24T08:15:13.7644233Z   9 6091M    9  590M    0     0  1031k      0  1:40:44  0:09:46  1:30:58  679k
+2026-11-24T08:15:14.7614934Z   9 6091M    9  591M    0     0  1031k      0  1:40:47  0:09:47  1:31:00  668k
+2026-11-24T08:15:15.7640804Z   9 6091M    9  592M    0     0  1030k      0  1:40:50  0:09:48  1:31:02  694k
+2026-11-24T08:15:16.7614928Z   9 6091M    9  592M    0     0  1030k      0  1:40:53  0:09:49  1:31:04  692k
+2026-11-24T08:15:17.7621430Z   9 6091M    9  593M    0     0  1029k      0  1:40:56  0:09:50  1:31:06  714k
+2026-11-24T08:15:18.7634795Z   9 6091M    9  594M    0     0  1029k      0  1:41:00  0:09:51  1:31:09  718k
+2026-11-24T08:15:19.7650242Z   9 6091M    9  594M    0     0  1028k      0  1:41:03  0:09:52  1:31:11  712k
+2026-11-24T08:15:20.7647086Z   9 6091M    9  595M    0     0  1028k      0  1:41:06  0:09:53  1:31:13  702k
+2026-11-24T08:15:21.7627153Z   9 6091M    9  596M    0     0  1027k      0  1:41:10  0:09:54  1:31:16  689k
+2026-11-24T08:15:22.7648742Z   9 6091M    9  596M    0     0  1026k      0  1:41:13  0:09:55  1:31:18  681k
+2026-11-24T08:15:23.7627959Z   9 6091M    9  597M    0     0  1026k      0  1:41:17  0:09:56  1:31:21  679k
+2026-11-24T08:15:24.7637440Z   9 6091M    9  598M    0     0  1025k      0  1:41:21  0:09:57  1:31:24  667k
+2026-11-24T08:15:25.7623793Z   9 6091M    9  598M    0     0  1025k      0  1:41:25  0:09:58  1:31:27  656k
+2026-11-24T08:15:26.7629873Z   9 6091M    9  599M    0     0  1024k      0  1:41:28  0:09:59  1:31:29  665k
+2026-11-24T08:15:27.7615105Z   9 6091M    9  600M    0     0  1023k      0  1:41:32  0:10:00  1:31:32  651k
+2026-11-24T08:15:28.7622252Z   9 6091M    9  600M    0     0  1023k      0  1:41:35  0:10:01  1:31:34  664k
+2026-11-24T08:15:29.7630739Z   9 6091M    9  601M    0     0  1022k      0  1:41:39  0:10:02  1:31:37  662k
+2026-11-24T08:15:30.7616993Z   9 6091M    9  602M    0     0  1022k      0  1:41:42  0:10:03  1:31:39  670k
+2026-11-24T08:15:31.7690193Z   9 6091M    9  602M    0     0  1021k      0  1:41:46  0:10:04  1:31:42  650k
+2026-11-24T08:15:32.7633925Z   9 6091M    9  603M    0     0  1020k      0  1:41:50  0:10:05  1:31:45  649k
+2026-11-24T08:15:33.7639992Z   9 6091M    9  603M    0     0  1020k      0  1:41:54  0:10:06  1:31:48  642k
+2026-11-24T08:15:34.7645143Z   9 6091M    9  604M    0     0  1019k      0  1:41:56  0:10:07  1:31:49  668k
+2026-11-24T08:15:35.7635386Z   9 6091M    9  605M    0     0  1019k      0  1:42:00  0:10:08  1:31:52  659k
+2026-11-24T08:15:36.7618939Z   9 6091M    9  606M    0     0  1018k      0  1:42:03  0:10:09  1:31:54  690k
+2026-11-24T08:15:37.7648319Z   9 6091M    9  606M    0     0  1018k      0  1:42:05  0:10:10  1:31:55  715k
+2026-11-24T08:15:38.7621274Z   9 6091M    9  607M    0     0  1017k      0  1:42:09  0:10:11  1:31:58  709k
+2026-11-24T08:15:39.7630825Z   9 6091M    9  608M    0     0  1017k      0  1:42:11  0:10:12  1:31:59  711k
+2026-11-24T08:15:40.7629096Z   9 6091M    9  608M    0     0  1016k      0  1:42:15  0:10:13  1:32:02  711k
+2026-11-24T08:15:41.7917228Z  10 6091M   10  609M    0     0  1016k      0  1:42:18  0:10:14  1:32:04  710k
+2026-11-24T08:15:42.7618211Z  10 6091M   10  610M    0     0  1015k      0  1:42:21  0:10:15  1:32:06  702k
+2026-11-24T08:15:43.7625514Z  10 6091M   10  610M    0     0  1015k      0  1:42:24  0:10:16  1:32:08  716k
+2026-11-24T08:15:44.7647678Z  10 6091M   10  611M    0     0  1014k      0  1:42:26  0:10:17  1:32:09  715k
+2026-11-24T08:15:45.7687620Z  10 6091M   10  612M    0     0  1014k      0  1:42:30  0:10:18  1:32:12  707k
+2026-11-24T08:15:46.7649762Z  10 6091M   10  612M    0     0  1013k      0  1:42:34  0:10:19  1:32:15  691k
+2026-11-24T08:15:47.7634878Z  10 6091M   10  613M    0     0  1013k      0  1:42:36  0:10:20  1:32:16  695k
+2026-11-24T08:15:48.7637201Z  10 6091M   10  614M    0     0  1012k      0  1:42:39  0:10:21  1:32:18  692k
+2026-11-24T08:15:49.7679174Z  10 6091M   10  614M    0     0  1012k      0  1:42:43  0:10:22  1:32:21  677k
+2026-11-24T08:15:50.7649236Z  10 6091M   10  615M    0     0  1011k      0  1:42:46  0:10:23  1:32:23  685k
+2026-11-24T08:15:51.7626952Z  10 6091M   10  616M    0     0  1010k      0  1:42:50  0:10:24  1:32:26  681k
+2026-11-24T08:15:52.7620204Z  10 6091M   10  616M    0     0  1010k      0  1:42:53  0:10:25  1:32:28  675k
+2026-11-24T08:15:53.7633761Z  10 6091M   10  617M    0     0  1009k      0  1:42:57  0:10:26  1:32:31  653k
+2026-11-24T08:15:54.7644254Z  10 6091M   10  618M    0     0  1009k      0  1:43:00  0:10:27  1:32:33  654k
+2026-11-24T08:15:55.7641420Z  10 6091M   10  618M    0     0  1008k      0  1:43:03  0:10:28  1:32:35  670k
+2026-11-24T08:15:56.7632682Z  10 6091M   10  619M    0     0  1008k      0  1:43:05  0:10:29  1:32:36  689k
+2026-11-24T08:15:57.7661318Z  10 6091M   10  620M    0     0  1007k      0  1:43:09  0:10:30  1:32:39  676k
+2026-11-24T08:15:58.7642666Z  10 6091M   10  620M    0     0  1006k      0  1:43:14  0:10:31  1:32:43  647k
+2026-11-24T08:15:59.7629226Z  10 6091M   10  621M    0     0  1006k      0  1:43:19  0:10:32  1:32:47  615k
+2026-11-24T08:16:00.7643865Z  10 6091M   10  621M    0     0  1005k      0  1:43:23  0:10:33  1:32:50  586k
+2026-11-24T08:16:01.7633917Z  10 6091M   10  622M    0     0  1004k      0  1:43:27  0:10:34  1:32:53  573k
+2026-11-24T08:16:02.7627309Z  10 6091M   10  623M    0     0  1004k      0  1:43:29  0:10:35  1:32:54  596k
+2026-11-24T08:16:03.7633359Z  10 6091M   10  623M    0     0  1004k      0  1:43:31  0:10:36  1:32:55  661k
+2026-11-24T08:16:04.7631522Z  10 6091M   10  624M    0     0  1003k      0  1:43:35  0:10:37  1:32:58  689k
+2026-11-24T08:16:05.7639290Z  10 6091M   10  625M    0     0  1003k      0  1:43:37  0:10:38  1:32:59  725k
+2026-11-24T08:16:06.7676976Z  10 6091M   10  625M    0     0  1002k      0  1:43:40  0:10:39  1:33:01  726k
+2026-11-24T08:16:07.7631078Z  10 6091M   10  626M    0     0  1002k      0  1:43:43  0:10:40  1:33:03  718k
+2026-11-24T08:16:08.7625013Z  10 6091M   10  627M    0     0  1001k      0  1:43:45  0:10:41  1:33:04  709k
+2026-11-24T08:16:09.7644302Z  10 6091M   10  628M    0     0  1001k      0  1:43:48  0:10:42  1:33:06  729k
+2026-11-24T08:16:10.7639624Z  10 6091M   10  628M    0     0  1000k      0  1:43:51  0:10:43  1:33:08  712k
+2026-11-24T08:16:11.7658719Z  10 6091M   10  629M    0     0  1000k      0  1:43:54  0:10:44  1:33:10  709k
+2026-11-24T08:16:12.7719281Z  10 6091M   10  630M    0     0   999k      0  1:43:58  0:10:45  1:33:13  698k
+2026-11-24T08:16:13.7663937Z  10 6091M   10  630M    0     0   999k      0  1:44:01  0:10:46  1:33:15  687k
+2026-11-24T08:16:14.7629606Z  10 6091M   10  631M    0     0   999k      0  1:44:03  0:10:47  1:33:16  687k
+2026-11-24T08:16:15.7630493Z  10 6091M   10  632M    0     0   998k      0  1:44:05  0:10:48  1:33:17  701k
+2026-11-24T08:16:16.7626513Z  10 6091M   10  632M    0     0   998k      0  1:44:08  0:10:49  1:33:19  707k
+2026-11-24T08:16:17.7624094Z  10 6091M   10  633M    0     0   997k      0  1:44:12  0:10:50  1:33:22  703k
+2026-11-24T08:16:18.7626054Z  10 6091M   10  634M    0     0   997k      0  1:44:15  0:10:51  1:33:24  698k
+2026-11-24T08:16:19.7638593Z  10 6091M   10  634M    0     0   996k      0  1:44:18  0:10:52  1:33:26  687k
+2026-11-24T08:16:20.7623012Z  10 6091M   10  635M    0     0   996k      0  1:44:20  0:10:53  1:33:27  689k
+2026-11-24T08:16:21.7661710Z  10 6091M   10  636M    0     0   995k      0  1:44:23  0:10:54  1:33:29  682k
+2026-11-24T08:16:22.7657339Z  10 6091M   10  636M    0     0   995k      0  1:44:26  0:10:55  1:33:31  699k
+2026-11-24T08:16:23.7634667Z  10 6091M   10  637M    0     0   994k      0  1:44:30  0:10:56  1:33:34  693k
+2026-11-24T08:16:24.7629204Z  10 6091M   10  638M    0     0   994k      0  1:44:33  0:10:57  1:33:36  687k
+2026-11-24T08:16:25.7693270Z  10 6091M   10  638M    0     0   993k      0  1:44:35  0:10:58  1:33:37  682k
+2026-11-24T08:16:26.7641435Z  10 6091M   10  639M    0     0   993k      0  1:44:37  0:10:59  1:33:38  702k
+2026-11-24T08:16:27.7647756Z  10 6091M   10  640M    0     0   993k      0  1:44:40  0:11:00  1:33:40  695k
+2026-11-24T08:16:28.7637902Z  10 6091M   10  641M    0     0   992k      0  1:44:42  0:11:01  1:33:41  728k
+2026-11-24T08:16:29.8470094Z  10 6091M   10  641M    0     0   992k      0  1:44:45  0:11:02  1:33:43  729k
+2026-11-24T08:16:30.7631565Z  10 6091M   10  642M    0     0   991k      0  1:44:48  0:11:03  1:33:45  719k
+2026-11-24T08:16:31.7691799Z  10 6091M   10  643M    0     0   991k      0  1:44:51  0:11:04  1:33:47  707k
+2026-11-24T08:16:32.7627072Z  10 6091M   10  643M    0     0   990k      0  1:44:54  0:11:05  1:33:49  708k
+2026-11-24T08:16:33.7647711Z  10 6091M   10  644M    0     0   990k      0  1:44:57  0:11:06  1:33:51  695k
+2026-11-24T08:16:34.7639024Z  10 6091M   10  645M    0     0   990k      0  1:45:00  0:11:07  1:33:53  689k
+2026-11-24T08:16:35.7629866Z  10 6091M   10  645M    0     0   989k      0  1:45:02  0:11:08  1:33:54  694k
+2026-11-24T08:16:36.7677890Z  10 6091M   10  646M    0     0   989k      0  1:45:05  0:11:09  1:33:56  703k
+2026-11-24T08:16:37.7626903Z  10 6091M   10  647M    0     0   988k      0  1:45:08  0:11:10  1:33:58  697k
+2026-11-24T08:16:38.7633737Z  10 6091M   10  647M    0     0   988k      0  1:45:11  0:11:11  1:34:00  693k
+2026-11-24T08:16:39.7650185Z  10 6091M   10  648M    0     0   988k      0  1:45:13  0:11:12  1:34:01  714k
+2026-11-24T08:16:40.7639043Z  10 6091M   10  649M    0     0   987k      0  1:45:15  0:11:13  1:34:02  731k
+2026-11-24T08:16:41.7644853Z  10 6091M   10  650M    0     0   987k      0  1:45:17  0:11:14  1:34:03  729k
+2026-11-24T08:16:42.7653511Z  10 6091M   10  650M    0     0   986k      0  1:45:20  0:11:15  1:34:05  744k
+2026-11-24T08:16:43.7653991Z  10 6091M   10  651M    0     0   986k      0  1:45:22  0:11:16  1:34:06  738k
+2026-11-24T08:16:44.7629048Z  10 6091M   10  652M    0     0   986k      0  1:45:25  0:11:17  1:34:08  720k
+2026-11-24T08:16:45.7661583Z  10 6091M   10  652M    0     0   985k      0  1:45:28  0:11:18  1:34:10  701k
+2026-11-24T08:16:46.7644772Z  10 6091M   10  653M    0     0   985k      0  1:45:30  0:11:19  1:34:11  705k
+2026-11-24T08:16:47.7643451Z  10 6091M   10  654M    0     0   984k      0  1:45:33  0:11:20  1:34:13  692k
+2026-11-24T08:16:48.7637350Z  10 6091M   10  654M    0     0   984k      0  1:45:36  0:11:21  1:34:15  706k
+2026-11-24T08:16:49.7661731Z  10 6091M   10  655M    0     0   983k      0  1:45:39  0:11:22  1:34:17  700k
+2026-11-24T08:16:50.7630504Z  10 6091M   10  656M    0     0   983k      0  1:45:42  0:11:23  1:34:19  691k
+2026-11-24T08:16:51.7639599Z  10 6091M   10  656M    0     0   983k      0  1:45:45  0:11:24  1:34:21  681k
+2026-11-24T08:16:52.7660372Z  10 6091M   10  657M    0     0   982k      0  1:45:48  0:11:25  1:34:23  684k
+2026-11-24T08:16:53.7658687Z  10 6091M   10  658M    0     0   982k      0  1:45:50  0:11:26  1:34:24  671k
+2026-11-24T08:16:54.7646928Z  10 6091M   10  658M    0     0   981k      0  1:45:53  0:11:27  1:34:26  676k
+2026-11-24T08:16:55.7654485Z  10 6091M   10  659M    0     0   981k      0  1:45:57  0:11:28  1:34:29  667k
+2026-11-24T08:16:56.7634882Z  10 6091M   10  660M    0     0   980k      0  1:46:00  0:11:29  1:34:31  660k
+2026-11-24T08:16:57.7653632Z  10 6091M   10  660M    0     0   980k      0  1:46:02  0:11:30  1:34:32  670k
+2026-11-24T08:16:58.7653482Z  10 6091M   10  661M    0     0   979k      0  1:46:06  0:11:31  1:34:35  653k
+2026-11-24T08:16:59.7646274Z  10 6091M   10  662M    0     0   979k      0  1:46:08  0:11:32  1:34:36  662k
+2026-11-24T08:17:00.7655905Z  10 6091M   10  662M    0     0   978k      0  1:46:12  0:11:33  1:34:39  659k
+2026-11-24T08:17:01.7631001Z  10 6091M   10  663M    0     0   978k      0  1:46:15  0:11:34  1:34:41  648k
+2026-11-24T08:17:02.7668038Z  10 6091M   10  663M    0     0   977k      0  1:46:18  0:11:35  1:34:43  635k
+2026-11-24T08:17:03.7669547Z  10 6091M   10  664M    0     0   977k      0  1:46:21  0:11:36  1:34:45  643k
+2026-11-24T08:17:04.7656172Z  10 6091M   10  665M    0     0   976k      0  1:46:25  0:11:37  1:34:48  631k
+2026-11-24T08:17:05.7632658Z  10 6091M   10  665M    0     0   976k      0  1:46:29  0:11:38  1:34:51  621k
+2026-11-24T08:17:06.7650354Z  10 6091M   10  666M    0     0   975k      0  1:46:32  0:11:39  1:34:53  618k
+2026-11-24T08:17:07.7732596Z  10 6091M   10  666M    0     0   975k      0  1:46:35  0:11:40  1:34:55  617k
+2026-11-24T08:17:08.7664008Z  10 6091M   10  667M    0     0   974k      0  1:46:40  0:11:41  1:34:59  580k
+2026-11-24T08:17:09.7659518Z  10 6091M   10  667M    0     0   973k      0  1:46:45  0:11:42  1:35:03  540k
+2026-11-24T08:17:10.7642251Z  10 6091M   10  668M    0     0   973k      0  1:46:49  0:11:43  1:35:06  531k
+2026-11-24T08:17:11.8528562Z  10 6091M   10  668M    0     0   972k      0  1:46:53  0:11:44  1:35:09  528k
+2026-11-24T08:17:12.7637713Z  10 6091M   10  669M    0     0   971k      0  1:46:57  0:11:45  1:35:12  514k
+2026-11-24T08:17:13.8293002Z  10 6091M   10  670M    0     0   971k      0  1:47:00  0:11:46  1:35:14  547k
+2026-11-24T08:17:14.7671585Z  11 6091M   11  670M    0     0   970k      0  1:47:04  0:11:47  1:35:17  577k
+2026-11-24T08:17:15.7712521Z  11 6091M   11  671M    0     0   970k      0  1:47:07  0:11:48  1:35:19  593k
+2026-11-24T08:17:16.7656521Z  11 6091M   11  671M    0     0   969k      0  1:47:11  0:11:49  1:35:22  593k
+2026-11-24T08:17:17.7664923Z  11 6091M   11  672M    0     0   969k      0  1:47:14  0:11:50  1:35:24  607k
+2026-11-24T08:17:18.7666731Z  11 6091M   11  673M    0     0   969k      0  1:47:16  0:11:51  1:35:25  624k
+2026-11-24T08:17:19.7632759Z  11 6091M   11  673M    0     0   968k      0  1:47:18  0:11:52  1:35:26  667k
+2026-11-24T08:17:20.7663144Z  11 6091M   11  674M    0     0   968k      0  1:47:19  0:11:53  1:35:26  708k
+2026-11-24T08:17:21.7691432Z  11 6091M   11  675M    0     0   968k      0  1:47:22  0:11:54  1:35:28  730k
+2026-11-24T08:17:22.7633507Z  11 6091M   11  676M    0     0   967k      0  1:47:24  0:11:55  1:35:29  741k
+2026-11-24T08:17:23.7635358Z  11 6091M   11  676M    0     0   967k      0  1:47:27  0:11:56  1:35:31  731k
+2026-11-24T08:17:24.7647459Z  11 6091M   11  677M    0     0   967k      0  1:47:29  0:11:57  1:35:32  717k
+2026-11-24T08:17:25.7653900Z  11 6091M   11  678M    0     0   966k      0  1:47:32  0:11:58  1:35:34  701k
+2026-11-24T08:17:26.7637365Z  11 6091M   11  678M    0     0   966k      0  1:47:34  0:11:59  1:35:35  695k
+2026-11-24T08:17:27.7641599Z  11 6091M   11  679M    0     0   965k      0  1:47:37  0:12:00  1:35:37  692k
+2026-11-24T08:17:28.7687450Z  11 6091M   11  679M    0     0   965k      0  1:47:40  0:12:01  1:35:39  681k
+2026-11-24T08:17:29.7634308Z  11 6091M   11  680M    0     0   965k      0  1:47:43  0:12:02  1:35:41  669k
+2026-11-24T08:17:30.7773639Z  11 6091M   11  681M    0     0   964k      0  1:47:45  0:12:03  1:35:42  672k
+2026-11-24T08:17:31.7659707Z  11 6091M   11  682M    0     0   964k      0  1:47:47  0:12:04  1:35:43  690k
+2026-11-24T08:17:32.7668492Z  11 6091M   11  682M    0     0   964k      0  1:47:50  0:12:05  1:35:45  685k
+2026-11-24T08:17:33.7642843Z  11 6091M   11  683M    0     0   963k      0  1:47:53  0:12:06  1:35:47  693k
+2026-11-24T08:17:34.7647471Z  11 6091M   11  684M    0     0   963k      0  1:47:56  0:12:07  1:35:49  688k
+2026-11-24T08:17:35.7650105Z  11 6091M   11  684M    0     0   962k      0  1:47:58  0:12:08  1:35:50  679k
+2026-11-24T08:17:36.7672839Z  11 6091M   11  685M    0     0   962k      0  1:48:00  0:12:09  1:35:51  681k
+2026-11-24T08:17:37.7642848Z  11 6091M   11  686M    0     0   962k      0  1:48:03  0:12:10  1:35:53  684k
+2026-11-24T08:17:38.7638912Z  11 6091M   11  686M    0     0   961k      0  1:48:05  0:12:11  1:35:54  703k
+2026-11-24T08:17:39.7674479Z  11 6091M   11  687M    0     0   961k      0  1:48:08  0:12:12  1:35:56  703k
+2026-11-24T08:17:40.7670323Z  11 6091M   11  688M    0     0   960k      0  1:48:10  0:12:13  1:35:57  701k
+2026-11-24T08:17:41.7639481Z  11 6091M   11  688M    0     0   960k      0  1:48:13  0:12:14  1:35:59  692k
+2026-11-24T08:17:42.7670040Z  11 6091M   11  689M    0     0   960k      0  1:48:15  0:12:15  1:36:00  689k
+2026-11-24T08:17:43.7666812Z  11 6091M   11  690M    0     0   959k      0  1:48:18  0:12:16  1:36:02  679k
+2026-11-24T08:17:44.7656152Z  11 6091M   11  690M    0     0   959k      0  1:48:20  0:12:17  1:36:03  693k
+2026-11-24T08:17:45.7665911Z  11 6091M   11  691M    0     0   959k      0  1:48:23  0:12:18  1:36:05  690k
+2026-11-24T08:17:46.7699516Z  11 6091M   11  692M    0     0   958k      0  1:48:25  0:12:19  1:36:06  700k
+2026-11-24T08:17:47.7656528Z  11 6091M   11  692M    0     0   958k      0  1:48:28  0:12:20  1:36:08  694k
+2026-11-24T08:17:48.7635564Z  11 6091M   11  693M    0     0   958k      0  1:48:30  0:12:21  1:36:09  700k
+2026-11-24T08:17:49.7669860Z  11 6091M   11  694M    0     0   957k      0  1:48:32  0:12:22  1:36:10  698k
+2026-11-24T08:17:50.7645232Z  11 6091M   11  694M    0     0   957k      0  1:48:35  0:12:23  1:36:12  699k
+2026-11-24T08:17:51.7663556Z  11 6091M   11  695M    0     0   956k      0  1:48:37  0:12:24  1:36:13  676k
+2026-11-24T08:17:52.7671306Z  11 6091M   11  696M    0     0   956k      0  1:48:41  0:12:25  1:36:16  670k
+2026-11-24T08:17:53.7665091Z  11 6091M   11  696M    0     0   956k      0  1:48:43  0:12:26  1:36:17  659k
+2026-11-24T08:17:54.7635726Z  11 6091M   11  697M    0     0   955k      0  1:48:45  0:12:27  1:36:18  663k
+2026-11-24T08:17:55.7663802Z  11 6091M   11  698M    0     0   955k      0  1:48:47  0:12:28  1:36:19  691k
+2026-11-24T08:17:56.7654740Z  11 6091M   11  699M    0     0   955k      0  1:48:48  0:12:29  1:36:19  731k
+2026-11-24T08:17:57.7648278Z  11 6091M   11  700M    0     0   955k      0  1:48:48  0:12:30  1:36:18  796k
+2026-11-24T08:17:58.7643848Z  11 6091M   11  701M    0     0   955k      0  1:48:47  0:12:31  1:36:16  872k
+2026-11-24T08:17:59.7659427Z  11 6091M   11  702M    0     0   955k      0  1:48:46  0:12:32  1:36:14  936k
+2026-11-24T08:18:00.7639420Z  11 6091M   11  703M    0     0   955k      0  1:48:46  0:12:33  1:36:13  979k
+2026-11-24T08:18:01.7641501Z  11 6091M   11  703M    0     0   955k      0  1:48:46  0:12:34  1:36:12  995k
+2026-11-24T08:18:02.7661604Z  11 6091M   11  704M    0     0   955k      0  1:48:46  0:12:35  1:36:11  995k
+2026-11-24T08:18:03.7658013Z  11 6091M   11  705M    0     0   955k      0  1:48:46  0:12:36  1:36:10  976k
+2026-11-24T08:18:04.7649904Z  11 6091M   11  706M    0     0   955k      0  1:48:46  0:12:37  1:36:09  954k
+2026-11-24T08:18:05.7657512Z  11 6091M   11  707M    0     0   955k      0  1:48:47  0:12:38  1:36:09  935k
+2026-11-24T08:18:06.7653423Z  11 6091M   11  708M    0     0   955k      0  1:48:47  0:12:39  1:36:08  934k
+2026-11-24T08:18:07.7637685Z  11 6091M   11  709M    0     0   955k      0  1:48:47  0:12:40  1:36:07  945k
+2026-11-24T08:18:08.7659541Z  11 6091M   11  710M    0     0   955k      0  1:48:46  0:12:41  1:36:05  953k
+2026-11-24T08:18:09.7641224Z  11 6091M   11  711M    0     0   955k      0  1:48:46  0:12:42  1:36:04  960k
+2026-11-24T08:18:10.7664679Z  11 6091M   11  712M    0     0   955k      0  1:48:46  0:12:43  1:36:03  968k
+2026-11-24T08:18:11.7639447Z  11 6091M   11  713M    0     0   955k      0  1:48:46  0:12:44  1:36:02  985k
+2026-11-24T08:18:12.7658857Z  11 6091M   11  714M    0     0   955k      0  1:48:45  0:12:45  1:36:00  983k
+2026-11-24T08:18:13.7648509Z  11 6091M   11  715M    0     0   955k      0  1:48:45  0:12:46  1:35:59  980k
+2026-11-24T08:18:14.7658174Z  11 6091M   11  716M    0     0   955k      0  1:48:45  0:12:47  1:35:58  986k
+2026-11-24T08:18:15.7647195Z  11 6091M   11  717M    0     0   955k      0  1:48:44  0:12:48  1:35:56  995k
+2026-11-24T08:18:16.7639545Z  11 6091M   11  718M    0     0   956k      0  1:48:44  0:12:49  1:35:55  992k
+2026-11-24T08:18:17.7668087Z  11 6091M   11  719M    0     0   956k      0  1:48:44  0:12:50  1:35:54  990k
+2026-11-24T08:18:18.7652555Z  11 6091M   11  720M    0     0   956k      0  1:48:44  0:12:51  1:35:53  987k
+2026-11-24T08:18:19.7657111Z  11 6091M   11  721M    0     0   956k      0  1:48:44  0:12:52  1:35:52  981k
+2026-11-24T08:18:20.7660626Z  11 6091M   11  722M    0     0   956k      0  1:48:43  0:12:53  1:35:50  981k
+2026-11-24T08:18:21.7649066Z  11 6091M   11  723M    0     0   956k      0  1:48:42  0:12:54  1:35:48  993k
+2026-11-24T08:18:22.7641654Z  11 6091M   11  723M    0     0   956k      0  1:48:42  0:12:55  1:35:47  996k
+2026-11-24T08:18:23.7652935Z  11 6091M   11  724M    0     0   956k      0  1:48:41  0:12:56  1:35:45 1009k
+2026-11-24T08:18:24.7652192Z  11 6091M   11  725M    0     0   956k      0  1:48:41  0:12:57  1:35:44 1021k
+2026-11-24T08:18:25.7660557Z  11 6091M   11  727M    0     0   956k      0  1:48:40  0:12:58  1:35:42 1032k
+2026-11-24T08:18:26.7643219Z  11 6091M   11  728M    0     0   956k      0  1:48:39  0:12:59  1:35:40 1039k
+2026-11-24T08:18:27.7661290Z  11 6091M   11  729M    0     0   956k      0  1:48:38  0:13:00  1:35:38 1053k
+2026-11-24T08:18:28.7651449Z  11 6091M   11  730M    0     0   957k      0  1:48:37  0:13:01  1:35:36 1063k
+2026-11-24T08:18:29.7650147Z  12 6091M   12  731M    0     0   957k      0  1:48:36  0:13:02  1:35:34 1075k
+2026-11-24T08:18:30.7647577Z  12 6091M   12  732M    0     0   957k      0  1:48:34  0:13:03  1:35:31 1084k
+2026-11-24T08:18:31.7660717Z  12 6091M   12  733M    0     0   957k      0  1:48:33  0:13:04  1:35:29 1090k
+2026-11-24T08:18:32.7659778Z  12 6091M   12  734M    0     0   957k      0  1:48:32  0:13:05  1:35:27 1090k
+2026-11-24T08:18:33.7650400Z  12 6091M   12  735M    0     0   957k      0  1:48:31  0:13:06  1:35:25 1081k
+2026-11-24T08:18:34.7651585Z  12 6091M   12  736M    0     0   957k      0  1:48:31  0:13:07  1:35:24 1070k
+2026-11-24T08:18:35.7659677Z  12 6091M   12  737M    0     0   958k      0  1:48:30  0:13:08  1:35:22 1060k
+2026-11-24T08:18:36.7660654Z  12 6091M   12  738M    0     0   958k      0  1:48:29  0:13:09  1:35:20 1056k
+2026-11-24T08:18:37.7663930Z  12 6091M   12  739M    0     0   958k      0  1:48:28  0:13:10  1:35:18 1048k
+2026-11-24T08:18:38.7661205Z  12 6091M   12  740M    0     0   958k      0  1:48:28  0:13:11  1:35:17 1048k
+2026-11-24T08:18:39.7663390Z  12 6091M   12  741M    0     0   958k      0  1:48:26  0:13:12  1:35:14 1057k
+2026-11-24T08:18:40.7652987Z  12 6091M   12  742M    0     0   958k      0  1:48:26  0:13:13  1:35:13 1056k
+2026-11-24T08:18:41.7647245Z  12 6091M   12  743M    0     0   958k      0  1:48:25  0:13:14  1:35:11 1053k
+2026-11-24T08:18:42.7654069Z  12 6091M   12  744M    0     0   959k      0  1:48:24  0:13:15  1:35:09 1065k
+2026-11-24T08:18:43.7669825Z  12 6091M   12  745M    0     0   959k      0  1:48:22  0:13:16  1:35:06 1084k
+2026-11-24T08:18:44.7645009Z  12 6091M   12  747M    0     0   959k      0  1:48:20  0:13:17  1:35:03 1104k
+2026-11-24T08:18:45.7649943Z  12 6091M   12  748M    0     0   959k      0  1:48:19  0:13:18  1:35:01 1122k
+2026-11-24T08:18:46.7656800Z  12 6091M   12  749M    0     0   960k      0  1:48:16  0:13:19  1:34:57 1156k
+2026-11-24T08:18:47.7648946Z  12 6091M   12  750M    0     0   960k      0  1:48:14  0:13:20  1:34:54 1189k
+2026-11-24T08:18:48.7648577Z  12 6091M   12  751M    0     0   960k      0  1:48:11  0:13:21  1:34:50 1212k
+2026-11-24T08:18:49.7669247Z  12 6091M   12  752M    0     0   961k      0  1:48:10  0:13:22  1:34:48 1205k
+2026-11-24T08:18:50.7656538Z  12 6091M   12  753M    0     0   961k      0  1:48:10  0:13:23  1:34:47 1168k
+2026-11-24T08:18:51.7655101Z  12 6091M   12  754M    0     0   961k      0  1:48:10  0:13:24  1:34:46 1110k
+2026-11-24T08:18:52.7660690Z  12 6091M   12  755M    0     0   961k      0  1:48:10  0:13:25  1:34:45 1051k
+2026-11-24T08:18:53.7646915Z  12 6091M   12  756M    0     0   961k      0  1:48:10  0:13:26  1:34:44  998k
+2026-11-24T08:18:54.7660903Z  12 6091M   12  757M    0     0   961k      0  1:48:10  0:13:27  1:34:43  957k
+2026-11-24T08:18:55.7646495Z  12 6091M   12  758M    0     0   961k      0  1:48:10  0:13:28  1:34:42  956k
+2026-11-24T08:18:56.7662879Z  12 6091M   12  759M    0     0   961k      0  1:48:09  0:13:29  1:34:40  975k
+2026-11-24T08:18:57.7669380Z  12 6091M   12  760M    0     0   961k      0  1:48:07  0:13:30  1:34:37 1021k
+2026-11-24T08:18:58.7655212Z  12 6091M   12  761M    0     0   961k      0  1:48:06  0:13:31  1:34:35 1062k
+2026-11-24T08:18:59.7652910Z  12 6091M   12  763M    0     0   962k      0  1:48:03  0:13:32  1:34:31 1129k
+2026-11-24T08:19:00.7656129Z  12 6091M   12  764M    0     0   962k      0  1:48:00  0:13:33  1:34:27 1200k
+2026-11-24T08:19:01.7660148Z  12 6091M   12  765M    0     0   962k      0  1:47:57  0:13:34  1:34:23 1253k
+2026-11-24T08:19:02.7646662Z  12 6091M   12  766M    0     0   963k      0  1:47:55  0:13:35  1:34:20 1273k
+2026-11-24T08:19:03.7653692Z  12 6091M   12  768M    0     0   963k      0  1:47:52  0:13:36  1:34:16 1283k
+2026-11-24T08:19:04.7665662Z  12 6091M   12  769M    0     0   963k      0  1:47:50  0:13:37  1:34:13 1275k
+2026-11-24T08:19:05.7652568Z  12 6091M   12  770M    0     0   964k      0  1:47:48  0:13:38  1:34:10 1257k
+2026-11-24T08:19:06.7652234Z  12 6091M   12  771M    0     0   964k      0  1:47:46  0:13:39  1:34:07 1232k
+2026-11-24T08:19:07.7653648Z  12 6091M   12  772M    0     0   964k      0  1:47:43  0:13:40  1:34:03 1234k
+2026-11-24T08:19:08.7657886Z  12 6091M   12  774M    0     0   965k      0  1:47:41  0:13:41  1:34:00 1235k
+2026-11-24T08:19:09.7647577Z  12 6091M   12  775M    0     0   965k      0  1:47:40  0:13:42  1:33:58 1214k
+2026-11-24T08:19:10.7650221Z  12 6091M   12  776M    0     0   965k      0  1:47:39  0:13:43  1:33:56 1183k
+2026-11-24T08:19:11.7647304Z  12 6091M   12  777M    0     0   965k      0  1:47:39  0:13:44  1:33:55 1150k
+2026-11-24T08:19:12.7655224Z  12 6091M   12  778M    0     0   965k      0  1:47:38  0:13:45  1:33:53 1092k
+2026-11-24T08:19:13.7667592Z  12 6091M   12  779M    0     0   965k      0  1:47:38  0:13:46  1:33:52 1048k
+2026-11-24T08:19:14.7650817Z  12 6091M   12  780M    0     0   965k      0  1:47:37  0:13:47  1:33:50 1029k
+2026-11-24T08:19:15.7665668Z  12 6091M   12  781M    0     0   966k      0  1:47:37  0:13:48  1:33:49 1028k
+2026-11-24T08:19:16.7658525Z  12 6091M   12  782M    0     0   966k      0  1:47:36  0:13:49  1:33:47 1035k
+2026-11-24T08:19:17.7658903Z  12 6091M   12  783M    0     0   966k      0  1:47:35  0:13:50  1:33:45 1056k
+2026-11-24T08:19:18.7650343Z  12 6091M   12  784M    0     0   966k      0  1:47:32  0:13:51  1:33:41 1123k
+2026-11-24T08:19:19.7653122Z  12 6091M   12  786M    0     0   967k      0  1:47:28  0:13:52  1:33:36 1203k
+2026-11-24T08:19:20.7657547Z  12 6091M   12  787M    0     0   967k      0  1:47:24  0:13:53  1:33:31 1281k
+2026-11-24T08:19:21.7664084Z  12 6091M   12  788M    0     0   968k      0  1:47:20  0:13:54  1:33:26 1354k
+2026-11-24T08:19:22.7661074Z  12 6091M   12  790M    0     0   969k      0  1:47:17  0:13:55  1:33:22 1421k
+2026-11-24T08:19:23.7661960Z  12 6091M   12  791M    0     0   969k      0  1:47:13  0:13:56  1:33:17 1437k
+2026-11-24T08:19:24.7653194Z  13 6091M   13  793M    0     0   970k      0  1:47:09  0:13:57  1:33:12 1434k
+2026-11-24T08:19:25.7653849Z  13 6091M   13  794M    0     0   970k      0  1:47:06  0:13:58  1:33:08 1426k
+2026-11-24T08:19:26.7651442Z  13 6091M   13  795M    0     0   971k      0  1:47:02  0:13:59  1:33:03 1420k
+2026-11-24T08:19:27.7657276Z  13 6091M   13  797M    0     0   971k      0  1:47:00  0:14:00  1:33:00 1395k
+2026-11-24T08:19:28.7652488Z  13 6091M   13  798M    0     0   972k      0  1:46:57  0:14:01  1:32:56 1379k
+2026-11-24T08:19:29.7662943Z  13 6091M   13  799M    0     0   972k      0  1:46:54  0:14:02  1:32:52 1350k
+2026-11-24T08:19:30.7659304Z  13 6091M   13  800M    0     0   972k      0  1:46:53  0:14:03  1:32:50 1303k
+2026-11-24T08:19:31.7653008Z  13 6091M   13  802M    0     0   972k      0  1:46:51  0:14:04  1:32:47 1268k
+2026-11-24T08:19:32.7650991Z  13 6091M   13  803M    0     0   973k      0  1:46:48  0:14:05  1:32:43 1259k
+2026-11-24T08:19:33.7663889Z  13 6091M   13  804M    0     0   973k      0  1:46:45  0:14:06  1:32:39 1268k
+2026-11-24T08:19:34.7658139Z  13 6091M   13  806M    0     0   974k      0  1:46:41  0:14:07  1:32:34 1316k
+2026-11-24T08:19:35.7663311Z  13 6091M   13  807M    0     0   974k      0  1:46:39  0:14:08  1:32:31 1335k
+2026-11-24T08:19:36.7658938Z  13 6091M   13  808M    0     0   975k      0  1:46:37  0:14:09  1:32:28 1339k
+2026-11-24T08:19:37.7669298Z  13 6091M   13  809M    0     0   975k      0  1:46:34  0:14:10  1:32:24 1342k
+2026-11-24T08:19:38.7652357Z  13 6091M   13  811M    0     0   975k      0  1:46:32  0:14:11  1:32:21 1313k
+2026-11-24T08:19:39.7658907Z  13 6091M   13  812M    0     0   976k      0  1:46:30  0:14:12  1:32:18 1267k
+2026-11-24T08:19:40.7669661Z  13 6091M   13  813M    0     0   976k      0  1:46:27  0:14:13  1:32:14 1276k
+2026-11-24T08:19:41.7656388Z  13 6091M   13  814M    0     0   976k      0  1:46:25  0:14:14  1:32:11 1276k
+2026-11-24T08:19:42.7671579Z  13 6091M   13  816M    0     0   977k      0  1:46:23  0:14:15  1:32:08 1260k
+2026-11-24T08:19:43.7652450Z  13 6091M   13  817M    0     0   977k      0  1:46:22  0:14:16  1:32:06 1248k
+2026-11-24T08:19:44.7670260Z  13 6091M   13  818M    0     0   977k      0  1:46:20  0:14:17  1:32:03 1229k
+2026-11-24T08:19:45.7656770Z  13 6091M   13  819M    0     0   977k      0  1:46:18  0:14:18  1:32:00 1209k
+2026-11-24T08:19:46.7653581Z  13 6091M   13  820M    0     0   978k      0  1:46:16  0:14:19  1:31:57 1208k
+2026-11-24T08:19:47.7652309Z  13 6091M   13  822M    0     0   978k      0  1:46:13  0:14:20  1:31:53 1259k
+2026-11-24T08:19:48.7655661Z  13 6091M   13  823M    0     0   979k      0  1:46:09  0:14:21  1:31:48 1319k
+2026-11-24T08:19:49.7668579Z  13 6091M   13  825M    0     0   979k      0  1:46:05  0:14:22  1:31:43 1384k
+2026-11-24T08:19:50.7669518Z  13 6091M   13  826M    0     0   980k      0  1:46:01  0:14:23  1:31:38 1423k
+2026-11-24T08:19:51.7663535Z  13 6091M   13  827M    0     0   980k      0  1:45:58  0:14:24  1:31:34 1452k
+2026-11-24T08:19:52.7667803Z  13 6091M   13  829M    0     0   981k      0  1:45:55  0:14:25  1:31:30 1439k
+2026-11-24T08:19:53.7653033Z  13 6091M   13  830M    0     0   981k      0  1:45:52  0:14:26  1:31:26 1416k
+2026-11-24T08:19:54.7664316Z  13 6091M   13  832M    0     0   982k      0  1:45:49  0:14:27  1:31:22 1406k
+2026-11-24T08:19:55.7658761Z  13 6091M   13  833M    0     0   982k      0  1:45:45  0:14:28  1:31:17 1409k
+2026-11-24T08:19:56.7667478Z  13 6091M   13  834M    0     0   983k      0  1:45:43  0:14:29  1:31:14 1392k
+2026-11-24T08:19:57.7660063Z  13 6091M   13  835M    0     0   983k      0  1:45:42  0:14:30  1:31:12 1342k
+2026-11-24T08:19:58.7661472Z  13 6091M   13  837M    0     0   983k      0  1:45:40  0:14:31  1:31:09 1314k
+2026-11-24T08:19:59.7669052Z  13 6091M   13  838M    0     0   984k      0  1:45:37  0:14:32  1:31:05 1301k
+2026-11-24T08:20:00.7654492Z  13 6091M   13  839M    0     0   984k      0  1:45:34  0:14:33  1:31:01 1296k
+2026-11-24T08:20:01.7662065Z  13 6091M   13  841M    0     0   985k      0  1:45:30  0:14:34  1:30:56 1328k
+2026-11-24T08:20:02.7665929Z  13 6091M   13  842M    0     0   985k      0  1:45:27  0:14:35  1:30:52 1393k
+2026-11-24T08:20:03.7664320Z  13 6091M   13  844M    0     0   986k      0  1:45:23  0:14:36  1:30:47 1439k
+2026-11-24T08:20:04.7657342Z  13 6091M   13  845M    0     0   986k      0  1:45:20  0:14:37  1:30:43 1454k
+2026-11-24T08:20:05.7663171Z  13 6091M   13  846M    0     0   987k      0  1:45:16  0:14:38  1:30:38 1478k
+2026-11-24T08:20:06.7663225Z  13 6091M   13  848M    0     0   988k      0  1:45:12  0:14:39  1:30:33 1490k
+2026-11-24T08:20:07.7666485Z  13 6091M   13  849M    0     0   988k      0  1:45:08  0:14:40  1:30:28 1501k
+2026-11-24T08:20:08.7663523Z  13 6091M   13  851M    0     0   989k      0  1:45:04  0:14:41  1:30:23 1523k
+2026-11-24T08:20:09.7669373Z  14 6091M   14  853M    0     0   990k      0  1:45:00  0:14:42  1:30:18 1543k
+2026-11-24T08:20:10.7661385Z  14 6091M   14  854M    0     0   990k      0  1:44:56  0:14:43  1:30:13 1551k
+2026-11-24T08:20:11.7659321Z  14 6091M   14  856M    0     0   991k      0  1:44:52  0:14:44  1:30:08 1550k
+2026-11-24T08:20:12.7657579Z  14 6091M   14  857M    0     0   991k      0  1:44:48  0:14:45  1:30:03 1556k
+2026-11-24T08:20:13.7659819Z  14 6091M   14  859M    0     0   992k      0  1:44:44  0:14:46  1:29:58 1551k
+2026-11-24T08:20:14.7664844Z  14 6091M   14  860M    0     0   993k      0  1:44:40  0:14:47  1:29:53 1543k
+2026-11-24T08:20:15.7665101Z  14 6091M   14  862M    0     0   993k      0  1:44:36  0:14:48  1:29:48 1543k
+2026-11-24T08:20:16.7665836Z  14 6091M   14  863M    0     0   994k      0  1:44:32  0:14:49  1:29:43 1542k
+2026-11-24T08:20:17.7656390Z  14 6091M   14  865M    0     0   995k      0  1:44:28  0:14:50  1:29:38 1545k
+2026-11-24T08:20:18.7663186Z  14 6091M   14  866M    0     0   995k      0  1:44:24  0:14:51  1:29:33 1557k
+2026-11-24T08:20:19.7667107Z  14 6091M   14  868M    0     0   996k      0  1:44:19  0:14:52  1:29:27 1590k
+2026-11-24T08:20:20.7661602Z  14 6091M   14  869M    0     0   997k      0  1:44:14  0:14:53  1:29:21 1618k
+2026-11-24T08:20:21.7665665Z  14 6091M   14  871M    0     0   998k      0  1:44:09  0:14:54  1:29:15 1665k
+2026-11-24T08:20:22.7663776Z  14 6091M   14  873M    0     0   998k      0  1:44:03  0:14:55  1:29:08 1698k
+2026-11-24T08:20:23.7671705Z  14 6091M   14  875M    0     0   999k      0  1:43:59  0:14:56  1:29:03 1714k
+2026-11-24T08:20:24.7662266Z  14 6091M   14  876M    0     0  1000k      0  1:43:54  0:14:57  1:28:57 1701k
+2026-11-24T08:20:25.7668276Z  14 6091M   14  878M    0     0  1001k      0  1:43:50  0:14:58  1:28:52 1684k
+2026-11-24T08:20:26.7670334Z  14 6091M   14  879M    0     0  1001k      0  1:43:46  0:14:59  1:28:47 1659k
+2026-11-24T08:20:27.7658699Z  14 6091M   14  881M    0     0  1002k      0  1:43:42  0:15:00  1:28:42 1629k
+2026-11-24T08:20:28.7664234Z  14 6091M   14  882M    0     0  1003k      0  1:43:38  0:15:01  1:28:37 1604k
+2026-11-24T08:20:29.7669498Z  14 6091M   14  884M    0     0  1003k      0  1:43:34  0:15:02  1:28:32 1578k
+2026-11-24T08:20:30.7660645Z  14 6091M   14  885M    0     0  1004k      0  1:43:31  0:15:03  1:28:28 1565k
+2026-11-24T08:20:31.7669688Z  14 6091M   14  887M    0     0  1004k      0  1:43:27  0:15:04  1:28:23 1534k
+2026-11-24T08:20:32.7668824Z  14 6091M   14  888M    0     0  1005k      0  1:43:24  0:15:05  1:28:19 1531k
+2026-11-24T08:20:33.7660742Z  14 6091M   14  890M    0     0  1005k      0  1:43:20  0:15:06  1:28:14 1515k
+2026-11-24T08:20:34.7665738Z  14 6091M   14  891M    0     0  1006k      0  1:43:17  0:15:07  1:28:10 1504k
+2026-11-24T08:20:35.7672730Z  14 6091M   14  893M    0     0  1006k      0  1:43:14  0:15:08  1:28:06 1479k
+2026-11-24T08:20:36.7676261Z  14 6091M   14  894M    0     0  1007k      0  1:43:11  0:15:09  1:28:02 1476k
+2026-11-24T08:20:37.7672789Z  14 6091M   14  895M    0     0  1007k      0  1:43:09  0:15:10  1:27:59 1448k
+2026-11-24T08:20:38.7666263Z  14 6091M   14  897M    0     0  1008k      0  1:43:05  0:15:11  1:27:54 1467k
+2026-11-24T08:20:39.7662327Z  14 6091M   14  898M    0     0  1009k      0  1:43:01  0:15:12  1:27:49 1493k
+2026-11-24T08:20:40.7681800Z  14 6091M   14  900M    0     0  1009k      0  1:42:58  0:15:13  1:27:45 1498k
+2026-11-24T08:20:41.7668809Z  14 6091M   14  901M    0     0  1009k      0  1:42:55  0:15:14  1:27:41 1484k
+2026-11-24T08:20:42.7663298Z  14 6091M   14  903M    0     0  1010k      0  1:42:53  0:15:15  1:27:38 1464k
+2026-11-24T08:20:43.7684231Z  14 6091M   14  904M    0     0  1010k      0  1:42:51  0:15:16  1:27:35 1419k
+2026-11-24T08:20:44.7683157Z  14 6091M   14  905M    0     0  1011k      0  1:42:49  0:15:17  1:27:32 1377k
+2026-11-24T08:20:45.7664078Z  14 6091M   14  907M    0     0  1011k      0  1:42:46  0:15:18  1:27:28 1357k
+2026-11-24T08:20:46.7663250Z  14 6091M   14  908M    0     0  1011k      0  1:42:44  0:15:19  1:27:25 1358k
+2026-11-24T08:20:47.7671144Z  14 6091M   14  909M    0     0  1012k      0  1:42:41  0:15:20  1:27:21 1367k
+2026-11-24T08:20:48.7670719Z  14 6091M   14  911M    0     0  1012k      0  1:42:39  0:15:21  1:27:18 1376k
+2026-11-24T08:20:49.7666764Z  14 6091M   14  912M    0     0  1013k      0  1:42:36  0:15:22  1:27:14 1381k
+2026-11-24T08:20:50.7665576Z  15 6091M   15  913M    0     0  1013k      0  1:42:34  0:15:23  1:27:11 1395k
+2026-11-24T08:20:51.7671947Z  15 6091M   15  915M    0     0  1013k      0  1:42:31  0:15:24  1:27:07 1400k
+2026-11-24T08:20:52.7661526Z  15 6091M   15  916M    0     0  1014k      0  1:42:29  0:15:25  1:27:04 1396k
+2026-11-24T08:20:53.7669851Z  15 6091M   15  917M    0     0  1014k      0  1:42:26  0:15:26  1:27:00 1392k
+2026-11-24T08:20:54.7665652Z  15 6091M   15  919M    0     0  1015k      0  1:42:24  0:15:27  1:26:57 1385k
+2026-11-24T08:20:55.7663942Z  15 6091M   15  920M    0     0  1015k      0  1:42:22  0:15:28  1:26:54 1368k
+2026-11-24T08:20:56.7675726Z  15 6091M   15  921M    0     0  1015k      0  1:42:20  0:15:29  1:26:51 1345k
+2026-11-24T08:20:57.7669496Z  15 6091M   15  923M    0     0  1016k      0  1:42:19  0:15:30  1:26:49 1329k
+2026-11-24T08:20:58.7677288Z  15 6091M   15  924M    0     0  1016k      0  1:42:17  0:15:31  1:26:46 1314k
+2026-11-24T08:20:59.7669492Z  15 6091M   15  925M    0     0  1016k      0  1:42:15  0:15:32  1:26:43 1309k
+2026-11-24T08:21:00.7677985Z  15 6091M   15  926M    0     0  1017k      0  1:42:12  0:15:33  1:26:39 1312k
+2026-11-24T08:21:01.7668687Z  15 6091M   15  928M    0     0  1017k      0  1:42:10  0:15:34  1:26:36 1326k
+2026-11-24T08:21:02.7686836Z  15 6091M   15  929M    0     0  1017k      0  1:42:09  0:15:35  1:26:34 1315k
+2026-11-24T08:21:03.7680565Z  15 6091M   15  930M    0     0  1017k      0  1:42:07  0:15:36  1:26:31 1304k
+2026-11-24T08:21:04.7669136Z  15 6091M   15  931M    0     0  1018k      0  1:42:06  0:15:37  1:26:29 1278k
+2026-11-24T08:21:05.7673345Z  15 6091M   15  933M    0     0  1018k      0  1:42:05  0:15:38  1:26:27 1254k
+2026-11-24T08:21:06.7665706Z  15 6091M   15  934M    0     0  1018k      0  1:42:03  0:15:39  1:26:24 1234k
+2026-11-24T08:21:07.7683111Z  15 6091M   15  935M    0     0  1018k      0  1:42:02  0:15:40  1:26:22 1232k
+2026-11-24T08:21:08.7670523Z  15 6091M   15  936M    0     0  1018k      0  1:42:01  0:15:41  1:26:20 1223k
+2026-11-24T08:21:09.7681201Z  15 6091M   15  937M    0     0  1019k      0  1:42:00  0:15:42  1:26:18 1220k
+2026-11-24T08:21:10.7687191Z  15 6091M   15  938M    0     0  1019k      0  1:41:59  0:15:43  1:26:16 1215k
+2026-11-24T08:21:11.7683470Z  15 6091M   15  940M    0     0  1019k      0  1:41:58  0:15:44  1:26:14 1199k
+2026-11-24T08:21:12.7667116Z  15 6091M   15  941M    0     0  1019k      0  1:41:57  0:15:45  1:26:12 1179k
+2026-11-24T08:21:13.7666830Z  15 6091M   15  942M    0     0  1019k      0  1:41:55  0:15:46  1:26:09 1195k
+2026-11-24T08:21:14.7666287Z  15 6091M   15  943M    0     0  1020k      0  1:41:54  0:15:47  1:26:07 1209k
+2026-11-24T08:21:15.7683115Z  15 6091M   15  944M    0     0  1020k      0  1:41:52  0:15:48  1:26:04 1225k
+2026-11-24T08:21:16.7677839Z  15 6091M   15  946M    0     0  1020k      0  1:41:51  0:15:49  1:26:02 1239k
+2026-11-24T08:21:17.7673953Z  15 6091M   15  947M    0     0  1020k      0  1:41:49  0:15:50  1:25:59 1257k
+2026-11-24T08:21:18.7676581Z  15 6091M   15  948M    0     0  1021k      0  1:41:47  0:15:51  1:25:56 1267k
+2026-11-24T08:21:19.7674863Z  15 6091M   15  949M    0     0  1021k      0  1:41:46  0:15:52  1:25:54 1279k
+2026-11-24T08:21:20.7669682Z  15 6091M   15  951M    0     0  1021k      0  1:41:43  0:15:53  1:25:50 1296k
+2026-11-24T08:21:21.7675375Z  15 6091M   15  952M    0     0  1022k      0  1:41:41  0:15:54  1:25:47 1331k
+2026-11-24T08:21:22.7677715Z  15 6091M   15  954M    0     0  1022k      0  1:41:39  0:15:55  1:25:44 1368k
+2026-11-24T08:21:23.7668185Z  15 6091M   15  955M    0     0  1023k      0  1:41:36  0:15:56  1:25:40 1376k
+2026-11-24T08:21:24.7669250Z  15 6091M   15  956M    0     0  1023k      0  1:41:34  0:15:57  1:25:37 1389k
+2026-11-24T08:21:25.7668123Z  15 6091M   15  958M    0     0  1023k      0  1:41:32  0:15:58  1:25:34 1389k
+2026-11-24T08:21:26.7669702Z  15 6091M   15  959M    0     0  1024k      0  1:41:30  0:15:59  1:25:31 1373k
+2026-11-24T08:21:27.7688367Z  15 6091M   15  960M    0     0  1024k      0  1:41:28  0:16:00  1:25:28 1351k
+2026-11-24T08:21:28.7670252Z  15 6091M   15  961M    0     0  1024k      0  1:41:27  0:16:01  1:25:26 1335k
+2026-11-24T08:21:29.7671652Z  15 6091M   15  963M    0     0  1024k      0  1:41:25  0:16:02  1:25:23 1317k
+2026-11-24T08:21:30.7668359Z  15 6091M   15  964M    0     0  1025k      0  1:41:23  0:16:03  1:25:20 1301k
+2026-11-24T08:21:31.7677876Z  15 6091M   15  965M    0     0  1025k      0  1:41:21  0:16:04  1:25:17 1300k
+2026-11-24T08:21:32.7675742Z  15 6091M   15  967M    0     0  1025k      0  1:41:19  0:16:05  1:25:14 1314k
+2026-11-24T08:21:33.7688346Z  15 6091M   15  968M    0     0  1026k      0  1:41:18  0:16:06  1:25:12 1320k
+2026-11-24T08:21:34.7668044Z  15 6091M   15  969M    0     0  1026k      0  1:41:16  0:16:07  1:25:09 1334k
+2026-11-24T08:21:35.7672666Z  15 6091M   15  971M    0     0  1026k      0  1:41:13  0:16:08  1:25:05 1353k
+2026-11-24T08:21:36.7680159Z  15 6091M   15  972M    0     0  1027k      0  1:41:11  0:16:09  1:25:02 1373k
+2026-11-24T08:21:37.7669796Z  15 6091M   15  973M    0     0  1027k      0  1:41:09  0:16:10  1:24:59 1375k
+2026-11-24T08:21:38.7668912Z  16 6091M   16  975M    0     0  1028k      0  1:41:07  0:16:11  1:24:56 1378k
+2026-11-24T08:21:39.7669606Z  16 6091M   16  976M    0     0  1028k      0  1:41:05  0:16:12  1:24:53 1378k
+2026-11-24T08:21:40.7673294Z  16 6091M   16  977M    0     0  1028k      0  1:41:03  0:16:13  1:24:50 1378k
+2026-11-24T08:21:41.7670096Z  16 6091M   16  979M    0     0  1029k      0  1:41:01  0:16:14  1:24:47 1364k
+2026-11-24T08:21:42.7681864Z  16 6091M   16  980M    0     0  1029k      0  1:40:58  0:16:15  1:24:43 1395k
+2026-11-24T08:21:43.7670355Z  16 6091M   16  982M    0     0  1030k      0  1:40:54  0:16:16  1:24:38 1452k
+2026-11-24T08:21:44.7676570Z  16 6091M   16  983M    0     0  1030k      0  1:40:51  0:16:17  1:24:34 1504k
+2026-11-24T08:21:45.7671072Z  16 6091M   16  985M    0     0  1031k      0  1:40:47  0:16:18  1:24:29 1560k
+2026-11-24T08:21:46.7680235Z  16 6091M   16  986M    0     0  1032k      0  1:40:43  0:16:19  1:24:24 1618k
+2026-11-24T08:21:47.7671806Z  16 6091M   16  988M    0     0  1032k      0  1:40:39  0:16:20  1:24:19 1650k
+2026-11-24T08:21:48.7675120Z  16 6091M   16  990M    0     0  1033k      0  1:40:35  0:16:21  1:24:14 1659k
+2026-11-24T08:21:49.7669290Z  16 6091M   16  991M    0     0  1034k      0  1:40:31  0:16:22  1:24:09 1670k
+2026-11-24T08:21:50.7689275Z  16 6091M   16  993M    0     0  1034k      0  1:40:27  0:16:23  1:24:04 1693k
+2026-11-24T08:21:51.7683299Z  16 6091M   16  995M    0     0  1035k      0  1:40:22  0:16:24  1:23:58 1723k
+2026-11-24T08:21:52.7674908Z  16 6091M   16  997M    0     0  1036k      0  1:40:19  0:16:25  1:23:54 1720k
+2026-11-24T08:21:53.7672404Z  16 6091M   16  998M    0     0  1036k      0  1:40:15  0:16:26  1:23:49 1717k
+2026-11-24T08:21:54.7682210Z  16 6091M   16 1000M    0     0  1037k      0  1:40:12  0:16:27  1:23:45 1701k
+2026-11-24T08:21:55.7670623Z  16 6091M   16 1001M    0     0  1038k      0  1:40:08  0:16:28  1:23:40 1666k
+2026-11-24T08:21:56.7672277Z  16 6091M   16 1003M    0     0  1038k      0  1:40:05  0:16:29  1:23:36 1622k
+2026-11-24T08:21:57.7676425Z  16 6091M   16 1004M    0     0  1039k      0  1:40:02  0:16:30  1:23:32 1603k
+2026-11-24T08:21:58.7677157Z  16 6091M   16 1006M    0     0  1039k      0  1:39:59  0:16:31  1:23:28 1600k
+2026-11-24T08:21:59.7681692Z  16 6091M   16 1008M    0     0  1040k      0  1:39:55  0:16:32  1:23:23 1607k
+2026-11-24T08:22:00.7672055Z  16 6091M   16 1009M    0     0  1040k      0  1:39:52  0:16:33  1:23:19 1612k
+2026-11-24T08:22:01.7674178Z  16 6091M   16 1011M    0     0  1041k      0  1:39:48  0:16:34  1:23:14 1632k
+2026-11-24T08:22:02.7678836Z  16 6091M   16 1013M    0     0  1042k      0  1:39:44  0:16:35  1:23:09 1668k
+2026-11-24T08:22:03.7686708Z  16 6091M   16 1014M    0     0  1042k      0  1:39:41  0:16:36  1:23:05 1660k
+2026-11-24T08:22:04.7685387Z  16 6091M   16 1016M    0     0  1043k      0  1:39:38  0:16:37  1:23:01 1651k
+2026-11-24T08:22:05.7671925Z  16 6091M   16 1017M    0     0  1044k      0  1:39:33  0:16:38  1:22:55 1675k
+2026-11-24T08:22:06.7681456Z  16 6091M   16 1019M    0     0  1044k      0  1:39:29  0:16:39  1:22:50 1689k
+2026-11-24T08:22:07.7687285Z  16 6091M   16 1021M    0     0  1045k      0  1:39:27  0:16:40  1:22:47 1650k
+2026-11-24T08:22:08.7689306Z  16 6091M   16 1022M    0     0  1045k      0  1:39:23  0:16:41  1:22:42 1650k
+2026-11-24T08:22:09.7689798Z  16 6091M   16 1024M    0     0  1046k      0  1:39:20  0:16:42  1:22:38 1648k
+2026-11-24T08:22:10.7676876Z  16 6091M   16 1025M    0     0  1046k      0  1:39:17  0:16:43  1:22:34 1610k
+2026-11-24T08:22:11.7677209Z  16 6091M   16 1027M    0     0  1047k      0  1:39:15  0:16:44  1:22:31 1565k
+2026-11-24T08:22:12.7676253Z  16 6091M   16 1028M    0     0  1048k      0  1:39:11  0:16:45  1:22:26 1584k
+2026-11-24T08:22:13.7688099Z  16 6091M   16 1030M    0     0  1048k      0  1:39:08  0:16:46  1:22:22 1590k
+2026-11-24T08:22:14.7686987Z  16 6091M   16 1031M    0     0  1049k      0  1:39:05  0:16:47  1:22:18 1592k
+2026-11-24T08:22:15.7682189Z  16 6091M   16 1033M    0     0  1049k      0  1:39:02  0:16:48  1:22:14 1603k
+2026-11-24T08:22:16.7689557Z  16 6091M   16 1035M    0     0  1050k      0  1:38:59  0:16:49  1:22:10 1621k
+2026-11-24T08:22:17.7680176Z  17 6091M   17 1036M    0     0  1050k      0  1:38:55  0:16:50  1:22:05 1624k
+2026-11-24T08:22:18.7686839Z  17 6091M   17 1038M    0     0  1051k      0  1:38:52  0:16:51  1:22:01 1637k
+2026-11-24T08:22:19.7682185Z  17 6091M   17 1040M    0     0  1052k      0  1:38:48  0:16:52  1:21:56 1667k
+2026-11-24T08:22:20.7686653Z  17 6091M   17 1041M    0     0  1052k      0  1:38:44  0:16:53  1:21:51 1689k
+2026-11-24T08:22:21.7675210Z  17 6091M   17 1043M    0     0  1053k      0  1:38:40  0:16:54  1:21:46 1725k
+2026-11-24T08:22:22.7682935Z  17 6091M   17 1045M    0     0  1054k      0  1:38:36  0:16:55  1:21:41 1750k
+2026-11-24T08:22:23.7677133Z  17 6091M   17 1047M    0     0  1055k      0  1:38:32  0:16:56  1:21:36 1767k
+2026-11-24T08:22:24.7682000Z  17 6091M   17 1048M    0     0  1055k      0  1:38:28  0:16:57  1:21:31 1773k
+2026-11-24T08:22:25.7677306Z  17 6091M   17 1050M    0     0  1056k      0  1:38:24  0:16:58  1:21:26 1785k
+2026-11-24T08:22:26.7680144Z  17 6091M   17 1052M    0     0  1057k      0  1:38:20  0:16:59  1:21:21 1775k
+2026-11-24T08:22:27.7676729Z  17 6091M   17 1053M    0     0  1057k      0  1:38:17  0:17:00  1:21:17 1750k
+2026-11-24T08:22:28.7677646Z  17 6091M   17 1055M    0     0  1058k      0  1:38:13  0:17:01  1:21:12 1725k
+2026-11-24T08:22:29.7686981Z  17 6091M   17 1057M    0     0  1058k      0  1:38:10  0:17:02  1:21:08 1692k
+2026-11-24T08:22:30.7693492Z  17 6091M   17 1058M    0     0  1059k      0  1:38:07  0:17:03  1:21:04 1664k
+2026-11-24T08:22:31.7687800Z  17 6091M   17 1060M    0     0  1060k      0  1:38:04  0:17:04  1:21:00 1652k
+2026-11-24T08:22:32.7680305Z  17 6091M   17 1061M    0     0  1060k      0  1:38:00  0:17:05  1:20:55 1659k
+2026-11-24T08:22:33.7679558Z  17 6091M   17 1063M    0     0  1061k      0  1:37:57  0:17:06  1:20:51 1675k
+2026-11-24T08:22:34.7683205Z  17 6091M   17 1065M    0     0  1061k      0  1:37:53  0:17:07  1:20:46 1703k
+2026-11-24T08:22:35.7682848Z  17 6091M   17 1067M    0     0  1062k      0  1:37:50  0:17:08  1:20:42 1714k
+2026-11-24T08:22:36.7676660Z  17 6091M   17 1068M    0     0  1063k      0  1:37:46  0:17:09  1:20:37 1719k
+2026-11-24T08:22:37.7682786Z  17 6091M   17 1070M    0     0  1063k      0  1:37:43  0:17:10  1:20:33 1725k
+2026-11-24T08:22:38.7693846Z  17 6091M   17 1071M    0     0  1064k      0  1:37:39  0:17:11  1:20:28 1712k
+2026-11-24T08:22:39.7691519Z  17 6091M   17 1073M    0     0  1065k      0  1:37:36  0:17:12  1:20:24 1696k
+2026-11-24T08:22:40.7676895Z  17 6091M   17 1075M    0     0  1065k      0  1:37:33  0:17:13  1:20:20 1675k
+2026-11-24T08:22:41.7687949Z  17 6091M   17 1076M    0     0  1066k      0  1:37:30  0:17:14  1:20:16 1676k
+2026-11-24T08:22:42.7688307Z  17 6091M   17 1078M    0     0  1066k      0  1:37:26  0:17:15  1:20:11 1685k
+2026-11-24T08:22:43.7682437Z  17 6091M   17 1080M    0     0  1067k      0  1:37:23  0:17:16  1:20:07 1693k
+2026-11-24T08:22:44.7695780Z  17 6091M   17 1081M    0     0  1068k      0  1:37:19  0:17:17  1:20:02 1695k
+2026-11-24T08:22:45.7696374Z  17 6091M   17 1083M    0     0  1068k      0  1:37:16  0:17:18  1:19:58 1703k
+2026-11-24T08:22:46.7685576Z  17 6091M   17 1085M    0     0  1069k      0  1:37:14  0:17:19  1:19:55 1684k
+2026-11-24T08:22:47.7680989Z  17 6091M   17 1086M    0     0  1069k      0  1:37:11  0:17:20  1:19:51 1651k
+2026-11-24T08:22:48.7685357Z  17 6091M   17 1088M    0     0  1070k      0  1:37:08  0:17:21  1:19:47 1643k
+2026-11-24T08:22:49.7689409Z  17 6091M   17 1089M    0     0  1070k      0  1:37:05  0:17:22  1:19:43 1637k
+2026-11-24T08:22:50.7689702Z  17 6091M   17 1091M    0     0  1071k      0  1:37:02  0:17:23  1:19:39 1637k
+2026-11-24T08:22:51.7688420Z  17 6091M   17 1093M    0     0  1071k      0  1:36:59  0:17:24  1:19:35 1645k
+2026-11-24T08:22:52.7681302Z  17 6091M   17 1094M    0     0  1072k      0  1:36:55  0:17:25  1:19:30 1662k
+2026-11-24T08:22:53.7687430Z  17 6091M   17 1096M    0     0  1073k      0  1:36:52  0:17:26  1:19:26 1667k
+2026-11-24T08:22:54.7679892Z  18 6091M   18 1098M    0     0  1073k      0  1:36:48  0:17:27  1:19:21 1700k
+2026-11-24T08:22:55.7683860Z  18 6091M   18 1100M    0     0  1074k      0  1:36:44  0:17:28  1:19:16 1744k
+2026-11-24T08:22:56.7678912Z  18 6091M   18 1101M    0     0  1075k      0  1:36:40  0:17:29  1:19:11 1778k
+2026-11-24T08:22:57.7682190Z  18 6091M   18 1103M    0     0  1076k      0  1:36:36  0:17:30  1:19:06 1803k
+2026-11-24T08:22:58.7688830Z  18 6091M   18 1105M    0     0  1076k      0  1:36:33  0:17:31  1:19:02 1812k
+2026-11-24T08:22:59.7695738Z  18 6091M   18 1106M    0     0  1077k      0  1:36:30  0:17:32  1:18:58 1795k
+2026-11-24T08:23:00.7691344Z  18 6091M   18 1108M    0     0  1077k      0  1:36:27  0:17:33  1:18:54 1757k
+2026-11-24T08:23:01.7691611Z  18 6091M   18 1110M    0     0  1078k      0  1:36:23  0:17:34  1:18:49 1743k
+2026-11-24T08:23:02.7690176Z  18 6091M   18 1112M    0     0  1079k      0  1:36:19  0:17:35  1:18:44 1743k
+2026-11-24T08:23:03.7692607Z  18 6091M   18 1113M    0     0  1079k      0  1:36:15  0:17:36  1:18:39 1778k
+2026-11-24T08:23:04.7682115Z  18 6091M   18 1115M    0     0  1080k      0  1:36:11  0:17:37  1:18:34 1820k
+2026-11-24T08:23:05.7681990Z  18 6091M   18 1117M    0     0  1081k      0  1:36:07  0:17:38  1:18:29 1870k
+2026-11-24T08:23:06.7695515Z  18 6091M   18 1119M    0     0  1082k      0  1:36:02  0:17:39  1:18:23 1907k
+2026-11-24T08:23:07.7690093Z  18 6091M   18 1121M    0     0  1083k      0  1:35:58  0:17:40  1:18:18 1918k
+2026-11-24T08:23:08.7685203Z  18 6091M   18 1123M    0     0  1083k      0  1:35:55  0:17:41  1:18:14 1881k
+2026-11-24T08:23:09.7681422Z  18 6091M   18 1124M    0     0  1084k      0  1:35:52  0:17:42  1:18:10 1821k
+2026-11-24T08:23:10.7692315Z  18 6091M   18 1126M    0     0  1084k      0  1:35:50  0:17:43  1:18:07 1764k
+2026-11-24T08:23:11.7681611Z  18 6091M   18 1127M    0     0  1085k      0  1:35:47  0:17:44  1:18:03 1684k
+2026-11-24T08:23:12.7692355Z  18 6091M   18 1129M    0     0  1085k      0  1:35:45  0:17:45  1:18:00 1605k
+2026-11-24T08:23:13.7694264Z  18 6091M   18 1130M    0     0  1085k      0  1:35:43  0:17:46  1:17:57 1560k
+2026-11-24T08:23:14.7686820Z  18 6091M   18 1132M    0     0  1086k      0  1:35:41  0:17:47  1:17:54 1548k
+2026-11-24T08:23:15.7694166Z  18 6091M   18 1133M    0     0  1086k      0  1:35:38  0:17:48  1:17:50 1545k
+2026-11-24T08:23:16.7684050Z  18 6091M   18 1135M    0     0  1087k      0  1:35:35  0:17:49  1:17:46 1567k
+2026-11-24T08:23:17.7683734Z  18 6091M   18 1137M    0     0  1088k      0  1:35:32  0:17:50  1:17:42 1634k
+2026-11-24T08:23:18.7691558Z  18 6091M   18 1139M    0     0  1088k      0  1:35:28  0:17:51  1:17:37 1689k
+2026-11-24T08:23:19.7686622Z  18 6091M   18 1140M    0     0  1089k      0  1:35:25  0:17:52  1:17:33 1729k
+2026-11-24T08:23:20.7685610Z  18 6091M   18 1142M    0     0  1090k      0  1:35:22  0:17:53  1:17:29 1759k
+2026-11-24T08:23:21.7688843Z  18 6091M   18 1144M    0     0  1090k      0  1:35:18  0:17:54  1:17:24 1806k
+2026-11-24T08:23:22.7699965Z  18 6091M   18 1146M    0     0  1091k      0  1:35:14  0:17:55  1:17:19 1814k
+2026-11-24T08:23:23.7696624Z  18 6091M   18 1147M    0     0  1092k      0  1:35:10  0:17:56  1:17:14 1829k
+2026-11-24T08:23:24.7685927Z  18 6091M   18 1149M    0     0  1092k      0  1:35:07  0:17:57  1:17:10 1832k
+2026-11-24T08:23:25.7690251Z  18 6091M   18 1151M    0     0  1093k      0  1:35:04  0:17:58  1:17:06 1835k
+2026-11-24T08:23:26.7693964Z  18 6091M   18 1153M    0     0  1094k      0  1:35:00  0:17:59  1:17:01 1810k
+2026-11-24T08:23:27.7684677Z  18 6091M   18 1155M    0     0  1094k      0  1:34:56  0:18:00  1:16:56 1825k
+2026-11-24T08:23:28.7686979Z  18 6091M   18 1156M    0     0  1095k      0  1:34:52  0:18:01  1:16:51 1836k
+2026-11-24T08:23:29.7697287Z  19 6091M   19 1158M    0     0  1096k      0  1:34:49  0:18:02  1:16:47 1851k
+2026-11-24T08:23:30.7693306Z  19 6091M   19 1160M    0     0  1096k      0  1:34:46  0:18:03  1:16:43 1841k
+2026-11-24T08:23:31.7695882Z  19 6091M   19 1162M    0     0  1097k      0  1:34:42  0:18:04  1:16:38 1840k
+2026-11-24T08:23:32.7696269Z  19 6091M   19 1164M    0     0  1098k      0  1:34:39  0:18:05  1:16:34 1834k
+2026-11-24T08:23:33.7685719Z  19 6091M   19 1165M    0     0  1099k      0  1:34:35  0:18:06  1:16:29 1841k
+2026-11-24T08:23:34.7696218Z  19 6091M   19 1167M    0     0  1099k      0  1:34:31  0:18:07  1:16:24 1851k
+2026-11-24T08:23:35.7700865Z  19 6091M   19 1169M    0     0  1100k      0  1:34:27  0:18:08  1:16:19 1896k
+2026-11-24T08:23:36.7689565Z  19 6091M   19 1171M    0     0  1101k      0  1:34:23  0:18:09  1:16:14 1929k
+2026-11-24T08:23:37.7699944Z  19 6091M   19 1173M    0     0  1102k      0  1:34:19  0:18:10  1:16:09 1931k
+2026-11-24T08:23:38.7688120Z  19 6091M   19 1175M    0     0  1102k      0  1:34:15  0:18:11  1:16:04 1926k
+2026-11-24T08:23:39.7687724Z  19 6091M   19 1177M    0     0  1103k      0  1:34:12  0:18:12  1:16:00 1915k
+2026-11-24T08:23:40.7695036Z  19 6091M   19 1178M    0     0  1104k      0  1:34:08  0:18:13  1:15:55 1879k
+2026-11-24T08:23:41.7697367Z  19 6091M   19 1180M    0     0  1104k      0  1:34:05  0:18:14  1:15:51 1850k
+2026-11-24T08:23:42.7694998Z  19 6091M   19 1182M    0     0  1105k      0  1:34:02  0:18:15  1:15:47 1815k
+2026-11-24T08:23:43.7693053Z  19 6091M   19 1183M    0     0  1105k      0  1:34:00  0:18:16  1:15:44 1770k
+2026-11-24T08:23:44.7692241Z  19 6091M   19 1185M    0     0  1106k      0  1:33:57  0:18:17  1:15:40 1745k
+2026-11-24T08:23:45.7688079Z  19 6091M   19 1187M    0     0  1107k      0  1:33:54  0:18:18  1:15:36 1740k
+2026-11-24T08:23:46.7701205Z  19 6091M   19 1189M    0     0  1107k      0  1:33:51  0:18:19  1:15:32 1718k
+2026-11-24T08:23:47.7697084Z  19 6091M   19 1190M    0     0  1108k      0  1:33:48  0:18:20  1:15:28 1709k
+2026-11-24T08:23:48.7699781Z  19 6091M   19 1192M    0     0  1108k      0  1:33:46  0:18:21  1:15:25 1704k
+2026-11-24T08:23:49.7691188Z  19 6091M   19 1193M    0     0  1109k      0  1:33:43  0:18:22  1:15:21 1696k
+2026-11-24T08:23:50.7691675Z  19 6091M   19 1195M    0     0  1109k      0  1:33:40  0:18:23  1:15:17 1712k
+2026-11-24T08:23:51.7689281Z  19 6091M   19 1197M    0     0  1110k      0  1:33:36  0:18:24  1:15:12 1743k
+2026-11-24T08:23:52.7687490Z  19 6091M   19 1199M    0     0  1110k      0  1:33:34  0:18:25  1:15:09 1723k
+2026-11-24T08:23:53.7705152Z  19 6091M   19 1200M    0     0  1111k      0  1:33:32  0:18:26  1:15:06 1706k
+2026-11-24T08:23:54.7707036Z  19 6091M   19 1202M    0     0  1111k      0  1:33:30  0:18:27  1:15:03 1696k
+2026-11-24T08:23:55.7721792Z  19 6091M   19 1203M    0     0  1112k      0  1:33:28  0:18:28  1:15:00 1619k
+2026-11-24T08:23:56.7693387Z  19 6091M   19 1204M    0     0  1111k      0  1:33:29  0:18:29  1:15:00 1435k
+2026-11-24T08:23:57.7712055Z  19 6091M   19 1205M    0     0  1111k      0  1:33:29  0:18:30  1:14:59 1334k
+2026-11-24T08:23:58.7703175Z  19 6091M   19 1207M    0     0  1112k      0  1:33:27  0:18:31  1:14:56 1311k
+2026-11-24T08:23:59.7688377Z  19 6091M   19 1208M    0     0  1112k      0  1:33:27  0:18:32  1:14:55 1239k
+2026-11-24T08:24:00.7695713Z  19 6091M   19 1209M    0     0  1112k      0  1:33:26  0:18:33  1:14:53 1204k
+2026-11-24T08:24:01.7712264Z  19 6091M   19 1210M    0     0  1112k      0  1:33:25  0:18:34  1:14:51 1281k
+2026-11-24T08:24:02.7697364Z  19 6091M   19 1211M    0     0  1112k      0  1:33:25  0:18:35  1:14:50 1312k
+2026-11-24T08:24:03.7696773Z  19 6091M   19 1213M    0     0  1112k      0  1:33:24  0:18:36  1:14:48 1261k
+2026-11-24T08:24:04.7699427Z  19 6091M   19 1214M    0     0  1113k      0  1:33:23  0:18:37  1:14:46 1254k
+2026-11-24T08:24:05.7698491Z  19 6091M   19 1215M    0     0  1113k      0  1:33:23  0:18:38  1:14:45 1238k
+2026-11-24T08:24:06.7710915Z  19 6091M   19 1216M    0     0  1113k      0  1:33:23  0:18:39  1:14:44 1217k
+2026-11-24T08:24:07.7714561Z  19 6091M   19 1217M    0     0  1113k      0  1:33:22  0:18:40  1:14:42 1210k
+2026-11-24T08:24:08.7699390Z  20 6091M   20 1218M    0     0  1113k      0  1:33:23  0:18:41  1:14:42 1181k
+2026-11-24T08:24:09.7700258Z  20 6091M   20 1219M    0     0  1113k      0  1:33:23  0:18:42  1:14:41 1140k
+2026-11-24T08:24:10.7713773Z  20 6091M   20 1220M    0     0  1113k      0  1:33:23  0:18:43  1:14:40 1104k
+2026-11-24T08:24:11.7708603Z  20 6091M   20 1222M    0     0  1113k      0  1:33:24  0:18:44  1:14:40 1079k
+2026-11-24T08:24:12.7693808Z  20 6091M   20 1223M    0     0  1113k      0  1:33:24  0:18:45  1:14:39 1053k
+2026-11-24T08:24:13.7701388Z  20 6091M   20 1224M    0     0  1113k      0  1:33:24  0:18:46  1:14:38 1066k
+2026-11-24T08:24:14.7694389Z  20 6091M   20 1225M    0     0  1112k      0  1:33:24  0:18:47  1:14:37 1070k
+2026-11-24T08:24:15.7693807Z  20 6091M   20 1226M    0     0  1112k      0  1:33:24  0:18:48  1:14:36 1087k
+2026-11-24T08:24:16.7694686Z  20 6091M   20 1227M    0     0  1113k      0  1:33:24  0:18:49  1:14:35 1102k
+2026-11-24T08:24:17.7706366Z  20 6091M   20 1228M    0     0  1113k      0  1:33:24  0:18:50  1:14:34 1112k
+2026-11-24T08:24:18.7718743Z  20 6091M   20 1229M    0     0  1113k      0  1:33:24  0:18:51  1:14:33 1110k
+2026-11-24T08:24:19.7705551Z  20 6091M   20 1230M    0     0  1113k      0  1:33:24  0:18:52  1:14:32 1116k
+2026-11-24T08:24:20.7708529Z  20 6091M   20 1231M    0     0  1113k      0  1:33:23  0:18:53  1:14:30 1135k
+2026-11-24T08:24:21.7711765Z  20 6091M   20 1233M    0     0  1113k      0  1:33:23  0:18:54  1:14:29 1159k
+2026-11-24T08:24:22.7691395Z  20 6091M   20 1234M    0     0  1113k      0  1:33:23  0:18:55  1:14:28 1148k
+2026-11-24T08:24:23.7708564Z  20 6091M   20 1235M    0     0  1113k      0  1:33:24  0:18:56  1:14:28 1117k
+2026-11-24T08:24:24.7698630Z  20 6091M   20 1236M    0     0  1113k      0  1:33:24  0:18:57  1:14:27 1123k
+2026-11-24T08:24:25.7709815Z  20 6091M   20 1237M    0     0  1113k      0  1:33:23  0:18:58  1:14:25 1131k
+2026-11-24T08:24:26.7700449Z  20 6091M   20 1238M    0     0  1113k      0  1:33:22  0:18:59  1:14:23 1134k
+2026-11-24T08:24:27.7714057Z  20 6091M   20 1239M    0     0  1113k      0  1:33:22  0:19:00  1:14:22 1172k
+2026-11-24T08:24:28.7722314Z  20 6091M   20 1241M    0     0  1113k      0  1:33:21  0:19:01  1:14:20 1222k
+2026-11-24T08:24:29.7714074Z  20 6091M   20 1242M    0     0  1113k      0  1:33:21  0:19:02  1:14:19 1231k
+2026-11-24T08:24:30.7696302Z  20 6091M   20 1243M    0     0  1113k      0  1:33:21  0:19:03  1:14:18 1191k
+2026-11-24T08:24:31.7706269Z  20 6091M   20 1244M    0     0  1113k      0  1:33:21  0:19:04  1:14:17 1153k
+2026-11-24T08:24:32.7707987Z  20 6091M   20 1245M    0     0  1113k      0  1:33:22  0:19:05  1:14:17 1112k
+2026-11-24T08:24:33.7722035Z  20 6091M   20 1246M    0     0  1113k      0  1:33:22  0:19:06  1:14:16 1070k
+2026-11-24T08:24:34.7705783Z  20 6091M   20 1247M    0     0  1113k      0  1:33:23  0:19:07  1:14:16 1029k
+2026-11-24T08:24:35.7707728Z  20 6091M   20 1248M    0     0  1113k      0  1:33:23  0:19:08  1:14:15 1018k
+2026-11-24T08:24:36.7698727Z  20 6091M   20 1249M    0     0  1113k      0  1:33:24  0:19:09  1:14:15 1006k
+2026-11-24T08:24:37.7699795Z  20 6091M   20 1250M    0     0  1112k      0  1:33:24  0:19:10  1:14:14  995k
+2026-11-24T08:24:38.7705738Z  20 6091M   20 1251M    0     0  1112k      0  1:33:25  0:19:11  1:14:14  998k
+2026-11-24T08:24:39.7716611Z  20 6091M   20 1252M    0     0  1112k      0  1:33:25  0:19:12  1:14:13 1015k
+2026-11-24T08:24:40.7698193Z  20 6091M   20 1253M    0     0  1112k      0  1:33:25  0:19:13  1:14:12 1034k
+2026-11-24T08:24:41.7704410Z  20 6091M   20 1254M    0     0  1112k      0  1:33:25  0:19:14  1:14:11 1048k
+2026-11-24T08:24:42.7714374Z  20 6091M   20 1255M    0     0  1112k      0  1:33:25  0:19:15  1:14:10 1076k
+2026-11-24T08:24:43.7696781Z  20 6091M   20 1256M    0     0  1112k      0  1:33:25  0:19:16  1:14:09 1099k
+2026-11-24T08:24:44.7703570Z  20 6091M   20 1257M    0     0  1112k      0  1:33:25  0:19:17  1:14:08 1120k
+2026-11-24T08:24:45.7718816Z  20 6091M   20 1258M    0     0  1112k      0  1:33:25  0:19:18  1:14:07 1134k
+2026-11-24T08:24:46.7708120Z  20 6091M   20 1259M    0     0  1112k      0  1:33:24  0:19:19  1:14:05 1149k
+2026-11-24T08:24:47.7714939Z  20 6091M   20 1260M    0     0  1112k      0  1:33:25  0:19:20  1:14:05 1137k
+2026-11-24T08:24:48.7695504Z  20 6091M   20 1261M    0     0  1112k      0  1:33:25  0:19:21  1:14:04 1125k
+2026-11-24T08:24:49.7709371Z  20 6091M   20 1263M    0     0  1112k      0  1:33:25  0:19:22  1:14:03 1103k
+2026-11-24T08:24:50.7699192Z  20 6091M   20 1264M    0     0  1112k      0  1:33:25  0:19:23  1:14:02 1078k
+2026-11-24T08:24:51.7714675Z  20 6091M   20 1264M    0     0  1112k      0  1:33:26  0:19:24  1:14:02 1047k
+2026-11-24T08:24:52.7707920Z  20 6091M   20 1265M    0     0  1112k      0  1:33:26  0:19:25  1:14:01 1028k
+2026-11-24T08:24:53.7697871Z  20 6091M   20 1266M    0     0  1112k      0  1:33:27  0:19:26  1:14:01 1018k
+2026-11-24T08:24:54.7713934Z  20 6091M   20 1267M    0     0  1112k      0  1:33:27  0:19:27  1:14:00 1021k
+2026-11-24T08:24:55.7706392Z  20 6091M   20 1269M    0     0  1112k      0  1:33:27  0:19:28  1:13:59 1026k
+2026-11-24T08:24:56.7710436Z  20 6091M   20 1270M    0     0  1112k      0  1:33:28  0:19:29  1:13:59 1031k
+2026-11-24T08:24:57.7702502Z  20 6091M   20 1270M    0     0  1112k      0  1:33:28  0:19:30  1:13:58 1031k
+2026-11-24T08:24:58.7704348Z  20 6091M   20 1271M    0     0  1112k      0  1:33:29  0:19:31  1:13:58 1012k
+2026-11-24T08:24:59.7706883Z  20 6091M   20 1272M    0     0  1111k      0  1:33:29  0:19:32  1:13:57  995k
+2026-11-24T08:25:00.7720035Z  20 6091M   20 1273M    0     0  1111k      0  1:33:30  0:19:33  1:13:57  990k
+2026-11-24T08:25:01.7712357Z  20 6091M   20 1274M    0     0  1111k      0  1:33:30  0:19:34  1:13:56 1010k
+2026-11-24T08:25:02.7722539Z  20 6091M   20 1275M    0     0  1111k      0  1:33:30  0:19:35  1:13:55 1018k
+2026-11-24T08:25:03.7703291Z  20 6091M   20 1276M    0     0  1111k      0  1:33:31  0:19:36  1:13:55 1029k
+2026-11-24T08:25:04.7699953Z  20 6091M   20 1277M    0     0  1111k      0  1:33:31  0:19:37  1:13:54 1045k
+2026-11-24T08:25:05.7705677Z  20 6091M   20 1279M    0     0  1111k      0  1:33:31  0:19:38  1:13:53 1059k
+2026-11-24T08:25:06.7709555Z  21 6091M   21 1280M    0     0  1111k      0  1:33:31  0:19:39  1:13:52 1047k
+2026-11-24T08:25:07.7703006Z  21 6091M   21 1281M    0     0  1111k      0  1:33:32  0:19:40  1:13:52 1048k
+2026-11-24T08:25:08.7718884Z  21 6091M   21 1281M    0     0  1111k      0  1:33:32  0:19:41  1:13:51 1033k
+2026-11-24T08:25:09.7701092Z  21 6091M   21 1282M    0     0  1111k      0  1:33:33  0:19:42  1:13:51 1013k
+2026-11-24T08:25:10.7731046Z  21 6091M   21 1283M    0     0  1111k      0  1:33:33  0:19:43  1:13:50 1000k
+2026-11-24T08:25:11.7707187Z  21 6091M   21 1284M    0     0  1111k      0  1:33:34  0:19:44  1:13:50  991k
+2026-11-24T08:25:12.7699947Z  21 6091M   21 1285M    0     0  1110k      0  1:33:34  0:19:45  1:13:49  995k
+2026-11-24T08:25:13.7720522Z  21 6091M   21 1286M    0     0  1110k      0  1:33:34  0:19:46  1:13:48 1015k
+2026-11-24T08:25:14.7700341Z  21 6091M   21 1287M    0     0  1110k      0  1:33:35  0:19:47  1:13:48 1007k
+2026-11-24T08:25:15.7700822Z  21 6091M   21 1288M    0     0  1110k      0  1:33:36  0:19:48  1:13:48 1003k
+2026-11-24T08:25:16.7722406Z  21 6091M   21 1289M    0     0  1110k      0  1:33:36  0:19:49  1:13:47 1013k
+2026-11-24T08:25:17.7699791Z  21 6091M   21 1290M    0     0  1110k      0  1:33:36  0:19:50  1:13:46 1009k
+2026-11-24T08:25:18.7717235Z  21 6091M   21 1291M    0     0  1110k      0  1:33:37  0:19:51  1:13:46 1000k
+2026-11-24T08:25:19.7711638Z  21 6091M   21 1292M    0     0  1110k      0  1:33:37  0:19:52  1:13:45 1006k
+2026-11-24T08:25:20.7725949Z  21 6091M   21 1293M    0     0  1110k      0  1:33:38  0:19:53  1:13:45  998k
+2026-11-24T08:25:21.7728470Z  21 6091M   21 1294M    0     0  1110k      0  1:33:38  0:19:54  1:13:44  982k
+2026-11-24T08:25:22.7701417Z  21 6091M   21 1295M    0     0  1109k      0  1:33:39  0:19:55  1:13:44  960k
+2026-11-24T08:25:23.7710155Z  21 6091M   21 1296M    0     0  1109k      0  1:33:40  0:19:56  1:13:44  946k
+2026-11-24T08:25:24.7714189Z  21 6091M   21 1297M    0     0  1109k      0  1:33:41  0:19:57  1:13:44  951k
+2026-11-24T08:25:25.7701502Z  21 6091M   21 1298M    0     0  1109k      0  1:33:41  0:19:58  1:13:43  957k
+2026-11-24T08:25:26.5376482Z  21 6091M   21 1299M    0     0  1109k      0  1:33:41  0:19:59  1:13:42  976k
+2026-11-24T08:25:26.5377079Z  21 6091M   21 1300M    0     0  1109k      0  1:33:41  0:19:59  1:13:42 1008k
+2026-11-24T08:25:26.5386635Z curl: (28) Operation timed out after 1200000 milliseconds with 1363383941 out of 6387309499 bytes received
+2026-11-24T08:25:26.5420303Z ##[error]Process completed with exit code 28.
+2026-11-24T08:25:26.5491241Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-24T08:25:26.5491671Z with:
+2026-11-24T08:25:26.5491924Z   name: english-v6-b21-primary-source-45352507569
+2026-11-24T08:25:26.5492259Z   path: /home/runner/work/_temp/source/
+2026-11-24T08:25:26.5492538Z   retention-days: 90
+2026-11-24T08:25:26.5492765Z   if-no-files-found: warn
+2026-11-24T08:25:26.5492998Z   compression-level: 6
+2026-11-24T08:25:26.5493216Z   overwrite: false
+2026-11-24T08:25:26.5493439Z   include-hidden-files: false
+2026-11-24T08:25:26.5493669Z env:
+2026-11-24T08:25:26.5493937Z   PREPARED_PARENT: 60f1e6507216ae605d601f3f09ab15177b46aae2
+2026-11-24T08:25:26.5494269Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T08:25:26.5494527Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T08:25:26.5494777Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T08:25:26.5495014Z   OMP_NUM_THREADS: 2
+2026-11-24T08:25:26.5495218Z   MKL_NUM_THREADS: 2
+2026-11-24T08:25:26.5495425Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T08:25:26.5495675Z   PYTHONHASHSEED: 20261124
+2026-11-24T08:25:26.5496189Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:25:26.5496633Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T08:25:26.5497054Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:25:26.5497435Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:25:26.5497819Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T08:25:26.5498204Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T08:25:26.5498725Z ##[endgroup]
+2026-11-24T08:25:26.7255065Z (node:2840) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-24T08:25:26.7256692Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T08:25:26.7286824Z ##[warning]No files were found with the provided path: /home/runner/work/_temp/source/. No artifacts will be uploaded.
+2026-11-24T08:25:26.7603289Z Post job cleanup.
+2026-11-24T08:25:26.8691369Z [command]/usr/bin/git version
+2026-11-24T08:25:26.8746872Z git version 2.56.1
+2026-11-24T08:25:26.8782637Z Temporarily overriding HOME='/home/runner/work/_temp/3962bc5c-0f37-4fba-bd21-b35953d5b99a' before making global git config changes
+2026-11-24T08:25:26.8784017Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T08:25:26.8788952Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/kws-data/kws-data
+2026-11-24T08:25:26.8833797Z Removing SSH command configuration
+2026-11-24T08:25:26.8841171Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T08:25:26.8884004Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T08:25:26.9173642Z Removing HTTP extra header
+2026-11-24T08:25:26.9180038Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T08:25:26.9223772Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-24T08:25:26.9514932Z Removing includeIf entries pointing to credentials config files
+2026-11-24T08:25:26.9522435Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T08:25:26.9603527Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-24T08:25:27.0017820Z Cleaning up orphan processes
+2026-11-24T08:25:27.0490857Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
