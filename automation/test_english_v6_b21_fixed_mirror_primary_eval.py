@@ -39,7 +39,7 @@ def label(original, unknown=False):
 
 
 class BoundaryTests(unittest.TestCase):
-    def test_fixed_mirror_changes_only_routing_constants(self):
+    def test_amendment_changes_only_routing_constants(self):
         original = (HERE / "english_v6_b21_continuation_primary_eval.py").read_bytes()
         self.assertEqual(hashlib.sha256(original).hexdigest(), "79a2a4e9cf28f7da40b985cadfb2e1c06e7fa1c50e52b4e91242f2abc48f7245")
         def bodies(raw):
@@ -58,8 +58,8 @@ class BoundaryTests(unittest.TestCase):
         self.assertEqual({key for key in old if old[key] != new[key]}, {
             "SPEC", "PRODUCER", "WORKFLOW_TEMPLATE", "SOURCE_MODULE", "SOURCE_SCHEMA",
             "SCREEN_SCHEMA", "SOURCE_BRANCH", "SOURCE_WORKFLOW", "PRODUCER_ROOTS"})
-        self.assertEqual(primary.SOURCE_MODULE, "english_v6_b21_fixed_mirror_source")
-        self.assertEqual(primary.SOURCE_BRANCH, "research/en-v6-b21-primary-source-fixed-mirror-once-20261124")
+        self.assertEqual(primary.SOURCE_MODULE, "english_v6_b21_natural_amendment_source")
+        self.assertEqual(primary.SOURCE_BRANCH, "research/en-v6-b21-natural-amendment-sources-once-20261124")
         self.assertEqual(primary.BRANCH, "refs/heads/research/en-v6-b21-primary-scoring-once-20261124")
         self.assertEqual(primary.WORKFLOW, ".github/workflows/english-v6-b21-primary-model-eval-once.yml")
         self.assertEqual(primary.MARKER, "english-v6-b21-primary-consumed")

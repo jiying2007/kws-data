@@ -6,6 +6,13 @@ name: B21 natural metadata and prospective amendment contracts
       - 'automation/test_english_v6_b21_natural_metadata*'
       - 'automation/english_v6_b21_natural_amendment*'
       - 'automation/test_english_v6_b21_natural_amendment*'
+      - 'automation/english_v6_b21_reuse_synthetic.py'
+      - 'automation/test_english_v6_b21_reuse_synthetic.py'
+      - 'automation/english_v6_b21_fixed_mirror_primary*'
+      - 'automation/bind_b21_fixed_mirror_primary.py'
+      - 'automation/test_bind_b21_fixed_mirror_primary.py'
+      - 'automation/test_english_v6_b21_fixed_mirror_primary_eval.py'
+      - '.github/workflows/english-v6-b21-natural-amendment*'
       - '.github/workflows/english-v6-b21-natural-metadata*'
   push:
     branches: [main]
@@ -14,6 +21,13 @@ name: B21 natural metadata and prospective amendment contracts
       - 'automation/test_english_v6_b21_natural_metadata*'
       - 'automation/english_v6_b21_natural_amendment*'
       - 'automation/test_english_v6_b21_natural_amendment*'
+      - 'automation/english_v6_b21_reuse_synthetic.py'
+      - 'automation/test_english_v6_b21_reuse_synthetic.py'
+      - 'automation/english_v6_b21_fixed_mirror_primary*'
+      - 'automation/bind_b21_fixed_mirror_primary.py'
+      - 'automation/test_bind_b21_fixed_mirror_primary.py'
+      - 'automation/test_english_v6_b21_fixed_mirror_primary_eval.py'
+      - '.github/workflows/english-v6-b21-natural-amendment*'
       - '.github/workflows/english-v6-b21-natural-metadata*'
 permissions:
   contents: read
@@ -29,10 +43,17 @@ jobs:
         with: {persist-credentials: false}
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with: {python-version: '3.12'}
-      - name: Verify metadata-only extraction and unchanged source boundaries
+      - name: Verify exact original reuse, registered natural IDs and unchanged scoring gates
         shell: bash
         run: |
           set -euo pipefail
           for opt in '' '-O' '-OO'; do
             python -SIB $opt automation/test_english_v6_b21_natural_metadata.py -q
+            python -SIB $opt automation/test_english_v6_b21_natural_amendment.py -q
+            python -SIB $opt automation/test_english_v6_b21_reuse_synthetic.py -q
+            python -SIB $opt automation/test_english_v6_b21_natural_amendment_sources.py -q
+            python -SIB $opt automation/test_english_v6_b21_fixed_mirror_primary_eval.py -q
+            python -SIB $opt automation/test_bind_b21_fixed_mirror_primary.py -q
+            python -SIB $opt automation/test_english_v6_b21_fixed_mirror_quality_readback.py -q
+            python -SIB $opt automation/test_english_v6_b21_fixed_mirror_downstream_routing.py -q
           done

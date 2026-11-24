@@ -27,7 +27,7 @@ import zipfile
 from unittest import mock
 
 REPO = "jiying2007/kws-data"
-PRIMARY_CODE_SHA = "15e8696e3fbc44cc917efeeefeba992875926c19b6537109f3fa7a38166f8606"
+PRIMARY_CODE_SHA = "9e882b077bebb96a3c023216bce4c5db7a73fdda5f0ba9835d7c6132c17a912c"
 EVALUATOR_STEMS = {"primary": "english_v6_b21_fixed_mirror_primary", "replication": "english_v6_b21_replication"}
 QUALITY_CODE_SHA = "6aa5f999598e47b41eb0a946acd82fdc5b47d30aea8990871c1c1a01065e4023"
 QUALITY_ASSESSMENT_SHA = "944f5df3c7bc3244977a8a33f7e1c393bffff9f7f5c32d2d8cc79e2628e265d9"
