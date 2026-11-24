@@ -1,0 +1,45 @@
+name: B15 matched nonblank-only positive token contrast TRAIN pair
+on:
+  push:
+    branches: [research/en-v6-b15-nonblank-contrast-train-once-20261124]
+    paths: [.github/workflows/english-v6-b15-nonblank-train-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b15-nonblank-training-single-experiment
+  cancel-in-progress: false
+jobs:
+  train:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__PREPARED_MAIN_SHA__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261120'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Freeze protocol and reject malformed competitor inputs without models
+        run: python -IB automation/test_english_v6_b15_nonblank_contrast_pair.py -v
+      - name: Authenticate B9, B13, approved TRAIN and frozen B15 source-independent decision rules
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -IB automation/english_v6_b15_nonblank_contrast_pair.py fetch "$RUNNER_TEMP/b15-inputs"
+      - name: Install pinned actual model training runtime
+        run: |
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 numpy==1.26.4 onnx==1.17.0
+      - name: Train 192-step matched control and 192-step fixed nonblank-only challenger
+        run: python -IB automation/english_v6_b15_nonblank_contrast_pair.py execute "$RUNNER_TEMP/b15-inputs" --output "$RUNNER_TEMP/b15-models"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b15-nonblank-contrast-weights-${{ github.run_id }}
+          path: ${{ runner.temp }}/b15-models/
+          retention-days: 90
+          if-no-files-found: warn

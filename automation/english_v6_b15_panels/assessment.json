@@ -1,0 +1,131 @@
+{
+  "schema": "english-v6-b15-prospective-nonblank-contrast-assessment-v1",
+  "keyword": "Hey Mero",
+  "canonical_ipa": "/heɪ ˈmɛroʊ/",
+  "hypothesis": "Excluding the blank class from positive-path teacher-margin competition preserves token identity without B14's incentive to raise nonblank against blank; same coefficient 0.08, no score-tuned coefficient sweep.",
+  "prerequisite": "Use only frozen 79 authenticated synthetic TRAIN originals, nine owner-reviewed natural TRAIN negatives and 120 source-verified teacher-positive original/gain pairs. The 24 new natural TRAIN originals remain ineligible until human-reviewed; B14 DEV and B14 sealed replication are forbidden.",
+  "freeze_before_optimizer": true,
+  "primary": {
+    "natural": {
+      "corpus": "LibriSpeech dev-clean",
+      "role": "development",
+      "selection": "Predeclare prospective salt-sorted speaker-and-utterance picks from authenticated official source before scoring; no DEV read or outcome-based replacement in training",
+      "salt": "b15-nonblank-primary-natural-20261124-v1",
+      "requested_speakers": 12,
+      "utterances_per_speaker": 2,
+      "exclude_any_prior_train_dev_cal_locked_speaker": true,
+      "minimum_approved_speakers": 8,
+      "minimum_approved_utterances": 12,
+      "independent_five_observers": [
+        "qwen",
+        "whisper",
+        "parakeet",
+        "xlsr",
+        "lv60"
+      ]
+    },
+    "synthetic": {
+      "engine": "piper-tts==1.8.0",
+      "pinned_voice_source_commit": "de3dcfdf1912bb49726dc4aa11c26017ce2ac62a",
+      "speaker_indices": [
+        646,
+        647,
+        648,
+        649,
+        650,
+        651,
+        652,
+        653,
+        654,
+        655,
+        656,
+        657
+      ],
+      "role": "development",
+      "cells_per_speaker": [
+        "mero-fast",
+        "mero-slow",
+        "question",
+        "request"
+      ],
+      "requested_total": 48,
+      "select_by_exact_speaker_id_map": true,
+      "source_group_leakage_must_be_zero": true,
+      "blind_observers": [
+        "qwen",
+        "whisper",
+        "parakeet",
+        "xlsr",
+        "lv60"
+      ]
+    }
+  },
+  "replication": {
+    "natural": {
+      "corpus": "LibriSpeech test-other",
+      "role": "research confirmation only (NOT product LOCKED)",
+      "salt": "b15-nonblank-replication-natural-20261124-v1",
+      "requested_speakers": 12,
+      "utterances_per_speaker": 2,
+      "exclude_any_prior_train_dev_cal_locked_speaker": true
+    },
+    "synthetic": {
+      "speaker_indices": [
+        658,
+        659,
+        660,
+        661,
+        662,
+        663,
+        664,
+        665,
+        666,
+        667,
+        668,
+        669
+      ],
+      "role": "research confirmation only",
+      "cells_per_speaker": [
+        "mero-fast",
+        "mero-slow",
+        "question",
+        "yes-no"
+      ]
+    },
+    "opening": "Only if independently frozen B15 primary passes without changes to parameters, decoder, source roster or selection rule"
+  },
+  "condition_gains": [
+    1,
+    0.75,
+    0.5
+  ],
+  "primary_gate": {
+    "source_minimums": {
+      "synthetic_qualified_positive_originals": 8,
+      "synthetic_qualified_ordinary_originals": 12,
+      "synthetic_paired_voice_families": 5,
+      "natural_qualified_speakers": 8,
+      "natural_qualified_originals": 12
+    },
+    "positive": "B15 retains every complete hit from frozen B0 and matched control on the same admitted positive original and gain; never produces extra duplicate wake events relative to B9 or control",
+    "ordinary": "No added events versus matched control or B9 on any admitted ordinary original/gain; natural event totals at every gain no higher than B0",
+    "generalization": "At original gain improve ordinary false events against B9 in at least two distinct readers, restore at least one qualified positive family missed by control",
+    "reject_if": "Any positive-loss, added ordinary events, failure of natural B0 parity, missing source evidence, source leakage, or incomplete five-observer coverage",
+    "promote_only_after": "New model true PT/ONNX/C11/Cortex-A32 parity; independent untouched replication PASS; physical SSC305/AFE/callback metrics and fresh field recordings"
+  },
+  "false_alarm_reporting": "Only continuous real background exposure can support FAR/hour and confidence bounds. Isolated short clips are diagnostic counts, never FAR/h.",
+  "target": {
+    "field_frr_max": 0.05,
+    "field_far_per_hour_max": 0.1,
+    "word_end_to_callback_p95_ms_max": 500
+  },
+  "constraints": {
+    "training_uses_dev_cal_locked": false,
+    "preexisting_dev_not_reused_for_selection": true,
+    "no_new_tts_or_asr_during_training": true,
+    "no_unreviewed_24_train_windows": true,
+    "no_threshold_search": true,
+    "retained_b14_replication_sealed": true,
+    "model_released": false
+  }
+}
