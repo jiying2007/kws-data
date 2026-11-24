@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   train:
-    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__PREPARED_MAIN_SHA__'
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '1b2ce19e789c297ecf37bd1a8895c9c589ca3bc1'
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
