@@ -26,7 +26,7 @@ jobs:
           python -OOIB automation/english_v6_b15_primary_source_gate.py --self-test
   admission:
     needs: contract
-    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B15_GATE_PREDECESSOR__'
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '37c17636f80b48dfcc8a7c08dad1ab54084590f3'
     runs-on: ubuntu-24.04
     timeout-minutes: 18
     steps:
