@@ -22,7 +22,7 @@ env:
 jobs:
   sources:
     if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b16-synthetic-primary-once-20261124'
-      && github.run_attempt == 1 && github.event.before == '__B16_PREPARED_MAIN_SHA__'
+      && github.run_attempt == 1 && github.event.before == 'a9b725826e12b5bd6f602f8acfe723584d327398'
     runs-on: ubuntu-24.04
     timeout-minutes: 75
     steps:
