@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   train:
-    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B24_REVIEWED_B23_WARM_START_PARENT__'
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == 'e2e269cb840e2b201fb01be3036730e6ccf076b5'
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
@@ -19,7 +19,7 @@ jobs:
       MKL_NUM_THREADS: '1'
       OPENBLAS_NUM_THREADS: '1'
       PYTHONHASHSEED: '20261120'
-      PREPARED_PARENT: '__B24_REVIEWED_B23_WARM_START_PARENT__'
+      PREPARED_PARENT: 'e2e269cb840e2b201fb01be3036730e6ccf076b5'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with: {persist-credentials: false, fetch-depth: 2}
