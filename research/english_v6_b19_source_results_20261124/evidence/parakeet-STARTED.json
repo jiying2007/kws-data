@@ -1,0 +1,74 @@
+{
+  "code_contract": {
+    "asr_adapter_sha256": "5f1070c1443742a69953c8376c4f044471224a535bf9ee4bed89ce007f2efef4",
+    "maximum_native_calls": 48,
+    "native_model": {
+      "decode_config": {
+        "device": "cpu",
+        "prompt": null,
+        "threads": 4,
+        "timeout_seconds": 180
+      },
+      "model_family": "parakeet-tdt",
+      "model_id": "nvidia/parakeet-tdt-0.6b-v3",
+      "model_revision": "541d1f99c6b0c3cd0b11a95167540bb8edefd82b",
+      "model_sha256": "e3880d0aaaaf2c308ea2c35016b2b895c423eb3fda924c1b463d1c19b7f4d32e",
+      "recognizer_id": "parakeet"
+    },
+    "native_runtime": {
+      "hf-xet": "1.2.0",
+      "huggingface-hub": "0.36.2"
+    },
+    "new_kws_calls": 0,
+    "observer_sha256": "b4f776993830c52a2aae29494369dd57b429bb89a5140f4dd5ced108931fe573",
+    "old_file_sha256": {
+      "english_fresh24_ctc_admission.py": "204f6004d3b33bfdcf66c011c2eec34ff947ea5fbb2607b1b265e335a7366b4c",
+      "english_hifi_micro.py": "0251de2cddc112dc3c84c53cda46ed1a2a1d726d0a7653b9071872f50471fdcc",
+      "english_hifi_phones_once.py": "920456b516dffbe878e389320065ced3af56ebc7d1e9494b14bf1994de39f8fd",
+      "english_parakeet_real_once.py": "366cd278f570a37ce68dd20e47e2bee1422daaa109c693ac42ab4bd4c2418881",
+      "english_pocket12_observe.py": "07b93e626b5e822b09869c0f06d2179140d938c1c795f97c2d286e112b2c0426",
+      "english_seven_voice_asr_once.py": "17771ca272204771982dbdc8e959f7fd75838b6598e84f09ac5819d8e3c79184",
+      "english_v6_b11_supplement_observe.py": "83276ce5c208c3277ac9462d22fab024dd458248dd4279d8b49fdedd3d88e529",
+      "english_v6_b11_supplement_screen.py": "7be739af313f69f926a84f3e0b37eb35a46618bb877e060ff1a2a3020c7514d9",
+      "english_v6_primary_source_qa.py": "ff1a19d5d821f778474523474ae4f494b9548b5ad97d9f33d9bb545db6468e94"
+    },
+    "original_slots": 48,
+    "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+    "raw_observer_sha256": "7681815398c4f597556e30fb5b69e46bf4e2a42faf4f8a4116ab4d2bbf80f26e",
+    "schema": "english-v6-b19-source-diagnostic-code-contract-v1",
+    "source_admission_eligible": false,
+    "source_indices": [
+      790,
+      791,
+      792,
+      793,
+      794,
+      795,
+      796,
+      797
+    ]
+  },
+  "diagnostic_only": true,
+  "native_call_budget": 48,
+  "registration": {
+    "asr_adapter_sha256": "5f1070c1443742a69953c8376c4f044471224a535bf9ee4bed89ce007f2efef4",
+    "assessment_sha256": "b88f91dcc9ca98c548a34be746c13de3f815663310ce093fd5559ca38e04c365",
+    "batch_schema": "english-v6-b19-parakeet-source-feasibility-v1",
+    "diagnostic_only": true,
+    "max_calls": 48,
+    "observer_sha256": "b4f776993830c52a2aae29494369dd57b429bb89a5140f4dd5ced108931fe573",
+    "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+    "prepared_parent": "771a322cee80bb88210cc1c449fd4b79b403c00a",
+    "run_attempt": 1,
+    "run_branch": "refs/heads/research/en-v6-b19-source-feasibility-once-20261124",
+    "run_head": "75bd1c05c220ae2e2334fd5c1e06fa87c66630a5",
+    "run_id": "45330168237",
+    "source_admission_eligible": false,
+    "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+    "source_rows": 48,
+    "source_schema": "english-v6-b19-source-feasibility-originals-v1"
+  },
+  "schema": "english-v6-b19-parakeet-source-feasibility-v1",
+  "source_admission_eligible": false,
+  "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb"
+}
