@@ -35,7 +35,7 @@ jobs:
           python -SIB automation/english_v6_b20_primary_eval.py check
   score:
     needs: contracts
-    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B20_REVIEWED_SCORING_PARENT__'
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '474f7bf00ccf722cf52b6140847bcef78c5a82a3'
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     env:
@@ -43,7 +43,7 @@ jobs:
       MKL_NUM_THREADS: '1'
       OPENBLAS_NUM_THREADS: '1'
       PYTHONHASHSEED: '20261124'
-      PREPARED_PARENT: '__B20_REVIEWED_SCORING_PARENT__'
+      PREPARED_PARENT: '474f7bf00ccf722cf52b6140847bcef78c5a82a3'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with: {ref: '${{ github.sha }}', persist-credentials: false, fetch-depth: 2}
