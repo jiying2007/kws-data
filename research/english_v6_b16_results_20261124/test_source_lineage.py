@@ -1,7 +1,10 @@
 """Small metadata fixtures for canonical-person ancestry; no audio/model dependency."""
 import copy
+from pathlib import Path
+import sys
 import unittest
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from verify_source_lineage import canonical_person, cross_check
 
 
