@@ -1,11 +1,12 @@
-"""B21 primary scorer routed through the audited fixed-official-mirror source.
+"""B21 primary scorer using the explicitly preregistered natural-panel amendment.
 
-The unchanged B14 quality function is applied once to exact source-admitted
-originals. Inert until real pair/source/native artifact pins and the complete
-producer closure are reviewed. Every forward is consumed before execution.
-Both original zero-call source failures and both prior drivers remain retained.
-All scientific functions, Ledger and Git-blob fetch are unchanged from the
-continuation evaluator. The original unused scoring workflow and marker remain.
+The same four frozen models, source minima, gains and B14 numerical decisions
+apply once to admitted originals. The exact96 unscored synthetic originals from
+the consumed metadata STOP are reused, with a separately preregistered natural
+panel. The source owner authenticates both component origins and the complete
+exclusion history before admission. All prior failed runs remain STOP.
+The scientific functions and Ledger remain unchanged; only source routing is
+updated in this still-unexecuted scorer.
 """
 from __future__ import annotations
 import argparse
@@ -36,14 +37,14 @@ ASSESSMENT = HERE / "english_v6_b21_panels/assessment.json"
 TRAINING_DESIGN = "76a1fd1353de00f712023a2b20256a8e622557551823cacd8b808d3f0549b0a1"
 TRAINING_ASSESSMENT = "65ad9c7204755f1cd0b639added163387af39604818f9bd26b9da9fe8bd098fc"
 SCHEMA = "english-v6-b21-fresh-primary-four-frozen-models-v1"
-SOURCE_MODULE = "english_v6_b21_fixed_mirror_source"
-SOURCE_SCHEMA = "english-v6-b21-fresh-combined-fixed-mirror-source-v1"
-SCREEN_SCHEMA = "english-v6-b21-120-original-fixed-mirror-screen-v1"
+SOURCE_MODULE = "english_v6_b21_natural_amendment_source"
+SOURCE_SCHEMA = "english-v6-b21-reused-synthetic-natural-amendment-source-v1"
+SCREEN_SCHEMA = "english-v6-b21-120-original-natural-amendment-screen-v1"
 REPO = "jiying2007/kws-data"
 BRANCH = "refs/heads/research/en-v6-b21-primary-scoring-once-20261124"
 WORKFLOW = ".github/workflows/english-v6-b21-primary-model-eval-once.yml"
-SOURCE_BRANCH = "research/en-v6-b21-primary-source-fixed-mirror-once-20261124"
-SOURCE_WORKFLOW = ".github/workflows/english-v6-b21-primary-source-fixed-mirror-once.yml"
+SOURCE_BRANCH = "research/en-v6-b21-natural-amendment-sources-once-20261124"
+SOURCE_WORKFLOW = ".github/workflows/english-v6-b21-natural-amendment-sources-once.yml"
 TRAIN_BRANCH = "research/en-v6-b21-blank-retention-train-once-20261124"
 PARENT_TOKEN = "__B21_REVIEWED_SCORING_PARENT__"
 MARKER = "english-v6-b21-primary-consumed"

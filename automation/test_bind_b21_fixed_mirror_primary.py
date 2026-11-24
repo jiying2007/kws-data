@@ -33,13 +33,13 @@ def proof_fixture():
 
 
 class BindingBoundaryTests(unittest.TestCase):
-    def test_driver_pin_and_fixed_mirror_artifact_routing(self):
+    def test_driver_pin_and_amended_source_artifact_routing(self):
         driver = HERE / "english_v6_b21_fixed_mirror_primary_eval.py"
         self.assertEqual(hashlib.sha256(driver.read_bytes()).hexdigest(), binding.DRIVER_SHA)
-        self.assertEqual(binding.artifact_name("source", 123), "english-v6-b21-primary-fixed-mirror-source-123")
-        self.assertEqual(binding.artifact_name("source_producer", 123), "english-v6-b21-primary-fixed-mirror-source-producer-123")
-        self.assertEqual(binding.artifact_name("screen", 123), "english-v6-b21-primary-fixed-mirror-frozen-screen-123")
-        self.assertEqual(binding.artifact_name("native_qwen", 123), "b21-primary-fixed-mirror-dev-observer-qwen")
+        self.assertEqual(binding.artifact_name("source", 123), "english-v6-b21-natural-amendment-source-123")
+        self.assertEqual(binding.artifact_name("source_producer", 123), "english-v6-b21-natural-amendment-source-producer-123")
+        self.assertEqual(binding.artifact_name("screen", 123), "english-v6-b21-natural-amendment-frozen-screen-123")
+        self.assertEqual(binding.artifact_name("native_qwen", 123), "b21-natural-amendment-dev-observer-qwen")
         self.assertEqual(binding.artifact_name("pair", 123), "english-v6-b21-competing-margin-weights-123")
 
     def test_requires_both_exact_failure_identities(self):

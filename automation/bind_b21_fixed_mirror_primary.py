@@ -1,8 +1,9 @@
 """Bind original completed B21 evidence to the unchanged primary evaluator.
 
 Offline only. Reads saved GitHub API documents and twelve original ZIPs,
-including the fixed-official-mirror source after two authenticated zero-call
-transport failures. Both exact original proofs remain required and preserved.
+including an explicitly amended natural source panel and all96 exact unscored
+synthetic originals from a consumed metadata STOP. Both prior zero-call
+transport failures and the later consumed STOP remain required and preserved.
 Recomputes source admission, and writes two metadata files plus an audit.
 No remote call, model import, inference, workflow activation or driver edit.
 """
@@ -18,7 +19,7 @@ import sys
 import tempfile
 from unittest import mock
 
-DRIVER_SHA = "15e8696e3fbc44cc917efeeefeba992875926c19b6537109f3fa7a38166f8606"
+DRIVER_SHA = "9e882b077bebb96a3c023216bce4c5db7a73fdda5f0ba9835d7c6132c17a912c"
 GROUPS = ("B0", "B9", "train", "source")
 PROVIDERS = ("qwen", "whisper", "parakeet", "xlsr", "lv60")
 ROLES = ("B0", "B9", "pair", "source", "screen", *("native_" + p for p in PROVIDERS),
@@ -53,16 +54,16 @@ def serialized(value):
 
 def artifact_name(role, run_id):
     if role == "pair": return "english-v6-b21-competing-margin-weights-" + str(run_id)
-    if role == "source": return "english-v6-b21-primary-fixed-mirror-source-" + str(run_id)
-    if role == "screen": return "english-v6-b21-primary-fixed-mirror-frozen-screen-" + str(run_id)
-    if role.startswith("native_"): return "b21-primary-fixed-mirror-dev-observer-" + role.removeprefix("native_")
-    if role == "source_producer": return "english-v6-b21-primary-fixed-mirror-source-producer-" + str(run_id)
+    if role == "source": return "english-v6-b21-natural-amendment-source-" + str(run_id)
+    if role == "screen": return "english-v6-b21-natural-amendment-frozen-screen-" + str(run_id)
+    if role.startswith("native_"): return "b21-natural-amendment-dev-observer-" + role.removeprefix("native_")
+    if role == "source_producer": return "english-v6-b21-natural-amendment-source-producer-" + str(run_id)
     if role.endswith("_producer"): return "english-v6-b21-" + role.removesuffix("_producer") + "-producer-" + str(run_id)
     raise ValueError("B0/B9 artifact selection is by its fixed original ID")
 
 
 def metadata(bundle, base, primary):
-    need(bundle["schema"] == "b21-original-fixed-mirror-primary-binding-inputs-v1"
+    need(bundle["schema"] == "b21-original-natural-amendment-primary-binding-inputs-v1"
          and set(bundle["groups"]) == set(GROUPS) and set(bundle["archives"]) == set(ROLES),
          "four complete saved API groups and twelve exact original ZIP paths")
     groups = {name: {key: read(value, base) for key, value in item.items()}
@@ -97,7 +98,7 @@ def metadata(bundle, base, primary):
 def snapshot(archive, role, meta, primary, repository):
     doc = json.loads(archive.read("PRODUCER.json"))
     run, commit = meta["run"], meta["commit"]
-    workflow = ".github/workflows/english-v6-b21-" + ("blank-retention-train-once.yml" if role == "train" else "primary-source-fixed-mirror-once.yml")
+    workflow = ".github/workflows/english-v6-b21-" + ("blank-retention-train-once.yml" if role == "train" else "natural-amendment-sources-once.yml")
     branch = primary.TRAIN_BRANCH if role == "train" else primary.SOURCE_BRANCH
     tree = meta["tree"]
     commit_tree = commit.get("commit", commit)["tree"]["sha"]
@@ -111,7 +112,7 @@ def snapshot(archive, role, meta, primary, repository):
              and comparison["total_commits"] == comparison["ahead_by"] == 1
              and comparison["behind_by"] == 0, "original parent-to-child Git comparison")
         changes = [item["filename"] for item in comparison["files"]]
-    need(doc["schema"] == "english-v6-b21-original-git-producer-snapshot-v1" and doc["role"] == ("source_fixed_mirror" if role == "source" else role)
+    need(doc["schema"] == "english-v6-b21-original-git-producer-snapshot-v1" and doc["role"] == ("source_natural_amendment" if role == "source" else role)
          and str(doc["run_id"]) == str(run["id"]) and doc["run_head"] == run["head_sha"] == commit["sha"]
          and doc["run_attempt"] == 1 and doc["run_branch"] == branch and doc["runtime_workflow"] == workflow
          and doc["git_tree"] == commit_tree == tree["sha"] and tree["truncated"] is False
@@ -137,9 +138,9 @@ def snapshot(archive, role, meta, primary, repository):
             need((repository / name).is_file() and (repository / name).read_bytes() == raw,
                  "prepared scorer retains identical original producer source/resource " + name)
     actual_workflow = archive.read("repository/" + workflow)
-    template_path = repository / ("automation/english_v6_b21_fixed_mirror_source_workflow_template.yml" if role == "source" else workflow)
+    template_path = repository / ("automation/english_v6_b21_natural_amendment_source_workflow_template.yml" if role == "source" else workflow)
     template = template_path.read_bytes()
-    token = b"__B21_SOURCE_FIXED_MIRROR_MAIN_SHA__" if role == "source" else b"__B21_REVIEWED_TRAIN_PARENT__"
+    token = b"__B21_NATURAL_AMENDMENT_MAIN_SHA__" if role == "source" else b"__B21_REVIEWED_TRAIN_PARENT__"
     need(template.count(token) == 2 and template.replace(token, doc["prepared_parent"].encode()) == actual_workflow,
          "exact reviewed upstream workflow, only its two parent substitutions")
     return doc
@@ -304,12 +305,14 @@ def bind(repository, bundle_path, output):
         target.mkdir()
         (target / primary.SPEC.name).write_bytes(serialized(spec))
         (target / primary.PRODUCER.name).write_bytes(producer_raw)
-        report = dict(schema="b21-completed-original-fixed-mirror-primary-binding-v1", status="BOUND_ORIGINAL_INPUTS_READY_FOR_REVIEWED_PRIMARY",
+        report = dict(schema="b21-completed-original-natural-amendment-primary-binding-v1", status="BOUND_ORIGINAL_INPUTS_READY_FOR_REVIEWED_PRIMARY",
             evaluator_sha256=DRIVER_SHA, registration_sha256=sha(serialized(spec)), producer_manifest_sha256=sha(producer_raw),
             input_artifacts=pins, upstream_producer_manifests={role: sha(archives[role + "_producer"].read("PRODUCER.json")) for role in snapshots},
             original_source_rows=120, observer_eligible_rows=len(owner["rows"]), admitted_originals=len(selected), source_coverage=counts,
             planned_model_forwards=12 * len(selected), all_original_screens_recomputed=True,
-            transport_origin=origin, original_failed_source_attempt_preserved=True,
+            transport_origin=origin, natural_amendment=owner["natural_amendment"],
+            consumed_natural_metadata_stop_preserved=True, exact_synthetic_originals_reused=96,
+            original_failed_source_attempt_preserved=True,
             failed_continuation_attempt_preserved=True, both_zero_call_failures_authenticated=True,
             primary_python_files=len(primary_python), source_python_files=len(source_python), metadata_resources=len(resources),
             source_metadata_resources=len(source_resources), no_self_referential_metadata_hashes=True,
