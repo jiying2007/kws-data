@@ -1,10 +1,43 @@
 {
-  "actual_primary_evaluator_sha256": null,
-  "actual_primary_producer_manifest_sha256": null,
+  "actual_primary_evaluator_sha256": "6635730ab7a02351a8b60e97f8f8c40ecec8631e95ca538c4bde5b2d994b4406",
+  "actual_primary_producer_manifest_sha256": "859948eccb1cb2b58063e7dc11cc9d708984d0ca74ba08be05732215f3a4f2b2",
   "baseline_challenger_pt_sha256": "784def9df6c2a8bfbecdb7ba2d7b70630337a1cda72561c05392327aa980297f",
   "condition": "only_after_actual_complete_B23_primary_NO_PROMOTION",
-  "enabled": false,
-  "failure_adapter": null,
-  "quality_lock": null,
+  "enabled": true,
+  "failure_adapter": {
+    "base_reader_path": "automation/english_v6_b23_quality_readback.py",
+    "base_reader_sha256": "a8b4297d868ad4b3b7b7b9adca07e7a8b20873f42b09cbc7dcd1cd4ea1680f45",
+    "path": "automation/english_v6_b24_b23_failure.py",
+    "sha256": "5b6ca0d8ea88eb2f4f8e8b2962ae68e811361cb8fd69cbbe03b657f76fa0444b"
+  },
+  "quality_lock": {
+    "consumed": {
+      "bytes": 382,
+      "id": 14943907797,
+      "run_head": "992e4d80a0f784d7fa8eaaa9e2eaf49770b38ef2",
+      "run_id": 45443640293,
+      "sha256": "e125394f08e1b919f393c630e5557f3a01a47f6ff29d8d69b6e0e324c838fb87"
+    },
+    "evaluator_sha256": "6635730ab7a02351a8b60e97f8f8c40ecec8631e95ca538c4bde5b2d994b4406",
+    "inputs_sha256": "d210e745dad07360f8e07d1ea48c0d2bb541a45c0740094cbd1b2aa8c37ef436",
+    "original_result_sha256": "f304ae983f2a2587b4abcf5f4187e5722dcf32da59d4ff14796c807f3b0e5108",
+    "panel": "primary",
+    "producer": {
+      "bytes": 34343844,
+      "id": 14945143023,
+      "run_head": "992e4d80a0f784d7fa8eaaa9e2eaf49770b38ef2",
+      "run_id": 45443640293,
+      "sha256": "6c5d476dc2bd0df3156fe69dfd389c65c6109769bde915ddd3a221a2cc1b2e96"
+    },
+    "producer_manifest_sha256": "859948eccb1cb2b58063e7dc11cc9d708984d0ca74ba08be05732215f3a4f2b2",
+    "result": {
+      "bytes": 5350142,
+      "id": 14945382363,
+      "run_head": "992e4d80a0f784d7fa8eaaa9e2eaf49770b38ef2",
+      "run_id": 45443640293,
+      "sha256": "e827a66f7d88693dcf1fb1d9649fcbac2096e79001fcb047dcb112a2b6072e7f"
+    },
+    "schema": "english-v6-b23-original-quality-lock-v1"
+  },
   "schema": "english-v6-b24-after-original-b23-no-promotion-v1"
 }

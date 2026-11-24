@@ -192,7 +192,9 @@ class Contracts(unittest.TestCase):
 
     def test_generic_enabled_switch_cannot_open_budget(self):
         with tempfile.TemporaryDirectory() as tmp:
-            value = json.loads(train.OPENING.read_bytes()); value['enabled'] = True
+            value = json.loads(train.OPENING.read_bytes())
+            value.update(enabled=True, quality_lock=None, failure_adapter=None,
+                         actual_primary_evaluator_sha256=None, actual_primary_producer_manifest_sha256=None)
             path = Path(tmp) / 'opening.json'; path.write_text(json.dumps(value))
             with patch.object(train, 'OPENING', path):
                 with self.assertRaises(ValueError): train.opening()
