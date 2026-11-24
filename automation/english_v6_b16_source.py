@@ -58,6 +58,10 @@ def source_plan(panel):
     return plan
 
 
+def gate(original_screen):
+    """Retain the exact historical B13 question-IPA prerequisite; no model calls."""
+    b14.gate(original_screen)
+
 def history(directory):
     seen,groups,people=b14.history(directory)
     p=directory/(str(B15_SOURCE_ID)+".zip")
@@ -196,6 +200,7 @@ if __name__=="__main__":
     p=argparse.ArgumentParser()
     sub=p.add_subparsers(dest="mode",required=True)
     sub.add_parser("self-test")
+    x=sub.add_parser("gate");x.add_argument("archive",type=Path)
     sub.add_parser("history")
     x=sub.add_parser("generate");x.add_argument("out",type=Path);x.add_argument("previous",type=Path)
     x=sub.add_parser("observe");x.add_argument("provider",choices=qa.observers.PROVIDERS)
@@ -204,6 +209,7 @@ if __name__=="__main__":
     x.add_argument("observers",type=Path);x.add_argument("out",type=Path)
     a=p.parse_args()
     if a.mode=="self-test":self_test()
+    elif a.mode=="gate":gate(a.archive)
     elif a.mode=="history":print("\n".join((*B13.locks(),"14788464792","14788972705",str(B15_SOURCE_ID))))
     elif a.mode=="generate":generate(a.out,a.previous)
     elif a.mode=="observe":qa.observers.observe(a.provider,a.source,a.out,read_rows=read_source,schema=BATCH)
