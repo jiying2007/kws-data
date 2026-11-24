@@ -1,0 +1,59 @@
+name: B21 blank-aware positive retention paired TRAIN experiment
+on:
+  push:
+    branches: [research/en-v6-b21-blank-retention-train-once-20261124]
+    paths: [.github/workflows/english-v6-b21-blank-retention-train-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b21-blank-retention-single-experiment
+  cancel-in-progress: false
+jobs:
+  train:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B21_REVIEWED_TRAIN_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261120'
+      PREPARED_PARENT: '__B21_REVIEWED_TRAIN_PARENT__'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false, fetch-depth: 2}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Capture exact Git-bound scientific producer
+        run: |
+          python -IB automation/test_english_v6_b21_producer_snapshot.py -v
+          python -IB automation/english_v6_b21_producer_snapshot.py train "$RUNNER_TEMP/b21-train-producer" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b21-train-producer-${{ github.run_id }}
+          path: ${{ runner.temp }}/b21-train-producer/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+      - name: Freeze source roles, parent, prospective assessment and single-factor recipe
+        run: python -IB automation/test_english_v6_b21_competing_margin_pair.py -v
+      - name: Authenticate original B0, B9, saved positive teachers and approved TRAIN archives
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -IB automation/english_v6_b21_competing_margin_pair.py fetch "$RUNNER_TEMP/b21-inputs" --prepared-parent "$PREPARED_PARENT"
+      - name: Install pinned real CPU training runtime
+        run: |
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 numpy==1.26.4 onnx==1.17.0
+      - name: Require real tensor gradients and frozen-teacher numerical loss checks
+        run: python -IB automation/test_english_v6_b21_competing_margin_pair.py --numeric -v
+      - name: Verify saved TRAIN mechanism and fit the two fixed 192-step B0-origin arms once
+        run: python -IB automation/english_v6_b21_competing_margin_pair.py execute "$RUNNER_TEMP/b21-inputs" --output "$RUNNER_TEMP/b21-models" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b21-competing-margin-weights-${{ github.run_id }}
+          path: ${{ runner.temp }}/b21-models/
+          retention-days: 90
+          if-no-files-found: warn
