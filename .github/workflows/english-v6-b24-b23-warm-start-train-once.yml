@@ -1,0 +1,86 @@
+name: B24 new warm-start phase from actual B23 after complete B23 NO_PROMOTION
+on:
+  push:
+    branches: [research/en-v6-b24-b23-warm-start-train-once-20261124]
+    paths: [.github/workflows/english-v6-b24-b23-warm-start-train-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b24-one-b23-warm-start-first-fit
+  cancel-in-progress: false
+jobs:
+  train:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B24_REVIEWED_B23_WARM_START_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261120'
+      PREPARED_PARENT: '__B24_REVIEWED_B23_WARM_START_PARENT__'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false, fetch-depth: 2}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Check frozen warm-start-only phase and capture every original dependency
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          python -SIB automation/test_english_v6_b24_source_metadata.py -v
+          python -SIB automation/test_english_v6_b24_b23_warm_start.py -v
+          python -SIB automation/english_v6_b24_producer.py "$RUNNER_TEMP/b24-producer" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b24-train-producer-${{ github.run_id }}
+          path: ${{ runner.temp }}/b24-producer/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+      - name: Reauthenticate actual B23 failure then fetch eighteen unchanged TRAIN archives and original B23 control
+        env: {GH_TOKEN: '${{ github.token }}'}
+        working-directory: ${{ runner.temp }}/b24-producer/repository
+        run: python -SIB automation/english_v6_b24_b23_warm_start.py fetch --inputs "$RUNNER_TEMP/b24-inputs" --prepared-parent "$PREPARED_PARENT"
+      - name: Install only array reader before complete actual source admission
+        run: python -m pip install --disable-pip-version-check --retries 0 --timeout 90 numpy==1.26.4
+      - name: Authenticate complete original B23 failure, original source and frozen preoptimizer budget
+        env: {GH_TOKEN: '${{ github.token }}'}
+        working-directory: ${{ runner.temp }}/b24-producer/repository
+        run: python -IB automation/english_v6_b24_b23_warm_start.py consume --inputs "$RUNNER_TEMP/b24-inputs" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b24-b23-warm-start-train-consumed
+          path: ${{ runner.temp }}/b24-inputs/CONSUMPTION.json
+          retention-days: 90
+          if-no-files-found: error
+      - name: Install pinned original CPU training runtime after frozen source admission
+        run: |
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 onnx==1.17.0
+      - name: Fit one new192-step phase from actual B23 with fresh AdamW and preserve every return
+        env: {GH_TOKEN: '${{ github.token }}'}
+        working-directory: ${{ runner.temp }}/b24-producer/repository
+        run: python -IB automation/english_v6_b24_b23_warm_start.py execute --inputs "$RUNNER_TEMP/b24-inputs" --output "$RUNNER_TEMP/b24-models" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b24-b23-warm-start-models-${{ github.run_id }}
+          path: ${{ runner.temp }}/b24-models/
+          retention-days: 90
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b24-original-input-receipts-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/b24-inputs/FETCH.json
+            ${{ runner.temp }}/b24-inputs/SOURCE_PREFLIGHT.json
+            ${{ runner.temp }}/b24-inputs/CONSUMPTION.json
+            ${{ runner.temp }}/b24-inputs/ORIGINAL_B23_SOURCE_MANIFEST.json
+            ${{ runner.temp }}/b24-inputs/ORIGINAL_B23_SOURCE_HISTORY.json
+            ${{ runner.temp }}/b24-inputs/no-promotion/api/
+            ${{ runner.temp }}/b24-inputs/no-promotion/originals/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn
