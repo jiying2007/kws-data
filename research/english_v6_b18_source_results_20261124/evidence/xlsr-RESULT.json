@@ -1,0 +1,3612 @@
+{
+  "actual_native_forward_attempts": 96,
+  "asr_adapter_sha256": "5f1070c1443742a69953c8376c4f044471224a535bf9ee4bed89ce007f2efef4",
+  "attempted": 96,
+  "complete": 96,
+  "denominator": 96,
+  "human_gold": false,
+  "initialization_error": null,
+  "kws_forward_calls": 0,
+  "missing_or_failed": 0,
+  "native_forward_returns": 96,
+  "new_asr_calls": 0,
+  "new_phone_calls": 96,
+  "new_tts_calls": 0,
+  "observer_code_sha256": "7681815398c4f597556e30fb5b69e46bf4e2a42faf4f8a4116ab4d2bbf80f26e",
+  "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+  "promotion_allowed": false,
+  "provider": "xlsr",
+  "retry_count": 0,
+  "row_error": null,
+  "rows": [
+    {
+      "id": "b18-primary-766-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 29,
+      "logits_sha256": "2ee4c5d1c966e29862a3274332822569af0fed02ddad9928172d29ceaf05c490",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "bd47d6e70396327a472ead65256a011a0a508ab333ffbeeb808c538077a2cbd1"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "aabd89bdb0c26abb683bd648a40efe05af973f609476b97be50f460183221481"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "m",
+        "\u025b",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "478134558f1f5f36d6c53eae7799686d179c3a40666212449b9050f3f7ae6106",
+      "source_samples": 9474,
+      "source_wav_sha256": "2265f868eaebf9a057da97c9796227cc11a04925ad992cff935455c58c10579d",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-766-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 32,
+      "logits_sha256": "f9937268dff9b703f200b82a997eff95c56a8aa25d19f2412a7fc22d17e56713",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "6434e499b1cfbc5286c66227e180ea499e2f33e162c4c08442432613ceaeeb32"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "7b55ef3e46578470481078deb7d84fb3a858a50a6c091b96cedd44a35d6c9c7a"
+        }
+      },
+      "raw_phone_tokens": [
+        "e\u026a",
+        "m",
+        "\u025b",
+        "\u0279"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "708bf621b9ab1fd54261d30974c4254777783f91d13dc5efcf7429fc3e9f1dbd",
+      "source_samples": 10403,
+      "source_wav_sha256": "72ff566444e642bbe4aa97d47a2a4982347a112d8a72f37f7caac6b62b591202",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-766-question",
+      "input_coverage_complete": true,
+      "logit_frames": 42,
+      "logits_sha256": "d2c675aba28ec22ce6254b62a2a3e374c732a08eff8f7578a8d2ba51b5802952",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "826e40105ecd2c6742c57639e2634b023acec42c412fa1fd33328fc114eb3fe3"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "aa2f8c41c7a05b7f577454853ceb2871daafcb19a4ea1f7cd591f939fbc3fe61"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d074b412bf9be88779ceb9e4bf06e1604aec64c41e2017d440dc577db255a549",
+      "source_samples": 13561,
+      "source_wav_sha256": "121833ffa1d885739cdf495f3fd3334f67ebfcf81f3142c4b9ddc43e250a6ceb",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-766-request",
+      "input_coverage_complete": true,
+      "logit_frames": 50,
+      "logits_sha256": "4121d5a6671bc2ed2d07816a071ec5b30b4bb1d06710e018b8191a94cd638df7",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "4560388fed5e3fc992b6d7dfb4ff4c1c3b3631bc9aa3a6b65a8a00f694c508fa"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "29ce72b355c7fa9b2dfed01b7053dc5752212248b932d21f0a5e2342d7e2078a"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "d",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "f93fc7dc8ae16835d82b907c5aed728f6015d15ed6f74b031c0c5ecf112d6e3d",
+      "source_samples": 16162,
+      "source_wav_sha256": "1fd2d34bc51e8a6389e7923577e118ab50cbe7a2e44e82ca124b264eae418f61",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-767-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 31,
+      "logits_sha256": "1df64ff0d062f96f27408a58b2e4843bd0e4f9784d90394249e9cab68bc9cf8b",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "42ef532a4c76cdda502daece5d0ce111f9ccc63312d3e56dfdf8da3b9c44df2e"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "2a9a05564f255fee43a786d039e40ad707ba7b66c61e3b39be04109c203f42b4"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e",
+        "m",
+        "e",
+        "\u0279",
+        "o"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "03a9975163e839571741854fa3be0a1b29f87c6adb4ba5b7e18421209fb5737e",
+      "source_samples": 10217,
+      "source_wav_sha256": "78f1ee1dd004c2787c6685db0ef38b39f6cfbe3cb738e2c04a2a42ecf8509d30",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-767-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 35,
+      "logits_sha256": "d0267cdd55c6c121a2129f16b6259c0ded9191c21d614cbad75b2b9fd54b8cd9",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "3e16ba583c034ac42248bc4b579a92919d00f42204cc1fad36bcda447c2cde76"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "adcee8b10f6e0e4cb3a01d1a4f76f3107982e9a5db8830f77472f4aa9dfa53c0"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u02d0",
+        "m",
+        "e\u02d0",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "74edc90b8a9725e1a786faa3dbd53200fe278f20aa39b395655ad1d9d31722ad",
+      "source_samples": 11518,
+      "source_wav_sha256": "feb8934e4dd215f09dcb2561aceeb1a4cd9701643e9c2b2e8f7d9b60e5a1e0ff",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-767-question",
+      "input_coverage_complete": true,
+      "logit_frames": 45,
+      "logits_sha256": "9e0d5345486db7ba23d4dee592b00db946fa5864131f7ecb646c35b763843ab5",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "081d5badadf3ccf698e925f9f1e8c5b643fbcd5f8362ef425a5c16d42b0582db"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "1632eb53c55c9b6e736d6f59250157b087b81897cd325e7ce21eb65a3851331f"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "2e858beb95bec010c72c8a09efbf6154bd7f9ddc57d5b005d396dfbd6200d23d",
+      "source_samples": 14490,
+      "source_wav_sha256": "e0ceac9befe6fa625cf6c885e0f758bcd24aec373f617baf400d14420da822ac",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-767-request",
+      "input_coverage_complete": true,
+      "logit_frames": 56,
+      "logits_sha256": "afaeb8d5ca4a17b657b12fd1991fc37ae55aa848b670a5a89082429cab243ed6",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "bf895ab1ad77af21b2049c5b7efffa39c073f9815295cebdedbd2a66b5304412"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c7209db4f08f4681747ba020cc0fc08d277cae5f33dae7bfca77569af02c50b4"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "\u027e",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "796541c2eda5c4cbf14cd326230812381f648b82553bae362913e151b6a18354",
+      "source_samples": 18205,
+      "source_wav_sha256": "64069319f9fdb9bc0cc0e2da257480ac0b8e3174b1d8a155a515bab5944f02d0",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-768-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 29,
+      "logits_sha256": "dba51386502449fb646b32cf4065b943cd83a417febf144970574caada81abac",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "eddf2e6a281f06f48cca4ad87c2cd3b5061685e67bb82f67d38b3e836ae13287"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "ec67f2c5463bdfb54082d8d004367802bfb7cbf92ef71a5c958bea2008108610"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "n",
+        "\u025b",
+        "\u0279"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "e9ab4bdbd2aced2a2d221b73cba26572ff0703932beb28da6a9d57e9ef3c6d56",
+      "source_samples": 9660,
+      "source_wav_sha256": "81cbad88fcd2dd196d04500829c8d6c7aec5f8cc6264f5f9ef9a27a7af0efe86",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-768-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 32,
+      "logits_sha256": "a55e324b1fa75fd6f5da734c7b70d5b9bad83930a01084b7af7fde2b7e1bc032",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "bb3d44ff022ff23b117a45822d159a7e641584f1508fd8b452a4419165b970a2"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "f098a668f3d60c173194f32c54eb3df52b1ee631e64da1938cd6c52f0fb11378"
+        }
+      },
+      "raw_phone_tokens": [
+        "e\u026a",
+        "m",
+        "\u025b",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "704da258408f03f032d58706fabe0c627dce52f1fa6c965dc7e0caf1eb84466e",
+      "source_samples": 10589,
+      "source_wav_sha256": "fb0ce48845c3e9eb37d39cead27e2a66a8c81be570dec5f1c895c1ed995689ba",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-768-question",
+      "input_coverage_complete": true,
+      "logit_frames": 42,
+      "logits_sha256": "216c250f1d9763c0e7939c6854181f583e9508f462067bcd99771790bc529a55",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "d165b19135eea078fab9df4c7dc1732f656d02553b976b307af6793af812cc14"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "495746c56222eff651394e36f28dda848d073e9fc6d4d2452b757417a72df3e9"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "534998fe7845c2bedc42b92975af9aa62beb444dbfbf2b701f635f0a045b0174",
+      "source_samples": 13747,
+      "source_wav_sha256": "caa68bbcaeb1284c22a2e3a755c0d8c5dcc3d50c19ec2c2f8e904e4c101264e8",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-768-request",
+      "input_coverage_complete": true,
+      "logit_frames": 48,
+      "logits_sha256": "4d389ea809034cd449c4a1337bc27344237e6065c2539bf1f9fa1a5297afbfb6",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "0e67652d78f0f826bc45d38b2129199a75669c6a0f9dd2bc5d08ddfd36acf3af"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "7a0a482c404c0e0e1b51c8cfd2638e44dddf54fcd65e9101aa45ac1a7dced632"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "s",
+        "\u025b",
+        "\u027e",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "fb57db8afc87fcefd527177c700f97f9cd87d595ef714bfc0d9caa750fd0d0a7",
+      "source_samples": 15604,
+      "source_wav_sha256": "328ff558ae186898d330f8c16ba6288a1d44074e76fd9af047d654b1e4269738",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-769-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 32,
+      "logits_sha256": "d052cd8d9741b249278983004bdf40322dd5d706c4a54043a3d45a6e27a19841",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "95e4a91bb34271f9a2574d8e0a20bd6e57cce7c8113f1ff11dc7e4b883faa90e"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "44f76038c988f1884c1ac313e2ab33d65695ee1bdd42b028bab73902dee61757"
+        }
+      },
+      "raw_phone_tokens": [
+        "e",
+        "n",
+        "m",
+        "e\u02d0",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "402fd2e46beb10a71b621d3b83092d645e5af441c90a6eab12abd26252b03bca",
+      "source_samples": 10589,
+      "source_wav_sha256": "e75986b51fdb7b8635a75b480b0f7c92f75b62f73f46c0b150f0989f8435d45e",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-769-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 37,
+      "logits_sha256": "bc81c0cd5371fb596ae529388ed7a6d0099379487d80c2eac8987f5514db28d9",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "5f709eb991f38ddbe81c7714d3fa9b10e68d2da2322742b741405128ca8d9193"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "b2695f203c0662ee29dbe6d2f3d9da649b840d1cee522a9f603e9ec146c19044"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "m",
+        "e\u02d0",
+        "\u0279"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "6d4509acfca61ae40e7702e2828af5bd091ca718cd7f9bb0557f3c49997afd66",
+      "source_samples": 12075,
+      "source_wav_sha256": "dbb48b5c911e1de7c149ad73ad87146168f9b61c78a7697605ed7597800c6634",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-769-question",
+      "input_coverage_complete": true,
+      "logit_frames": 49,
+      "logits_sha256": "e4f4c1533e913b8834c837b14d946171220a6fb120dc83bcc08f39cefbf2f127",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "5b161c3f8c4809626bc285343ccedc4b66c4450ee03284fba34c77ea0ef511a1"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "5f6462fd25335aac6e58dd4d1d2d9d732c16f3c0cfd789d557ab852db1f56c15"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "ef37bbbc2cfd2e41c891c0096c25281bc5371063118e11f391759a0bb5067a3a",
+      "source_samples": 15790,
+      "source_wav_sha256": "c5e5c9d3a1343c04f5dd8180cf522c3c7fb875c902e35ecfb362bbf94d8ecd1e",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-769-request",
+      "input_coverage_complete": true,
+      "logit_frames": 64,
+      "logits_sha256": "ad2db0c463a0fc120ec4dc0bc50256e4e80994dac76b783c2a8e88d1ea3ae403",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 733,
+          "path": "RAW_PHONE.json",
+          "sha256": "b0f114c414c5e1072611c6e9b9ade496557f6acd57cea2ade3a48cb6a165569b"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "a9b628426ed6c4c79f9f20be825e16c82127ffb218ef531e6058adcfbe869062"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "\u027e",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "63e8ff31e7abb9a1362e6eb073a3724789f35e0e75239f1ed91bfd29cd269366",
+      "source_samples": 20620,
+      "source_wav_sha256": "997e14d7239f9d3205d0bf09f213ba662a843dc34ed924cf20b8b1de790f4da1",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-770-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 29,
+      "logits_sha256": "f1ab4d9e8e075b5da26be79cdb07cf5240396ec804d66d36835209dfb7de06aa",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "1789eba5dd190918962cadeeb19d8c2d0fd60e6e9bc8ea682bee9ccc156ce9d5"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "4974195c07d20bd3a66d49e83ac0f5044e2674d8a5ec9eaab3bec66eb805ce2a"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "\u0268",
+        "m",
+        "e\u02d0",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "586051a231643da112b969c793c20b855715faee9a0a8bb08990b493f0e54675",
+      "source_samples": 9474,
+      "source_wav_sha256": "fd159a620cb43cf900363e2eb3645cd12030cf3950bc611e265741faeae8bd57",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-770-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 32,
+      "logits_sha256": "a9da3b6b9728b8f7477522bb24ecff95782212bfc163d46c619f43794b14b3ef",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "489b89843a037c5287989123d42b974da9f358c42b8ca50c16c5ca32fca213b3"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "5b130a3248225237ca780fbfac4555cb7f964b8f1c7297a873f0428a5a6db777"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "m",
+        "\u025b",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "95dba5e569356714f355780700b6199002f48cb86abcb1c9cdd90c9f3b10956b",
+      "source_samples": 10403,
+      "source_wav_sha256": "e8d8ce0b7005ff3730f6d7418e42d7fae9740e926f5634d86889139ea966a39d",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-770-question",
+      "input_coverage_complete": true,
+      "logit_frames": 43,
+      "logits_sha256": "f5580f9cb57e3b654fcbac1470160b0092c3bd43619ac1e28f581f53af1a5c9f",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "adbeae0497d25c12707da99a7db2fcf005884816e487410df0e325ee400b89d4"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "ae13f94b115754302e6b932880c791f7d172564e3a27d22e8101cf21934c9861"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "a058bb16bd1cea8faa2a788b586e508f039e49cbde0740ee074468c66d6e5c53",
+      "source_samples": 13932,
+      "source_wav_sha256": "281a3a45e93124faaa2bc4303211c79482fe82ab2e6e840453c493131a322793",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-770-request",
+      "input_coverage_complete": true,
+      "logit_frames": 54,
+      "logits_sha256": "4afc73b71786584b55953bd9bc72742b77dc526a85b79e7cc58a95e70b804ca6",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "00c6a0ddd647983cf51db9cd1130670b74e09afc60abd6dd1e465dc333a6821e"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "9f67807e711f20a7f8433c1f14e26275fe001cfaf06f7f996438b846cb7eda02"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "i\u02d0",
+        "s",
+        "\u025b",
+        "d",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "a0640eca75b8d991c2f9beae2d3af1e83f200e222291af043d552355c7c24baf",
+      "source_samples": 17648,
+      "source_wav_sha256": "1c7772173849c99a02e3cc53bbb960db4d49705609d7af6f695d86a7512c0046",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-771-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 30,
+      "logits_sha256": "3101bcd86ae02c79715b12f71f0e32f181cd8a0769ae2834c85bc837a448a72b",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "c10fc48db9828ef5b7c801edd0f1523f6b8d1ec79a66ed641b6aa093f596c5af"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "3f2e83a3379152a776d7690d5bf40b5a004b326ef67d9c4ddcd9e542114a8f0d"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "m",
+        "\u025b",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "46fd857de8ce6aa2880c8007f335fd519bf1c24e01c76234d2f66bafd131859d",
+      "source_samples": 9846,
+      "source_wav_sha256": "9f17d40bc2f7fdcdd57fec819138c6e9212836abb4d3a81b1cef82334df5927c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-771-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 34,
+      "logits_sha256": "734c5b9d8a388224660f5460f9c7922fa5bcb2cb538893f3188d19b441fa155f",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "6d7c95987b1c69db65b39193c2d08bffc8a657144212c9e235cf1e87ec304ee8"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "8401624f20a52b40acf59d4c4579c0af850b5981d0ea88a2efe7404570d25995"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "\u0268",
+        "m",
+        "\u025b",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "edefb8c12e00aa1b1c3590ebe26051de914f4924869099ab29740a9e58ba938e",
+      "source_samples": 11146,
+      "source_wav_sha256": "b5905f46df292dc8dd383c8f5fbc50f8302645bc90320e94cceb3bcbe6ee907d",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-771-question",
+      "input_coverage_complete": true,
+      "logit_frames": 40,
+      "logits_sha256": "cae0d65ab277339ed83751e50029f355d59614daf62988db35f9c9d03e68f5fd",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "dd3679a4adff24b9881acd29d7b898914e966c5ad18af46de2912dd767224b8b"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "0e72af1b1b8fbe1522e09e5dc5c4b62186fd01ec0a2f4b48c5644000e12ce39a"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "aadf1b7e8b11674c3b35d7e4459ca1ff60fb62657c47acb77e616f994fdbc4c7",
+      "source_samples": 13004,
+      "source_wav_sha256": "aac0b9361ee8681d14f09fc66e19910e61fddf5f3554c3ad3a0eef30f84aa74f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-771-request",
+      "input_coverage_complete": true,
+      "logit_frames": 49,
+      "logits_sha256": "5861e4b197ef552415131e88035e54c96f1e8997ba6a3810ee5da89086ed2650",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "3bf0a98322cd7785fb11697e73eaef924eef9c2a2133b0603995d982dbae6eec"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "a6a0af3dd7cd115dec65acc4533616cdc729b8a1230a566bd3dac81dd2a226f2"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "\u027e",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "c9f0471a2325d9d2267256dc207c690b05501222bc5bac4def9172ac86e6e216",
+      "source_samples": 15790,
+      "source_wav_sha256": "694b440471199a0875837876fa11c9e7a054c546d5ba3549bcd65a14c923c3e7",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-772-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 31,
+      "logits_sha256": "07a07570beab9cf195d4c6b1a119a21b62ad32be8d70590b6c2b40dc506b7272",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "b2bfa84de527bf859941d099488720073fc5f65c895990602ff4edd3b37bd018"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c67ac37df18a8417bab0264a720390cafceede707438726b121e47bc4b3e8b72"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "m",
+        "\u025b",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "925f0a069d1bfda1773248d8dc073873763ceacf5cb4a8eb369a1eaffdd8ee39",
+      "source_samples": 10217,
+      "source_wav_sha256": "45138abcb0d0586c94160f8583cb9753e41477d1917d6cf4db2b636849aa3c4c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-772-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 36,
+      "logits_sha256": "43962b117e8677adf68c5dafd25c4586442c2988cfa21906f0f07cedabc9efd6",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "6f564b89d2c8f501a36110732721554f79e38bcfef339ca7fa9aa9fb8063aed9"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "9c504cb271e6901ec64d8d3645bf7105d1e236bd2240b09c49b3bce940bd44d9"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "i",
+        "m",
+        "e\u02d0",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "dfdc99ab4c14570ab6fcc6b02e706988ff1476a5a3494ccf9de687aad6a9b30e",
+      "source_samples": 11703,
+      "source_wav_sha256": "20aa8d51066dc31cef857d162e465c4c9961ac63561eefbaa9946d0d6001117f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-772-question",
+      "input_coverage_complete": true,
+      "logit_frames": 47,
+      "logits_sha256": "ba64b505f0894cf54e57c9f2d4cdce32e1fc4aeeaf18d2896cdb80b4503bfdfc",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "b85b817fab5963d78a1fe4084f8403a41ee8a1e9213f68dc064c8eb04faa77b6"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "abca3a368da1b8e9d4ae8cb4e67bce19950e17266f7e8809c0222f241e53648d"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "7791e4433510ab38bdef1606f32c3b094620227ef616087e7fa0981adced6dd8",
+      "source_samples": 15233,
+      "source_wav_sha256": "2f699ceed8213b6b77e349b84a6e003ddec2f79a172b0dc9ac156a262d02c813",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-772-request",
+      "input_coverage_complete": true,
+      "logit_frames": 50,
+      "logits_sha256": "101c1005ab20b1f1a6ce06ed6e03da555a4d782333ae3d602e01f93c42f0d0f2",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "aa64b588fffc6c6945557bd448a5efa6ec348f3b776e16ea32f064826e0b0037"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c689958bd03c79a861c8890bb5436c2221d2cd3adba5404e4d5442f08490ee51"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "s",
+        "\u025b",
+        "d",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "580fc78c85a573307a7be775f32fbd456b99adcef78dd8f79ad3a5a2b8136dc4",
+      "source_samples": 16162,
+      "source_wav_sha256": "00ff481220d36305c02ede3989fc3efd839030d2bfbfcea0ebad968464960b4b",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-773-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 27,
+      "logits_sha256": "9099b93c49e4012625c2dc9fc28fcf5347fe785c7111bb793dc66a66784e5055",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "8f2a0804396e8b9796aff97c5819b1f7236f0de6f97103f810ddb2996786ab7d"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "b248212776afbeef89396b8275df43976b3c7a7f8357ffd5227ed28deae3c327"
+        }
+      },
+      "raw_phone_tokens": [
+        "\u026a",
+        "n",
+        "\u025b",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "10219d0d87c75d2103851519c9e5132412cebaadea69169d3af1f3412fc5014a",
+      "source_samples": 8917,
+      "source_wav_sha256": "274f2a03fce3fa108227052de6c9caf28026d7b0cf78fe56272c1e917104293f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-773-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 30,
+      "logits_sha256": "45909baab1ca1ede48fcf1a8c1de174adbc5c44d127a872ddcea1edb97757a2f",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "730df0acd52cc06d99060ffefd3b24eb7a61f390ff5442b4fac17f4a7ef46400"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "6d2403b67365e74ab1e1cd2485cdfb70fce9f8d167b4115e23be65a77447ec39"
+        }
+      },
+      "raw_phone_tokens": [
+        "\u0268",
+        "m",
+        "\u025b",
+        "\u0279",
+        "o\u028a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "268825a04ad2bdf54ff568acebdbc8c138be570a79bbf7bc0d3aa5f3c612cfc2",
+      "source_samples": 9846,
+      "source_wav_sha256": "90ec2a20cae28665fc6098e7c00bed478243b993af85e7bbbe6314b0af2fa38f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-773-question",
+      "input_coverage_complete": true,
+      "logit_frames": 46,
+      "logits_sha256": "a977a452808a252b1bde7c29d8f649205bd9129049321eeaeb05f40c171a35fb",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "e04ae4615bf182d96461997479cc90d0f40c515ae870b83522bfb4edebe056ff"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "b48a2393a5765f4830cff6534bd8d5cabd7366e9a605b421faeb0499d1f4c1e2"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "87879d3ddf41780da2f984aef601ace78170e66916690189427317809487a9d9",
+      "source_samples": 14861,
+      "source_wav_sha256": "060382ebaa3b19310efaf327620600ad0bb3722b368ab82ec7f981b81cf525ec",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-773-request",
+      "input_coverage_complete": true,
+      "logit_frames": 53,
+      "logits_sha256": "b9c48ee3314d7cef8d0412f6a9c9a668985e5b87b0f6995613b3e736b0e05eff",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "5f6374c7e7db2b6438322c34e510d47f30bdf18a7098be804c8a6732feb895eb"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "f9ff7b59f7229ff95d18e93a4bc8722c11430a3ba376e7cfd6e022fb8e1085f8"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "d",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "3042a44d625c7a927099862dc9836b4041c07b69f64358dc7ba9d44b3bdebf42",
+      "source_samples": 17276,
+      "source_wav_sha256": "cad7b2613bc72193ec310be5497dcb2598d948d96473a5644a76e0162d7b4cd5",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-774-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 28,
+      "logits_sha256": "40af3983c83f0638455b8208a2096eff466b241f4e4b19f5fee975cc73acc2ad",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "cc217e36213acc105ef41c7cf9578af19f5868538dae2dd75969a1d0aabec74f"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "9f8122dc805604775e219303012f8804e9c34e4a24223154d01afefa52a3b3bb"
+        }
+      },
+      "raw_phone_tokens": [
+        "m",
+        "e",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "838b4aca52ee5a078b49219fef5ac59a232710698723f47a73b793fcf53178dd",
+      "source_samples": 9288,
+      "source_wav_sha256": "967112d7face8c03e2ed81b692a976c966ba0f4e2c1d10a9423cfa4b9aeeb01f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-774-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 32,
+      "logits_sha256": "ca14d9e29c4e2ab0000d97db0c328cf97cd2a891cba23de08d0318136d7d4d9e",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "1ce8869f6e53ac08238c0f30258bb42d6d7cae7317de91ec6fd33d3e3953f3fa"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "5f5f170e8bf8ceaa2d82490234094931d245d983c4b66e98419c887e1ae1b454"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "m",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "b4b31e4538d70e9fd46a37929b40fe47819547144b33278cb33f5d8e33c9f0cb",
+      "source_samples": 10589,
+      "source_wav_sha256": "f8273cee1773acc83229585b1a35294566f5f680e28b39ff21ef20ec28ef6352",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-774-question",
+      "input_coverage_complete": true,
+      "logit_frames": 43,
+      "logits_sha256": "aa9755e852790d0de6971ee4ec39cd9e3ef830645ee95f55f24049770f474761",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "5a720ad9500eac646cad052dc4846ce8ddbd699045312b904edffd9ec14277d6"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "a61f5b8b79651f7125d7f3a90dcb74668d95b92b8ab770432afbc082c19323f3"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d218e28b1ac39dbbba509bca4d33c64e9dbee35c76cd3af1b6c36a5ab7b5baee",
+      "source_samples": 13932,
+      "source_wav_sha256": "046b7697314becb8fe7c2a7fc5bb8354a4f5877a35f0ed50463a16783d743f41",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-774-request",
+      "input_coverage_complete": true,
+      "logit_frames": 55,
+      "logits_sha256": "e852417c09a56f4de3633533a3bbc5c1979c3f170b62d7bbe44100d70eeadf05",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "853fdc512be50bcba9c7c2c44e0e479d550141a9af2238a05629c1b23bb015d6"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "2bf910c82336915c39563d7a3c3c3052e6255aa6bde8cf66ee67b50c89f9bb96"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "\u027e",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "50e76d91fddedda5228c3d746ba440dd7adde4a16f406f6a71e70e8443494f8d",
+      "source_samples": 17833,
+      "source_wav_sha256": "9f1d2f8b5382741645ffccb312ad1ffd917606ef8a28f31e70c974778b5ef236",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-775-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 31,
+      "logits_sha256": "3a0b79bb99924389d7f37019c76a497f535864365edba03b593f2f7a80170092",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "7f52daafd01cd4b6c815ac1c4612dcf338474cec85b879652b50edc53ae5825b"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "e015327ad1fe457bc201524e30945443cdf351940e3aee0b79b8ec69037b1ebc"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "n",
+        "\u025b",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "a5ade52c1a3c0886eb0b1248a605e2157db527af167cefe89ee784fb9d59184b",
+      "source_samples": 10217,
+      "source_wav_sha256": "1756b82cd2df769567879d0e27233f0c6c0056009887e228001b1a68d34a3f2f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-775-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 35,
+      "logits_sha256": "2178d52b0a848f8e8460db1cb6ff39f1045efb03b21f12076e2d3fe9d866a432",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "0c43a768838dee8f4ffe182d3e5f21b430fb1dd7348756ddbee8dce8414bd2e3"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "6ef7f5fb8db1b5bec1029c7fd570ce802f6c4ff59cdbea1837fd8e9c660c5c1b"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e",
+        "n",
+        "e\u02d0",
+        "\u0279",
+        "o"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "2ae803707d80b65340fa695ea1445fc1a36b7cffb7d3cfd6b86a7f6b94186619",
+      "source_samples": 11332,
+      "source_wav_sha256": "1ae03e4c0086ede62a8b4346edb857dc47306c67ce4a21e42fd50ca9329ba947",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-775-question",
+      "input_coverage_complete": true,
+      "logit_frames": 45,
+      "logits_sha256": "5ff1585bf813d38678dd0ac4a323e6d7cf619886a9560e65a173ff34c26b8c86",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "a147753cd592a5c789ce6a9deca2dda5e6e717dd5366e205bf42d11c9f1f548f"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "2f9ea64387fcd12bab64c3c74cecaad7eb671313642f800ed0122c9cae479e6a"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "9530b43df0e4f3f87401ca9235b81264eb2dade47da83fa39dc805644a643c87",
+      "source_samples": 14490,
+      "source_wav_sha256": "880acc24ee5d6e9bb26a478d70a0a21d37908b7df76a9a090fac9db4f598f402",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-775-request",
+      "input_coverage_complete": true,
+      "logit_frames": 53,
+      "logits_sha256": "9d9209b980c79779d27d3a38cc2c04e2c659baea90b449096261c7d2fb65d025",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "d49d4c474aa96f8c1c4fd4aecee0bedf782dff2a8cc833d57943e6923254cf34"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "371a2c5920fa22c19ac9c7db498b6505de21228d3837145febfdae85f4b6a255"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "\u027e",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d30ed0af2eac1f3b0091941daa49159d90aa5424673a365380e21ebe51c36b03",
+      "source_samples": 17090,
+      "source_wav_sha256": "597f44011904fc716d02b7ccd380f34705acba7faea0afb5931f853053831588",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-776-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 24,
+      "logits_sha256": "0e2ec214e356280f9be0a8c1262f18b80c1b1d76014c14af3d8a8a91c64745c5",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "d14734b469b2c9b3741dd450fc45954cbc548ad1c848bbcaf876f9b576dff494"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "6fe6d91c8e14d307d036d2d244b10180b78590698d0660be0ac63ff311129ad5"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "\u0268",
+        "m",
+        "e\u02d0",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "93ad5ea284e810b8e0dcb27842ca55ae3e9dff76ae98ea1752b5d7e8027a866e",
+      "source_samples": 7802,
+      "source_wav_sha256": "22de953f314c79be321a26890b03d2fd6feeaf87a340e5ca64ae8e961ae01a7d",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-776-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 27,
+      "logits_sha256": "fdd90c300e4304342d2e7f14a534813b419e8d8018a972406ef365fa3254f030",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "a5378c54f61a26efac98f7c8f660e86669fdfb92b1bb60d16be839028c439873"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "6039951420ad35afd7b35e3d7d99d9d71ca01b959e8c7a4b792fa4a56af2f408"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "i\u02d0",
+        "m",
+        "\u025b",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "f138f6066d97e5d9c3f18d5bbd5ed336390f0288db4c3b76f177fd3c13eda058",
+      "source_samples": 8917,
+      "source_wav_sha256": "d7bcc7360d223ac3fbd410533a112e610f659bab4ac0e7109f070173d5885606",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-776-question",
+      "input_coverage_complete": true,
+      "logit_frames": 40,
+      "logits_sha256": "2f241fba94524cedc9b7b41a9a122422c32d3fae23cd8d22c419487c6d69c53b",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "1a1ad9c2f05f566d45f8c8fa8b8e2abc882733df2cfa71d33207cca8fa060864"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "d624d1d6377065b2c6f80f1e07c19db26b6e087913edb1485a35e07e054f1ceb"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "f45ff45c5659f8891accc89b7af48df36537b5b9164229fc259cb96909ef5ac8",
+      "source_samples": 13189,
+      "source_wav_sha256": "2e9294252197b772115aad5c6c025770d221cbdcffbbd5f1b2d9f913c0fa317b",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-776-request",
+      "input_coverage_complete": true,
+      "logit_frames": 46,
+      "logits_sha256": "38e0fc8cd0712a14c0438a0ff72f2d5411a62774bc584744b8c54e84ea824bed",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "e566a94bcb4f32e8344e478b2e2c8bfbf0484543dc25733e496421d19eeadb46"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "df6480b6f3aa26ef641ebd2d34022573822696e9ec7a62a25bb35f03dc31e50f"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "\u027e",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "2ff539b2650b120194fba6594308fdebc6a29e0794fc070cec3ae620243a56d9",
+      "source_samples": 15047,
+      "source_wav_sha256": "2de363c9be7fb1052b7f4df936c6e9303bbd12e980c11254b031d58aa90e7735",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-777-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 33,
+      "logits_sha256": "4911f1370877ff3e7f46cba5ad3596c86fd880e7e0bf24de223c4553770035c5",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "370a48f0ab5bac7600d70a531bbefe81ea5f3b149094c578a05ff998908efa58"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "1fbd5eedfc15d293ba6726d8911e84da9aaf122ae8e858a504bfb203a2b0443c"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u02d0",
+        "m",
+        "e\u02d0",
+        "\u0279",
+        "o"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "af8eaec1a4628d6e5f33ca5028638e89cf6863d87641bb0a93ffc16a267c5cc1",
+      "source_samples": 10775,
+      "source_wav_sha256": "3aafd273b6fd23550fe0de9e51e2823c689018e6dd0eae681a699e58b2dcde2f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-777-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 36,
+      "logits_sha256": "27fdc4b90a186a565ae48a7e36ec2e463254fcbba5c20846897274650e31017a",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "bae0a31bf6ae362a0f2592f5552ed75a8bb49def0083dc5bee31159a21713f51"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "7597e7dc054290f78fdc5aa4f059cc2c61cd7d8671d7fd599e46336931ae405e"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "m",
+        "e\u02d0",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "68b182d767be0bc1376cd685cba43ef01b5793dd1a978705a77c63c345e8fc4c",
+      "source_samples": 11703,
+      "source_wav_sha256": "d4505563943fb1d2a7195ea064d7ce2ef14dbc798f3e9134d90490862ef5d2b5",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-777-question",
+      "input_coverage_complete": true,
+      "logit_frames": 57,
+      "logits_sha256": "d5415ecd3b848ef42f727e515d0d279cdd2d4331ff12482be1fe385607a0e9d0",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "5d852c51c72818e8af031a55b282141433eff88594ef2632d1aabef824743fc2"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "a1c7aded6b4a5b81c76cb4c32aa95672c4afd7972a521af9a022fb542ce2ab5a"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "8c16ca8a6c93489de72a8d618b298cf920f4bf99655f4b7935205156d3e0271d",
+      "source_samples": 18391,
+      "source_wav_sha256": "a0f7d1992fcdcd160c73de58d470801b623be82c80e7c5e14b96850570c5976a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-777-request",
+      "input_coverage_complete": true,
+      "logit_frames": 58,
+      "logits_sha256": "943465946d03d548b8b2ff8f0e86aa3f556798a85249d0f57f003295e78eab2b",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "5d12ba169da2e54a72a72512d3335c0a303e35e3e4ab769d276a796673e80d61"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "af83a4916125249677a35aeb4b21e922267d07ad268e20360b1f774d00426c23"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "d",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d4de23f370b291947fded216ecec104c04980f8deb2c33caa76a16cb939ab623",
+      "source_samples": 18762,
+      "source_wav_sha256": "2cc8dcaf0381c3b347e15f3a46698405cae1148aef7c81f98fa6a6c97629bbab",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-778-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 31,
+      "logits_sha256": "2afebd0c4a9ac151adbf1487409383b1f2db519b902d271983277acc608a9fab",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "1cb43c3306b0f02c7dc3bb765ce114f9dea497bb68fdcd79fa036269c948bf4a"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "51717d6a2bdc79c7011e08abcd45f41738146cbd4fa324eadaec02247e81bd05"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "m",
+        "\u025b",
+        "\u0279"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "1ebbde26b7ecd90350a28a6234faaf1a3e5be399c41573ceb8245c4d8ad1e3dc",
+      "source_samples": 10217,
+      "source_wav_sha256": "73af0a9bb85d4f0a9e998463c5ad786315455dffcb6bc2d21baa771eefdf18a5",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-778-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 35,
+      "logits_sha256": "38fab0b8eef29b5021c386ddea881492e72b06bfc3982208cf868fda6b79ea8e",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "c218306e49d3a829e341aefd0c5be7999016be628515ce09a4fcda946c997f19"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "69b54308acb901d6b801b4816a359d3f7fd8584140853b62f6b990f93f2f1e23"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "m",
+        "\u025b",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "836ac755a1719d2b81ccda898910128eabc8a47ad000e6b27387c3bd0e654816",
+      "source_samples": 11518,
+      "source_wav_sha256": "6618a8cf77aca399a61976fbef1c564c460a642bf69052ac8a12f028d68ce99a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-778-question",
+      "input_coverage_complete": true,
+      "logit_frames": 46,
+      "logits_sha256": "b3592b37889d5b99677146648956362bba98a9563dbd94f631bef8a7ea6cc1c0",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "9e053ba94006470bcd3aa34c24939a57f8028f79f8cb52dc0a74e55d4f403fb9"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "96e6e0885de060b28ca3302c93d93f1d9a062fecd1147345ab13841801554c6e"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "14d8ae35c067080865f4958afe7a6018bf7c951f941d27a22105f7803903ab94",
+      "source_samples": 15047,
+      "source_wav_sha256": "98c40dcbb6aa191b71054b2fed8c6503a35290e906f98e156bb61f860ada052a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-778-request",
+      "input_coverage_complete": true,
+      "logit_frames": 49,
+      "logits_sha256": "81b5c81bd5a817ebf20b7d09ce16a3f5c58e7dcf0c5d167314feffd21ef82840",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "c525876d541982630f3979f2e85aff79a13b8988d4fe40c6bfb260eb8bd20ece"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "96b88c0a351e082a696bbb48773c153f30728fee300cc0911b9be2398c63d751"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "d",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d759a64f80c02cd92db27e1a3c17e91aaac7b9a118330db1304f737164796b37",
+      "source_samples": 15790,
+      "source_wav_sha256": "90ba8981d36c0907cfa91b39b224b4dca7e065a9f18b5a49dc99f7440b9569fc",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-779-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 29,
+      "logits_sha256": "5c95ddd5bc2698613f3d9ef66c0803a336baa870626ddec04122d61e3e3bf34f",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "e527a84e276f582964228f8a8278c0ac2d021bd3cae9519da127c98532abf4ab"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "2969850cd6883194ffc12232f5e0c9217600074c64d0d74fc668694ceef7a065"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e",
+        "m",
+        "e",
+        "\u0279",
+        "o"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "68de0fe2cf11541d382c753683c541b58d296d6d0f148f385834bc1eb9a4f239",
+      "source_samples": 9474,
+      "source_wav_sha256": "95b08c277fefa25344ab08c74b15136d92b19a31d2e3e63fd899a0de776c0ef7",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-779-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 32,
+      "logits_sha256": "7dffa1a4b59e7bd1adf2444cfa5c8f71c73abd01f2a3f17f44ec77983d260e66",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "c3f32cd73d65de8980c0e64e2a530adbd73b602d854c20d331d888d29202f372"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c0cabb13d5d196dea9b1dc503b5088fd80a70bd28df50da49853237cc17a95c5"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e",
+        "n",
+        "e",
+        "\u0279",
+        "o"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "b3d29141c29929b5f813212fafe7687d611d693756c9b6d9e508f4f3e161e13d",
+      "source_samples": 10589,
+      "source_wav_sha256": "1b4c90759c4185c21a1129606dd28e0975c054974e322416f0b6000439b3778a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-779-question",
+      "input_coverage_complete": true,
+      "logit_frames": 42,
+      "logits_sha256": "96bfb985696bb7f58f9af5537327c4fc2f64f8adc225c99469963df5e2ba42ce",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "1ad605eb16f3a85c0b9c19d14cce639f45ca105c2f5ea1bd26da4cf170fbaf1b"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "35b53c58dd1bd3b7c3571bc66b7ee9ebc2806a10d0752925e13611e42407c9f5"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "a3e3229423aedb2c0c1bb3bf2b07daf60064cd879ab3b85a4cd6fc4514d3588d",
+      "source_samples": 13561,
+      "source_wav_sha256": "dbf066705998165035443db9e60fee8c0dc73a715021eb979772f799c7ab10d0",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-779-request",
+      "input_coverage_complete": true,
+      "logit_frames": 46,
+      "logits_sha256": "bb476f2d3c0c0ab8772e823b1ab476715b6cff479fba8145c56949121a79fbed",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "7f8a4b23abaffc22549cf4c2eff7b0de5306e6e5b307ceb854664853e793021d"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "97cac5fc15b8f3a58603bbf3bd7bf4b80ab5d65245e151bab8c3717b8cdd5bae"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "d",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "e1079873575c26875437a3d150dd6b96717f8f47273912054b5c4c7561324743",
+      "source_samples": 14861,
+      "source_wav_sha256": "893301bc28b8b1e99c1e3d04a113844e7c6663e614cb8943dafc2eba21826338",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-780-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 27,
+      "logits_sha256": "f906b888f6dd167ba814570d16471d5982ad946dc3fbf88998331051eedc691e",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "92fe05e2e1d5b1ccdcbd5a36877b9eb8c57f7ef5a038e99127aac70d4c4f7af1"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "cd7b1d361ef6b248e6d461572c039842b1a8611c4de74a484a94010ccbcd1e21"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "\u026a",
+        "m",
+        "e\u02d0",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d066c688b7a0b70d09b6fb98db6551c5540c8d676335eb848ef0b213f6b48b5e",
+      "source_samples": 8917,
+      "source_wav_sha256": "9aeeb24e0bb17e7d21b974a9561d99b0c7fe653494b7c5443329a232d3597645",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-780-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 31,
+      "logits_sha256": "dd885e924da9a1e96b2acd1746d3637553e41cc2e3ce7ed4be7d7ac07b45203f",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "c60f5bf144a6b2241d8cbe49f5ce2011485fec3ecfcda3768fbd9e021c03f5fc"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "e6c36ef9ee1fe40f590e4b199f4124bde50d23ae404e0298120d079b9eaaace1"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "i",
+        "m",
+        "e",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d3826771e7e022f1c3cceb70fad3caebd40230ea5dd88f5f1de0f24fb1aa69eb",
+      "source_samples": 10217,
+      "source_wav_sha256": "45420dc46019313ca790f2706cc0bb537072218e411a43543f09c643f228585e",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-780-question",
+      "input_coverage_complete": true,
+      "logit_frames": 40,
+      "logits_sha256": "12a0c9db9ee8592f7963f823a7703e11b918db491773413b8bed186ba25ed13a",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "9b4d7dc1f19771107cf0f06ca4cd5e464cf1e4a2a0cf99d69536c516445d91f9"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "7fe5c4024cafb0f5abeb3047941441ae05fe5fa236125df17cf572ebb4d6060c"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "f06d559ac8ef76d2564cc95026d4e98def01ee13312498c47a1c2d2bb87f9f65",
+      "source_samples": 13189,
+      "source_wav_sha256": "4ead95536b65dacf0aeed2516c36956872dc259872507a163a446520b17a0dd9",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-780-request",
+      "input_coverage_complete": true,
+      "logit_frames": 50,
+      "logits_sha256": "ca49d11d33fad64cbb2d2fdd09917e55436bd71b9944772b78f3215f2fc1b245",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "745c73117d08c5e0f4ad3d272fb7bc2b36366b437bba04311edcc3e4bc69a8f6"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c23c37ad68103c530e1b762a7c003359b3d35b87cc5c063e6ed1804095a678b8"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "s",
+        "\u025b",
+        "\u027e",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "9ed7dd2451d799ff09a516d2ca6dcc8874f1d54a459cce908f996aab3975e250",
+      "source_samples": 16347,
+      "source_wav_sha256": "16db4e62660ec88e00564973dd3e09d2bf95236331a4c81085a2dfcebb84114c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-781-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 30,
+      "logits_sha256": "56f5bb1c601c26de5d89815c8f35dd3d630837e06650c13e88f6c7e6532b1e3c",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "5d676fbcafebf135b43be1679b5b11a75028d3f4b640b4616901ccc2cf1c64a2"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "6880c808fad652dcaa289354113777939857d07d7d9fcc9619f1e1b5bfa12a3e"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "n",
+        "\u025b",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "926f18260ff56fe6fc317b01a9119160d2181e5618cef0775aa0951978ce5600",
+      "source_samples": 9846,
+      "source_wav_sha256": "f75be89aace327cfdec9d7babf225dfbb15f77367d76e9bb78957ee6522cbdc1",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-781-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 33,
+      "logits_sha256": "b73e8329ce389f39f69439898c10e91b69e788ec4d65904835b542436a5fa3e7",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "8366dbfe3a7e1929673f440a5309878a4c4efacb732a4ffdc692565d1f8e47d3"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "e88bbc5cabaf9364fdd56283941d7169e26b9a801e7b23d3f1a57e9eda2cf67c"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "m",
+        "e\u02d0",
+        "\u0279",
+        "o"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "452774e7772a2c4da48b42d1c66f4e0acf8de03a99c9239242b9bc9c2b8cbb1a",
+      "source_samples": 10775,
+      "source_wav_sha256": "01cfd3cd5071c85a00a6914b9798dc37f46120bca271392253842398e31caef0",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-781-question",
+      "input_coverage_complete": true,
+      "logit_frames": 46,
+      "logits_sha256": "2dfcb541a05ea2add9b6d68b1f311c4d686e5640596c1af8239c81fbcda6f886",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "9687b28b4b767d5bab341b99e079150cce1ebebbfb25ec898a50ab61e02f4c91"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "f55770c53224ce7232eb2f19fd0dc431a3cdfd73150fdf725fe06640213e706f"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "12ab8abe2a0478e28ddc45403ebe3992927ae41b34f912002123f615a2edde69",
+      "source_samples": 14861,
+      "source_wav_sha256": "1b0bf88d40f89d4baff5188b3555ffcfba489f3d30dd10273bf39a97388db98f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-781-request",
+      "input_coverage_complete": true,
+      "logit_frames": 56,
+      "logits_sha256": "6bb208ada11bdcad551ae8ddd851e86a68bb01b723bf50d2806eaaf27e2eeac8",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "e3188ba6df83387fe6882f60fc84c53a652b8bbe16b6adf2a4b0785abb44cd13"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "154f2dc16631859e213bb9f73b112f06ce302e1da958a3f4882a3d990203d215"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "d",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "7eb7654678dffef7cd0efa2a6f2e30a3e7b2f38620200e6bb400a6c0deaebc0a",
+      "source_samples": 18019,
+      "source_wav_sha256": "48ba6790aed54e4ae24fad2a5a70f89116f24a57974ac7f75b5fae0697e4c17a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-782-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 28,
+      "logits_sha256": "29206999ea63dcdb0ed42b8748a2f8488845e5ae8be53eef49b15ebe9bcf9ce0",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "641e2156bc30cc014c5dbf515a38a58c16a6c48a597996826ef035e0a67653aa"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "3f28f45fc8007afd0cf8fcab308e636153ffd2ad7cb500a36a592ea654a80286"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e",
+        "m",
+        "e",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "4f7ec29c6b0ccc969066436933b33d9b258e7d0d4471261be458a5df0e79a7d2",
+      "source_samples": 9288,
+      "source_wav_sha256": "85a9f7098aa7b01ae989a5ed42005bcdac5817ed349d7250dfbdcf439355c11c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-782-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 33,
+      "logits_sha256": "a6806763290363a3c67b3d38cbcd585af247967d96a79c05f2d167851924ed2a",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "f8b03787e5f827e008efe960933deccc631a072e3dcb10ccf3adfdc605aeea4a"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "4631fd82e1693924b867a56faa09c96d69d1cfc729b147ef6bed3a72ebcc32b2"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e",
+        "m",
+        "e",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "1e9c685fbc31053d14a5390b33af19e9f0a997e44d1d290587e36aee999a4e66",
+      "source_samples": 10775,
+      "source_wav_sha256": "4d135fb701a520af0d705fc385890c1145d2df8252a77bf349a262ff3175ebab",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-782-question",
+      "input_coverage_complete": true,
+      "logit_frames": 45,
+      "logits_sha256": "9f1d48b25026fb6c8c3b20584d9fba78e234b524fa95aacdc775a847aa5c8d67",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "e4d00cf1fd41002d9dc347e2c3f96fa487b4fa9b6786e52d2ad7755807458e3b"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "7f20bfd1e937a4834419bf2dea9912754258e0d6740e77be901cdc0115f68b6c"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "cea19c6f77c34d5ef092ea4d91bebde330c1add1fbd2f08631b2d5de3bcb2696",
+      "source_samples": 14490,
+      "source_wav_sha256": "177b380be30fa881d63ed63ea3fc52869c4cb9a2d032484ffabfaba8a1b6f41d",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-782-request",
+      "input_coverage_complete": true,
+      "logit_frames": 56,
+      "logits_sha256": "e6f464b0141fb9ca0071294de4952fb2f53b0e013b025287e30ea3649f9398cb",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "41dd9fd16c7c6854f868e9ebf319b565534c48d82d1f502b2ecc54988f352095"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "4589ce5155229744984e6331a606894746694673a84f05a2cd0887d0a68388f3"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "d",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "8a3ce39f20b4532cd6b3dbbfc43fe6017d1fcd00198dc0abba290cb53688b822",
+      "source_samples": 18205,
+      "source_wav_sha256": "030820515c2ee2984610157fa62d8593d0f837878f6d6c1cf278938ef0d6671c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-783-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 33,
+      "logits_sha256": "ecc7d3fd99b269a2305241153f5b56f093016e0643f24cc543f6cbbc96e2a961",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "d4c965a6ca62740f44e48e4349050b6260cb9ad84e8d6cffa9f2ee0aa272933c"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "99ff5d65026a5acc373cd99fd7a6a6888367a9e746e7ad4376704bf74e57a462"
+        }
+      },
+      "raw_phone_tokens": [
+        "e\u026a",
+        "m",
+        "\u025b",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d6e849c5a31ed8d5fc41c6231098530d0a8af6e5808909cf3d04bf75f0e61e79",
+      "source_samples": 10775,
+      "source_wav_sha256": "6a853bc85137708c256b0d6d7dc7bbad47d735a9a665d95ca43d31b7ad1f2682",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-783-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 36,
+      "logits_sha256": "fc1aa8d6604cdcbe4d6a6e19848770f328b3b5cee93e6057b7d640ce79d8b30b",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "1dc59498b2a877846b4c9705e58cd051aae9788f962e906b979ffb4d61863b7f"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "6128408fa8dd4c3c99dcb4e5a461785f8fccead8e839a2dad389f376a5d2082a"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "m",
+        "e\u02d0",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "3ed7a809b99a7b2270ce8e908a0dc6b3cc6c498c200f4b93d12f8f92816bf423",
+      "source_samples": 11703,
+      "source_wav_sha256": "245c9be2aa4c2c25653bf464daca31fe08294f7aa0e809f980dcf7b4d5202c59",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-783-question",
+      "input_coverage_complete": true,
+      "logit_frames": 53,
+      "logits_sha256": "4bc52e2e2a977186fdbb45f5539ac4538d1d02562c800aacb226c48c1ca6bbea",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "b054d9803c5069cdeb49346dae2056557b97ca22e188e40aa384d188d35cc5e0"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "fba913f10c853c24e1ba0bf59de444205af10eae58b0a4dfe956209a61bcaebd"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "59326711a974d7c982ebd8d065493d2e3d5aee29094186372fdda9d0ff1b8fc5",
+      "source_samples": 17090,
+      "source_wav_sha256": "6c6409d48dbc3ccc7359f4b7d05af0d5158f9e3b4b9f2fd15bcd95a1e696950f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-783-request",
+      "input_coverage_complete": true,
+      "logit_frames": 63,
+      "logits_sha256": "b1251bf89f9e96981e9b73b104f3468c993276f8b7cd593ceef5cf99263d22d9",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "aeb7905b1e246318527c0ec870c44993bf8d994a22f80492262280c4c17b3161"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "cf6feae5ca41a989f714a73eac2806a4a1b45d99c129fc152cc7c42c7a58bd80"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "z",
+        "s",
+        "\u025b",
+        "\u027e",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "7d9f3d4dcd8a3b9f6b5b6348a3acac1045b92546c980a3af8dc57e35e768a66b",
+      "source_samples": 20248,
+      "source_wav_sha256": "483198c4197d746b909ff8af4a43c11db220e75d6027c76883cd8bc1555afabb",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-784-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 28,
+      "logits_sha256": "f7a5f8c8beb50adb8c8f39df94dc30769a209b87822334a59821307cda80b36e",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "bbd73ae9ad818cb079d5d94e515a789d06e4030a4e2bd51c2ba8435697547ce0"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "ed3cb49ead090570552cf9d911b6d97844e0b82e1b7f116ab9a3b22cb146326b"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "i\u02d0",
+        "m",
+        "\u025b",
+        "\u0279"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "49892c7876404e277c710635a04bf728250e0042c6e04dc5279ef477192cffaf",
+      "source_samples": 9288,
+      "source_wav_sha256": "e8f1d8dbf84ca5bdde5a6d49439f756ad554b18f41ac5cea57bccce8b7dd4fd5",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-784-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 32,
+      "logits_sha256": "bd27344632798e1a369a3c3485e74d28df8c31e883e2d6462da5327ee9f81e58",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "1e5b5c120225f95a27a176d733a8cc75d81f6f0295330f88e71582069e76a7bf"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "d43d9f8d8a76b4cc11c114782e8dddcb3bd6b0c26153bf60a536f8eb9913e4a4"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e",
+        "m",
+        "e\u02d0",
+        "\u0279",
+        "o"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "88ccea36102325c77e014f3fea90b0b84ffbe5adb776aaf3576e14b6b78cf1c7",
+      "source_samples": 10403,
+      "source_wav_sha256": "17ea05cb1a130cbd28c4a0b0ac7d883fe7b445d9285381ae9dffff3aebd970e3",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-784-question",
+      "input_coverage_complete": true,
+      "logit_frames": 48,
+      "logits_sha256": "ea0ea64444e6af7b8152c36c349c0bbfb065af20b1fa229b601c97cafda4063b",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "6abc9c9f4e357c2e17e82063506694aadc99e13ebd5c22d131c8706f602548a3"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "75bb0df9c9155575af2c3e40bba5255891b04de4f5d01cbee216eabf9a0b33b1"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "fb34be60e38bd8610978e770b541754d7c5df19f83c142064fd7c63dbdbcd3d4",
+      "source_samples": 15604,
+      "source_wav_sha256": "bf275874c3733098eb3a39dc8128e7ee01ebcfe9828ab650515cfbdb9f09d178",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-784-request",
+      "input_coverage_complete": true,
+      "logit_frames": 53,
+      "logits_sha256": "51607e4c57a1fd45998a77a15d76a87bd1ae6f9b5b34002025c28aa12cbde2d3",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "b18643cae07025c1edba5435d43be49ba45c6f5f2313c429baa34ac4f1eca451"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "fe8c6533038f0c2b00202d0fa827a27c437039926ecc5d97a8eee6f6ae5b98eb"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "\u00f0",
+        "\u0259",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "84269f5f6f600929268955a751a1eff38f42be480ae5510cd8d959dee7fb5290",
+      "source_samples": 17090,
+      "source_wav_sha256": "0d86efe5bf92a30d72aed0da722561f2afe696bc756a67a5848c4c2fbf7e35a8",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-785-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 30,
+      "logits_sha256": "f9655508bb276ef295d04aee69395bc6602eab5e1a27d19df1f46784896bb32f",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "505f68ef7b682c26cebb0fce40957adbe5e2dfea1365405977e0797ddd794159"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "15d06f921fa04774779ae5a44198ef0a635580cdfcb401f770c2c75458964fe7"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u02d0",
+        "m",
+        "e\u02d0",
+        "\u0279"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "27d0db1a276c263248802eb8519727bd2702aea565748cf0d6215306c87f503c",
+      "source_samples": 9846,
+      "source_wav_sha256": "cf386c8f4fd60eed185a8412cef24d8c1d8813a3b0d9d9b5e5554fdbcac67395",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-785-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 32,
+      "logits_sha256": "c9c2a6df5f18bda7c891d1efd69d045cf861a23e8f4a82e946151ef57489614d",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "a573eccbca32b8cbbbbae9a7fe1ce3623a5c3fa96d3798ba976eda48387bad44"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "01f0ab12c210dba746717eaf897112c83180baa9568804e2cca170ebd6e4ed82"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "m",
+        "\u025b",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "e9da3dcdea13c8bde4c9e76d9dcc5733ce5db1883f99ebea8716fdb81bdf87b4",
+      "source_samples": 10589,
+      "source_wav_sha256": "c5ba5e8de7d2aa696cfe0a8965a82b0c1f7d3c68b2e243680b6aa6b298efb6e2",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-785-question",
+      "input_coverage_complete": true,
+      "logit_frames": 44,
+      "logits_sha256": "707bb69bfb9f668bd848b409aaf758a286c92308d111fbdfff390d06bb72eeea",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "588681bdd9258ea96a2b9aac9cb0d803183d766c29d149482810bc1b99666d43"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "37d03bea077d978766b4138969888573ccdce9e3f5cdadbe4157ae4cfba253d7"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "c237dc07d127efdc985ccb768a3746de45bcfd063944f4ec1b8a82924e7f1591",
+      "source_samples": 14304,
+      "source_wav_sha256": "9cc6d4dda6161eed8b2d0811cc7098b17255bc6b8055269c9c8cc84187c00679",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-785-request",
+      "input_coverage_complete": true,
+      "logit_frames": 51,
+      "logits_sha256": "b1b4ae55de29bb5f0a488bfa9640a2853f6fa83e2f82d29021b9ab7b01bddca5",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "2f89ed6127835c597b9170307b4a7f45044561801b8f67b96966ac20933b1f46"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "5939a7c3b05766aac8075830fa57351bce49f845b10beaa0630595d697fb73c5"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "d",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "ea549001b6bc47c2f4f4f45ae5ce1c361b6c9c872976a801874fd8a697381e73",
+      "source_samples": 16533,
+      "source_wav_sha256": "468e351cc5161fc4cef70190810b6fff3960f4932fd60afe4bcdecc335692120",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-786-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 31,
+      "logits_sha256": "f89b44e0afd6c032afa33239efa63727513018251d78f90c51bc0000f8a505a5",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "8e1f22490bb496b323e33c290a1744a4d74da18078eb48dba9e762c90f0d31a0"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c55319aedcbb0af449adcfbe012ac28c6e2ef63ff7e7c08d211e19024c6adf89"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u02d0",
+        "m",
+        "\u025b",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d47689354bef3105953d08e341af47dc6c834cea1ac39657686b8550b24c979e",
+      "source_samples": 10032,
+      "source_wav_sha256": "ca72af52ebf74e04cc01002806a2c78cf344c84e1c7cd50fd4453641404b9eab",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-786-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 32,
+      "logits_sha256": "8c3e1ee7972d4f57d8ef0dadd308238e0e8743b8bd728cb994c52da6d13f7f3b",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "f4272604f01b0602258477d41ac0d5a93f59ea5315fd8ea0a912ec25f2bec8db"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "d5ad5e8e4b02de67654dc6996570771fc8e1e877fb288e111f281f12dfb25c69"
+        }
+      },
+      "raw_phone_tokens": [
+        "e\u026a",
+        "m",
+        "\u0279",
+        "\u0254"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "b158de9b44891cb3e3ced6807610ca62dddeb877a967b8c54ef4405a23d96360",
+      "source_samples": 10589,
+      "source_wav_sha256": "df52e91e8815130c4bbdbecada6bf75545186d74e2f0d23de1e5d476f6f70a1f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-786-question",
+      "input_coverage_complete": true,
+      "logit_frames": 42,
+      "logits_sha256": "5fb63b6f28afa46e17bb43f9bfb7942508d8ab020de296ddd40edc52d7fdd94d",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "33c0142710729cbae895cfd96cad39fcb859fb057776941d2ce42fab8b68c55a"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "7c880fea022de07e3254969cbf9e23f3df19e7aced29b6880eadf6380bf11fdb"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "598ac1bc3d6084d17498e22bea1e1d86a8a9a8d29476f3c8ee480ab6e8857c7c",
+      "source_samples": 13561,
+      "source_wav_sha256": "b2e9f32657084a04b099f8c48d6d4c5372d44cab8746fbcd789744cb484aee67",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-786-request",
+      "input_coverage_complete": true,
+      "logit_frames": 47,
+      "logits_sha256": "2ce239ac221c53c96cf9454bbdafcf790d4e382bf111503ef85d8bde55608c09",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "faa09e72379064c389d8edb5eac59818898507b5c8c7fab21f7a84997bda7c6d"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "90702bfe766c26c5dc6df410d75d784cad366f2f097fe13d22210ec3072ece35"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "d",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "c22b602cf35c4a296258e8e20ae9c0f380e6612cc447b5067637c443a2bf009a",
+      "source_samples": 15419,
+      "source_wav_sha256": "f92db6d77973d1eb77db4a7669b198cf5fab9473cfd198ea10c2bdc777dd2aad",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-787-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 28,
+      "logits_sha256": "8ca5e4129a5abaa028312f08e706e5eae02580f2e580b8fee0b6c0f200b96ac3",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "357a67ab1cc77feb3619b605abcedc10a508033f8a5d28ba5f3c648da57642d9"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "fe29ec6b83aee8f43159403eb4fd21c0150c7bedb72b449669b8e8177600fe0c"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "i\u02d0",
+        "m",
+        "\u025b",
+        "\u0279"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "785ba69d1bd661658819ce1ca12ac580b1bf92142966504af6f66684b238c7fc",
+      "source_samples": 9288,
+      "source_wav_sha256": "7aefa496776fe75f7b085942f6cd83aec61e470f86974945bafe0f7bb408c90a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-787-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 31,
+      "logits_sha256": "e6de3cc68ebe854121503774379a1de8c808693a95367800d7f473284b8380fb",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "25b0a060b421322c35f3b9d89ce3997dbf144e734203916d5ffbd2de11b34f38"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "69ba7022b42c190b0523067fe7dfa2f93dda613265eb40942d82d7189ad318ea"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "i\u02d0",
+        "n",
+        "\u00e6"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d93874dada7451ce2765cb2c6e14ec3337ef414397e1b4da57cf81c9030975d6",
+      "source_samples": 10217,
+      "source_wav_sha256": "af9c8bc87647c4deeabe784491a03f2e354009a4a6d921dd57347d14e32afa19",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-787-question",
+      "input_coverage_complete": true,
+      "logit_frames": 38,
+      "logits_sha256": "75c105bd1a82fefb32f7428933e61b529857b319e95a5670a42a2d5691a012af",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "7838ef9e28feec666e10ff3505c693f0811471331fcd1c2514f87c966bb0599d"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "254aaa03a8b50229654e1511e4d6046a920fbaf814cc3140391854b2c6d222e8"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "9e08ea22f4c90f3e971f32a1e90c7b08b3cc0145d7614bbad618acc59ee15c4e",
+      "source_samples": 12446,
+      "source_wav_sha256": "4508a7333d4fd7a906eecab29d6b2a945e465d5e98ba192e9e2ac05df3fa6ed4",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-787-request",
+      "input_coverage_complete": true,
+      "logit_frames": 47,
+      "logits_sha256": "fe1838c75dfc46f0ecf855eb2c7787488e79580248e331075efcfc5c0859b047",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "aefd091f7530be163598406f50f86db12f2d13f1a34c1e5b6939e99eb5f1a935"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "9806657ca2000dc9e449848efd7ab400df4667da1c2b8ddd325346b1cf15e841"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "\u027e",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "4cc2e4c7e955bb373858fdeefbd2862b3cf7309094439d690d036f63a66f571f",
+      "source_samples": 15419,
+      "source_wav_sha256": "c8c4194b7645398acd9c186201bd2285a723a1feb80ec54941f22b7841015700",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-788-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 27,
+      "logits_sha256": "44f1afaeb47712169eb4acd1835c939ac0c2fa6ad2fd6faf47c7d72af9032914",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "5e00121165123dde89a46c5d27b5becc119745e4f55fb03ee7a457f34e1311c6"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "3c56c1c1318a3f61fe90b84c724e694d4ac28632cf9fbc78c80abeef161ef54d"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "m",
+        "e",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "0df9c268382655c84a7517dc5e1209833c101cdfcd662e7fef0aaa880c45c108",
+      "source_samples": 8917,
+      "source_wav_sha256": "10e69cbb697d50d8ad800d532af9d0fe98d12847725d57f76ab415f386c386b8",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-788-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 28,
+      "logits_sha256": "0e06801b5d389a1642df12b77699c99fac47ebd3b61532264c27e9503b7d4e29",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "28358b4200b71eafbbba7d547ad70da98fe3d53e6533024e513df81f3a157190"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "d59a387cddbd91351804c8325d8815fd6e00d0aa2c0604e6aac7f68d0c2b222c"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "e\u026a",
+        "m",
+        "e\u02d0",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "cb755354184e87ca3a18c56075e676b8de19803392c026b27933808ff2b48297",
+      "source_samples": 9288,
+      "source_wav_sha256": "248d33b4633bc7bbaa890b48797dfe36c60fb53b8dd9e57e50332eca2dc849ee",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-788-question",
+      "input_coverage_complete": true,
+      "logit_frames": 39,
+      "logits_sha256": "5e80b195a38affdcece4ec06936b80ad9ce2b692da3751c4aa9da99cbba7b918",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "973bcf0c27a28c619da6b3a148ceb9b578a27bf9b1906885c6859b5f21bdbd79"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "f5653482398db8319cf897801134edf123b29c28b30fdd07f4a6b43df9d9b0e1"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "a",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "560d71bc8846ee6814627b68a63e202a580ac81f2cc0c6069a0871672eadc412",
+      "source_samples": 12632,
+      "source_wav_sha256": "ea552463f7c4523fdf33a29ec942e142e9fde5fef04a2ffc1082736051a1cb1c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-788-request",
+      "input_coverage_complete": true,
+      "logit_frames": 45,
+      "logits_sha256": "a30635b02ac6801625b088215e38a8f16842c03c247d446015df8a9f83a7e3c5",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "595d007028a395a56d845160269ab6a6925934df6cc315d8d38fb308f2388c74"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "68acd2827d539152728e25e85a9932b93ebdcd43c26d067fff7c9ebd2899a424"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "\u027e",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "067e05a5451f140dcb2767f204fd2c53cec119a94f408ad6973ee718bfbaa35f",
+      "source_samples": 14490,
+      "source_wav_sha256": "d2c121b4b7e21dc029d3ebb846ecb11c85a82d2810b030666d9273da631450e6",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-789-mero-fast",
+      "input_coverage_complete": true,
+      "logit_frames": 30,
+      "logits_sha256": "c99a7cf29a1cacd66195488e419f72490b66ea9d54450b984d27dae3c4cf98f8",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 735,
+          "path": "RAW_PHONE.json",
+          "sha256": "a6bcd79bd9028827026014634010cd7d482f06b4a63eaa994bcf9c83aefac9b7"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "13e992a94598ac15baa28161920286d941d6a6334030948c37b66a4af14eec84"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "i\u02d0",
+        "m",
+        "\u025b",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "3b1fb3b97c700cc28a9bb042aa7ee751c4257f4b6286877301447840595235e2",
+      "source_samples": 9846,
+      "source_wav_sha256": "9c094db87e8cba1d5cf2d80717bb59a4ce8f7968bbe67be819f49cc763a824e3",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-789-mero-slow",
+      "input_coverage_complete": true,
+      "logit_frames": 32,
+      "logits_sha256": "5ecbb2036fcdd221a69d640b7a1867c851b7069ee18edc3804855350df81ddae",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 736,
+          "path": "RAW_PHONE.json",
+          "sha256": "557798f0044886a12ac9fc9f29645b5d8a7c781d44bf6a05579f4eae9b46c1ff"
+        },
+        "validation": {
+          "bytes": 784,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "019075f9bdc124f626741892c9256728307b5a076a2131d4271dcfab585e546c"
+        }
+      },
+      "raw_phone_tokens": [
+        "h",
+        "i",
+        "m",
+        "e\u02d0",
+        "\u0279",
+        "o\u02d0"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "f45bb4208f334a7dcad7ca45d35b0e0cf9286cf8485d8f09b17d33f21a96e22a",
+      "source_samples": 10589,
+      "source_wav_sha256": "63f37c98e472adbcaab0f94ec6731ef4d2f597a7279bc12c8b23ba2fde0587dd",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-789-question",
+      "input_coverage_complete": true,
+      "logit_frames": 45,
+      "logits_sha256": "ad2bfb7bd494214b788bb0c09e83876badc93c489b65389b247faa362b36b405",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 734,
+          "path": "RAW_PHONE.json",
+          "sha256": "2a98998f80a2abf29206e248b2d799e7d0b3e28fd8cf2f2eea8100eb8279765d"
+        },
+        "validation": {
+          "bytes": 783,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "860a3050001485c36448b2f653942de2e3ff4612b3d31f81ce8cdc25d6270312"
+        }
+      },
+      "raw_phone_tokens": [
+        "w",
+        "\u028c",
+        "t",
+        "t",
+        "a\u026a",
+        "m",
+        "\u026a",
+        "z",
+        "\u026a",
+        "t"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "60da14ddc8de13f97503631dcc56d2dd78153a4b7cf1234c4f52b4d16e9fb032",
+      "source_samples": 14676,
+      "source_wav_sha256": "429016db3ae4ff3f857f7c5dfb150bf44419962f6038933ee651aed48bcce31a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    },
+    {
+      "id": "b18-primary-789-request",
+      "input_coverage_complete": true,
+      "logit_frames": 52,
+      "logits_sha256": "38f21356bc1bf8f38ea31e4f9255a41031f475ede55925cdb1bc91629bd0e6c0",
+      "provider": "xlsr",
+      "raw_evidence": {
+        "payload": {
+          "bytes": 732,
+          "path": "RAW_PHONE.json",
+          "sha256": "8b8e037bb2031ceb2592b17c4cef6e4f4de88f334bb35b4f6eda1964124f3244"
+        },
+        "validation": {
+          "bytes": 782,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "5cc2e98353d77f2b0a1879af6db7b21ce6ab6343de7878e55cae789e13534440"
+        }
+      },
+      "raw_phone_tokens": [
+        "p",
+        "l",
+        "i\u02d0",
+        "z",
+        "s",
+        "\u025b",
+        "\u027e",
+        "\u0250",
+        "t",
+        "a\u026a",
+        "m",
+        "\u025a"
+      ],
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "077f5688690bbadf39c72d9c5c7b47af501450d74500e963d8f1218ed245f0dd",
+      "source_samples": 16905,
+      "source_wav_sha256": "436d9129cc80a4c83a4b54044c8f75e0204826e2e63c4f35e90a3c21397a89fc",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "vocab_size": 392
+    }
+  ],
+  "run": {
+    "run": "45324181095",
+    "sha": "7664b4554308fbf2d874fc8873e77a1095707d21"
+  },
+  "schema": "english-v6-b18-96-original-blind-source-screen-v1",
+  "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+  "status": "COMPLETE",
+  "target_conditioned": false,
+  "training_allowed": false,
+  "valid_native_payloads": 96,
+  "whole_panel_stop": false
+}
