@@ -1,0 +1,206 @@
+name: B16 frozen 96 original sources after verified preflight-only failure
+'on':
+  push:
+    branches:
+    - research/en-v6-b16-preflight-proven-recovery-once-20261124
+    paths:
+    - .github/workflows/english-v6-b16-preflight-proven-recovery-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: en-v6-b16-verified-recovery-96-once
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261121'
+jobs:
+  sources:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b16-preflight-proven-recovery-once-20261124'
+      && github.run_attempt == 1 && github.event.before == 'eb2c763a4581b90ac7918cbb363de45486a891b6'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Authenticate independent B13 short-question evidence and all historical source roles
+      shell: bash
+      run: |
+        set -euo pipefail
+        python - <<'PY'
+        import hashlib,io,json,subprocess,zipfile
+        PREFIX="repos/jiying2007/kws-data/actions/"
+        def get(path):
+            return json.loads(subprocess.check_output(["gh","api",PREFIX+path]))
+        def verify_failed(run_id,head,failed_step,expected_artifacts):
+            run=get("runs/"+str(run_id))
+            assert run["head_sha"]==head and run["status"]=="completed" and run["conclusion"]=="failure" and run["run_attempt"]==1
+            jobs=get("runs/"+str(run_id)+"/jobs?per_page=100")["jobs"]
+            source=[j for j in jobs if j["name"]=="sources"]
+            assert len(source)==1 and source[0]["conclusion"]=="failure"
+            failed=[s["name"] for s in source[0]["steps"] if s["conclusion"]=="failure"]
+            assert failed==[failed_step],("failed at unexpected stage",failed)
+            artifacts=get("runs/"+str(run_id)+"/artifacts?per_page=100")["artifacts"]
+            assert {a["id"] for a in artifacts}==set(expected_artifacts),("prior run source artifact unexpected",artifacts)
+            assert not any("primary-source" in a["name"] or "observer" in a["name"] for a in artifacts)
+            return artifacts
+        old=verify_failed(45305458106,"6a29652116fb7b05154bcaffb90e27d99cb3ade2",
+                          "Generate exactly 96 new original PCM16 DEV from 24 new source families",[14881320123])
+        assert len(old)==1 and old[0]["name"]=="en-v6-b16-primary-panel-opened" and old[0]["size_in_bytes"]==178
+        assert old[0]["digest"]=="sha256:c29b0e87856a738ea2eec405df59c47399dc9460bf40fca9198a5b311a338259"
+        raw=subprocess.check_output(["gh","api",PREFIX+"artifacts/14881320123/zip"])
+        assert len(raw)==178 and hashlib.sha256(raw).hexdigest()=="c29b0e87856a738ea2eec405df59c47399dc9460bf40fca9198a5b311a338259"
+        with zipfile.ZipFile(io.BytesIO(raw)) as z:
+            assert z.testzip() is None and z.namelist()==["STARTED"]
+            assert z.read("STARTED")==b"45305458106 6a29652116fb7b05154bcaffb90e27d99cb3ade2\n"
+        verify_failed(45306217577,"945c88e8bddc0409da19adbbfaf0a2353e654abc",
+                      "Authenticate independent B13 short-question evidence and all historical source roles",[])
+        assert get("artifacts?name=en-v6-b16-verified-recovery-opened&per_page=1")["total_count"]==0
+        print("B16_PREVIOUS_ZERO_SOURCE_PROVEN; ORIGINAL_MARKER_PRESERVED; RECOVERY_UNUSED")
+        PY
+        gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/14788949035/zip" > "$RUNNER_TEMP/stop.zip"
+        python -IB automation/english_v6_b16_source.py gate "$RUNNER_TEMP/stop.zip"
+        mkdir "$RUNNER_TEMP/prior-source"
+        while read -r aid; do gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$aid/zip" > "$RUNNER_TEMP/prior-source/$aid.zip"; done < <(python -IB automation/english_v6_b16_source.py history)
+        python - <<'PY'
+        import json,sys,os
+        from pathlib import Path
+        sys.path.insert(0,"automation")
+        import english_v6_b16_source as b16
+        seen,groups,people=b16.history(Path(os.environ["RUNNER_TEMP"])/"prior-source")
+        assert len(seen)==1300 and len(groups)==252
+        assert len(b16.source_plan("primary")["rows"])==len(b16.source_plan("replication")["rows"])==96
+        print(json.dumps({"prior_unique_pcm":len(seen),"prior_groups":len(groups),
+          "frozen_primary_sources":24,"frozen_reserved_sources":24,"new_generation_calls_so_far":0}))
+        PY
+        mkdir "$RUNNER_TEMP/panel-opened"
+        echo "$GITHUB_RUN_ID $(git rev-parse HEAD) recovery-after-verified-preflight-only-failures" > "$RUNNER_TEMP/panel-opened/STARTED"
+      env:
+        GH_TOKEN: ${{ github.token }}
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: en-v6-b16-verified-recovery-opened
+        path: ${{ runner.temp }}/panel-opened/
+        retention-days: 90
+        if-no-files-found: error
+    - name: Generate exactly 96 new original PCM16 DEV from 24 new source families
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -m pip install 'piper-tts==1.8.0' 'numpy==1.26.4' 'scipy==1.15.3' 'huggingface-hub==0.36.2'
+        python -IB automation/english_v6_b16_source.py generate "$RUNNER_TEMP/source" "$RUNNER_TEMP/prior-source"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b16-recovery-primary-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source/
+        retention-days: 90
+        if-no-files-found: warn
+  observers:
+    needs: sources
+    runs-on: ubuntu-24.04
+    timeout-minutes: 145
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        provider:
+        - qwen
+        - parakeet
+        - xlsr
+        - lv60
+        - whisper
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b16-recovery-primary-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - name: Install one pinned original unprompted ASR or native phone model
+      shell: bash
+      timeout-minutes: 19
+      env:
+        PROVIDER: ${{ matrix.provider }}
+      run: |
+        set -euo pipefail
+        python -m venv "$RUNNER_TEMP/b10-native-env"
+        PIP="$RUNNER_TEMP/b10-native-env/bin/pip"
+        FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+        if [ "$PROVIDER" != "parakeet" ]; then
+          if [ "$PROVIDER" = "qwen" ] || [ "$PROVIDER" = "whisper" ]; then
+            "$PIP" install $FLAGS 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          else
+            "$PIP" install $FLAGS 'torch==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          fi
+        fi
+        case "$PROVIDER" in
+          qwen) "$PIP" install $FLAGS 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2' ;;
+          whisper) "$PIP" install $FLAGS 'openai-whisper==20250625' ;;
+          parakeet) "$PIP" install $FLAGS 'huggingface-hub==0.36.2' 'hf-xet==1.2.0' ;;
+          xlsr|lv60) "$PIP" install $FLAGS 'transformers==4.46.3' 'numpy==1.26.4' 'huggingface-hub==0.36.2' ;;
+          *) exit 7 ;;
+        esac
+        "$RUNNER_TEMP/b10-native-env/bin/python" -m pip check
+    - name: Observe every full original once without text hints
+      shell: bash
+      run: |
+        set -euo pipefail
+        GITHUB_SHA="$(git rev-parse HEAD)" "$RUNNER_TEMP/b10-native-env/bin/python" -IB automation/english_v6_b16_source.py observe "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/$PROVIDER"
+      env:
+        PROVIDER: ${{ matrix.provider }}
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: b16-recovery-primary-dev-observer-${{ matrix.provider }}
+        path: ${{ runner.temp }}/${{ matrix.provider }}/
+        retention-days: 90
+        if-no-files-found: warn
+  readback:
+    needs: observers
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b16-recovery-primary-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        pattern: b16-recovery-primary-dev-observer-*
+        path: ${{ runner.temp }}/providers
+    - name: Authenticate complete native captures and freeze independent source labels
+      shell: bash
+      run: |
+        set -euo pipefail
+        for p in qwen whisper parakeet xlsr lv60; do mv "$RUNNER_TEMP/providers/b16-recovery-primary-dev-observer-$p" "$RUNNER_TEMP/providers/$p"; done
+        mkdir "$RUNNER_TEMP/final"
+        python -IB automation/english_v6_b16_source.py screen "$RUNNER_TEMP/source" "$RUNNER_TEMP/providers" "$RUNNER_TEMP/final/SCREEN.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b16-recovery-primary-frozen-screen-${{ github.run_id }}
+        path: ${{ runner.temp }}/final/
+        retention-days: 90
+        if-no-files-found: error
