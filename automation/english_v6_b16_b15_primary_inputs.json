@@ -1,0 +1,72 @@
+{
+  "schema": "english-v6-b16-b15-unseen-primary-four-frozen-models-v1",
+  "keyword": "Hey Mero",
+  "B15_reference": "The 384-step B15 control/challenger weights were frozen before B16 source generation.",
+  "B16_reference": "24 new Piper source families ×4; five unprompted independent source observers. B16 source plan fixed before B16 original TTS generation, source minima 12/24/8.",
+  "source_gate": {
+    "synthetic_positive": 12,
+    "synthetic_ordinary": 24,
+    "synthetic_paired": 8,
+    "natural_originals": 12,
+    "natural_speakers": 8
+  },
+  "acoustic_gate": "Unchanged independently preregistered B14 strict criterion: at least one rescued positive family vs B9/control, at least two human readers improved, no added ordinary events versus B9/control at any 1.0/0.75/0.5 gain, no lost positives or extra positive events, natural false-event totals no higher than B0. No threshold sweep.",
+  "scoring_allowed": false,
+  "pair_schema": "english-v6-b15-train-nonblank-contrast-pair-v1",
+  "pair_stems": {
+    "control": "control/models/mero43-b15-control192",
+    "challenger": "challenger/models/mero43-b15-challenger192"
+  },
+  "inputs": {
+    "B0": {
+      "id": 14514228406,
+      "run_id": 44495594627,
+      "run_head": "d0b567fe37147aae6ab5d7bdec3721b879a0b22d",
+      "bytes": 501276,
+      "sha256": "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702"
+    },
+    "B9": {
+      "id": 14689218171,
+      "run_id": 44860855857,
+      "run_head": "846c745ebcee58a1beb27300ddcd7ec8e2178916",
+      "bytes": 1001753,
+      "sha256": "1a8b270200e0c72ab1025f139d16abde43c209f142d72e71a7201b847e06a612"
+    },
+    "pair": {
+      "id": 14877145654,
+      "run_id": 45296300913,
+      "run_head": "b3d2a6580eba1f2249b3df3ab3c9f1cd4c2b5a46",
+      "bytes": 1026648,
+      "sha256": "9607876591b155f728b4f525029fee933cca98eb0921f4bd84c7d6288f4e75c4"
+    },
+    "synth_source": {
+      "id": 14883618584,
+      "run_id": 45312299981,
+      "run_head": "504bc01a869448ed0083416aab1fec1dccc22822",
+      "bytes": 5264089,
+      "sha256": "3c4f10258276f7f02f8a8ebdc105254b4e190e675c380280cc0d8e6ac66ed63c"
+    },
+    "synth_screen": null,
+    "natural_source": {
+      "id": 14878351529,
+      "run_id": 45297962939,
+      "run_head": "3da0d5a35d8dcd7d1c79bbf870a1df776c9d7c8d",
+      "bytes": 3983738,
+      "sha256": "a5b0e07ebd583bce0fd561a738fcd540619541a22534bbdf3f20b2550d2eda97"
+    },
+    "natural_screen": {
+      "id": 14877684389,
+      "run_id": 45297962939,
+      "run_head": "3da0d5a35d8dcd7d1c79bbf870a1df776c9d7c8d",
+      "bytes": 5104,
+      "sha256": "c1ccf0182110daf65d77e2ca3c800f46afc78fccb09057d49895b393ace7e992"
+    }
+  },
+  "B14_replication_opened": false,
+  "B15_replication_opened": false,
+  "B16_replication_opened": false,
+  "promotion_allowed": false,
+  "physical_ssc305": false,
+  "cal_locked_access": false,
+  "field_far_per_hour": null
+}
