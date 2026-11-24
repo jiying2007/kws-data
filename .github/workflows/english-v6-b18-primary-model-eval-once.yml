@@ -1,0 +1,44 @@
+name: B18 new-source assessment of the unchanged B17 frozen models
+on:
+  push:
+    branches: [research/en-v6-b18-primary-scoring-once-20261124]
+    paths: [.github/workflows/english-v6-b18-primary-model-eval-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: b18-one-frozen-primary-assessment
+  cancel-in-progress: false
+jobs:
+  score:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B18_NEW_SYNTHETIC_QA_AND_REUSED_NATURAL_QUALIFIED_MAIN_SHA__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261120'
+      PREPARED_PARENT: '__B18_NEW_SYNTHETIC_QA_AND_REUSED_NATURAL_QUALIFIED_MAIN_SHA__'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false, fetch-depth: 2}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Authenticate original unchanged checkpoints, new synthetic and reused natural source evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -IB automation/english_v6_b18_primary_eval.py fetch --inputs "$RUNNER_TEMP/b18-inputs" --prepared-parent "$PREPARED_PARENT"
+      - name: Install the same frozen CPU scoring runtime
+        run: |
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 2 --timeout 90 numpy==1.26.4
+      - name: Apply the unchanged B14 quality rule once to independently admitted original PCM
+        run: python -IB automation/english_v6_b18_primary_eval.py score --inputs "$RUNNER_TEMP/b18-inputs" --output "$RUNNER_TEMP/b18-result" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b18-b17-frozen-primary-logits-${{ github.run_id }}
+          path: ${{ runner.temp }}/b18-result/
+          retention-days: 90
+          if-no-files-found: warn
