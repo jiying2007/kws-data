@@ -1,0 +1,173 @@
+name: English V6 B9 genuine four frozen B6 B8 B9 models on new qualified DEV528 once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b9_dev528_four_frozen_once.py
+      - automation/test_english_v6_b9_dev528_four_frozen_once.py
+      - .github/workflows/english-v6-b9-dev528-four-frozen-once.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths: [.github/workflows/english-v6-b9-dev528-four-frozen-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b9-new-dev528-four-frozen-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  PYTHONHASHSEED: '20261121'
+  OMP_NUM_THREADS: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  MKL_NUM_THREADS: '1'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+jobs:
+  source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Freeze exact B9 train weights and new 4 positive 12 ordinary source-only labels in Python three modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/english_v6_b9_dev528_four_frozen_once.py --source-check
+            python3 -I -S -B $opt automation/test_english_v6_b9_dev528_four_frozen_once.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          test -z "$(git status --porcelain)"
+  original-source-screen-audit:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b9-fresh-dev528-original-44870282676
+          run-id: 44870282676
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b9-source-original60
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b9-dev528-saved-machine-screen-44871646677
+          run-id: 44871646677
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b9-source-screen60
+      - name: Audit 60 original PCM identities and 4 positive 12 ordinary independent labels with no KWS model forward
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v6_b9_dev528_four_frozen_once.py --audit \
+            --source "$RUNNER_TEMP/b9-source-original60" \
+            --screen "$RUNNER_TEMP/b9-source-screen60"
+          test -z "$(git status --porcelain)"
+  real-four-frozen-models:
+    needs: [source-contract, original-source-screen-audit]
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '820e3db36806991faf368b5197dfa6c5f97c4157' &&
+      needs.source-contract.result == 'success' &&
+      needs.original-source-screen-audit.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Verify original failed main run before once-only B9 DEV scoring recovery
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 -I -S -B automation/english_v6_b9_dev528_four_frozen_once.py --guard
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b9-fresh-dev528-original-44870282676
+          run-id: 44870282676
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b9-original-source
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: english-v6-b9-dev528-saved-machine-screen-44871646677
+          run-id: 44871646677
+          repository: jiying2007/kws-data
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/b9-saved-screen
+      - name: Download three actual B6 B8 B9 frozen training archives with complete SHA and byte checks
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api repos/jiying2007/kws-data/actions/artifacts/14615025178/zip > "$RUNNER_TEMP/b6-original.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b6-original.zip")" = 1000729
+          printf '%s  %s\n' \
+            '1c310b0d4945f7aa40f2576f231c94eb48b33316a6c4f79c20215b1ac80bab8d' \
+            "$RUNNER_TEMP/b6-original.zip" | sha256sum --check --status
+          gh api repos/jiying2007/kws-data/actions/artifacts/14634066012/zip > "$RUNNER_TEMP/b8-original.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b8-original.zip")" = 1001683
+          printf '%s  %s\n' \
+            '6015c6269f87654193d7350afd0c5b44f799f5f71b5303e41f2734c17006d15b' \
+            "$RUNNER_TEMP/b8-original.zip" | sha256sum --check --status
+          gh api repos/jiying2007/kws-data/actions/artifacts/14689218171/zip > "$RUNNER_TEMP/b9-original.zip"
+          test "$(stat -c %s "$RUNNER_TEMP/b9-original.zip")" = 1001753
+          printf '%s  %s\n' \
+            '1a8b270200e0c72ab1025f139d16abde43c209f142d72e71a7201b847e06a612' \
+            "$RUNNER_TEMP/b9-original.zip" | sha256sum --check --status
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install pinned CPU PyTorch and NumPy for four immutable inference weights, no optimizer
+        shell: bash
+        timeout-minutes: 22
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/b9-compare-env"
+          FLAGS='--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90'
+          "$RUNNER_TEMP/b9-compare-env/bin/pip" install $FLAGS 'torch==2.9.1+cpu' \
+            --index-url https://download.pytorch.org/whl/cpu
+          "$RUNNER_TEMP/b9-compare-env/bin/pip" install $FLAGS 'numpy==1.26.4'
+          "$RUNNER_TEMP/b9-compare-env/bin/python" -m pip check
+      - name: Run 16 new QA-qualified original PCM x 4 frozen B6 B8 B9 models x fixed gains 1 075 05
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        timeout-minutes: 24
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 1300s \
+            "$RUNNER_TEMP/b9-compare-env/bin/python" -I -B \
+              automation/english_v6_b9_dev528_four_frozen_once.py --execute \
+              --source "$RUNNER_TEMP/b9-original-source" \
+              --screen "$RUNNER_TEMP/b9-saved-screen" \
+              --b6-zip "$RUNNER_TEMP/b6-original.zip" \
+              --b8-zip "$RUNNER_TEMP/b8-original.zip" \
+              --b9-zip "$RUNNER_TEMP/b9-original.zip" \
+              --output "$RUNNER_TEMP/b9-four-frozen-real-${GITHUB_RUN_ID}"
+          test -z "$(git status --porcelain)"
+      - name: Archive original full-frame logits and per-original event evidence or strict STOP, no weights
+        if: ${{ always() && github.event_name == 'push' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b9-dev528-four-frozen-real-${{ github.run_id }}
+          path: ${{ runner.temp }}/b9-four-frozen-real-${{ github.run_id }}/
+          retention-days: 90
+          if-no-files-found: warn

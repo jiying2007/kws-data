@@ -1,0 +1,1819 @@
+{
+  "audio_reads": 0,
+  "candidate_selection_allowed": false,
+  "failure_cases": [
+    {
+      "changed_argmax_counts_vs_control": {
+        "B0": {
+          "HEY->blank": 1,
+          "MEH->blank": 1,
+          "ROH->blank": 1
+        },
+        "B9": {
+          "HEY->blank": 2,
+          "MEH->ROH": 1,
+          "blank->HEY": 1,
+          "blank->MEH": 2,
+          "blank->ROH": 7
+        },
+        "challenger": {
+          "HEY->blank": 1,
+          "MEH->blank": 1,
+          "ROH->blank": 1
+        }
+      },
+      "cohort": "synthetic",
+      "every_control_challenger_changed_frame": [
+        {
+          "argmax": {
+            "B0": 0,
+            "B9": 0,
+            "challenger": 0,
+            "control": 1
+          },
+          "available_sample": 672,
+          "frame": 1,
+          "logits": {
+            "B0": [
+              10.293985366821289,
+              8.947271347045898,
+              -22.42937469482422,
+              -19.620141983032227
+            ],
+            "B9": [
+              3.8155264854431152,
+              -0.3323557674884796,
+              -10.637714385986328,
+              -4.766494274139404
+            ],
+            "challenger": [
+              10.39869213104248,
+              7.724969387054443,
+              -21.77480125427246,
+              -18.666784286499023
+            ],
+            "control": [
+              7.142152309417725,
+              8.434039115905762,
+              -19.09710121154785,
+              -15.868630409240723
+            ]
+          }
+        },
+        {
+          "argmax": {
+            "B0": 0,
+            "B9": 3,
+            "challenger": 0,
+            "control": 2
+          },
+          "available_sample": 6432,
+          "frame": 37,
+          "logits": {
+            "B0": [
+              1.707370400428772,
+              -4.365579605102539,
+              0.5925509333610535,
+              -0.3737865090370178
+            ],
+            "B9": [
+              -5.952017784118652,
+              -4.8382568359375,
+              3.831423044204712,
+              9.489045143127441
+            ],
+            "challenger": [
+              0.1028718650341034,
+              -0.888319730758667,
+              0.06939798593521118,
+              -1.6739740371704102
+            ],
+            "control": [
+              -1.2243764400482178,
+              -1.3388957977294922,
+              1.0124808549880981,
+              0.5041693449020386
+            ]
+          }
+        },
+        {
+          "argmax": {
+            "B0": 0,
+            "B9": 3,
+            "challenger": 0,
+            "control": 3
+          },
+          "available_sample": 7072,
+          "frame": 41,
+          "logits": {
+            "B0": [
+              2.0129644870758057,
+              -2.3927690982818604,
+              -6.717650413513184,
+              0.7999591827392578
+            ],
+            "B9": [
+              -6.4212541580200195,
+              -6.3832831382751465,
+              2.6807329654693604,
+              12.948389053344727
+            ],
+            "challenger": [
+              0.7815096378326416,
+              -0.9260078072547913,
+              -5.697170734405518,
+              0.7431517243385315
+            ],
+            "control": [
+              -0.8108870983123779,
+              -1.1904993057250977,
+              -3.8410427570343018,
+              2.6270346641540527
+            ]
+          }
+        }
+      ],
+      "failure": "lost_positive",
+      "gain": "0.5",
+      "group": "piper-libritts-p2581",
+      "id": "b20-primary-798-mero-slow",
+      "models": {
+        "B0": {
+          "argmax_frame_counts": {
+            "HEY": 1,
+            "MEH": 0,
+            "ROH": 3,
+            "blank": 71
+          },
+          "event_frames": [],
+          "event_samples": [],
+          "events": 0,
+          "frame_count": 75,
+          "nonblank_runs": [
+            {
+              "first_frame": 0,
+              "last_frame": 0,
+              "margin_over_blank_max": 0.6976609230041504,
+              "margin_over_blank_min": 0.6976609230041504,
+              "name": "HEY",
+              "samples_available_first": 512,
+              "samples_available_last": 512,
+              "token": 1
+            },
+            {
+              "first_frame": 38,
+              "last_frame": 40,
+              "margin_over_blank_max": 7.583366870880127,
+              "margin_over_blank_min": 5.0164161920547485,
+              "name": "ROH",
+              "samples_available_first": 6592,
+              "samples_available_last": 6912,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            3
+          ]
+        },
+        "B9": {
+          "argmax_frame_counts": {
+            "HEY": 1,
+            "MEH": 2,
+            "ROH": 12,
+            "blank": 60
+          },
+          "event_frames": [
+            35
+          ],
+          "event_samples": [
+            6112
+          ],
+          "events": 1,
+          "frame_count": 75,
+          "nonblank_runs": [
+            {
+              "first_frame": 32,
+              "last_frame": 32,
+              "margin_over_blank_max": 0.1716785430908203,
+              "margin_over_blank_min": 0.1716785430908203,
+              "name": "HEY",
+              "samples_available_first": 5632,
+              "samples_available_last": 5632,
+              "token": 1
+            },
+            {
+              "first_frame": 33,
+              "last_frame": 34,
+              "margin_over_blank_max": 6.330670595169067,
+              "margin_over_blank_min": 1.9621683359146118,
+              "name": "MEH",
+              "samples_available_first": 5792,
+              "samples_available_last": 5952,
+              "token": 2
+            },
+            {
+              "first_frame": 35,
+              "last_frame": 46,
+              "margin_over_blank_max": 20.79071855545044,
+              "margin_over_blank_min": 6.082077324390411,
+              "name": "ROH",
+              "samples_available_first": 6112,
+              "samples_available_last": 7872,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            2,
+            3
+          ]
+        },
+        "challenger": {
+          "argmax_frame_counts": {
+            "HEY": 1,
+            "MEH": 0,
+            "ROH": 3,
+            "blank": 71
+          },
+          "event_frames": [],
+          "event_samples": [],
+          "events": 0,
+          "frame_count": 75,
+          "nonblank_runs": [
+            {
+              "first_frame": 0,
+              "last_frame": 0,
+              "margin_over_blank_max": 0.18929290771484375,
+              "margin_over_blank_min": 0.18929290771484375,
+              "name": "HEY",
+              "samples_available_first": 512,
+              "samples_available_last": 512,
+              "token": 1
+            },
+            {
+              "first_frame": 38,
+              "last_frame": 40,
+              "margin_over_blank_max": 6.5327465534210205,
+              "margin_over_blank_min": 4.279270529747009,
+              "name": "ROH",
+              "samples_available_first": 6592,
+              "samples_available_last": 6912,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            3
+          ]
+        },
+        "control": {
+          "argmax_frame_counts": {
+            "HEY": 2,
+            "MEH": 1,
+            "ROH": 4,
+            "blank": 68
+          },
+          "event_frames": [
+            38
+          ],
+          "event_samples": [
+            6592
+          ],
+          "events": 1,
+          "frame_count": 75,
+          "nonblank_runs": [
+            {
+              "first_frame": 0,
+              "last_frame": 1,
+              "margin_over_blank_max": 1.6523451805114746,
+              "margin_over_blank_min": 1.291886806488037,
+              "name": "HEY",
+              "samples_available_first": 512,
+              "samples_available_last": 672,
+              "token": 1
+            },
+            {
+              "first_frame": 37,
+              "last_frame": 37,
+              "margin_over_blank_max": 2.236857295036316,
+              "margin_over_blank_min": 2.236857295036316,
+              "name": "MEH",
+              "samples_available_first": 6432,
+              "samples_available_last": 6432,
+              "token": 2
+            },
+            {
+              "first_frame": 38,
+              "last_frame": 41,
+              "margin_over_blank_max": 7.676095724105835,
+              "margin_over_blank_min": 3.4379217624664307,
+              "name": "ROH",
+              "samples_available_first": 6592,
+              "samples_available_last": 7072,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "reference": "control"
+    },
+    {
+      "changed_argmax_counts_vs_control": {
+        "B0": {
+          "HEY->blank": 3,
+          "blank->MEH": 1,
+          "blank->ROH": 2
+        },
+        "B9": {
+          "HEY->ROH": 1,
+          "HEY->blank": 2,
+          "blank->HEY": 6,
+          "blank->MEH": 2,
+          "blank->ROH": 5
+        },
+        "challenger": {
+          "HEY->blank": 3,
+          "ROH->MEH": 1
+        }
+      },
+      "cohort": "natural",
+      "every_control_challenger_changed_frame": [
+        {
+          "argmax": {
+            "B0": 0,
+            "B9": 0,
+            "challenger": 0,
+            "control": 1
+          },
+          "available_sample": 672,
+          "frame": 1,
+          "logits": {
+            "B0": [
+              10.206735610961914,
+              8.940144538879395,
+              -22.221633911132812,
+              -19.457332611083984
+            ],
+            "B9": [
+              3.8289811611175537,
+              -0.26483264565467834,
+              -10.565956115722656,
+              -4.793997287750244
+            ],
+            "challenger": [
+              10.347886085510254,
+              7.741311073303223,
+              -21.627483367919922,
+              -18.566526412963867
+            ],
+            "control": [
+              7.126513957977295,
+              8.450772285461426,
+              -18.982101440429688,
+              -15.806534767150879
+            ]
+          }
+        },
+        {
+          "argmax": {
+            "B0": 0,
+            "B9": 1,
+            "challenger": 0,
+            "control": 1
+          },
+          "available_sample": 20672,
+          "frame": 126,
+          "logits": {
+            "B0": [
+              1.921033501625061,
+              -1.7371736764907837,
+              -1.7599023580551147,
+              -4.29171895980835
+            ],
+            "B9": [
+              -2.7357330322265625,
+              1.4831242561340332,
+              1.4026786088943481,
+              -6.302052974700928
+            ],
+            "challenger": [
+              4.939459800720215,
+              4.483530521392822,
+              -7.115416049957275,
+              -14.631195068359375
+            ],
+            "control": [
+              3.101475954055786,
+              5.03867244720459,
+              -6.041195392608643,
+              -13.085843086242676
+            ]
+          }
+        },
+        {
+          "argmax": {
+            "B0": 0,
+            "B9": 3,
+            "challenger": 0,
+            "control": 1
+          },
+          "available_sample": 20832,
+          "frame": 127,
+          "logits": {
+            "B0": [
+              3.4143142700195312,
+              0.4337396025657654,
+              -8.640487670898438,
+              -5.030482769012451
+            ],
+            "B9": [
+              -3.343597412109375,
+              -1.95290207862854,
+              -0.681124210357666,
+              1.4700976610183716
+            ],
+            "challenger": [
+              5.78833532333374,
+              4.631832122802734,
+              -12.006400108337402,
+              -12.941923141479492
+            ],
+            "control": [
+              3.515782117843628,
+              5.027403831481934,
+              -10.2212495803833,
+              -11.0029878616333
+            ]
+          }
+        },
+        {
+          "argmax": {
+            "B0": 3,
+            "B9": 3,
+            "challenger": 2,
+            "control": 3
+          },
+          "available_sample": 42432,
+          "frame": 262,
+          "logits": {
+            "B0": [
+              -2.1460769176483154,
+              -5.530710697174072,
+              3.547396183013916,
+              5.634668350219727
+            ],
+            "B9": [
+              -5.455500602722168,
+              -4.299962997436523,
+              4.054119110107422,
+              8.483112335205078
+            ],
+            "challenger": [
+              -0.7189070582389832,
+              -1.4979300498962402,
+              0.8588781356811523,
+              0.2577475905418396
+            ],
+            "control": [
+              -1.3021647930145264,
+              -1.5869197845458984,
+              1.1730570793151855,
+              1.225766658782959
+            ]
+          }
+        }
+      ],
+      "failure": "added_ordinary_event",
+      "gain": "0.5",
+      "group": "librispeech-test-clean-6829",
+      "id": "b17-natural-6829-68769-0007",
+      "models": {
+        "B0": {
+          "argmax_frame_counts": {
+            "HEY": 1,
+            "MEH": 1,
+            "ROH": 6,
+            "blank": 376
+          },
+          "event_frames": [
+            262
+          ],
+          "event_samples": [
+            42432
+          ],
+          "events": 1,
+          "frame_count": 384,
+          "nonblank_runs": [
+            {
+              "first_frame": 0,
+              "last_frame": 0,
+              "margin_over_blank_max": 0.6806125640869141,
+              "margin_over_blank_min": 0.6806125640869141,
+              "name": "HEY",
+              "samples_available_first": 512,
+              "samples_available_last": 512,
+              "token": 1
+            },
+            {
+              "first_frame": 261,
+              "last_frame": 261,
+              "margin_over_blank_max": 0.9541888236999512,
+              "margin_over_blank_min": 0.9541888236999512,
+              "name": "MEH",
+              "samples_available_first": 42272,
+              "samples_available_last": 42272,
+              "token": 2
+            },
+            {
+              "first_frame": 262,
+              "last_frame": 267,
+              "margin_over_blank_max": 11.002760648727417,
+              "margin_over_blank_min": 1.5518019795417786,
+              "name": "ROH",
+              "samples_available_first": 42432,
+              "samples_available_last": 43232,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            2,
+            3
+          ]
+        },
+        "B9": {
+          "argmax_frame_counts": {
+            "HEY": 7,
+            "MEH": 2,
+            "ROH": 10,
+            "blank": 365
+          },
+          "event_frames": [
+            261
+          ],
+          "event_samples": [
+            42272
+          ],
+          "events": 1,
+          "frame_count": 384,
+          "nonblank_runs": [
+            {
+              "first_frame": 124,
+              "last_frame": 126,
+              "margin_over_blank_max": 5.555465877056122,
+              "margin_over_blank_min": 3.831993579864502,
+              "name": "HEY",
+              "samples_available_first": 20352,
+              "samples_available_last": 20672,
+              "token": 1
+            },
+            {
+              "first_frame": 127,
+              "last_frame": 130,
+              "margin_over_blank_max": 9.134401798248291,
+              "margin_over_blank_min": 1.6214423179626465,
+              "name": "ROH",
+              "samples_available_first": 20832,
+              "samples_available_last": 21312,
+              "token": 3
+            },
+            {
+              "first_frame": 206,
+              "last_frame": 207,
+              "margin_over_blank_max": 2.0223195552825928,
+              "margin_over_blank_min": 1.3747353553771973,
+              "name": "HEY",
+              "samples_available_first": 33472,
+              "samples_available_last": 33632,
+              "token": 1
+            },
+            {
+              "first_frame": 257,
+              "last_frame": 258,
+              "margin_over_blank_max": 1.8543145656585693,
+              "margin_over_blank_min": 0.3117547035217285,
+              "name": "HEY",
+              "samples_available_first": 41632,
+              "samples_available_last": 41792,
+              "token": 1
+            },
+            {
+              "first_frame": 259,
+              "last_frame": 260,
+              "margin_over_blank_max": 6.873311281204224,
+              "margin_over_blank_min": 3.3443024158477783,
+              "name": "MEH",
+              "samples_available_first": 41952,
+              "samples_available_last": 42112,
+              "token": 2
+            },
+            {
+              "first_frame": 261,
+              "last_frame": 266,
+              "margin_over_blank_max": 15.355014324188232,
+              "margin_over_blank_min": 2.41910457611084,
+              "name": "ROH",
+              "samples_available_first": 42272,
+              "samples_available_last": 43072,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            3,
+            1,
+            1,
+            2,
+            3
+          ]
+        },
+        "challenger": {
+          "argmax_frame_counts": {
+            "HEY": 1,
+            "MEH": 1,
+            "ROH": 3,
+            "blank": 379
+          },
+          "event_frames": [
+            263
+          ],
+          "event_samples": [
+            42592
+          ],
+          "events": 1,
+          "frame_count": 384,
+          "nonblank_runs": [
+            {
+              "first_frame": 0,
+              "last_frame": 0,
+              "margin_over_blank_max": 0.1828932762145996,
+              "margin_over_blank_min": 0.1828932762145996,
+              "name": "HEY",
+              "samples_available_first": 512,
+              "samples_available_last": 512,
+              "token": 1
+            },
+            {
+              "first_frame": 262,
+              "last_frame": 262,
+              "margin_over_blank_max": 1.5777851939201355,
+              "margin_over_blank_min": 1.5777851939201355,
+              "name": "MEH",
+              "samples_available_first": 42432,
+              "samples_available_last": 42432,
+              "token": 2
+            },
+            {
+              "first_frame": 263,
+              "last_frame": 265,
+              "margin_over_blank_max": 5.700912952423096,
+              "margin_over_blank_min": 0.888657808303833,
+              "name": "ROH",
+              "samples_available_first": 42592,
+              "samples_available_last": 42912,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            2,
+            3
+          ]
+        },
+        "control": {
+          "argmax_frame_counts": {
+            "HEY": 4,
+            "MEH": 0,
+            "ROH": 4,
+            "blank": 376
+          },
+          "event_frames": [],
+          "event_samples": [],
+          "events": 0,
+          "frame_count": 384,
+          "nonblank_runs": [
+            {
+              "first_frame": 0,
+              "last_frame": 1,
+              "margin_over_blank_max": 1.6095497608184814,
+              "margin_over_blank_min": 1.3242583274841309,
+              "name": "HEY",
+              "samples_available_first": 512,
+              "samples_available_last": 672,
+              "token": 1
+            },
+            {
+              "first_frame": 126,
+              "last_frame": 127,
+              "margin_over_blank_max": 1.9371964931488037,
+              "margin_over_blank_min": 1.5116217136383057,
+              "name": "HEY",
+              "samples_available_first": 20672,
+              "samples_available_last": 20832,
+              "token": 1
+            },
+            {
+              "first_frame": 262,
+              "last_frame": 265,
+              "margin_over_blank_max": 5.901187181472778,
+              "margin_over_blank_min": 0.27103298902511597,
+              "name": "ROH",
+              "samples_available_first": 42432,
+              "samples_available_last": 42912,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            1,
+            3
+          ]
+        }
+      },
+      "reference": "control"
+    },
+    {
+      "changed_argmax_counts_vs_control": {
+        "B0": {
+          "HEY->blank": 1,
+          "blank->ROH": 3
+        },
+        "B9": {
+          "HEY->blank": 2,
+          "blank->HEY": 4,
+          "blank->MEH": 5,
+          "blank->ROH": 32
+        },
+        "challenger": {
+          "HEY->blank": 1,
+          "ROH->MEH": 1,
+          "ROH->blank": 2
+        }
+      },
+      "cohort": "natural",
+      "every_control_challenger_changed_frame": [
+        {
+          "argmax": {
+            "B0": 0,
+            "B9": 0,
+            "challenger": 0,
+            "control": 1
+          },
+          "available_sample": 672,
+          "frame": 1,
+          "logits": {
+            "B0": [
+              9.989864349365234,
+              8.756144523620605,
+              -21.90060806274414,
+              -19.07866668701172
+            ],
+            "B9": [
+              3.6785411834716797,
+              -0.3388030529022217,
+              -10.404672622680664,
+              -4.585397720336914
+            ],
+            "challenger": [
+              10.077747344970703,
+              7.565392971038818,
+              -21.246706008911133,
+              -18.13811683654785
+            ],
+            "control": [
+              6.922166347503662,
+              8.245349884033203,
+              -18.648242950439453,
+              -15.424731254577637
+            ]
+          }
+        },
+        {
+          "argmax": {
+            "B0": 3,
+            "B9": 3,
+            "challenger": 2,
+            "control": 3
+          },
+          "available_sample": 8032,
+          "frame": 47,
+          "logits": {
+            "B0": [
+              -2.3881053924560547,
+              -6.499863147735596,
+              3.696148157119751,
+              6.691808700561523
+            ],
+            "B9": [
+              -6.587362766265869,
+              -5.416141510009766,
+              4.377453804016113,
+              9.885156631469727
+            ],
+            "challenger": [
+              -0.5492919087409973,
+              -1.8014894723892212,
+              0.4552867114543915,
+              0.11218103021383286
+            ],
+            "control": [
+              -1.5630083084106445,
+              -1.9722321033477783,
+              1.0672365427017212,
+              1.5915149450302124
+            ]
+          }
+        },
+        {
+          "argmax": {
+            "B0": 3,
+            "B9": 3,
+            "challenger": 0,
+            "control": 3
+          },
+          "available_sample": 9472,
+          "frame": 56,
+          "logits": {
+            "B0": [
+              -2.18038272857666,
+              -8.777308464050293,
+              -0.9759566187858582,
+              12.302391052246094
+            ],
+            "B9": [
+              -5.412025451660156,
+              -10.299576759338379,
+              0.7524803280830383,
+              17.17558479309082
+            ],
+            "challenger": [
+              3.056830406188965,
+              -4.8783769607543945,
+              -7.206561088562012,
+              2.1685714721679688
+            ],
+            "control": [
+              1.5664108991622925,
+              -3.5811073780059814,
+              -6.593459606170654,
+              2.6587605476379395
+            ]
+          }
+        },
+        {
+          "argmax": {
+            "B0": 3,
+            "B9": 3,
+            "challenger": 0,
+            "control": 3
+          },
+          "available_sample": 44992,
+          "frame": 278,
+          "logits": {
+            "B0": [
+              -0.4713097810745239,
+              -6.079091548919678,
+              0.9898490309715271,
+              4.568288803100586
+            ],
+            "B9": [
+              -6.5734052658081055,
+              -5.055032730102539,
+              4.573307514190674,
+              8.315213203430176
+            ],
+            "challenger": [
+              0.3128029704093933,
+              -2.031428575515747,
+              -1.2154358625411987,
+              -0.47067707777023315
+            ],
+            "control": [
+              -1.093878984451294,
+              -1.8773497343063354,
+              -0.08419337868690491,
+              1.0562055110931396
+            ]
+          }
+        }
+      ],
+      "failure": "added_ordinary_event",
+      "gain": "0.75",
+      "group": "librispeech-test-clean-1221",
+      "id": "b17-natural-1221-135766-0013",
+      "models": {
+        "B0": {
+          "argmax_frame_counts": {
+            "HEY": 1,
+            "MEH": 0,
+            "ROH": 23,
+            "blank": 338
+          },
+          "event_frames": [],
+          "event_samples": [],
+          "events": 0,
+          "frame_count": 362,
+          "nonblank_runs": [
+            {
+              "first_frame": 0,
+              "last_frame": 0,
+              "margin_over_blank_max": 0.6683192253112793,
+              "margin_over_blank_min": 0.6683192253112793,
+              "name": "HEY",
+              "samples_available_first": 512,
+              "samples_available_last": 512,
+              "token": 1
+            },
+            {
+              "first_frame": 47,
+              "last_frame": 57,
+              "margin_over_blank_max": 21.21698808670044,
+              "margin_over_blank_min": 5.8159379959106445,
+              "name": "ROH",
+              "samples_available_first": 8032,
+              "samples_available_last": 9632,
+              "token": 3
+            },
+            {
+              "first_frame": 109,
+              "last_frame": 115,
+              "margin_over_blank_max": 13.57355809211731,
+              "margin_over_blank_min": 2.1772215366363525,
+              "name": "ROH",
+              "samples_available_first": 17952,
+              "samples_available_last": 18912,
+              "token": 3
+            },
+            {
+              "first_frame": 278,
+              "last_frame": 282,
+              "margin_over_blank_max": 11.202247142791748,
+              "margin_over_blank_min": 4.0437740087509155,
+              "name": "ROH",
+              "samples_available_first": 44992,
+              "samples_available_last": 45632,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            3,
+            3,
+            3
+          ]
+        },
+        "B9": {
+          "argmax_frame_counts": {
+            "HEY": 4,
+            "MEH": 5,
+            "ROH": 52,
+            "blank": 301
+          },
+          "event_frames": [
+            46,
+            108,
+            139
+          ],
+          "event_samples": [
+            7872,
+            17792,
+            22752
+          ],
+          "events": 3,
+          "frame_count": 362,
+          "nonblank_runs": [
+            {
+              "first_frame": 44,
+              "last_frame": 44,
+              "margin_over_blank_max": 0.9023322761058807,
+              "margin_over_blank_min": 0.9023322761058807,
+              "name": "HEY",
+              "samples_available_first": 7552,
+              "samples_available_last": 7552,
+              "token": 1
+            },
+            {
+              "first_frame": 45,
+              "last_frame": 45,
+              "margin_over_blank_max": 5.869458913803101,
+              "margin_over_blank_min": 5.869458913803101,
+              "name": "MEH",
+              "samples_available_first": 7712,
+              "samples_available_last": 7712,
+              "token": 2
+            },
+            {
+              "first_frame": 46,
+              "last_frame": 59,
+              "margin_over_blank_max": 28.47389030456543,
+              "margin_over_blank_min": 0.10819768905639648,
+              "name": "ROH",
+              "samples_available_first": 7872,
+              "samples_available_last": 9952,
+              "token": 3
+            },
+            {
+              "first_frame": 105,
+              "last_frame": 106,
+              "margin_over_blank_max": 2.162542760372162,
+              "margin_over_blank_min": 0.390622615814209,
+              "name": "HEY",
+              "samples_available_first": 17312,
+              "samples_available_last": 17472,
+              "token": 1
+            },
+            {
+              "first_frame": 107,
+              "last_frame": 107,
+              "margin_over_blank_max": 8.10837984085083,
+              "margin_over_blank_min": 8.10837984085083,
+              "name": "MEH",
+              "samples_available_first": 17632,
+              "samples_available_last": 17632,
+              "token": 2
+            },
+            {
+              "first_frame": 108,
+              "last_frame": 117,
+              "margin_over_blank_max": 22.781956672668457,
+              "margin_over_blank_min": 0.9774386286735535,
+              "name": "ROH",
+              "samples_available_first": 17792,
+              "samples_available_last": 19232,
+              "token": 3
+            },
+            {
+              "first_frame": 137,
+              "last_frame": 137,
+              "margin_over_blank_max": 0.4661913514137268,
+              "margin_over_blank_min": 0.4661913514137268,
+              "name": "HEY",
+              "samples_available_first": 22432,
+              "samples_available_last": 22432,
+              "token": 1
+            },
+            {
+              "first_frame": 138,
+              "last_frame": 138,
+              "margin_over_blank_max": 8.161219120025635,
+              "margin_over_blank_min": 8.161219120025635,
+              "name": "MEH",
+              "samples_available_first": 22592,
+              "samples_available_last": 22592,
+              "token": 2
+            },
+            {
+              "first_frame": 139,
+              "last_frame": 143,
+              "margin_over_blank_max": 27.408973693847656,
+              "margin_over_blank_min": 5.179596185684204,
+              "name": "ROH",
+              "samples_available_first": 22752,
+              "samples_available_last": 23392,
+              "token": 3
+            },
+            {
+              "first_frame": 276,
+              "last_frame": 277,
+              "margin_over_blank_max": 7.856262922286987,
+              "margin_over_blank_min": 1.857987105846405,
+              "name": "MEH",
+              "samples_available_first": 44672,
+              "samples_available_last": 44832,
+              "token": 2
+            },
+            {
+              "first_frame": 278,
+              "last_frame": 286,
+              "margin_over_blank_max": 23.443005561828613,
+              "margin_over_blank_min": 4.617248207330704,
+              "name": "ROH",
+              "samples_available_first": 44992,
+              "samples_available_last": 46272,
+              "token": 3
+            },
+            {
+              "first_frame": 307,
+              "last_frame": 320,
+              "margin_over_blank_max": 11.809946537017822,
+              "margin_over_blank_min": 0.12822973728179932,
+              "name": "ROH",
+              "samples_available_first": 49632,
+              "samples_available_last": 51712,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            2,
+            3,
+            1,
+            2,
+            3,
+            1,
+            2,
+            3,
+            2,
+            3,
+            3
+          ]
+        },
+        "challenger": {
+          "argmax_frame_counts": {
+            "HEY": 1,
+            "MEH": 1,
+            "ROH": 17,
+            "blank": 343
+          },
+          "event_frames": [
+            48
+          ],
+          "event_samples": [
+            8192
+          ],
+          "events": 1,
+          "frame_count": 362,
+          "nonblank_runs": [
+            {
+              "first_frame": 0,
+              "last_frame": 0,
+              "margin_over_blank_max": 0.18376827239990234,
+              "margin_over_blank_min": 0.18376827239990234,
+              "name": "HEY",
+              "samples_available_first": 512,
+              "samples_available_last": 512,
+              "token": 1
+            },
+            {
+              "first_frame": 47,
+              "last_frame": 47,
+              "margin_over_blank_max": 1.0045786201953888,
+              "margin_over_blank_min": 1.0045786201953888,
+              "name": "MEH",
+              "samples_available_first": 8032,
+              "samples_available_last": 8032,
+              "token": 2
+            },
+            {
+              "first_frame": 48,
+              "last_frame": 55,
+              "margin_over_blank_max": 15.701721668243408,
+              "margin_over_blank_min": 7.488538503646851,
+              "name": "ROH",
+              "samples_available_first": 8192,
+              "samples_available_last": 9312,
+              "token": 3
+            },
+            {
+              "first_frame": 110,
+              "last_frame": 114,
+              "margin_over_blank_max": 6.038088917732239,
+              "margin_over_blank_min": 1.147587537765503,
+              "name": "ROH",
+              "samples_available_first": 18112,
+              "samples_available_last": 18752,
+              "token": 3
+            },
+            {
+              "first_frame": 279,
+              "last_frame": 282,
+              "margin_over_blank_max": 6.090158939361572,
+              "margin_over_blank_min": 0.08014261722564697,
+              "name": "ROH",
+              "samples_available_first": 45152,
+              "samples_available_last": 45632,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            2,
+            3,
+            3,
+            3
+          ]
+        },
+        "control": {
+          "argmax_frame_counts": {
+            "HEY": 2,
+            "MEH": 0,
+            "ROH": 20,
+            "blank": 340
+          },
+          "event_frames": [],
+          "event_samples": [],
+          "events": 0,
+          "frame_count": 362,
+          "nonblank_runs": [
+            {
+              "first_frame": 0,
+              "last_frame": 1,
+              "margin_over_blank_max": 1.5840604305267334,
+              "margin_over_blank_min": 1.323183536529541,
+              "name": "HEY",
+              "samples_available_first": 512,
+              "samples_available_last": 672,
+              "token": 1
+            },
+            {
+              "first_frame": 47,
+              "last_frame": 56,
+              "margin_over_blank_max": 15.658596515655518,
+              "margin_over_blank_min": 1.092349648475647,
+              "name": "ROH",
+              "samples_available_first": 8032,
+              "samples_available_last": 9472,
+              "token": 3
+            },
+            {
+              "first_frame": 110,
+              "last_frame": 114,
+              "margin_over_blank_max": 7.321662425994873,
+              "margin_over_blank_min": 2.6328684836626053,
+              "name": "ROH",
+              "samples_available_first": 18112,
+              "samples_available_last": 18752,
+              "token": 3
+            },
+            {
+              "first_frame": 278,
+              "last_frame": 282,
+              "margin_over_blank_max": 8.373578786849976,
+              "margin_over_blank_min": 2.1500844955444336,
+              "name": "ROH",
+              "samples_available_first": 44992,
+              "samples_available_last": 45632,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            3,
+            3,
+            3
+          ]
+        }
+      },
+      "reference": "control"
+    },
+    {
+      "changed_argmax_counts_vs_control": {
+        "B0": {
+          "HEY->blank": 1,
+          "MEH->ROH": 2,
+          "blank->MEH": 2,
+          "blank->ROH": 8
+        },
+        "B9": {
+          "HEY->blank": 2,
+          "MEH->ROH": 1,
+          "blank->HEY": 3,
+          "blank->MEH": 2,
+          "blank->ROH": 5
+        },
+        "challenger": {
+          "HEY->blank": 1,
+          "MEH->ROH": 1,
+          "ROH->blank": 2
+        }
+      },
+      "cohort": "natural",
+      "every_control_challenger_changed_frame": [
+        {
+          "argmax": {
+            "B0": 0,
+            "B9": 0,
+            "challenger": 0,
+            "control": 1
+          },
+          "available_sample": 672,
+          "frame": 1,
+          "logits": {
+            "B0": [
+              10.343564987182617,
+              9.018753051757812,
+              -22.529048919677734,
+              -19.72545623779297
+            ],
+            "B9": [
+              3.8595829010009766,
+              -0.30699723958969116,
+              -10.703811645507812,
+              -4.830945014953613
+            ],
+            "challenger": [
+              10.457563400268555,
+              7.789816379547119,
+              -21.88115119934082,
+              -18.775461196899414
+            ],
+            "control": [
+              7.189255237579346,
+              8.505874633789062,
+              -19.19641876220703,
+              -15.968950271606445
+            ]
+          }
+        },
+        {
+          "argmax": {
+            "B0": 3,
+            "B9": 3,
+            "challenger": 0,
+            "control": 3
+          },
+          "available_sample": 21152,
+          "frame": 129,
+          "logits": {
+            "B0": [
+              -3.6515703201293945,
+              -10.043529510498047,
+              3.3899805545806885,
+              12.28646183013916
+            ],
+            "B9": [
+              -8.169413566589355,
+              -7.570690155029297,
+              5.12766170501709,
+              12.641342163085938
+            ],
+            "challenger": [
+              1.1243611574172974,
+              -4.156373500823975,
+              -2.9822840690612793,
+              0.5314838886260986
+            ],
+            "control": [
+              -0.2393779307603836,
+              -2.8877663612365723,
+              -2.4424262046813965,
+              0.9646092653274536
+            ]
+          }
+        },
+        {
+          "argmax": {
+            "B0": 3,
+            "B9": 3,
+            "challenger": 0,
+            "control": 3
+          },
+          "available_sample": 21312,
+          "frame": 130,
+          "logits": {
+            "B0": [
+              -3.714301586151123,
+              -10.95780086517334,
+              2.6409213542938232,
+              13.657333374023438
+            ],
+            "B9": [
+              -8.427539825439453,
+              -9.493744850158691,
+              4.5874104499816895,
+              15.936101913452148
+            ],
+            "challenger": [
+              1.9186315536499023,
+              -5.16929817199707,
+              -4.592401027679443,
+              1.057124137878418
+            ],
+            "control": [
+              0.25581666827201843,
+              -3.6406455039978027,
+              -3.974490165710449,
+              1.594476580619812
+            ]
+          }
+        },
+        {
+          "argmax": {
+            "B0": 3,
+            "B9": 3,
+            "challenger": 3,
+            "control": 2
+          },
+          "available_sample": 61792,
+          "frame": 383,
+          "logits": {
+            "B0": [
+              -4.071460247039795,
+              -6.072716236114502,
+              4.322449684143066,
+              8.22231388092041
+            ],
+            "B9": [
+              -4.972161769866943,
+              -2.806697130203247,
+              4.218026638031006,
+              4.818049430847168
+            ],
+            "challenger": [
+              -2.0490643978118896,
+              -2.3161582946777344,
+              2.251138687133789,
+              2.2793869972229004
+            ],
+            "control": [
+              -1.7916600704193115,
+              -2.012265205383301,
+              1.9597080945968628,
+              1.7280254364013672
+            ]
+          }
+        }
+      ],
+      "failure": "added_ordinary_event",
+      "gain": "1.0",
+      "group": "librispeech-test-clean-4507",
+      "id": "b17-natural-4507-16021-0036",
+      "models": {
+        "B0": {
+          "argmax_frame_counts": {
+            "HEY": 1,
+            "MEH": 2,
+            "ROH": 17,
+            "blank": 521
+          },
+          "event_frames": [],
+          "event_samples": [],
+          "events": 0,
+          "frame_count": 541,
+          "nonblank_runs": [
+            {
+              "first_frame": 0,
+              "last_frame": 0,
+              "margin_over_blank_max": 0.698387622833252,
+              "margin_over_blank_min": 0.698387622833252,
+              "name": "HEY",
+              "samples_available_first": 512,
+              "samples_available_last": 512,
+              "token": 1
+            },
+            {
+              "first_frame": 127,
+              "last_frame": 132,
+              "margin_over_blank_max": 17.37163496017456,
+              "margin_over_blank_min": 1.3799943923950195,
+              "name": "ROH",
+              "samples_available_first": 20832,
+              "samples_available_last": 21632,
+              "token": 3
+            },
+            {
+              "first_frame": 293,
+              "last_frame": 293,
+              "margin_over_blank_max": 0.1263895034790039,
+              "margin_over_blank_min": 0.1263895034790039,
+              "name": "MEH",
+              "samples_available_first": 47392,
+              "samples_available_last": 47392,
+              "token": 2
+            },
+            {
+              "first_frame": 294,
+              "last_frame": 295,
+              "margin_over_blank_max": 3.665580838918686,
+              "margin_over_blank_min": 1.160556972026825,
+              "name": "ROH",
+              "samples_available_first": 47552,
+              "samples_available_last": 47712,
+              "token": 3
+            },
+            {
+              "first_frame": 381,
+              "last_frame": 381,
+              "margin_over_blank_max": 3.0734801590442657,
+              "margin_over_blank_min": 3.0734801590442657,
+              "name": "MEH",
+              "samples_available_first": 61472,
+              "samples_available_last": 61472,
+              "token": 2
+            },
+            {
+              "first_frame": 382,
+              "last_frame": 390,
+              "margin_over_blank_max": 13.557366847991943,
+              "margin_over_blank_min": 7.0810829401016235,
+              "name": "ROH",
+              "samples_available_first": 61632,
+              "samples_available_last": 62912,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            3,
+            2,
+            3,
+            2,
+            3
+          ]
+        },
+        "B9": {
+          "argmax_frame_counts": {
+            "HEY": 3,
+            "MEH": 3,
+            "ROH": 13,
+            "blank": 522
+          },
+          "event_frames": [
+            383
+          ],
+          "event_samples": [
+            61792
+          ],
+          "events": 1,
+          "frame_count": 541,
+          "nonblank_runs": [
+            {
+              "first_frame": 127,
+              "last_frame": 127,
+              "margin_over_blank_max": 6.461245775222778,
+              "margin_over_blank_min": 6.461245775222778,
+              "name": "MEH",
+              "samples_available_first": 20832,
+              "samples_available_last": 20832,
+              "token": 2
+            },
+            {
+              "first_frame": 128,
+              "last_frame": 133,
+              "margin_over_blank_max": 24.3636417388916,
+              "margin_over_blank_min": 0.17548155784606934,
+              "name": "ROH",
+              "samples_available_first": 20992,
+              "samples_available_last": 21792,
+              "token": 3
+            },
+            {
+              "first_frame": 292,
+              "last_frame": 292,
+              "margin_over_blank_max": 0.13269758224487305,
+              "margin_over_blank_min": 0.13269758224487305,
+              "name": "HEY",
+              "samples_available_first": 47232,
+              "samples_available_last": 47232,
+              "token": 1
+            },
+            {
+              "first_frame": 379,
+              "last_frame": 380,
+              "margin_over_blank_max": 2.3040854930877686,
+              "margin_over_blank_min": 0.2010178565979004,
+              "name": "HEY",
+              "samples_available_first": 61152,
+              "samples_available_last": 61312,
+              "token": 1
+            },
+            {
+              "first_frame": 381,
+              "last_frame": 382,
+              "margin_over_blank_max": 7.597118616104126,
+              "margin_over_blank_min": 3.6719765663146973,
+              "name": "MEH",
+              "samples_available_first": 61472,
+              "samples_available_last": 61632,
+              "token": 2
+            },
+            {
+              "first_frame": 383,
+              "last_frame": 389,
+              "margin_over_blank_max": 14.459759712219238,
+              "margin_over_blank_min": 3.629426121711731,
+              "name": "ROH",
+              "samples_available_first": 61792,
+              "samples_available_last": 62752,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            2,
+            3,
+            1,
+            1,
+            2,
+            3
+          ]
+        },
+        "challenger": {
+          "argmax_frame_counts": {
+            "HEY": 1,
+            "MEH": 1,
+            "ROH": 6,
+            "blank": 533
+          },
+          "event_frames": [
+            383
+          ],
+          "event_samples": [
+            61792
+          ],
+          "events": 1,
+          "frame_count": 541,
+          "nonblank_runs": [
+            {
+              "first_frame": 0,
+              "last_frame": 0,
+              "margin_over_blank_max": 0.19066333770751953,
+              "margin_over_blank_min": 0.19066333770751953,
+              "name": "HEY",
+              "samples_available_first": 512,
+              "samples_available_last": 512,
+              "token": 1
+            },
+            {
+              "first_frame": 382,
+              "last_frame": 382,
+              "margin_over_blank_max": 0.2840520441532135,
+              "margin_over_blank_min": 0.2840520441532135,
+              "name": "MEH",
+              "samples_available_first": 61632,
+              "samples_available_last": 61632,
+              "token": 2
+            },
+            {
+              "first_frame": 383,
+              "last_frame": 388,
+              "margin_over_blank_max": 8.57527780532837,
+              "margin_over_blank_min": 2.89186692237854,
+              "name": "ROH",
+              "samples_available_first": 61792,
+              "samples_available_last": 62592,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            2,
+            3
+          ]
+        },
+        "control": {
+          "argmax_frame_counts": {
+            "HEY": 2,
+            "MEH": 2,
+            "ROH": 7,
+            "blank": 530
+          },
+          "event_frames": [],
+          "event_samples": [],
+          "events": 0,
+          "frame_count": 541,
+          "nonblank_runs": [
+            {
+              "first_frame": 0,
+              "last_frame": 1,
+              "margin_over_blank_max": 1.6525328159332275,
+              "margin_over_blank_min": 1.3166193962097168,
+              "name": "HEY",
+              "samples_available_first": 512,
+              "samples_available_last": 672,
+              "token": 1
+            },
+            {
+              "first_frame": 129,
+              "last_frame": 130,
+              "margin_over_blank_max": 1.3386599123477936,
+              "margin_over_blank_min": 1.2039871960878372,
+              "name": "ROH",
+              "samples_available_first": 21152,
+              "samples_available_last": 21312,
+              "token": 3
+            },
+            {
+              "first_frame": 382,
+              "last_frame": 383,
+              "margin_over_blank_max": 3.7513681650161743,
+              "margin_over_blank_min": 0.2565886303782463,
+              "name": "MEH",
+              "samples_available_first": 61632,
+              "samples_available_last": 61792,
+              "token": 2
+            },
+            {
+              "first_frame": 384,
+              "last_frame": 388,
+              "margin_over_blank_max": 7.517172813415527,
+              "margin_over_blank_min": 1.1434329189360142,
+              "name": "ROH",
+              "samples_available_first": 61952,
+              "samples_available_last": 62592,
+              "token": 3
+            }
+          ],
+          "tokens": [
+            1,
+            3,
+            2,
+            3
+          ]
+        }
+      },
+      "reference": "control"
+    }
+  ],
+  "new_model_forwards": 0,
+  "original_frame_archive_sha256": "272e69d0f9bfd72aa8a9da606d67db3677991a214dd950df5cd04aa5bcd315cb",
+  "original_result_sha256": "86d4cc6a84494f18b67479db9d986f722103566b81ba7c1f6772a5c56d719ff7",
+  "positive_denominator": {
+    "original_gain_cases": 45,
+    "originals": 15,
+    "source_groups": 12
+  },
+  "promotion_allowed": false,
+  "purpose": "Descriptive failure explanation only; no threshold selection, training or new candidate choice",
+  "recovery_opportunities": {
+    "by_gain": {
+      "0.5": {
+        "original_gain_cases": 2,
+        "originals": 2,
+        "recovered_original_gain_cases": 0,
+        "source_groups": 2
+      },
+      "0.75": {
+        "original_gain_cases": 2,
+        "originals": 2,
+        "recovered_original_gain_cases": 0,
+        "source_groups": 1
+      },
+      "1.0": {
+        "original_gain_cases": 0,
+        "originals": 0,
+        "recovered_original_gain_cases": 0,
+        "source_groups": 0
+      }
+    },
+    "cases": [
+      {
+        "events": {
+          "B0": 0,
+          "B9": 1,
+          "challenger": 0,
+          "control": 0
+        },
+        "gain": "0.5",
+        "group": "piper-libritts-p543",
+        "id": "b20-primary-799-mero-fast",
+        "recovered": false
+      },
+      {
+        "events": {
+          "B0": 0,
+          "B9": 1,
+          "challenger": 0,
+          "control": 0
+        },
+        "gain": "0.75",
+        "group": "piper-libritts-p17",
+        "id": "b20-primary-805-mero-fast",
+        "recovered": false
+      },
+      {
+        "events": {
+          "B0": 0,
+          "B9": 1,
+          "challenger": 0,
+          "control": 0
+        },
+        "gain": "0.75",
+        "group": "piper-libritts-p17",
+        "id": "b20-primary-805-mero-slow",
+        "recovered": false
+      },
+      {
+        "events": {
+          "B0": 0,
+          "B9": 1,
+          "challenger": 0,
+          "control": 0
+        },
+        "gain": "0.5",
+        "group": "piper-libritts-p1933",
+        "id": "b20-primary-817-mero-slow",
+        "recovered": false
+      }
+    ],
+    "definition": "B9 has at least one complete event and paired control has zero on the same original/gain",
+    "original_gain_cases": 4,
+    "unique_originals": 4,
+    "unique_source_groups": 3
+  },
+  "schema": "english-v6-b20-original-logit-failure-description-v1",
+  "source_calls": 0,
+  "threshold_search": false,
+  "token_ids": {
+    "0": "blank",
+    "1": "HEY",
+    "2": "MEH",
+    "3": "ROH"
+  },
+  "training_allowed": false
+}
