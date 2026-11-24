@@ -47,7 +47,7 @@ jobs:
           evaluation = Path('.github/workflows/english-v6-b21-primary-model-eval-once.yml').read_text()
           if evaluation.count('__B21_REVIEWED_SCORING_PARENT__') != 2:
               raise ValueError('Scoring requires separate exact-parent activation')
-          if evaluation != Path('automation/english_v6_b21_primary_workflow_template.yml').read_text():
-              raise ValueError('Original evaluation workflow template must remain identical')
+          if evaluation != Path('automation/english_v6_b21_fixed_mirror_primary_workflow_template.yml').read_text():
+              raise ValueError('Fixed-mirror evaluation workflow template must remain identical')
           print('Preparation changes perform zero TTS, ASR, optimizer or KWS operations')
           PY

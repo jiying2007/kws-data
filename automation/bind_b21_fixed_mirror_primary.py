@@ -98,7 +98,7 @@ def metadata(bundle, base, primary):
 def snapshot(archive, role, meta, primary, repository):
     doc = json.loads(archive.read("PRODUCER.json"))
     run, commit = meta["run"], meta["commit"]
-    workflow = ".github/workflows/english-v6-b21-" + ("blank-retention-train-once.yml" if role == "train" else "natural-amendment-sources-once.yml")
+    workflow = ".github/workflows/english-v6-b21-blank-retention-train-once.yml" if role == "train" else primary.SOURCE_WORKFLOW
     branch = primary.TRAIN_BRANCH if role == "train" else primary.SOURCE_BRANCH
     tree = meta["tree"]
     commit_tree = commit.get("commit", commit)["tree"]["sha"]
