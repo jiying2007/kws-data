@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   train:
-    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B23_REVIEWED_PREFIX_PEAK_PARENT__'
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '6ac2778475e6177ffb89cc814325667b3413514f'
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
@@ -19,7 +19,7 @@ jobs:
       MKL_NUM_THREADS: '1'
       OPENBLAS_NUM_THREADS: '1'
       PYTHONHASHSEED: '20261120'
-      PREPARED_PARENT: '__B23_REVIEWED_PREFIX_PEAK_PARENT__'
+      PREPARED_PARENT: '6ac2778475e6177ffb89cc814325667b3413514f'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with: {persist-credentials: false, fetch-depth: 2}
