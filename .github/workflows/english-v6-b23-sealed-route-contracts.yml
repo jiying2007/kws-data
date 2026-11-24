@@ -1,0 +1,39 @@
+name: B23 sealed replica and engineering contracts
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b23_replication*
+      - automation/english_v6_b23_engineering*
+      - automation/english_v6_b23_quality_readback.py
+      - automation/test_english_v6_b23_*
+      - .github/workflows/english-v6-b23-*
+      - research/english_v6_b23_preparation_20261124/*saved_b23_train*
+  push:
+    branches: [main]
+    paths:
+      - automation/english_v6_b23_replication*
+      - automation/english_v6_b23_engineering*
+      - automation/english_v6_b23_quality_readback.py
+      - automation/test_english_v6_b23_*
+      - .github/workflows/english-v6-b23-*
+      - research/english_v6_b23_preparation_20261124/*saved_b23_train*
+permissions:
+  contents: read
+jobs:
+  contracts:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Verify sealed original evidence and unchanged numerical contracts
+        run: |
+          python -SIB automation/test_english_v6_b23_replication_sources.py -v
+          python -SIB automation/test_english_v6_b23_replication_capacity.py -v
+          python -SIB automation/test_english_v6_b23_replication_eval.py -v
+          python -SIB automation/test_english_v6_b23_quality_readback.py -v
+          python -SIB automation/test_english_v6_b23_engineering.py -v
+          python -SIB research/english_v6_b23_preparation_20261124/test_saved_b23_train_adapter.py -v

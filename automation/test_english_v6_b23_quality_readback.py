@@ -109,6 +109,20 @@ def fixture(panel="primary"):
 
 
 class ReadbackTests(unittest.TestCase):
+    def test_only_replica_source_and_producer_use_finite_composite_limit(self):
+        roles=(None,'result','producer','consumed','B0','B9','pair','source','screen',
+               'train_producer','source_producer','native_qwen','native_whisper','native_parakeet','native_xlsr','native_lv60')
+        for panel in ('primary','replication'):
+            for role in roles:
+                expected=512_000_000 if panel=='replication' and role in ('source','producer') else 128_000_000
+                self.assertEqual(reader.archive_limit(panel,role),expected)
+                pin=dict(id=1,run_id=1,run_head='a'*40,bytes=expected,sha256='b'*64)
+                reader.valid_artifact(pin,panel=panel,role=role)
+                with self.assertRaises(ValueError):
+                    reader.valid_artifact(dict(pin,bytes=expected+1),panel=panel,role=role)
+        for panel,role in (('arbitrary','producer'),('primary','arbitrary'),('replication','replication_producer')):
+            with self.assertRaises(ValueError):reader.archive_limit(panel,role)
+
     def test_fetch_saves_original_control_bytes_and_never_renders_them(self):
         raw = b"PK\x03\x04\x1b[31m\xff\x00\x80\r\n"
         def pin(number):
