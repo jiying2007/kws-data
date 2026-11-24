@@ -49,9 +49,19 @@ def verify(artifact):
         require(len(npz.files)==912 and all(npz[name].ndim==2
                    and npz[name].shape[1]==4 and np.isfinite(npz[name]).all()
                    for name in npz.files),"all finite genuine four-class logit arrays")
+    lineage_raw=RECEIPT.with_name("SOURCE_LINEAGE_AUDIT.json").read_bytes()
+    lineage=json.loads(lineage_raw)
+    require(sha256(lineage_raw).hexdigest()==doc["source_lineage_audit"]["sha256"]
+            and lineage["status"]=="SOURCE_LEAKAGE"
+            and lineage["observed"]["overlapping_readers"]==12
+            and lineage["observed"]["overlapping_originals"]==18
+            and lineage["independent_primary_usable"] is False,
+            "later historical speaker audit invalidates independent-source qualification")
     return {"status":"PASS_SAVED_NO_PROMOTION","forwards":912,
             "new_originals":76,"added_ordinary_event_conditions":4,
-            "source_gate":"SOURCE_GATE_PASS","model_gate":"NO_PROMOTION",
+            "historical_scorer_source_gate":"SOURCE_GATE_PASS",
+            "source_gate":"SOURCE_LEAKAGE","independent_primary_usable":False,
+            "model_gate":"NO_PROMOTION",
             "field_frr":"NOT_MEASURED","field_far":"NOT_MEASURED","ssc305":"NOT_RUN"}
 
 if __name__=="__main__":

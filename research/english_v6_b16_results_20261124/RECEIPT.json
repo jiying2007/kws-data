@@ -38,7 +38,11 @@
     ],
     "total_frame_logits_arrays": 912,
     "source_gate": "SOURCE_GATE_PASS",
-    "no_source_replacement": true
+    "no_source_replacement": true,
+    "source_gate_interpretation": "Historical scorer reported SOURCE_GATE_PASS; later original-archive lineage audit invalidates historical-source independence.",
+    "effective_independent_source_gate": "SOURCE_LEAKAGE",
+    "independent_natural_readers_after_lineage_audit": 0,
+    "independent_natural_originals_after_lineage_audit": 0
   },
   "models": {
     "B0": {
@@ -173,5 +177,14 @@
     "ssc305_board_measured": false,
     "product_promoted": false
   },
-  "note": "Independent reviewer: executed original GitHub artifact ZIP CRC, saved result JSON SHA and NPZ SHA, 912 finite 4-class arrays, 58 synthetic and 18 real originals. This is a retrospective readback of frozen independent DEV; it cannot be reused to select coefficients or decoder thresholds. B15 is not the installed product model."
+  "note": "Original GitHub artifact CRC and saved numerical hashes remain valid: 912 finite four-class arrays over 76 within-run PCM-unique originals. Historical scorer SOURCE_GATE_PASS was subsequently invalidated by canonical speaker ancestry: all 18 natural originals/12 readers were already exposed in historical project TRAIN/DEV; two whole originals match old decoded PCM. Numerical NO_PROMOTION is preserved and SOURCE_LEAKAGE independently prohibits promotion or replication. Do not discard overlapping rows and recompute a new selectable outcome. B0 remains installed.",
+  "source_lineage_audit": {
+    "path": "SOURCE_LINEAGE_AUDIT.json",
+    "sha256": "bf7b4a6a4382413824cc26c3d5f9a0ca9922a7bd9a372418e6e9ac509474fdbf",
+    "status": "SOURCE_LEAKAGE",
+    "independent_primary_usable": false,
+    "overlapping_readers": 12,
+    "overlapping_natural_originals": 18,
+    "same_historical_decoded_pcm_originals": 2
+  }
 }

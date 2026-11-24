@@ -1,0 +1,320 @@
+{
+  "schema": "english-v6-b16-historical-source-lineage-audit-v1",
+  "audit_date": "2026-11-24",
+  "status": "SOURCE_LEAKAGE",
+  "historical_scorer_source_gate": "SOURCE_GATE_PASS",
+  "effective_independent_source_gate": "SOURCE_LEAKAGE",
+  "numeric_quality_decision_unchanged": "NO_PROMOTION",
+  "independent_primary_usable": false,
+  "registered_policy": {
+    "path": "automation/english_v6_b15_panels/assessment.json",
+    "sha256": "daa45200d226dd004a41e74a3cf5ff876a1f3fc41dd2def7c5ed937efbf085f8",
+    "requirement": "exclude_any_prior_train_dev_cal_locked_speaker=true; natural source minimum >=8 independent readers and >=12 independent originals"
+  },
+  "inputs": {
+    "legacy": {
+      "run_id": 43867764366,
+      "head": "d8be1c24b12cac0ba554e9a4a41e4b6ee0db18db",
+      "artifact_id": 14225893574,
+      "bytes": 61290521,
+      "sha256": "2aa398cd11b787342d91c056fed188d8e3607929da9fdaf873451b5cf05b07f1",
+      "members": {
+        "LIBRISPEECH_SOURCES.json": "8a21f832bd847b8a169f41de0fb40c5cc9b683dffc607d9e100ebc5958f4b15d",
+        "STREAM_ROSTER.json": "53646ce22780e8647e5654334c633a3f4dc8c1dd9a78d0856a1877b99d75b12a"
+      }
+    },
+    "source": {
+      "run_id": 45297962939,
+      "head": "3da0d5a35d8dcd7d1c79bbf870a1df776c9d7c8d",
+      "artifact_id": 14878351529,
+      "bytes": 3983738,
+      "sha256": "a5b0e07ebd583bce0fd561a738fcd540619541a22534bbdf3f20b2550d2eda97",
+      "members": {
+        "MANIFEST.json": "5a3fb7683dae90fb4c73791e71ee30c1818a79a096617cea8027b6f9c0e48340",
+        "ROSTERS.json": "68704e3e8d85836a4fa426a19a023bb7d01869ae0f3a4a6f75a84f354d2a7697"
+      }
+    },
+    "scores": {
+      "run_id": 45314679545,
+      "head": "737fc6ccf129b82e74d595ff7ea985f60f2d136b",
+      "artifact_id": 14884732009,
+      "bytes": 2425605,
+      "sha256": "aa57b2dae6859f12f1e939a1815c58678a1db270e8bb21b66378783be6fe3f2b",
+      "members": {
+        "RESULT.json": "034a02f77afd53fb0cca50d5ffc54088b6ba745dcd3fc243a957aaaa9fc4b7cf"
+      }
+    }
+  },
+  "observed": {
+    "status": "SOURCE_LEAKAGE",
+    "historical_actual_reader_count": 40,
+    "historical_roles": {
+      "development": 10,
+      "train": 30
+    },
+    "observed_natural_originals": 18,
+    "observed_natural_readers": 12,
+    "overlapping_originals": 18,
+    "overlapping_readers": 12,
+    "overlapping_readers_by_historical_role": {
+      "development": 8,
+      "train": 4
+    },
+    "overlapping_originals_by_historical_role": {
+      "development": 12,
+      "train": 6
+    },
+    "known_disjoint_natural_originals": 0,
+    "known_disjoint_natural_readers": 0,
+    "same_historical_decoded_originals": 2,
+    "same_historical_splice_fragment_originals": 0,
+    "identity_rows": [
+      {
+        "canonical_person": "librispeech:1462",
+        "historical_track_id": "libri-speaker-1462",
+        "historical_role": "train",
+        "historical_track_pcm_sha256": "9a93bc5842da1ad5f3d6af3e9987ec7a157127d0eea6f6d83282df7afe37ffa7",
+        "current_id": "b15-natural-1462-170138-0007",
+        "current_source_group_id": "librispeech-dev-clean-1462",
+        "current_source_member": "LibriSpeech/dev-clean/1462/170138/1462-170138-0007.flac",
+        "current_pcm_sha256": "9bdbc283d6865e2aeb7085f200a594d257d314aa05412da542a50c88ee87cfc9",
+        "current_flac_sha256": "70e86d916ad59bfaf35479e5a3a5b422b337b4247ae59ccbff0785fb43aff884",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:1462",
+        "historical_track_id": "libri-speaker-1462",
+        "historical_role": "train",
+        "historical_track_pcm_sha256": "9a93bc5842da1ad5f3d6af3e9987ec7a157127d0eea6f6d83282df7afe37ffa7",
+        "current_id": "b15-natural-1462-170142-0014",
+        "current_source_group_id": "librispeech-dev-clean-1462",
+        "current_source_member": "LibriSpeech/dev-clean/1462/170142/1462-170142-0014.flac",
+        "current_pcm_sha256": "4639bfd84333cf6501f2504c54c621ead6ff41fc3413f8d41d28d585a9c01c04",
+        "current_flac_sha256": "12404ac1b9707af8677cef667bccd8c1f4a0f268e138d04c6b06dbbaf13f8060",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:1993",
+        "historical_track_id": "libri-speaker-1993",
+        "historical_role": "development",
+        "historical_track_pcm_sha256": "f9a33f8ef885042de57d9fab5eaeaf027bcf4e73e95be14e3ef4c176efc841eb",
+        "current_id": "b15-natural-1993-147149-0011",
+        "current_source_group_id": "librispeech-dev-clean-1993",
+        "current_source_member": "LibriSpeech/dev-clean/1993/147149/1993-147149-0011.flac",
+        "current_pcm_sha256": "3a9b9d0cdaf8dce6614f6101124007aa31e8c8cee44dfcff455400e8f8e1dac9",
+        "current_flac_sha256": "275bb37345623aca7ba9c50aed15839d2cedd05eaa55c423c8eb8272d91a8487",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:1993",
+        "historical_track_id": "libri-speaker-1993",
+        "historical_role": "development",
+        "historical_track_pcm_sha256": "f9a33f8ef885042de57d9fab5eaeaf027bcf4e73e95be14e3ef4c176efc841eb",
+        "current_id": "b15-natural-1993-147965-0001",
+        "current_source_group_id": "librispeech-dev-clean-1993",
+        "current_source_member": "LibriSpeech/dev-clean/1993/147965/1993-147965-0001.flac",
+        "current_pcm_sha256": "8394d8a3f20d0e14840ffa8d551e3622b2a05bdde4d785cad97aa22daa33de30",
+        "current_flac_sha256": "bc9a8e3e53bf142a4b1c15145d75c637aa42d13711ae3736d2eb5a568d8684f3",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:2078",
+        "historical_track_id": "libri-speaker-2078",
+        "historical_role": "development",
+        "historical_track_pcm_sha256": "1bc14036ac395cbb9ce23f58b31a3ad75bdb3558a8a2941ac176737d169c8298",
+        "current_id": "b15-natural-2078-142845-0040",
+        "current_source_group_id": "librispeech-dev-clean-2078",
+        "current_source_member": "LibriSpeech/dev-clean/2078/142845/2078-142845-0040.flac",
+        "current_pcm_sha256": "a091f132eab2465da65298c5b72e1d0c949d2092d542aa5d9620c9f0bb615990",
+        "current_flac_sha256": "bf07651dd97fce64cef71b3158c4a788dfe7bf17a14e96d6aee2d053912e0aac",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:2078",
+        "historical_track_id": "libri-speaker-2078",
+        "historical_role": "development",
+        "historical_track_pcm_sha256": "1bc14036ac395cbb9ce23f58b31a3ad75bdb3558a8a2941ac176737d169c8298",
+        "current_id": "b15-natural-2078-142845-0042",
+        "current_source_group_id": "librispeech-dev-clean-2078",
+        "current_source_member": "LibriSpeech/dev-clean/2078/142845/2078-142845-0042.flac",
+        "current_pcm_sha256": "5d07ae119c5c2072a69d252276921ebc41484480ec2ecc88e382ccfa689f0689",
+        "current_flac_sha256": "c3e269f4257f0ea0b78488472c98c65ae355372a31f9fcf601b8c4f5f42caa3a",
+        "same_historical_decoded_original": true,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:2277",
+        "historical_track_id": "libri-speaker-2277",
+        "historical_role": "development",
+        "historical_track_pcm_sha256": "e5ca219393a30f44f8bc482b8626826dac1a9ea9c1b0987e394c9e67512d2195",
+        "current_id": "b15-natural-2277-149896-0021",
+        "current_source_group_id": "librispeech-dev-clean-2277",
+        "current_source_member": "LibriSpeech/dev-clean/2277/149896/2277-149896-0021.flac",
+        "current_pcm_sha256": "a7e4eb68972f192d96c857e20643bc32308a81c08b453701cb4c47806f071362",
+        "current_flac_sha256": "c6bcb66167d4562cf90e876dead087625d1ac5058656bd053432266f54933044",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:2412",
+        "historical_track_id": "libri-speaker-2412",
+        "historical_role": "train",
+        "historical_track_pcm_sha256": "3344fb3247b58cb4426a75bc08782a52314e1bf9e6bd211a9fb35768885a259b",
+        "current_id": "b15-natural-2412-153954-0008",
+        "current_source_group_id": "librispeech-dev-clean-2412",
+        "current_source_member": "LibriSpeech/dev-clean/2412/153954/2412-153954-0008.flac",
+        "current_pcm_sha256": "fc974d04f4e6806fbb6b810c2eb92401a593e15a1522b6d87c8c26fa48a91feb",
+        "current_flac_sha256": "14d343469f08eef34bdbcbfa19b12d65db3edb5c50d8b83f01a119c7f04deb74",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:2428",
+        "historical_track_id": "libri-speaker-2428",
+        "historical_role": "development",
+        "historical_track_pcm_sha256": "4d795a28fd2d50cc02d71b7c5546d957a08796aa3e3ce07ee4386bf913f52f0f",
+        "current_id": "b15-natural-2428-83699-0004",
+        "current_source_group_id": "librispeech-dev-clean-2428",
+        "current_source_member": "LibriSpeech/dev-clean/2428/83699/2428-83699-0004.flac",
+        "current_pcm_sha256": "2b125ebbb80e3bb36a3a2d514e3bc5043e4fa0bce996ea60431fdeb1c5a5d863",
+        "current_flac_sha256": "660b675c8a938e67d4e2165b8cce16532677716ddb41e59d4b134e298281de3a",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:2803",
+        "historical_track_id": "libri-speaker-2803",
+        "historical_role": "development",
+        "historical_track_pcm_sha256": "061a2109c50b2595af8a367c8dc73e870eecfab25dbf230e3c8f781cc027bba7",
+        "current_id": "b15-natural-2803-154320-0006",
+        "current_source_group_id": "librispeech-dev-clean-2803",
+        "current_source_member": "LibriSpeech/dev-clean/2803/154320/2803-154320-0006.flac",
+        "current_pcm_sha256": "59a19e031a693db4e20d9e9a9aea34d011b8666e795613f50ec7d0211673f8da",
+        "current_flac_sha256": "b9b0fad2b999ed8c303ae3978ac50a0259e18b170695a3cbfb79421425956424",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:2803",
+        "historical_track_id": "libri-speaker-2803",
+        "historical_role": "development",
+        "historical_track_pcm_sha256": "061a2109c50b2595af8a367c8dc73e870eecfab25dbf230e3c8f781cc027bba7",
+        "current_id": "b15-natural-2803-154328-0007",
+        "current_source_group_id": "librispeech-dev-clean-2803",
+        "current_source_member": "LibriSpeech/dev-clean/2803/154328/2803-154328-0007.flac",
+        "current_pcm_sha256": "61eb14d8cceaa13ab68c9b5b328ac33f665295526d0e4ff7c875e134af9d4dbc",
+        "current_flac_sha256": "cb341e71032ffd07ea0bb378a68f62db2f0258000ad7c0cf9540a3b8f7c39778",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:3081",
+        "historical_track_id": "libri-speaker-3081",
+        "historical_role": "train",
+        "historical_track_pcm_sha256": "96f63e14ce0b188d39031f254bcafc08b314b035f5149c16637ac638bc553f66",
+        "current_id": "b15-natural-3081-166546-0044",
+        "current_source_group_id": "librispeech-dev-clean-3081",
+        "current_source_member": "LibriSpeech/dev-clean/3081/166546/3081-166546-0044.flac",
+        "current_pcm_sha256": "bb328347a0fbba5bcd01f1534c654d2e082cb86f30c05e64473f6df2ff3e8048",
+        "current_flac_sha256": "003d312527b4201dd617c25489eed884978810f5d4c330597f0dd25443da5143",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:3081",
+        "historical_track_id": "libri-speaker-3081",
+        "historical_role": "train",
+        "historical_track_pcm_sha256": "96f63e14ce0b188d39031f254bcafc08b314b035f5149c16637ac638bc553f66",
+        "current_id": "b15-natural-3081-166546-0056",
+        "current_source_group_id": "librispeech-dev-clean-3081",
+        "current_source_member": "LibriSpeech/dev-clean/3081/166546/3081-166546-0056.flac",
+        "current_pcm_sha256": "3a92f797a03f8fe75d127533c372af64c8f19803b37c1fd07ca04421a929547f",
+        "current_flac_sha256": "5b6e76b5715009aef6eacf30d9d9885fa3b5de5522f5bd1cd672ee50e399cf76",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:5338",
+        "historical_track_id": "libri-speaker-5338",
+        "historical_role": "development",
+        "historical_track_pcm_sha256": "ee79f9fa730e5fd4d7d48e29a8338bc3261dab8926ad683bb466239a87934690",
+        "current_id": "b15-natural-5338-284437-0012",
+        "current_source_group_id": "librispeech-dev-clean-5338",
+        "current_source_member": "LibriSpeech/dev-clean/5338/284437/5338-284437-0012.flac",
+        "current_pcm_sha256": "ae7013c2fb3c8f53c92728ee9f0da86472ba6e43d491c3f289f340d3c5ea4094",
+        "current_flac_sha256": "ccf6741a87e6a0f90bac4b220004212612425280d41eaf1d471522426d3e11a2",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:6241",
+        "historical_track_id": "libri-speaker-6241",
+        "historical_role": "train",
+        "historical_track_pcm_sha256": "61066dc81aac19237279dda97044601808f2ead8b2d7344bc655ba365a409830",
+        "current_id": "b15-natural-6241-61943-0015",
+        "current_source_group_id": "librispeech-dev-clean-6241",
+        "current_source_member": "LibriSpeech/dev-clean/6241/61943/6241-61943-0015.flac",
+        "current_pcm_sha256": "e7b486cf31987ad21925e988aa99de9eacf5c69177ba26a7229ef09cebc8e0d9",
+        "current_flac_sha256": "bc10f03ddda4bf388cba6666942aa820ac19870a4c520eeab35a69ce6aae6929",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:6295",
+        "historical_track_id": "libri-speaker-6295",
+        "historical_role": "development",
+        "historical_track_pcm_sha256": "d9bbb89515deed286fc2a13405d0cce256cb0e143a2aaee25a368508082c011d",
+        "current_id": "b15-natural-6295-64301-0001",
+        "current_source_group_id": "librispeech-dev-clean-6295",
+        "current_source_member": "LibriSpeech/dev-clean/6295/64301/6295-64301-0001.flac",
+        "current_pcm_sha256": "563541930d1285075e307608b70138747621aea093ec925c902f18bd0a91ab76",
+        "current_flac_sha256": "3e8623cd0f8e802b0c61aae4946cf63778b2f456110cf6a02288c92d7a6bf41a",
+        "same_historical_decoded_original": true,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:6295",
+        "historical_track_id": "libri-speaker-6295",
+        "historical_role": "development",
+        "historical_track_pcm_sha256": "d9bbb89515deed286fc2a13405d0cce256cb0e143a2aaee25a368508082c011d",
+        "current_id": "b15-natural-6295-64301-0012",
+        "current_source_group_id": "librispeech-dev-clean-6295",
+        "current_source_member": "LibriSpeech/dev-clean/6295/64301/6295-64301-0012.flac",
+        "current_pcm_sha256": "f81ff539ce4552c1c70c6aa420a28a930df1dd3955d4a70677d9eab4a865edd6",
+        "current_flac_sha256": "edc66b24246225774923ba544cbda422f0b2df16f981a53262c583c317303e77",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      },
+      {
+        "canonical_person": "librispeech:6319",
+        "historical_track_id": "libri-speaker-6319",
+        "historical_role": "development",
+        "historical_track_pcm_sha256": "c17f9ea7baf43df6d5ce936163faa1452672c3a1a4b3b011d70025727da40ed7",
+        "current_id": "b15-natural-6319-64726-0003",
+        "current_source_group_id": "librispeech-dev-clean-6319",
+        "current_source_member": "LibriSpeech/dev-clean/6319/64726/6319-64726-0003.flac",
+        "current_pcm_sha256": "0f3d4f7e51f2fcca2a4a86f9714e7c242c19768bb045adacf19d0ee7d4631966",
+        "current_flac_sha256": "fafc722708ec236a4b5f2604f11454b46efbbde06a36fb4a0a774b260fbc3f7a",
+        "same_historical_decoded_original": false,
+        "present_in_historical_splice_fragments": false
+      }
+    ]
+  },
+  "correction_scope": "Canonical historical person/source identity correction. Preserve every original source/score ZIP, numerical model result and SHA. All 18 scored natural originals belong to 12 previously exposed project readers; four were historical TRAIN readers and eight historical DEV readers. Two whole PCM originals were also present in the old decoded-original inventory, but neither was in its selected 16-second splice fragments. This proves failure of the registered historical-source independence rule, not current B15 gradient ingestion or a new model-quality measurement.",
+  "actions": {
+    "new_audio_generation": 0,
+    "new_audio_decoding": 0,
+    "new_model_forwards": 0,
+    "new_optimizer_updates": 0,
+    "new_threshold_search": false,
+    "recompute_quality_after_dropping_sources": false,
+    "replication_opened": false,
+    "cal_locked_opened": false,
+    "product_promotion": false
+  }
+}
