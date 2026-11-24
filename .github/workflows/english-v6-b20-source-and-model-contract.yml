@@ -6,6 +6,7 @@ name: B20 complete new-source experiment and unchanged model promotion gates
       - automation/english_v6_b20_panels/**
       - .github/workflows/english-v6-b20-*.yml
       - research/english_v6_b19_source_results_20261124/**
+      - research/english_v6_b20_source_results_20261124/**
   push:
     branches: [main]
     paths:
@@ -13,6 +14,7 @@ name: B20 complete new-source experiment and unchanged model promotion gates
       - automation/english_v6_b20_panels/**
       - .github/workflows/english-v6-b20-*.yml
       - research/english_v6_b19_source_results_20261124/**
+      - research/english_v6_b20_source_results_20261124/**
 permissions:
   contents: read
 jobs:
@@ -60,4 +62,70 @@ jobs:
                   or any(arm['valid_nonempty'] != 16 or not arm['whole_audio_bounds_ok'] for arm in result['arms'].values())):
               raise ValueError('diagnostic success never replaces complete source QA or model promotion')
           print('Original B19 evidence retained; baseline also passed; zero new source or model calls')
+          PY
+      - name: Bind actual B20 source evidence and all frozen primary inputs
+        run: |
+          python -IB - <<'PY'
+          """Source-evidence and actual input identity CI body; no inference or network."""
+          import hashlib
+          import json
+          from pathlib import Path
+          import sys
+          
+          root = Path('research/english_v6_b20_source_results_20261124')
+          inventory_raw = (root / 'FILE_SHA256.json').read_bytes()
+          if hashlib.sha256(inventory_raw).hexdigest() != 'dccddfb4e6ca697af0a279de6de9c6b3c229279fd7c06aad880442d9d30026db':
+              raise ValueError('exact complete original B20 source evidence inventory')
+          inventory = json.loads(inventory_raw)['files']
+          actual = {str(p.relative_to(root)) for p in root.rglob('*') if p.is_file() and p.name != 'FILE_SHA256.json'}
+          if len(inventory) != 62 or set(inventory) != actual:
+              raise ValueError('all 63 original B20 evidence files are retained')
+          for name, expected in inventory.items():
+              raw = (root / name).read_bytes()
+              if len(raw) != expected['bytes'] or hashlib.sha256(raw).hexdigest() != expected['sha256']:
+                  raise ValueError('changed original B20 evidence: ' + name)
+          screen_raw = (root / 'SCREEN.json').read_bytes()
+          if hashlib.sha256(screen_raw).hexdigest() != 'd125b512340fb540b9e0e32fb6077420813579d816ccebfce8d5d982e6831646':
+              raise ValueError('original source SCREEN bytes')
+          screen = json.loads(screen_raw)
+          audit = json.loads((root / 'NATIVE_INDEPENDENT_READBACK.json').read_bytes())
+          providers = ('qwen', 'whisper', 'parakeet', 'xlsr', 'lv60')
+          counts = dict(input_started=480, forward_attempted=480, native_returned=480,
+                        raw_payload_saved=480, payload_valid=480, capture_saved=480, failed=0)
+          if (screen['source_gate'] != 'SOURCE_GATE_PASS' or screen['coverage'] != dict.fromkeys(providers, 96)
+                  or screen['source_coverage'] != dict(positive_originals=15, ordinary_originals=48, paired_source_groups=12)
+                  or screen['unknown_count'] != 33 or audit['total_native_counts'] != counts
+                  or audit['official_SCREEN_equal_to_pure_recomputation'] is not True
+                  or any(audit[k] is not False for k in ('KWS_evaluation_performed_by_this_source_run',
+                              'numerical_model_quality_claimed', 'old_replication_opened', 'promotion_allowed'))):
+              raise ValueError('the original source result grants no numerical model promotion')
+          sys.path.insert(0, str(Path('automation').resolve()))
+          import english_v6_b20_primary_eval as evaluator
+          spec = evaluator.protocol()
+          if (spec['inputs']['synth_source'] != audit['source_artifact']
+                  or spec['inputs']['synth_screen'] != audit['screen_artifact']
+                  or spec['synthetic_native_inputs'] != audit['native_artifacts']):
+              raise ValueError('all seven actual original source ZIPs match primary inputs')
+          producer_raw = evaluator.PRODUCER.read_bytes()
+          if hashlib.sha256(producer_raw).hexdigest() != spec['producer_manifest_sha256']:
+              raise ValueError('exact reviewed active producer identity')
+          producer = json.loads(producer_raw)
+          saved_source = json.loads((root / 'SOURCE_PRODUCER_INVENTORY.json').read_bytes())
+          if (producer['frozen'] is not True or producer['source']['files'] != saved_source['files']
+                  or producer['source']['resources'] != saved_source['resources']
+                  or producer['source']['workflow_sha256'] != hashlib.sha256((root / 'ACTUAL_WORKFLOW.yml').read_bytes()).hexdigest()):
+              raise ValueError('original expanded actual source producer is unchanged')
+          for role, roots in (('primary', evaluator.PRODUCER_ROOTS), ('source', (evaluator.SOURCE_MODULE,))):
+              if set(producer[role]['files']) != evaluator.static_closure(Path('automation'), roots):
+                  raise ValueError('complete local module/file/package dependency identity: ' + role)
+              for name, expected in producer[role]['files'].items():
+                  if hashlib.sha256(Path(name).read_bytes()).hexdigest() != expected:
+                      raise ValueError('changed frozen Python dependency: ' + name)
+          for name, expected in producer['resources'].items():
+              if hashlib.sha256(Path(name).read_bytes()).hexdigest() != expected:
+                  raise ValueError('changed frozen scientific resource: ' + name)
+          if (Path(evaluator.WORKFLOW).read_bytes() != evaluator.WORKFLOW_TEMPLATE.read_bytes()
+                  or evaluator.WORKFLOW_TEMPLATE.read_bytes().count(evaluator.PARENT_TOKEN.encode()) != 2):
+              raise ValueError('main/PR preparation retains the closed workflow-only activation template')
+          print('B20 original 480 valid receipts, 63 admitted synthetic originals and all 17 frozen input ZIPs retained; no model calls')
           PY

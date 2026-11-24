@@ -85,10 +85,16 @@ def overlap_fixture():
 
 class Contracts(unittest.TestCase):
     def test_inert_first_before_all_io_or_helpers(self):
-        with patch.object(m, "fixed", side_effect=AssertionError("fixed read")), \
+        # Exercise the disabled state independently of whether the reviewed
+        # repository SPEC has subsequently received authentic source pins.
+        disabled = json.loads(m.SPEC.read_bytes())
+        disabled["scoring_allowed"] = False
+        with tempfile.TemporaryDirectory() as tmp, patch.object(m, "SPEC", Path(tmp) / "disabled.json"), \
+             patch.object(m, "fixed", side_effect=AssertionError("fixed read")), \
              patch.object(m, "gh", side_effect=AssertionError("network")), \
              patch.object(m, "helpers", side_effect=AssertionError("model helpers")), \
              patch.object(m, "guard", side_effect=AssertionError("environment")):
+            m.SPEC.write_text(json.dumps(disabled))
             for entry, arguments in ((m.protocol, ()), (m.fetch, (None, None)),
                                      (m.preflight, (None, None)), (m.score, (None, None, None))):
                 with self.subTest(entry=entry.__name__), self.assertRaisesRegex(ValueError, "INERT"):
@@ -159,13 +165,31 @@ class Contracts(unittest.TestCase):
 
     def test_static_closure_includes_transitive_and_literal_dynamic_imports(self):
         with tempfile.TemporaryDirectory() as tmp:
-            directory = Path(tmp)
-            (directory / "entry.py").write_text('import first\nimport importlib\nimportlib.import_module("dynamic")\n')
+            directory = Path(tmp) / "automation"; directory.mkdir()
+            (directory / "entry.py").write_text('import first\nimport importlib\nimportlib.import_module("dynamic")\nload_path("by_filename.py")\nload_path("missing.py")\nload_path("../escaped.py")\nload_path("not_python.json")\n')
             (directory / "first.py").write_text("from second import value\n")
             (directory / "second.py").write_text("value = 1\n")
             (directory / "dynamic.py").write_text("import second\n")
+            (directory / "by_filename.py").write_text("import indirect_filename\n")
+            (directory / "indirect_filename.py").write_text("value = 2\n")
+            (directory / "escaped.py").write_text("import poison\n")
+            (directory / "poison.py").write_text("value = 3\n")
+            (directory / "not_python.json").write_text('{"module": "poison"}\n')
             self.assertEqual(m.static_closure(directory, ("entry",)),
-                             {"automation/" + name + ".py" for name in ("entry", "first", "second", "dynamic")})
+                             {"automation/" + name + ".py" for name in
+                              ("entry", "first", "second", "dynamic", "by_filename", "indirect_filename")})
+
+    def test_static_closure_covers_first_party_package_relative_imports(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); directory = root / "automation"; directory.mkdir()
+            (directory / "entry.py").write_text("from contracts.identity import Identity\n")
+            package = root / "contracts"; package.mkdir()
+            (package / "__init__.py").write_text("from .identity import Identity\n")
+            (package / "identity.py").write_text("from .helper import value\nclass Identity: pass\n")
+            (package / "helper.py").write_text("value = 1\n")
+            (package / "not_code.json").write_text("{}\n")
+            self.assertEqual(m.static_closure(directory, ("entry",)),
+                             {"automation/entry.py", "contracts/__init__.py", "contracts/identity.py", "contracts/helper.py"})
 
     def test_producer_code_resource_and_only_parent_workflow_bytes(self):
         with tempfile.TemporaryDirectory() as tmp, patch.object(m, "PRODUCER_ROOTS", ("entry",)), \
