@@ -1,0 +1,146 @@
+name: English B15 prospective dev-clean primary source and five blind observers
+'on':
+  push:
+    branches:
+    - research/en-v6-b15-natural-primary-once-20261124
+    paths:
+    - .github/workflows/english-v6-b15-natural-primary-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: en-v6-b15-primary-natural-once
+  cancel-in-progress: false
+env:
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261121'
+jobs:
+  sources:
+    runs-on: ubuntu-24.04
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B15_NATURAL_MAIN_SHA__'
+    timeout-minutes: 36
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Read authenticated upstream transcripts and decode primary members
+      run: |
+        set -euo pipefail
+        python -m pip install --disable-pip-version-check 'numpy==1.26.4' 'soundfile==0.13.1'
+        file="$RUNNER_TEMP/dev-clean.tar.gz"
+        for mirror in https://www.openslr.org/resources/12 https://openslr.trmal.net/resources/12 https://openslr.elda.org/resources/12; do
+          if curl -fLsS --connect-timeout 10 --speed-limit 20000 --speed-time 25 --max-time 460 -o "$file" "$mirror/dev-clean.tar.gz" && echo "76f87d090650617fca0cac8f88b9416e0ebf80350acb97b343a85fa903728ab3  $file" | sha256sum --status -c -; then break; fi
+        done
+        python -IB automation/english_v6_b15_natural_sources.py generate "$RUNNER_TEMP/source" "$file" primary
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b15-natural-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source/
+        retention-days: 90
+        if-no-files-found: error
+  observers:
+    needs: sources
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        provider:
+        - qwen
+        - parakeet
+        - xlsr
+        - lv60
+        - whisper
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b15-natural-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - name: Install one pinned original unprompted ASR or native phone model
+      shell: bash
+      timeout-minutes: 19
+      env:
+        PROVIDER: ${{ matrix.provider }}
+      run: |
+        set -euo pipefail
+        python -m venv "$RUNNER_TEMP/b10-native-env"
+        PIP="$RUNNER_TEMP/b10-native-env/bin/pip"
+        FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+        if [ "$PROVIDER" != "parakeet" ]; then
+          if [ "$PROVIDER" = "qwen" ] || [ "$PROVIDER" = "whisper" ]; then
+            "$PIP" install $FLAGS 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          else
+            "$PIP" install $FLAGS 'torch==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          fi
+        fi
+        case "$PROVIDER" in
+          qwen) "$PIP" install $FLAGS 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2' ;;
+          whisper) "$PIP" install $FLAGS 'openai-whisper==20250625' ;;
+          parakeet) "$PIP" install $FLAGS 'huggingface-hub==0.36.2' 'hf-xet==1.2.0' ;;
+          xlsr|lv60) "$PIP" install $FLAGS 'transformers==4.46.3' 'numpy==1.26.4' 'huggingface-hub==0.36.2' ;;
+          *) exit 7 ;;
+        esac
+        "$RUNNER_TEMP/b10-native-env/bin/python" -m pip check
+    - name: Observe every full original once without text hints
+      shell: bash
+      run: |
+        set -euo pipefail
+        GITHUB_SHA="$(git rev-parse HEAD)" "$RUNNER_TEMP/b10-native-env/bin/python" -IB automation/english_v6_b15_natural_sources.py observe "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/$PROVIDER"
+      env:
+        PROVIDER: ${{ matrix.provider }}
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: b15-natural-dev-observer-${{ matrix.provider }}
+        path: ${{ runner.temp }}/${{ matrix.provider }}/
+        retention-days: 90
+        if-no-files-found: warn
+  readback:
+    needs: observers
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b15-natural-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        pattern: b15-natural-dev-observer-*
+        path: ${{ runner.temp }}/providers
+    - name: Authenticate complete native captures and freeze independent source labels
+      shell: bash
+      run: |
+        set -euo pipefail
+        for p in qwen whisper parakeet xlsr lv60; do mv "$RUNNER_TEMP/providers/b15-natural-dev-observer-$p" "$RUNNER_TEMP/providers/$p"; done
+        mkdir "$RUNNER_TEMP/final"
+        python -IB automation/english_v6_b15_natural_sources.py screen "$RUNNER_TEMP/source" "$RUNNER_TEMP/providers" "$RUNNER_TEMP/final/SCREEN.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b15-natural-frozen-screen-${{ github.run_id }}
+        path: ${{ runner.temp }}/final/
+        retention-days: 90
+        if-no-files-found: error

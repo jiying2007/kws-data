@@ -6,6 +6,9 @@ on:
       - automation/english_v6_b15_nonblank_contrast_pair.py
       - automation/test_english_v6_b15_nonblank_contrast_pair.py
       - automation/english_v6_b15_panels/assessment.json
+      - automation/english_v6_b15_natural_sources.py
+      - automation/test_english_v6_b15_natural_sources.py
+      - .github/workflows/english-v6-b15-natural-primary-once.yml
       - .github/workflows/english-v6-b15-protocol-contract.yml
       - docs/BRANCH_RETENTION_20261007.json
   push:
@@ -35,6 +38,8 @@ jobs:
             case "$mode" in optimized) args=(-O);; stripped) args=(-OO);; esac
             python -I -B "${args[@]}" automation/test_english_v6_b15_nonblank_contrast_pair.py -v
           done
+      - name: Verify new natural DEV source role with synthetic transcript fixtures
+        run: python -I -B automation/test_english_v6_b15_natural_sources.py -v
       - name: Reject violations of unchanged historical retention and test file syntax
         run: |
           python -I -S -B tools/verify_branch_retention.py
