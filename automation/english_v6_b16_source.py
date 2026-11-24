@@ -16,6 +16,7 @@ import zipfile
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import english_v6_b14_primary_source_qa as b14
+import english_v6_b15_synthetic_source as b15
 
 qa=b14.qa
 B13=b14.previous
@@ -63,7 +64,9 @@ def gate(original_screen):
     b14.gate(original_screen)
 
 def history(directory):
-    seen,groups,people=b14.history(directory)
+    # B15.history includes B14 original 48-source primary before the B15 primary.
+    # Going directly to B14.history would omit 48 prior PCM and 12 source groups.
+    seen,groups,people=b15.history(directory)
     p=directory/(str(B15_SOURCE_ID)+".zip")
     qa.need(qa.sha(p)==B15_SOURCE_SHA,"completed B15 original source archive, no regeneration")
     with zipfile.ZipFile(p) as z:
