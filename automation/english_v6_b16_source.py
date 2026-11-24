@@ -124,7 +124,7 @@ def read_source(directory):
                 and row["crop_calls"]==0 and row["basic_audio_ok"] is True,
                 "original immutable B16 source and split")
         facts=qa.pcm_tools.inspect_wav(directory/"wav"/(row["id"]+".wav"))
-        qa.need(all(facts[k]==v for k,v in row.items()),
+        qa.need(all(row[k]==v for k,v in facts.items()),
                 "complete 16k PCM WAV independently verified")
         native=b""
         for chunk in row["native_chunks"]:
@@ -159,9 +159,11 @@ def screen(source,observers,output):
             "exact five original native model forwards x 96")
     paired=sorted(g for g,classes in accepted.items() if classes=={0,2})
     counts=Counter(r["observed_class"] for r in decisions)
-    mins=source_plan("primary")["frozen_source_gate"]
+    minimum=source_plan("primary")["frozen_source_gate"]
+    mins={key.removesuffix("_min"):value for key,value in minimum.items()}
     measured={"positive_originals":counts[2],"ordinary_originals":counts[0],
               "paired_source_groups":len(paired)}
+    qa.need(set(measured)==set(mins),"unaltered frozen source gate keys")
     short={k:{"observed":measured[k],"min":v}
            for k,v in mins.items() if measured[k]<v}
     report={
