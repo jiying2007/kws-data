@@ -1,0 +1,84 @@
+{
+  "schema": "english-v6-b15-preregistered-nonblank-contrast-v1",
+  "hypothesis": "Keep B13 natural-negative objective and B14's coefficient 0.08, but remove blank from positive-path teacher-margin competitors so retention learns relative HEY/MEH/ROH token identity without directly pushing them over blank.",
+  "feature_frontend": "Identical B9 43876 trainable parameters and signed PCM16 log-mel frontend. Frozen model normalizers and CTC event decoder.",
+  "diagnostic": {
+    "run_id": 45111029245,
+    "head": "cee2389ab3765b01947f485d8a5cf95dc4e3568f",
+    "artifact_id": 14790175198,
+    "bytes": 519148,
+    "sha256": "0959221425bc38e8ca6501ace692c858741079f9223c4972d1cc318252d68ea8",
+    "actual_forwards": 396,
+    "originals": 44,
+    "groups": 35,
+    "retention_gate": "Two or more distinct TRAIN groups at one registered gain have a B9 and matched complete event on an original on which B13 candidate misses.",
+    "observed_groups_by_gain": {
+      "1.0": 4,
+      "0.75": 3,
+      "0.5": 1
+    }
+  },
+  "historical_b13": {
+    "run_id": 45109548793,
+    "head": "db12ece24e0481b877b9cf46f74f3ed8f8d2fca1",
+    "artifact_id": 14789216108,
+    "bytes": 1009570,
+    "sha256": "e66de6d2683c93e434e3d426ef88ffa46c9eba63d89d6940454a81d17e7d29af",
+    "challenger_pt_sha256": "643fbbc21f5e2ca7a22c8e320966ddd43c3f2985137e1949ae1e8884565db553",
+    "common_draw": "B13 archived COMMON_DRAW.json; all 192 original source and prefix assignments identical."
+  },
+  "pair": {
+    "updates_per_arm": 192,
+    "parent_pt_sha256": "7dba86a3fcda6e5f05cb80b414dc372c70a5a03b3aee783f168441a4871e7655",
+    "seed": 20261120,
+    "adamw_learning_rate": 0.00006,
+    "adamw_weight_decay": 0.001,
+    "gradient_norm_clip": 5,
+    "natural_negative_ctc_weight": 0.08,
+    "training_base_originals": 79,
+    "new_natural_negative_inputs": 9,
+    "natural_negative_speakers": 8,
+    "control_aux_weight": 0,
+    "challenger_aux_weight": 0.08,
+    "control_target": "Reproduce the archived B13 challenger parameters from the same B9 parent, optimizer, training source groups, gain schedule, prefix, natural draws and 192 updates. Compare every float tensor. No downstream opening following a numerical mismatch.",
+    "base_features_and_loss": "Original B13 natural-negative matched mechanism and frozen B10.fit, with original CTC and gain-consistency terms."
+  },
+  "retention": {
+    "eligible": "Every admitted TRAIN original/gain for which B9 and B13 matched (natural weight zero) each greedily produce at least one complete contiguous [1,2,3]. Admission does not depend on B13 challenger response.",
+    "gains": [
+      1,
+      0.75,
+      0.5
+    ],
+    "eligible_combinations_by_gain": {
+      "1.0": 42,
+      "0.75": 42,
+      "0.5": 36
+    },
+    "eligible_originals": 43,
+    "eligible_groups": 34,
+    "teacher": "Byte-frozen B9 complete-event TRAIN logit frames only. Admission uses identical complete-word B9 and matched-control source identities as B14; no B14 DEV scores, threshold or natural QA feedback enters the objective.",
+    "align": "Use the nonblank frame runs of the first complete contiguous [1,2,3] in the B9 collapsed path on that original/gain. Each target token contributes its entire corresponding run of original frames. No forced linguistic alignments, no shifted indices and no transfer of times between originals.",
+    "loss": "For each B9-completed TRAIN source/gain/token nonblank frame, teacher margin is the target logit minus max of the OTHER TWO nonblank token logits, strictly classes 1..3 excluding the target; blank class 0 is not a competitor. Student margin uses identical two competitors; apply ReLU(teacher_margin-student_margin), averaging frames within token, tokens within word, gains/originals within group as in B14. No change to 0.08 auxiliary coefficient.",
+    "draw": "At zero-based step s use lexicographically sorted eligible source groups[s modulo 34]. Include all eligible source originals and all eligible gains from that group. This gives every eligible pair exposure and separates source, original, gain and token weighting.",
+    "distinction_from_B1": "B1 matched whole-clean-utterance four-class posterior distributions with a 0.22 KL contribution on positive and ordinary data. B14 preserves only target-vs-competing margins on the three nonblank runs of a previously completed positive word at native and reduced gains.",
+    "fixed_weight_rationale": "One coefficient 0.08 fixed to the existing additional natural-negative CTC coefficient. No sweep and no existing DEV signal used to choose its value.",
+    "distinction_from_B14": "One-factor mechanistic contrast: positive margin compares against two nonblank token competitors, not blank+other two token classes. Source bytes, eligible frames/groups, optimizer, 192 updates, seed, LR, natural-negative coefficient 0.08 and positive coefficient 0.08 stay fixed."
+  },
+  "source_policy": {
+    "allowed": "Only the frozen B9 ordinary/positive TRAIN cohort, the nine reviewed B13 natural negative TRAIN windows, the preexisting 44 TRAIN positives and their actual three-gain B9 and matched outputs.",
+    "forbidden": [
+      "Any primary, replication or other DEV waveform, logits or targets in the optimizer",
+      "CAL or LOCKED audio or metrics",
+      "Fresh TTS, ASR, phone teachers, forced acoustic alignments or replacement sources",
+      "Target-device data or field metrics",
+      "B13 challenger individual errors as a sample filter",
+      "Any threshold or hyperparameter selection on a scored panel",
+      "Any of the 24 previously machine-qualified but human-unreviewed new natural TRAIN originals"
+    ]
+  },
+  "start_condition": "Before any optimizer update, verify byte-authenticated B15 independent prospective assessment and this immutable design, previously reviewed nine natural negative windows, 79 synthetic TRAIN originals, and B9/B13 teacher receipts. B14 replication remains sealed.",
+  "promotion_allowed": false,
+  "independent_b15_assessment_sha256": "daa45200d226dd004a41e74a3cf5ff876a1f3fc41dd2def7c5ed937efbf085f8",
+  "comparison_contract": "Matched two-arm single-job control versus nonblank contrast challenger. Archived B13 checkpoint differences are recorded as numerical diagnostics but are not mistaken for or required to be a bit-identical control. No model is selected using exposed B14 primary scores."
+}
