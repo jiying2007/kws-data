@@ -1,0 +1,148 @@
+name: English B19 fixed 48-original source feasibility only
+'on':
+  push:
+    branches:
+    - research/en-v6-b19-source-feasibility-once-20261124
+    paths:
+    - .github/workflows/english-v6-b19-source-feasibility-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: en-v6-b19-source-feasibility-once
+  cancel-in-progress: false
+env:
+  PREPARED_PARENT: '771a322cee80bb88210cc1c449fd4b79b403c00a'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261124'
+jobs:
+  sources:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b19-source-feasibility-once-20261124' && github.run_attempt == 1 && github.event.before == '771a322cee80bb88210cc1c449fd4b79b403c00a'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 85
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Authenticate original B18 STOP and every historical source before new TTS
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        python -IB automation/english_v6_b19_source.py guard "$PREPARED_PARENT"
+        python -IB automation/english_v6_b19_source.py check
+        gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=en-v6-b19-source-feasibility-opened&per_page=1" | jq -e '.total_count == 0'
+        python -IB automation/english_v6_b19_source.py authorize "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"
+        python -IB automation/english_v6_b19_source.py history > "$RUNNER_TEMP/history-ids"
+        while read -r aid; do
+          if [ ! -f "$RUNNER_TEMP/prior-source/$aid.zip" ]; then
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$aid/zip" > "$RUNNER_TEMP/prior-source/$aid.zip"
+          fi
+        done < "$RUNNER_TEMP/history-ids"
+        python -IB automation/english_v6_b19_source.py verify-history "$RUNNER_TEMP/prior-source"
+        mkdir "$RUNNER_TEMP/diagnostic-opened"
+        cp "$RUNNER_TEMP/prior-source/AUTHORIZATION.json" "$RUNNER_TEMP/diagnostic-opened/AUTHORIZATION.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: en-v6-b19-source-feasibility-opened
+        path: ${{ runner.temp }}/diagnostic-opened/
+        retention-days: 90
+        if-no-files-found: error
+    - name: Generate and freeze all 48 whole diagnostic originals and bounds
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -m pip install --disable-pip-version-check --no-cache-dir --retries 0 --timeout 90 'piper-tts==1.8.0' 'numpy==1.26.4' 'scipy==1.15.3' 'huggingface-hub==0.36.2'
+        python -IB automation/english_v6_b19_source.py generate "$RUNNER_TEMP/source" "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b19-source-feasibility-originals-${{ github.run_id }}
+        path: ${{ runner.temp }}/source/
+        retention-days: 90
+        if-no-files-found: warn
+  observer:
+    needs: sources
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Require the first exact public diagnostic event before model access
+      run: python -IB automation/english_v6_b19_source.py guard "$PREPARED_PARENT"
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b19-source-feasibility-originals-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - name: Verify all frozen original audio and history before native installation
+      run: python -IB automation/english_v6_b19_source.py verify-source "$RUNNER_TEMP/source"
+    - name: Install only the unchanged native Parakeet runtime dependencies
+      run: |
+        set -euo pipefail
+        python -m venv "$RUNNER_TEMP/b19-native-env"
+        "$RUNNER_TEMP/b19-native-env/bin/pip" install --disable-pip-version-check --no-cache-dir --retries 0 --timeout 90 'huggingface-hub==0.36.2' 'hf-xet==1.2.0'
+        "$RUNNER_TEMP/b19-native-env/bin/python" -m pip check
+    - name: Observe every original once and preserve actual invalid empty returns
+      run: |
+        set -euo pipefail
+        "$RUNNER_TEMP/b19-native-env/bin/python" -IB automation/english_v6_b19_source.py observe "$RUNNER_TEMP/source" "$RUNNER_TEMP/parakeet" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: b19-source-feasibility-parakeet-${{ github.run_id }}
+        path: ${{ runner.temp }}/parakeet/
+        retention-days: 90
+        if-no-files-found: warn
+  readback:
+    needs: [sources, observer]
+    if: always() && needs.sources.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Guard the original diagnostic run before saved evidence readback
+      run: python -IB automation/english_v6_b19_source.py guard "$PREPARED_PARENT"
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b19-source-feasibility-originals-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: b19-source-feasibility-parakeet-${{ github.run_id }}
+        path: ${{ runner.temp }}/parakeet
+    - name: Recompute only the fixed source-format feasibility verdict
+      run: |
+        set -euo pipefail
+        mkdir "$RUNNER_TEMP/final"
+        python -IB automation/english_v6_b19_source.py readback "$RUNNER_TEMP/source" "$RUNNER_TEMP/parakeet" "$RUNNER_TEMP/final/FEASIBILITY.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b19-source-feasibility-readback-${{ github.run_id }}
+        path: ${{ runner.temp }}/final/
+        retention-days: 90
+        if-no-files-found: warn

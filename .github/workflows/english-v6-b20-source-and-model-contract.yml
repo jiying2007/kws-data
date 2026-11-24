@@ -1,0 +1,63 @@
+name: B20 complete new-source experiment and unchanged model promotion gates
+'on':
+  pull_request:
+    paths:
+      - automation/*english_v6_b20*
+      - automation/english_v6_b20_panels/**
+      - .github/workflows/english-v6-b20-*.yml
+      - research/english_v6_b19_source_results_20261124/**
+  push:
+    branches: [main]
+    paths:
+      - automation/*english_v6_b20*
+      - automation/english_v6_b20_panels/**
+      - .github/workflows/english-v6-b20-*.yml
+      - research/english_v6_b19_source_results_20261124/**
+permissions:
+  contents: read
+jobs:
+  b20-source-and-frozen-model-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Install only array fixture support
+        run: python -m pip install --disable-pip-version-check numpy==1.26.4
+      - name: Check source, raw native returns and frozen-model gates without inference
+        run: |
+          python -IB -m unittest discover -s automation -p 'test_english_v6_b20_*.py' -v
+          python -OIB -m unittest discover -s automation -p 'test_english_v6_b20_*.py' -v
+          python -OOIB -m unittest discover -s automation -p 'test_english_v6_b20_*.py' -v
+          python -IB automation/english_v6_b20_source.py check
+          python -IB automation/english_v6_b20_source_observe.py --source-check
+          python -IB automation/english_v6_b20_primary_eval.py check
+      - name: Preserve the actual B19 diagnostic and its limited conclusion
+        run: |
+          python -IB - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path('research/english_v6_b19_source_results_20261124')
+          inventory = json.loads((root / 'FILE_SHA256.json').read_bytes())
+          actual = {str(p.relative_to(root)) for p in root.rglob('*') if p.is_file() and p.name != 'FILE_SHA256.json'}
+          if set(inventory) != actual:
+              raise ValueError('complete retained B19 evidence inventory')
+          for path, expected in inventory.items():
+              if hashlib.sha256((root / path).read_bytes()).hexdigest() != expected:
+                  raise ValueError('changed retained original B19 evidence: ' + path)
+          raw = (root / 'FEASIBILITY.json').read_bytes()
+          if hashlib.sha256(raw).hexdigest() != '48e10f040b1a631aeee5a335aa8fbe37d1a01fc547550b15507f4aded3a42700':
+              raise ValueError('original B19 feasibility bytes')
+          result = json.loads(raw)
+          if (result['result'] != 'SOURCE_FORMAT_FEASIBLE_REQUIRES_NEW_PREREGISTRATION'
+                  or result['actual_native_attempts'] != 48 or result['native_returns'] != 48
+                  or result['valid_nonempty_payloads'] != 48 or result['invalid_empty_payloads'] != 0
+                  or any(result[key] is not False for key in ('source_admission_eligible', 'source_gate_passed',
+                      'KWS_evaluation_allowed', 'training_allowed', 'promotion_allowed', 'replication_opened', 'causal_fix_proven'))
+                  or result['new_KWS_forwards'] != 0 or result['optimizer_updates'] != 0
+                  or any(arm['valid_nonempty'] != 16 or not arm['whole_audio_bounds_ok'] for arm in result['arms'].values())):
+              raise ValueError('diagnostic success never replaces complete source QA or model promotion')
+          print('Original B19 evidence retained; baseline also passed; zero new source or model calls')
+          PY

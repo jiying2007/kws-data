@@ -1,0 +1,1414 @@
+{
+  "KWS_evaluation_allowed": false,
+  "actual_native_attempts": 48,
+  "arms": {
+    "baseline": {
+      "invalid_empty": 0,
+      "originals": 16,
+      "other_or_unstarted": 0,
+      "valid_nonempty": 16,
+      "whole_audio_bounds_ok": true
+    },
+    "ordinary": {
+      "invalid_empty": 0,
+      "originals": 16,
+      "other_or_unstarted": 0,
+      "valid_nonempty": 16,
+      "whole_audio_bounds_ok": true
+    },
+    "prospective": {
+      "invalid_empty": 0,
+      "originals": 16,
+      "other_or_unstarted": 0,
+      "valid_nonempty": 16,
+      "whole_audio_bounds_ok": true
+    }
+  },
+  "causal_fix_proven": false,
+  "code_contract": {
+    "asr_adapter_sha256": "5f1070c1443742a69953c8376c4f044471224a535bf9ee4bed89ce007f2efef4",
+    "maximum_native_calls": 48,
+    "native_model": {
+      "decode_config": {
+        "device": "cpu",
+        "prompt": null,
+        "threads": 4,
+        "timeout_seconds": 180
+      },
+      "model_family": "parakeet-tdt",
+      "model_id": "nvidia/parakeet-tdt-0.6b-v3",
+      "model_revision": "541d1f99c6b0c3cd0b11a95167540bb8edefd82b",
+      "model_sha256": "e3880d0aaaaf2c308ea2c35016b2b895c423eb3fda924c1b463d1c19b7f4d32e",
+      "recognizer_id": "parakeet"
+    },
+    "native_runtime": {
+      "hf-xet": "1.2.0",
+      "huggingface-hub": "0.36.2"
+    },
+    "new_kws_calls": 0,
+    "observer_sha256": "b4f776993830c52a2aae29494369dd57b429bb89a5140f4dd5ced108931fe573",
+    "old_file_sha256": {
+      "english_fresh24_ctc_admission.py": "204f6004d3b33bfdcf66c011c2eec34ff947ea5fbb2607b1b265e335a7366b4c",
+      "english_hifi_micro.py": "0251de2cddc112dc3c84c53cda46ed1a2a1d726d0a7653b9071872f50471fdcc",
+      "english_hifi_phones_once.py": "920456b516dffbe878e389320065ced3af56ebc7d1e9494b14bf1994de39f8fd",
+      "english_parakeet_real_once.py": "366cd278f570a37ce68dd20e47e2bee1422daaa109c693ac42ab4bd4c2418881",
+      "english_pocket12_observe.py": "07b93e626b5e822b09869c0f06d2179140d938c1c795f97c2d286e112b2c0426",
+      "english_seven_voice_asr_once.py": "17771ca272204771982dbdc8e959f7fd75838b6598e84f09ac5819d8e3c79184",
+      "english_v6_b11_supplement_observe.py": "83276ce5c208c3277ac9462d22fab024dd458248dd4279d8b49fdedd3d88e529",
+      "english_v6_b11_supplement_screen.py": "7be739af313f69f926a84f3e0b37eb35a46618bb877e060ff1a2a3020c7514d9",
+      "english_v6_primary_source_qa.py": "ff1a19d5d821f778474523474ae4f494b9548b5ad97d9f33d9bb545db6468e94"
+    },
+    "original_slots": 48,
+    "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+    "raw_observer_sha256": "7681815398c4f597556e30fb5b69e46bf4e2a42faf4f8a4116ab4d2bbf80f26e",
+    "schema": "english-v6-b19-source-diagnostic-code-contract-v1",
+    "source_admission_eligible": false,
+    "source_indices": [
+      790,
+      791,
+      792,
+      793,
+      794,
+      795,
+      796,
+      797
+    ]
+  },
+  "diagnostic_complete": true,
+  "fatal_error": null,
+  "invalid_empty_payloads": 0,
+  "native_call_budget": 48,
+  "native_returns": 48,
+  "new_KWS_forwards": 0,
+  "new_TTS_calls": 0,
+  "old_B17_B18_failures_preserved": true,
+  "optimizer_updates": 0,
+  "promotion_allowed": false,
+  "prospective_pair_feasible": true,
+  "registration": {
+    "asr_adapter_sha256": "5f1070c1443742a69953c8376c4f044471224a535bf9ee4bed89ce007f2efef4",
+    "assessment_sha256": "b88f91dcc9ca98c548a34be746c13de3f815663310ce093fd5559ca38e04c365",
+    "batch_schema": "english-v6-b19-parakeet-source-feasibility-v1",
+    "diagnostic_only": true,
+    "max_calls": 48,
+    "observer_sha256": "b4f776993830c52a2aae29494369dd57b429bb89a5140f4dd5ced108931fe573",
+    "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+    "prepared_parent": "771a322cee80bb88210cc1c449fd4b79b403c00a",
+    "run_attempt": 1,
+    "run_branch": "refs/heads/research/en-v6-b19-source-feasibility-once-20261124",
+    "run_head": "75bd1c05c220ae2e2334fd5c1e06fa87c66630a5",
+    "run_id": "45330168237",
+    "source_admission_eligible": false,
+    "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+    "source_rows": 48,
+    "source_schema": "english-v6-b19-source-feasibility-originals-v1"
+  },
+  "replication_opened": false,
+  "result": "SOURCE_FORMAT_FEASIBLE_REQUIRES_NEW_PREREGISTRATION",
+  "retry_count": 0,
+  "rows": [
+    {
+      "id": "b19-feasibility-790-baseline-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1074,
+          "path": "RAW_PROCESS.json",
+          "sha256": "d2bc1c3aee3c92bcc2238386010795201e335ab368173b3c4523e8191e9dd57e"
+        },
+        "validation": {
+          "bytes": 951,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "4ef7a3e828609c7177c851b2e8caafcf02d97744b88103e9861e0e2763474c74"
+        }
+      },
+      "raw_transcript": "Hey Marrow.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "f5361f4d8a400508f1b8d9f63bb23d6c651493b16850dceb0d51ab65b4e8be2d",
+      "source_samples": 11703,
+      "source_wav_sha256": "64cb4c294956a13749bcc80b99f901695d9ec28d5786f8d5f5dd4017c13eb22e",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-790-baseline-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1074,
+          "path": "RAW_PROCESS.json",
+          "sha256": "777e4d37cfd6cb6565b37ddfb20b2904f4bff4b1d4a21f409ab46b0c0a5d400a"
+        },
+        "validation": {
+          "bytes": 951,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "a4837870c5869803d30d1d8b12c3ca9e8c686cbb21c1c15cb434acdba6d2dcb8"
+        }
+      },
+      "raw_transcript": "Hey Marrow.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "47a4626dcd87ef67caecedcbb508cd745b448962bfacc83c7cc9943c9de29bc4",
+      "source_samples": 12818,
+      "source_wav_sha256": "802bfa7c146584d13f46b424aac90ec8da5d1d6bfe82b2eaaf3f5a96fd6313a4",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-790-prospective-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1077,
+          "path": "RAW_PROCESS.json",
+          "sha256": "3d8615e48ce1911e04d6336fb0be7a2802edc6513ad34a5d89ab99e4d8a65233"
+        },
+        "validation": {
+          "bytes": 954,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "8e77d574240a10628efc128a3ff274eae7a7f622c47b88b99993d97b1e0a7b6a"
+        }
+      },
+      "raw_transcript": "Hey Marrow.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "e6616aa1117e7f0653850932449a39749d8b9d9d8f6d321cc0e97a643235f5c8",
+      "source_samples": 16162,
+      "source_wav_sha256": "64a8c020025c55bc58f9041116a205b648bee68107be0bbba6820d7c9578b7a3",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-790-prospective-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1077,
+          "path": "RAW_PROCESS.json",
+          "sha256": "8f8184f0ec7fee5861fbeaef9497a9425e554e5f4b3b9e8a20300d8620863370"
+        },
+        "validation": {
+          "bytes": 957,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "74d3d0d72c3e5932b66aa82d5c4d9e3c43d8171c838ce32c07adf55c3c6a73cf"
+        }
+      },
+      "raw_transcript": "Hey Maro, said",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "3e718149a1674b8a20acd7c3d2665b671e1bc6828cd4556a9ce37ca94737ec89",
+      "source_samples": 19877,
+      "source_wav_sha256": "4de1712d837c02731c0c9ed9700b74fb9b221b23873b16d636d31dbf50dab090",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-790-question",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1069,
+          "path": "RAW_PROCESS.json",
+          "sha256": "80382185a99c82c86214bc8ab6c9e17feb996f02687d7d66c7b423208a2f62f6"
+        },
+        "validation": {
+          "bytes": 951,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "aeb08658f0117a49877bdad2a06c0b37740137bb913504838942ecd7da858bc0"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "6c5815cbe9c4f1261ce261014f2d427674828f6c15dc4ad0d1d8cd655105512e",
+      "source_samples": 17462,
+      "source_wav_sha256": "1b88b1e091c1da032683c780c74da4f38c6e1368975325261a8b7f1a67c4d314",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-790-request",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1068,
+          "path": "RAW_PROCESS.json",
+          "sha256": "dfc65f8b38c5c4b111098ed2f6961df225e9e87df9421bbc74a027ee5ef4fd6b"
+        },
+        "validation": {
+          "bytes": 953,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "5a7bab6fab3a8659f58c6c892f432fc0eaf08064c43d0cb24e28fece349eb552"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "d6502728d2b917b556badf3db41a8314569e3270e5609e0d792d097fa2866956",
+      "source_samples": 20063,
+      "source_wav_sha256": "1e7af30d333ecc39117df160eb9f88f37e794a93d783d9aeaec67008e210f113",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-791-baseline-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1073,
+          "path": "RAW_PROCESS.json",
+          "sha256": "978060a7ecf17f0768713851a6040a4b455f07e88581dd3acff9185dcee46a9e"
+        },
+        "validation": {
+          "bytes": 949,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "fb50ea76fc59a01619c4a40f0bcfcdaceb6ed29105e035c334bc0c71e89bb871"
+        }
+      },
+      "raw_transcript": "Hey Marrow",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "d2595d82068f446d20cd41c8a104b090eb4b68582e4baaa031b7cc29d3407ee9",
+      "source_samples": 9846,
+      "source_wav_sha256": "75c26c27db9493074d80c6933c308fd8e7acc03e310aed60e1177a6c9f10f95c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-791-baseline-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1074,
+          "path": "RAW_PROCESS.json",
+          "sha256": "15b493b22ab37ceff5518337485c9f6fb1927edeae77a373fa68193d5b850998"
+        },
+        "validation": {
+          "bytes": 949,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c88d37f8271f85aa105b11b72c0723920f395c6508acbab6eef5f19d1d01192f"
+        }
+      },
+      "raw_transcript": "A Marrow.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "c06cf65329d433c74b6e1b030eb4bab89546a9527f800ffeddc13eac2a70904c",
+      "source_samples": 10775,
+      "source_wav_sha256": "cbb16863b0a82935b0e408ee5fb0d18314bd6654aef857a663e2cdcf49d7197c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-791-prospective-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1077,
+          "path": "RAW_PROCESS.json",
+          "sha256": "4cbc292851b4bd7bdd57d2f3e157e174fdc99cb83dfd15047068b91267bf3d01"
+        },
+        "validation": {
+          "bytes": 952,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "b8a577a41d6935b019fa2f23b76cb4070807bab0c77474def2205a26c091b6a8"
+        }
+      },
+      "raw_transcript": "A marrow.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "5dd886df51ed4beeef4a420fc3dbe08903c628767b93ad84692bb15506d95d16",
+      "source_samples": 13375,
+      "source_wav_sha256": "81e4a8914b175e14b6621eb19498560ecc8474ea70323e828bfc0ddeec21b64d",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-791-prospective-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1077,
+          "path": "RAW_PROCESS.json",
+          "sha256": "5d44715b4578764c44e59594e70d52982f2c875e6acfe9c202c6c80581b951ff"
+        },
+        "validation": {
+          "bytes": 952,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "51b87077b0e714cab59feb9a232b8451c5dfa494d5d4fec7b74e364275181ca6"
+        }
+      },
+      "raw_transcript": "A marrow.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "7ec27114947292a3b1680f4faf8a3da4079756f0ff6790434c006e2762919bb7",
+      "source_samples": 16533,
+      "source_wav_sha256": "0ff295c57ce16a30b1b51d578ad6017856c4d086de527ef9418c045fac8577d8",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-791-question",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1069,
+          "path": "RAW_PROCESS.json",
+          "sha256": "d31c3f0832241782862163c728db74d11072a42fa58c8f757ed2769e4771ab62"
+        },
+        "validation": {
+          "bytes": 951,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "e93f5d86b0ed9003228b57d319da147209f12748c3ed3e942732c3c08b9acc09"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "7791c8e6ff5e9d472e6270f7e18ffc46a818c5f69f5b49c5f0553d597c9ab611",
+      "source_samples": 14676,
+      "source_wav_sha256": "478d39aa25b1d22d72962001330dc71d3f5b529c33a1f462fb5b4c6584a03d7a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-791-request",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1068,
+          "path": "RAW_PROCESS.json",
+          "sha256": "3e75ec9b9df5b11380482a17d92082be7612b1fa8687a5652c252788e89046ec"
+        },
+        "validation": {
+          "bytes": 953,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "cdf051be30c3191fee377e8ec1d7d741835ecd465a61f45714acac849af7f428"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "86466b15bd4fc9b8837dc228f5033f535e4d1cff64a9fdb8440f3eda4dd0b04f",
+      "source_samples": 18391,
+      "source_wav_sha256": "512ece032da56c6e171491ddf7fd4c759e2dc8db0b73eef4c819822fd44ba10c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-792-baseline-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1073,
+          "path": "RAW_PROCESS.json",
+          "sha256": "5908651e36037cecae091476bed560256d6704d3ef2e7e5d567889aff792caf0"
+        },
+        "validation": {
+          "bytes": 947,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "904ffb6c52d2a630b5df385ff6c3a183a117ead1841fd31f2171da3adcc4350e"
+        }
+      },
+      "raw_transcript": "Hamero.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "51468e69a662ff210a10b86a013986799c6dbeadd7e7e379babae22a83949df6",
+      "source_samples": 10217,
+      "source_wav_sha256": "1c798329f45e4c0bb3df23062824edac38a29efd04e95a12efaaf4aba7760862",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-792-baseline-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1073,
+          "path": "RAW_PROCESS.json",
+          "sha256": "f94943f5b9554d0b79142a4fe2f698a3ad8ad38cc81a609254a7f35cd730a8fe"
+        },
+        "validation": {
+          "bytes": 947,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "09f4465408bc80e6705e2b366fdc526b2057b00d48a094367cf3b9a95667b608"
+        }
+      },
+      "raw_transcript": "Himero.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "0447eef632ef6974a33cbf1cc23c491a871688554091b9474a7dbea5f49041d0",
+      "source_samples": 10960,
+      "source_wav_sha256": "ff39eb26701e932eea9ec59feacebc76f3efa8168cf348f25125d073114d2231",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-792-prospective-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1076,
+          "path": "RAW_PROCESS.json",
+          "sha256": "dd35015778cb4ba1c1f16b21d85911ea08a7c9f35ec78476ef5080e9c63d286c"
+        },
+        "validation": {
+          "bytes": 950,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "b7039d0501e6cc1cffd4e6189ac02de0c611c9576ca84d2e77f33c2c8fe056e9"
+        }
+      },
+      "raw_transcript": "Hymaro.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "012ee1f0b33ecd5a3d97319ecf03b04e006609ca34fd49025ac01938c8902a57",
+      "source_samples": 13561,
+      "source_wav_sha256": "7b3b550fc41146d2c9e2ffcf2f0199d65cd94e0b60da6f373acff00d0f1543f1",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-792-prospective-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1077,
+          "path": "RAW_PROCESS.json",
+          "sha256": "90e270e40a959d60e4825d7f73dd11b1bdffa5d60b031918c725e94778cbf8e0"
+        },
+        "validation": {
+          "bytes": 952,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c5b4d3af78d859267c0de8c25d9e4a929eea0ef4b023999c5ce16eb64f3f88aa"
+        }
+      },
+      "raw_transcript": "Himerous.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "7f979fc4346658d476aa2212a312a8150d1852ff965dc387404106fabf15fa95",
+      "source_samples": 16719,
+      "source_wav_sha256": "4c045bf0d2e8e99610a2e08f90171f682bbb728d87f2471cf2d049987cfede0c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-792-question",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1069,
+          "path": "RAW_PROCESS.json",
+          "sha256": "9b1f3a6459dff7e4b1a23e766aa335c080bc6ae29c3051f09556aae3d1485564"
+        },
+        "validation": {
+          "bytes": 951,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "ee257fcc1bb064ffe0b575c80dc5e34fe38ef0dca22c1847cc704b3be9a4b7c1"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "2bcd90f82da6e8ed6cea8651df49af787995426bfa859328ee83edc4b6f4b9a7",
+      "source_samples": 12632,
+      "source_wav_sha256": "eb961be25aa1177c11f4f0fa84f8127b6102a8053569656eb18df1410d0fcdc0",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-792-request",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1068,
+          "path": "RAW_PROCESS.json",
+          "sha256": "f5447da3e0d1ad90f2e879c5ef6d3aa01d03cceb1f632299e0e7464630149fec"
+        },
+        "validation": {
+          "bytes": 955,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "63d1afbce46b3ff83dbf6c69b3e8f4b88f1ed7362354320c603f8d108a5eb74c"
+        }
+      },
+      "raw_transcript": "Please, said a timer.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "9f3544ef4d8e0f048af7ce8ba530bd86d2a266a2959b4ef7f345963ac4acaa6f",
+      "source_samples": 20806,
+      "source_wav_sha256": "029d0fe35ea732d814e40e1b94dc4217bc4269885ed8767635c6038980788cd3",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-793-baseline-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1074,
+          "path": "RAW_PROCESS.json",
+          "sha256": "98924a4c50c29340b7237dccaf428531472719f5893c32b3e5e37721b5ca81de"
+        },
+        "validation": {
+          "bytes": 952,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "3be1ee5eb670ea5de32c65340130b36f2007ac7fd268cb51db0afaa72ad20461"
+        }
+      },
+      "raw_transcript": "Hey Merrill.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "14319adaf1ab73d9ca610df1620651e99b9b01b4914556c45061ba18cf101348",
+      "source_samples": 10775,
+      "source_wav_sha256": "57fd3c5ecca62924eab483fd1d7fb2d6654562f475fef4b33ef18715aa85df72",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-793-baseline-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1074,
+          "path": "RAW_PROCESS.json",
+          "sha256": "89330e3cc4cf39a173ee9c2a56e3a523f7a27c016b8c8a5ab5c4e165196bd571"
+        },
+        "validation": {
+          "bytes": 951,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "8b6c56e76bac52a94957e747190bd6eb9a717fa7f60fe576c1d8cc1f8968dec0"
+        }
+      },
+      "raw_transcript": "Hey Marrow.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "a3691614163a5b5756e7889cbd726c15d06c959866ed43e7eb6079426019d486",
+      "source_samples": 11703,
+      "source_wav_sha256": "017ff367762e0ec2284ff276ac111d1a59c8bd0fce98bcbb686d2635fb9e5bb8",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-793-prospective-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1077,
+          "path": "RAW_PROCESS.json",
+          "sha256": "75d06782c232b0d37d96a9bc06391a8c5618fccdffd9bd9358539742ee821b98"
+        },
+        "validation": {
+          "bytes": 954,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "f2429b4782b3d8680634319030dbbc36004115f547b8d807298dd7430171ce77"
+        }
+      },
+      "raw_transcript": "Hey Merrill",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "103e74736ddebc5220b529588e99d221f9fe600b8852090cf3a8d31afec97c82",
+      "source_samples": 15419,
+      "source_wav_sha256": "bd547acf9d5bf95ce9a888661050ab087fed359b1d0d6d7defab1507614532db",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-793-prospective-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1077,
+          "path": "RAW_PROCESS.json",
+          "sha256": "acde40e79e414a1fcd94cbb72d1725fa657637cc620c188a720428401d092b2d"
+        },
+        "validation": {
+          "bytes": 956,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "ab60b951adad099e7c10d1ce8513a85383ce972389aade1ca951a5647b3156c6"
+        }
+      },
+      "raw_transcript": "Hey Maryland.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "300089eb7aecb042469b613de0201d65067568c6fc1c30091639e3d22424d5ac",
+      "source_samples": 18391,
+      "source_wav_sha256": "4a5153fbc0c97caa782e4b02a51d01652b1c9218bdf7a42a04c2b77abd3fff2e",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-793-question",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1069,
+          "path": "RAW_PROCESS.json",
+          "sha256": "fe9cbe8f5d1ef26816752c42b4422a1786974b59713840add20f681ffb5c895a"
+        },
+        "validation": {
+          "bytes": 951,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "493850380bcdbd38a530c81ea34125fc746de1afa25e9d4ce97188c94dfb2762"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "4794b59edb56ce38e10044dbbdea60c0afd929a64d32480fae8eb7fab6165a36",
+      "source_samples": 16162,
+      "source_wav_sha256": "0f80a4e677de78abb5c72b672a503db741105d139d85ffb79f00e552ae29f3b8",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-793-request",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1068,
+          "path": "RAW_PROCESS.json",
+          "sha256": "f637c02553a4ee3fbd0f44f0f7d6520c14808ba386362afbbdc4445d45c667c2"
+        },
+        "validation": {
+          "bytes": 953,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "406ee0339b43cf506fad3eab4133393807759860f46a0af9dac14247551873c0"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "57842520ded755deb110bb947aa452058c4bceed365c0c1528b8f529077d22f2",
+      "source_samples": 18948,
+      "source_wav_sha256": "8412a34290d92b281dac9bf6166d0e797405c6a65de5a5d3ea7c393410ea6e70",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-794-baseline-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1072,
+          "path": "RAW_PROCESS.json",
+          "sha256": "c09268b38b82bf32cfd99b2ac99180a2f7b23c6c7a9274edfb1ac3a97ba6399f"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "20bf5e1af5aca54f0496180d74ce5f315a8c464aaad64e1887b12f3c6aa0d292"
+        }
+      },
+      "raw_transcript": "Himaro.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "bc8b6558fad06ccb8fc583238d0882cb8ea51e2b00002bdfc977e639986beeb3",
+      "source_samples": 9103,
+      "source_wav_sha256": "011724d9e25697e527e2f35ecbb85de50d9290d90ada404ff89a6b3658f95c93",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-794-baseline-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1073,
+          "path": "RAW_PROCESS.json",
+          "sha256": "76bc898e18cf7d8c132bc03d89c83b733b7536eb78261926011a77f88b1edc4b"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "cb0ca7483d72b678369c277753b2f74ad58690551dac3ca0b9bf1710d675c67f"
+        }
+      },
+      "raw_transcript": "Amaro.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "a85d944dbf2196552b846cc808b5445b7e2dc40fed5c7226e43f73cf3d763c77",
+      "source_samples": 10589,
+      "source_wav_sha256": "cb3d75135ca86567a55fc4ad0ffd6c1cc378e5af94dd078b3030851622b4ed59",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-794-prospective-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1076,
+          "path": "RAW_PROCESS.json",
+          "sha256": "8efcdee3677ba56620d739c795b61fa8a66327f948a9950ee8ca5598df0028a0"
+        },
+        "validation": {
+          "bytes": 949,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "68709cda619dcb87d1d2215bd2bdfea551cb202e642e6632158e90c0d2d86bb4"
+        }
+      },
+      "raw_transcript": "Himero",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "e501b5c0739d7cab4dfe2f22ba468c82fd840448b1a45c17b5d7a60ec97b715e",
+      "source_samples": 12446,
+      "source_wav_sha256": "aebc3e54a8d9924373d8f7ca4b890a7481b7a86d294961a06f13c6c8be578e49",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-794-prospective-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1076,
+          "path": "RAW_PROCESS.json",
+          "sha256": "82f769d0d7e1dea3af151e35b841654a4f530f7ca33cf2655185b290c53f75dc"
+        },
+        "validation": {
+          "bytes": 949,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c1405b200534505d7f445b9c2833f34409f5ca3a793fd7243d66f67c64430300"
+        }
+      },
+      "raw_transcript": "Himaro",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "742793d179ed19e2f42ab50fb4c2dace233ce7d61838b77b4d60afb475f4208d",
+      "source_samples": 15047,
+      "source_wav_sha256": "d5e08ac7fdc0ca83bb0dc6936132c7500109bfd180cda76356c451f78ca234bc",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-794-question",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1069,
+          "path": "RAW_PROCESS.json",
+          "sha256": "c7c74ae4d7f0981941c98198d230059824987693c193cff4c79654acfb002299"
+        },
+        "validation": {
+          "bytes": 951,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "d43da0c2adead0f9693d754ab571a1df8ed6fe4fe307e987e381fc7d6cead2f2"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "45c3438dc27fca586a5ba868091b947927fad86d31153eabf8cfb02b683dd48b",
+      "source_samples": 15233,
+      "source_wav_sha256": "1322658e418d9b53d209a8dcaa37547e9a1ad5115be573cc665369824db1a62c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-794-request",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1068,
+          "path": "RAW_PROCESS.json",
+          "sha256": "79d154ed1d68446f87da1fb44e5963f02442f884c2e786898ac9cdb70b9b9d52"
+        },
+        "validation": {
+          "bytes": 953,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "3fb619cfb23396e980e57c970d01890516cf01e9532788377682d4f52ccbf642"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "e14e48e497227a1fa3ede2f68b7ae26d0dd133083dfdb18965c82361e085054e",
+      "source_samples": 16719,
+      "source_wav_sha256": "4804d18de6bb5ef3b01cfa7e95f5d8e8ca25a3952c662af20ea04769659996b6",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-795-baseline-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1073,
+          "path": "RAW_PROCESS.json",
+          "sha256": "d70183f214da4f7e30f573205cd4711dec9ed33ec23dd2b24217b19dfdf66738"
+        },
+        "validation": {
+          "bytes": 948,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "f62773a23a5f162418f9072318822d38a1f26611f08f2896d8ab20509765f50b"
+        }
+      },
+      "raw_transcript": "A mirror.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "eaf269c9507ead82055ba370e80822ebcd6327657d1bfe45309cccfe337164d8",
+      "source_samples": 9103,
+      "source_wav_sha256": "87d84cfaacd8dbe01a91f9be42818e64d4b986fe4d2951b9f455b8c58d064c76",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-795-baseline-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1073,
+          "path": "RAW_PROCESS.json",
+          "sha256": "5da0573ba6d2e02ea387b4c937a33614c3a378b8231b389dbb1ff6311e9ff5ca"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "049289075d78f04e230f6acdd993402be88eee78269f7ebc7ea6479f20183e47"
+        }
+      },
+      "raw_transcript": "Amero.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "2cb120b81d77cb0f975d833da64d7c5564ff4befb3c3c10490100b6fe22bfabd",
+      "source_samples": 10032,
+      "source_wav_sha256": "11f852781277ef4950321f8b5ec2f002985c0d771d8433e0af5ef773115d6d11",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-795-prospective-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1076,
+          "path": "RAW_PROCESS.json",
+          "sha256": "a77759cbe3fd4039f4541c7d09f3318dd57c1f28c3b228866c5b582411b3b731"
+        },
+        "validation": {
+          "bytes": 950,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "a1e64a8f78fce1a796e0b6ab4d99691b407a11e018dddeee742eea73bfe184e9"
+        }
+      },
+      "raw_transcript": "Himero.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "5135877767975274457d7ccc8f573bf32f56a17440f45399f68754a3bbd4347e",
+      "source_samples": 11889,
+      "source_wav_sha256": "123777317698a03b7508d718d02e08327fd2050fec86160855c99a1bf8cfb688",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-795-prospective-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1076,
+          "path": "RAW_PROCESS.json",
+          "sha256": "1c84bc02952ab3a5a1abfd88febf2eb4efee433fbb9c95ec2a61e28349f7c46e"
+        },
+        "validation": {
+          "bytes": 949,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "fb2677fdb278a535909df72b1deb0da76b7c2893927d54fde645c0f1b2315f56"
+        }
+      },
+      "raw_transcript": "Himaro",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "ff1bf2f1eb160e232c5f459a19035ada2f517adf9119fea5fbc5ca7b15ffb274",
+      "source_samples": 14861,
+      "source_wav_sha256": "8e5fec5015c68ccd633a6d9e85406e00aa7f49f4c330df9092f30a65776d0a65",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-795-question",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1069,
+          "path": "RAW_PROCESS.json",
+          "sha256": "dd68f55d8c95f60fda7a5fb09261f9f540d97cec6e0d086e1921eb39684c0882"
+        },
+        "validation": {
+          "bytes": 951,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "889ca3a5090152ebd5b40589083e6fe5e03a519d93d122df61e1e3bcdea8c0c8"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "23cf4836598afb18a1025df8aca209679a8784fb1e1ecefb85ada72b304e83ff",
+      "source_samples": 13375,
+      "source_wav_sha256": "1d95ccf62fefa2afdd23f29f960006446d1a6dd53e3f28cff89b343092c38a16",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-795-request",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1068,
+          "path": "RAW_PROCESS.json",
+          "sha256": "6304f219d9f51cf1f0f17f0d9c6043fb982ebcc9c410164bf0254567d8e876a6"
+        },
+        "validation": {
+          "bytes": 953,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "8e33ace99322fe32f4fec2a10e6d9b9ad279c06beb550e80fd84d54cfaf031da"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "dbab60488e077603f50968098ad541b96449b43b6415ece1d76caeb57d24fd38",
+      "source_samples": 15976,
+      "source_wav_sha256": "d960f957b50c5d4adbf1bd080cc95deb272aee7e6c070bdc4e922bdfc7c0cfa9",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-796-baseline-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1074,
+          "path": "RAW_PROCESS.json",
+          "sha256": "caad35367bcad76faf8148dff837568a97ee60d19206b3bf66f276a6dccf42f0"
+        },
+        "validation": {
+          "bytes": 951,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "30f6c328b870184a1b62e456d71cdf199f149fda6c8ad127868acbed61ce0629"
+        }
+      },
+      "raw_transcript": "Hey Marrow.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "c41a3f702e907c93d4bce0ebc12c155b8bb2e890ead23733459c6676891cd850",
+      "source_samples": 10032,
+      "source_wav_sha256": "047bdb482c6ccc37e820b3b69c0228f76fa9b4e64c5e07bb4f9cce41f344e2f7",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-796-baseline-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1074,
+          "path": "RAW_PROCESS.json",
+          "sha256": "60cc4038bd58cffde228d49d112b004be2645b579482fc9e6fc488a7c58053ae"
+        },
+        "validation": {
+          "bytes": 950,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "75f3f37ea82f4f2822b6178427c5b243ca8d362b1d3b65bba0f401968439133f"
+        }
+      },
+      "raw_transcript": "He marrow.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "066e24dd39ac765ea69e0d39a299f4de16c9f694ec97c43a6b2f4adbfc648a34",
+      "source_samples": 11518,
+      "source_wav_sha256": "a7a8f96aa80a334c7bc51367dbe8ed562e7f27896c289e620fad43196c480e62",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-796-prospective-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1077,
+          "path": "RAW_PROCESS.json",
+          "sha256": "34625f88e3b58556f711a551a2e2d48234d5e78bf1f8d0704b69360532d08177"
+        },
+        "validation": {
+          "bytes": 954,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "fca8883279499b2943fb580510ee04ba69d74b8cb04bd1bcaa6c95e20b09e933"
+        }
+      },
+      "raw_transcript": "Hey Marrow.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "ec120df1a0c2f257edce967f247128e02e1e98fba6ab08de255564a4d17826d7",
+      "source_samples": 14304,
+      "source_wav_sha256": "ed1a63a2d47d72d6e20c5730cab688a00bc5024f3435b4dc8eb9d44123d6013f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-796-prospective-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1077,
+          "path": "RAW_PROCESS.json",
+          "sha256": "41a4c703698af4b27bd748596ad34fefe49928d3b710e9c7f81e328721e68319"
+        },
+        "validation": {
+          "bytes": 952,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "73d8114b01f0449506f2c68aa24828cd5a3d1da577b61161e85592cdcc11b573"
+        }
+      },
+      "raw_transcript": "Himarous.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "d5ab46b8a0247c5706189c8cbee872b226cadec2a3a599975d078064185602cd",
+      "source_samples": 17276,
+      "source_wav_sha256": "94970caff626e83370129ba3085a2956b9f044546c90c617788cdafeeb7971ff",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-796-question",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1069,
+          "path": "RAW_PROCESS.json",
+          "sha256": "3a328bca027127e2d15a4f5be9410199a1b4274f20a260ac87d4f4d100ca41fe"
+        },
+        "validation": {
+          "bytes": 951,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "07c31da868716a27a3063a3a73ed88f02b18d78abb0e3af9c4af16c57bf6abc3"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "adea6fd57048985606a27e749f08d43e7a20d86b1645de43589f64ba6f5f33a6",
+      "source_samples": 14118,
+      "source_wav_sha256": "ab39c15d25a64beba2dfe6a355d6dfe2ccd9e6dc3ab421c754e03fa3c84507a8",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-796-request",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1068,
+          "path": "RAW_PROCESS.json",
+          "sha256": "acf566315a377f87217ffea6b59ca18d05b450a526c7e8f60f9cb61ba3ef55ec"
+        },
+        "validation": {
+          "bytes": 953,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "fb183a09f2a821bef5875411dbee92455c3a23543acb2178b8105f0939676ae8"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "8e681cc7fa345ff3666ba0a008c1154a7c0df3f87e0b6b066af93b7be87a1138",
+      "source_samples": 17462,
+      "source_wav_sha256": "0db24a25305ae4a4b08ad6da7cac427011181d749df159794e7cc41695de76b8",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-797-baseline-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1072,
+          "path": "RAW_PROCESS.json",
+          "sha256": "38678b733fbd2701a73811bc32e103396306af48eb9757b96cfc2c109a30080e"
+        },
+        "validation": {
+          "bytes": 945,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "df2bddecd0dd347528bfd1d76930808f8f6c1f6dfe2297429e5acdb746fb2fb3"
+        }
+      },
+      "raw_transcript": "Amaro.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "83e0a682c59ceff0271ca009e2f270724fa5a8bfe360fc317d81d237d8f28cac",
+      "source_samples": 8360,
+      "source_wav_sha256": "04f9cbad44a01b47bf9efafcfea7b7437d5536d8b3e4ef57329d0bf68f2dbad0",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-797-baseline-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1073,
+          "path": "RAW_PROCESS.json",
+          "sha256": "aef665ece535d8fdfc1f569721a212769d5cccd75898a62093bca51d2dc9c6fb"
+        },
+        "validation": {
+          "bytes": 948,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "2ca7402f7680d4f92b9f50ec9a7052963ad75f8afd7b8b12ec30d573f13788be"
+        }
+      },
+      "raw_transcript": "Hamarrow.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "1b335febe7fb7638c0c1656e45c33970123fce4d4da88c45612e1632250f6f58",
+      "source_samples": 8731,
+      "source_wav_sha256": "939046fb24e50cd8273378007583f036b5aa3019b4a159c21cbe9a6fa5a1a349",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-797-prospective-fast",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1077,
+          "path": "RAW_PROCESS.json",
+          "sha256": "18b27d7838bacb4535a9b447a51c16049a4f693f79f03677ffd1de8eecb25c9c"
+        },
+        "validation": {
+          "bytes": 953,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "9027ec5d3772fdc91dc18707e411a3accfe861e78c25174a4496430afd410959"
+        }
+      },
+      "raw_transcript": "In Marrow.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "8856f3e40ccf81979a949a3f7682767717a7f17ff7a23e10a12b27acb936b3d5",
+      "source_samples": 10960,
+      "source_wav_sha256": "6381e27298d38aa413a82cff20d2bffe237674c62945dcd43ab650fb4241fd0b",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-797-prospective-slow",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1077,
+          "path": "RAW_PROCESS.json",
+          "sha256": "a76da72337f84f52925f82f77aeea81bfab5d3070d17afbdb7fecfb769be9439"
+        },
+        "validation": {
+          "bytes": 952,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "8dea27f6f116f19afb76ba41a5e50176636dddcfb66113e5b78ef36b12c2f5cd"
+        }
+      },
+      "raw_transcript": "A marrow.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "a41a182091162df670b7d12310bffc3d028b8d46f7e39648350d926a32d64019",
+      "source_samples": 13747,
+      "source_wav_sha256": "957973d6753c520b90f507d08ded40dc15b375fb539b424468516228b5c209fa",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-797-question",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1069,
+          "path": "RAW_PROCESS.json",
+          "sha256": "a1d872167495f91cec142fbe29ff8bbff2f88812b9ff7c95ead781314b9e0047"
+        },
+        "validation": {
+          "bytes": 951,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "9f554aff9a42611aef7e65da0eb144c621d784353e7ef24875959777a6828d40"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "11e133cdf3c9c5130eb8faa6c795400e50a406c0077bbbd735d40cdb79a12bbf",
+      "source_samples": 13375,
+      "source_wav_sha256": "8030f08563ccc1b244b2aedde10559488cb84d5be58bfaf800c4a344fe276365",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b19-feasibility-797-request",
+      "input_coverage_complete": true,
+      "provider": "parakeet",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 1068,
+          "path": "RAW_PROCESS.json",
+          "sha256": "a3e14eec76219ad9da1923f94a633c492b1f7ae60a47b6020dec7c469843b6ca"
+        },
+        "validation": {
+          "bytes": 954,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "e6cf77fc112fb306aee1e8bf8dcfddd3551084033efc51bfa64ab7804e03f7c0"
+        }
+      },
+      "raw_transcript": "Pleased set a timer.",
+      "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+      "source_pcm_sha256": "75f681fe5f1bd5937f3137209bacd5a2680205987da6941027af6a55c43c268b",
+      "source_samples": 18205,
+      "source_wav_sha256": "72329cc38a9b2ad1268e8cdf7769ea3a86f2fb14d12b9292b5d5a929d844fc1c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    }
+  ],
+  "schema": "english-v6-b19-parakeet-source-feasibility-v1",
+  "source_admission_eligible": false,
+  "source_gate_passed": false,
+  "source_manifest_sha256": "a1e22294449c0a6bfeab41804b421fb53aa1727115b90303a373fde5aee4d5eb",
+  "threshold_search": false,
+  "training_allowed": false,
+  "valid_nonempty_payloads": 48
+}
