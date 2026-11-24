@@ -1,0 +1,47 @@
+name: B21 fixed-mirror downstream quality contracts
+'on':
+  pull_request:
+    paths:
+      - 'automation/english_v6_b21_fixed_mirror_quality_readback.py'
+      - 'automation/english_v6_b21_replication*'
+      - 'automation/english_v6_b21_engineering*'
+      - 'automation/test_english_v6_b21_fixed_mirror*'
+      - 'automation/test_english_v6_b21_replication*'
+      - '.github/workflows/english-v6-b21-downstream-contracts.yml'
+      - '.github/workflows/english-v6-b21-replication-sources-once.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'automation/english_v6_b21_fixed_mirror_quality_readback.py'
+      - 'automation/english_v6_b21_replication*'
+      - 'automation/english_v6_b21_engineering*'
+      - 'automation/test_english_v6_b21_fixed_mirror*'
+      - 'automation/test_english_v6_b21_replication*'
+      - '.github/workflows/english-v6-b21-downstream-contracts.yml'
+      - '.github/workflows/english-v6-b21-replication-sources-once.yml'
+permissions:
+  contents: read
+concurrency:
+  group: b21-downstream-contracts-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  closed-quality-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Verify unchanged quality decisions and protected replica transport
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python -SIB $opt automation/test_english_v6_b21_fixed_mirror_quality_readback.py -q
+            python -SIB $opt automation/test_english_v6_b21_replication_eval.py -q
+            python -SIB $opt automation/test_english_v6_b21_replication_sources.py -q
+            python -SIB $opt automation/test_english_v6_b21_engineering.py -q
+            python -SIB $opt automation/test_english_v6_b21_replication_transport.py -q
+            python -SIB $opt automation/test_english_v6_b21_fixed_mirror_downstream_routing.py -q
+          done

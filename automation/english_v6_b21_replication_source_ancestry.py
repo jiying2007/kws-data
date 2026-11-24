@@ -22,7 +22,7 @@ BRANCH = "refs/heads/research/en-v6-b21-replication-sources-once-20261124"
 WORKFLOW = ".github/workflows/english-v6-b21-replication-sources-once.yml"
 SCHEMA = "english-v6-b21-replication-source-history-v1"
 OPENING = Path(__file__).with_name("english_v6_b21_replication_opening.json")
-READER = Path(__file__).with_name("english_v6_b21_quality_readback.py")
+READER = Path(__file__).with_name("english_v6_b21_fixed_mirror_quality_readback.py")
 DESIGN_SHA = "76a1fd1353de00f712023a2b20256a8e622557551823cacd8b808d3f0549b0a1"
 PAIR = dict(id=14900878022, run_id=45352494611, run_head="eb386f2b8e489bbd8e69c6a7972708dd667aa685",
     bytes=1801215, sha256="35fa747026589d3db83a9b24508a3d480d88392080b5c07a910c109b5912ba81")
@@ -93,7 +93,7 @@ def opening_sha256():
 
 def quality_reader():
     opening = read_opening()
-    import english_v6_b21_quality_readback as reader
+    import english_v6_b21_fixed_mirror_quality_readback as reader
     need(Path(reader.__file__).resolve() == READER.resolve()
          and digest(Path(reader.__file__).read_bytes()) == opening["quality_readback_sha256"],
          "executing saved-quality reader is the exact registered implementation")

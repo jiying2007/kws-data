@@ -233,7 +233,7 @@ class ReplicationSources(unittest.TestCase):
         self.assertIn("include-hidden-files: true", template)
         self.assertIn("en-v6-b21-replication-panel-opened", template)
         self.assertIn('verify-corpus "$RUNNER_TEMP/train-clean-100.tar.gz" "$RUNNER_TEMP/prior-source"', template)
-        self.assertLess(template.index(' authorize '), template.index('curl --fail'))
+        self.assertLess(template.index(' authorize '), template.index('english_v6_b21_replication_transport.py download '))
         self.assertLess(template.index('verify-source'), template.index('Install one pinned native observer runtime'))
 
 

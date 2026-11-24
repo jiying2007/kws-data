@@ -274,11 +274,11 @@ def protocol():
 
 
 def quality_reader(spec):
-    path = HERE / "english_v6_b21_quality_readback.py"
+    path = HERE / "english_v6_b21_fixed_mirror_quality_readback.py"
     need(valid_hash(spec["quality_readback_sha256"]) and sha(path.read_bytes()) == spec["quality_readback_sha256"],
          "exact separately reviewed original quality reader")
     sys.path.insert(0, str(HERE))
-    reader = importlib.import_module("english_v6_b21_quality_readback")
+    reader = importlib.import_module("english_v6_b21_fixed_mirror_quality_readback")
     need(sha(Path(reader.__file__).read_bytes()) == spec["quality_readback_sha256"], "same actually executing quality reader")
     return reader
 

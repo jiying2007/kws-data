@@ -37,6 +37,7 @@ jobs:
     - name: Capture exact Git-bound scientific producer
       run: |
         python -IB automation/test_english_v6_b21_replication_sources.py -v
+        python -SIB automation/test_english_v6_b21_replication_transport.py -v
         python -IB automation/english_v6_b21_replication_source_producer.py "$RUNNER_TEMP/b21-replication-source-producer" --prepared-parent "$PREPARED_PARENT"
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
@@ -64,12 +65,24 @@ jobs:
         path: ${{ runner.temp }}/panel-opened/
         retention-days: 90
         if-no-files-found: error
+    - name: Download eight fixed magicdatatech ranges after original primary PASS
+      run: python -SIB automation/english_v6_b21_replication_transport.py download "$RUNNER_TEMP/train-clean-100.tar.gz" "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b21-replication-corpus-transport-${{ github.run_id }}
+        path: |
+          ${{ runner.temp }}/prior-source/CORPUS_TRANSPORT.json
+          ${{ runner.temp }}/prior-source/TRANSPORT/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
     - name: Generate96synthetic and retain24whole natural originals exactly once
       shell: bash
       run: |
         set -euo pipefail
         python -m pip install --disable-pip-version-check --no-cache-dir --retries 0 --timeout 90 'piper-tts==1.8.0' 'numpy==1.26.4' 'scipy==1.15.3' 'huggingface-hub==0.36.2' 'soundfile==0.13.1'
-        curl --fail --location --connect-timeout 30 --max-time 1200 --retry 0 https://www.openslr.org/resources/12/train-clean-100.tar.gz --output "$RUNNER_TEMP/train-clean-100.tar.gz"
+        python -SIB automation/english_v6_b21_replication_transport.py verify "$RUNNER_TEMP/train-clean-100.tar.gz" "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"
         python -IB automation/english_v6_b21_replication_source.py verify-corpus "$RUNNER_TEMP/train-clean-100.tar.gz" "$RUNNER_TEMP/prior-source"
         python -IB automation/english_v6_b21_replication_source.py generate "$RUNNER_TEMP/source" "$RUNNER_TEMP/prior-source" "$RUNNER_TEMP/train-clean-100.tar.gz" "$PREPARED_PARENT"
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
