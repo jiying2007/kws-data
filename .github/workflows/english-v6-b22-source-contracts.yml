@@ -1,0 +1,22 @@
+name: B22 source execution contracts without scientific calls
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b22_source*
+      - automation/english_v6_b22_natural_sources.py
+      - automation/test_english_v6_b22_sources.py
+      - .github/workflows/english-v6-b22-primary-sources-once.yml
+      - .github/workflows/english-v6-b22-source-contracts.yml
+permissions:
+  contents: read
+jobs:
+  source-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Verify exact frozen panels, unchanged native scientific bodies and one-shot contracts
+        run: python -SIB automation/test_english_v6_b22_sources.py -v

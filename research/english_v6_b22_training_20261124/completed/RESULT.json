@@ -1,0 +1,94 @@
+{
+  "actual_new_model_forwards": 1847,
+  "actual_optimizer_updates": 192,
+  "architecture": {
+    "batchnorm": false,
+    "dropout": false,
+    "historical_numerical_replay_claimed": false,
+    "random_forward": false,
+    "unchanged": true
+  },
+  "assessment_binding_sha256": "17591643326111591130b2fe80fc5700455d429aab8fbe88c32b1a136fb0c38b",
+  "assessment_sha256": "1b4e043838c1313b14e31c45395fcce394526892562fb1c4e6c6793c5e45370e",
+  "challenger": {
+    "actual_new_model_forwards": 1847,
+    "checkpoint_reload_forwards": 2,
+    "files": {
+      "mero43-b22-challenger192.npz": {
+        "bytes": 223130,
+        "sha256": "eed53f94d8d8fa93ba96f53ade3da8ffcc9260fd6ae5883d19421697c153f0fb"
+      },
+      "mero43-b22-challenger192.onnx": {
+        "bytes": 187405,
+        "sha256": "2bad22d9d0faf773fbf78bf899cb1fa061e05f99a949f2f80aa238d33dec35bb"
+      },
+      "mero43-b22-challenger192.pt": {
+        "bytes": 183137,
+        "sha256": "9b1900312430c5c92dee7f47608fc2be866778387d4ed3baedb11f4bcda6a655"
+      }
+    },
+    "onnx_export_forwards": 1,
+    "optimization_forwards": 1844,
+    "optimizer_updates": 192,
+    "parent_pt_sha256": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+    "stem": "challenger/models/mero43-b22-challenger192"
+  },
+  "common_draw_sha256": "90b41a650ad5439524bef4bc6d13394fd65034e98c2c5a7862e0a0c1de78a83d",
+  "control": {
+    "artifact_id": 14900878022,
+    "files": {
+      "mero43-b21-challenger192.npz": {
+        "bytes": 223130,
+        "sha256": "923e493d72672e1f4cf0747794a25aa6e823a05601f63947574add0337aab3d0"
+      },
+      "mero43-b21-challenger192.onnx": {
+        "bytes": 187405,
+        "sha256": "cfafe0d3083be8a22183d7ee7aa5d98ae8795e1dd961c11aafc75179044e807c"
+      },
+      "mero43-b21-challenger192.pt": {
+        "bytes": 183137,
+        "sha256": "4947d017142f3b01f5dd4cf7706cc3c6978cf1a072ca022c26ea847ec0dc2f04"
+      }
+    },
+    "new_forwards": 0,
+    "new_optimizer_updates": 0,
+    "output_stem": "control/models/mero43-b21-challenger192",
+    "pt_sha256": "4947d017142f3b01f5dd4cf7706cc3c6978cf1a072ca022c26ea847ec0dc2f04",
+    "run_head": "eb386f2b8e489bbd8e69c6a7972708dd667aa685",
+    "run_id": 45352494611,
+    "stem": "challenger/models/mero43-b21-challenger192"
+  },
+  "design_sha256": "6a73fe3996397784e8f6c8df0e5d22692f6ba17d516c66236d5adc37d12a1964",
+  "dev_cal_locked_forwards": 0,
+  "field_far_per_hour": null,
+  "historical_numerical_replay_claimed": false,
+  "identity": {
+    "prepared_parent": "26b78c75dac7090b7ddb1272856c9698b96a7049",
+    "run_attempt": 1,
+    "run_branch": "refs/heads/research/en-v6-b22-union-retention-train-continuation-once-20261124",
+    "run_head": "1c41334f7013c6e034472af4858464be60ba528d",
+    "run_id": "45400279395"
+  },
+  "model_pt_sha256": {
+    "B0": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+    "B9": "7dba86a3fcda6e5f05cb80b414dc372c70a5a03b3aee783f168441a4871e7655",
+    "challenger": "9b1900312430c5c92dee7f47608fc2be866778387d4ed3baedb11f4bcda6a655",
+    "control": "4947d017142f3b01f5dd4cf7706cc3c6978cf1a072ca022c26ea847ec0dc2f04"
+  },
+  "new_control_forwards": 0,
+  "new_control_optimizer_updates": 0,
+  "new_teacher_forwards": 0,
+  "new_tts_asr_calls": 0,
+  "old120_references_sha256": "1e92eed6342e7e1585d694226037096ea5848d3303f111548fed2caa0cc1e8ca",
+  "original_retention_conditions": 120,
+  "physical_ssc305": false,
+  "promotion_allowed": false,
+  "recipe_sha256": "6a73fe3996397784e8f6c8df0e5d22692f6ba17d516c66236d5adc37d12a1964",
+  "reused_ordinary_teacher_arrays": 264,
+  "same_job_matched_control": false,
+  "schema": "english-v6-b22-train-union-retention-v1",
+  "source_sha256": "58261881620ff3f646909bd766c18ed92737ee7566cd6e21e96519d50a02e25b",
+  "status": "TRAINED_UNION_CANDIDATE_REQUIRES_NEW_INDEPENDENT_PRIMARY",
+  "union_evidence_sha256": "b745c8a9af716a5fa17aa33f2ef71855979cd08b90dde442f12af10fc9375512",
+  "union_retention_conditions": 122
+}
