@@ -79,10 +79,17 @@ def document(raw):
     return value
 
 
-def valid_artifact(pin):
+def archive_limit(panel="primary", role=None):
+    need(panel in SCHEMAS and role in {None, "result", "producer", "consumed", "B0", "B9", "pair", "source", "screen",
+         "train_producer", "source_producer", *("native_" + provider for provider in ("qwen", "whisper", "parakeet", "xlsr", "lv60"))},
+         "explicit existing panel and artifact role")
+    return 512_000_000 if panel == "replication" and role in {"source", "producer"} else 128_000_000
+
+
+def valid_artifact(pin, *, panel="primary", role=None):
     need(type(pin) is dict and set(pin) == {"id", "run_id", "run_head", "bytes", "sha256"}
          and all(type(pin[key]) is int and pin[key] > 0 for key in ("id", "run_id", "bytes"))
-         and pin["bytes"] <= 128_000_000 and valid_hash(pin["run_head"], 40) and valid_hash(pin["sha256"]),
+         and pin["bytes"] <= archive_limit(panel, role) and valid_hash(pin["run_head"], 40) and valid_hash(pin["sha256"]),
          "complete original artifact identity; unset locks remain closed")
 
 
@@ -91,7 +98,7 @@ def validate_lock(lock):
          and lock["schema"] == "english-v6-b23-original-quality-lock-v1" and lock["panel"] in SCHEMAS,
          "explicit original primary/replication lock")
     for key in ("result", "producer", "consumed"):
-        valid_artifact(lock[key])
+        valid_artifact(lock[key], panel=lock['panel'], role=key)
     need(len({lock[key]["id"] for key in ("result", "producer", "consumed")}) == 3
          and all(lock[key][field] == lock["result"][field] for key in ("producer", "consumed") for field in ("run_id", "run_head")),
          "three separate originals from the same exact quality execution")
@@ -120,11 +127,11 @@ def opened(raw, maximum=128_000_000):
         raise
 
 
-def original(path, pin):
-    valid_artifact(pin)
+def original(path, pin, *, panel="primary", role=None):
+    valid_artifact(pin, panel=panel, role=role)
     raw = Path(path).read_bytes()
     need(len(raw) == pin["bytes"] and sha(raw) == pin["sha256"], "exact original archive bytes " + str(path))
-    return opened(raw)
+    return opened(raw, maximum=archive_limit(panel, role))
 
 
 def identity(value):
@@ -201,7 +208,8 @@ def source_admission(primary, inputs, spec, identity, workflow, fetched, panel, 
     pins = primary.archive_pins(spec)
     common, decision, source, plan = primary.helpers(spec)
     with ExitStack() as stack, tempfile.TemporaryDirectory() as temporary:
-        archives = {key: stack.enter_context(original_zip(inputs / (key + ".zip"), pin)) for key, pin in pins.items()}
+        archives = {key: stack.enter_context(original_zip(inputs / (key + ".zip"), pin, role=key)
+                    if panel == 'replication' else original_zip(inputs / (key + ".zip"), pin)) for key, pin in pins.items()}
         pair = archives["pair"]
         producer = json.loads(primary.PRODUCER.read_bytes())
         primary.verify_upstream_archives(archives, spec, fetched, producer)
@@ -416,7 +424,7 @@ def verify_worker(directory, lock):
         producer="english-v6-b23-" + panel + "-producer-evidence-" + str(run["id"]),
         consumed="english-v6-b23-" + panel + "-consumed")
     with ExitStack() as stack, tempfile.TemporaryDirectory(prefix="b23-original-quality-") as temporary:
-        archives = {key: stack.enter_context(original(directory / "originals" / (key + ".zip"), lock[key]))
+        archives = {key: stack.enter_context(original(directory / "originals" / (key + ".zip"), lock[key], panel=panel, role=key))
                     for key in ("result", "producer", "consumed")}
         producer_directory = Path(temporary) / "producer"
         producer_directory.mkdir()
@@ -546,7 +554,7 @@ def fetch_quality_original(directory: Path, lock: dict) -> dict:
         raw = gh("actions/artifacts/" + str(lock[key]["id"]) + "/zip")
         need(len(raw) == lock[key]["bytes"] and sha(raw) == lock[key]["sha256"], "original fetched quality archive " + key)
         (directory / "originals" / (key + ".zip")).write_bytes(raw)
-    with original(directory / "originals/producer.zip", lock["producer"]) as archive:
+    with original(directory / "originals/producer.zip", lock["producer"], panel=lock['panel'], role='producer') as archive:
         member = lock["panel"] + "_producer/automation/" + EVALUATOR_STEMS[lock["panel"]] + "_inputs.json"
         raw = archive.read(member)
         need(sha(raw) == lock["inputs_sha256"], "exact original input registration before following its pins")
@@ -557,7 +565,7 @@ def fetch_quality_original(directory: Path, lock: dict) -> dict:
         pins = {**spec["inputs"], **{"native_" + key: value for key, value in spec["native_inputs"].items()},
                 **{key + "_producer": value for key, value in spec["upstream_producers"].items()}}
         for key, pin in pins.items():
-            valid_artifact(pin)
+            valid_artifact(pin, panel=lock['panel'], role=key)
             raw = gh("actions/artifacts/" + str(pin["id"]) + "/zip")
             need(len(raw) == pin["bytes"] and sha(raw) == pin["sha256"], "complete fetched original scientific input " + key)
             (directory / "inputs" / (key + ".zip")).write_bytes(raw)
