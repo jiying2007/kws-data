@@ -49,7 +49,7 @@ def verified_synthetic(sources,screen):
     lab=json.loads(screen.read("SCREEN.json"))
     common.need(doc["schema"]==planned["schema"]==synth.SCHEMA
                 and doc["panel"]=="primary" and doc["tts_calls"]==96 and
-                doc["registered_plan_file_sha256"]==common.sha(synth.PLANS/"primary.json")
+                doc["registered_plan_file_sha256"]==common.sha((synth.PLANS/"primary.json").read_bytes())
                 and doc["new_kws_forwards"]==0 and doc["human_gold"] is False
                 and lab["schema"]==synth.BATCH and lab["panel"]=="primary"
                 and lab["source_manifest_sha256"]==common.sha(raw)
