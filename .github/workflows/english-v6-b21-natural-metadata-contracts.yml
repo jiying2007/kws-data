@@ -52,6 +52,9 @@ jobs:
             python -SIB $opt automation/test_english_v6_b21_natural_amendment.py -q
             python -SIB $opt automation/test_english_v6_b21_reuse_synthetic.py -q
             python -SIB $opt automation/test_english_v6_b21_natural_amendment_sources.py -q
+            python -SIB $opt automation/test_english_v6_b21_natural_amendment_auth_origin.py -q
+            python -SIB $opt automation/test_english_v6_b21_natural_amendment_auth_continuation.py -q
+            python -SIB $opt automation/test_english_v6_b21_natural_amendment_replication.py -q
             python -SIB $opt automation/test_english_v6_b21_fixed_mirror_primary_eval.py -q
             python -SIB $opt automation/test_bind_b21_fixed_mirror_primary.py -q
             python -SIB $opt automation/test_english_v6_b21_fixed_mirror_quality_readback.py -q

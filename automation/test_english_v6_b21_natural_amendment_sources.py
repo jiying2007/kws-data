@@ -185,17 +185,17 @@ class AmendmentSourceTests(unittest.TestCase):
                 lineage.validate_metadata_live(changed)
 
     def test_workflow_consumes_each_budget_before_calls(self):
-        template = (HERE / "english_v6_b21_natural_amendment_source_workflow_template.yml").read_text()
+        template = (HERE / "english_v6_b21_natural_amendment_source_auth_workflow_template.yml").read_text()
         actual = (HERE.parent / lineage.WORKFLOW).read_text()
-        token = "__B21_NATURAL_AMENDMENT_MAIN_SHA__"
+        token = "__B21_NATURAL_AMENDMENT_AUTH_MAIN_SHA__"
         parent = re.search(r"PREPARED_PARENT: '([^']+)'", actual).group(1)
         self.assertTrue(parent == token or re.fullmatch(r"[0-9a-f]{40}", parent))
         self.assertEqual(actual, template.replace(token, parent))
         self.assertEqual(template.count(token), 2)
         self.assertNotIn("piper-tts", template)
         self.assertNotIn("source.py generate", template)
-        self.assertLess(template.index("name: english-v6-b21-natural-amendment-source-consumed"), template.index("source.py assemble"))
-        self.assertLess(template.index("name: english-v6-b21-natural-amendment-observer-${{ matrix.provider }}-consumed"), template.index("name: Install one pinned native observer runtime"))
+        self.assertLess(template.index("name: english-v6-b21-natural-amendment-auth-source-consumed"), template.index("source.py assemble"))
+        self.assertLess(template.index("name: english-v6-b21-natural-amendment-auth-observer-${{ matrix.provider }}-consumed"), template.index("name: Install one pinned native observer runtime"))
         self.assertIn("source.py consume-observer", template)
         self.assertIn("METADATA_LIVE.json", template)
 

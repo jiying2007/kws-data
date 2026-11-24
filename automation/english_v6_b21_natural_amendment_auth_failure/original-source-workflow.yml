@@ -1,0 +1,230 @@
+name: English B21 preserved96 and registered natural24 amendment once
+'on':
+  push:
+    branches:
+    - research/en-v6-b21-natural-amendment-sources-once-20261124
+    paths:
+    - .github/workflows/english-v6-b21-natural-amendment-sources-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: en-v6-b21-natural-amendment-120-once
+  cancel-in-progress: false
+env:
+  PREPARED_PARENT: '4901f60f5c01deafb032d43ee839953b9240eb82'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261124'
+jobs:
+  sources:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b21-natural-amendment-sources-once-20261124' && github.run_attempt == 1 && github.event.before == '4901f60f5c01deafb032d43ee839953b9240eb82'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 115
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Capture exact Git-bound scientific producer
+      run: |
+        python -IB automation/test_english_v6_b21_fixed_mirror_origin.py -v
+        python -IB automation/test_english_v6_b21_natural_amendment_sources.py -v
+        python -IB automation/english_v6_b21_natural_amendment_source_producer.py "$RUNNER_TEMP/b21-source-producer" --prepared-parent "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b21-natural-amendment-source-producer-${{ github.run_id }}
+        path: ${{ runner.temp }}/b21-source-producer/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - name: Authenticate the preserved failed96 source and committed metadata-qualified natural24
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        python -IB automation/english_v6_b21_natural_amendment_source.py guard "$PREPARED_PARENT"
+        python -IB automation/english_v6_b21_natural_amendment_source.py check
+        python -IB automation/english_v6_b21_natural_amendment_source.py authorize "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"
+    - name: Fetch the complete identical corpus over eight fixed official magicdatatech ranges
+      shell: bash
+      timeout-minutes: 47
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python -IB automation/english_v6_b21_natural_amendment_source.py transport "$RUNNER_TEMP/train-clean-100.tar.gz" "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b21-natural-amendment-transport-${{ github.run_id }}
+        path: |
+          ${{ runner.temp }}/prior-source/TRANSPORT/
+          ${{ runner.temp }}/prior-source/CORPUS_TRANSPORT.json
+          ${{ runner.temp }}/prior-source/AUTHORIZATION.json
+          ${{ runner.temp }}/prior-source/HISTORY.json
+          ${{ runner.temp }}/prior-source/COMPLETE_HISTORY.json
+          ${{ runner.temp }}/prior-source/METADATA_LIVE.json
+          ${{ runner.temp }}/prior-source/REUSE/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: warn
+    - name: Consume natural24 and observer600 budgets after whole-corpus verification
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        python -IB automation/english_v6_b21_natural_amendment_source.py consume "$RUNNER_TEMP/train-clean-100.tar.gz" "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"
+        mkdir "$RUNNER_TEMP/continuation-consumed"
+        cp "$RUNNER_TEMP/prior-source/CONSUMPTION.json" "$RUNNER_TEMP/continuation-consumed/CONSUMPTION.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b21-natural-amendment-source-consumed
+        path: ${{ runner.temp }}/continuation-consumed/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - name: Copy the saved96 originals and decode only the committed24 natural originals
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        python -m pip install --disable-pip-version-check --no-cache-dir --retries 0 --timeout 90 'numpy==1.26.4' 'soundfile==0.13.1'
+        python -IB automation/english_v6_b21_natural_amendment_source.py assemble "$RUNNER_TEMP/source" "$RUNNER_TEMP/prior-source" "$RUNNER_TEMP/train-clean-100.tar.gz" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b21-natural-amendment-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: warn
+  observers:
+    needs: sources
+    runs-on: ubuntu-24.04
+    timeout-minutes: 145
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        provider: [qwen, parakeet, xlsr, lv60, whisper]
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Guard the same original source execution before model installation
+      run: python -IB automation/english_v6_b21_natural_amendment_source.py guard "$PREPARED_PARENT"
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b21-natural-amendment-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - name: Read every original including natural rejects before observer installation
+      run: python -IB automation/english_v6_b21_natural_amendment_source.py verify-source "$RUNNER_TEMP/source"
+    - name: Consume this provider's exact original-observation budget before model installation
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PROVIDER: ${{ matrix.provider }}
+      run: python -IB automation/english_v6_b21_natural_amendment_source.py consume-observer "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/observer-consumed" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b21-natural-amendment-observer-${{ matrix.provider }}-consumed
+        path: ${{ runner.temp }}/observer-consumed/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - name: Install one pinned native observer runtime
+      shell: bash
+      timeout-minutes: 19
+      env:
+        PROVIDER: ${{ matrix.provider }}
+      run: |
+        set -euo pipefail
+        python -m venv "$RUNNER_TEMP/b21-native-env"
+        PIP="$RUNNER_TEMP/b21-native-env/bin/pip"
+        FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+        if [ "$PROVIDER" != "parakeet" ]; then
+          if [ "$PROVIDER" = "qwen" ] || [ "$PROVIDER" = "whisper" ]; then
+            "$PIP" install $FLAGS 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          else
+            "$PIP" install $FLAGS 'torch==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          fi
+        fi
+        case "$PROVIDER" in
+          qwen) "$PIP" install $FLAGS 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2' ;;
+          whisper) "$PIP" install $FLAGS 'openai-whisper==20250625' ;;
+          parakeet) "$PIP" install $FLAGS 'huggingface-hub==0.36.2' 'hf-xet==1.2.0' ;;
+          xlsr|lv60) "$PIP" install $FLAGS 'transformers==4.46.3' 'numpy==1.26.4' 'huggingface-hub==0.36.2' ;;
+          *) exit 7 ;;
+        esac
+        "$RUNNER_TEMP/b21-native-env/bin/python" -m pip check
+    - name: Save native return before validation for each full original
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PROVIDER: ${{ matrix.provider }}
+      run: |
+        set -euo pipefail
+        "$RUNNER_TEMP/b21-native-env/bin/python" -IB automation/english_v6_b21_natural_amendment_source.py observe "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/$PROVIDER" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: b21-natural-amendment-dev-observer-${{ matrix.provider }}
+        path: ${{ runner.temp }}/${{ matrix.provider }}/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: warn
+  readback:
+    needs: [sources, observers]
+    if: always() && needs.sources.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Guard original event before source readback
+      run: python -IB automation/english_v6_b21_natural_amendment_source.py guard "$PREPARED_PARENT"
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b21-natural-amendment-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        pattern: b21-natural-amendment-dev-observer-*
+        path: ${{ runner.temp }}/providers
+    - name: Require five valid raw receipts per source before unchanged admission
+      shell: bash
+      run: |
+        set -euo pipefail
+        for p in qwen whisper parakeet xlsr lv60; do
+          mv "$RUNNER_TEMP/providers/b21-natural-amendment-dev-observer-$p" "$RUNNER_TEMP/providers/$p"
+        done
+        mkdir "$RUNNER_TEMP/final"
+        python -IB automation/english_v6_b21_natural_amendment_source.py screen "$RUNNER_TEMP/source" "$RUNNER_TEMP/providers" "$RUNNER_TEMP/final/SCREEN.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b21-natural-amendment-frozen-screen-${{ github.run_id }}
+        path: ${{ runner.temp }}/final/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error

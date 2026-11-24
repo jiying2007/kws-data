@@ -19,7 +19,7 @@ import sys
 import tempfile
 from unittest import mock
 
-DRIVER_SHA = "9e882b077bebb96a3c023216bce4c5db7a73fdda5f0ba9835d7c6132c17a912c"
+DRIVER_SHA = "ca14214dbfe3946e737806aec6cfc099e01e7985cb7d38b9031fd9b641200434"
 GROUPS = ("B0", "B9", "train", "source")
 PROVIDERS = ("qwen", "whisper", "parakeet", "xlsr", "lv60")
 ROLES = ("B0", "B9", "pair", "source", "screen", *("native_" + p for p in PROVIDERS),
@@ -138,9 +138,9 @@ def snapshot(archive, role, meta, primary, repository):
             need((repository / name).is_file() and (repository / name).read_bytes() == raw,
                  "prepared scorer retains identical original producer source/resource " + name)
     actual_workflow = archive.read("repository/" + workflow)
-    template_path = repository / ("automation/english_v6_b21_natural_amendment_source_workflow_template.yml" if role == "source" else workflow)
+    template_path = repository / ("automation/english_v6_b21_natural_amendment_source_auth_workflow_template.yml" if role == "source" else workflow)
     template = template_path.read_bytes()
-    token = b"__B21_NATURAL_AMENDMENT_MAIN_SHA__" if role == "source" else b"__B21_REVIEWED_TRAIN_PARENT__"
+    token = b"__B21_NATURAL_AMENDMENT_AUTH_MAIN_SHA__" if role == "source" else b"__B21_REVIEWED_TRAIN_PARENT__"
     need(template.count(token) == 2 and template.replace(token, doc["prepared_parent"].encode()) == actual_workflow,
          "exact reviewed upstream workflow, only its two parent substitutions")
     return doc

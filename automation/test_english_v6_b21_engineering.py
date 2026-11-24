@@ -44,6 +44,15 @@ def logits(labels):
 
 
 class Contracts(unittest.TestCase):
+    def test_api_preserves_control_and_non_utf8_bytes_without_terminal_output(self):
+        raw = b"PK\x03\x04\x1b[31m\xff\x00\x80\r\n"
+        with patch.object(eng.subprocess, "run") as run:
+            run.return_value.stdout = raw
+            self.assertEqual(eng.gh("actions/artifacts/123/zip"), raw)
+            run.assert_called_once_with(["gh", "api", "repos/" + eng.REPO + "/actions/artifacts/123/zip",
+                                         "--allow-escape-sequences"], stdout=eng.subprocess.PIPE,
+                                        stderr=eng.subprocess.PIPE, check=True, timeout=180)
+
     def test_closed_all_runtime_modes_stop_before_import_network_or_files(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp); closed = root / "closed.json"; closed.write_text('{"enabled": false}')

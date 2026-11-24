@@ -370,7 +370,8 @@ def helpers(spec):
 
 
 def gh(endpoint):
-    return subprocess.check_output(["gh", "api", "repos/" + REPO + "/" + endpoint])
+    return subprocess.run(["gh", "api", "repos/" + REPO + "/" + endpoint,
+        "--allow-escape-sequences"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True).stdout
 
 
 def git_blob(raw):

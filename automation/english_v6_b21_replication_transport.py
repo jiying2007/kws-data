@@ -67,6 +67,7 @@ def verify(corpus, directory, prepared_parent):
 
 def download(corpus, directory, prepared_parent):
     identity, permission = authorization(directory, prepared_parent)
+    lineage.require_uploaded_opening(directory, prepared_parent)
     spec = plan()
     corpus, directory = Path(corpus), Path(directory)
     partial = corpus.with_name(corpus.name + ".partial")

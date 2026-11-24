@@ -5,6 +5,7 @@ import io
 import json
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 import zipfile
@@ -36,6 +37,15 @@ def label(original, unknown=False):
 
 
 class BoundaryTests(unittest.TestCase):
+    def test_raw_github_original_bytes_preserve_escape_sequences_without_decoding(self):
+        raw = b"PK\x03\x04\x00\x1b[0m\xff\x80original\r\n"
+        endpoint = "actions/jobs/123/logs"
+        with patch.object(primary.subprocess, "run", return_value=SimpleNamespace(stdout=raw)) as capture:
+            self.assertIs(primary.gh(endpoint), raw)
+            capture.assert_called_once_with(
+                ["gh", "api", "repos/" + primary.REPO + "/" + endpoint, "--allow-escape-sequences"],
+                stdout=primary.subprocess.PIPE, stderr=primary.subprocess.PIPE, check=True)
+
     def test_inert_is_before_dependencies_or_any_remote_read(self):
         with tempfile.TemporaryDirectory() as temporary:
             spec = Path(temporary) / "inert.json"
