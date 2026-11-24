@@ -1,0 +1,474 @@
+﻿2026-11-24T09:27:06.5406823Z Current runner version: '2.338.2'
+2026-11-24T09:27:06.5431748Z ##[group]Runner Image Provisioner
+2026-11-24T09:27:06.5433331Z Hosted Compute Agent
+2026-11-24T09:27:06.5433969Z Version: 20261111.635
+2026-11-24T09:27:06.5434616Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-24T09:27:06.5435447Z Build Date: 2026-11-11T01:49:01Z
+2026-11-24T09:27:06.5436167Z Worker ID: {55143f74-8724-44dc-9fd3-29ba425b48bb}
+2026-11-24T09:27:06.5437000Z Region: westus2
+2026-11-24T09:27:06.5437610Z Cloud: Azure
+2026-11-24T09:27:06.5438161Z ##[endgroup]
+2026-11-24T09:27:06.5439763Z ##[group]Operating System
+2026-11-24T09:27:06.5440603Z Ubuntu
+2026-11-24T09:27:06.5441315Z 24.04.5
+2026-11-24T09:27:06.5442070Z LTS
+2026-11-24T09:27:06.5442636Z ##[endgroup]
+2026-11-24T09:27:06.5443269Z ##[group]Runner Image
+2026-11-24T09:27:06.5443915Z Image: ubuntu-24.04
+2026-11-24T09:27:06.5444528Z Version: 20261116.376.1
+2026-11-24T09:27:06.5445950Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.376/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-24T09:27:06.5447653Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.376
+2026-11-24T09:27:06.5448667Z ##[endgroup]
+2026-11-24T09:27:06.5449981Z ##[group]GITHUB_TOKEN Permissions
+2026-11-24T09:27:06.5452238Z Actions: read
+2026-11-24T09:27:06.5452987Z Contents: read
+2026-11-24T09:27:06.5453694Z Metadata: read
+2026-11-24T09:27:06.5454328Z ##[endgroup]
+2026-11-24T09:27:06.5456603Z Secret source: Actions
+2026-11-24T09:27:06.5457563Z Cache mode: write
+2026-11-24T09:27:06.5458312Z Prepare workflow directory
+2026-11-24T09:27:06.5873273Z Prepare all required actions
+2026-11-24T09:27:06.5926351Z Getting action download info
+2026-11-24T09:27:06.9391721Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-24T09:27:07.0924051Z Download action repository 'actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1' (SHA:ece7cb06caefa5fff74198d8649806c4678c61a1)
+2026-11-24T09:27:07.1987854Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-24T09:27:07.4617913Z Complete job name: sources
+2026-11-24T09:27:07.5527537Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-11-24T09:27:07.5528629Z with:
+2026-11-24T09:27:07.5529110Z   ref: 2da5cbe0d616f96b21a1bb5665613b9ce8d1c788
+2026-11-24T09:27:07.5529730Z   persist-credentials: false
+2026-11-24T09:27:07.5530233Z   fetch-depth: 2
+2026-11-24T09:27:07.5530685Z   repository: jiying2007/kws-data
+2026-11-24T09:27:07.5535131Z   token: ***
+2026-11-24T09:27:07.5535584Z   ssh-strict: true
+2026-11-24T09:27:07.5536033Z   ssh-user: git
+2026-11-24T09:27:07.5536451Z   clean: true
+2026-11-24T09:27:07.5536896Z   sparse-checkout-cone-mode: true
+2026-11-24T09:27:07.5537422Z   fetch-tags: false
+2026-11-24T09:27:07.5537866Z   show-progress: true
+2026-11-24T09:27:07.5538320Z   lfs: false
+2026-11-24T09:27:07.5538735Z   submodules: false
+2026-11-24T09:27:07.5539216Z   set-safe-directory: true
+2026-11-24T09:27:07.5539731Z   allow-unsafe-pr-checkout: false
+2026-11-24T09:27:07.5540569Z env:
+2026-11-24T09:27:07.5541136Z   PREPARED_PARENT: 3144028b5db5a7f1314654858b8d4f1343b8cf40
+2026-11-24T09:27:07.5541802Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T09:27:07.5542539Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T09:27:07.5543056Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T09:27:07.5543559Z   OMP_NUM_THREADS: 2
+2026-11-24T09:27:07.5544011Z   MKL_NUM_THREADS: 2
+2026-11-24T09:27:07.5544465Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T09:27:07.5544953Z   PYTHONHASHSEED: 20261124
+2026-11-24T09:27:07.5545434Z ##[endgroup]
+2026-11-24T09:27:07.8943336Z Syncing repository: jiying2007/kws-data
+2026-11-24T09:27:07.8945753Z ##[group]Getting Git version info
+2026-11-24T09:27:07.8947026Z Working directory is '/home/runner/work/kws-data/kws-data'
+2026-11-24T09:27:07.8948561Z [command]/usr/bin/git version
+2026-11-24T09:27:07.9068270Z git version 2.56.1
+2026-11-24T09:27:07.9179588Z ##[endgroup]
+2026-11-24T09:27:07.9198186Z Temporarily overriding HOME='/home/runner/work/_temp/3de6e9c5-c0e6-4daa-ba12-5269414434ee' before making global git config changes
+2026-11-24T09:27:07.9200543Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T09:27:07.9202861Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/kws-data/kws-data
+2026-11-24T09:27:07.9205578Z Deleting the contents of '/home/runner/work/kws-data/kws-data'
+2026-11-24T09:27:07.9207040Z ##[group]Determining repository object format
+2026-11-24T09:27:07.9208414Z ##[endgroup]
+2026-11-24T09:27:07.9209616Z ##[group]Initializing the repository
+2026-11-24T09:27:07.9211049Z [command]/usr/bin/git init /home/runner/work/kws-data/kws-data
+2026-11-24T09:27:07.9369945Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-24T09:27:07.9372169Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-24T09:27:07.9374412Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-24T09:27:07.9375894Z hint: call:
+2026-11-24T09:27:07.9376671Z hint:
+2026-11-24T09:27:07.9377699Z hint: 	git config --global init.defaultBranch <name>
+2026-11-24T09:27:07.9378949Z hint:
+2026-11-24T09:27:07.9380239Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-24T09:27:07.9382264Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-24T09:27:07.9383698Z hint:
+2026-11-24T09:27:07.9384476Z hint: 	git branch -m <name>
+2026-11-24T09:27:07.9385387Z hint:
+2026-11-24T09:27:07.9386675Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-24T09:27:07.9396819Z Initialized empty Git repository in /home/runner/work/kws-data/kws-data/.git/
+2026-11-24T09:27:07.9410622Z [command]/usr/bin/git remote add origin https://github.com/jiying2007/kws-data
+2026-11-24T09:27:07.9483548Z ##[endgroup]
+2026-11-24T09:27:07.9484960Z ##[group]Disabling automatic garbage collection
+2026-11-24T09:27:07.9487502Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-24T09:27:07.9529549Z ##[endgroup]
+2026-11-24T09:27:07.9531506Z ##[group]Setting up auth
+2026-11-24T09:27:07.9532904Z Removing SSH command configuration
+2026-11-24T09:27:07.9537393Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T09:27:07.9583285Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T09:27:08.0047273Z Removing HTTP extra header
+2026-11-24T09:27:08.0053076Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T09:27:08.0097884Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-24T09:27:08.0337174Z Removing includeIf entries pointing to credentials config files
+2026-11-24T09:27:08.0342822Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T09:27:08.0396439Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-24T09:27:08.0643092Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-ea108498-8394-42e5-aaeb-fc19852c6ce9.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-24T09:27:08.0694079Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/kws-data/kws-data/.git.path /home/runner/work/_temp/git-credentials-ea108498-8394-42e5-aaeb-fc19852c6ce9.config
+2026-11-24T09:27:08.0739749Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/kws-data/kws-data/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-ea108498-8394-42e5-aaeb-fc19852c6ce9.config
+2026-11-24T09:27:08.0785715Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-ea108498-8394-42e5-aaeb-fc19852c6ce9.config
+2026-11-24T09:27:08.0828666Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-ea108498-8394-42e5-aaeb-fc19852c6ce9.config
+2026-11-24T09:27:08.0870402Z ##[endgroup]
+2026-11-24T09:27:08.0871330Z ##[group]Fetching the repository
+2026-11-24T09:27:08.0877012Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=2 origin 2da5cbe0d616f96b21a1bb5665613b9ce8d1c788
+2026-11-24T09:27:12.2822345Z From https://github.com/jiying2007/kws-data
+2026-11-24T09:27:12.2824382Z  * branch            2da5cbe0d616f96b21a1bb5665613b9ce8d1c788 -> FETCH_HEAD
+2026-11-24T09:27:12.2831205Z [command]/usr/bin/git rev-parse --verify --quiet 2da5cbe0d616f96b21a1bb5665613b9ce8d1c788^{object}
+2026-11-24T09:27:12.2870303Z 2da5cbe0d616f96b21a1bb5665613b9ce8d1c788
+2026-11-24T09:27:12.2877438Z ##[endgroup]
+2026-11-24T09:27:12.2879474Z ##[group]Determining the checkout info
+2026-11-24T09:27:12.2882158Z ##[endgroup]
+2026-11-24T09:27:12.2883843Z [command]/usr/bin/git sparse-checkout disable
+2026-11-24T09:27:12.2961644Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-24T09:27:12.3008566Z ##[group]Checking out the ref
+2026-11-24T09:27:12.3013000Z [command]/usr/bin/git checkout --progress --force 2da5cbe0d616f96b21a1bb5665613b9ce8d1c788
+2026-11-24T09:27:13.0427547Z Note: switching to '2da5cbe0d616f96b21a1bb5665613b9ce8d1c788'.
+2026-11-24T09:27:13.0428167Z 
+2026-11-24T09:27:13.0428479Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-24T09:27:13.0429129Z changes and commit them, and you can discard any commits you make in this
+2026-11-24T09:27:13.0429760Z state without impacting any branches by switching back to a branch.
+2026-11-24T09:27:13.0430102Z 
+2026-11-24T09:27:13.0430401Z If you want to create a new branch to retain commits you create, you may
+2026-11-24T09:27:13.0430998Z do so (now or later) by using -c with the switch command. Example:
+2026-11-24T09:27:13.0431324Z 
+2026-11-24T09:27:13.0431729Z   git switch -c <new-branch-name>
+2026-11-24T09:27:13.0432381Z 
+2026-11-24T09:27:13.0432580Z Or undo this operation with:
+2026-11-24T09:27:13.0432819Z 
+2026-11-24T09:27:13.0432956Z   git switch -
+2026-11-24T09:27:13.0433137Z 
+2026-11-24T09:27:13.0433421Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-24T09:27:13.0433793Z 
+2026-11-24T09:27:13.0434185Z HEAD is now at 2da5cbe Execute original B21 source panel once after audited zero-call transport continuation
+2026-11-24T09:27:13.0501535Z ##[endgroup]
+2026-11-24T09:27:13.0564737Z [command]/usr/bin/git log -1 --format=%H
+2026-11-24T09:27:13.0605907Z 2da5cbe0d616f96b21a1bb5665613b9ce8d1c788
+2026-11-24T09:27:13.0616517Z ##[group]Removing auth
+2026-11-24T09:27:13.0617186Z Removing SSH command configuration
+2026-11-24T09:27:13.0620550Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T09:27:13.0666284Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T09:27:13.0918319Z Removing HTTP extra header
+2026-11-24T09:27:13.0921759Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T09:27:13.0968816Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-24T09:27:13.1219106Z Removing includeIf entries pointing to credentials config files
+2026-11-24T09:27:13.1222667Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T09:27:13.1264009Z includeif.gitdir:/home/runner/work/kws-data/kws-data/.git.path
+2026-11-24T09:27:13.1265488Z includeif.gitdir:/home/runner/work/kws-data/kws-data/.git/worktrees/*.path
+2026-11-24T09:27:13.1266213Z includeif.gitdir:/github/workspace/.git.path
+2026-11-24T09:27:13.1266831Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-24T09:27:13.1275278Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/kws-data/kws-data/.git.path
+2026-11-24T09:27:13.1314282Z /home/runner/work/_temp/git-credentials-ea108498-8394-42e5-aaeb-fc19852c6ce9.config
+2026-11-24T09:27:13.1325613Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/kws-data/kws-data/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-ea108498\-8394\-42e5\-aaeb\-fc19852c6ce9\.config
+2026-11-24T09:27:13.1389968Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/kws-data/kws-data/.git/worktrees/*.path
+2026-11-24T09:27:13.1428752Z /home/runner/work/_temp/git-credentials-ea108498-8394-42e5-aaeb-fc19852c6ce9.config
+2026-11-24T09:27:13.1439933Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/kws-data/kws-data/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-ea108498\-8394\-42e5\-aaeb\-fc19852c6ce9\.config
+2026-11-24T09:27:13.1489838Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-24T09:27:13.1525952Z /github/runner_temp/git-credentials-ea108498-8394-42e5-aaeb-fc19852c6ce9.config
+2026-11-24T09:27:13.1535884Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-ea108498\-8394\-42e5\-aaeb\-fc19852c6ce9\.config
+2026-11-24T09:27:13.1584176Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-24T09:27:13.1619939Z /github/runner_temp/git-credentials-ea108498-8394-42e5-aaeb-fc19852c6ce9.config
+2026-11-24T09:27:13.1628916Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-ea108498\-8394\-42e5\-aaeb\-fc19852c6ce9\.config
+2026-11-24T09:27:13.1676686Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-24T09:27:13.1926112Z Removing credentials config '/home/runner/work/_temp/git-credentials-ea108498-8394-42e5-aaeb-fc19852c6ce9.config'
+2026-11-24T09:27:13.1940178Z ##[endgroup]
+2026-11-24T09:27:13.2211766Z ##[group]Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+2026-11-24T09:27:13.2212704Z with:
+2026-11-24T09:27:13.2213005Z   python-version: 3.12
+2026-11-24T09:27:13.2213333Z   check-latest: false
+2026-11-24T09:27:13.2216328Z   token: ***
+2026-11-24T09:27:13.2216633Z   update-environment: true
+2026-11-24T09:27:13.2216972Z   allow-prereleases: false
+2026-11-24T09:27:13.2217290Z   freethreaded: false
+2026-11-24T09:27:13.2217583Z env:
+2026-11-24T09:27:13.2217931Z   PREPARED_PARENT: 3144028b5db5a7f1314654858b8d4f1343b8cf40
+2026-11-24T09:27:13.2218403Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T09:27:13.2218762Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T09:27:13.2219112Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T09:27:13.2219443Z   OMP_NUM_THREADS: 2
+2026-11-24T09:27:13.2219735Z   MKL_NUM_THREADS: 2
+2026-11-24T09:27:13.2220033Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T09:27:13.2220356Z   PYTHONHASHSEED: 20261124
+2026-11-24T09:27:13.2220667Z ##[endgroup]
+2026-11-24T09:27:13.3580367Z ##[group]Installed versions
+2026-11-24T09:27:13.4018484Z Successfully set up CPython (3.12.16)
+2026-11-24T09:27:13.4019568Z ##[endgroup]
+2026-11-24T09:27:13.4188351Z ##[group]Run python -IB automation/test_english_v6_b21_continuation_origin.py -v
+2026-11-24T09:27:13.4190308Z [36;1mpython -IB automation/test_english_v6_b21_continuation_origin.py -v[0m
+2026-11-24T09:27:13.4191435Z [36;1mpython -IB automation/test_english_v6_b21_continuation_sources.py -v[0m
+2026-11-24T09:27:13.4193254Z [36;1mpython -IB automation/english_v6_b21_continuation_source_producer.py "$RUNNER_TEMP/b21-source-producer" --prepared-parent "$PREPARED_PARENT"[0m
+2026-11-24T09:27:13.4314389Z shell: /usr/bin/bash -e {0}
+2026-11-24T09:27:13.4314952Z env:
+2026-11-24T09:27:13.4315464Z   PREPARED_PARENT: 3144028b5db5a7f1314654858b8d4f1343b8cf40
+2026-11-24T09:27:13.4316034Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T09:27:13.4316422Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T09:27:13.4316793Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T09:27:13.4317148Z   OMP_NUM_THREADS: 2
+2026-11-24T09:27:13.4317457Z   MKL_NUM_THREADS: 2
+2026-11-24T09:27:13.4317831Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T09:27:13.4318176Z   PYTHONHASHSEED: 20261124
+2026-11-24T09:27:13.4318582Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:13.4319209Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T09:27:13.4319903Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:13.4320419Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:13.4320947Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:13.4321462Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T09:27:13.4322296Z ##[endgroup]
+2026-11-24T09:27:14.1592905Z test_any_source_artifact_missing_marker_or_unknown_native_job_is_ineligible (__main__.OriginalStop.test_any_source_artifact_missing_marker_or_unknown_native_job_is_ineligible) ... ok
+2026-11-24T09:27:14.2329427Z test_exact_original_payloads_verify_zero_source_with_preserved_identity (__main__.OriginalStop.test_exact_original_payloads_verify_zero_source_with_preserved_identity) ... ok
+2026-11-24T09:27:14.2335493Z test_live_validation_requires_complete_unambiguous_api_pages (__main__.OriginalStop.test_live_validation_requires_complete_unambiguous_api_pages) ... ok
+2026-11-24T09:27:14.2344075Z test_rerun_success_wrong_head_or_replaced_artifact_cannot_authorize (__main__.OriginalStop.test_rerun_success_wrong_head_or_replaced_artifact_cannot_authorize) ... ok
+2026-11-24T09:27:14.2408236Z test_tampered_log_manifest_or_extra_evidence_is_not_a_zero_call_proof (__main__.OriginalStop.test_tampered_log_manifest_or_extra_evidence_is_not_a_zero_call_proof) ... ok
+2026-11-24T09:27:14.2409496Z 
+2026-11-24T09:27:14.2409770Z ----------------------------------------------------------------------
+2026-11-24T09:27:14.2410305Z Ran 5 tests in 0.082s
+2026-11-24T09:27:14.2410527Z 
+2026-11-24T09:27:14.2410649Z OK
+2026-11-24T09:27:20.7573704Z test_actual_continuation_owner_guard_observe120_and_readback_front (__main__.Continuation.test_actual_continuation_owner_guard_observe120_and_readback_front) ... ok
+2026-11-24T09:27:23.8921260Z test_closed_workflow_order_required_tokens_and_all_original_proof_resources (__main__.Continuation.test_closed_workflow_order_required_tokens_and_all_original_proof_resources) ... ok
+2026-11-24T09:27:24.1332507Z test_corpus_or_consumption_gate_failure_cannot_enter_renderer (__main__.Continuation.test_corpus_or_consumption_gate_failure_cannot_enter_renderer) ... ok
+2026-11-24T09:27:24.1565328Z test_direct_partial_file_atomic_success_and_bad_whole_hash_stays_closed (__main__.Continuation.test_direct_partial_file_atomic_success_and_bad_whole_hash_stays_closed) ... ok
+2026-11-24T09:27:24.1568277Z test_eight_disjoint_ranges_exact_headers_and_preserved_redirect_range (__main__.Continuation.test_eight_disjoint_ranges_exact_headers_and_preserved_redirect_range) ... ok
+2026-11-24T09:27:25.1259715Z test_first_new_public_workflow_only_identity_and_no_original_branch_replay (__main__.Continuation.test_first_new_public_workflow_only_identity_and_no_original_branch_replay) ... ok
+2026-11-24T09:27:26.8218612Z test_metadata_and_scientific_operators_remain_exactly_frozen (__main__.Continuation.test_metadata_and_scientific_operators_remain_exactly_frozen) ... ok
+2026-11-24T09:27:27.2090771Z test_missing_original_failure_proof_stops_every_runtime_before_network_or_directory (__main__.Continuation.test_missing_original_failure_proof_stops_every_runtime_before_network_or_directory) ... ok
+2026-11-24T09:27:27.4184902Z test_prior_authorization_is_exact_original_opened_marker_not_same_run_summary (__main__.Continuation.test_prior_authorization_is_exact_original_opened_marker_not_same_run_summary) ... ok
+2026-11-24T09:27:27.4186126Z 
+2026-11-24T09:27:27.4186351Z ----------------------------------------------------------------------
+2026-11-24T09:27:27.4187159Z Ran 9 tests in 9.236s
+2026-11-24T09:27:27.4187409Z 
+2026-11-24T09:27:27.4187558Z OK
+2026-11-24T09:27:27.4188426Z PASS: B21 audited zero-call transport continuation; unchanged sources, policy and no model/source calls
+2026-11-24T09:27:35.8087788Z {"role": "source_continuation", "files": 246, "bytes": 6972761, "manifest_sha256": "c7af96d39810eaabb0f94971a81a201cfe836b1aa18f966fc52deb1cc26f37e0", "run_head": "2da5cbe0d616f96b21a1bb5665613b9ce8d1c788", "prepared_parent": "3144028b5db5a7f1314654858b8d4f1343b8cf40", "new_model_forwards": 0}
+2026-11-24T09:27:35.8654885Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-24T09:27:35.8655349Z with:
+2026-11-24T09:27:35.8655696Z   name: english-v6-b21-primary-continuation-source-producer-45365292922
+2026-11-24T09:27:35.8656182Z   path: /home/runner/work/_temp/b21-source-producer/
+2026-11-24T09:27:35.8656524Z   include-hidden-files: true
+2026-11-24T09:27:35.8656763Z   retention-days: 90
+2026-11-24T09:27:35.8656977Z   if-no-files-found: error
+2026-11-24T09:27:35.8657201Z   compression-level: 6
+2026-11-24T09:27:35.8657430Z   overwrite: false
+2026-11-24T09:27:35.8657620Z env:
+2026-11-24T09:27:35.8657865Z   PREPARED_PARENT: 3144028b5db5a7f1314654858b8d4f1343b8cf40
+2026-11-24T09:27:35.8658190Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T09:27:35.8658446Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T09:27:35.8658691Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T09:27:35.8658927Z   OMP_NUM_THREADS: 2
+2026-11-24T09:27:35.8659124Z   MKL_NUM_THREADS: 2
+2026-11-24T09:27:35.8659372Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T09:27:35.8659600Z   PYTHONHASHSEED: 20261124
+2026-11-24T09:27:35.8659881Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:35.8660299Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T09:27:35.8660709Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:35.8661080Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:35.8661455Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:35.8662133Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T09:27:35.8662474Z ##[endgroup]
+2026-11-24T09:27:36.0383159Z (node:3009) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-24T09:27:36.0384011Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T09:27:36.1053292Z With the provided path, there will be 247 files uploaded
+2026-11-24T09:27:36.1054282Z Artifact name is valid!
+2026-11-24T09:27:36.1054735Z Root directory input is valid!
+2026-11-24T09:27:36.5132531Z Beginning upload of artifact content to blob storage
+2026-11-24T09:27:36.8652254Z (node:3009) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-24T09:27:37.5752436Z Uploaded bytes 2752314
+2026-11-24T09:27:37.6510152Z Finished uploading artifact content to blob storage!
+2026-11-24T09:27:37.6511645Z SHA256 digest of uploaded artifact zip is 6e811000e29489e75f819b56cf18100fffd522483177d2bc54223a1c533b6830
+2026-11-24T09:27:37.6513962Z Finalizing artifact upload
+2026-11-24T09:27:38.0276990Z Artifact english-v6-b21-primary-continuation-source-producer-45365292922.zip successfully finalized. Artifact ID 14907020666
+2026-11-24T09:27:38.0279279Z Artifact english-v6-b21-primary-continuation-source-producer-45365292922 has been successfully uploaded! Final size is 2752314 bytes. Artifact ID is 14907020666
+2026-11-24T09:27:38.0285039Z Artifact download URL: https://github.com/jiying2007/kws-data/actions/runs/45365292922/artifacts/14907020666
+2026-11-24T09:27:38.0447596Z ##[group]Run set -euo pipefail
+2026-11-24T09:27:38.0447937Z [36;1mset -euo pipefail[0m
+2026-11-24T09:27:38.0448378Z [36;1mpython -IB automation/english_v6_b21_continuation_source.py guard "$PREPARED_PARENT"[0m
+2026-11-24T09:27:38.0448953Z [36;1mpython -IB automation/english_v6_b21_continuation_source.py check[0m
+2026-11-24T09:27:38.0449617Z [36;1mpython -IB automation/english_v6_b21_continuation_source.py authorize "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"[0m
+2026-11-24T09:27:38.0473318Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T09:27:38.0473663Z env:
+2026-11-24T09:27:38.0473925Z   PREPARED_PARENT: 3144028b5db5a7f1314654858b8d4f1343b8cf40
+2026-11-24T09:27:38.0474257Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T09:27:38.0474521Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T09:27:38.0474783Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T09:27:38.0475027Z   OMP_NUM_THREADS: 2
+2026-11-24T09:27:38.0475228Z   MKL_NUM_THREADS: 2
+2026-11-24T09:27:38.0475474Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T09:27:38.0475701Z   PYTHONHASHSEED: 20261124
+2026-11-24T09:27:38.0475984Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:38.0476413Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T09:27:38.0476848Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:38.0477223Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:38.0477604Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:38.0477998Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T09:27:38.0480912Z   GH_TOKEN: ***
+2026-11-24T09:27:38.0481121Z ##[endgroup]
+2026-11-24T09:27:45.7939790Z PASS: B21 audited zero-call transport continuation; unchanged sources, policy and no model/source calls
+2026-11-24T09:27:59.6264612Z ##[group]Run python -IB automation/english_v6_b21_continuation_source.py transport "$RUNNER_TEMP/train-clean-100.tar.gz" "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"
+2026-11-24T09:27:59.6265808Z [36;1mpython -IB automation/english_v6_b21_continuation_source.py transport "$RUNNER_TEMP/train-clean-100.tar.gz" "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"[0m
+2026-11-24T09:27:59.6286768Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T09:27:59.6287099Z env:
+2026-11-24T09:27:59.6287361Z   PREPARED_PARENT: 3144028b5db5a7f1314654858b8d4f1343b8cf40
+2026-11-24T09:27:59.6287697Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T09:27:59.6287960Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T09:27:59.6288208Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T09:27:59.6288449Z   OMP_NUM_THREADS: 2
+2026-11-24T09:27:59.6288652Z   MKL_NUM_THREADS: 2
+2026-11-24T09:27:59.6288851Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T09:27:59.6289076Z   PYTHONHASHSEED: 20261124
+2026-11-24T09:27:59.6289417Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:59.6289852Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T09:27:59.6290269Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:59.6290647Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:59.6291025Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:27:59.6291403Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T09:27:59.6294764Z   GH_TOKEN: ***
+2026-11-24T09:27:59.6294975Z ##[endgroup]
+2026-11-24T09:29:07.4147852Z Traceback (most recent call last):
+2026-11-24T09:29:07.4155022Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/urllib/request.py", line 1357, in do_open
+2026-11-24T09:29:07.4390284Z     h.request(req.get_method(), req.selector, req.data, headers,
+2026-11-24T09:29:07.4391489Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/http/client.py", line 1386, in request
+2026-11-24T09:29:07.4646055Z     self._send_request(method, url, body, headers, encode_chunked)
+2026-11-24T09:29:07.4647507Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/http/client.py", line 1432, in _send_request
+2026-11-24T09:29:07.4648760Z     self.endheaders(body, encode_chunked=encode_chunked)
+2026-11-24T09:29:07.4650013Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/http/client.py", line 1381, in endheaders
+2026-11-24T09:29:07.4651624Z     self._send_output(message_body, encode_chunked=encode_chunked)
+2026-11-24T09:29:07.4653241Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/http/client.py", line 1141, in _send_output
+2026-11-24T09:29:07.4654552Z     self.send(msg)
+2026-11-24T09:29:07.4655379Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/http/client.py", line 1085, in send
+2026-11-24T09:29:07.4656836Z     self.connect()
+2026-11-24T09:29:07.4657699Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/http/client.py", line 1527, in connect
+2026-11-24T09:29:07.4659720Z     self.sock = self._context.wrap_socket(self.sock,
+2026-11-24T09:29:07.4660239Z                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-24T09:29:07.4660912Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/ssl.py", line 455, in wrap_socket
+2026-11-24T09:29:07.5134469Z     return self.sslsocket_class._create(
+2026-11-24T09:29:07.5135120Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-24T09:29:07.5136247Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/ssl.py", line 1054, in _create
+2026-11-24T09:29:07.5171248Z     self.do_handshake()
+2026-11-24T09:29:07.5172376Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/ssl.py", line 1332, in do_handshake
+2026-11-24T09:29:07.5174044Z     self._sslobj.do_handshake()
+2026-11-24T09:29:07.5174638Z TimeoutError: _ssl.c:994: The handshake operation timed out
+2026-11-24T09:29:07.5175104Z 
+2026-11-24T09:29:07.5175821Z During handling of the above exception, another exception occurred:
+2026-11-24T09:29:07.5176202Z 
+2026-11-24T09:29:07.5176326Z Traceback (most recent call last):
+2026-11-24T09:29:07.5177023Z   File "/home/runner/work/kws-data/kws-data/automation/english_v6_b21_continuation_source.py", line 230, in <module>
+2026-11-24T09:29:07.5177768Z     download(args.corpus, args.archives, args.prepared_parent)
+2026-11-24T09:29:07.5178548Z   File "/home/runner/work/kws-data/kws-data/automation/english_v6_b21_continuation_transport.py", line 221, in download
+2026-11-24T09:29:07.5179354Z     report["ranges"].append(future.result())
+2026-11-24T09:29:07.5179726Z                             ^^^^^^^^^^^^^^^
+2026-11-24T09:29:07.5180412Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+2026-11-24T09:29:07.5181084Z     return self.__get_result()
+2026-11-24T09:29:07.5181378Z            ^^^^^^^^^^^^^^^^^^^
+2026-11-24T09:29:07.5182472Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+2026-11-24T09:29:07.5183509Z     raise self._exception
+2026-11-24T09:29:07.5184089Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+2026-11-24T09:29:07.5185096Z     result = self.fn(*self.args, **self.kwargs)
+2026-11-24T09:29:07.5185571Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-24T09:29:07.5186296Z   File "/home/runner/work/kws-data/kws-data/automation/english_v6_b21_continuation_transport.py", line 130, in transfer
+2026-11-24T09:29:07.5187281Z     with opener.open(request, timeout=timeout) as response:
+2026-11-24T09:29:07.5187635Z          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-24T09:29:07.5188472Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/urllib/request.py", line 515, in open
+2026-11-24T09:29:07.5189135Z     response = self._open(req, data)
+2026-11-24T09:29:07.5189402Z                ^^^^^^^^^^^^^^^^^^^^^
+2026-11-24T09:29:07.5189871Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/urllib/request.py", line 532, in _open
+2026-11-24T09:29:07.5190604Z     result = self._call_chain(self.handle_open, protocol, protocol +
+2026-11-24T09:29:07.5190967Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-24T09:29:07.5191500Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/urllib/request.py", line 492, in _call_chain
+2026-11-24T09:29:07.5192361Z     result = func(*args)
+2026-11-24T09:29:07.5192755Z              ^^^^^^^^^^^
+2026-11-24T09:29:07.5195993Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/urllib/request.py", line 1405, in https_open
+2026-11-24T09:29:07.5197230Z     return self.do_open(http.client.HTTPSConnection, req,
+2026-11-24T09:29:07.5197946Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-24T09:29:07.5198851Z   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/urllib/request.py", line 1360, in do_open
+2026-11-24T09:29:07.5199449Z     raise URLError(err)
+2026-11-24T09:29:07.5199867Z urllib.error.URLError: <urlopen error _ssl.c:994: The handshake operation timed out>
+2026-11-24T09:29:07.5744751Z ##[error]Process completed with exit code 1.
+2026-11-24T09:29:07.5814097Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-24T09:29:07.5814527Z with:
+2026-11-24T09:29:07.5814811Z   name: english-v6-b21-continuation-transport-45365292922
+2026-11-24T09:29:07.5815836Z   path: /home/runner/work/_temp/prior-source/TRANSPORT/
+/home/runner/work/_temp/prior-source/CORPUS_TRANSPORT.json
+/home/runner/work/_temp/prior-source/AUTHORIZATION.json
+/home/runner/work/_temp/prior-source/ORIGINAL_RUN_LIVE.json
+
+2026-11-24T09:29:07.5816774Z   include-hidden-files: true
+2026-11-24T09:29:07.5817015Z   retention-days: 90
+2026-11-24T09:29:07.5817235Z   if-no-files-found: warn
+2026-11-24T09:29:07.5817479Z   compression-level: 6
+2026-11-24T09:29:07.5817725Z   overwrite: false
+2026-11-24T09:29:07.5817922Z env:
+2026-11-24T09:29:07.5818162Z   PREPARED_PARENT: 3144028b5db5a7f1314654858b8d4f1343b8cf40
+2026-11-24T09:29:07.5818515Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T09:29:07.5818771Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T09:29:07.5819046Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T09:29:07.5819287Z   OMP_NUM_THREADS: 2
+2026-11-24T09:29:07.5819488Z   MKL_NUM_THREADS: 2
+2026-11-24T09:29:07.5819691Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T09:29:07.5819919Z   PYTHONHASHSEED: 20261124
+2026-11-24T09:29:07.5820213Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:29:07.5820634Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T09:29:07.5821053Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:29:07.5821427Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:29:07.5822043Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:29:07.5822443Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T09:29:07.5822769Z ##[endgroup]
+2026-11-24T09:29:07.7532198Z (node:3116) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-24T09:29:07.7533530Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T09:29:07.7658649Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-24T09:29:07.7663227Z The least common ancestor is /home/runner/work/_temp/prior-source. This will be the root directory of the artifact
+2026-11-24T09:29:07.7666070Z With the provided path, there will be 14 files uploaded
+2026-11-24T09:29:07.7668718Z Artifact name is valid!
+2026-11-24T09:29:07.7670874Z Root directory input is valid!
+2026-11-24T09:29:08.1523705Z Beginning upload of artifact content to blob storage
+2026-11-24T09:29:08.1903102Z (node:3116) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-24T09:29:08.4487704Z Uploaded bytes 11985
+2026-11-24T09:29:08.5223594Z Finished uploading artifact content to blob storage!
+2026-11-24T09:29:08.5224989Z SHA256 digest of uploaded artifact zip is be9b9a9feb9e0f9c4d69683d6e5eeac875b099fcf2c1075f862682ccc9781744
+2026-11-24T09:29:08.5226592Z Finalizing artifact upload
+2026-11-24T09:29:08.9044207Z Artifact english-v6-b21-continuation-transport-45365292922.zip successfully finalized. Artifact ID 14907235352
+2026-11-24T09:29:08.9046056Z Artifact english-v6-b21-continuation-transport-45365292922 has been successfully uploaded! Final size is 11985 bytes. Artifact ID is 14907235352
+2026-11-24T09:29:08.9051599Z Artifact download URL: https://github.com/jiying2007/kws-data/actions/runs/45365292922/artifacts/14907235352
+2026-11-24T09:29:08.9239441Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-24T09:29:08.9239867Z with:
+2026-11-24T09:29:08.9240164Z   name: english-v6-b21-primary-continuation-source-45365292922
+2026-11-24T09:29:08.9240574Z   path: /home/runner/work/_temp/source/
+2026-11-24T09:29:08.9240857Z   include-hidden-files: true
+2026-11-24T09:29:08.9241099Z   retention-days: 90
+2026-11-24T09:29:08.9241321Z   if-no-files-found: warn
+2026-11-24T09:29:08.9241550Z   compression-level: 6
+2026-11-24T09:29:08.9241767Z   overwrite: false
+2026-11-24T09:29:08.9242218Z env:
+2026-11-24T09:29:08.9242474Z   PREPARED_PARENT: 3144028b5db5a7f1314654858b8d4f1343b8cf40
+2026-11-24T09:29:08.9242817Z   HF_HUB_DISABLE_IMPLICIT_TOKEN: 1
+2026-11-24T09:29:08.9243077Z   HF_HUB_DISABLE_TELEMETRY: 1
+2026-11-24T09:29:08.9243323Z   TOKENIZERS_PARALLELISM: false
+2026-11-24T09:29:08.9243571Z   OMP_NUM_THREADS: 2
+2026-11-24T09:29:08.9243774Z   MKL_NUM_THREADS: 2
+2026-11-24T09:29:08.9244015Z   OPENBLAS_NUM_THREADS: 1
+2026-11-24T09:29:08.9244244Z   PYTHONHASHSEED: 20261124
+2026-11-24T09:29:08.9244534Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:29:08.9244957Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+2026-11-24T09:29:08.9245385Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:29:08.9245773Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:29:08.9246157Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+2026-11-24T09:29:08.9246551Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+2026-11-24T09:29:08.9246875Z ##[endgroup]
+2026-11-24T09:29:09.0992511Z (node:3128) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-24T09:29:09.0993713Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T09:29:09.1024916Z ##[warning]No files were found with the provided path: /home/runner/work/_temp/source/. No artifacts will be uploaded.
+2026-11-24T09:29:09.1274562Z Post job cleanup.
+2026-11-24T09:29:09.2244564Z [command]/usr/bin/git version
+2026-11-24T09:29:09.2293095Z git version 2.56.1
+2026-11-24T09:29:09.2335522Z Temporarily overriding HOME='/home/runner/work/_temp/54e8a94f-2c1c-4cb3-961d-029dd4ef84f7' before making global git config changes
+2026-11-24T09:29:09.2337266Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T09:29:09.2343060Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/kws-data/kws-data
+2026-11-24T09:29:09.2378618Z Removing SSH command configuration
+2026-11-24T09:29:09.2386184Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T09:29:09.2428410Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T09:29:09.2712570Z Removing HTTP extra header
+2026-11-24T09:29:09.2713767Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T09:29:09.2765000Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-24T09:29:09.3048212Z Removing includeIf entries pointing to credentials config files
+2026-11-24T09:29:09.3058765Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T09:29:09.3110419Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-24T09:29:09.3558194Z Cleaning up orphan processes
+2026-11-24T09:29:09.3914060Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
