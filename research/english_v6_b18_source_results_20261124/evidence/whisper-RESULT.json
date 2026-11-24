@@ -1,0 +1,3106 @@
+{
+  "actual_native_forward_attempts": 96,
+  "asr_adapter_sha256": "5f1070c1443742a69953c8376c4f044471224a535bf9ee4bed89ce007f2efef4",
+  "attempted": 96,
+  "complete": 96,
+  "denominator": 96,
+  "human_gold": false,
+  "initialization_error": null,
+  "kws_forward_calls": 0,
+  "missing_or_failed": 0,
+  "native_forward_returns": 96,
+  "new_asr_calls": 96,
+  "new_phone_calls": 0,
+  "new_tts_calls": 0,
+  "observer_code_sha256": "7681815398c4f597556e30fb5b69e46bf4e2a42faf4f8a4116ab4d2bbf80f26e",
+  "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+  "promotion_allowed": false,
+  "provider": "whisper",
+  "retry_count": 0,
+  "row_error": null,
+  "rows": [
+    {
+      "id": "b18-primary-766-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 653,
+          "path": "RAW_RETURN.json",
+          "sha256": "f0b62dd7301d59c4d7949399f9b50cd19a31a701af0be38606ee0934d2fb0578"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 938,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "0c0ee8b444701430db2bf0bc1597c64238681797015bc735f1f541aed739390c"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "478134558f1f5f36d6c53eae7799686d179c3a40666212449b9050f3f7ae6106",
+      "source_samples": 9474,
+      "source_wav_sha256": "2265f868eaebf9a057da97c9796227cc11a04925ad992cff935455c58c10579d",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-766-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 653,
+          "path": "RAW_RETURN.json",
+          "sha256": "e45fda5992a17ef6968a3a23402f13aa2239205d7fba0e3cb2fef9fbf6806a3c"
+        },
+        "utf8_text": {
+          "bytes": 10,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "9fa9598d90a6ca97f60507ed317737737a6a1edfb71aaaa96871a3238806546a"
+        },
+        "validation": {
+          "bytes": 938,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "59e3db728ced9bf43175f57b066a9160d40a9f45f0b9b528141994eaa4b31676"
+        }
+      },
+      "raw_transcript": "a marrow.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "708bf621b9ab1fd54261d30974c4254777783f91d13dc5efcf7429fc3e9f1dbd",
+      "source_samples": 10403,
+      "source_wav_sha256": "72ff566444e642bbe4aa97d47a2a4982347a112d8a72f37f7caac6b62b591202",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-766-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "1841fbaa56d1915f74a8e1e450abeca26df2c0df82d73d1b60925a881b70ae43"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "8ce02c6d9db3fab0bfd74410623a90ef56c4a938ff29df2a7fe6391277def800"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d074b412bf9be88779ceb9e4bf06e1604aec64c41e2017d440dc577db255a549",
+      "source_samples": 13561,
+      "source_wav_sha256": "121833ffa1d885739cdf495f3fd3334f67ebfcf81f3142c4b9ddc43e250a6ceb",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-766-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "c161f9192e19867bce42d56995796f1a0c9a6ec04e17efc46dda1ae034294683"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "32690ee4b2326e3d8010ad2c609a332ec176670920143e87a5875858ea6b664b"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "f93fc7dc8ae16835d82b907c5aed728f6015d15ed6f74b031c0c5ecf112d6e3d",
+      "source_samples": 16162,
+      "source_wav_sha256": "1fd2d34bc51e8a6389e7923577e118ab50cbe7a2e44e82ca124b264eae418f61",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-767-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 655,
+          "path": "RAW_RETURN.json",
+          "sha256": "1e5eb2f23f641d8395a9b244d4fd0a9fe497e7d3a9de609fc895acba280d615b"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 940,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "e27805493cb959746c7789fb4561b4470591f53e124689d361069bbf3b9632f7"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "03a9975163e839571741854fa3be0a1b29f87c6adb4ba5b7e18421209fb5737e",
+      "source_samples": 10217,
+      "source_wav_sha256": "78f1ee1dd004c2787c6685db0ef38b39f6cfbe3cb738e2c04a2a42ecf8509d30",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-767-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 654,
+          "path": "RAW_RETURN.json",
+          "sha256": "43c03696bdbd115fe4206abd745bc02e0196bec47a1dea2d03cd51723df20749"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 939,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "ff6bf39cf6734804390448f9f4e8f13355f8c7c6ead0291f8f332554a5f827d1"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "74edc90b8a9725e1a786faa3dbd53200fe278f20aa39b395655ad1d9d31722ad",
+      "source_samples": 11518,
+      "source_wav_sha256": "feb8934e4dd215f09dcb2561aceeb1a4cd9701643e9c2b2e8f7d9b60e5a1e0ff",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-767-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "f6090ee64ec059d5d7d02f1500b25894c64490fbe4c097929c565b452f5eacc9"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "b7285082becc0b3ff54ee31532eea7c28a7681a4e6873bf064d30c36534c0933"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "2e858beb95bec010c72c8a09efbf6154bd7f9ddc57d5b005d396dfbd6200d23d",
+      "source_samples": 14490,
+      "source_wav_sha256": "e0ceac9befe6fa625cf6c885e0f758bcd24aec373f617baf400d14420da822ac",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-767-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "ba7f286cd74e1fab6e4cb3754ead2ed9880dc43c42125a80411b632a538cf127"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "9138075af22bca179a2ee9ecbb7d24996002246e092dc09fc23d4efed580ca3a"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "796541c2eda5c4cbf14cd326230812381f648b82553bae362913e151b6a18354",
+      "source_samples": 18205,
+      "source_wav_sha256": "64069319f9fdb9bc0cc0e2da257480ac0b8e3174b1d8a155a515bab5944f02d0",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-768-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 653,
+          "path": "RAW_RETURN.json",
+          "sha256": "f2f764077174e7666e4988e589917a6267e3c4fb78830bb7e1fe339409d82f5f"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 938,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "6265c5ccb044cbd9a28b3f33c1d4b0a2a1171daa5c6cfc92725b74b548308bb1"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "e9ab4bdbd2aced2a2d221b73cba26572ff0703932beb28da6a9d57e9ef3c6d56",
+      "source_samples": 9660,
+      "source_wav_sha256": "81cbad88fcd2dd196d04500829c8d6c7aec5f8cc6264f5f9ef9a27a7af0efe86",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-768-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 650,
+          "path": "RAW_RETURN.json",
+          "sha256": "56100b6e0d3fc50117ba255a8522aaeacfb44357ecd430442022eb4548ccd556"
+        },
+        "utf8_text": {
+          "bytes": 7,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4cdbc529b0700f81808d990d756df06a424f95f7daf03f8a7c5083f15577a38b"
+        },
+        "validation": {
+          "bytes": 935,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "0a11353e6d3f8dbc94b8215d0a1c9f9104f36c998f2c9e06dd63980b23ab7a0c"
+        }
+      },
+      "raw_transcript": "Amaro.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "704da258408f03f032d58706fabe0c627dce52f1fa6c965dc7e0caf1eb84466e",
+      "source_samples": 10589,
+      "source_wav_sha256": "fb0ce48845c3e9eb37d39cead27e2a66a8c81be570dec5f1c895c1ed995689ba",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-768-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "04cf64941577a74845a1e02b5e62afd17645bf978d6051ca603dddd3f943567e"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "114f9597ff0cd5bba4ebc7ef5eeef95e8ab24b5b4d4420216d773030fb6d74ee"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "534998fe7845c2bedc42b92975af9aa62beb444dbfbf2b701f635f0a045b0174",
+      "source_samples": 13747,
+      "source_wav_sha256": "caa68bbcaeb1284c22a2e3a755c0d8c5dcc3d50c19ec2c2f8e904e4c101264e8",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-768-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "c96090c31a39c397757d59ba396f6e27589c5e6b273734e5d5c6809f24194caf"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "f0ee2ffcac999cdae58b60d9ed38c902447f97dc11fdf8aa35f15046e0711700"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "0b09b424b07f263c9d0a1b6f4ea34225debece41a7f878fdcb3a3460dfa36f95"
+        }
+      },
+      "raw_transcript": "please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "fb57db8afc87fcefd527177c700f97f9cd87d595ef714bfc0d9caa750fd0d0a7",
+      "source_samples": 15604,
+      "source_wav_sha256": "328ff558ae186898d330f8c16ba6288a1d44074e76fd9af047d654b1e4269738",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-769-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 654,
+          "path": "RAW_RETURN.json",
+          "sha256": "46fa70b523444f55cd84caa220456e6c54c9380c34fc8cac0a0db3eae1116496"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 939,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c7c29fdcb10efb9777c3fbdc2cb08e2137bdc1f9c1de3442fb5b89aef63a23e4"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "402fd2e46beb10a71b621d3b83092d645e5af441c90a6eab12abd26252b03bca",
+      "source_samples": 10589,
+      "source_wav_sha256": "e75986b51fdb7b8635a75b480b0f7c92f75b62f73f46c0b150f0989f8435d45e",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-769-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 654,
+          "path": "RAW_RETURN.json",
+          "sha256": "b13ac245436c1dd890b1f04f2fb1b075964fc96973104dfb4f55cb508959a8eb"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 939,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "e4b2931f252ed7d11f2ce76ca66e0a2894b8db9a3593e18dd85c04792ae7eea5"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "6d4509acfca61ae40e7702e2828af5bd091ca718cd7f9bb0557f3c49997afd66",
+      "source_samples": 12075,
+      "source_wav_sha256": "dbb48b5c911e1de7c149ad73ad87146168f9b61c78a7697605ed7597800c6634",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-769-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "2a2d5279169c46dc281688a53abeacde4f3c3a29ac9a00d3dcbef7f39ea40e29"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "df6df15cd63afbeed639c523ad868481d7aafc8b7675ef269c9501bd1cb6a953"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "ef37bbbc2cfd2e41c891c0096c25281bc5371063118e11f391759a0bb5067a3a",
+      "source_samples": 15790,
+      "source_wav_sha256": "c5e5c9d3a1343c04f5dd8180cf522c3c7fb875c902e35ecfb362bbf94d8ecd1e",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-769-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "ccb4c3eab1c9d59bf7de201fdd8e3837e1a25c737ada5c4cd1ecc064b9f42bff"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "98bbf0d9351cf8ef0e73f287dbb777516bdc525196e85f49d5261622b7b8b9b8"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "63e8ff31e7abb9a1362e6eb073a3724789f35e0e75239f1ed91bfd29cd269366",
+      "source_samples": 20620,
+      "source_wav_sha256": "997e14d7239f9d3205d0bf09f213ba662a843dc34ed924cf20b8b1de790f4da1",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-770-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 654,
+          "path": "RAW_RETURN.json",
+          "sha256": "bef5900521fbdc76280a484baeac6fec6c1f7b1f1c766560cfd1cd98064b1370"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 939,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "dce5e33e1b6630285381894bc6c62429edc62f3a9745a3ae45853e701f397938"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "586051a231643da112b969c793c20b855715faee9a0a8bb08990b493f0e54675",
+      "source_samples": 9474,
+      "source_wav_sha256": "fd159a620cb43cf900363e2eb3645cd12030cf3950bc611e265741faeae8bd57",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-770-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 655,
+          "path": "RAW_RETURN.json",
+          "sha256": "8a4d2e19a4dba7eca41aeddb729168584e8480ed8fc9bf14dcef67d78cdc38af"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "8af6237acdbc24f2fc6d38bb676902b6f2420c4f6087f1871281220397c2abaa"
+        },
+        "validation": {
+          "bytes": 940,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "aada775eb0704aab2fa920bf6a6b0d4fc3ff2b033b7a3210db022ca9a30a7184"
+        }
+      },
+      "raw_transcript": "Pay narrow.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "95dba5e569356714f355780700b6199002f48cb86abcb1c9cdd90c9f3b10956b",
+      "source_samples": 10403,
+      "source_wav_sha256": "e8d8ce0b7005ff3730f6d7418e42d7fae9740e926f5634d86889139ea966a39d",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-770-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "f1aad94ea6eeb23c4b6d17c0a900d0a2924acdf1e0e19195c19c6e8883693ef1"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "972a44149c82e9fe79017cdb093cd19549b518e0a3fd969a8975ce4e0ba88579"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "a058bb16bd1cea8faa2a788b586e508f039e49cbde0740ee074468c66d6e5c53",
+      "source_samples": 13932,
+      "source_wav_sha256": "281a3a45e93124faaa2bc4303211c79482fe82ab2e6e840453c493131a322793",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-770-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "4eb4fc9045146aecfe6132266ee24c077ee4978f9add6a8639367bc7945cc705"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "ab0ec86dfbd8d8c9091e9303c931344da7fb0c4cf4cd1b5cca7d038293cecfdc"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "a0640eca75b8d991c2f9beae2d3af1e83f200e222291af043d552355c7c24baf",
+      "source_samples": 17648,
+      "source_wav_sha256": "1c7772173849c99a02e3cc53bbb960db4d49705609d7af6f695d86a7512c0046",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-771-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 653,
+          "path": "RAW_RETURN.json",
+          "sha256": "8693685a38c963ac43f7f07a6652cd85dbdb24b96483554ea6be372be879816c"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 938,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "cae0c6cdc3a82c0c0998eb5c651141339831a429163916060174f258c53a5b8d"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "46fd857de8ce6aa2880c8007f335fd519bf1c24e01c76234d2f66bafd131859d",
+      "source_samples": 9846,
+      "source_wav_sha256": "9f17d40bc2f7fdcdd57fec819138c6e9212836abb4d3a81b1cef82334df5927c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-771-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 654,
+          "path": "RAW_RETURN.json",
+          "sha256": "6d5490d6f36bb11be961a1f5eeed458e2391905dc545cf7904c1350a349a00bb"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 939,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c27dacb8d57984a40d804e563eac2a9076a5fa9bab38ef2fcb578bc4931a6869"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "edefb8c12e00aa1b1c3590ebe26051de914f4924869099ab29740a9e58ba938e",
+      "source_samples": 11146,
+      "source_wav_sha256": "b5905f46df292dc8dd383c8f5fbc50f8302645bc90320e94cceb3bcbe6ee907d",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-771-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "653449dfc8fc2908699df3a2cf1de034ce32e954abfee90ceeef98a84bba04d9"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "f18466bedcc036497489a4402ac46b8bcaca775fc4100c4a95674307313f4dac"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "aadf1b7e8b11674c3b35d7e4459ca1ff60fb62657c47acb77e616f994fdbc4c7",
+      "source_samples": 13004,
+      "source_wav_sha256": "aac0b9361ee8681d14f09fc66e19910e61fddf5f3554c3ad3a0eef30f84aa74f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-771-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 660,
+          "path": "RAW_RETURN.json",
+          "sha256": "496483145c54808fa85e5bce8404ba3b3104e02ad7ffc18f0b645ad60b02a0f0"
+        },
+        "utf8_text": {
+          "bytes": 19,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "b6f8b46116cda3151ff21707887edf5f18caf6328afc7a0f3e358de3160d9b67"
+        },
+        "validation": {
+          "bytes": 945,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "663453ea75385460ce2a1d1d9b4dae14146b28137423552bcfead828e2d757c8"
+        }
+      },
+      "raw_transcript": "police at a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "c9f0471a2325d9d2267256dc207c690b05501222bc5bac4def9172ac86e6e216",
+      "source_samples": 15790,
+      "source_wav_sha256": "694b440471199a0875837876fa11c9e7a054c546d5ba3549bcd65a14c923c3e7",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-772-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 655,
+          "path": "RAW_RETURN.json",
+          "sha256": "f0d03602280e6c8cb49cadd680c756f55ee6a6e328e75ee0f0ed51a1e1575993"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 940,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "9e5d88934a43cbbba817e4a4b262c87a2ec231076f1bf4e73e19180556492bc9"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "925f0a069d1bfda1773248d8dc073873763ceacf5cb4a8eb369a1eaffdd8ee39",
+      "source_samples": 10217,
+      "source_wav_sha256": "45138abcb0d0586c94160f8583cb9753e41477d1917d6cf4db2b636849aa3c4c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-772-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 655,
+          "path": "RAW_RETURN.json",
+          "sha256": "bf9debbde7b1d21fddb79a4acac88047f29fbeba4fe6dbf725fc821f4e30b73b"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 940,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "88d0bfe798d6425b4cb43d357be2f8de505b72d68bf5d389b36920d789d313fb"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "dfdc99ab4c14570ab6fcc6b02e706988ff1476a5a3494ccf9de687aad6a9b30e",
+      "source_samples": 11703,
+      "source_wav_sha256": "20aa8d51066dc31cef857d162e465c4c9961ac63561eefbaa9946d0d6001117f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-772-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "6ebea47896bbdc33d9422b5542dd8ff8c67b2f724f3bc3723958d2b3daac923f"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "14f823b216c1b167b50abf1ba7bc9d5ba2910c7eac281785072964c1a3f82ada"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "7791e4433510ab38bdef1606f32c3b094620227ef616087e7fa0981adced6dd8",
+      "source_samples": 15233,
+      "source_wav_sha256": "2f699ceed8213b6b77e349b84a6e003ddec2f79a172b0dc9ac156a262d02c813",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-772-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "37f5aec0de32e06675e3c87905aaaf97abe30d40430a11e2ecea2c0592175010"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "f0ee2ffcac999cdae58b60d9ed38c902447f97dc11fdf8aa35f15046e0711700"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "09f760d09be540595f907892c9c159ea48eac1d2d3588cf826737ab95d577462"
+        }
+      },
+      "raw_transcript": "please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "580fc78c85a573307a7be775f32fbd456b99adcef78dd8f79ad3a5a2b8136dc4",
+      "source_samples": 16162,
+      "source_wav_sha256": "00ff481220d36305c02ede3989fc3efd839030d2bfbfcea0ebad968464960b4b",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-773-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 650,
+          "path": "RAW_RETURN.json",
+          "sha256": "1bd836154c298227f2358dc87ec2a9e28ad48c3c8c6ca9af283c63be4f1d75ad"
+        },
+        "utf8_text": {
+          "bytes": 8,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "986fbc879822f8473ee118b7d4428bf3fa4b631d71a2c464d46fc7c1c0ead5b5"
+        },
+        "validation": {
+          "bytes": 935,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "ac53252248c509bcfdd8e2313712b270aead646b92aa41658ff104500da9df8b"
+        }
+      },
+      "raw_transcript": "Emeril.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "10219d0d87c75d2103851519c9e5132412cebaadea69169d3af1f3412fc5014a",
+      "source_samples": 8917,
+      "source_wav_sha256": "274f2a03fce3fa108227052de6c9caf28026d7b0cf78fe56272c1e917104293f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-773-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 650,
+          "path": "RAW_RETURN.json",
+          "sha256": "9e96e9f1058b29ebca6de171bdf950f9183753ec1ac35906d8dcef4876428bce"
+        },
+        "utf8_text": {
+          "bytes": 8,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "986fbc879822f8473ee118b7d4428bf3fa4b631d71a2c464d46fc7c1c0ead5b5"
+        },
+        "validation": {
+          "bytes": 935,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "2a4ae808c1acfc158f5987651b34e78a32c4fff7550f8f20affd2bc71092986a"
+        }
+      },
+      "raw_transcript": "Emeril.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "268825a04ad2bdf54ff568acebdbc8c138be570a79bbf7bc0d3aa5f3c612cfc2",
+      "source_samples": 9846,
+      "source_wav_sha256": "90ec2a20cae28665fc6098e7c00bed478243b993af85e7bbbe6314b0af2fa38f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-773-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "96be3da941d7a5db21f787f9406bd83b970b1dff8a0505b659c4beccda40df25"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "d2c2f702b76ab71747febb2df2c82491d8a7802f9511ee2a8ef2b588d10a11ef"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "87879d3ddf41780da2f984aef601ace78170e66916690189427317809487a9d9",
+      "source_samples": 14861,
+      "source_wav_sha256": "060382ebaa3b19310efaf327620600ad0bb3722b368ab82ec7f981b81cf525ec",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-773-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "f3e41d66bfb13e667fbf3cc97e23d98040be21a222ecbe801cc70abdf9e793a6"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "eb7ed587f34014b0e8d31fc4d493936bd4c1cacf798f4cab3126d5060c1d150a"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "3042a44d625c7a927099862dc9836b4041c07b69f64358dc7ba9d44b3bdebf42",
+      "source_samples": 17276,
+      "source_wav_sha256": "cad7b2613bc72193ec310be5497dcb2598d948d96473a5644a76e0162d7b4cd5",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-774-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 653,
+          "path": "RAW_RETURN.json",
+          "sha256": "5dc3f644c4c5a7a75fa2c02cf0ad129ae3615b2f48d29e8e9762597a2ab78990"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "7af497f679f1d380f07eebffc9f8e138de3f6c510d187f8d5b221b42a437c15f"
+        },
+        "validation": {
+          "bytes": 938,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "8caa35576884ea3ee234782f37d8b0fda0aa3cb3eca51ed8feb2d799ca7bae00"
+        }
+      },
+      "raw_transcript": "a Merrill.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "838b4aca52ee5a078b49219fef5ac59a232710698723f47a73b793fcf53178dd",
+      "source_samples": 9288,
+      "source_wav_sha256": "967112d7face8c03e2ed81b692a976c966ba0f4e2c1d10a9423cfa4b9aeeb01f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-774-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 655,
+          "path": "RAW_RETURN.json",
+          "sha256": "b1012af5649aebf1e2f612b36f8cc0593779501fe49e91a9686a2353b88782ff"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 940,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "395a0a56bd2798427e4aaa29e13620d30bcb73e248bf0b25e3d8bff6edb028a0"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "b4b31e4538d70e9fd46a37929b40fe47819547144b33278cb33f5d8e33c9f0cb",
+      "source_samples": 10589,
+      "source_wav_sha256": "f8273cee1773acc83229585b1a35294566f5f680e28b39ff21ef20ec28ef6352",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-774-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "819f7da049977182c86a5f9a16c7b4c1e9fc8696e64db63f9811b5c385a2b24a"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "b3072cb5c36a270d59fe046bbe2b7fcce394f0659a36bdc388148a2c8e77a4b2"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d218e28b1ac39dbbba509bca4d33c64e9dbee35c76cd3af1b6c36a5ab7b5baee",
+      "source_samples": 13932,
+      "source_wav_sha256": "046b7697314becb8fe7c2a7fc5bb8354a4f5877a35f0ed50463a16783d743f41",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-774-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "8c75980fd9349c91733cde568dd351c07c1d78f9fbc14c6e3a3101785d52d1d0"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "f0ee2ffcac999cdae58b60d9ed38c902447f97dc11fdf8aa35f15046e0711700"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c874bbd3946eb93205619696537e1ff8d078bd65533300c5ed9e4bfb63487f60"
+        }
+      },
+      "raw_transcript": "please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "50e76d91fddedda5228c3d746ba440dd7adde4a16f406f6a71e70e8443494f8d",
+      "source_samples": 17833,
+      "source_wav_sha256": "9f1d2f8b5382741645ffccb312ad1ffd917606ef8a28f31e70c974778b5ef236",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-775-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 655,
+          "path": "RAW_RETURN.json",
+          "sha256": "8a64f656f8f0e83f8dfcce31927d56a870f70df8b39cd2e92ec1c5db350f1448"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 940,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "e80ca3dd010742df76fc334eb5b5cd8756ccdebd166009dc3d4d16aea993050e"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "a5ade52c1a3c0886eb0b1248a605e2157db527af167cefe89ee784fb9d59184b",
+      "source_samples": 10217,
+      "source_wav_sha256": "1756b82cd2df769567879d0e27233f0c6c0056009887e228001b1a68d34a3f2f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-775-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 656,
+          "path": "RAW_RETURN.json",
+          "sha256": "719161607eb6d92ae30222d5d57519a778816eacf99cf1e0b5c7d14f8e67b6ed"
+        },
+        "utf8_text": {
+          "bytes": 13,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "a91e95a818a750462da820d6e9db9010f5ff3528f5ba8879787664002310e6dd"
+        },
+        "validation": {
+          "bytes": 941,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "5c1a45784c7b4f5ad87c3e009294b3369e72f20b0ed024bc7923e3a1aabfe53b"
+        }
+      },
+      "raw_transcript": "Hey, narrow.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "2ae803707d80b65340fa695ea1445fc1a36b7cffb7d3cfd6b86a7f6b94186619",
+      "source_samples": 11332,
+      "source_wav_sha256": "1ae03e4c0086ede62a8b4346edb857dc47306c67ce4a21e42fd50ca9329ba947",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-775-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "3a7cc74cc7118fc871f8425392413d49c95d8b718229f72d9cbb321d71a17eb5"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "25fa97c206d8b29fb032fb5d33ec6450182b2ea11d66ed8da5d74ff3149ce840"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "9530b43df0e4f3f87401ca9235b81264eb2dade47da83fa39dc805644a643c87",
+      "source_samples": 14490,
+      "source_wav_sha256": "880acc24ee5d6e9bb26a478d70a0a21d37908b7df76a9a090fac9db4f598f402",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-775-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "1bfc94666b87ca6319d73bc9d5d2c9162d98421717e0055b5b439680441d6cbf"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "914eb36b6b7b9284af54835b2c6aeb4e3b34982f4c5ae73b09d02736ed092395"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d30ed0af2eac1f3b0091941daa49159d90aa5424673a365380e21ebe51c36b03",
+      "source_samples": 17090,
+      "source_wav_sha256": "597f44011904fc716d02b7ccd380f34705acba7faea0afb5931f853053831588",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-776-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 653,
+          "path": "RAW_RETURN.json",
+          "sha256": "94941c7b6908b21acd9e2e246554819369ce48ba5e299d5ff4a7d964e8b487fa"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 938,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "0b9853961c0979b797a426668a09d373d28a9521f0ed051e85f1e1323a9d532c"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "93ad5ea284e810b8e0dcb27842ca55ae3e9dff76ae98ea1752b5d7e8027a866e",
+      "source_samples": 7802,
+      "source_wav_sha256": "22de953f314c79be321a26890b03d2fd6feeaf87a340e5ca64ae8e961ae01a7d",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-776-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 653,
+          "path": "RAW_RETURN.json",
+          "sha256": "a49d2d9cbafa3c9549be88d523d5a9bc0592d2645d41f96135f84dd97101723a"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 938,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "42aeb8e9a3e8228fe79e1ac4e1bf949375c2251f94f963a1575525559291f985"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "f138f6066d97e5d9c3f18d5bbd5ed336390f0288db4c3b76f177fd3c13eda058",
+      "source_samples": 8917,
+      "source_wav_sha256": "d7bcc7360d223ac3fbd410533a112e610f659bab4ac0e7109f070173d5885606",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-776-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "f8900ed40d5cd30bb59ebcd9f494c673cbb266d72651a56df6df257bd2783766"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "69f39f598b6d382c1d34ac1cc4928dc254c5d00cb8e7f0e2d268093c0cb815f1"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "f45ff45c5659f8891accc89b7af48df36537b5b9164229fc259cb96909ef5ac8",
+      "source_samples": 13189,
+      "source_wav_sha256": "2e9294252197b772115aad5c6c025770d221cbdcffbbd5f1b2d9f913c0fa317b",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-776-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "ad667d20fc7b46f9cc0fd26375f8860313686706339664991909139d7df4f7b2"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "2615ddfe7503acc6fefe647275e764fb47c30192ba1e32c3cdfdb13341d8497a"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "2ff539b2650b120194fba6594308fdebc6a29e0794fc070cec3ae620243a56d9",
+      "source_samples": 15047,
+      "source_wav_sha256": "2de363c9be7fb1052b7f4df936c6e9303bbd12e980c11254b031d58aa90e7735",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-777-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 655,
+          "path": "RAW_RETURN.json",
+          "sha256": "59adb7357fbb7ce5dc0ad1a76c8c30bec570371083956bdac4c0f1d70a7d66df"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 940,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "05ea6ffdf9287a82851cc271e903033e870eeb8160a13e2831f7245b3be7a276"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "af8eaec1a4628d6e5f33ca5028638e89cf6863d87641bb0a93ffc16a267c5cc1",
+      "source_samples": 10775,
+      "source_wav_sha256": "3aafd273b6fd23550fe0de9e51e2823c689018e6dd0eae681a699e58b2dcde2f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-777-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 655,
+          "path": "RAW_RETURN.json",
+          "sha256": "97fbb82e894814f6f74752389777cb93cf83ebfd0ba34c68321bd8ae21ae105c"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 940,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "43f7a8e324c456cc3509c96519f65b2f81918babe90a05c64e91495b69a45e09"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "68b182d767be0bc1376cd685cba43ef01b5793dd1a978705a77c63c345e8fc4c",
+      "source_samples": 11703,
+      "source_wav_sha256": "d4505563943fb1d2a7195ea064d7ce2ef14dbc798f3e9134d90490862ef5d2b5",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-777-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "77507fde26e3b3d6466eb935c9f825ada7a7c46327470297a76c0c29edaddefc"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "b37afd44547688f837516a3277d1d98c162f7c52acab0128b1290c38446cb8bf"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "8c16ca8a6c93489de72a8d618b298cf920f4bf99655f4b7935205156d3e0271d",
+      "source_samples": 18391,
+      "source_wav_sha256": "a0f7d1992fcdcd160c73de58d470801b623be82c80e7c5e14b96850570c5976a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-777-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "adf62c3a8ae158fdd4972166f36c78b286039e18e66e692c10752b9282770871"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c40a23c372cd155c39c416964ba7afc86dd7c008d8e11b8854fb7e3b6e2da3b1"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d4de23f370b291947fded216ecec104c04980f8deb2c33caa76a16cb939ab623",
+      "source_samples": 18762,
+      "source_wav_sha256": "2cc8dcaf0381c3b347e15f3a46698405cae1148aef7c81f98fa6a6c97629bbab",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-778-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 655,
+          "path": "RAW_RETURN.json",
+          "sha256": "a270db75c078ad21e1f929ac741a908e76d4f0138488c8539c66be05a1d1f87b"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 940,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "19e1f0d3691191ec02feaf8c90f084e2dd43ca9cd480c52f2a6c8d622b799496"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "1ebbde26b7ecd90350a28a6234faaf1a3e5be399c41573ceb8245c4d8ad1e3dc",
+      "source_samples": 10217,
+      "source_wav_sha256": "73af0a9bb85d4f0a9e998463c5ad786315455dffcb6bc2d21baa771eefdf18a5",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-778-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 655,
+          "path": "RAW_RETURN.json",
+          "sha256": "e4828cd81a72ad06b596878c4cdcfe8e140fd1ff595918de7d7199c977ae4b38"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 940,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "ff0ae79f61a4ed80803d118888b6ee24522561511b33a9d3fa410b801c16dfab"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "836ac755a1719d2b81ccda898910128eabc8a47ad000e6b27387c3bd0e654816",
+      "source_samples": 11518,
+      "source_wav_sha256": "6618a8cf77aca399a61976fbef1c564c460a642bf69052ac8a12f028d68ce99a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-778-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "d2fefa92022cdd44ec6e85b92256cc136845ba002db98249b20a3627cac34499"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c26c9a9a222bfe19a423cf94523b5c1d700e09ecd3dcfb62c3b9741edd5403e4"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "14d8ae35c067080865f4958afe7a6018bf7c951f941d27a22105f7803903ab94",
+      "source_samples": 15047,
+      "source_wav_sha256": "98c40dcbb6aa191b71054b2fed8c6503a35290e906f98e156bb61f860ada052a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-778-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "3211ca2835f30d5aed234a6923d3e875f7055386a8005e9f3d1b83284a367a82"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "9f8241bb3090ad6b36df0a28ae60fc58cd1fe110c8b446faa60595dc189e0b6a"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d759a64f80c02cd92db27e1a3c17e91aaac7b9a118330db1304f737164796b37",
+      "source_samples": 15790,
+      "source_wav_sha256": "90ba8981d36c0907cfa91b39b224b4dca7e065a9f18b5a49dc99f7440b9569fc",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-779-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 653,
+          "path": "RAW_RETURN.json",
+          "sha256": "a585864650c9d4f831bf9834bd2541ff0ec9697b640a1a423ae47a373ecd24f4"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 938,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "e427eb89b8d5c781a5d68b9604f83871f14b04939dcb6142ee14e0ae011adead"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "68de0fe2cf11541d382c753683c541b58d296d6d0f148f385834bc1eb9a4f239",
+      "source_samples": 9474,
+      "source_wav_sha256": "95b08c277fefa25344ab08c74b15136d92b19a31d2e3e63fd899a0de776c0ef7",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-779-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 654,
+          "path": "RAW_RETURN.json",
+          "sha256": "f8b3d26d0a89b5ecd17f345ad05579c0ef2851af2bef7edf0c31c7d447e002b9"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 939,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "435c7a9ca3e519ecf49a5463af1c48854475c691711a7c5c64afa6b0f7990e68"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "b3d29141c29929b5f813212fafe7687d611d693756c9b6d9e508f4f3e161e13d",
+      "source_samples": 10589,
+      "source_wav_sha256": "1b4c90759c4185c21a1129606dd28e0975c054974e322416f0b6000439b3778a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-779-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "71d96f47a08a8bd93eb0fcd3e27e733b26fd3a950085fea38d19266755a66e2b"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "6149862da09158ca0f39efe5e09a3655be95e1471dafaeed63cf0601b6479158"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "a3e3229423aedb2c0c1bb3bf2b07daf60064cd879ab3b85a4cd6fc4514d3588d",
+      "source_samples": 13561,
+      "source_wav_sha256": "dbf066705998165035443db9e60fee8c0dc73a715021eb979772f799c7ab10d0",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-779-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "29cef5ed24fb3048e7881393e77edf22f5be5e5f9de27143ca4700b4198cd74b"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "49ff37ca634bd1d9fb45d3505ec6d9beca40c44a3ee66776bdd5777598509486"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "e1079873575c26875437a3d150dd6b96717f8f47273912054b5c4c7561324743",
+      "source_samples": 14861,
+      "source_wav_sha256": "893301bc28b8b1e99c1e3d04a113844e7c6663e614cb8943dafc2eba21826338",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-780-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 650,
+          "path": "RAW_RETURN.json",
+          "sha256": "4abfd5328983bd315ec874ec39e6da07b49382fe8fe7361cf92eedad4071733c"
+        },
+        "utf8_text": {
+          "bytes": 8,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "6354265f008a277978eab2e572160ebf3395a44a6a6ad6b54462792c0205ea02"
+        },
+        "validation": {
+          "bytes": 935,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "a4665549e79c9e02a385ade53dca52d7fae79779f88ce057b12ac784ee1fecc2"
+        }
+      },
+      "raw_transcript": "Himero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d066c688b7a0b70d09b6fb98db6551c5540c8d676335eb848ef0b213f6b48b5e",
+      "source_samples": 8917,
+      "source_wav_sha256": "9aeeb24e0bb17e7d21b974a9561d99b0c7fe653494b7c5443329a232d3597645",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-780-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 651,
+          "path": "RAW_RETURN.json",
+          "sha256": "6e0c04d5118fa09741933fb08229e4d6d0de3a6d33dab857dd736b5b80f2be1d"
+        },
+        "utf8_text": {
+          "bytes": 8,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "6354265f008a277978eab2e572160ebf3395a44a6a6ad6b54462792c0205ea02"
+        },
+        "validation": {
+          "bytes": 936,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "0c7128345179e2824ab962834e69d3a0d076201415d1425f8ce5592e82fc689d"
+        }
+      },
+      "raw_transcript": "Himero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d3826771e7e022f1c3cceb70fad3caebd40230ea5dd88f5f1de0f24fb1aa69eb",
+      "source_samples": 10217,
+      "source_wav_sha256": "45420dc46019313ca790f2706cc0bb537072218e411a43543f09c643f228585e",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-780-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "98a63369d38981b57df63b0583a991dbdf6c8c7853fd712ada318ecf5a055f1c"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "90eedc519d2fc185871fb5c45a5f7df6778d48c3a3ec25e1acca62d8e363de3d"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "f06d559ac8ef76d2564cc95026d4e98def01ee13312498c47a1c2d2bb87f9f65",
+      "source_samples": 13189,
+      "source_wav_sha256": "4ead95536b65dacf0aeed2516c36956872dc259872507a163a446520b17a0dd9",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-780-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 660,
+          "path": "RAW_RETURN.json",
+          "sha256": "7fab103eb993a82bbce6f22e078412771cb859bb621b6a95e3775f9a6bcf74fb"
+        },
+        "utf8_text": {
+          "bytes": 19,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "b6f8b46116cda3151ff21707887edf5f18caf6328afc7a0f3e358de3160d9b67"
+        },
+        "validation": {
+          "bytes": 945,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "9d556c8e0415ef9804dcc984a1bfdbe521908197b83cf3e1455138332df0e7c6"
+        }
+      },
+      "raw_transcript": "police at a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "9ed7dd2451d799ff09a516d2ca6dcc8874f1d54a459cce908f996aab3975e250",
+      "source_samples": 16347,
+      "source_wav_sha256": "16db4e62660ec88e00564973dd3e09d2bf95236331a4c81085a2dfcebb84114c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-781-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 652,
+          "path": "RAW_RETURN.json",
+          "sha256": "a4a64e9801bff33a34c4dccd0daf86ae9b56368f2295fb45ba5e7d32c9bd51a8"
+        },
+        "utf8_text": {
+          "bytes": 10,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "08a044dd6ae311c6bc5cf53f39f300345adf48947a3a631d12db67c2e73604f3"
+        },
+        "validation": {
+          "bytes": 937,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "d5cf4ee5d24beabf60c82e408e60205f39d88a6761bb2ff69ae3ebaac12e9957"
+        }
+      },
+      "raw_transcript": "Pay Meru.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "926f18260ff56fe6fc317b01a9119160d2181e5618cef0775aa0951978ce5600",
+      "source_samples": 9846,
+      "source_wav_sha256": "f75be89aace327cfdec9d7babf225dfbb15f77367d76e9bb78957ee6522cbdc1",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-781-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 654,
+          "path": "RAW_RETURN.json",
+          "sha256": "b06ed0e0a7ddb88434e56eefec3e8c91872082c978d44b61b66a8b8709f86578"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 939,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "2d7efbb9d291c558ac95ca7920f9bb92ddb7ca6b4d16007a152b838d9e9d0709"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "452774e7772a2c4da48b42d1c66f4e0acf8de03a99c9239242b9bc9c2b8cbb1a",
+      "source_samples": 10775,
+      "source_wav_sha256": "01cfd3cd5071c85a00a6914b9798dc37f46120bca271392253842398e31caef0",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-781-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "ece55c966bce8ee0944c6ed9b28f988891e99f185534222f61d026b055736657"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "271fd306e94b9c4b77744947fe84310dc670fca44f9aa93dc8de7a69fce0e465"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "12ab8abe2a0478e28ddc45403ebe3992927ae41b34f912002123f615a2edde69",
+      "source_samples": 14861,
+      "source_wav_sha256": "1b0bf88d40f89d4baff5188b3555ffcfba489f3d30dd10273bf39a97388db98f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-781-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "5b6eb49fe9eeda2dcc724b40bbb4ec0dbb4153360eee289e939d9dfb3b1fb1ca"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "14c48c7cee4fd07bbaa0781aec68627a89346c0de854fb65b99aa241d8d1e1ca"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "7eb7654678dffef7cd0efa2a6f2e30a3e7b2f38620200e6bb400a6c0deaebc0a",
+      "source_samples": 18019,
+      "source_wav_sha256": "48ba6790aed54e4ae24fad2a5a70f89116f24a57974ac7f75b5fae0697e4c17a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-782-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 653,
+          "path": "RAW_RETURN.json",
+          "sha256": "29cee750b79dfdc80a8d1277188c5b2b1c6b1663a309ec9b37a93640462f8c70"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 938,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "f23a712bcd327a1fa2b1b220dee1fdf40077a333354ab6cd98a31911ae0b0875"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "4f7ec29c6b0ccc969066436933b33d9b258e7d0d4471261be458a5df0e79a7d2",
+      "source_samples": 9288,
+      "source_wav_sha256": "85a9f7098aa7b01ae989a5ed42005bcdac5817ed349d7250dfbdcf439355c11c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-782-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 654,
+          "path": "RAW_RETURN.json",
+          "sha256": "c16fbfc4fe30d573a44e26dacb0faf846abbc7cf7edf4585e60c0cbd992cfc80"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 939,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "587afc57823e10cb4afe08e38468c1d99d0a42386b30646fcda19bb154e3de29"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "1e9c685fbc31053d14a5390b33af19e9f0a997e44d1d290587e36aee999a4e66",
+      "source_samples": 10775,
+      "source_wav_sha256": "4d135fb701a520af0d705fc385890c1145d2df8252a77bf349a262ff3175ebab",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-782-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "0c3291a66342939c3b600c821b07874e448cb6976767415fe25f32704950527f"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "d4ae9013d00abff611cff9724bcc27c0a11477b5684a5ebcb9b5c535f3c325e0"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "cea19c6f77c34d5ef092ea4d91bebde330c1add1fbd2f08631b2d5de3bcb2696",
+      "source_samples": 14490,
+      "source_wav_sha256": "177b380be30fa881d63ed63ea3fc52869c4cb9a2d032484ffabfaba8a1b6f41d",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-782-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "61dad5501ff596b93f4346917189a3642370cc0b53d33572b78e825e69a4f86d"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "f0ee2ffcac999cdae58b60d9ed38c902447f97dc11fdf8aa35f15046e0711700"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "bbf172ee15d7a32759e404d713cdf85eab8cd72af7d78c03a3af9666bf787f21"
+        }
+      },
+      "raw_transcript": "please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "8a3ce39f20b4532cd6b3dbbfc43fe6017d1fcd00198dc0abba290cb53688b822",
+      "source_samples": 18205,
+      "source_wav_sha256": "030820515c2ee2984610157fa62d8593d0f837878f6d6c1cf278938ef0d6671c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-783-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 653,
+          "path": "RAW_RETURN.json",
+          "sha256": "6d1f6f2ab34efbd8bfdb36489bb96b406dd592bef10a5b21de183149d320cfb1"
+        },
+        "utf8_text": {
+          "bytes": 10,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "9fa9598d90a6ca97f60507ed317737737a6a1edfb71aaaa96871a3238806546a"
+        },
+        "validation": {
+          "bytes": 938,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "dadc1d8a7f6ea89edec5d0c93ce430c6a9775e8ba8ab471689db1a40742a8a38"
+        }
+      },
+      "raw_transcript": "a marrow.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d6e849c5a31ed8d5fc41c6231098530d0a8af6e5808909cf3d04bf75f0e61e79",
+      "source_samples": 10775,
+      "source_wav_sha256": "6a853bc85137708c256b0d6d7dc7bbad47d735a9a665d95ca43d31b7ad1f2682",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-783-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 653,
+          "path": "RAW_RETURN.json",
+          "sha256": "2a98d9b858d9a622ac564dfe0eeb77251007cc8b56a3204c19d73d34d7483dac"
+        },
+        "utf8_text": {
+          "bytes": 10,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "9fa9598d90a6ca97f60507ed317737737a6a1edfb71aaaa96871a3238806546a"
+        },
+        "validation": {
+          "bytes": 938,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "695b425e7057d24500215d82d54c53f43c4b8986cb432df9a84a43611c71dd63"
+        }
+      },
+      "raw_transcript": "a marrow.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "3ed7a809b99a7b2270ce8e908a0dc6b3cc6c498c200f4b93d12f8f92816bf423",
+      "source_samples": 11703,
+      "source_wav_sha256": "245c9be2aa4c2c25653bf464daca31fe08294f7aa0e809f980dcf7b4d5202c59",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-783-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "323be5d517c574edf7f5bc26f44eef6aec338e894d08a79f72ac87888bc8e23f"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "b996527eb2cbab2ac97f5aedf419c7850e2c52932a947a826e78ad4c2044d594"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "59326711a974d7c982ebd8d065493d2e3d5aee29094186372fdda9d0ff1b8fc5",
+      "source_samples": 17090,
+      "source_wav_sha256": "6c6409d48dbc3ccc7359f4b7d05af0d5158f9e3b4b9f2fd15bcd95a1e696950f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-783-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "6c27877836ed869427ce8d9f2d1fa4f74453fb24b3bd86c2d9ced50d0e955c52"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "6dc49331b0441429651731338f01ad6823746f224d5146d57a7b7b5c60dec60f"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "7d9f3d4dcd8a3b9f6b5b6348a3acac1045b92546c980a3af8dc57e35e768a66b",
+      "source_samples": 20248,
+      "source_wav_sha256": "483198c4197d746b909ff8af4a43c11db220e75d6027c76883cd8bc1555afabb",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-784-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 654,
+          "path": "RAW_RETURN.json",
+          "sha256": "aa7b29946b71443353fc8150f9ef51f1319d33c9f4a525422e6ade02daa2480e"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 939,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "be336250112eb30a62345f84f98c17dc68e2c104d13627cfce6b518354126d4c"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "49892c7876404e277c710635a04bf728250e0042c6e04dc5279ef477192cffaf",
+      "source_samples": 9288,
+      "source_wav_sha256": "e8f1d8dbf84ca5bdde5a6d49439f756ad554b18f41ac5cea57bccce8b7dd4fd5",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-784-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 655,
+          "path": "RAW_RETURN.json",
+          "sha256": "111a7bc5e6d015fdbe8cd26aeb1c1035f97a2553976692fae1faec3b7db56765"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 940,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "48f55254f450563c30a585764f041106fbd915d10aee3971de8014cf9905ac3b"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "88ccea36102325c77e014f3fea90b0b84ffbe5adb776aaf3576e14b6b78cf1c7",
+      "source_samples": 10403,
+      "source_wav_sha256": "17ea05cb1a130cbd28c4a0b0ac7d883fe7b445d9285381ae9dffff3aebd970e3",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-784-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "0cbbc08dca79479b11d88db25198f8cf14a35ba8a4a2906b73aab209e72ecffd"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "ffc44beb67a1efc02232c84ecf162ba013c6aa56d3636745ace7d737220709a7"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "fb34be60e38bd8610978e770b541754d7c5df19f83c142064fd7c63dbdbcd3d4",
+      "source_samples": 15604,
+      "source_wav_sha256": "bf275874c3733098eb3a39dc8128e7ee01ebcfe9828ab650515cfbdb9f09d178",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-784-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "8b98b673df523e78efd3fe37045f3daecdf08f576883242138af9cea962dc00d"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "f0ee2ffcac999cdae58b60d9ed38c902447f97dc11fdf8aa35f15046e0711700"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "2e8c370d59bb4da61671155e0755429e8650de4cd6ee433e6dbbd3658e2d363f"
+        }
+      },
+      "raw_transcript": "please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "84269f5f6f600929268955a751a1eff38f42be480ae5510cd8d959dee7fb5290",
+      "source_samples": 17090,
+      "source_wav_sha256": "0d86efe5bf92a30d72aed0da722561f2afe696bc756a67a5848c4c2fbf7e35a8",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-785-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 654,
+          "path": "RAW_RETURN.json",
+          "sha256": "47624c7b7b7d82a8b25952c8632f1e80eea23ca1a8643085cce8953b031360ff"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 939,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "6111c0849cfbc7b3591cd8922c6eb4881bbf56ce21bf01c8b92a3e10d52f5f21"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "27d0db1a276c263248802eb8519727bd2702aea565748cf0d6215306c87f503c",
+      "source_samples": 9846,
+      "source_wav_sha256": "cf386c8f4fd60eed185a8412cef24d8c1d8813a3b0d9d9b5e5554fdbcac67395",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-785-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 655,
+          "path": "RAW_RETURN.json",
+          "sha256": "0e125b819bf775a87f4692303c7e6c790f8cc43447e82739abb129cb3ee72a76"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 940,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "edc9608c7ac87b76429b81198ef6a1336223d80b2586de2f63d7e385338c8c2b"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "e9da3dcdea13c8bde4c9e76d9dcc5733ce5db1883f99ebea8716fdb81bdf87b4",
+      "source_samples": 10589,
+      "source_wav_sha256": "c5ba5e8de7d2aa696cfe0a8965a82b0c1f7d3c68b2e243680b6aa6b298efb6e2",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-785-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "a9b95da7cfe37d15c4cea7f83710f664d860c50697c2fc2737d8371379ddeb33"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "7be3c694d1be1f71e0ad4c2f1d3356a186b488a4ed8635a77a6c5bd63566d66e"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "c237dc07d127efdc985ccb768a3746de45bcfd063944f4ec1b8a82924e7f1591",
+      "source_samples": 14304,
+      "source_wav_sha256": "9cc6d4dda6161eed8b2d0811cc7098b17255bc6b8055269c9c8cc84187c00679",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-785-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "aad543ce655d761ff600e6422d57e0213ab4049857f4654b305d76c9c448c2a5"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "f0ee2ffcac999cdae58b60d9ed38c902447f97dc11fdf8aa35f15046e0711700"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "0608716cf043fb2ba87a7694b7e8ae91d2ac703dedcaa13632b52e8f4051d4c0"
+        }
+      },
+      "raw_transcript": "please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "ea549001b6bc47c2f4f4f45ae5ce1c361b6c9c872976a801874fd8a697381e73",
+      "source_samples": 16533,
+      "source_wav_sha256": "468e351cc5161fc4cef70190810b6fff3960f4932fd60afe4bcdecc335692120",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-786-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 655,
+          "path": "RAW_RETURN.json",
+          "sha256": "2d7b0211278ecb8aa4fa27b6a42d8930e7d38e9d7a95935539575c09def644c1"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 940,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "452b74f7f715a4c01cbb184fcc5ffe70db6fa89d1bd6f323ce88c041a3224ecc"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d47689354bef3105953d08e341af47dc6c834cea1ac39657686b8550b24c979e",
+      "source_samples": 10032,
+      "source_wav_sha256": "ca72af52ebf74e04cc01002806a2c78cf344c84e1c7cd50fd4453641404b9eab",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-786-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 653,
+          "path": "RAW_RETURN.json",
+          "sha256": "62d40bc38ada295d74f31c31de2a31eea2c0974f552fe8d24e15faeda5b9f842"
+        },
+        "utf8_text": {
+          "bytes": 10,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "9fa9598d90a6ca97f60507ed317737737a6a1edfb71aaaa96871a3238806546a"
+        },
+        "validation": {
+          "bytes": 938,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c14696061dfed2bfcf0d25f8bb60b3743413766f8d1a7bb34e5033af5a4892dd"
+        }
+      },
+      "raw_transcript": "a marrow.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "b158de9b44891cb3e3ced6807610ca62dddeb877a967b8c54ef4405a23d96360",
+      "source_samples": 10589,
+      "source_wav_sha256": "df52e91e8815130c4bbdbecada6bf75545186d74e2f0d23de1e5d476f6f70a1f",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-786-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "2df72bb93e93d9afd59a34057fb558c4ea48ec56ced174ba9b252e48d50b3e02"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "bd3d3ab9290a9b38b665d3e195c655a3bdccd7e174853e770aee35505aded46b"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "598ac1bc3d6084d17498e22bea1e1d86a8a9a8d29476f3c8ee480ab6e8857c7c",
+      "source_samples": 13561,
+      "source_wav_sha256": "b2e9f32657084a04b099f8c48d6d4c5372d44cab8746fbcd789744cb484aee67",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-786-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "4be4becca2685e9e172aa35d8f64a23641722aaf49fb7600ac33169d6114acc6"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "a90c3342c5960b11b8815ff30e3869c69ab5b617abaf272714ccc2bd491e87a6"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "c22b602cf35c4a296258e8e20ae9c0f380e6612cc447b5067637c443a2bf009a",
+      "source_samples": 15419,
+      "source_wav_sha256": "f92db6d77973d1eb77db4a7669b198cf5fab9473cfd198ea10c2bdc777dd2aad",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-787-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 656,
+          "path": "RAW_RETURN.json",
+          "sha256": "113bbd5024ea76e7fd8c40059bcaa8b319f95af0ea9bbb7171e11bd8319e0826"
+        },
+        "utf8_text": {
+          "bytes": 14,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "967fe8b08de2fce0ce971c9f6a0b8851f8ffd66402d0380fd9e41cbcff7f29b9"
+        },
+        "validation": {
+          "bytes": 941,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "a8d1f09a45fbae99a4a6945bf1363a892b9a5839ec9f59c6aa1f7f8723438897"
+        }
+      },
+      "raw_transcript": "Hey, Merrill.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "785ba69d1bd661658819ce1ca12ac580b1bf92142966504af6f66684b238c7fc",
+      "source_samples": 9288,
+      "source_wav_sha256": "7aefa496776fe75f7b085942f6cd83aec61e470f86974945bafe0f7bb408c90a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-787-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 657,
+          "path": "RAW_RETURN.json",
+          "sha256": "0081b751659f7c2751aebdf29805812c5b7eebb0f129aa8457c06b6267b50af3"
+        },
+        "utf8_text": {
+          "bytes": 14,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "967fe8b08de2fce0ce971c9f6a0b8851f8ffd66402d0380fd9e41cbcff7f29b9"
+        },
+        "validation": {
+          "bytes": 942,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "624918cd3206c7f2e86817e337c926c4ebcb18a90b94d56c1b266d626be3d669"
+        }
+      },
+      "raw_transcript": "Hey, Merrill.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "d93874dada7451ce2765cb2c6e14ec3337ef414397e1b4da57cf81c9030975d6",
+      "source_samples": 10217,
+      "source_wav_sha256": "af9c8bc87647c4deeabe784491a03f2e354009a4a6d921dd57347d14e32afa19",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-787-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "6093f61cca7736ad492a05ae36bd081d3b5fdd50a17728096c6c7c3a576b13a2"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "f95cdb182353e8b087dcf808ab635ae90843415f5ce2fe0687c03bab0e819024"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "9e08ea22f4c90f3e971f32a1e90c7b08b3cc0145d7614bbad618acc59ee15c4e",
+      "source_samples": 12446,
+      "source_wav_sha256": "4508a7333d4fd7a906eecab29d6b2a945e465d5e98ba192e9e2ac05df3fa6ed4",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-787-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "30c82fe86480bbc6c025b93fad8563fb39a1fc206b85a06af44d8c4bc43de337"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "f0ee2ffcac999cdae58b60d9ed38c902447f97dc11fdf8aa35f15046e0711700"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "36c7bd67d5d780e612c6b2d45f0ad2edfc251fd5204bc5c02dbd2af436e0d7bd"
+        }
+      },
+      "raw_transcript": "please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "4cc2e4c7e955bb373858fdeefbd2862b3cf7309094439d690d036f63a66f571f",
+      "source_samples": 15419,
+      "source_wav_sha256": "c8c4194b7645398acd9c186201bd2285a723a1feb80ec54941f22b7841015700",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-788-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 654,
+          "path": "RAW_RETURN.json",
+          "sha256": "d14ed576ec0ff034c752a270e9588bd6f8854cfc9f67dcd3c17914312a812246"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 939,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "c41ed9ed99b03b193f8d1cbd3d2320027c158c6129471810978b0673b0bb51d2"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "0df9c268382655c84a7517dc5e1209833c101cdfcd662e7fef0aaa880c45c108",
+      "source_samples": 8917,
+      "source_wav_sha256": "10e69cbb697d50d8ad800d532af9d0fe98d12847725d57f76ab415f386c386b8",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-788-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 654,
+          "path": "RAW_RETURN.json",
+          "sha256": "679a4cf5fc6d2aefc401a60ef55be62e78e3ec51b0bab50687a7b379942c0fa1"
+        },
+        "utf8_text": {
+          "bytes": 12,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bbc4e08a0bbc130a04f39ad0333bcd7d908094acbcb9f46f79c7e07084263e6c"
+        },
+        "validation": {
+          "bytes": 939,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "1b449f7bfe63d8e057c2cd058ca4cccbcc932b9de0738642e54a1378607bbb22"
+        }
+      },
+      "raw_transcript": "Hey, Meryl.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "cb755354184e87ca3a18c56075e676b8de19803392c026b27933808ff2b48297",
+      "source_samples": 9288,
+      "source_wav_sha256": "248d33b4633bc7bbaa890b48797dfe36c60fb53b8dd9e57e50332eca2dc849ee",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-788-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "bdf9dbd6044e7c261fe27d02fc175d5466f16c99a3d6696986869574f7891222"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "a21f01ed304b8e7d3506556072b35e24e1472e1c3e76a6086df432a48378d620"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "560d71bc8846ee6814627b68a63e202a580ac81f2cc0c6069a0871672eadc412",
+      "source_samples": 12632,
+      "source_wav_sha256": "ea552463f7c4523fdf33a29ec942e142e9fde5fef04a2ffc1082736051a1cb1c",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-788-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "dcf6a93e84b7af6b83cf357430901ac80b2dea68e9b0c3634c47216d722f6183"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "e84890fefcd3f3b4811488ceaf7984d6c9b24d11bbe1e7ca797e642200ab3752"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "a1f5adfe25a824726617c9eb9f94cc065cc632356db050a2f11df9059a6be592"
+        }
+      },
+      "raw_transcript": "Please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "067e05a5451f140dcb2767f204fd2c53cec119a94f408ad6973ee718bfbaa35f",
+      "source_samples": 14490,
+      "source_wav_sha256": "d2c121b4b7e21dc029d3ebb846ecb11c85a82d2810b030666d9273da631450e6",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-789-mero-fast",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 653,
+          "path": "RAW_RETURN.json",
+          "sha256": "c52bc0eb0ca4171d798ae57614b66b4f87b3965430aff4825192089efff7b34d"
+        },
+        "utf8_text": {
+          "bytes": 11,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "bf70a16da326abdc7e63aeeaaab509b22eafc80406babcefa0124d52fc3774f4"
+        },
+        "validation": {
+          "bytes": 938,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "5137dfe8ac7aaa421aee6e71ed469e68ed30ac1d68de87f3ba4d2ebcd262a2a7"
+        }
+      },
+      "raw_transcript": "Hey, Mero.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "3b1fb3b97c700cc28a9bb042aa7ee751c4257f4b6286877301447840595235e2",
+      "source_samples": 9846,
+      "source_wav_sha256": "9c094db87e8cba1d5cf2d80717bb59a4ce8f7968bbe67be819f49cc763a824e3",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-789-mero-slow",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 650,
+          "path": "RAW_RETURN.json",
+          "sha256": "c33ace76fa7d4394f4e098cdfcd8f8ce955288c25b689dac48dad88965e97289"
+        },
+        "utf8_text": {
+          "bytes": 7,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4cdbc529b0700f81808d990d756df06a424f95f7daf03f8a7c5083f15577a38b"
+        },
+        "validation": {
+          "bytes": 935,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "ddc5f1275a34a2f1228fca45098553580e400fe99bc58e6e60a2d3b162e652e5"
+        }
+      },
+      "raw_transcript": "Amaro.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "f45bb4208f334a7dcad7ca45d35b0e0cf9286cf8485d8f09b17d33f21a96e22a",
+      "source_samples": 10589,
+      "source_wav_sha256": "63f37c98e472adbcaab0f94ec6731ef4d2f597a7279bc12c8b23ba2fde0587dd",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-789-question",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 659,
+          "path": "RAW_RETURN.json",
+          "sha256": "43e97379b29858fc08fce17d121c9f8d8f33fc0e2a2a94ebac726ccbe53113d3"
+        },
+        "utf8_text": {
+          "bytes": 17,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "4621f1d9a37c6da314fcdc3f97cbf228ba869beb703458a52edd61d410a77308"
+        },
+        "validation": {
+          "bytes": 944,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "48d013457d37c41942adf592a08b5330ac840368335c299e0474abeab5072d29"
+        }
+      },
+      "raw_transcript": "What time is it?",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "60da14ddc8de13f97503631dcc56d2dd78153a4b7cf1234c4f52b4d16e9fb032",
+      "source_samples": 14676,
+      "source_wav_sha256": "429016db3ae4ff3f857f7c5dfb150bf44419962f6038933ee651aed48bcce31a",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    },
+    {
+      "id": "b18-primary-789-request",
+      "input_coverage_complete": true,
+      "provider": "whisper",
+      "raw_evidence": {
+        "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+        "payload": {
+          "bytes": 661,
+          "path": "RAW_RETURN.json",
+          "sha256": "50109b90c087cca6bbe24b036070a83d594f76a1703116c5242e7ce1f3ef2e06"
+        },
+        "utf8_text": {
+          "bytes": 20,
+          "path": "RAW_TEXT.utf8",
+          "sha256": "f0ee2ffcac999cdae58b60d9ed38c902447f97dc11fdf8aa35f15046e0711700"
+        },
+        "validation": {
+          "bytes": 946,
+          "path": "PAYLOAD_VALID.json",
+          "sha256": "b7ea57903ab7ba777f31b9ca4144a352a664006c2b5c3065e4cc01091f0562ea"
+        }
+      },
+      "raw_transcript": "please set a timer.",
+      "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+      "source_pcm_sha256": "077f5688690bbadf39c72d9c5c7b47af501450d74500e963d8f1218ed245f0dd",
+      "source_samples": 16905,
+      "source_wav_sha256": "436d9129cc80a4c83a4b54044c8f75e0204826e2e63c4f35e90a3c21397a89fc",
+      "status": "success",
+      "target_conditioned": false,
+      "training_allowed": false,
+      "transcript_semantics": "explicit-White_Space-normalized; original raw payload retained"
+    }
+  ],
+  "run": {
+    "run": "45324181095",
+    "sha": "7664b4554308fbf2d874fc8873e77a1095707d21"
+  },
+  "schema": "english-v6-b18-96-original-blind-source-screen-v1",
+  "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+  "status": "COMPLETE",
+  "target_conditioned": false,
+  "training_allowed": false,
+  "valid_native_payloads": 96,
+  "whole_panel_stop": false
+}

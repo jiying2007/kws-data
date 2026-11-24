@@ -1,0 +1,59 @@
+name: B19 bounded source-format diagnostic and retained B18 STOP
+'on':
+  pull_request:
+    paths:
+      - automation/*english_v6_b19*
+      - automation/english_v6_b19_panels/**
+      - .github/workflows/english-v6-b19-*.yml
+      - research/english_v6_b18_source_results_20261124/**
+  push:
+    branches: [main]
+    paths:
+      - automation/*english_v6_b19*
+      - automation/english_v6_b19_panels/**
+      - .github/workflows/english-v6-b19-*.yml
+      - research/english_v6_b18_source_results_20261124/**
+permissions:
+  contents: read
+jobs:
+  b19-source-feasibility-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Install only array fixture support
+        run: python -m pip install --disable-pip-version-check numpy==1.26.4
+      - name: Check bounded diagnostic contracts without model or audio calls
+        run: |
+          python -IB -m unittest discover -s automation -p 'test_english_v6_b19_*.py' -v
+          python -OIB -m unittest discover -s automation -p 'test_english_v6_b19_*.py' -v
+          python -OOIB -m unittest discover -s automation -p 'test_english_v6_b19_*.py' -v
+          python -IB automation/english_v6_b19_source.py check
+          python -IB automation/english_v6_b19_source_observe.py --code-contract
+      - name: Preserve original B18 STOP evidence and invalid empty return
+        run: |
+          python -IB - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path('research/english_v6_b18_source_results_20261124')
+          inventory = json.loads((root / 'FILE_SHA256.json').read_bytes())
+          actual = {str(p.relative_to(root)) for p in root.rglob('*') if p.is_file() and p.name != 'FILE_SHA256.json'}
+          if set(inventory) != actual:
+              raise ValueError('complete original B18 evidence inventory')
+          for path, expected in inventory.items():
+              if hashlib.sha256((root / path).read_bytes()).hexdigest() != expected:
+                  raise ValueError('changed retained original B18 evidence: ' + path)
+          report = json.loads((root / 'SOURCE_READBACK.json').read_bytes())
+          if (report['total_native_observers'] != dict(attempted=390, returned=390, valid=389, failed=1, not_started=90)
+                  or report['source_gate'] != 'STOP_INCOMPLETE_VALID_NATIVE_COVERAGE'
+                  or report['synthetic_screen'] is not None
+                  or report['KWS_assessment_runs'] != 0 or report['new_audit_model_calls'] != 0
+                  or report['source_admission_performed'] is not False
+                  or report['old_replication_opened'] is not False or report['promotion_allowed'] is not False
+                  or (root / 'evidence/failed-RAW_STDOUT.bin').read_bytes() != b'\n'):
+              raise ValueError('B18 remains a failed source panel with an invalid original empty response')
+          print('52 retained B18 evidence files verified; zero model or source calls')
+          PY

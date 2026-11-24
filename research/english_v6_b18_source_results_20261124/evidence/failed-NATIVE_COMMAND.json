@@ -1,0 +1,34 @@
+{
+  "command": [
+    "/home/runner/work/_temp/b18-asr-parakeet/extract/nemo-speech-0.3.0-linux-x86_64-cpu/bin/nemo-speech",
+    "transcribe",
+    "/home/runner/work/_temp/source/wav/b18-primary-767-mero-slow.wav",
+    "--model",
+    "/home/runner/work/_temp/b18-asr-parakeet/parakeet-tdt-0.6b-v3.q8_0.gguf",
+    "--device",
+    "cpu"
+  ],
+  "command_sha256": "e8055fb12205a89e18990fac24c69cae56aabbee570dd4245d07b9b516b09eb8",
+  "cwd": "/home/runner/work/_temp/parakeet/rows/b18-primary-767-mero-slow",
+  "environment": {
+    "HF_HUB_OFFLINE": "1",
+    "HOME": "/home/runner/work/_temp/parakeet/rows/b18-primary-767-mero-slow",
+    "LANG": "C.UTF-8",
+    "NEMO_SPEECH_MODEL_DIR": "/home/runner/work/_temp/b18-asr-parakeet",
+    "OMP_NUM_THREADS": "4",
+    "PATH": "/usr/bin:/bin",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "id": "b18-primary-767-mero-slow",
+  "provider": "parakeet",
+  "schema": "english-v6-b18-native-raw-return-v1",
+  "source_manifest_sha256": "a75645e42cda5fe4dbf824bc2a72478b5b62086d2c6b3a7ea23bc8728c62224c",
+  "source_pcm_sha256": "74edc90b8a9725e1a786faa3dbd53200fe278f20aa39b395655ad1d9d31722ad",
+  "source_samples": 11518,
+  "source_wav_sha256": "feb8934e4dd215f09dcb2561aceeb1a4cd9701643e9c2b2e8f7d9b60e5a1e0ff",
+  "stderr_transform": null,
+  "stdout_transform": null,
+  "target_conditioned": false,
+  "timeout_seconds": 180,
+  "training_allowed": false
+}
