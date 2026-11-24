@@ -41,6 +41,20 @@ class FrozenOriginalSource(unittest.TestCase):
         with patch.object(src.b14,"gate",return_value=None) as check:
             src.gate(Path("/nonexistent-original-fixture.zip"))
             check.assert_called_once()
+    def test_all_original_history_artifacts_are_enumerated(self):
+        ids=src.required_archives()
+        self.assertEqual(len(ids),len(set(ids)))
+        self.assertIn("14789951699",ids)
+        self.assertIn("14878153098",ids)
+        self.assertLess(ids.index("14789951699"),ids.index("14878153098"))
+
+    def test_historical_chain_includes_b14_primary_before_b15(self):
+        # The failed first source run omitted this inherited set; no audio synthesis occurred.
+        from unittest.mock import patch
+        with patch.object(src.b15,"history",side_effect=RuntimeError("parent history invoked")) as parent:
+            with self.assertRaisesRegex(RuntimeError,"parent history invoked"):
+                src.history(Path("/nonexistent-prior-source"))
+            parent.assert_called_once()
     def test_previous_model_and_audio_are_not_admitted_for_training(self):
         p=src.source_plan("primary")
         self.assertEqual(p["independent_model_training"]["run"],45296300913)

@@ -16,6 +16,7 @@ import zipfile
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import english_v6_b14_primary_source_qa as b14
+import english_v6_b15_synthetic_source as b15
 
 qa=b14.qa
 B13=b14.previous
@@ -63,7 +64,9 @@ def gate(original_screen):
     b14.gate(original_screen)
 
 def history(directory):
-    seen,groups,people=b14.history(directory)
+    # B15.history includes B14 original 48-source primary before the B15 primary.
+    # Going directly to B14.history would omit 48 prior PCM and 12 source groups.
+    seen,groups,people=b15.history(directory)
     p=directory/(str(B15_SOURCE_ID)+".zip")
     qa.need(qa.sha(p)==B15_SOURCE_SHA,"completed B15 original source archive, no regeneration")
     with zipfile.ZipFile(p) as z:
@@ -76,8 +79,8 @@ def history(directory):
     groups.update(r["source_group_id"] for r in entries)
     people.update(r["source_speaker_id"].removeprefix("p") for r in entries)
     # Previous B15 reservation is not opened or regenerated as a B16 source.
-    b15=json.loads((Path(__file__).with_name("english_v6_b15_panels")/"replication-synthetic.json").read_bytes())
-    people.update(r["source_speaker_id"].removeprefix("p") for r in b15["rows"])
+    reserved_b15=json.loads((Path(__file__).with_name("english_v6_b15_panels")/"replication-synthetic.json").read_bytes())
+    people.update(r["source_speaker_id"].removeprefix("p") for r in reserved_b15["rows"])
     readers=json.loads((Path(__file__).with_name("english_v6_b14_panels")/"natural-rosters.json").read_bytes())
     people.update(str(r["speaker"]) for x in readers.values() for r in x)
     b15_readers=json.loads((Path(__file__).with_name("english_v6_train_context24_roster.json")).read_bytes())
@@ -85,6 +88,12 @@ def history(directory):
     qa.need(len(seen)==1300 and len(groups)==252,
             "full previous B14/B15 source groups accounted for; no duplicate")
     return seen,groups,people
+
+
+def required_archives():
+    """One immutable source lineage, including the previously verified B14 primary."""
+    return (*B13.locks(),"14788464792","14788972705",
+            str(b15.B14_PRIMARY_ID),str(B15_SOURCE_ID))
 
 
 def validate_config(config,history_groups,people):
@@ -210,7 +219,7 @@ if __name__=="__main__":
     a=p.parse_args()
     if a.mode=="self-test":self_test()
     elif a.mode=="gate":gate(a.archive)
-    elif a.mode=="history":print("\n".join((*B13.locks(),"14788464792","14788972705",str(B15_SOURCE_ID))))
+    elif a.mode=="history":print("\n".join(required_archives()))
     elif a.mode=="generate":generate(a.out,a.previous)
     elif a.mode=="observe":qa.observers.observe(a.provider,a.source,a.out,read_rows=read_source,schema=BATCH)
     elif a.mode=="screen":screen(a.source,a.observers,a.out)
