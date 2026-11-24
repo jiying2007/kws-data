@@ -1,0 +1,34 @@
+name: B24 conditional warm-start TRAIN contracts
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b24_*
+      - automation/english_v6_b24_panels/**
+      - automation/test_english_v6_b24_*
+      - research/english_v6_b24_preparation_20261124/**
+      - .github/workflows/english-v6-b24-*
+  push:
+    branches: [main]
+    paths:
+      - automation/english_v6_b24_*
+      - automation/english_v6_b24_panels/**
+      - automation/test_english_v6_b24_*
+      - research/english_v6_b24_preparation_20261124/**
+      - .github/workflows/english-v6-b24-*
+permissions:
+  contents: read
+jobs:
+  contracts:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Verify fixed parent, unchanged loop, complete failure fixtures and sealed budget
+        run: |
+          python -SIB automation/english_v6_b24_b23_warm_start.py check
+          python -SIB automation/test_english_v6_b24_source_metadata.py -v
+          python -SIB automation/test_english_v6_b24_b23_warm_start.py -v
