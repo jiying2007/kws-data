@@ -1,0 +1,37 @@
+name: B24 inert fresh-source contracts
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b24_source*
+      - automation/english_v6_b24_natural_sources.py
+      - automation/english_v6_b24_panels/**
+      - automation/test_english_v6_b24_sources.py
+      - automation/bind_b24_source.py
+      - .github/workflows/english-v6-b24-primary-sources-once.yml
+      - .github/workflows/english-v6-b24-source-contracts.yml
+  push:
+    branches: [main]
+    paths:
+      - automation/english_v6_b24_source*
+      - automation/english_v6_b24_natural_sources.py
+      - automation/english_v6_b24_panels/**
+      - automation/test_english_v6_b24_sources.py
+      - automation/bind_b24_source.py
+      - .github/workflows/english-v6-b24-primary-sources-once.yml
+      - .github/workflows/english-v6-b24-source-contracts.yml
+permissions:
+  contents: read
+jobs:
+  contracts:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Verify fixed source/observer algorithms and complete isolated capture
+        run: |
+          python -SIB automation/english_v6_b24_source.py check
+          python -SIB automation/test_english_v6_b24_sources.py -v
