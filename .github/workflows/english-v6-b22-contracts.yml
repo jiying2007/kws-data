@@ -1,0 +1,49 @@
+name: B22 union-retention frozen contracts
+on:
+  pull_request:
+    paths: ['automation/*english_v6_b22*', 'automation/english_v6_b22_panels/**', '.github/workflows/english-v6-b22-*.yml']
+  push:
+    branches: [main]
+    paths: ['automation/*english_v6_b22*', 'automation/english_v6_b22_panels/**', '.github/workflows/english-v6-b22-*.yml']
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        flags: [-SIB, -SIBO, -SIBOO]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Validate all frozen source metadata and the single new training recipe
+        run: |
+          python ${{ matrix.flags }} automation/english_v6_b22_source_metadata.py
+          python ${{ matrix.flags }} automation/english_v6_b22_union_retention.py check
+          python ${{ matrix.flags }} automation/test_english_v6_b22_union_retention.py -v
+      - name: Require the reviewed training workflow to remain inert on PR and main
+        run: |
+          python ${{ matrix.flags }} - <<'PY'
+          from pathlib import Path
+          template = Path('automation/english_v6_b22_union_retention_workflow_template.yml').read_bytes()
+          workflow = Path('.github/workflows/english-v6-b22-union-retention-train-once.yml').read_bytes()
+          if template.count(b'__B22_REVIEWED_TRAIN_PARENT__') != 2 or workflow != template:
+              raise SystemExit('Inert B22 training workflow must remain identical to its reviewed template')
+          PY
+  tensor-fixtures:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Install pinned tensor arithmetic runtime
+        run: |
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 numpy==1.26.4
+      - name: Check actual loss gradients on invented small tensors without a model
+        run: python -IB automation/test_english_v6_b22_union_retention.py --numeric -v

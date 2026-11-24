@@ -1,0 +1,83 @@
+name: B22 one union-retention TRAIN challenger with original B21 control
+on:
+  push:
+    branches: [research/en-v6-b22-union-retention-train-once-20261124]
+    paths: [.github/workflows/english-v6-b22-union-retention-train-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b22-one-union-retention-training
+  cancel-in-progress: false
+jobs:
+  train:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B22_REVIEWED_TRAIN_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261120'
+      PREPARED_PARENT: '__B22_REVIEWED_TRAIN_PARENT__'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false, fetch-depth: 2}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Check frozen two-condition intervention and capture every declared source
+        run: |
+          python -SIB automation/test_english_v6_b22_union_retention.py -v
+          python -SIB automation/english_v6_b22_producer.py "$RUNNER_TEMP/b22-producer" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b22-train-producer-${{ github.run_id }}
+          path: ${{ runner.temp }}/b22-producer/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+      - name: Fetch exact eighteen original TRAIN archives
+        env: {GH_TOKEN: '${{ github.token }}'}
+        working-directory: ${{ runner.temp }}/b22-producer/repository
+        run: python -SIB automation/english_v6_b22_union_retention.py fetch --inputs "$RUNNER_TEMP/b22-inputs" --prepared-parent "$PREPARED_PARENT"
+      - name: Install only array reader before complete actual source admission
+        run: python -m pip install --disable-pip-version-check --retries 0 --timeout 90 numpy==1.26.4
+      - name: Authenticate complete original source, union teachers and preoptimizer budget
+        env: {GH_TOKEN: '${{ github.token }}'}
+        working-directory: ${{ runner.temp }}/b22-producer/repository
+        run: python -IB automation/english_v6_b22_union_retention.py consume --inputs "$RUNNER_TEMP/b22-inputs" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b22-union-retention-train-consumed
+          path: ${{ runner.temp }}/b22-inputs/CONSUMPTION.json
+          retention-days: 90
+          if-no-files-found: error
+      - name: Install pinned original CPU training runtime after frozen source admission
+        run: |
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 onnx==1.17.0
+      - name: Test actual tensor loss boundary without acoustic-model calls
+        working-directory: ${{ runner.temp }}/b22-producer/repository
+        run: python -IB automation/test_english_v6_b22_union_retention.py --numeric -v
+      - name: Fit one192-step challenger and retain every existing training output and gradient statistic
+        env: {GH_TOKEN: '${{ github.token }}'}
+        working-directory: ${{ runner.temp }}/b22-producer/repository
+        run: python -IB automation/english_v6_b22_union_retention.py execute --inputs "$RUNNER_TEMP/b22-inputs" --output "$RUNNER_TEMP/b22-models" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b22-union-retention-models-${{ github.run_id }}
+          path: ${{ runner.temp }}/b22-models/
+          retention-days: 90
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b22-original-input-receipts-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/b22-inputs/FETCH.json
+            ${{ runner.temp }}/b22-inputs/SOURCE_PREFLIGHT.json
+            ${{ runner.temp }}/b22-inputs/CONSUMPTION.json
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn

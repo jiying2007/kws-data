@@ -1,0 +1,219 @@
+{
+  "adamw_learning_rate": 6e-05,
+  "adamw_weight_decay": 0.001,
+  "aggregation": "unchanged group-original-gain-token-frame means; added two conditions change their gain means by design",
+  "b21_rerun": false,
+  "budget": {
+    "checkpoint_reload_forwards": 2,
+    "new_asr_calls": 0,
+    "new_dev_cal_locked_forwards": 0,
+    "new_historical_control_forwards": 0,
+    "new_teacher_forwards": 0,
+    "new_tts_calls": 0,
+    "onnx_export_forwards": 1,
+    "optimization_forwards": 1844,
+    "optimizer_updates": 192,
+    "total_new_model_forwards": 1847
+  },
+  "changes_model_architecture": false,
+  "common_draw_sha256": "90b41a650ad5439524bef4bc6d13394fd65034e98c2c5a7862e0a0c1de78a83d",
+  "contrast": "add_only_two_existing_B0_or_B9_success_conditions_missing_from_B21_retention",
+  "ctc_gains": [
+    1.0,
+    0.5
+  ],
+  "existing_retention_conditions": 120,
+  "gain_consistency_clip": 8.0,
+  "gain_consistency_weight": 0.03,
+  "gradient_norm_clip": 5.0,
+  "historical_control": {
+    "artifact_id": 14900878022,
+    "new_forwards": 0,
+    "new_optimizer_updates": 0,
+    "pt_sha256": "4947d017142f3b01f5dd4cf7706cc3c6978cf1a072ca022c26ea847ec0dc2f04",
+    "run_head": "eb386f2b8e489bbd8e69c6a7972708dd667aa685",
+    "run_id": 45352494611,
+    "stem": "challenger/models/mero43-b21-challenger192"
+  },
+  "historical_numerical_replay_claimed": false,
+  "independent_assessment_binding_required_before_optimizer": true,
+  "input_archives": {
+    "B0.zip": {
+      "artifact_id": 14514228406,
+      "bytes": 501276,
+      "sha256": "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702"
+    },
+    "b10-screen.zip": {
+      "artifact_id": 14740257228,
+      "sha256": "ff4d647a224f430e50a76c1f7b42854ad9b41324db0f6b2f2823aaa4c63adb12"
+    },
+    "b10-source.zip": {
+      "artifact_id": 14708400220,
+      "sha256": "dbc57d762922e60ff23253af2463d5d64e1c8021c74fad6e2f0a9ecb9fd87465"
+    },
+    "b17.zip": {
+      "artifact_id": 14887048023,
+      "bytes": 2506252,
+      "sha256": "1e31bd9c801657c7850fa6fb05c5468cbe8b4ab5bb459b0146c07c4c905ff86d"
+    },
+    "b21_producer.zip": {
+      "artifact_id": 14901261272,
+      "bytes": 1260473,
+      "sha256": "377296c5e0ade26c5cd02782f40b033c97ca5007ee267f014f39d136a6f02af8"
+    },
+    "b21_weights.zip": {
+      "artifact_id": 14900878022,
+      "bytes": 1801215,
+      "sha256": "35fa747026589d3db83a9b24508a3d480d88392080b5c07a910c109b5912ba81"
+    },
+    "b9.zip": {
+      "artifact_id": 14689218171,
+      "sha256": "1a8b270200e0c72ab1025f139d16abde43c209f142d72e71a7201b847e06a612"
+    },
+    "diagnostic.zip": {
+      "artifact_id": 14790175198,
+      "sha256": "0959221425bc38e8ca6501ace692c858741079f9223c4972d1cc318252d68ea8"
+    },
+    "fresh-screen.zip": {
+      "artifact_id": 14509252921,
+      "sha256": "e8bcdf32a0ac138de8bdd90c4f6cd6e419d4ccae42bbd393e75b5daac9502158"
+    },
+    "fresh-source.zip": {
+      "artifact_id": 14507208152,
+      "sha256": "2fbc26386136cfd12dddb01074f3c9c4556c8fc7c49819663f2d11a2499eaa1c"
+    },
+    "fresh18-source.zip": {
+      "artifact_id": 14429578824,
+      "sha256": "34cf7879f974f62c9f6046a72a964002f30bf59d2186a423ac382a76ff69d0e9"
+    },
+    "fresh24-source.zip": {
+      "artifact_id": 14422271973,
+      "sha256": "26396073f5be2f91e35575bedb586737405162388e32bfe85633ed3d796a9583"
+    },
+    "mono70-audit.zip": {
+      "artifact_id": 14503604626,
+      "sha256": "12a1eb39c7a458a466fec2e93ba59e5036319bd9db4b4bdc47e7e6e1c5990f1b"
+    },
+    "natural.zip": {
+      "artifact_id": 14318639588,
+      "sha256": "03e2d7e1953ead05736dc2ff1de60c115bc24ee45442a2322886fc3d02050807"
+    },
+    "newtrain24-source.zip": {
+      "artifact_id": 14486048125,
+      "sha256": "3db5e99caf33e04ae920df1c93205f38f98cbc0f326705e2367dc8c67dc02341"
+    },
+    "pair.zip": {
+      "artifact_id": 14789216108,
+      "sha256": "e66de6d2683c93e434e3d426ef88ffa46c9eba63d89d6940454a81d17e7d29af"
+    },
+    "piper24-source.zip": {
+      "artifact_id": 14434542792,
+      "sha256": "d1f75716fefd954d59c3289c37e7e6670965ee98917436676896312e4b781aa1"
+    },
+    "replay.zip": {
+      "artifact_id": 14787969097,
+      "sha256": "855f0ab5cc24c03833e507eafbd08c7cc93866622458d8a217a3827c829cd93c"
+    }
+  },
+  "keyword": "Hey Mero",
+  "model_build_ast_sha256": "24a8488d7a2b717af4f23a14a7d263e0fa6768798f25e7a855385a7a08122f55",
+  "natural_weight": 0.08,
+  "new_training_audio": false,
+  "no_dropout_batchnorm_forward_rng": true,
+  "ordinary_ceiling_reduction": "mean_over_full_native_frame_by_three_token_grid_then_same_gain_original_group_means",
+  "ordinary_ceiling_weight": 0.08,
+  "ordinary_ctc_weight": 0.6,
+  "original_b21_producer_manifest_sha256": "09638289713a9eace270d8d1ccb4106c862fca51a6db06bd181e53e6adca54e1",
+  "parameters": 43876,
+  "parent_pt_sha256": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+  "positive_retention_weight": 0.08,
+  "prefixes": [
+    6400,
+    12800,
+    19200
+  ],
+  "promotion_allowed": false,
+  "retention_additions": [
+    {
+      "gain": "1.0",
+      "group": "kokoro-v1_0-preset:am_santa",
+      "id": "fresh18-am_santa-mero-fast",
+      "pcm_sha256": "43a97ed30ca5eea775c91ffff04b778a16c9e66dfff984da27b8edf87d0c6929",
+      "teacher": "B9",
+      "teacher_array": "r000__g1_0__B9",
+      "teacher_array_sha256": "db3f19b86092fd2620c64e5d7affab02c28ae9ea30a9ae8ba29ada7aa985c096",
+      "teacher_spans": [
+        [
+          1,
+          69,
+          70
+        ],
+        [
+          2,
+          70,
+          71
+        ],
+        [
+          3,
+          71,
+          80
+        ]
+      ]
+    },
+    {
+      "gain": "0.75",
+      "group": "kokoro-v1_0-preset:bf_alice",
+      "id": "fresh24-bf_alice-mero-merrow",
+      "pcm_sha256": "5be5c51c5b3eac7ec5fa082dd52c3ce02584a1c98f85d06f106fe5e349cb0287",
+      "teacher": "B0",
+      "teacher_array": "r011__g0_75__B0",
+      "teacher_array_sha256": "6578f620ca971ce85c8620c119ccf5095d7d5d446dba06229baad392cc15cdff",
+      "teacher_spans": [
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          2,
+          98,
+          100
+        ],
+        [
+          3,
+          100,
+          113
+        ]
+      ]
+    }
+  ],
+  "retention_gains": [
+    1.0,
+    0.75,
+    0.5
+  ],
+  "retention_groups": 34,
+  "retention_originals": 43,
+  "saved_observations": [
+    "all_existing_training_forward_raw_logits",
+    "ordinary_margin_mean_max_active_fraction_per_original_gain_prefix",
+    "positive_retention_terms_per_path",
+    "preclip_gradient_norm_per_step",
+    "existing_training_loss_components"
+  ],
+  "schema": "english-v6-b22-train-union-retention-design-v1",
+  "scope": "TRAIN_ONLY_NEW_CHALLENGER_WITH_IMMUTABLE_HISTORICAL_CONTROL",
+  "seed": 20261120,
+  "source": {
+    "natural_originals": 9,
+    "natural_readers": 8,
+    "synthetic_ordinary_originals": 35,
+    "synthetic_originals": 79,
+    "synthetic_positive_originals": 44
+  },
+  "source_manifest_sha256": "05a8e3b236f9d022517cb3629f54646e8ca7ca3b50f7ba76eed6a76cadd92a45",
+  "teacher_choice": "preserve_all120_existing_B9_references; for previously_unprotected_union_success_only: B9_if_complete_else_B0",
+  "threshold_search": false,
+  "union_retention_conditions": 122,
+  "updates": 192
+}
