@@ -14,6 +14,11 @@ on:
       - automation/english_v6_b15_panels/primary-synthetic.json
       - automation/english_v6_b15_panels/replication-synthetic.json
       - .github/workflows/english-v6-b15-synthetic-primary-once.yml
+      - automation/english_v6_b16_panels/primary.json
+      - automation/english_v6_b16_panels/replication.json
+      - automation/english_v6_b16_source.py
+      - automation/test_english_v6_b16_source.py
+      - .github/workflows/english-v6-b16-synthetic-primary-once.yml
       - .github/workflows/english-v6-b15-protocol-contract.yml
       - docs/BRANCH_RETENTION_20261007.json
   push:
@@ -52,6 +57,11 @@ jobs:
           done
       - name: Verify new natural DEV source role with synthetic transcript fixtures
         run: python -I -B automation/test_english_v6_b15_natural_sources.py -v
+      - name: Verify frozen 24-primary/24-reserve B16 source plan (no TTS or models)
+        run: |
+          python -IB automation/test_english_v6_b16_source.py -v
+          python -OIB automation/test_english_v6_b16_source.py -v
+          python -OOIB automation/test_english_v6_b16_source.py -v
       - name: Reject violations of unchanged historical retention and test file syntax
         run: |
           python -I -S -B tools/verify_branch_retention.py
