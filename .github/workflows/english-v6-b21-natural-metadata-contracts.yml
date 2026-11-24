@@ -1,0 +1,38 @@
+name: B21 natural metadata and prospective amendment contracts
+'on':
+  pull_request:
+    paths:
+      - 'automation/english_v6_b21_natural_metadata*'
+      - 'automation/test_english_v6_b21_natural_metadata*'
+      - 'automation/english_v6_b21_natural_amendment*'
+      - 'automation/test_english_v6_b21_natural_amendment*'
+      - '.github/workflows/english-v6-b21-natural-metadata*'
+  push:
+    branches: [main]
+    paths:
+      - 'automation/english_v6_b21_natural_metadata*'
+      - 'automation/test_english_v6_b21_natural_metadata*'
+      - 'automation/english_v6_b21_natural_amendment*'
+      - 'automation/test_english_v6_b21_natural_amendment*'
+      - '.github/workflows/english-v6-b21-natural-metadata*'
+permissions:
+  contents: read
+concurrency:
+  group: b21-natural-metadata-contracts-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  text-only-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Verify metadata-only extraction and unchanged source boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in '' '-O' '-OO'; do
+            python -SIB $opt automation/test_english_v6_b21_natural_metadata.py -q
+          done

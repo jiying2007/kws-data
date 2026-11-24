@@ -1,0 +1,63 @@
+name: English B21 one text-only natural metadata diagnostic
+'on':
+  push:
+    branches:
+    - research/en-v6-b21-natural-metadata-once-20261124
+    paths:
+    - .github/workflows/english-v6-b21-natural-metadata-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: en-v6-b21-natural-metadata-once
+  cancel-in-progress: false
+env:
+  PREPARED_PARENT: '__B21_NATURAL_METADATA_MAIN_SHA__'
+  PYTHONHASHSEED: '20261124'
+jobs:
+  metadata:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b21-natural-metadata-once-20261124' && github.run_attempt == 1 && github.event.before == '__B21_NATURAL_METADATA_MAIN_SHA__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Verify text-only tests and capture exact Git-bound metadata producer
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        python -SIB automation/test_english_v6_b21_natural_metadata.py -v
+        python -SIB automation/english_v6_b21_natural_metadata.py prepare "$RUNNER_TEMP/b21-natural-metadata" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b21-natural-metadata-producer-${{ github.run_id }}
+        path: ${{ runner.temp }}/b21-natural-metadata/producer/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b21-natural-metadata-consumed
+        path: ${{ runner.temp }}/b21-natural-metadata/consumed/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - name: Verify one full corpus then retain only census and transcript metadata
+      timeout-minutes: 60
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python -SIB automation/english_v6_b21_natural_metadata.py collect "$RUNNER_TEMP/b21-natural-metadata" "$RUNNER_TEMP/train-clean-100.tar.gz" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b21-natural-metadata-${{ github.run_id }}
+        path: ${{ runner.temp }}/b21-natural-metadata/receipts/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: warn
