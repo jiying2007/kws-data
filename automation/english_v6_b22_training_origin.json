@@ -1,0 +1,70 @@
+{
+  "artifacts": {
+    "english-v6-b22-original-input-receipts-45397676968": {
+      "bytes": 28904,
+      "id": 14920559260,
+      "sha256": "e97092c17574ea7a065f6359a9a3a93d78ad5198de84542eb94d5f60a552893d"
+    },
+    "english-v6-b22-train-producer-45397676968": {
+      "bytes": 3811890,
+      "id": 14922346270,
+      "sha256": "6eafdbedfad4d0b6cd1c133ffac621afd46980567a9fb0a8b1e7f430ad042a88"
+    },
+    "english-v6-b22-union-retention-models-45397676968": {
+      "bytes": 80540,
+      "id": 14921812195,
+      "sha256": "7d88cfdb8f4e06bdff423c1e4662d0d0e4fc496b47ae2d02c91c1bcc6047c0bd"
+    },
+    "english-v6-b22-union-retention-train-consumed": {
+      "bytes": 735,
+      "id": 14921243169,
+      "sha256": "448ee0e883b3563e072f5d9912464e5d75021cc68aa552cc03f2d8bfc8c54b11"
+    }
+  },
+  "changed_functions": [
+    "guard",
+    "prepare_union_paths"
+  ],
+  "conclusion": "failure",
+  "evidence_files": {
+    "research/english_v6_b22_training_20261124/initial_failure/ARTIFACTS.json": "ef0ade5775197c62edb365266ab56bffbd490cd1f9604627000f7575812f2cbf",
+    "research/english_v6_b22_training_20261124/initial_failure/JOBS.json": "619cfcc92cabb0c275c900ab9bbbd427a8f5313b9189f865a5a82a74ad473024",
+    "research/english_v6_b22_training_20261124/initial_failure/LOG.json": "eb4fd6b4b73f2602b84f3cddd8985f4b10b02aad57591884723ff6b1da32b3c1",
+    "research/english_v6_b22_training_20261124/initial_failure/PRODUCER.json": "6be1a53817e5e70b456ba565b7531cb49b72f5e489eaacf3a7b4909c8d5c24dd",
+    "research/english_v6_b22_training_20261124/initial_failure/RUN.json": "4761e64e6b5daeaa71e9051f193b2353a21085da5170cdc3b814f015a78848b7",
+    "research/english_v6_b22_training_20261124/initial_failure/consumed/CONSUMPTION.json": "df104cbc19f33e752ef0ca66bfcdff94d8d9c4d414982e9c683b8bce8da134e2",
+    "research/english_v6_b22_training_20261124/initial_failure/partial/ASSESSMENT_BINDING.json": "17591643326111591130b2fe80fc5700455d429aab8fbe88c32b1a136fb0c38b",
+    "research/english_v6_b22_training_20261124/initial_failure/partial/COMMON_DRAW.json": "90b41a650ad5439524bef4bc6d13394fd65034e98c2c5a7862e0a0c1de78a83d",
+    "research/english_v6_b22_training_20261124/initial_failure/partial/DESIGN.json": "6a73fe3996397784e8f6c8df0e5d22692f6ba17d516c66236d5adc37d12a1964",
+    "research/english_v6_b22_training_20261124/initial_failure/partial/SOURCE.json": "58261881620ff3f646909bd766c18ed92737ee7566cd6e21e96519d50a02e25b",
+    "research/english_v6_b22_training_20261124/initial_failure/partial/STARTED.json": "b92ead9116b4cc9acd19e4e831dd2d1492ce169b8ef45656a3eda398a797ea1d",
+    "research/english_v6_b22_training_20261124/initial_failure/receipts/CONSUMPTION.json": "df104cbc19f33e752ef0ca66bfcdff94d8d9c4d414982e9c683b8bce8da134e2",
+    "research/english_v6_b22_training_20261124/initial_failure/receipts/FETCH.json": "837c1218a5eb6db0fee7a378b80e73ac095e75ae809749f098b0f7d8c68ad7b2",
+    "research/english_v6_b22_training_20261124/initial_failure/receipts/SOURCE_PREFLIGHT.json": "58261881620ff3f646909bd766c18ed92737ee7566cd6e21e96519d50a02e25b"
+  },
+  "failure": "ValueError: all original120 references unchanged",
+  "failure_location": "prepare_union_paths: audit tuple sequences compared with deserialized JSON lists",
+  "job_id": 138457680994,
+  "log_sha256": "1737a2e5d808a97260546281bb0da97b4dea3f6894acc099c81d95ec3a0bceea",
+  "new_acoustic_model_forwards": 0,
+  "new_source_calls": 0,
+  "optimizer_updates": 0,
+  "original_consumption_preserved": true,
+  "original_failure_preserved": true,
+  "original_files": 243,
+  "original_producer_sha256": "6be1a53817e5e70b456ba565b7531cb49b72f5e489eaacf3a7b4909c8d5c24dd",
+  "partial_members": [
+    "ASSESSMENT_BINDING.json",
+    "COMMON_DRAW.json",
+    "DESIGN.json",
+    "SOURCE.json",
+    "STARTED.json"
+  ],
+  "prepared_parent": "9c16f1ee0c4bf1fd9d8eefd8a05b0b0cc4ad22cf",
+  "run_attempt": 1,
+  "run_head": "e5cd348d87297f4cfa7d3a5c4e68d9633eb3bfba",
+  "run_id": 45397676968,
+  "schema": "english-v6-b22-zero-acoustic-call-origin-v1",
+  "scientific_recipe_unchanged": true,
+  "zero_call_evidence": "Authentic original failure traceback stops before fit; complete original 243-file producer; only five prefit JSON output members; source loaders instantiate/deserialize tensors and compute fixed FFT/Mel features but do not call acoustic forward."
+}

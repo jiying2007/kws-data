@@ -1,0 +1,27 @@
+name: B22 original STOP and first-fit continuation contracts
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b22_training_*
+      - automation/english_v6_b22_union_retention_continuation.py
+      - automation/test_english_v6_b22_training_continuation.py
+      - research/english_v6_b22_training_20261124/**
+      - .github/workflows/english-v6-b22-training-continuation-contracts.yml
+      - .github/workflows/english-v6-b22-union-retention-train-continuation-once.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  authentic-first-fit-boundary:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Reproduce actual120 tuple mismatch and verify scientific AST preservation
+        run: python -SIB automation/test_english_v6_b22_training_continuation.py -v
+      - name: Verify original final STOP, complete artifacts and raw log without any model call
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python -SIB automation/english_v6_b22_training_origin.py --live
