@@ -1,0 +1,53 @@
+name: B21 paired TRAIN, source and prospective evaluation contracts
+'on':
+  pull_request:
+    paths:
+      - automation/*english_v6_b21*
+      - automation/english_v6_b21_panels/**
+      - research/english_v6_b21_train_mechanism_20261124/**
+      - .github/workflows/english-v6-b21-*.yml
+  push:
+    branches: [main]
+    paths:
+      - automation/*english_v6_b21*
+      - automation/english_v6_b21_panels/**
+      - research/english_v6_b21_train_mechanism_20261124/**
+      - .github/workflows/english-v6-b21-*.yml
+permissions:
+  contents: read
+jobs:
+  b21-source-and-training-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Verify source identities, raw receipt accounting and TRAIN-only intervention
+        run: |
+          python -SIB automation/test_english_v6_b21_sources.py -v
+          python -SIB automation/test_english_v6_b21_competing_margin_pair.py -v
+          python -SIB automation/english_v6_b21_source.py check
+          python -SIB automation/test_english_v6_b21_producer_snapshot.py -v
+          python -SIB automation/test_english_v6_b21_primary_eval.py -v
+          python -SIB automation/english_v6_b21_primary_eval.py check
+      - name: Confirm live operations remain closed on preparation branches
+        run: |
+          python -SIB - <<'PY'
+          from pathlib import Path
+          train = Path('.github/workflows/english-v6-b21-blank-retention-train-once.yml').read_text()
+          source = Path('.github/workflows/english-v6-b21-primary-sources-once.yml').read_text()
+          if train.count('__B21_REVIEWED_TRAIN_PARENT__') != 2:
+              raise ValueError('Training requires the separate exact-parent activation')
+          if source.count('__B21_SOURCE_MAIN_SHA__') != 2:
+              raise ValueError('Source access requires the separate exact-parent activation')
+          if Path('automation/english_v6_b21_source_workflow_template.yml').read_text() != source:
+              raise ValueError('Original source workflow template must remain identical')
+          evaluation = Path('.github/workflows/english-v6-b21-primary-model-eval-once.yml').read_text()
+          if evaluation.count('__B21_REVIEWED_SCORING_PARENT__') != 2:
+              raise ValueError('Scoring requires separate exact-parent activation')
+          if evaluation != Path('automation/english_v6_b21_primary_workflow_template.yml').read_text():
+              raise ValueError('Original evaluation workflow template must remain identical')
+          print('Preparation changes perform zero TTS, ASR, optimizer or KWS operations')
+          PY
