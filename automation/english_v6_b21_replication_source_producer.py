@@ -13,8 +13,9 @@ import english_v6_b21_replication_source_ancestry as lineage
 
 ROOT = Path(__file__).resolve().parents[1]
 ROOTS = ("english_v6_b21_replication_source", "test_english_v6_b21_replication_sources",
-         "english_v6_b21_replication_source_producer", "english_v6_b21_quality_readback",
-         "english_v6_b21_primary_eval", "english_v6_b21_continuation_primary_eval")
+         "english_v6_b21_replication_source_producer", "english_v6_b21_fixed_mirror_quality_readback",
+         "english_v6_b21_fixed_mirror_primary_eval", "english_v6_b21_replication_transport",
+         "test_english_v6_b21_replication_transport")
 
 
 def validate_event(prepared, head, parents, changed, env, event):
@@ -44,6 +45,7 @@ def capture(output, prepared, root=ROOT):
     python = common.prior.static_closure(root / "automation", ROOTS)
     resources = common.resource_paths(root, python) | {
         "automation/english_v6_b21_replication_opening.json",
+        "automation/english_v6_b21_fixed_mirror_transport.json",
         "automation/english_v6_b21_replication_source_workflow_template.yml"}
     # The actual primary source now carries a byte-frozen transport-stop proof.
     # Its ZIP/log payloads are required resources, outside the old text suffix scan.
@@ -59,6 +61,12 @@ def capture(output, prepared, root=ROOT):
          ("original.zip", "api/run.json", "api/artifact.json", "original/RESULT.json")},
          "complete explicit original official-mirror probe resources")
     resources |= probe_files
+    second_failure = root / "automation/english_v6_b21_fixed_mirror_failure"
+    second_files = {str(p.relative_to(root)) for p in second_failure.rglob("*") if p.is_file()}
+    common.need(len(second_files) == 10
+         and str((second_failure / "MANIFEST.json").relative_to(root)) in second_files,
+         "complete actual fixed-mirror transport provenance resources")
+    resources |= second_files
     paths = python | resources | {lineage.WORKFLOW}
     tracked = common.tree_entries(common.git(root, "ls-tree", "-rz", "--full-tree", "HEAD"), paths)
     common.need(output.is_absolute() and output.parent.is_dir() and not output.exists(), "fresh producer output, no overwrite")

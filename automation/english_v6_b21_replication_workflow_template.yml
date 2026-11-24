@@ -7,8 +7,8 @@ on:
       - automation/english_v6_b21_replication_producer.json
       - automation/english_v6_b21_replication_workflow_template.yml
       - automation/test_english_v6_b21_replication_eval.py
-      - automation/english_v6_b21_quality_readback.py
-      - automation/test_english_v6_b21_quality_readback.py
+      - automation/english_v6_b21_fixed_mirror_quality_readback.py
+      - automation/test_english_v6_b21_fixed_mirror_quality_readback.py
       - .github/workflows/english-v6-b21-replication-model-eval-once.yml
   push:
     branches: [research/en-v6-b21-replication-scoring-once-20261124]
@@ -33,9 +33,9 @@ jobs:
           python -SIB automation/test_english_v6_b21_replication_eval.py -v
           python -SIB -O automation/test_english_v6_b21_replication_eval.py -v
           python -SIB -OO automation/test_english_v6_b21_replication_eval.py -v
-          python -SIB automation/test_english_v6_b21_quality_readback.py -v
-          python -SIB -O automation/test_english_v6_b21_quality_readback.py -v
-          python -SIB -OO automation/test_english_v6_b21_quality_readback.py -v
+          python -SIB automation/test_english_v6_b21_fixed_mirror_quality_readback.py -v
+          python -SIB -O automation/test_english_v6_b21_fixed_mirror_quality_readback.py -v
+          python -SIB -OO automation/test_english_v6_b21_fixed_mirror_quality_readback.py -v
           python -SIB automation/english_v6_b21_replication_eval.py check
   score:
     needs: contracts
