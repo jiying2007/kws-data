@@ -1,17 +1,21 @@
 {
-  "frozen": false,
-  "inventory_status": "FROZEN_CODE_AND_RESOURCES_AWAITING_ACTUAL_SOURCE_WORKFLOW",
-  "operator_note": "Prepared INERT inventory. Exact scientific files and resources are frozen; actual successful B20 source workflow SHA remains null. After independent original source/native/SCREEN authentication, bind the actual source workflow bytes and set frozen=true under a separate reviewed activation. Primary SPEC never stores its own parent SHA; the reviewed workflow supplies the actual parent, and only its two template slots may change. No actual source or quality PASS is claimed by this inventory.",
+  "frozen": true,
+  "inventory_status": "ACTUAL_SOURCE_PASS_COMPLETE_MODULE_AND_LITERAL_FILENAME_CLOSURE",
+  "operator_note": "The actual public B20 source run passed all five native observers and unchanged source admission. Both actual producer roles authenticate complete recursive module-name and literal-Python-filename dependencies and immutable registration resources. Future primary activation still requires the reviewed workflow-only child; no model-quality or replication PASS is claimed.",
   "primary": {
     "files": {
+      "automation/english63_independent_ipa.py": "62bb8359f90c74226623cf46ebed8a56ae2b7f7afc7008a3c84dfbf50df79315",
       "automation/english63_zipformer_events_once.py": "01d0bf6cd46971660b45da80c5765cdc767f4df7a03d47172f1fea1391098693",
+      "automation/english_acoustic_contrast.py": "14b249a1d09ffeca9e245165c1dbdeffd8781d81519b76d75395a6f8afcc52e4",
       "automation/english_blind_asr.py": "e232cb219cabcc3877366bc446e5180d203d43b094695dba18fddee9b584669e",
       "automation/english_canonical_dev_only_v2_once.py": "7ee2e64f179635091bb15e613bd2c42d220789e753dbb6697f50edb593bd5140",
       "automation/english_canonical_multisource_bind_once.py": "76e3614c47b62663d97d9d6ab9b73d035b3cc3fbdbf67224a7b00692b83e94f3",
       "automation/english_canonical_multisource_fit_once.py": "086d31c6229c0bdfa79960fec67dd772035c52c3bbcfb7d0d7f316e1373a6999",
+      "automation/english_final_ipa_xlsr_once.py": "716928f7707fc662f62e59a988c0c264123be301abac4c23fe835bc09c052b3a",
       "automation/english_fresh24_ctc_admission.py": "204f6004d3b33bfdcf66c011c2eec34ff947ea5fbb2607b1b265e335a7366b4c",
       "automation/english_hifi_micro.py": "0251de2cddc112dc3c84c53cda46ed1a2a1d726d0a7653b9071872f50471fdcc",
       "automation/english_hifi_phones_once.py": "920456b516dffbe878e389320065ced3af56ebc7d1e9494b14bf1994de39f8fd",
+      "automation/english_ipa_qwen17_final_ipa_probe_once.py": "15207db7182e4cb6d85349059b4aff91e721c70e8782fe901d4893f55224be76",
       "automation/english_kokoro_context32_mask_observe.py": "3f184bdeb7536f260b2d4e3ee77476d95590d05007ae251bcb93c51ce2be01af",
       "automation/english_newtrain24_evidence_readback.py": "02e8fbf7ed33468dedbbcef1514034e5e78ac11a32ae3045747538e1bb10a3b6",
       "automation/english_newtrain24_five_native_once.py": "23133c25a1ad4596ec0d0df6f29a117bdd2941cc509364d34895388360c87d8b",
@@ -43,6 +47,7 @@
       "automation/english_v5_mero_locked8_saved_machine_gate_once.py": "d1039faa6b34226f1c92690982dd97197118b0c21b2aa0e5c36adeb214577ce9",
       "automation/english_v5_mero_locked8_source_once.py": "a1103690bcc0085deeb1df692cf0be3f1293f8d24928e0bc924d7054d042e693",
       "automation/english_v5_mero_mono70_robust_train_once.py": "c4a8560def7c70f73bacaca7043ef7835ddac66a4cc733dbc17cad62f649b167",
+      "automation/english_v5_mero_mono_source_audit.py": "f345b508fd425f9b096eccff6d1ea3a2b264b8bcbd1aab7b1a0942dc628914e4",
       "automation/english_v5_mero_newdev_phone_reference_once.py": "8034cfe90a5e8875f495546e037e9c990ee002047006354ebb35be4a5f842e9b",
       "automation/english_v5_mero_pretrained_reference_once.py": "6f47e7cdce825114b2f15f61004fef3e34ace01897d049e4cc39f9d478925997",
       "automation/english_v5_mero_prospective_dev8_five_native_once.py": "48b8fd6b41696763b32251d0a954c5152faa01cb4645cb249c4a54b387793b94",
@@ -72,7 +77,7 @@
       "automation/english_v6_b19_source.py": "2074f691c569f818b3345f3f0e8abf8c7f1a9c7362ab61df77d615024618c097",
       "automation/english_v6_b19_source_ancestry.py": "853b87361db92d1c7633fa6354ecf89f76d83ad351981ef66b9f93a08f7f07bc",
       "automation/english_v6_b19_source_observe.py": "b4f776993830c52a2aae29494369dd57b429bb89a5140f4dd5ced108931fe573",
-      "automation/english_v6_b20_primary_eval.py": "4e2be90d4100781ecdf8b5a92e0e7628ae58eb3d808260398491f2758088a6ba",
+      "automation/english_v6_b20_primary_eval.py": "87cb205d5bbd5e5ba17bd0a5929b7e123c5b5688894e753d34406535273ca802",
       "automation/english_v6_b20_source.py": "f6a3a1e53d3307b3369561ae7f8c25346a43ff6424ecc87d37dd71bebcb5893e",
       "automation/english_v6_b20_source_ancestry.py": "3778dc315d5015aa0dc576171d7b79a1ae73d4682d2a5a14dc785d87a971c0fa",
       "automation/english_v6_b20_source_observe.py": "9b8171ad3b6286202a23823e91c9f8075862e339c73fb1a93dfcbef9e9779fd2",
@@ -91,12 +96,18 @@
       "automation/english_v6_mero_prospective_dev8_source_once.py": "6b583a4908f89e8d825f6b844a26112090d91b347dcc66535a0a256059926e00",
       "automation/english_v6_primary_source_qa.py": "ff1a19d5d821f778474523474ae4f494b9548b5ad97d9f33d9bb545db6468e94",
       "automation/english_whisper_real_once.py": "0f455c46061c6e3e4da2eec781234875fe2f59f257f11bacea8105e951593b6d",
-      "automation/multilingual_campaign.py": "3cda7b79d1cf4e00f7b2a4aeff6c254f8b49d2adcf527a5ca51093ef60d1ef4f"
+      "automation/multilingual_campaign.py": "3cda7b79d1cf4e00f7b2a4aeff6c254f8b49d2adcf527a5ca51093ef60d1ef4f",
+      "kws_data_contract/__init__.py": "3b3c0ef178e7115b2206e895c19128603272c0d3ad8a22eade280d372f884608",
+      "kws_data_contract/identity.py": "7cb39db2c8fe07e6fada96735bae526c2f442775fc8e4786940add80abbba3e8",
+      "kws_data_contract/reference_text.py": "1aded767d9d2d3d20f238c2a9ce55b84fe093c2d17a1c7ed237d8dff66691fe2",
+      "kws_data_contract/source_registry.py": "be1fa92b5362f37e997c50103dcf0d5fda90704b77dbf08d44ddfa4e9a042923"
     },
     "workflow_path": ".github/workflows/english-v6-b20-primary-model-eval-once.yml",
     "workflow_template_sha256": "1c2c2d6b87c0907e15f01360afd0c2c35d560e08a49454a75726a9527bc965f9"
   },
   "resources": {
+    ".github/triggers/english-acoustic-contrast-20261113.json": "e3d67e3c94625b2a76e28525799fef5f4b218ec6ca01b7c13a8c8cd1adb63242",
+    ".github/triggers/english-ipa-qwen17-final-ipa-20261116.json": "4914d1518d3951996b7e26a3de12c742db9220b33f7d35ac634625b67075f4a9",
     ".github/triggers/english-parakeet-real-20261112.json": "52ff264aed2a0c39bc64915a8429b2cbd13e56e5359ab6a6b8600fadfa3fe908",
     ".github/triggers/english-qwen-asr-real-20261112.json": "d930b3ad60043b63dc2bab7b8bdb15e2719d2ffae87f9384dd1bbcc308b201d1",
     ".github/triggers/english-qwen-asr-sourcefix-20261112.json": "0bff711ac2ea0bd14521456252e7f0a553b7dd62cedbef9c14aa9c836121b31a",
@@ -104,6 +115,7 @@
     ".github/triggers/english-seven-voice-asr-postsuccess-20261112.json": "e64569ae42e628f7d76afb422c144fed99c5ef73ec42d41bb5797311725c17d0",
     ".github/triggers/english-seven-voice-tts-20261112.json": "bffb63b6eabea5d92a9572ebed5152b58529d604183fa8ab95c2d282cecfc0c9",
     ".github/triggers/english-whisper-real-20261112.json": "d26ae01314a2983ccf5cde71b4194a595baeeff46431fd9f98d0c70bb8f91183",
+    ".github/triggers/english63-independent-ipa-20261113.json": "43a7cbc25af226bfd82bd059c97bb06d0f81004e255aefcfb16c06f4403ae78e",
     ".github/triggers/english63-zipformer-event-probe-20261113.json": "aae5cdbe2dec2bd3b40ca8b5d553a58b8423d7bc38d57cc18b0af410be2a10dc",
     ".github/workflows/english-v6-b18-synthetic-primary-once.yml": "45c34fffea05d8882d542b89d5d9fd7ace60c9a95cdab0b9307173be96a32f02",
     ".github/workflows/english-v6-b19-source-feasibility-once.yml": "e059efaa28ee2125328feb8b1de7d594a528b0bb21edc908c72f80717e0c3f76",
@@ -170,14 +182,18 @@
   "schema": "english-v6-b20-primary-producer-v1",
   "source": {
     "files": {
+      "automation/english63_independent_ipa.py": "62bb8359f90c74226623cf46ebed8a56ae2b7f7afc7008a3c84dfbf50df79315",
       "automation/english63_zipformer_events_once.py": "01d0bf6cd46971660b45da80c5765cdc767f4df7a03d47172f1fea1391098693",
+      "automation/english_acoustic_contrast.py": "14b249a1d09ffeca9e245165c1dbdeffd8781d81519b76d75395a6f8afcc52e4",
       "automation/english_blind_asr.py": "e232cb219cabcc3877366bc446e5180d203d43b094695dba18fddee9b584669e",
       "automation/english_canonical_dev_only_v2_once.py": "7ee2e64f179635091bb15e613bd2c42d220789e753dbb6697f50edb593bd5140",
       "automation/english_canonical_multisource_bind_once.py": "76e3614c47b62663d97d9d6ab9b73d035b3cc3fbdbf67224a7b00692b83e94f3",
       "automation/english_canonical_multisource_fit_once.py": "086d31c6229c0bdfa79960fec67dd772035c52c3bbcfb7d0d7f316e1373a6999",
+      "automation/english_final_ipa_xlsr_once.py": "716928f7707fc662f62e59a988c0c264123be301abac4c23fe835bc09c052b3a",
       "automation/english_fresh24_ctc_admission.py": "204f6004d3b33bfdcf66c011c2eec34ff947ea5fbb2607b1b265e335a7366b4c",
       "automation/english_hifi_micro.py": "0251de2cddc112dc3c84c53cda46ed1a2a1d726d0a7653b9071872f50471fdcc",
       "automation/english_hifi_phones_once.py": "920456b516dffbe878e389320065ced3af56ebc7d1e9494b14bf1994de39f8fd",
+      "automation/english_ipa_qwen17_final_ipa_probe_once.py": "15207db7182e4cb6d85349059b4aff91e721c70e8782fe901d4893f55224be76",
       "automation/english_kokoro_context32_mask_observe.py": "3f184bdeb7536f260b2d4e3ee77476d95590d05007ae251bcb93c51ce2be01af",
       "automation/english_newtrain24_evidence_readback.py": "02e8fbf7ed33468dedbbcef1514034e5e78ac11a32ae3045747538e1bb10a3b6",
       "automation/english_newtrain24_five_native_once.py": "23133c25a1ad4596ec0d0df6f29a117bdd2941cc509364d34895388360c87d8b",
@@ -209,6 +225,7 @@
       "automation/english_v5_mero_locked8_saved_machine_gate_once.py": "d1039faa6b34226f1c92690982dd97197118b0c21b2aa0e5c36adeb214577ce9",
       "automation/english_v5_mero_locked8_source_once.py": "a1103690bcc0085deeb1df692cf0be3f1293f8d24928e0bc924d7054d042e693",
       "automation/english_v5_mero_mono70_robust_train_once.py": "c4a8560def7c70f73bacaca7043ef7835ddac66a4cc733dbc17cad62f649b167",
+      "automation/english_v5_mero_mono_source_audit.py": "f345b508fd425f9b096eccff6d1ea3a2b264b8bcbd1aab7b1a0942dc628914e4",
       "automation/english_v5_mero_newdev_phone_reference_once.py": "8034cfe90a5e8875f495546e037e9c990ee002047006354ebb35be4a5f842e9b",
       "automation/english_v5_mero_pretrained_reference_once.py": "6f47e7cdce825114b2f15f61004fef3e34ace01897d049e4cc39f9d478925997",
       "automation/english_v5_mero_prospective_dev8_five_native_once.py": "48b8fd6b41696763b32251d0a954c5152faa01cb4645cb249c4a54b387793b94",
@@ -256,9 +273,15 @@
       "automation/english_v6_mero_prospective_dev8_source_once.py": "6b583a4908f89e8d825f6b844a26112090d91b347dcc66535a0a256059926e00",
       "automation/english_v6_primary_source_qa.py": "ff1a19d5d821f778474523474ae4f494b9548b5ad97d9f33d9bb545db6468e94",
       "automation/english_whisper_real_once.py": "0f455c46061c6e3e4da2eec781234875fe2f59f257f11bacea8105e951593b6d",
-      "automation/multilingual_campaign.py": "3cda7b79d1cf4e00f7b2a4aeff6c254f8b49d2adcf527a5ca51093ef60d1ef4f"
+      "automation/multilingual_campaign.py": "3cda7b79d1cf4e00f7b2a4aeff6c254f8b49d2adcf527a5ca51093ef60d1ef4f",
+      "kws_data_contract/__init__.py": "3b3c0ef178e7115b2206e895c19128603272c0d3ad8a22eade280d372f884608",
+      "kws_data_contract/identity.py": "7cb39db2c8fe07e6fada96735bae526c2f442775fc8e4786940add80abbba3e8",
+      "kws_data_contract/reference_text.py": "1aded767d9d2d3d20f238c2a9ce55b84fe093c2d17a1c7ed237d8dff66691fe2",
+      "kws_data_contract/source_registry.py": "be1fa92b5362f37e997c50103dcf0d5fda90704b77dbf08d44ddfa4e9a042923"
     },
     "resources": {
+      ".github/triggers/english-acoustic-contrast-20261113.json": "e3d67e3c94625b2a76e28525799fef5f4b218ec6ca01b7c13a8c8cd1adb63242",
+      ".github/triggers/english-ipa-qwen17-final-ipa-20261116.json": "4914d1518d3951996b7e26a3de12c742db9220b33f7d35ac634625b67075f4a9",
       ".github/triggers/english-parakeet-real-20261112.json": "52ff264aed2a0c39bc64915a8429b2cbd13e56e5359ab6a6b8600fadfa3fe908",
       ".github/triggers/english-qwen-asr-real-20261112.json": "d930b3ad60043b63dc2bab7b8bdb15e2719d2ffae87f9384dd1bbcc308b201d1",
       ".github/triggers/english-qwen-asr-sourcefix-20261112.json": "0bff711ac2ea0bd14521456252e7f0a553b7dd62cedbef9c14aa9c836121b31a",
@@ -266,6 +289,7 @@
       ".github/triggers/english-seven-voice-asr-postsuccess-20261112.json": "e64569ae42e628f7d76afb422c144fed99c5ef73ec42d41bb5797311725c17d0",
       ".github/triggers/english-seven-voice-tts-20261112.json": "bffb63b6eabea5d92a9572ebed5152b58529d604183fa8ab95c2d282cecfc0c9",
       ".github/triggers/english-whisper-real-20261112.json": "d26ae01314a2983ccf5cde71b4194a595baeeff46431fd9f98d0c70bb8f91183",
+      ".github/triggers/english63-independent-ipa-20261113.json": "43a7cbc25af226bfd82bd059c97bb06d0f81004e255aefcfb16c06f4403ae78e",
       ".github/triggers/english63-zipformer-event-probe-20261113.json": "aae5cdbe2dec2bd3b40ca8b5d553a58b8423d7bc38d57cc18b0af410be2a10dc",
       ".github/workflows/english-v6-b18-synthetic-primary-once.yml": "45c34fffea05d8882d542b89d5d9fd7ace60c9a95cdab0b9307173be96a32f02",
       ".github/workflows/english-v6-b19-source-feasibility-once.yml": "e059efaa28ee2125328feb8b1de7d594a528b0bb21edc908c72f80717e0c3f76",
@@ -329,6 +353,6 @@
     },
     "reviewed_workflow_template_sha256": "e6c85fbd1c8602b6411d693ba992470d6f8059ad981d19d191444c2876298894",
     "workflow_path": ".github/workflows/english-v6-b20-synthetic-primary-once.yml",
-    "workflow_sha256": null
+    "workflow_sha256": "d77f93e3d6119791bb8bcf515eec1a5085663952b86990fa3c2e9db80a9d06a5"
   }
 }

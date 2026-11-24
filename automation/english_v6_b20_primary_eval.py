@@ -172,25 +172,46 @@ def guard(spec, prepared, env=None, event=None, head=None, parent=None):
 
 
 def static_closure(directory, roots):
-    """Local Python imports and literal dynamic module names; never import code."""
-    pending, seen = list(roots), set()
-    while pending:
-        name = pending.pop()
-        if name in seen:
-            continue
+    """Freeze local modules, literal Python files and whole first-party packages."""
+    directory = Path(directory)
+    repository = directory.parent
+
+    def local(name):
+        if not re.fullmatch(r"[a-zA-Z_][a-zA-Z_0-9]*", name):
+            return []
+        for parent in (directory, repository):
+            module = parent / (name + ".py")
+            if module.is_file():
+                return [module]
+            package = parent / name
+            if (package / "__init__.py").is_file():
+                # Whole local packages also cover their relative imports.
+                return sorted(p for p in package.rglob("*.py") if p.is_file())
+        return []
+
+    pending, seen = [], set()
+    for name in roots:
         path = directory / (name + ".py")
         need(path.is_file(), "complete frozen scientific dependency " + name)
-        seen.add(name)
+        pending.append(path)
+    while pending:
+        path = pending.pop()
+        if path in seen:
+            continue
+        need(path.resolve().is_relative_to(repository.resolve()), "local scientific code stays in repository")
+        seen.add(path)
         for node in ast.walk(ast.parse(path.read_bytes())):
             names = []
             if isinstance(node, ast.Import):
                 names = [value.name.split(".")[0] for value in node.names]
             elif isinstance(node, ast.ImportFrom) and node.level == 0 and node.module:
                 names = [node.module.split(".")[0]]
-            elif isinstance(node, ast.Constant) and isinstance(node.value, str) and re.fullmatch(r"[a-zA-Z_][a-zA-Z_0-9]+", node.value):
-                names = [node.value]
-            pending.extend(n for n in names if (directory / (n + ".py")).is_file() and n not in seen)
-    return {"automation/" + name + ".py" for name in seen}
+            elif isinstance(node, ast.Constant) and isinstance(node.value, str):
+                literal = re.fullmatch(r"([a-zA-Z_][a-zA-Z_0-9]*)(?:\.py)?", node.value)
+                if literal:
+                    names = [literal.group(1)]
+            pending.extend(p for name in names for p in local(name) if p not in seen)
+    return {str(path.relative_to(repository)) for path in seen}
 
 
 def producer_contract(spec, prepared, root=ROOT):
