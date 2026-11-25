@@ -1,0 +1,78 @@
+name: B27 rooted read-only original NO_PROMOTION continuation
+'on':
+  pull_request:
+    paths:
+      - tools/b27_primary_rooted_no_promotion_continuation.py
+      - tools/b27_primary_rooted_no_promotion_continuation.json
+      - tests/test_b27_primary_rooted_no_promotion_continuation.py
+      - .github/workflows/b27-primary-rooted-no-promotion-continuation.yml
+      - tools/b27_primary_continuation.py
+      - automation/english_v6_b27_primary_no_promotion_readback.py
+      - automation/test_english_v6_b27_primary_no_promotion_readback.py
+  push:
+    branches:
+      - research/en-v6-b27-primary-rooted-no-promotion-ci-once-20261125
+    paths:
+      - .github/workflows/b27-primary-rooted-no-promotion-continuation.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b27-primary-rooted-no-promotion-readonly
+  cancel-in-progress: false
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Invented-byte transport contracts only
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in '' -O -OO; do
+            python -I -S -B $mode tests/test_b27_primary_rooted_no_promotion_continuation.py -v
+            python -I -S -B $mode automation/test_english_v6_b27_primary_no_promotion_readback.py -v
+          done
+  continuation:
+    needs: contracts
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/research/en-v6-b27-primary-rooted-no-promotion-ci-once-20261125' &&
+      github.run_attempt == 1 &&
+      github.event.before == '__B27_REVIEWED_ROOTED_NO_PROMOTION_CONTINUATION_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      PREPARED_PARENT: '__B27_REVIEWED_ROOTED_NO_PROMOTION_CONTINUATION_PARENT__'
+      PYTHONHASHSEED: '20261125'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: '${{ github.sha }}'
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Certify only the one original NO_PROMOTION through the reviewed adapter
+        env:
+          GH_TOKEN: '${{ github.token }}'
+        run: >-
+          python -I -S -B tools/b27_primary_rooted_no_promotion_continuation.py
+          "$RUNNER_TEMP/b27-primary-rooted-no-promotion-continuation"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: b27-primary-rooted-no-promotion-continuation-review-${{ github.run_id }}
+          path: ${{ runner.temp }}/b27-primary-rooted-no-promotion-continuation/review/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn
