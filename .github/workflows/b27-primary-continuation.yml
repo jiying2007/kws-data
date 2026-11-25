@@ -43,11 +43,11 @@ jobs:
       github.event.repository.private == false &&
       github.ref == 'refs/heads/research/en-v6-b27-primary-continuation-ci-once-20261125' &&
       github.run_attempt == 1 &&
-      github.event.before == '__B27_REVIEWED_PRIMARY_CONTINUATION_PARENT__'
+      github.event.before == '3a241e2820367b8148c75a4278a279aeb1fdc4a3'
     runs-on: ubuntu-24.04
     timeout-minutes: 180
     env:
-      PREPARED_PARENT: '__B27_REVIEWED_PRIMARY_CONTINUATION_PARENT__'
+      PREPARED_PARENT: '3a241e2820367b8148c75a4278a279aeb1fdc4a3'
       PYTHONHASHSEED: '20261125'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
