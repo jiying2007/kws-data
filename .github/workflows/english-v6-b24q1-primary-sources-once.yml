@@ -18,7 +18,7 @@ concurrency:
   group: en-v6-b24q1-primary-120-once
   cancel-in-progress: false
 env:
-  PREPARED_PARENT: '__B24Q1_REVIEWED_SOURCE_PARENT__'
+  PREPARED_PARENT: '5bdf5db0f632f92496df59de0a6fe70ce254cafd'
   HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
   HF_HUB_DISABLE_TELEMETRY: '1'
   TOKENIZERS_PARALLELISM: 'false'
@@ -51,7 +51,7 @@ jobs:
       run: python -SIB automation/english_v6_b24q1_r1_source_failure.py check-live-metadata
   sources:
     needs: contracts
-    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b24q1-primary-sources-once-20261125' && github.run_attempt == 1 && github.event.before == '__B24Q1_REVIEWED_SOURCE_PARENT__'
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b24q1-primary-sources-once-20261125' && github.run_attempt == 1 && github.event.before == '5bdf5db0f632f92496df59de0a6fe70ce254cafd'
     runs-on: ubuntu-24.04
     timeout-minutes: 115
     steps:
