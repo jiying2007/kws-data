@@ -102,6 +102,16 @@ jobs:
           set -euo pipefail
           python -IB automation/english_v6_b24r1_engineering.py execute --inputs "$RUNNER_TEMP/b24r1-engineering-inputs" --pipeline "$GITHUB_WORKSPACE/pipeline" --output "$RUNNER_TEMP/b24r1-engineering-result" --prepared-parent "$PREPARED_PARENT"
           test -z "$(git status --porcelain)"
+      - name: Preserve original run inventory and consumed-marker API bytes
+        if: always()
+        working-directory: data
+        timeout-minutes: 4
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/b24r1-engineering-inputs/api"
+          gh api 'repos/jiying2007/kws-data/actions/workflows/english-v6-b24r1-engineering-once.yml/runs?branch=research/en-v6-b24r1-engineering-once-20261124&event=push&per_page=100' --allow-escape-sequences > "$RUNNER_TEMP/b24r1-engineering-inputs/api/runs.json"
+          gh api 'repos/jiying2007/kws-data/actions/artifacts?name=english-v6-b24r1-engineering-consumed&per_page=100' --allow-escape-sequences > "$RUNNER_TEMP/b24r1-engineering-inputs/api/markers.json"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -117,6 +127,8 @@ jobs:
           path: |
             ${{ runner.temp }}/b24r1-engineering-inputs/FETCH.json
             ${{ runner.temp }}/b24r1-engineering-inputs/CONSUMPTION.json
+            ${{ runner.temp }}/b24r1-engineering-inputs/api/runs.json
+            ${{ runner.temp }}/b24r1-engineering-inputs/api/markers.json
           include-hidden-files: true
           retention-days: 90
           if-no-files-found: warn

@@ -1,0 +1,37 @@
+name: B24R1 original engineering readback contracts
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b24r1_engineering_readback.py
+      - automation/test_english_v6_b24r1_engineering_readback.py
+      - automation/english_v6_b24r1_engineering.py
+      - automation/english_v6_b24r1_engineering_workflow_template.yml
+      - automation/english_v6_b24r1_quality_readback.py
+      - automation/english_v6_b24_engineering_pipeline.json
+      - .github/workflows/english-v6-b24r1-engineering-once.yml
+      - .github/workflows/english-v6-b24r1-engineering-readback-contract.yml
+  push:
+    branches: [main]
+    paths:
+      - automation/english_v6_b24r1_engineering_readback.py
+      - automation/test_english_v6_b24r1_engineering_readback.py
+      - automation/english_v6_b24r1_engineering_workflow_template.yml
+      - .github/workflows/english-v6-b24r1-engineering-once.yml
+      - .github/workflows/english-v6-b24r1-engineering-readback-contract.yml
+permissions:
+  contents: read
+jobs:
+  original-evidence-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Invented byte and provenance mutations only; no model or compiler
+        run: |
+          python -SIB automation/test_english_v6_b24r1_engineering_readback.py -v
+          python -SIB -O automation/test_english_v6_b24r1_engineering_readback.py -v
+          python -SIB -OO automation/test_english_v6_b24r1_engineering_readback.py -v
+          python -SIB automation/english_v6_b24r1_engineering_readback.py check
