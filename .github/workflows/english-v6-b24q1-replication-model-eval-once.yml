@@ -1,0 +1,91 @@
+name: B24Q1 sealed independent replica of the original PRIMARY-passed models
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b24q1_replication_*
+      - automation/test_english_v6_b24q1_replication_*
+      - automation/english_v6_b24q1_quality_readback.py
+      - .github/workflows/english-v6-b24q1-replication-model-eval-once.yml
+  push:
+    branches: [research/en-v6-b24q1-replication-scoring-once-20261125]
+    paths: [.github/workflows/english-v6-b24q1-replication-model-eval-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b24q1-one-frozen-replication-assessment
+  cancel-in-progress: false
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Offline provenance, source-identity and no-replay contracts only
+        run: |
+          python -SIB automation/test_english_v6_b24q1_replication_eval.py -v
+          python -SIB -O automation/test_english_v6_b24q1_replication_eval.py -v
+          python -SIB -OO automation/test_english_v6_b24q1_replication_eval.py -v
+          python -SIB automation/test_english_v6_b24q1_replication_source_ancestry.py -v
+          python -SIB automation/test_english_v6_b24q1_capacity.py -v
+          python -SIB automation/test_english_v6_b24q1_quality_readback.py -v
+          python -SIB automation/english_v6_b24q1_replication_eval.py check
+  score:
+    needs: contracts
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B24Q1_REVIEWED_REPLICATION_SCORING_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261124'
+      PREPARED_PARENT: '__B24Q1_REVIEWED_REPLICATION_SCORING_PARENT__'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: '${{ github.sha }}', persist-credentials: false, fetch-depth: 2}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Authenticate all original artifacts and both actual producer closures
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python -SIB automation/english_v6_b24q1_replication_eval.py fetch --inputs "$RUNNER_TEMP/b24q1-inputs" --prepared-parent "$PREPARED_PARENT"
+      - name: Complete raw-source, native SCREEN, lineage and TRAIN checks before Torch exists
+        run: python -SIB automation/english_v6_b24q1_replication_eval.py preflight --inputs "$RUNNER_TEMP/b24q1-inputs" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b24q1-replication-consumed
+          path: ${{ runner.temp }}/b24q1-inputs/CONSUMPTION.json
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+      - name: Install only the original CPU scoring runtime after all evidence passes
+        run: |
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 numpy==1.26.4
+      - name: Score each exact original and gain once; preserve every actual output
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python -IB automation/english_v6_b24q1_replication_eval.py score --inputs "$RUNNER_TEMP/b24q1-inputs" --output "$RUNNER_TEMP/b24q1-result" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b24q1-historical-control-replication-logits-${{ github.run_id }}
+          path: ${{ runner.temp }}/b24q1-result/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b24q1-replication-producer-evidence-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/b24q1-inputs/FETCH.json
+            ${{ runner.temp }}/b24q1-inputs/CONSUMPTION.json
+            ${{ runner.temp }}/b24q1-inputs/replication_producer/
+            ${{ runner.temp }}/b24q1-inputs/source_producer/
+            ${{ runner.temp }}/b24q1-inputs/primary_quality/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn
