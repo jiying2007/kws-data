@@ -1,0 +1,86 @@
+name: B27 one natural-weight phase after complete original Q1 NO_PROMOTION
+on:
+  push:
+    branches: [research/en-v6-b27-natural-weight-train-once-20261125]
+    paths: [.github/workflows/english-v6-b27-natural-weight-train-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b27-one-natural-weight-first-fit
+  cancel-in-progress: false
+jobs:
+  train:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B27_REVIEWED_NATURAL_WEIGHT_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261120'
+      PREPARED_PARENT: '__B27_REVIEWED_NATURAL_WEIGHT_PARENT__'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false, fetch-depth: 2}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Check frozen single-factor phase and capture every original dependency
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          python -SIB automation/test_english_v6_b27_natural_weight.py -v
+          python -SIB automation/test_english_v6_b27_training_readback.py -v
+          python -SIB automation/english_v6_b27_producer.py "$RUNNER_TEMP/b27-producer" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b27-train-producer-${{ github.run_id }}
+          path: ${{ runner.temp }}/b27-producer/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+      - name: Reauthenticate complete Q1 failure then fetch eighteen unchanged TRAIN archives and original B24 control
+        env: {GH_TOKEN: '${{ github.token }}'}
+        working-directory: ${{ runner.temp }}/b27-producer/repository
+        run: python -SIB automation/english_v6_b27_natural_weight.py fetch --inputs "$RUNNER_TEMP/b27-inputs" --prepared-parent "$PREPARED_PARENT"
+      - name: Install only array reader before complete actual source admission
+        run: python -m pip install --disable-pip-version-check --retries 0 --timeout 90 numpy==1.26.4
+      - name: Authenticate complete Q1 failure, all fresh exclusions and frozen preoptimizer budget
+        env: {GH_TOKEN: '${{ github.token }}'}
+        working-directory: ${{ runner.temp }}/b27-producer/repository
+        run: python -IB automation/english_v6_b27_natural_weight.py consume --inputs "$RUNNER_TEMP/b27-inputs" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b27-natural-weight-train-consumed
+          path: ${{ runner.temp }}/b27-inputs/CONSUMPTION.json
+          retention-days: 90
+          if-no-files-found: error
+      - name: Install pinned original CPU training runtime after frozen source admission
+        run: |
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 onnx==1.17.0
+      - name: Fit one192-step natural-weight phase from B23 with fresh AdamW and preserve every return
+        env: {GH_TOKEN: '${{ github.token }}'}
+        working-directory: ${{ runner.temp }}/b27-producer/repository
+        run: python -IB automation/english_v6_b27_natural_weight.py execute --inputs "$RUNNER_TEMP/b27-inputs" --output "$RUNNER_TEMP/b27-models" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b27-natural-weight-models-${{ github.run_id }}
+          path: ${{ runner.temp }}/b27-models/
+          retention-days: 90
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b27-original-input-receipts-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/b27-inputs/FETCH.json
+            ${{ runner.temp }}/b27-inputs/SOURCE_PREFLIGHT.json
+            ${{ runner.temp }}/b27-inputs/CONSUMPTION.json
+            ${{ runner.temp }}/b27-inputs/EXTERNAL_INPUTS.json
+            ${{ runner.temp }}/b27-inputs/original_b24/
+            ${{ runner.temp }}/b27-inputs/no-promotion/api/
+            ${{ runner.temp }}/b27-inputs/no-promotion/originals/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn

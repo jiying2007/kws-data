@@ -1,0 +1,183 @@
+{
+  "Q1_assessment_or_budget_changed": false,
+  "Q1_metrics_used_to_choose_parameters": false,
+  "archive_caps": {
+    "all_other_original_inputs": 128000000,
+    "consumed": 128000000,
+    "models": 128000000,
+    "original_Q1_primary_source": 768000000,
+    "producer": 128000000,
+    "receipts": 128000000
+  },
+  "artifact_is_execution_authority": false,
+  "base_quality_reader": {
+    "path": "automation/english_v6_b24q1_quality_readback.py",
+    "sha256": "0192a0ec7b6b12c8a8035cbaae2d362f182345da015313a5abf7427c394f0137"
+  },
+  "baseline_fit": {
+    "path": "automation/english_v6_b23_prefix_peak.py",
+    "sha256": "4c61ffafb00fa75478424179b80d004eb4370e8050b1841caa47c51c669ccbae"
+  },
+  "baseline_recipe": {
+    "path": "automation/english_v6_b24_b23_warm_start_design.json",
+    "sha256": "4fa88cf4050aa276323a7306f21d53163d47c27e3c011c2547d5eeebe6980309"
+  },
+  "baseline_wrapper": {
+    "path": "automation/english_v6_b24_b23_warm_start.py",
+    "sha256": "6259ae829a32655822350caee2608c9d162fdadc6366a3fa6ecf3fb6ab452cd7"
+  },
+  "bounded_proposal": {
+    "path": "research/english_v6_b27_preparation_20261125/PROPOSAL.json",
+    "sha256": "587b9a404fa9209d10f1364826cf0c37879669f3a56545e1e6576473670a10c3"
+  },
+  "budget": {
+    "checkpoint_reload_forwards": 2,
+    "new_asr_calls": 0,
+    "new_dev_cal_locked_forwards": 0,
+    "new_historical_control_forwards": 0,
+    "new_teacher_forwards": 0,
+    "new_tts_calls": 0,
+    "onnx_export_forwards": 1,
+    "optimization_forwards": 1844,
+    "optimizer_updates": 192,
+    "total_new_model_forwards": 1847
+  },
+  "candidate_stem": "mero43-b27-challenger192",
+  "common_draw_sha256": "90b41a650ad5439524bef4bc6d13394fd65034e98c2c5a7862e0a0c1de78a83d",
+  "evidence": {
+    "path": "research/english_v6_b26_preparation_20261125/TRAIN_ONLY_EVIDENCE.json",
+    "sha256": "f4bd7e2e525764c25d9d38bd8d6c225e6ade52eeab70638505284ddbf37f3579"
+  },
+  "evidence_layout": "Git producer contains code and frozen metadata only; receipts contain original Q1 quality originals and APIs, and original B24 TRAIN originals; twelve Q1 inputs and eighteen TRAIN inputs remain complete external pinned archives",
+  "exact_optimizer_continuation": false,
+  "failure_reader": {
+    "path": "automation/english_v6_b24q1_primary_failure.py",
+    "sha256": "23d5d45b9b3630e9a561fc3ce181c9d80898e1afb33a492f917f185fac5bbe5b"
+  },
+  "historical_control_pt_sha256": "f6fce146324cab9286814bab26a594ef67cca58155fa2d2fb5f7fd9370992bb4",
+  "historical_numerical_replay_claimed": false,
+  "initial_pt_sha256": "784def9df6c2a8bfbecdb7ba2d7b70630337a1cda72561c05392327aa980297f",
+  "input_archives": {
+    "B0.zip": {
+      "artifact_id": 14514228406,
+      "bytes": 501276,
+      "sha256": "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702"
+    },
+    "b10-screen.zip": {
+      "artifact_id": 14740257228,
+      "sha256": "ff4d647a224f430e50a76c1f7b42854ad9b41324db0f6b2f2823aaa4c63adb12"
+    },
+    "b10-source.zip": {
+      "artifact_id": 14708400220,
+      "sha256": "dbc57d762922e60ff23253af2463d5d64e1c8021c74fad6e2f0a9ecb9fd87465"
+    },
+    "b17.zip": {
+      "artifact_id": 14887048023,
+      "bytes": 2506252,
+      "sha256": "1e31bd9c801657c7850fa6fb05c5468cbe8b4ab5bb459b0146c07c4c905ff86d"
+    },
+    "b21_producer.zip": {
+      "artifact_id": 14901261272,
+      "bytes": 1260473,
+      "sha256": "377296c5e0ade26c5cd02782f40b033c97ca5007ee267f014f39d136a6f02af8"
+    },
+    "b21_weights.zip": {
+      "artifact_id": 14900878022,
+      "bytes": 1801215,
+      "sha256": "35fa747026589d3db83a9b24508a3d480d88392080b5c07a910c109b5912ba81"
+    },
+    "b9.zip": {
+      "artifact_id": 14689218171,
+      "sha256": "1a8b270200e0c72ab1025f139d16abde43c209f142d72e71a7201b847e06a612"
+    },
+    "diagnostic.zip": {
+      "artifact_id": 14790175198,
+      "sha256": "0959221425bc38e8ca6501ace692c858741079f9223c4972d1cc318252d68ea8"
+    },
+    "fresh-screen.zip": {
+      "artifact_id": 14509252921,
+      "sha256": "e8bcdf32a0ac138de8bdd90c4f6cd6e419d4ccae42bbd393e75b5daac9502158"
+    },
+    "fresh-source.zip": {
+      "artifact_id": 14507208152,
+      "sha256": "2fbc26386136cfd12dddb01074f3c9c4556c8fc7c49819663f2d11a2499eaa1c"
+    },
+    "fresh18-source.zip": {
+      "artifact_id": 14429578824,
+      "sha256": "34cf7879f974f62c9f6046a72a964002f30bf59d2186a423ac382a76ff69d0e9"
+    },
+    "fresh24-source.zip": {
+      "artifact_id": 14422271973,
+      "sha256": "26396073f5be2f91e35575bedb586737405162388e32bfe85633ed3d796a9583"
+    },
+    "mono70-audit.zip": {
+      "artifact_id": 14503604626,
+      "sha256": "12a1eb39c7a458a466fec2e93ba59e5036319bd9db4b4bdc47e7e6e1c5990f1b"
+    },
+    "natural.zip": {
+      "artifact_id": 14318639588,
+      "sha256": "03e2d7e1953ead05736dc2ff1de60c115bc24ee45442a2322886fc3d02050807"
+    },
+    "newtrain24-source.zip": {
+      "artifact_id": 14486048125,
+      "sha256": "3db5e99caf33e04ae920df1c93205f38f98cbc0f326705e2367dc8c67dc02341"
+    },
+    "pair.zip": {
+      "artifact_id": 14789216108,
+      "sha256": "e66de6d2683c93e434e3d426ef88ffa46c9eba63d89d6940454a81d17e7d29af"
+    },
+    "piper24-source.zip": {
+      "artifact_id": 14434542792,
+      "sha256": "d1f75716fefd954d59c3289c37e7e6670965ee98917436676896312e4b781aa1"
+    },
+    "replay.zip": {
+      "artifact_id": 14787969097,
+      "sha256": "855f0ab5cc24c03833e507eafbd08c7cc93866622458d8a217a3827c829cd93c"
+    }
+  },
+  "maximum_new_model_forwards": 1847,
+  "new_control_forwards": 0,
+  "new_teacher_forwards": 0,
+  "new_training_audio": 0,
+  "old_B25_condition_changed": false,
+  "old_B26_condition_changed": false,
+  "opening_condition": "only_after_actual_complete_B24Q1_primary_NO_PROMOTION",
+  "optimizer_updates": 192,
+  "original_B24_models": {
+    "bytes": 5524919,
+    "result_sha256": "d7c641bd8f6f2551d4e116c5f94e2aaa777aab30da3d70d9b92e27269b6d345f",
+    "run_head": "146b9e8022e067855f96e2e6a33f0c8d2e5d23af",
+    "run_id": 45449190562,
+    "sha256": "6adc488ceb760747f09c44bb07c591e4a505f7ce727eee8bfbf24330e420f95b"
+  },
+  "original_B24_quality_function": {
+    "path": "automation/english_v6_b14_decision.py",
+    "sha256": "6aa5f999598e47b41eb0a946acd82fdc5b47d30aea8990871c1c1a01065e4023"
+  },
+  "original_training_binding": {
+    "path": "automation/english_v6_b24_source_inputs.json",
+    "sha256": "5d3dcde142edd245042858b2ba40651c4360b3a9db712f0f8cb4b9c5a3dbebf4"
+  },
+  "original_training_dependency_files": 338,
+  "original_training_forward_artifacts_external": true,
+  "original_training_producer": {
+    "path": "automation/english_v6_b24_source_training_producer.json",
+    "sha256": "a11db0c80939a6a3a49bdd8073558388feb1cd936cd33a757af3dcc706653966"
+  },
+  "parameter_specific_user_approval_claimed": false,
+  "prior_definition_commit": "d5b68dff01abcb66781496369458f7ee006baa87",
+  "proposal": {
+    "path": "research/english_v6_b26_preparation_20261125/FROZEN_TRAIN_ONLY_PROPOSAL.json",
+    "sha256": "4f2df013204098f1014e366def6e8b0b6b983fcaba73805db1204a415f116b8c"
+  },
+  "quality_thresholds_changed": false,
+  "schema": "english-v6-b27-natural-weight-single-factor-design-v1",
+  "scientific_change": {
+    "after": 0.16,
+    "before": 0.08,
+    "field": "natural_weight",
+    "global": "NATURAL_WEIGHT"
+  },
+  "scientific_execution_authorized": false,
+  "status": "INERT_CONDITIONAL_RESEARCH_ONLY"
+}

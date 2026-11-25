@@ -1,0 +1,204 @@
+{
+  "schema": "scratch-b24-train-only-conditional-natural-weight-hypothesis-v1",
+  "prepared_utc": "2026-11-25T02:37:28.394587+00:00",
+  "status": "INERT_NEW_CONDITIONAL_RESEARCH_PROPOSAL_NOT_REGISTERED",
+  "project": "kws-pipeline",
+  "keyword": {
+    "text": "Hey Mero",
+    "pronunciation": "/heɪ ˈmɛroʊ/"
+  },
+  "scope": {
+    "this_is_not_an_existing_B25_definition": true,
+    "existing_B25_condition_overridden": false,
+    "activation_authorized": false,
+    "remote_mutations": 0,
+    "new_model_forwards": 0,
+    "new_gradient_backwards": 0,
+    "new_audio_or_asr_calls": 0,
+    "evaluation_numerical_inputs_used": false,
+    "B24R1_results_seen": false,
+    "B24R1_source_and_assessment_changed": false,
+    "parent_status_at_freeze": "Root reported B24R1 SOURCE PR373 awaiting legacy CI; no B24R1 KWS outputs exist.",
+    "possible_later_use": "Consider this distinct proposal only after an authentic complete B24R1 quality NO_PROMOTION, if the project then chooses to register a new independent research experiment. A SOURCE/transport failure is not a quality failure. This file opens no budget and grants no permission."
+  },
+  "evidence": {
+    "original_train_run_id": 45449190562,
+    "original_train_head": "146b9e8022e067855f96e2e6a33f0c8d2e5d23af",
+    "run_url": "https://github.com/jiying2007/kws-data/actions/runs/45449190562",
+    "archives": {
+      "TRAIN_models.zip": {
+        "bytes": 5524919,
+        "sha256": "6adc488ceb760747f09c44bb07c591e4a505f7ce727eee8bfbf24330e420f95b"
+      },
+      "TRAIN_receipts.zip": {
+        "bytes": 38980116,
+        "sha256": "d4437c339a6d684b6a03f0ce2076955aed6731218d9036f5ffe64305c4624274"
+      }
+    },
+    "train_member_hashes": {
+      "challenger/TRAIN_FORWARD_INDEX.json": "8873e9aebf9a331d3032aae23c7ba27c9cc2fd16f9496289aa4856745be80b4b",
+      "challenger/TRAIN_FORWARD_LOGITS.npz": "4ada153e0ea094b2f7ea97cc9449e89a6eb84f6bdf7d4c8f7acd8af1d05518cc",
+      "challenger/OPTIMIZER_TRACE.json": "aeb06cef94a26996702089610392ae2129f6baea201dd9c5e9e93e7751bd2c31",
+      "challenger/ORDINARY_MARGIN_TRACE.json": "b50dcd470cf3c057796bca0d5002521f2d9cbe0333e94b39075da6f25400a8a9",
+      "challenger/POSITIVE_RETENTION_TRACE.json": "51959025ddee62dc4d71d808dd102725b53f212ab081495a1b9d0b2997b700e9",
+      "COMMON_DRAW.json": "90b41a650ad5439524bef4bc6d13394fd65034e98c2c5a7862e0a0c1de78a83d",
+      "OLD120_POSITIVE_REFERENCES.json": "1e92eed6342e7e1585d694226037096ea5848d3303f111548fed2caa0cc1e8ca",
+      "DESIGN.json": "4fa88cf4050aa276323a7306f21d53163d47c27e3c011c2547d5eeebe6980309"
+    },
+    "analysis_path": "/workspace/scratch/fd9bcccb2ddd/b24-train-only-analysis/analysis.json",
+    "analysis_sha256": "f4bd7e2e525764c25d9d38bd8d6c225e6ade52eeab70638505284ddbf37f3579",
+    "analysis_script_sha256": "a4c7eca1f2643c94cb940bb5856944430b790842fa9f944d5194c8f6bf4dcc45",
+    "saved_arrays_hash_checked": 1844,
+    "actual_optimizer_updates": 192,
+    "maximum_total_loss_reconstruction_residual": 4.917096174494873e-05,
+    "positive_suffix_events": 202,
+    "positive_observations": 384,
+    "natural_false_event_observations": 35,
+    "natural_false_events": 47,
+    "natural_observations": 384,
+    "natural_false_event_originals": 3,
+    "synthetic_ordinary_event_observations": 0,
+    "synthetic_ordinary_observations": 384,
+    "known_silent_prefix_nonblank_frames": 0,
+    "all_base_frame0_hey_observations": 0,
+    "base_observations": 1152,
+    "first_natural_false_event_step": 63,
+    "five_complete_pass_positive_event_observations": [
+      9,
+      31,
+      42,
+      44,
+      50
+    ],
+    "five_complete_pass_natural_false_event_observations": [
+      0,
+      1,
+      7,
+      10,
+      13
+    ],
+    "observations_per_complete_pass_per_class": 70,
+    "paired_same_positive_id_gain_prefix": {
+      "repeat_conditions": 120,
+      "ctc_decreased": 119,
+      "suffix_miss_to_hit": 37,
+      "suffix_hit_to_miss": 0,
+      "first_ctc_median": 1.404405925821028,
+      "last_ctc_median": 0.5975120715998119
+    },
+    "paired_same_natural_id_gain_prefix": {
+      "repeat_conditions": 54,
+      "no_event_to_event": 7,
+      "event_to_no_event": 0,
+      "new_event_conditions_whose_total_blank_ctc_decreased": 6
+    },
+    "norm5_clipped_updates": 176,
+    "first_unclipped_update": 116,
+    "hardest_positive": {
+      "id": "mero24-453-mero-slow",
+      "observations": 10,
+      "suffix_events": 0,
+      "share_of_positive_suffix_ctc": 0.6045889287034332,
+      "steps": [
+        20,
+        55,
+        90,
+        125,
+        160
+      ],
+      "cannot_infer_label_error_or_parameter_gradient_direction": true
+    }
+  },
+  "hypothesis": {
+    "scientific_variable": "NATURAL_WEIGHT",
+    "old_value": 0.08,
+    "new_value": 0.16,
+    "exact_term": "NATURAL_WEIGHT * mean_over_two_gains(prefix_peak_suffix_loss(natural_ordinary, target=[]))",
+    "existing_inner_term": "0.6 * empty_target_suffix_CTC + 0.5 * max_known_silence_blank_CE, with unchanged tier weight",
+    "what_changes": "Only the one outer natural-ordinary coefficient doubles. It scales both the already-defined empty-target suffix CTC and its existing known-silence prefix term; no new loss form is introduced.",
+    "mechanism": "The present training trajectory recovers true positive suffix sequences while creating new complete natural-negative sequences at three existing owner-reviewed TRAIN sources. Stronger pressure on the same natural-negative objective may alter this observed sensitivity/specificity tradeoff while the unchanged positive-retention objective preserves genuine acoustic recovery.",
+    "choice_of_value": "A single prespecified 2x scalar contrast, not a grid, fitted optimum, learning-rate search, or response to evaluation results.",
+    "inference_limits": "Saved scalar losses and clipped whole-model norms do not identify parameter-gradient conflict or guarantee that doubling this coefficient suppresses event completion. Six of seven newly false-positive paired natural conditions already have decreasing total blank CTC, so the hypothesis can fail because its surrogate loss is insufficiently aligned with event ordering."
+  },
+  "prospective_single_factor_comparison_if_later_registered": {
+    "candidate_initial_pt_sha256": "784def9df6c2a8bfbecdb7ba2d7b70630337a1cda72561c05392327aa980297f",
+    "candidate_initialization": "The same immutable saved B23 checkpoint that initialized the original B24 phase, with fresh AdamW. Do not initialize at B24, because that would change the starting point as well as the scalar.",
+    "immutable_historical_control_pt_sha256": "f6fce146324cab9286814bab26a594ef67cca58155fa2d2fb5f7fd9370992bb4",
+    "historical_control": "Original B24 checkpoint and saved trajectory; never rerun original B23 or B24 to manufacture a control.",
+    "optimizer_updates": 192,
+    "optimizer": "fresh_AdamW",
+    "optimizer_state_restored": false,
+    "learning_rate": 6e-05,
+    "weight_decay": 0.001,
+    "gradient_norm_clip": 5.0,
+    "parameters": 43876,
+    "common_draw_sha256": "90b41a650ad5439524bef4bc6d13394fd65034e98c2c5a7862e0a0c1de78a83d",
+    "existing_train_originals": 88,
+    "existing_positive_retention_conditions": 122,
+    "existing_ordinary_teacher_arrays": 264,
+    "new_training_audio": 0,
+    "new_teacher_forwards": 0,
+    "new_control_optimizer_updates": 0,
+    "budget_if_separately_authorized": {
+      "optimization_forwards": 1844,
+      "checkpoint_reload_forwards": 2,
+      "onnx_export_forwards": 1,
+      "total_new_model_forwards": 1847
+    },
+    "unchanged": [
+      "architecture",
+      "same saved B23 initial checkpoint",
+      "same fresh optimizer recipe",
+      "same 192 COMMON_DRAW schedule",
+      "all 88 original TRAIN labels and PCM",
+      "all 122 retention conditions and reference spans",
+      "all 264 saved ordinary teachers",
+      "gain schedule",
+      "silence-prefix schedule and amax reduction",
+      "positive-retention coefficient 0.08",
+      "ordinary-ceiling coefficient and frame/token mean reduction 0.08",
+      "synthetic ordinary CTC coefficient 0.6",
+      "gain-consistency coefficient and clip",
+      "learning rate",
+      "gradient clipping",
+      "decoder",
+      "no repeated generation of verified audio"
+    ],
+    "causal_limitation": "Historical B24 is not a same-job rerun control. The scalar is the only planned recipe change, but any new backend/runtime differences must be recorded; do not claim exact numerical causal isolation across execution environments."
+  },
+  "training_mechanism_predictions_and_falsification": {
+    "basis": "Exactly the already-budgeted, saved pre-update logits on the identical 192 draws; no extra diagnostic model forward or new training label.",
+    "support_pattern": "Compared with the frozen B24 saved trajectory, fewer than 47 complete natural false events and fewer than 35 natural event-bearing observations, with at least the same 202 genuine positive suffix-event observations and no return of known-silence nonblank shortcuts.",
+    "falsification": "No reduction in natural false events, or a reduction bought only by losing the observed positive suffix recovery, does not support the narrow hypothesis. A silent-prefix shortcut relapse also does not support it.",
+    "interpretation": "These are explicit TRAIN mechanism diagnostics, not promotion gates and not final-checkpoint accuracy estimates. Observations are repeated source/gain/prefix samples during changing weights, not independent trials.",
+    "no_automatic_retune_or_phase_extension": true
+  },
+  "independent_quality_and_deployment": {
+    "original_B14_decision_sha256": "6aa5f999598e47b41eb0a946acd82fdc5b47d30aea8990871c1c1a01065e4023",
+    "scientific_quality_thresholds_unchanged": true,
+    "new_independent_assessment_must_be_frozen_before_new_optimizer": true,
+    "all_actual_previous_source_people_and_pcm_exclusions_must_be_preserved": true,
+    "existing_B24R1_assessment_not_used_to_select_new_coefficient_or_training_examples": true,
+    "TRAIN_diagnostics_cannot_authorize_promotion": true,
+    "both_original_primary_and_replication_gates_required": true,
+    "physical_hardware_deployment_evidence_separate": true
+  },
+  "alternatives_not_selected": [
+    {
+      "option": "Additional unchanged warm-start updates",
+      "reason": "Positive and natural false-event counts rise together across complete TRAIN draw passes; extra unchanged training could continue the observed specificity loss."
+    },
+    {
+      "option": "Ordinary teacher-ceiling mean reduction to peak/amax",
+      "reason": "Potentially relevant to sparse errors, but saved aggregate teacher-margin traces do not show that the maximum is at the event-completing frames. It would introduce a new objective shape and stronger unmeasured assumptions than the selected scalar test."
+    },
+    {
+      "option": "Remove or upsample the hardest positive",
+      "reason": "One original contributes 60.46% of positive CTC, but no label-error or parameter-gradient-conflict proof was measured. Loss magnitude alone does not justify relabeling, removing or score-driven sampling."
+    },
+    {
+      "option": "Increase learning rate or change gradient clipping",
+      "reason": "176/192 clipped steps establish scale, not a beneficial direction. These choices do not directly test the observed natural-negative tradeoff."
+    }
+  ]
+}

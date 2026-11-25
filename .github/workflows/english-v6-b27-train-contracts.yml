@@ -1,0 +1,37 @@
+name: B27 single natural-weight TRAIN contracts
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b27_*
+      - automation/english_v6_b27_panels/**
+      - automation/bind_b27_training.py
+      - automation/test_english_v6_b27_*
+      - research/english_v6_b27_preparation_20261125/**
+      - .github/workflows/english-v6-b27-*
+  push:
+    branches: [main]
+    paths:
+      - automation/english_v6_b27_*
+      - automation/english_v6_b27_panels/**
+      - automation/bind_b27_training.py
+      - automation/test_english_v6_b27_*
+      - research/english_v6_b27_preparation_20261125/**
+      - .github/workflows/english-v6-b27-*
+permissions:
+  contents: read
+jobs:
+  contracts:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Check one scalar, original guards and complete saved-array mutation fixtures
+        run: |
+          python -SIB automation/english_v6_b27_natural_weight.py check
+          python -SIB automation/test_english_v6_b27_source_metadata.py -v
+          python -SIB automation/test_english_v6_b27_natural_weight.py -v
+          python -SIB automation/test_english_v6_b27_training_readback.py -v

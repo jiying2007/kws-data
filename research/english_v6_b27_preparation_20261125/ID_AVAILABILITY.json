@@ -1,0 +1,84 @@
+{
+  "schema": "english-v6-prospective-local-experiment-id-availability-v1",
+  "experiment_id": "B27",
+  "checked_at_utc": "2026-11-25T08:11:16Z",
+  "repositories": [
+    "jiying2007/kws-data",
+    "jiying2007/kws-pipeline"
+  ],
+  "checks": [
+    {
+      "kind": "local exact-token content search",
+      "query": "(^|[^0-9a-z])b27([^0-9a-z]|$)|b24q1n1",
+      "case_insensitive": true,
+      "repository": "kws-data",
+      "paths": [
+        "automation",
+        "research",
+        ".github"
+      ],
+      "exit_code": 1,
+      "matches": 0
+    },
+    {
+      "kind": "local exact-token content search",
+      "query": "(^|[^0-9a-z])b27([^0-9a-z]|$)|b24q1n1",
+      "case_insensitive": true,
+      "repository": "kws-pipeline",
+      "paths": [
+        "research/english_v5_mero",
+        "research/english_v6_delivery",
+        ".github"
+      ],
+      "exit_code": 1,
+      "matches": 0
+    },
+    {
+      "kind": "GitHub branches search",
+      "repository": "jiying2007/kws-data",
+      "query": "b27",
+      "page_size": 100,
+      "branches": [],
+      "cursor": null
+    },
+    {
+      "kind": "GitHub branches search",
+      "repository": "jiying2007/kws-pipeline",
+      "query": "b27",
+      "page_size": 100,
+      "branches": [],
+      "cursor": null
+    },
+    {
+      "kind": "GitHub PR search",
+      "repositories": [
+        "jiying2007/kws-data",
+        "jiying2007/kws-pipeline"
+      ],
+      "query": "B27",
+      "state": "all",
+      "topn": 100,
+      "issues": []
+    },
+    {
+      "kind": "GitHub commit search",
+      "repositories": [
+        "jiying2007/kws-data",
+        "jiying2007/kws-pipeline"
+      ],
+      "query": "B27",
+      "topn": 100,
+      "commits": []
+    }
+  ],
+  "heads_observed_after_search_at_utc": "2026-11-25T08:13:44Z",
+  "local_heads_observed_after_search": {
+    "kws_data": "969be023bf8e835429f01a268a7bd19247a4599f",
+    "kws_pipeline": "91b33a32121d01b1b3191ed7c4cc00177b68cd0b"
+  },
+  "result": "NO_EXISTING_B27_FOUND_IN_INSPECTED_PROJECT_FILES_OR_GITHUB_BRANCH_PR_COMMIT_SEARCHES",
+  "limits": "Search observations are time-bound; GitHub indexing and out-of-scope/unpublished work are not proven absent. Recheck before prospective registration. This local document creates no remote reservation.",
+  "remote_writes": 0,
+  "scientific_calls": 0
+}
+
