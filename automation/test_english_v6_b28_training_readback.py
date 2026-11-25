@@ -354,9 +354,10 @@ class B28ProvenanceContracts(unittest.TestCase):
                 reader.verify_training_original(Path("/invented"), lock(), Path("/invented-inputs"))
 
     def test_inert_fetch_rejected_before_network_or_output_directory(self):
-        self.context.stop()  # This regression exercises the actual inert B28 files.
+        self.context.stop()  # Exercise the real validator with an explicitly unbound design identity.
         train, _producer = reader.modules()
         with tempfile.TemporaryDirectory() as temporary, \
+             patch.object(train, "DESIGN_SHA", None), \
              patch.object(train, "gh", side_effect=AssertionError("no network before binding")) as network:
             output = Path(temporary) / "original-training"
             with self.assertRaises(ValueError):

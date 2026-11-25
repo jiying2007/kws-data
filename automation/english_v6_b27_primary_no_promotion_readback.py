@@ -60,6 +60,10 @@ ORIGINAL_HASHES = {
 FORBIDDEN = frozenset(('numpy', 'torch', 'torchaudio', 'onnxruntime', 'soundfile',
                        'transformers', 'piper', 'requests', 'httpx'))
 MAX_BYTES = 128_000_000
+RESEARCH_MODULES = {
+    'campaign': 'research/auto-tts-voice-clone-20261102/campaign.py',
+    'runner': 'research/auto-tts-voice-clone-20261102/runner.py',
+}
 
 
 def need(ok, message):
@@ -183,18 +187,43 @@ def original_failure_preflight(directory):
     return result
 
 
+def captured_module_name(relative):
+    path = PurePosixPath(relative)
+    need(path.as_posix() == relative and not path.is_absolute() and '..' not in path.parts
+         and path.suffix == '.py', 'one normalized captured Python source path')
+    if path.parent.as_posix() == 'automation':
+        parts = (path.stem,)
+    elif relative in RESEARCH_MODULES.values():
+        parts = (next(name for name, value in RESEARCH_MODULES.items() if value == relative),)
+    else:
+        parts = path.parts[:-1] if path.name == '__init__.py' else (*path.parts[:-1], path.stem)
+    need(parts and all(part.isidentifier() for part in parts), 'explicit captured Python import name')
+    return '.'.join(parts)
+
+
 class CapturedModuleFinder(importlib.abc.MetaPathFinder):
     """A module in the captured cohort has no checkout or second-root fallback."""
 
     def __init__(self, root, pins):
         self.root = regular(root, directory=True)
         self.pins = pins
-        self.modules = {PurePosixPath(name).stem: name for name in pins
-                        if PurePosixPath(name).parent.as_posix() == 'automation'
-                        and name.endswith('.py')}
-        need(self.modules and len(self.modules) == len(set(self.modules))
-             and all(name.isidentifier() for name in self.modules), 'explicit captured Python module cohort')
+        self.modules = {}
+        for relative in sorted(name for name in pins if name.endswith('.py')):
+            name = captured_module_name(relative)
+            need(name not in self.modules, 'no ambiguous captured Python import name')
+            self.modules[name] = relative
+        need(self.modules, 'complete captured Python module cohort')
+        self.packages = {name for name, relative in self.modules.items()
+                         if PurePosixPath(relative).name == '__init__.py'}
+        for name in self.modules:
+            parents = ['.'.join(name.split('.')[:i]) for i in range(1, len(name.split('.')))]
+            need(all(parent in self.packages for parent in parents),
+                 'every captured package ancestor has an authenticated initializer')
+        self.roots = {name.split('.')[0] for name in self.modules}
         self.loaded = {}
+
+    def owns(self, name):
+        return name.split('.')[0] in self.roots
 
     def checked_path(self, name):
         relative = self.modules[name]
@@ -205,7 +234,8 @@ class CapturedModuleFinder(importlib.abc.MetaPathFinder):
         return path
 
     def validate_clean_start(self):
-        need(not (set(self.modules) & set(sys.modules)), 'project modules must start in one fresh isolated process')
+        need(not any(self.owns(name) for name in sys.modules),
+             'project modules must start in one fresh isolated process')
         for name in self.modules:
             self.checked_path(name)
 
@@ -213,10 +243,32 @@ class CapturedModuleFinder(importlib.abc.MetaPathFinder):
         if fullname in self.modules:
             source = self.checked_path(fullname)
             self.loaded[fullname] = self.pins[self.modules[fullname]]
-            return importlib.util.spec_from_file_location(fullname, source)
-        if fullname.startswith(('english_', 'bind_b27_', 'test_english_')):
+            locations = [str(source.parent)] if fullname in self.packages else None
+            return importlib.util.spec_from_file_location(fullname, source,
+                                                         submodule_search_locations=locations)
+        if self.owns(fullname) or fullname.split('.')[0] in ('automation', 'research') \
+                or fullname.startswith(('english_', 'bind_b27_', 'test_english_', 'kws_data_contract')):
             raise ModuleNotFoundError('uncaptured project dependency has no fallback: ' + fullname)
         return None
+
+    def verified_imports(self):
+        """Reopen every actual ordinary import, including packages and scripts."""
+        imported, paths = {}, {}
+        for name, pin in sorted(self.loaded.items()):
+            module = sys.modules.get(name)
+            path = self.checked_path(name)
+            need(module is not None and Path(module.__file__).resolve() == path
+                 and module.__spec__ is not None and Path(module.__spec__.origin).resolve() == path,
+                 'no captured dependency was overwritten by a second-root module: ' + name)
+            if name in self.packages:
+                need(list(module.__path__) == list(module.__spec__.submodule_search_locations)
+                     == [str(path.parent)], 'captured package has one exact original search root: ' + name)
+            imported[name] = dict(pin)
+            paths[name] = self.modules[name]
+        for name in sys.modules:
+            if name.split('.')[0] in {value.split('.')[0] for value in self.packages}:
+                need(name in imported, 'all original package imports are captured and recorded: ' + name)
+        return imported, paths
 
 
 @contextmanager
@@ -233,8 +285,9 @@ def captured_imports(root, pins):
         sys.meta_path[:] = before_meta
         # There were no project modules before entry. Removing this isolated
         # cohort prevents an in-process fixture from leaving a false authority.
-        for name in finder.modules:
-            sys.modules.pop(name, None)
+        for name in tuple(sys.modules):
+            if finder.owns(name):
+                sys.modules.pop(name, None)
 
 
 @contextmanager
@@ -298,10 +351,15 @@ def validate_report(result, lock):
              ('new_model_calls', 'new_source_calls', 'new_observer_calls', 'new_optimizer_updates')),
          'read-only failure certification cannot open PASS, retry or scientific execution')
     modules = result['imported_original_modules']
+    paths = result['imported_original_module_paths']
     need(type(modules) is dict and READER_NAME in modules and 'english_v6_b27_profile' in modules,
          'exact original reader and profile import identity is recorded')
+    need(type(paths) is dict and set(paths) == set(modules)
+         and {'kws_data_contract', 'kws_data_contract.identity'} <= set(modules),
+         'all ordinary first-party imports include their captured original paths and package identities')
     for name, pin in modules.items():
-        need(type(name) is str and name.isidentifier() and type(pin) is dict
+        need(type(name) is str and all(part.isidentifier() for part in name.split('.'))
+             and type(paths[name]) is str and captured_module_name(paths[name]) == name and type(pin) is dict
              and set(pin) == {'bytes', 'sha256'} and type(pin['bytes']) is int and 0 < pin['bytes'] < MAX_BYTES
              and re.fullmatch('[0-9a-f]{64}', pin['sha256']) is not None,
              'complete original imported module pin')
@@ -331,19 +389,15 @@ def verify_worker(directory, lock, proof_root):
             with reader.offline_only(proof_root, 'primary'):
                 report = reader.verify_worker(directory, lock, proof_root)
             check_original_report(report, lock)
-            imported = {name: dict(pin) for name, pin in sorted(finder.loaded.items())}
+            imported, imported_paths = finder.verified_imports()
             need(READER_NAME in imported and 'english_v6_b27_profile' in imported,
                  'reader and its sole profile belong to the authenticated captured cohort')
-            for name, pin in imported.items():
-                module = sys.modules.get(name)
-                need(module is not None and Path(module.__file__).resolve() == root / finder.modules[name]
-                     and sha(Path(module.__file__).read_bytes()) == pin['sha256'],
-                     'no captured dependency was overwritten by a second-root module: ' + name)
     result = dict(schema=REPORT_SCHEMA, panel='primary', panel_gate='NO_PROMOTION',
         original_reader_sha256=READER_SHA, import_scope_adapter_sha256=sha(Path(__file__).read_bytes()),
         original_producer_artifact=dict(id=ARTIFACTS['producer'][0], bytes=ARTIFACTS['producer'][1],
             sha256=ARTIFACTS['producer'][2]), captured_primary_files=len(pins),
         captured_primary_inventory_sha256=sha(canonical(pins)), imported_original_modules=imported,
+        imported_original_module_paths=imported_paths,
         original_report_sha256=sha(canonical(report)), original_report=report,
         original_verifier_code_changed=False, original_path_or_hash_guard_changed=False,
         proof_context_transferred=False, checkout_fallback_allowed=False,
@@ -405,14 +459,12 @@ def captured_probe(producer_path, repaired):
             need(set(expected) == set(pins), 'all original producer files and dynamic resources remain covered')
             need(all(sha((second / name).read_bytes()) == digest for name, digest in expected.items()),
                  'all479 second-extraction producer bytes match frozen original registration')
-            for name, pin in finder.loaded.items():
-                imported = sys.modules[name]
-                need(Path(imported.__file__).resolve() == first / finder.modules[name]
-                     and sha(Path(imported.__file__).read_bytes()) == pin['sha256'],
-                     'all direct source-helper imports retain the single captured namespace')
+            imported, imported_paths = finder.verified_imports()
             return dict(schema=CHECK_SCHEMA, repaired=True, original_reader_sha256=READER_SHA,
                 original_evaluator_sha256=PRIMARY_SHA, captured_files=len(pins),
-                imported_modules=len(finder.loaded), original_protocol_passed=True,
+                captured_python_files=len(finder.modules), imported_modules=len(imported),
+                imported_original_modules=imported, imported_original_module_paths=imported_paths,
+                original_protocol_passed=True,
                 original_producer_contract_passed=True, original_helpers_and_source_policy_passed=True,
                 single_original_profile=True, proof_context_created=False,
                 new_model_calls=0, new_source_calls=0, new_observer_calls=0)

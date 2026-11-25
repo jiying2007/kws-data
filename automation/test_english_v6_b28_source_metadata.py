@@ -145,6 +145,27 @@ def zip_bytes(path, members):
     return dict(bytes=path.stat().st_size, sha256=m.digest(path.read_bytes()))
 
 
+def repin_catalog_api(directory, origin, key, value):
+    """Rebind outer fixture pins so semantic regressions reach the new guards."""
+    name = 'api/' + key + '.json'
+    raw = m.encoded(value)
+    (Path(directory) / name).write_bytes(raw)
+    origin['files'][name] = dict(bytes=len(raw), sha256=m.digest(raw))
+    origin['transport'][name] = dict(original_api_base64=base64.b64encode(raw).decode())
+
+
+def repin_catalog_receipts(directory, origin, receipts):
+    name = 'originals/metadata.zip'
+    pin = zip_bytes(Path(directory) / name, receipts)
+    origin['files'][name] = pin
+    origin['artifacts']['metadata'].update(pin)
+    api = m.document((Path(directory) / 'api/artifacts.json').read_bytes())
+    for item in api['artifacts']:
+        if item['id'] == origin['artifacts']['metadata']['id']:
+            item.update(size_in_bytes=pin['bytes'], digest='sha256:' + pin['sha256'])
+    repin_catalog_api(directory, origin, 'artifacts', api)
+
+
 def catalog_proof_fixture(directory):
     """Real capture mechanics; every stream byte and utterance is invented."""
     collector = load(m.ROOT / m.COLLECTOR, 'b28_collector_fixture_source')
@@ -190,9 +211,26 @@ def catalog_proof_fixture(directory):
         execution=execution, summary=summary, catalog=validation['catalog'], member_index=validation['member_index'],
         validation_sha256=m.digest(validation_raw), archive_get_attempted=1, archive_response_returned=1,
         algorithm_result=None, scientific_panel_budget_consumed=False, metadata_only_counters=spec['metadata_only_counters'])
+    started = dict(status='INCOMPLETE', execution=execution, corpus=spec['corpus'], transport=spec['transport'],
+        limits=spec['limits'], scientific_panel_budget_consumed=False, metadata_only_counters=spec['metadata_only_counters'])
+    request = collector.urllib.request.Request(spec['corpus']['url'], headers={'Accept-Encoding': 'identity'}, method='GET')
+    attempt = dict(schema='english-v6-train360-metadata-get-attempt-v1', execution=execution,
+        attempt=1, url=request.full_url, method=request.get_method(), headers=request.header_items(),
+        maximum_archive_gets=1, retries=0, redirects=0)
+    headers = helpers.Message()
+    headers['Content-Length'] = str(spec['corpus']['bytes'])
+    headers['X-Fixture'] = 'first preserved value'
+    headers['X-Fixture'] = 'second preserved value'
+    response = SimpleNamespace(url=spec['corpus']['url'], status=200, headers=headers)
+    collector.validate_response(response, spec)
+    with tempfile.TemporaryDirectory() as response_directory:
+        # Use the actual pinned collector's serializer, with no body or network.
+        collector.save_http_response(Path(response_directory), response)
+        response_raw = (Path(response_directory) / 'HTTP_RESPONSE.json').read_bytes()
     receipts = {'AUTHORIZATION.json': collector.canonical(authorization),
         'PREPARATION_API.json': collector.canonical(prepare_api), 'COLLECTION_API.json': collector.canonical(collect_api),
-        'TRANSFER_STARTED.json': b'{}', 'GET_ATTEMPT.json': b'{}', 'HTTP_RESPONSE.json': b'{}', 'PROGRESS.jsonl': b'',
+        'TRANSFER_STARTED.json': collector.canonical(started), 'GET_ATTEMPT.json': collector.canonical(attempt),
+        'HTTP_RESPONSE.json': response_raw, 'PROGRESS.jsonl': b'',
         'RESULT.json': collector.canonical(result), 'COMPLETE/FULL_METADATA_CATALOG.json': catalog_raw,
         'COMPLETE/FULL_MEMBER_INDEX.json': index_raw, 'COMPLETE/VALIDATION.json': validation_raw}
     directory = Path(directory)
@@ -211,8 +249,16 @@ def catalog_proof_fixture(directory):
         artifacts[role] = dict(pin, id=number, run_id=123, run_head=execution['run_head'])
         api_artifacts.append(dict(id=number, name=names[role], size_in_bytes=pin['bytes'], digest='sha256:' + pin['sha256'],
             expired=False, workflow_run=dict(id=123, head_sha=execution['run_head'])))
+    tree_sha = 'c' * 40
+    tree_entries = [dict(path=row['path'], mode='100644', type='blob', sha=row['git_blob_sha1'], size=row['bytes'])
+        for row in file_rows]
+    directories = {str(parent) for row in file_rows for parent in Path(row['path']).parents if str(parent) != '.'}
+    tree_entries.extend(dict(path=name, mode='040000', type='tree', sha=hashlib.sha1(name.encode()).hexdigest())
+        for name in sorted(directories))
     api = dict(run=run, commit=dict(sha=execution['run_head'], parents=[dict(sha=execution['prepared_parent'])],
-        files=[dict(filename=collector.WORKFLOW)]), artifacts=dict(total_count=3, artifacts=api_artifacts))
+        files=[dict(filename=collector.WORKFLOW)], commit=dict(tree=dict(sha=tree_sha))),
+        tree=dict(sha=tree_sha, truncated=False, tree=sorted(tree_entries, key=lambda row: row['path'])),
+        artifacts=dict(total_count=3, artifacts=api_artifacts))
     for key, value in api.items():
         raw = collector.canonical(value)
         name = 'api/' + key + '.json'
@@ -227,10 +273,18 @@ def catalog_proof_fixture(directory):
 
 class MetadataTests(unittest.TestCase):
     def test_five_unbound_pins_refuse_before_any_selection_or_catalog_read(self):
-        for function in (m.inputs, m.validate, m.validate_registration):
-            with self.subTest(function=function.__name__), mock.patch.object(m, '_previous', side_effect=AssertionError('no old or new rank')), \
-                 self.assertRaisesRegex(ValueError, 'remain unbound'):
-                function()
+        names = ('DESIGN_SHA', 'OPENING_SHA', 'EXPOSURE_SHA', 'ORIGIN_SHA', 'CATALOG_ORIGIN_SHA')
+        # Exercise an explicit inert fixture even after the real preparation is
+        # frozen. Every missing pin must stop before any file or catalog read.
+        for missing in names:
+            pins = {name: None if name == missing else 'a' * 64 for name in names}
+            for function in (m.inputs, m.validate, m.validate_registration):
+                with self.subTest(missing=missing, function=function.__name__), \
+                     mock.patch.multiple(m, **pins), \
+                     mock.patch.object(m, 'frozen', side_effect=AssertionError('no unbound file read')), \
+                     mock.patch.object(m, '_previous', side_effect=AssertionError('no old or new rank')), \
+                     self.assertRaisesRegex(ValueError, 'remain unbound'):
+                    function()
 
     def test_exact_prespecified_salts(self):
         self.assertEqual(m.SALTS, {role: {kind: 'english-v6-b28-natural-event-' + role + '-' + kind + '-20261125-v1'
@@ -396,6 +450,166 @@ class MetadataTests(unittest.TestCase):
             changed['transport']['api/run.json']['original_api_base64'] = base64.b64encode(b'{}').decode()
             with mock.patch.object(m, 'frozen', return_value=m.encoded(changed)), self.assertRaisesRegex(ValueError, 'API bytes'):
                 m.catalog_registration()
+
+    def test_catalog_registration_requires_seventh_original_tree_file(self):
+        with tempfile.TemporaryDirectory() as directory:
+            origin, _, _, _ = catalog_proof_fixture(Path(directory))
+            self.assertEqual(len(m.CATALOG_FILES), 7)
+            for name in ('files', 'transport'):
+                origin[name].pop('api/tree.json')
+            with mock.patch.object(m, 'frozen', return_value=m.encoded(origin)), self.assertRaisesRegex(ValueError, 'seven'):
+                m.catalog_registration()
+
+    def test_original_tree_identity_completeness_and_canonical_members_reject_after_repin(self):
+        changes = [
+            ('tree identity', lambda api: api['tree'].update(sha='d' * 40)),
+            ('commit tree identity', lambda api: api['commit']['commit']['tree'].update(sha='d' * 40)),
+            ('missing commit tree', lambda api: api['commit']['commit'].pop('tree')),
+            ('truncated', lambda api: api['tree'].update(truncated=True)),
+            ('integer truncated', lambda api: api['tree'].update(truncated=0)),
+            ('missing truncated', lambda api: api['tree'].pop('truncated')),
+            ('non-list members', lambda api: api['tree'].update(tree={})),
+            ('duplicate member', lambda api: api['tree']['tree'].append(copy.deepcopy(api['tree']['tree'][0]))),
+            ('dot alias', lambda api: api['tree']['tree'][0].update(path='automation/./fixture.py')),
+            ('parent alias', lambda api: api['tree']['tree'][0].update(path='automation/../fixture.py')),
+            ('absolute path', lambda api: api['tree']['tree'][0].update(path='/automation/fixture.py')),
+            ('backslash alias', lambda api: api['tree']['tree'][0].update(path='automation\\fixture.py')),
+            ('type and mode', lambda api: api['tree']['tree'][0].update(type='blob', mode='040000', size=0)),
+            ('missing mode', lambda api: api['tree']['tree'][0].pop('mode')),
+            ('invalid object', lambda api: api['tree']['tree'][0].update(sha='not-a-git-object')),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            origin, collector, _, _ = catalog_proof_fixture(root)
+            original = {key: m.document((root / ('api/' + key + '.json')).read_bytes()) for key in ('tree', 'commit')}
+            with mock.patch.object(m, 'catalog_registration', return_value=origin), mock.patch.object(m, '_collector', return_value=collector), \
+                 mock.patch.object(m, 'archive', side_effect=AssertionError('invalid tree must stop before producer read')):
+                for label, mutate in changes:
+                    api = copy.deepcopy(original)
+                    mutate(api)
+                    for key, value in api.items(): repin_catalog_api(root, origin, key, value)
+                    with self.subTest(change=label), self.assertRaises(ValueError):
+                        with m.catalog_scope(root): pass
+
+    def test_original_tree_binds_every_captured_file_blob_mode_type_and_size(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            origin, collector, _, _ = catalog_proof_fixture(root)
+            original = m.document((root / 'api/tree.json').read_bytes())
+            changes = [(name, dict(sha='d' * 40)) for name in collector.paths()]
+            first = collector.paths()[0]
+            changes.extend((first, value) for value in (
+                dict(mode='120000'), dict(mode='100755'), dict(type='tree', mode='040000'),
+                dict(type='commit', mode='160000'), dict(size=1), dict(size=True), dict(size=-1)))
+            changes.append((first, None))
+            with mock.patch.object(m, 'catalog_registration', return_value=origin), mock.patch.object(m, '_collector', return_value=collector), \
+                 mock.patch.object(m, '_catalog_complete', side_effect=AssertionError('no catalog before every producer blob is bound')):
+                for name, fields in changes:
+                    tree = copy.deepcopy(original)
+                    if fields is None:
+                        tree['tree'] = [item for item in tree['tree'] if item['path'] != name]
+                    else:
+                        next(item for item in tree['tree'] if item['path'] == name).update(fields)
+                    repin_catalog_api(root, origin, 'tree', tree)
+                    with self.subTest(path=name, fields=fields), self.assertRaises(ValueError):
+                        with m.catalog_scope(root): pass
+
+    def reject_receipt_changes(self, name, changes):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            origin, collector, receipts, _ = catalog_proof_fixture(root)
+            original = m.document(receipts[name])
+            with mock.patch.object(m, 'catalog_registration', return_value=origin), mock.patch.object(m, '_collector', return_value=collector), \
+                 mock.patch.object(m, '_catalog_complete', side_effect=AssertionError('no catalog before exact original transport receipts')), \
+                 mock.patch.object(socket, 'socket', side_effect=AssertionError('no network')):
+                for label, mutate in changes:
+                    value = copy.deepcopy(original)
+                    mutate(value)
+                    modified = dict(receipts, **{name: m.encoded(value)})
+                    repin_catalog_receipts(root, origin, modified)
+                    with self.subTest(receipt=name, change=label), self.assertRaises(ValueError):
+                        with m.catalog_scope(root): pass
+
+    def test_original_get_attempt_exact_schema_execution_ordinal_method_and_budget(self):
+        self.reject_receipt_changes('GET_ATTEMPT.json', [
+            ('empty object', lambda value: value.clear()),
+            ('schema', lambda value: value.update(schema='other')),
+            ('missing schema', lambda value: value.pop('schema')),
+            ('extra field', lambda value: value.update(invented=True)),
+            ('other execution', lambda value: value['execution'].update(run_head='d' * 40)),
+            ('attempt', lambda value: value.update(attempt=2)),
+            ('bool attempt', lambda value: value.update(attempt=True)),
+            ('method', lambda value: value.update(method='HEAD')),
+            ('origin', lambda value: value.update(url='https://fixture.invalid/archive.tar.gz')),
+            ('encoding', lambda value: value.update(headers=[['Accept-encoding', 'gzip']])),
+            ('range request', lambda value: value['headers'].append(['Range', 'bytes=0-1'])),
+            ('collapsed request headers', lambda value: value.update(headers={'Accept-encoding': 'identity'})),
+            ('duplicate request encoding', lambda value: value['headers'].append(['Accept-encoding', 'identity'])),
+            ('two archive gets', lambda value: value.update(maximum_archive_gets=2)),
+            ('retry', lambda value: value.update(retries=1)),
+            ('redirect', lambda value: value.update(redirects=1)),
+        ])
+
+    def test_original_transfer_started_exact_execution_corpus_limits_and_zero_counters(self):
+        self.reject_receipt_changes('TRANSFER_STARTED.json', [
+            ('empty object', lambda value: value.clear()),
+            ('invented schema', lambda value: value.update(schema='not-emitted-by-collector')),
+            ('missing limits', lambda value: value.pop('limits')),
+            ('status', lambda value: value.update(status='COMPLETE')),
+            ('other execution', lambda value: value['execution'].update(run_id='124')),
+            ('other corpus', lambda value: value['corpus'].update(split='train-clean-100')),
+            ('other archive identity', lambda value: value['corpus'].update(sha256='d' * 64)),
+            ('archive length', lambda value: value['corpus'].update(bytes=value['corpus']['bytes'] + 1)),
+            ('changed transport', lambda value: value['transport'].update(maximum_elapsed_seconds=1)),
+            ('changed limit', lambda value: value['limits'].update(catalog_bytes=1)),
+            ('science budget', lambda value: value.update(scientific_panel_budget_consumed=True)),
+            ('nonzero science', lambda value: value['metadata_only_counters'].update(
+                {next(iter(value['metadata_only_counters'])): 1})),
+        ])
+
+    def test_original_http_response_exact_schema_origin_status_and_full_identity_headers(self):
+        self.reject_receipt_changes('HTTP_RESPONSE.json', [
+            ('empty object', lambda value: value.clear()),
+            ('invented execution', lambda value: value.update(execution={'run_id': '123'})),
+            ('missing redirect rejection flag', lambda value: value.pop('redirect_rejected')),
+            ('wrong origin', lambda value: value.update(url='https://fixture.invalid/archive.tar.gz')),
+            ('partial response', lambda value: value.update(status=206)),
+            ('redirect response', lambda value: value.update(status=302)),
+            ('float status', lambda value: value.update(status=200.0)),
+            ('saved body', lambda value: value.update(body_saved=True)),
+            ('retry', lambda value: value.update(retries=1)),
+            ('redirect', lambda value: value.update(redirects=1)),
+            ('redirect rejected', lambda value: value.update(redirect_rejected=True)),
+            ('missing length', lambda value: value.update(headers=[])),
+            ('wrong length', lambda value: value.update(headers=[['Content-Length', '1']])),
+            ('duplicate length', lambda value: value['headers'].append(copy.deepcopy(value['headers'][0]))),
+            ('case duplicate length', lambda value: value['headers'].append(['content-length', value['headers'][0][1]])),
+            ('content range', lambda value: value['headers'].append(['cOnTeNt-RaNgE', 'bytes 0-1/2'])),
+            ('empty content range', lambda value: value['headers'].append(['Content-Range', ''])),
+            ('transfer encoding', lambda value: value['headers'].append(['Transfer-Encoding', 'chunked'])),
+            ('empty transfer encoding', lambda value: value['headers'].append(['transfer-encoding', ''])),
+            ('nonidentity', lambda value: value['headers'].append(['Content-Encoding', 'gzip'])),
+            ('collapsed headers', lambda value: value.update(headers={'Content-Length': value['headers'][0][1]})),
+            ('malformed pair', lambda value: value['headers'].append(['X-Fixture', 'value', 'discarded'])),
+            ('nonstrings', lambda value: value['headers'].append([1, 'value'])),
+        ])
+
+    def test_original_response_preserves_duplicate_headers_and_collector_identity_semantics(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            origin, collector, receipts, _ = catalog_proof_fixture(root)
+            original = m.document(receipts['HTTP_RESPONSE.json'])
+            self.assertEqual(sum(name == 'X-Fixture' for name, _ in original['headers']), 2)
+            for encoding in (None, 'identity', 'IDENTITY'):
+                value = copy.deepcopy(original)
+                value['headers'][0][0] = 'cOnTeNt-LeNgTh'
+                if encoding is not None: value['headers'].append(['Content-Encoding', encoding])
+                changed = dict(receipts, **{'HTTP_RESPONSE.json': m.encoded(value)})
+                repin_catalog_receipts(root, origin, changed)
+                with self.subTest(encoding=encoding), mock.patch.object(m, 'catalog_registration', return_value=origin), \
+                     mock.patch.object(m, '_collector', return_value=collector):
+                    with m.catalog_scope(root) as report:
+                        self.assertEqual(report['status'], 'PASS_METADATA_ONLY')
 
     def test_no_scientific_or_network_imports_and_no_assert_guards(self):
         allowed = {'__future__', 'argparse', 'base64', 'contextlib', 'contextvars', 'copy', 'hashlib',

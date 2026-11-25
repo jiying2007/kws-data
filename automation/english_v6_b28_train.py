@@ -39,7 +39,7 @@ B27_PT = 'dd0d4bc08be1162886ab462dfb3ad7f4503150a57ee13272d01f41e80ca1069f'
 B27_PROOF_SHA = '6c6334a1d8d6452e186c41fe472eca6e072a8af42a02a81d9aac68b30e7d9a28'
 B27_READER_SHA = '87bc31725380cbf70d70d6b46929a724dc6bff656d421c5ae63b54c0724e31aa'
 B27_IMPORT_ADAPTER_PATH = 'automation/english_v6_b27_primary_no_promotion_readback.py'
-B27_IMPORT_ADAPTER_SHA = '5cdf7ae6edd4d47a8e1b5778068a69511debaf225d24e3a75e315d611645b0db'
+B27_IMPORT_ADAPTER_SHA = '9de0cb1e8619d6d3127c09cc279d2480621663feabf1208535f9099e2c271518'
 B27_IMPORT_REPORT_SCHEMA = 'english-v6-b27-primary-rooted-no-promotion-readback-v1'
 CONDITION = 'only_after_actual_complete_B27_primary_NO_PROMOTION'
 SCHEMA = 'english-v6-b28-train-natural-event-v1'
@@ -206,14 +206,15 @@ def external_inputs(inputs):
                  for name, pin in design()['input_archives'].items()), 'same18 complete original TRAIN archives')
     metadata = importlib.import_module('english_v6_b28_source_metadata')
     catalog = metadata.catalog_registration()
-    need(profile.inventory(inputs / 'metadata/train360') == catalog['files'],
-         'all six original metadata producer, consumption, result and API files remain complete')
+    need(len(metadata.CATALOG_FILES) == len(catalog['files']) == 7
+         and profile.inventory(inputs / 'metadata/train360') == catalog['files'],
+         'all seven original metadata producer, consumption, result and complete Git/API files remain complete')
     return dict(schema='english-v6-b28-complete-external-original-inputs-v1', files=expected,
         complete_original_B27_primary_files=18, complete_original_B27_training_files=41,
         original_TRAIN_input_archives=18, complete_bytes_retained=True,
         input_archives_nested_into_new_producer=False, total_bytes=sum(v['bytes'] for v in expected.values()),
         capacity=1280000000, metadata_catalog_files=catalog['files'],
-        metadata_catalog_original_count=6,
+        metadata_catalog_original_count=7,
         metadata_catalog_total_bytes=sum(pin['bytes'] for pin in catalog['files'].values()))
 
 

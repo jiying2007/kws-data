@@ -121,6 +121,87 @@ class CapturedImports(unittest.TestCase):
                 importlib.import_module(missing)
         self.assertNotIn(missing, sys.modules)
 
+    def package(self):
+        bodies = {'kws_data_contract/__init__.py': b'"""Captured package fixture."""\n',
+                  'kws_data_contract/identity.py': b'ORIGIN = "captured-package"\n',
+                  'kws_data_contract/reference_text.py': b'from .identity import ORIGIN\n'}
+        for relative, body in bodies.items():
+            path = self.root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(body)
+            self.pins[relative] = dict(bytes=len(body), sha256=subject.sha(body))
+
+    def test_package_and_relative_import_origins_are_captured_and_recorded(self):
+        self.package()
+        fallback = Path(self.temporary.name) / 'checkout'
+        package = fallback / 'kws_data_contract'
+        package.mkdir(parents=True)
+        (package / '__init__.py').write_bytes(b'raise RuntimeError("ambient package executed")\n')
+        with subject.captured_imports(self.root, self.pins) as finder:
+            sys.path.insert(0, str(fallback))
+            module = importlib.import_module('kws_data_contract.reference_text')
+            self.assertEqual(module.ORIGIN, 'captured-package')
+            imported, paths = finder.verified_imports()
+            for name in ('kws_data_contract', 'kws_data_contract.identity', 'kws_data_contract.reference_text'):
+                self.assertEqual(imported[name], self.pins[paths[name]])
+                self.assertEqual(Path(sys.modules[name].__file__).resolve(), self.root / paths[name])
+            sys.modules['kws_data_contract'].__path__.append(str(package))
+            with self.assertRaisesRegex(ValueError, 'one exact original search root'):
+                finder.verified_imports()
+        self.assertFalse(any(name.startswith('kws_data_contract') for name in sys.modules))
+
+    def test_missing_package_member_and_uncaptured_member_cannot_fall_back(self):
+        self.package()
+        fallback = Path(self.temporary.name) / 'checkout'
+        fallback.mkdir()
+        (fallback / 'identity.py').write_bytes((self.root / 'kws_data_contract/identity.py').read_bytes())
+        (fallback / 'uncaptured.py').write_bytes(b'raise RuntimeError("fallback executed")\n')
+        with subject.captured_imports(self.root, self.pins):
+            package = importlib.import_module('kws_data_contract')
+            package.__path__.insert(0, str(fallback))
+            (self.root / 'kws_data_contract/identity.py').unlink()
+            with self.assertRaises(ValueError):
+                importlib.import_module('kws_data_contract.identity')
+            with self.assertRaisesRegex(ModuleNotFoundError, 'no fallback'):
+                importlib.import_module('kws_data_contract.uncaptured')
+
+    def test_cached_package_descendant_is_rejected_before_entering_scope(self):
+        self.package()
+        name = 'kws_data_contract.uncaptured'
+        module = ModuleType(name)
+        self.addCleanup(sys.modules.pop, name, None)
+        sys.modules[name] = module
+        with self.assertRaisesRegex(ValueError, 'fresh isolated process'):
+            with subject.captured_imports(self.root, self.pins):
+                self.fail('cached package namespace accepted')
+        self.assertIs(sys.modules[name], module)
+
+    def test_both_original_research_script_import_names_are_captured(self):
+        bodies = {'campaign': b'ORIGIN = "captured-research"\n',
+                  'runner': b'import campaign as c\n'}
+        for name, body in bodies.items():
+            relative = subject.RESEARCH_MODULES[name]
+            path = self.root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(body)
+            self.pins[relative] = dict(bytes=len(body), sha256=subject.sha(body))
+        with subject.captured_imports(self.root, self.pins) as finder:
+            runner = importlib.import_module('runner')
+            self.assertEqual(runner.c.ORIGIN, 'captured-research')
+            imported, paths = finder.verified_imports()
+            self.assertEqual(paths, subject.RESEARCH_MODULES)
+            self.assertEqual(set(imported), {'campaign', 'runner'})
+        self.assertNotIn('campaign', sys.modules)
+        self.assertNotIn('runner', sys.modules)
+
+    def test_nested_module_requires_complete_captured_package_ancestors(self):
+        path = self.root / 'kws_data_contract/identity.py'
+        path.parent.mkdir()
+        path.write_bytes(self.body)
+        self.pins['kws_data_contract/identity.py'] = dict(bytes=len(self.body), sha256=subject.sha(self.body))
+        with self.assertRaisesRegex(ValueError, 'authenticated initializer'):
+            subject.CapturedModuleFinder(self.root, self.pins)
+
     def test_bootstrap_blocks_model_network_and_children(self):
         import socket
         with subject.bootstrap_offline():
@@ -190,6 +271,14 @@ class FixedFailureEvidence(unittest.TestCase):
         repaired = outputs[1]
         self.assertTrue(repaired['repaired'])
         self.assertEqual(repaired['captured_files'], 479)
+        paths, modules = repaired['imported_original_module_paths'], repaired['imported_original_modules']
+        self.assertEqual(set(paths), set(modules))
+        self.assertEqual(paths['kws_data_contract'], 'kws_data_contract/__init__.py')
+        self.assertEqual(paths['kws_data_contract.identity'], 'kws_data_contract/identity.py')
+        self.assertEqual(modules['kws_data_contract']['sha256'],
+                         '3b3c0ef178e7115b2206e895c19128603272c0d3ad8a22eade280d372f884608')
+        self.assertEqual(modules['kws_data_contract.identity']['sha256'],
+                         '7cb39db2c8fe07e6fada96735bae526c2f442775fc8e4786940add80abbba3e8')
         self.assertTrue(repaired['original_protocol_passed'])
         self.assertTrue(repaired['original_producer_contract_passed'])
         self.assertTrue(repaired['original_helpers_and_source_policy_passed'])

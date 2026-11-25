@@ -245,6 +245,37 @@ class ExecutionContracts(unittest.TestCase):
             self.assertEqual(train.source_history(Path('/invented')), expected)
         self.assertFalse(active[0])
 
+    def test_complete_external_proof_requires_seven_original_catalog_objects_including_git_tree(self):
+        pin = dict(bytes=1, sha256='a' * 64)
+        training = {'training_' + str(i) + '.zip': dict(pin) for i in range(18)}
+        previous = {'qualification/training/' + name: value for name, value in training.items()}
+        previous.update({'other_original_' + str(i) + '.zip': dict(pin) for i in range(23)})
+        primary = {'primary_original_' + str(i) + '.zip': dict(pin) for i in range(18)}
+        names = ('api/run.json', 'api/commit.json', 'api/artifacts.json', 'api/tree.json',
+                 'originals/producer.zip', 'originals/consumed.zip', 'originals/metadata.zip')
+        catalog = {name: dict(pin) for name in names}
+        proof = {'training-origin/' + name: value for name, value in previous.items()}
+        proof.update({'primary-quality/' + name: value for name, value in primary.items()})
+        metadata = SimpleNamespace(CATALOG_FILES=names, catalog_registration=lambda: dict(files=catalog))
+        root = Path('/invented')
+        inventories = {root / 'proof': proof,
+            root / 'proof/training-origin/qualification/training': training,
+            root / 'metadata/train360': catalog}
+        recipe = dict(input_archives=training, archive_caps=dict(complete_external_original_B27_proof=1280000000))
+        with patch.object(train.profile, 'binding', return_value=dict(files=previous)), \
+             patch.object(train, 'opening', return_value=dict(original_primary_files=primary)), \
+             patch.object(train, 'design', return_value=recipe), \
+             patch.object(train.profile, 'inventory', side_effect=lambda path: inventories[path]), \
+             patch.object(train.importlib, 'import_module', return_value=metadata):
+            value = train.external_inputs(root)
+            self.assertEqual(len(value['files']), 59)
+            self.assertEqual(value['metadata_catalog_original_count'], 7)
+            self.assertIn('api/tree.json', value['metadata_catalog_files'])
+            self.assertIs(value['input_archives_nested_into_new_producer'], False)
+            del catalog['api/tree.json']
+            with self.assertRaisesRegex(ValueError, 'all seven original'):
+                train.external_inputs(root)
+
     def test_role_caps_remain_fixed_and_complete_external_proof_is_not_packaged(self):
         small = {'invented.py': dict(bytes=100)}
         envelope = producer.capacity_receipt(small)

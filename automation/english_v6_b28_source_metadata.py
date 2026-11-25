@@ -51,7 +51,7 @@ OPENING_PATH = 'automation/english_v6_b28_opening.json'
 BINDING_PATH = 'automation/english_v6_b28_assessment_binding.json'
 COLLECTOR = 'automation/english_v6_train360_metadata.py'
 COLLECTOR_SHA = 'b32fef85c966254b08b034704664d4dd04c9139657ff5046513fcea8bd22853e'
-CATALOG_FILES = ('api/artifacts.json', 'api/commit.json', 'api/run.json',
+CATALOG_FILES = ('api/artifacts.json', 'api/commit.json', 'api/run.json', 'api/tree.json',
     'originals/consumed.zip', 'originals/metadata.zip', 'originals/producer.zip')
 CATALOG_MEMBERS = ('FULL_MEMBER_INDEX.json', 'FULL_METADATA_CATALOG.json', 'VALIDATION.json')
 CATALOG_MAXIMUM = 224 * 1024 * 1024
@@ -311,7 +311,7 @@ def catalog_registration():
          and execution['run_branch'] == 'refs/heads/research/en-v6-train360-metadata-once-20261125'
          and all(re.fullmatch('[0-9a-f]{40}', execution[k]) for k in ('run_head', 'prepared_parent'))
          and execution['run_head'] != execution['prepared_parent'], 'one actually registered metadata run')
-    need(set(value['files']) == set(value['transport']) == set(CATALOG_FILES), 'complete six original catalog files')
+    need(set(value['files']) == set(value['transport']) == set(CATALOG_FILES), 'complete seven original catalog files')
     for name, pin in value['files'].items():
         need(set(pin) == {'bytes', 'sha256'} and type(pin['bytes']) is int and 0 < pin['bytes'] <= CATALOG_MAXIMUM
              and valid_hash(pin['sha256']), 'fixed whole external catalog file')
@@ -359,6 +359,59 @@ def _catalog_api(api, origin, collector):
              and item['digest'] == 'sha256:' + pin['sha256'] and item['expired'] is False
              and str(item['workflow_run']['id']) == execution['run_id']
              and item['workflow_run']['head_sha'] == execution['run_head'], 'original catalog artifact API identity')
+    tree = api['tree']
+    commit_body = commit.get('commit')
+    need(type(commit_body) is dict and type(commit_body.get('tree')) is dict,
+         'original metadata commit tree object')
+    tree_sha = commit_body['tree'].get('sha')
+    need(type(tree_sha) is str and re.fullmatch('[0-9a-f]{40}', tree_sha) is not None
+         and tree.get('sha') == tree_sha and tree.get('truncated') is False and type(tree.get('tree')) is list,
+         'complete original immutable metadata commit tree')
+    entries = {}
+    modes = {'tree': {'040000'}, 'blob': {'100644', '100755', '120000'}, 'commit': {'160000'}}
+    for item in tree['tree']:
+        need(type(item) is dict and {'path', 'type', 'mode', 'sha'} <= set(item), 'original metadata tree entry object')
+        safe_name(item['path'])
+        need(item['path'] not in entries and type(item['type']) is str and item['type'] in modes
+             and type(item['mode']) is str and item['mode'] in modes[item['type']]
+             and type(item['sha']) is str and re.fullmatch('[0-9a-f]{40}', item['sha']) is not None,
+             'unique canonical original metadata tree path, type, mode and object')
+        if item['type'] == 'blob':
+            need(type(item.get('size')) is int and item['size'] >= 0, 'original metadata tree blob byte length')
+        entries[item['path']] = item
+    return entries
+
+
+def _catalog_transport(receipts, origin, spec):
+    """Replay the exact successful receipt shapes emitted by the pinned collector."""
+    started = document(receipts.read('TRANSFER_STARTED.json'))
+    need(encoded(started) == encoded(dict(status='INCOMPLETE', execution=origin['execution'],
+         corpus=spec['corpus'], transport=spec['transport'], limits=spec['limits'],
+         scientific_panel_budget_consumed=False, metadata_only_counters=spec['metadata_only_counters'])),
+         'same original metadata transfer execution, corpus, limits and zero science counters')
+    attempt = document(receipts.read('GET_ATTEMPT.json'))
+    need(encoded(attempt) == encoded(dict(schema='english-v6-train360-metadata-get-attempt-v1',
+         execution=origin['execution'], attempt=1, url=spec['corpus']['url'], method='GET',
+         headers=[['Accept-encoding', 'identity']], maximum_archive_gets=1, retries=0, redirects=0)),
+         'one original fixed identity GET attempt without retries or redirects')
+    response = document(receipts.read('HTTP_RESPONSE.json'))
+    fixed = dict(url=spec['corpus']['url'], status=200, body_saved=False,
+        redirects=0, retries=0, redirect_rejected=False)
+    need(set(response) == {*fixed, 'headers'}
+         and encoded({key: response[key] for key in fixed}) == encoded(fixed)
+         and type(response['headers']) is list,
+         'one original successful fixed-origin HTTP response without retries or redirects')
+    headers = {}
+    for pair in response['headers']:
+        need(type(pair) is list and len(pair) == 2 and all(type(value) is str for value in pair),
+             'original ordered HTTP header pairs retain duplicate evidence')
+        headers.setdefault(pair[0].lower(), []).append(pair[1])
+    # Match the collector's HTTPMessage semantics: get_all for Content-Length,
+    # first get for Content-Encoding, and presence refusal for range/transfer.
+    need(headers.get('content-length') == [str(spec['corpus']['bytes'])]
+         and 'content-range' not in headers and 'transfer-encoding' not in headers
+         and headers.get('content-encoding', ['identity'])[0].lower() == 'identity',
+         'one fixed full identity-encoded response with exact Content-Length')
 
 
 def _catalog_complete(raw, origin, collector):
@@ -395,8 +448,8 @@ def _catalog_complete(raw, origin, collector):
 def _catalog_originals(directory, origin):
     collector = _collector()
     spec = collector.registration()
-    api = {key: document((directory / ('api/' + key + '.json')).read_bytes()) for key in ('run', 'commit', 'artifacts')}
-    _catalog_api(api, origin, collector)
+    api = {key: document((directory / ('api/' + key + '.json')).read_bytes()) for key in ('run', 'commit', 'artifacts', 'tree')}
+    tree = _catalog_api(api, origin, collector)
     with ExitStack() as stack:
         archives = {role: stack.enter_context(archive(directory / ('originals/' + role + '.zip'), pin, CATALOG_MAXIMUM))
             for role, pin in origin['artifacts'].items()}
@@ -416,6 +469,10 @@ def _catalog_originals(directory, origin):
             need(raw == expected and len(raw) == item['bytes'] and digest(raw) == item['sha256']
                  and hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest() == item['git_blob_sha1'],
                  'every exact original captured metadata implementation and resource')
+            node = tree.get(item['path'])
+            need(node is not None and node['type'] == 'blob' and node['mode'] == '100644'
+                 and node['sha'] == item['git_blob_sha1'] and node['size'] == len(raw),
+                 'every captured metadata file belongs to the immutable ordinary-blob run tree')
         receipts = archives['metadata']
         needed = {'AUTHORIZATION.json', 'PREPARATION_API.json', 'COLLECTION_API.json', 'TRANSFER_STARTED.json',
             'GET_ATTEMPT.json', 'HTTP_RESPONSE.json', 'PROGRESS.jsonl', 'RESULT.json',
@@ -432,6 +489,7 @@ def _catalog_originals(directory, origin):
             original_api = document(receipts.read(name))
             collector.once(origin['execution'], consumed,
                 api=lambda endpoint: original_api['runs'] if '/runs?' in endpoint else original_api['artifacts'])
+        _catalog_transport(receipts, origin, spec)
         raw = {n: receipts.read('COMPLETE/' + n) for n in CATALOG_MEMBERS}
         catalog, index, validation = _catalog_complete(raw, origin, collector)
         result = document(receipts.read('RESULT.json'))
@@ -452,7 +510,7 @@ def _catalog_originals(directory, origin):
 
 @contextmanager
 def catalog_scope(directory):
-    """Reopen all six fixed external originals; never use a selected-text cache."""
+    """Reopen all seven fixed external originals; never use a selected-text cache."""
     origin = catalog_registration()
     directory = Path(directory)
     need(directory.is_absolute() and directory == directory.resolve() and directory.is_dir()
@@ -467,7 +525,7 @@ def catalog_scope(directory):
             need(name in origin['files'] and path.stat().st_size == origin['files'][name]['bytes'], 'complete catalog file length')
             with path.open('rb') as stream:
                 need(hashlib.file_digest(stream, 'sha256').hexdigest() == origin['files'][name]['sha256'], 'complete catalog file SHA256')
-    need(sorted(actual) == sorted(CATALOG_FILES), 'all and only six original catalog proof files')
+    need(sorted(actual) == sorted(CATALOG_FILES), 'all and only seven original catalog proof files')
     result = _catalog_originals(directory, origin)
     token = _CATALOG.set(result)
     try:
