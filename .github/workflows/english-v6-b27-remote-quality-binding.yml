@@ -34,11 +34,11 @@ jobs:
           done
   bind:
     needs: contracts
-    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b27-primary-binding-ci-once-20261125' && github.run_attempt == 1 && github.event.before == '__B27_REVIEWED_REMOTE_BINDING_PARENT__'
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b27-primary-binding-ci-once-20261125' && github.run_attempt == 1 && github.event.before == '888a9ea563edc8a8205f5f4098dc5a71679316af'
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:
-      PREPARED_PARENT: '__B27_REVIEWED_REMOTE_BINDING_PARENT__'
+      PREPARED_PARENT: '888a9ea563edc8a8205f5f4098dc5a71679316af'
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
