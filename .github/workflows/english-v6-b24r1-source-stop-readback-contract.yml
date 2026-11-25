@@ -1,0 +1,32 @@
+name: B24R1 original SOURCE STOP readback contracts
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b24r1_source_stop_readback.py
+      - automation/test_english_v6_b24r1_source_stop_readback.py
+      - automation/english_v6_b24r1_b24_source_failure.py
+      - research/english_v6_b24r1_preparation_20261124/SOURCE_STOP_READBACK.md
+      - .github/workflows/english-v6-b24r1-source-stop-readback-contract.yml
+  push:
+    branches: [main]
+    paths:
+      - automation/english_v6_b24r1_source_stop_readback.py
+      - automation/test_english_v6_b24r1_source_stop_readback.py
+      - .github/workflows/english-v6-b24r1-source-stop-readback-contract.yml
+permissions:
+  contents: read
+jobs:
+  saved-evidence-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Invented saved-evidence mutations only; no source or model runtime
+        run: |
+          python -SIB automation/test_english_v6_b24r1_source_stop_readback.py -v
+          python -SIB -O automation/test_english_v6_b24r1_source_stop_readback.py -v
+          python -SIB -OO automation/test_english_v6_b24r1_source_stop_readback.py -v
+          python -SIB automation/english_v6_b24r1_source_stop_readback.py check
