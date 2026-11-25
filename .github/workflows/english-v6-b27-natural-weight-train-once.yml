@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   train:
-    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B27_REVIEWED_NATURAL_WEIGHT_PARENT__'
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == 'ba9c846ac16a08837575865b8666cf957113c156'
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:
@@ -19,7 +19,7 @@ jobs:
       MKL_NUM_THREADS: '1'
       OPENBLAS_NUM_THREADS: '1'
       PYTHONHASHSEED: '20261120'
-      PREPARED_PARENT: '__B27_REVIEWED_NATURAL_WEIGHT_PARENT__'
+      PREPARED_PARENT: 'ba9c846ac16a08837575865b8666cf957113c156'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with: {persist-credentials: false, fetch-depth: 2}
