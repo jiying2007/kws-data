@@ -10,6 +10,7 @@ original = profile.preserved('english_v6_b22_source_ancestry')
 profile.inherit(original, globals())
 from english_v6_b27_capacity import before_consumption, before_generation
 import english_v6_b27_source_metadata as metadata
+import english_v6_b27_source_preconsumption_stop as preconsumption_stop
 
 HERE = Path(__file__).resolve().parent
 PANEL = 'primary'
@@ -18,7 +19,7 @@ ASSESSMENT = PLANS / 'assessment.json'
 ASSESSMENT_SHA = profile.profile(False)['assessment_sha256']
 ANCESTRY_SHA = profile.profile(False)['ancestry_sha256']
 INPUTS = HERE / 'english_v6_b27_primary_proof_binding.json'
-BRANCH = 'refs/heads/research/en-v6-b27-primary-sources-once-20261125'
+BRANCH = 'refs/heads/research/en-v6-b27-primary-sources-complete-resources-once-20261125'
 WORKFLOW = '.github/workflows/english-v6-b27-primary-sources-once.yml'
 SCHEMA = 'english-v6-b27-complete-source-authorization-v1'
 MARKER = 'english-v6-b27-primary-source-consumed'
@@ -28,6 +29,7 @@ TRAIN_WORKFLOW = '.github/workflows/english-v6-b27-natural-weight-train-once.yml
 
 def read_plan():
     p = profile.profile()
+    preconsumption_stop.verify()
     need(p['assessment_sha256'] == ASSESSMENT_SHA and p['ancestry_sha256'] == ANCESTRY_SHA,
          'same prospectively frozen B27 assessment throughout execution')
     return json.loads(ASSESSMENT.read_bytes())
@@ -89,6 +91,7 @@ def authorization_document(directory, identity):
     directory = Path(directory)
     result = verify_training(directory)
     return dict(schema=SCHEMA, panel=PANEL, source_execution=identity,
+        primary_preconsumption_origin=preconsumption_stop.verify(),
         assessment_sha256=ASSESSMENT_SHA, ancestry_sha256=ANCESTRY_SHA,
         training_binding_sha256=training_binding_sha(),
         train_result_sha256=training_binding()['training']['result_sha256'],
@@ -111,8 +114,18 @@ def authorization_document(directory, identity):
 
 def authorize(out, prepared_parent):
     identity = execution_guard(prepared_parent)
+    # A new engineering entry can consume only the still-unused original budget.
+    # Reauthenticate the terminal original run on the service before any source
+    # permission; all later offline readers recheck its preserved full originals.
+    if PANEL == 'primary':
+        preconsumption_stop.validate_remote(
+            json.loads(gh('actions/runs/' + str(preconsumption_stop.RUN))),
+            json.loads(gh('actions/runs/' + str(preconsumption_stop.RUN) + '/jobs?per_page=100')),
+            json.loads(gh('actions/runs/' + str(preconsumption_stop.RUN) + '/artifacts?per_page=100')))
     verify_training(out)
     one_execution(identity, False)
+    for provider in PROVIDERS:
+        one_execution(identity, False, provider)
     out = Path(out)
     need(out.is_absolute() and out.parent.is_dir() and not out.exists(), 'fresh B27 source authorization')
     out.mkdir()

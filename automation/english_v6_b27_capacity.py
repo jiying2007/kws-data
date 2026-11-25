@@ -121,9 +121,11 @@ def producer_members(directory, panel):
     need(panel in ('primary', 'replication'), 'explicit original B27 scoring producer')
     directory = Path(directory)
     pieces = []
+    retained_archives = []
     for name in (panel + '_producer', 'source_producer'):
         value = base.inventory(directory / name)
         need(value['files'], 'complete nonempty original code producer')
+        retained_archives.extend(name + '/' + member for member in value['files'] if member.endswith('.zip'))
         pieces.append(base._facts(value, name + '/'))
     for name in ('FETCH.json', 'CONSUMPTION.json'):
         path = directory / name
@@ -137,7 +139,9 @@ def producer_members(directory, panel):
     need(total['members'] <= base.MAX_MEMBERS and total['bytes'] <= CORE_LIMIT and bound <= CORE_LIMIT,
          'complete original producer fits unchanged128MB before scoring consumption')
     return dict(schema='english-v6-b27-producer-capacity-v1', panel=panel, **total,
-                maximum_zip_bytes=bound, limit_bytes=CORE_LIMIT, historical_archives_nested=0)
+                maximum_zip_bytes=bound, limit_bytes=CORE_LIMIT,
+                historical_archives_nested=len(retained_archives),
+                historical_archive_paths=sorted(retained_archives))
 
 
 def score_budget(rows):

@@ -8,7 +8,7 @@ name: English B27 independently frozen primary sources with complete original tr
     - .github/workflows/english-v6-b27-primary-sources-once.yml
   push:
     branches:
-    - research/en-v6-b27-primary-sources-once-20261125
+    - research/en-v6-b27-primary-sources-complete-resources-once-20261125
     paths:
     - .github/workflows/english-v6-b27-primary-sources-once.yml
 permissions:
@@ -41,13 +41,13 @@ jobs:
       run: |
         set -euo pipefail
         for mode in '' -O -OO; do
-          for test in automation/test_english_v6_b27_source_metadata.py automation/test_english_v6_b27_sources.py automation/test_english_v6_b24q1_quarantine.py; do
+          for test in automation/test_english_v6_b27_source_metadata.py automation/test_english_v6_b27_sources.py automation/test_english_v6_b27_source_preconsumption_stop.py automation/test_english_v6_b27_source_resources.py automation/test_english_v6_b27_source_continuation.py automation/test_english_v6_b24q1_quarantine.py; do
             python -SIB $mode "$test" -v
           done
         done
   sources:
     needs: contracts
-    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b27-primary-sources-once-20261125' && github.run_attempt == 1 && github.event.before == '__B27_REVIEWED_PRIMARY_SOURCE_PARENT__'
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b27-primary-sources-complete-resources-once-20261125' && github.run_attempt == 1 && github.event.before == '__B27_REVIEWED_PRIMARY_SOURCE_PARENT__'
     runs-on: ubuntu-24.04
     timeout-minutes: 180
     steps:
