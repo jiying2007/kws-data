@@ -1,0 +1,3353 @@
+{
+  "schema": "scratch-b24-saved-train-only-diagnosis-v1",
+  "original_archives": {
+    "TRAIN_models.zip": {
+      "bytes": 5524919,
+      "sha256": "6adc488ceb760747f09c44bb07c591e4a505f7ce727eee8bfbf24330e420f95b"
+    },
+    "TRAIN_receipts.zip": {
+      "bytes": 38980116,
+      "sha256": "d4437c339a6d684b6a03f0ce2076955aed6731218d9036f5ffe64305c4624274"
+    }
+  },
+  "member_hashes": {
+    "challenger/TRAIN_FORWARD_INDEX.json": "8873e9aebf9a331d3032aae23c7ba27c9cc2fd16f9496289aa4856745be80b4b",
+    "challenger/TRAIN_FORWARD_LOGITS.npz": "4ada153e0ea094b2f7ea97cc9449e89a6eb84f6bdf7d4c8f7acd8af1d05518cc",
+    "challenger/OPTIMIZER_TRACE.json": "aeb06cef94a26996702089610392ae2129f6baea201dd9c5e9e93e7751bd2c31",
+    "challenger/ORDINARY_MARGIN_TRACE.json": "b50dcd470cf3c057796bca0d5002521f2d9cbe0333e94b39075da6f25400a8a9",
+    "challenger/POSITIVE_RETENTION_TRACE.json": "51959025ddee62dc4d71d808dd102725b53f212ab081495a1b9d0b2997b700e9",
+    "COMMON_DRAW.json": "90b41a650ad5439524bef4bc6d13394fd65034e98c2c5a7862e0a0c1de78a83d",
+    "OLD120_POSITIVE_REFERENCES.json": "1e92eed6342e7e1585d694226037096ea5848d3303f111548fed2caa0cc1e8ca",
+    "DESIGN.json": "4fa88cf4050aa276323a7306f21d53163d47c27e3c011c2547d5eeebe6980309"
+  },
+  "readback": {
+    "saved_arrays": 1844,
+    "optimizer_updates": 192,
+    "no_model_forwards": true,
+    "no_evaluation_numerical_inputs": true,
+    "max_loss_reconstruction_residual": {
+      "synthetic_ctc": 3.89538614626872e-05,
+      "natural_ctc": 2.677302424203276e-06,
+      "gain_consistency": 2.2110042921519302e-08,
+      "positive_retention": 1.7642974858844696e-07,
+      "ordinary_ceiling": 1.043081283569336e-07,
+      "loss": 4.917096174494873e-05
+    }
+  },
+  "overall_events": {
+    "natural_ordinary": {
+      "observations": 384,
+      "full_event_observations": 35,
+      "full_event_total": 47,
+      "frame0_hey": 0,
+      "suffix_event_observations": 35,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 384,
+        "mean": 30.974724993467657,
+        "median": 0.37842547382358604,
+        "min": 4.238477345409717e-09,
+        "max": 372.76262165105726
+      },
+      "prefix_loss": {
+        "n": 384,
+        "mean": 0.04189759369709104,
+        "median": 0.035473638092184415,
+        "min": 0.015240814829444255,
+        "max": 0.09405261572278278
+      }
+    },
+    "positive_retention": {
+      "observations": 692,
+      "full_event_observations": 426,
+      "full_event_total": 426,
+      "frame0_hey": 0
+    },
+    "synthetic_ordinary": {
+      "observations": 384,
+      "full_event_observations": 0,
+      "full_event_total": 0,
+      "frame0_hey": 0,
+      "suffix_event_observations": 0,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 384,
+        "mean": 0.00097820357703665,
+        "median": 2.0042506531784392e-09,
+        "min": -0.0,
+        "max": 0.03954740365128963
+      },
+      "prefix_loss": {
+        "n": 384,
+        "mean": 0.04189759369709104,
+        "median": 0.035473638092184415,
+        "min": 0.015240814829444255,
+        "max": 0.09405261572278278
+      }
+    },
+    "synthetic_positive": {
+      "observations": 384,
+      "full_event_observations": 202,
+      "full_event_total": 202,
+      "frame0_hey": 0,
+      "suffix_event_observations": 202,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 384,
+        "mean": 27.07630382020316,
+        "median": 0.8869502647214431,
+        "min": 0.05908517863999136,
+        "max": 688.9902067023589
+      },
+      "prefix_loss": {
+        "n": 384,
+        "mean": 0.04189759369709104,
+        "median": 0.035473638092184415,
+        "min": 0.015240814829444255,
+        "max": 0.09405261572278278
+      }
+    }
+  },
+  "optimizer": {
+    "clipped_steps": 176,
+    "preclip_norm": {
+      "n": 192,
+      "mean": 58.13604026411971,
+      "median": 13.826099395751953,
+      "min": 2.7876315116882324,
+      "max": 727.9907836914062
+    },
+    "loss_terms": {
+      "loss": {
+        "n": 192,
+        "mean": 15.990100456091264,
+        "median": 2.078708052635193,
+        "min": 0.6055705547332764,
+        "max": 321.6844482421875
+      },
+      "synthetic_ctc": {
+        "n": 192,
+        "mean": 13.579296499257907,
+        "median": 0.5176914036273956,
+        "min": 0.09644632041454315,
+        "max": 319.737060546875
+      },
+      "positive_retention": {
+        "n": 192,
+        "mean": 0.7959971643673877,
+        "median": 0.6799182891845703,
+        "min": 0.3393789231777191,
+        "max": 2.414508819580078
+      },
+      "natural_ctc": {
+        "n": 192,
+        "mean": 1.4901386386239512,
+        "median": 0.04467959888279438,
+        "min": 0.0013553645694628358,
+        "max": 10.396658897399902
+      },
+      "ordinary_ceiling": {
+        "n": 192,
+        "mean": 0.9017662584471206,
+        "median": 0.8702306747436523,
+        "min": 0.21197238564491272,
+        "max": 1.775374174118042
+      },
+      "gain_consistency": {
+        "n": 192,
+        "mean": 0.052526716549740136,
+        "median": 0.03438025712966919,
+        "min": 3.60314336982636e-27,
+        "max": 0.12000636011362076
+      }
+    },
+    "first_unclipped_step": 116
+  },
+  "windows": [
+    {
+      "start": 1,
+      "end": 35,
+      "clipped": 35,
+      "loss_terms": {
+        "loss": {
+          "n": 35,
+          "mean": 19.045907729012626,
+          "median": 3.6150474548339844,
+          "min": 1.3644964694976807,
+          "max": 321.6844482421875
+        },
+        "synthetic_ctc": {
+          "n": 35,
+          "mean": 16.19500514609473,
+          "median": 0.9613008499145508,
+          "min": 0.3967719078063965,
+          "max": 319.737060546875
+        },
+        "positive_retention": {
+          "n": 35,
+          "mean": 0.9322056719235011,
+          "median": 0.8065203428268433,
+          "min": 0.46627867221832275,
+          "max": 2.414508819580078
+        },
+        "natural_ctc": {
+          "n": 35,
+          "mean": 1.771010978440089,
+          "median": 0.05364580824971199,
+          "min": 0.00566224567592144,
+          "max": 10.396658897399902
+        },
+        "ordinary_ceiling": {
+          "n": 35,
+          "mean": 1.177246025630406,
+          "median": 1.0464401245117188,
+          "min": 0.7982701659202576,
+          "max": 1.7531607151031494
+        },
+        "gain_consistency": {
+          "n": 35,
+          "mean": 0.053506852270636174,
+          "median": 0.03687933459877968,
+          "min": 1.2349360937366347e-26,
+          "max": 0.12000099569559097
+        },
+        "preclip_gradient_norm": {
+          "n": 35,
+          "mean": 70.51319159099035,
+          "median": 21.919830322265625,
+          "min": 7.669259548187256,
+          "max": 727.9907836914062
+        }
+      },
+      "events": {
+        "natural_ordinary": {
+          "observations": 70,
+          "full_event_observations": 0,
+          "full_event_total": 0,
+          "frame0_hey": 0,
+          "suffix_event_observations": 0,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 36.766755459767225,
+            "median": 0.06149863400590092,
+            "min": 4.238477345409717e-09,
+            "max": 372.76262165105726
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.07758492409363603,
+            "median": 0.07510018345553479,
+            "min": 0.06967627024109482,
+            "max": 0.09405261572278278
+          }
+        },
+        "positive_retention": {
+          "observations": 125,
+          "full_event_observations": 21,
+          "full_event_total": 21,
+          "frame0_hey": 0
+        },
+        "synthetic_ordinary": {
+          "observations": 70,
+          "full_event_observations": 0,
+          "full_event_total": 0,
+          "frame0_hey": 0,
+          "suffix_event_observations": 0,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 0.0005028533360617557,
+            "median": 9.522714836097374e-10,
+            "min": -0.0,
+            "max": 0.015032837503626603
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.07758492409363603,
+            "median": 0.07510018345553479,
+            "min": 0.06967627024109482,
+            "max": 0.09405261572278278
+          }
+        },
+        "synthetic_positive": {
+          "observations": 70,
+          "full_event_observations": 9,
+          "full_event_total": 9,
+          "frame0_hey": 0,
+          "suffix_event_observations": 9,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 32.23825192670243,
+            "median": 1.7215367154114407,
+            "min": 0.5109805610210837,
+            "max": 688.9902067023589
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.07758492409363603,
+            "median": 0.07510018345553479,
+            "min": 0.06967627024109482,
+            "max": 0.09405261572278278
+          }
+        }
+      }
+    },
+    {
+      "start": 36,
+      "end": 70,
+      "clipped": 35,
+      "loss_terms": {
+        "loss": {
+          "n": 35,
+          "mean": 17.67353951249804,
+          "median": 2.873286247253418,
+          "min": 1.1395673751831055,
+          "max": 314.0534973144531
+        },
+        "synthetic_ctc": {
+          "n": 35,
+          "mean": 15.26013353892735,
+          "median": 0.5979710817337036,
+          "min": 0.29025882482528687,
+          "max": 312.67852783203125
+        },
+        "positive_retention": {
+          "n": 35,
+          "mean": 0.8507068191255842,
+          "median": 0.7422101497650146,
+          "min": 0.42326563596725464,
+          "max": 2.1971633434295654
+        },
+        "natural_ctc": {
+          "n": 35,
+          "mean": 1.4039016498385795,
+          "median": 0.041492242366075516,
+          "min": 0.004023508168756962,
+          "max": 10.223755836486816
+        },
+        "ordinary_ceiling": {
+          "n": 35,
+          "mean": 1.2912336638995578,
+          "median": 1.2702953815460205,
+          "min": 0.9637727737426758,
+          "max": 1.775374174118042
+        },
+        "gain_consistency": {
+          "n": 35,
+          "mean": 0.05549839287996292,
+          "median": 0.03827783465385437,
+          "min": 1.7383055410562402e-26,
+          "max": 0.12000183016061783
+        },
+        "preclip_gradient_norm": {
+          "n": 35,
+          "mean": 65.13612105505807,
+          "median": 15.670071601867676,
+          "min": 5.653579235076904,
+          "max": 709.2079467773438
+        }
+      },
+      "events": {
+        "natural_ordinary": {
+          "observations": 70,
+          "full_event_observations": 1,
+          "full_event_total": 1,
+          "frame0_hey": 0,
+          "suffix_event_observations": 1,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 29.154968482023623,
+            "median": 0.13954338801554506,
+            "min": 1.500247657582486e-08,
+            "max": 364.1088484456859
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.05579007064811742,
+            "median": 0.052949087256041326,
+            "min": 0.04840190186518588,
+            "max": 0.06899923005061459
+          }
+        },
+        "positive_retention": {
+          "observations": 125,
+          "full_event_observations": 61,
+          "full_event_total": 61,
+          "frame0_hey": 0
+        },
+        "synthetic_ordinary": {
+          "observations": 70,
+          "full_event_observations": 0,
+          "full_event_total": 0,
+          "frame0_hey": 0,
+          "suffix_event_observations": 0,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 0.0007852223657662985,
+            "median": 2.0042506531784392e-09,
+            "min": -0.0,
+            "max": 0.02241483245894829
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.05579007064811742,
+            "median": 0.052949087256041326,
+            "min": 0.04840190186518588,
+            "max": 0.06899923005061459
+          }
+        },
+        "synthetic_positive": {
+          "observations": 70,
+          "full_event_observations": 31,
+          "full_event_total": 31,
+          "frame0_hey": 0,
+          "suffix_event_observations": 31,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 30.41130677263298,
+            "median": 1.02438121965224,
+            "min": 0.32676455419656436,
+            "max": 674.7319654529172
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.05579007064811742,
+            "median": 0.052949087256041326,
+            "min": 0.04840190186518588,
+            "max": 0.06899923005061459
+          }
+        }
+      }
+    },
+    {
+      "start": 71,
+      "end": 105,
+      "clipped": 35,
+      "loss_terms": {
+        "loss": {
+          "n": 35,
+          "mean": 17.01002206802368,
+          "median": 1.7023656368255615,
+          "min": 0.8936420679092407,
+          "max": 317.0984191894531
+        },
+        "synthetic_ctc": {
+          "n": 35,
+          "mean": 14.72594817025321,
+          "median": 0.511242151260376,
+          "min": 0.20103609561920166,
+          "max": 314.96563720703125
+        },
+        "positive_retention": {
+          "n": 35,
+          "mean": 0.80987520303045,
+          "median": 0.7056983709335327,
+          "min": 0.4074448049068451,
+          "max": 2.1101160049438477
+        },
+        "natural_ctc": {
+          "n": 35,
+          "mean": 1.3612543792796454,
+          "median": 0.04168517887592316,
+          "min": 0.002762462478131056,
+          "max": 9.998852729797363
+        },
+        "ordinary_ceiling": {
+          "n": 35,
+          "mean": 0.7459921564374651,
+          "median": 0.6664960384368896,
+          "min": 0.254330575466156,
+          "max": 1.5586984157562256
+        },
+        "gain_consistency": {
+          "n": 35,
+          "mean": 0.05326433130539954,
+          "median": 0.033104296773672104,
+          "min": 3.60314336982636e-27,
+          "max": 0.12000226974487305
+        },
+        "preclip_gradient_norm": {
+          "n": 35,
+          "mean": 57.29622872216361,
+          "median": 11.11126708984375,
+          "min": 6.023123741149902,
+          "max": 719.9571533203125
+        }
+      },
+      "events": {
+        "natural_ordinary": {
+          "observations": 70,
+          "full_event_observations": 7,
+          "full_event_total": 7,
+          "frame0_hey": 0,
+          "suffix_event_observations": 7,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 28.295609658595275,
+            "median": 0.47971401921662354,
+            "min": 1.0772136063220025e-08,
+            "max": 354.0383141103705
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.03831257921405195,
+            "median": 0.035964287227312784,
+            "min": 0.034524556874875316,
+            "max": 0.04773532600787896
+          }
+        },
+        "positive_retention": {
+          "observations": 125,
+          "full_event_observations": 83,
+          "full_event_total": 83,
+          "frame0_hey": 0
+        },
+        "synthetic_ordinary": {
+          "observations": 70,
+          "full_event_observations": 0,
+          "full_event_total": 0,
+          "frame0_hey": 0,
+          "suffix_event_observations": 0,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 0.0009341569694777896,
+            "median": 2.4817790025785587e-09,
+            "min": -0.0,
+            "max": 0.027295054624912825
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.03831257921405195,
+            "median": 0.035964287227312784,
+            "min": 0.034524556874875316,
+            "max": 0.04773532600787896
+          }
+        },
+        "synthetic_positive": {
+          "observations": 70,
+          "full_event_observations": 42,
+          "full_event_total": 42,
+          "frame0_hey": 0,
+          "suffix_event_observations": 42,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 29.376528283263724,
+            "median": 0.7806604557581266,
+            "min": 0.16499553041209628,
+            "max": 680.3822516723113
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.03831257921405195,
+            "median": 0.035964287227312784,
+            "min": 0.034524556874875316,
+            "max": 0.04773532600787896
+          }
+        }
+      }
+    },
+    {
+      "start": 106,
+      "end": 140,
+      "clipped": 30,
+      "loss_terms": {
+        "loss": {
+          "n": 35,
+          "mean": 16.729739127840315,
+          "median": 2.2853097915649414,
+          "min": 0.7142006754875183,
+          "max": 311.7069091796875
+        },
+        "synthetic_ctc": {
+          "n": 35,
+          "mean": 14.181342568142073,
+          "median": 0.3645192086696625,
+          "min": 0.17190122604370117,
+          "max": 310.9751892089844
+        },
+        "positive_retention": {
+          "n": 35,
+          "mean": 0.7423412612506322,
+          "median": 0.6499965786933899,
+          "min": 0.3792164623737335,
+          "max": 1.9259613752365112
+        },
+        "natural_ctc": {
+          "n": 35,
+          "mean": 1.690428451954254,
+          "median": 0.05584955960512161,
+          "min": 0.0021343170665204525,
+          "max": 10.083227157592773
+        },
+        "ordinary_ceiling": {
+          "n": 35,
+          "mean": 0.7448364666530064,
+          "median": 0.727003812789917,
+          "min": 0.30429649353027344,
+          "max": 1.4936996698379517
+        },
+        "gain_consistency": {
+          "n": 35,
+          "mean": 0.05603955150581896,
+          "median": 0.03937699645757675,
+          "min": 5.658092901932052e-27,
+          "max": 0.12000536173582077
+        },
+        "preclip_gradient_norm": {
+          "n": 35,
+          "mean": 60.925355080195835,
+          "median": 16.564285278320312,
+          "min": 2.7876315116882324,
+          "max": 716.21533203125
+        }
+      },
+      "events": {
+        "natural_ordinary": {
+          "observations": 70,
+          "full_event_observations": 10,
+          "full_event_total": 12,
+          "frame0_hey": 0,
+          "suffix_event_observations": 10,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 35.17003195844039,
+            "median": 0.8379283123510054,
+            "min": 1.1105097944363416e-08,
+            "max": 352.0691545585308
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.02833505986400641,
+            "median": 0.027194770763402373,
+            "min": 0.026062793160636817,
+            "max": 0.03407715008173559
+          }
+        },
+        "positive_retention": {
+          "observations": 128,
+          "full_event_observations": 104,
+          "full_event_total": 104,
+          "frame0_hey": 0
+        },
+        "synthetic_ordinary": {
+          "observations": 70,
+          "full_event_observations": 0,
+          "full_event_total": 0,
+          "frame0_hey": 0,
+          "suffix_event_observations": 0,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 0.0013647089014186189,
+            "median": 2.9887268196338483e-09,
+            "min": -0.0,
+            "max": 0.03954740365128963
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.02833505986400641,
+            "median": 0.027194770763402373,
+            "min": 0.026062793160636817,
+            "max": 0.03407715008173559
+          }
+        },
+        "synthetic_positive": {
+          "observations": 70,
+          "full_event_observations": 44,
+          "full_event_total": 44,
+          "frame0_hey": 0,
+          "suffix_event_observations": 44,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 28.306762556049826,
+            "median": 0.6081825844938548,
+            "min": 0.09766432537625688,
+            "max": 672.7239649916063
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.02833505986400641,
+            "median": 0.027194770763402373,
+            "min": 0.026062793160636817,
+            "max": 0.03407715008173559
+          }
+        }
+      }
+    },
+    {
+      "start": 141,
+      "end": 175,
+      "clipped": 30,
+      "loss_terms": {
+        "loss": {
+          "n": 35,
+          "mean": 16.04612239088331,
+          "median": 1.726893424987793,
+          "min": 0.6913278102874756,
+          "max": 314.3285217285156
+        },
+        "synthetic_ctc": {
+          "n": 35,
+          "mean": 13.901735923119954,
+          "median": 0.29506534337997437,
+          "min": 0.09644632041454315,
+          "max": 313.37445068359375
+        },
+        "positive_retention": {
+          "n": 35,
+          "mean": 0.7187762464795794,
+          "median": 0.6239210367202759,
+          "min": 0.35237666964530945,
+          "max": 1.8789403438568115
+        },
+        "natural_ctc": {
+          "n": 35,
+          "mean": 1.3177960964684774,
+          "median": 0.04633799567818642,
+          "min": 0.0016123908571898937,
+          "max": 9.772470474243164
+        },
+        "ordinary_ceiling": {
+          "n": 35,
+          "mean": 0.6684326333659035,
+          "median": 0.6851906180381775,
+          "min": 0.27966782450675964,
+          "max": 1.1506321430206299
+        },
+        "gain_consistency": {
+          "n": 35,
+          "mean": 0.054339553608692116,
+          "median": 0.033850643783807755,
+          "min": 4.031594989718477e-27,
+          "max": 0.12000636011362076
+        },
+        "preclip_gradient_norm": {
+          "n": 35,
+          "mean": 55.74579357419695,
+          "median": 9.068697929382324,
+          "min": 3.0139951705932617,
+          "max": 724.993408203125
+        }
+      },
+      "events": {
+        "natural_ordinary": {
+          "observations": 70,
+          "full_event_observations": 13,
+          "full_event_total": 21,
+          "frame0_hey": 0,
+          "suffix_event_observations": 13,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 27.418380841516626,
+            "median": 1.2402332027248484,
+            "min": 9.995578359298163e-09,
+            "max": 342.37090148440905
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.021422028209154946,
+            "median": 0.02046638244994145,
+            "min": 0.019919972724541237,
+            "max": 0.025708173753549966
+          }
+        },
+        "positive_retention": {
+          "observations": 124,
+          "full_event_observations": 102,
+          "full_event_total": 102,
+          "frame0_hey": 0
+        },
+        "synthetic_ordinary": {
+          "observations": 70,
+          "full_event_observations": 0,
+          "full_event_total": 0,
+          "frame0_hey": 0,
+          "suffix_event_observations": 0,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 0.0014192065420808367,
+            "median": 3.231398923565861e-09,
+            "min": -0.0,
+            "max": 0.03824033902133085
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.021422028209154946,
+            "median": 0.02046638244994145,
+            "min": 0.019919972724541237,
+            "max": 0.025708173753549966
+          }
+        },
+        "synthetic_positive": {
+          "observations": 70,
+          "full_event_observations": 50,
+          "full_event_total": 50,
+          "frame0_hey": 0,
+          "suffix_event_observations": 50,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 70,
+            "mean": 27.760803816351103,
+            "median": 0.4992625944076823,
+            "min": 0.05908517863999136,
+            "max": 678.6583197481908
+          },
+          "prefix_loss": {
+            "n": 70,
+            "mean": 0.021422028209154946,
+            "median": 0.02046638244994145,
+            "min": 0.019919972724541237,
+            "max": 0.025708173753549966
+          }
+        }
+      }
+    },
+    {
+      "start": 176,
+      "end": 192,
+      "clipped": 11,
+      "loss_terms": {
+        "loss": {
+          "n": 17,
+          "mean": 2.4948652106172897,
+          "median": 1.5230077505111694,
+          "min": 0.6055705547332764,
+          "max": 10.415994644165039
+        },
+        "synthetic_ctc": {
+          "n": 17,
+          "mean": 0.46936121933600483,
+          "median": 0.22076058387756348,
+          "min": 0.11184260249137878,
+          "max": 2.6533315181732178
+        },
+        "positive_retention": {
+          "n": 17,
+          "mean": 0.6438102055998409,
+          "median": 0.5570173263549805,
+          "min": 0.3393789231777191,
+          "max": 1.4198777675628662
+        },
+        "natural_ctc": {
+          "n": 17,
+          "mean": 1.2972302444977686,
+          "median": 0.03322553262114525,
+          "min": 0.0013553645694628358,
+          "max": 9.60378360748291
+        },
+        "ordinary_ceiling": {
+          "n": 17,
+          "mean": 0.6569522654308992,
+          "median": 0.617868185043335,
+          "min": 0.21197238564491272,
+          "max": 1.032653570175171
+        },
+        "gain_consistency": {
+          "n": 17,
+          "mean": 0.03190739544601563,
+          "median": 0.015396934002637863,
+          "min": 0.0016270708292722702,
+          "max": 0.11999999731779099
+        },
+        "preclip_gradient_norm": {
+          "n": 17,
+          "mean": 19.14915175998912,
+          "median": 8.508231163024902,
+          "min": 3.199626922607422,
+          "max": 88.91709899902344
+        }
+      },
+      "events": {
+        "natural_ordinary": {
+          "observations": 34,
+          "full_event_observations": 4,
+          "full_event_total": 6,
+          "frame0_hey": 0,
+          "suffix_event_observations": 4,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 34,
+            "mean": 26.996827925516488,
+            "median": 0.8515530754448292,
+            "min": 8.644390754601413e-09,
+            "max": 334.2040268695989
+          },
+          "prefix_loss": {
+            "n": 34,
+            "mean": 0.017280871695743726,
+            "median": 0.01721810949981262,
+            "min": 0.015240814829444255,
+            "max": 0.019653352033530917
+          }
+        },
+        "positive_retention": {
+          "observations": 65,
+          "full_event_observations": 55,
+          "full_event_total": 55,
+          "frame0_hey": 0
+        },
+        "synthetic_ordinary": {
+          "observations": 34,
+          "full_event_observations": 0,
+          "full_event_total": 0,
+          "frame0_hey": 0,
+          "suffix_event_observations": 0,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 34,
+            "mean": 0.0007411707513441956,
+            "median": 9.132055109722903e-10,
+            "min": -0.0,
+            "max": 0.016863869699780022
+          },
+          "prefix_loss": {
+            "n": 34,
+            "mean": 0.017280871695743726,
+            "median": 0.01721810949981262,
+            "min": 0.015240814829444255,
+            "max": 0.019653352033530917
+          }
+        },
+        "synthetic_positive": {
+          "observations": 34,
+          "full_event_observations": 26,
+          "full_event_total": 26,
+          "frame0_hey": 0,
+          "suffix_event_observations": 26,
+          "prefix_shortcut_observations": 0,
+          "silent_nonblank_frames": 0,
+          "ctc": {
+            "n": 34,
+            "mean": 0.904262709059092,
+            "median": 0.4029661167327384,
+            "min": 0.05995303078421132,
+            "max": 8.530153408494941
+          },
+          "prefix_loss": {
+            "n": 34,
+            "mean": 0.017280871695743726,
+            "median": 0.01721810949981262,
+            "min": 0.015240814829444255,
+            "max": 0.019653352033530917
+          }
+        }
+      }
+    }
+  ],
+  "paired_by_kind": {
+    "natural_ordinary": {
+      "conditions": 54,
+      "repeat_conditions": 54,
+      "observations": 384,
+      "first_ctc": {
+        "n": 54,
+        "mean": 28.747906462616875,
+        "median": 0.1074254696832597,
+        "min": 4.238477345409717e-09,
+        "max": 372.76262165105726
+      },
+      "last_ctc": {
+        "n": 54,
+        "mean": 26.317205147862293,
+        "median": 0.8515530754448292,
+        "min": 8.644390754601413e-09,
+        "max": 350.77478880749356
+      },
+      "ctc_decrease": 12,
+      "suffix_transitions": {
+        "False->False": 47,
+        "False->True": 7
+      },
+      "full_transitions": {
+        "False->False": 47,
+        "False->True": 7
+      }
+    },
+    "positive_retention": {
+      "conditions": 122,
+      "repeat_conditions": 122,
+      "observations": 692,
+      "full_transitions": {
+        "False->True": 87,
+        "True->True": 18,
+        "False->False": 17
+      }
+    },
+    "synthetic_ordinary": {
+      "conditions": 210,
+      "repeat_conditions": 174,
+      "observations": 384,
+      "first_ctc": {
+        "n": 174,
+        "mean": 0.0006411569472604868,
+        "median": 1.4571320811395344e-09,
+        "min": -0.0,
+        "max": 0.02241483245894829
+      },
+      "last_ctc": {
+        "n": 174,
+        "mean": 0.0012513448091501134,
+        "median": 2.004500009621136e-09,
+        "min": -0.0,
+        "max": 0.03954740365128963
+      },
+      "ctc_decrease": 23,
+      "suffix_transitions": {
+        "False->False": 174
+      },
+      "full_transitions": {
+        "False->False": 174
+      }
+    },
+    "synthetic_positive": {
+      "conditions": 264,
+      "repeat_conditions": 120,
+      "observations": 384,
+      "first_ctc": {
+        "n": 120,
+        "mean": 36.154927274955135,
+        "median": 1.404405925821028,
+        "min": 0.16499553041209628,
+        "max": 688.9902067023589
+      },
+      "last_ctc": {
+        "n": 120,
+        "mean": 32.53733995633279,
+        "median": 0.5975120715998119,
+        "min": 0.05995303078421132,
+        "max": 678.6583197481908
+      },
+      "ctc_decrease": 119,
+      "suffix_transitions": {
+        "False->True": 37,
+        "True->True": 38,
+        "False->False": 45
+      },
+      "full_transitions": {
+        "False->True": 37,
+        "True->True": 38,
+        "False->False": 45
+      }
+    }
+  },
+  "positive_originals": [
+    {
+      "id": "mero24-453-mero-slow",
+      "steps": [
+        20,
+        55,
+        90,
+        125,
+        160
+      ],
+      "ctc_sum": 6286.0928716436365,
+      "observations": 10,
+      "full_event_observations": 0,
+      "full_event_total": 0,
+      "frame0_hey": 0,
+      "suffix_event_observations": 0,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 628.6092871643636,
+        "median": 631.1936115493124,
+        "min": 571.0702529101216,
+        "max": 688.9902067023589
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.04151381349837985,
+        "median": 0.03543213946623186,
+        "min": 0.020173754151685312,
+        "max": 0.07370585777430008
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 632.2902424382596,
+          "median": 632.1976117799678,
+          "min": 575.7755394907434,
+          "max": 688.9902067023589
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 624.3027924510126,
+          "median": 623.741298572869,
+          "min": 571.0702529101216,
+          "max": 678.6583197481908
+        },
+        "ctc_decrease": 3,
+        "suffix_transitions": {
+          "False->False": 4
+        },
+        "full_transitions": {
+          "False->False": 4
+        }
+      },
+      "ctc_share": 0.6045889287034332
+    },
+    {
+      "id": "mero24-450-mero-slow",
+      "steps": [
+        29,
+        64,
+        99,
+        134,
+        169
+      ],
+      "ctc_sum": 1230.351970322858,
+      "observations": 10,
+      "full_event_observations": 3,
+      "full_event_total": 3,
+      "frame0_hey": 0,
+      "suffix_event_observations": 3,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 123.03519703228581,
+        "median": 119.50824049174506,
+        "min": 0.30091060560581684,
+        "max": 257.59508776446796
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.04105007275588798,
+        "median": 0.03562398073509467,
+        "min": 0.020382991740697246,
+        "max": 0.07178148849260235
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 126.82045380455526,
+          "median": 124.43664065003648,
+          "min": 0.8134461536801217,
+          "max": 257.59508776446796
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 119.24589475839099,
+          "median": 119.10137582830029,
+          "min": 0.30091060560581684,
+          "max": 238.47991677135752
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "False->True": 2,
+          "False->False": 2
+        },
+        "full_transitions": {
+          "False->True": 2,
+          "False->False": 2
+        }
+      },
+      "ctc_share": 0.11833378775251172
+    },
+    {
+      "id": "newpiper-435-mero-fast",
+      "steps": [
+        23,
+        58,
+        93,
+        128,
+        163
+      ],
+      "ctc_sum": 743.1272407547208,
+      "observations": 10,
+      "full_event_observations": 1,
+      "full_event_total": 1,
+      "frame0_hey": 0,
+      "suffix_event_observations": 1,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 74.31272407547209,
+        "median": 68.46525696735081,
+        "min": 0.9845549636543214,
+        "max": 162.95124776619215
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.0412714365697214,
+        "median": 0.03536024227515385,
+        "min": 0.020186291980038233,
+        "max": 0.0730945835797563
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 79.54795918331521,
+          "median": 76.8731468562599,
+          "min": 1.4942952545488866,
+          "max": 162.95124776619215
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 68.82701628537619,
+          "median": 68.09188879439549,
+          "min": 0.9845549636543214,
+          "max": 138.13973258905946
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "False->False": 3,
+          "False->True": 1
+        },
+        "full_transitions": {
+          "False->False": 3,
+          "False->True": 1
+        }
+      },
+      "ctc_share": 0.07147309331126046
+    },
+    {
+      "id": "mero24-449-mero-fast",
+      "steps": [
+        18,
+        53,
+        88,
+        123,
+        158
+      ],
+      "ctc_sum": 585.4188430386594,
+      "observations": 10,
+      "full_event_observations": 1,
+      "full_event_total": 1,
+      "frame0_hey": 0,
+      "suffix_event_observations": 1,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 58.541884303865935,
+        "median": 56.35258972281968,
+        "min": 1.1242618217005687,
+        "max": 128.87350300782333
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.04223945711899217,
+        "median": 0.035964287227312784,
+        "min": 0.02034926445061491,
+        "max": 0.07510018345553479
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 67.79506672763506,
+          "median": 66.75853351935672,
+          "min": 8.789696864003439,
+          "max": 128.87350300782333
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 50.071838192729516,
+          "median": 48.99468017815508,
+          "min": 1.1242618217005687,
+          "max": 101.17373059290733
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "False->False": 3,
+          "False->True": 1
+        },
+        "full_transitions": {
+          "False->False": 3,
+          "False->True": 1
+        }
+      },
+      "ctc_share": 0.056304887373228
+    },
+    {
+      "id": "newpiper-402-mero-slow",
+      "steps": [
+        32,
+        67,
+        102,
+        137,
+        172
+      ],
+      "ctc_sum": 548.0771931625895,
+      "observations": 10,
+      "full_event_observations": 3,
+      "full_event_total": 3,
+      "frame0_hey": 0,
+      "suffix_event_observations": 3,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 54.807719316258954,
+        "median": 47.645156464253006,
+        "min": 0.3268826911805349,
+        "max": 127.37684493962773
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.04055728671729306,
+        "median": 0.035257043803916296,
+        "min": 0.020254674898798865,
+        "max": 0.07098875144018214
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 61.13983432527078,
+          "median": 58.211599807734444,
+          "min": 0.759292745986529,
+          "max": 127.37684493962773
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 48.615441460213674,
+          "median": 47.32753774800698,
+          "min": 0.3268826911805349,
+          "max": 99.47980765366022
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "False->True": 2,
+          "False->False": 2
+        },
+        "full_transitions": {
+          "False->True": 2,
+          "False->False": 2
+        }
+      },
+      "ctc_share": 0.05271341194396209
+    },
+    {
+      "id": "mero24-457-mero-slow",
+      "steps": [
+        12,
+        47,
+        82,
+        117,
+        152
+      ],
+      "ctc_sum": 302.9618477122729,
+      "observations": 10,
+      "full_event_observations": 0,
+      "full_event_total": 0,
+      "frame0_hey": 0,
+      "suffix_event_observations": 0,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 30.296184771227296,
+        "median": 23.965758298682363,
+        "min": 0.8846244744882988,
+        "max": 75.39410219634837
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.04514264627503849,
+        "median": 0.03862228875847604,
+        "min": 0.02137885535623983,
+        "max": 0.07933857899736259
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 35.983422104272734,
+          "median": 33.521394832207314,
+          "min": 1.4967965563279433,
+          "max": 75.39410219634837
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 24.75923176857321,
+          "median": 23.47719358418737,
+          "min": 0.8846244744882988,
+          "max": 51.19791543142979
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "False->False": 4
+        },
+        "full_transitions": {
+          "False->False": 4
+        }
+      },
+      "ctc_share": 0.029138509832178573
+    },
+    {
+      "id": "newpiper-430-mero-slow",
+      "steps": [
+        14,
+        49,
+        84,
+        119,
+        154
+      ],
+      "ctc_sum": 188.8955715182859,
+      "observations": 10,
+      "full_event_observations": 3,
+      "full_event_total": 3,
+      "frame0_hey": 0,
+      "suffix_event_observations": 3,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 18.88955715182859,
+        "median": 14.986182113850344,
+        "min": 0.6593856476351795,
+        "max": 47.39684807230595
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.04405586975999786,
+        "median": 0.03754363071730601,
+        "min": 0.020897878357051793,
+        "max": 0.07798124491887025
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 22.526369964775924,
+          "median": 20.79946070722288,
+          "min": 1.1097103723519794,
+          "max": 47.39684807230595
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 15.431711345023087,
+          "median": 14.65932143356869,
+          "min": 0.6593856476351795,
+          "max": 31.74881686531979
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "False->True": 2,
+          "False->False": 2
+        },
+        "full_transitions": {
+          "False->True": 2,
+          "False->False": 2
+        }
+      },
+      "ctc_share": 0.018167751185515342
+    },
+    {
+      "id": "mero24-456-mero-fast",
+      "steps": [
+        21,
+        56,
+        91,
+        126,
+        161
+      ],
+      "ctc_sum": 126.12697359391723,
+      "observations": 10,
+      "full_event_observations": 0,
+      "full_event_total": 0,
+      "frame0_hey": 0,
+      "suffix_event_observations": 0,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 12.61269735939172,
+        "median": 7.425729426615208,
+        "min": 2.0486733230912955,
+        "max": 35.743919929036615
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.04135409399449487,
+        "median": 0.03535779822437444,
+        "min": 0.020149273427973343,
+        "max": 0.07339765622205083
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 17.45265437394451,
+          "median": 15.602354261603729,
+          "min": 2.86198904353398,
+          "max": 35.743919929036615
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 7.825317585662529,
+          "median": 6.866531460535237,
+          "min": 2.0486733230912955,
+          "max": 15.519534098488347
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "False->False": 4
+        },
+        "full_transitions": {
+          "False->False": 4
+        }
+      },
+      "ctc_share": 0.012130742164140838
+    },
+    {
+      "id": "fresh18-am_santa-mero-fast",
+      "steps": [
+        5,
+        40,
+        75,
+        110,
+        145,
+        188
+      ],
+      "ctc_sum": 52.22828507743763,
+      "observations": 12,
+      "full_event_observations": 0,
+      "full_event_total": 0,
+      "frame0_hey": 0,
+      "suffix_event_observations": 0,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 12,
+        "mean": 4.352357089786469,
+        "median": 3.906058007951825,
+        "min": 1.9219862593073873,
+        "max": 9.914758246990674
+      },
+      "prefix_loss": {
+        "n": 12,
+        "mean": 0.04442619391383661,
+        "median": 0.03798224550937193,
+        "min": 0.0160099336052077,
+        "max": 0.0858034292609813
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 6,
+        "observations": 12,
+        "first_ctc": {
+          "n": 6,
+          "mean": 5.807979504697485,
+          "median": 5.380555646914541,
+          "min": 4.028215756421813,
+          "max": 9.914758246990674
+        },
+        "last_ctc": {
+          "n": 6,
+          "mean": 2.896734674875454,
+          "median": 3.061652265272299,
+          "min": 1.9219862593073873,
+          "max": 3.783900259481837
+        },
+        "ctc_decrease": 6,
+        "suffix_transitions": {
+          "False->False": 6
+        },
+        "full_transitions": {
+          "False->False": 6
+        }
+      },
+      "ctc_share": 0.005023254280162921
+    },
+    {
+      "id": "newpiper-409-mero-slow",
+      "steps": [
+        57,
+        127,
+        182
+      ],
+      "ctc_sum": 51.31108902957487,
+      "observations": 6,
+      "full_event_observations": 0,
+      "full_event_total": 0,
+      "frame0_hey": 0,
+      "suffix_event_observations": 0,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 8.551848171595813,
+        "median": 5.5464779525975745,
+        "min": 2.012158877078709,
+        "max": 23.30405310055843
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.0318233888305958,
+        "median": 0.026676616432233482,
+        "min": 0.01775324031993698,
+        "max": 0.051040309739616964
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.004935039456215629
+    },
+    {
+      "id": "newpiper-439-mero-slow",
+      "steps": [
+        25,
+        60,
+        95,
+        130,
+        165
+      ],
+      "ctc_sum": 50.692963027752015,
+      "observations": 10,
+      "full_event_observations": 3,
+      "full_event_total": 3,
+      "frame0_hey": 0,
+      "suffix_event_observations": 3,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 5.069296302775202,
+        "median": 1.901187210485042,
+        "min": 0.8975735480314483,
+        "max": 19.90994370373063
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.04133915446471174,
+        "median": 0.03553774205809733,
+        "min": 0.020312041006337888,
+        "max": 0.07286206045038641
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 8.69437214750526,
+          "median": 6.779894280997225,
+          "min": 1.3077563242959616,
+          "max": 19.90994370373063
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 1.7937453957071356,
+          "median": 1.5493500148927357,
+          "min": 0.8975735480314483,
+          "max": 3.178708005011623
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "False->True": 2,
+          "False->False": 2
+        },
+        "full_transitions": {
+          "False->True": 2,
+          "False->False": 2
+        }
+      },
+      "ctc_share": 0.004875588833248918
+    },
+    {
+      "id": "fresh24-bf_alice-mero-merrow",
+      "steps": [
+        6,
+        41,
+        76,
+        111,
+        146,
+        189
+      ],
+      "ctc_sum": 26.698869080547926,
+      "observations": 12,
+      "full_event_observations": 4,
+      "full_event_total": 4,
+      "frame0_hey": 0,
+      "suffix_event_observations": 4,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 12,
+        "mean": 2.2249057567123267,
+        "median": 2.1811557327127855,
+        "min": 0.1884289408267661,
+        "max": 6.928836101102244
+      },
+      "prefix_loss": {
+        "n": 12,
+        "mean": 0.043817705942832304,
+        "median": 0.03728462345424748,
+        "min": 0.015779047672863998,
+        "max": 0.08507184554430636
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 6,
+        "observations": 12,
+        "first_ctc": {
+          "n": 6,
+          "mean": 2.9846627731226847,
+          "median": 2.609663291652102,
+          "min": 0.6748693342755672,
+          "max": 6.928836101102244
+        },
+        "last_ctc": {
+          "n": 6,
+          "mean": 1.4651487403019685,
+          "median": 1.4693193529534976,
+          "min": 0.1884289408267661,
+          "max": 2.8505536002653153
+        },
+        "ctc_decrease": 6,
+        "suffix_transitions": {
+          "False->True": 2,
+          "False->False": 3,
+          "True->True": 1
+        },
+        "full_transitions": {
+          "False->True": 2,
+          "False->False": 3,
+          "True->True": 1
+        }
+      },
+      "ctc_share": 0.002567865442748549
+    },
+    {
+      "id": "fresh24-bm_daniel-mero-merrow",
+      "steps": [
+        8,
+        43,
+        78,
+        113,
+        148,
+        191
+      ],
+      "ctc_sum": 17.44182918296353,
+      "observations": 12,
+      "full_event_observations": 0,
+      "full_event_total": 0,
+      "frame0_hey": 0,
+      "suffix_event_observations": 0,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 12,
+        "mean": 1.4534857652469606,
+        "median": 1.3997104323026575,
+        "min": 0.5847204697177525,
+        "max": 2.6847817905057
+      },
+      "prefix_loss": {
+        "n": 12,
+        "mean": 0.042661800879333106,
+        "median": 0.03594316983440003,
+        "min": 0.015411613260660026,
+        "max": 0.08368626296257096
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 6,
+        "observations": 12,
+        "first_ctc": {
+          "n": 6,
+          "mean": 1.9351778704520533,
+          "median": 1.854213301720982,
+          "min": 1.4529516501131328,
+          "max": 2.6847817905057
+        },
+        "last_ctc": {
+          "n": 6,
+          "mean": 0.9717936600418682,
+          "median": 0.9819814048159086,
+          "min": 0.5847204697177525,
+          "max": 1.3464692144921824
+        },
+        "ctc_decrease": 6,
+        "suffix_transitions": {
+          "False->False": 6
+        },
+        "full_transitions": {
+          "False->False": 6
+        }
+      },
+      "ctc_share": 0.0016775343660487378
+    },
+    {
+      "id": "fresh24-bf_emma-mero-merrow",
+      "steps": [
+        7,
+        42,
+        77,
+        112,
+        147,
+        190
+      ],
+      "ctc_sum": 13.987424863385614,
+      "observations": 12,
+      "full_event_observations": 10,
+      "full_event_total": 10,
+      "frame0_hey": 0,
+      "suffix_event_observations": 10,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 12,
+        "mean": 1.165618738615468,
+        "median": 1.3951288092540306,
+        "min": 0.31297925081485883,
+        "max": 2.0734471235063574
+      },
+      "prefix_loss": {
+        "n": 12,
+        "mean": 0.04327678857085799,
+        "median": 0.03663478443722849,
+        "min": 0.01558473071106325,
+        "max": 0.08451678228067208
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 6,
+        "observations": 12,
+        "first_ctc": {
+          "n": 6,
+          "mean": 1.443080864280666,
+          "median": 1.701344965597308,
+          "min": 0.5430138158452399,
+          "max": 2.0734471235063574
+        },
+        "last_ctc": {
+          "n": 6,
+          "mean": 0.8881566129502696,
+          "median": 0.8646212558754662,
+          "min": 0.31297925081485883,
+          "max": 1.510807831210186
+        },
+        "ctc_decrease": 6,
+        "suffix_transitions": {
+          "False->True": 2,
+          "True->True": 4
+        },
+        "full_transitions": {
+          "False->True": 2,
+          "True->True": 4
+        }
+      },
+      "ctc_share": 0.001345293871113759
+    },
+    {
+      "id": "fresh24-bm_fable-mero-merrow",
+      "steps": [
+        9,
+        44,
+        79,
+        114,
+        149,
+        192
+      ],
+      "ctc_sum": 10.730748718105847,
+      "observations": 12,
+      "full_event_observations": 8,
+      "full_event_total": 8,
+      "frame0_hey": 0,
+      "suffix_event_observations": 8,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 12,
+        "mean": 0.894229059842154,
+        "median": 0.7679712538145882,
+        "min": 0.2481583876613617,
+        "max": 2.0938355070120975
+      },
+      "prefix_loss": {
+        "n": 12,
+        "mean": 0.042038793363644106,
+        "median": 0.03531623867307182,
+        "min": 0.015240814829444255,
+        "max": 0.08261923598669876
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 6,
+        "observations": 12,
+        "first_ctc": {
+          "n": 6,
+          "mean": 1.2574664612091484,
+          "median": 1.2638738396789928,
+          "min": 0.5735548209726625,
+          "max": 2.0938355070120975
+        },
+        "last_ctc": {
+          "n": 6,
+          "mean": 0.5309916584751595,
+          "median": 0.49639823835499086,
+          "min": 0.2481583876613617,
+          "max": 0.8858702979861877
+        },
+        "ctc_decrease": 6,
+        "suffix_transitions": {
+          "False->True": 4,
+          "True->True": 2
+        },
+        "full_transitions": {
+          "False->True": 4,
+          "True->True": 2
+        }
+      },
+      "ctc_share": 0.001032070636584312
+    },
+    {
+      "id": "newpiper-434-mero-fast",
+      "steps": [
+        26,
+        61,
+        96,
+        131,
+        166
+      ],
+      "ctc_sum": 10.388432159173446,
+      "observations": 10,
+      "full_event_observations": 7,
+      "full_event_total": 7,
+      "frame0_hey": 0,
+      "suffix_event_observations": 7,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 1.0388432159173449,
+        "median": 0.9352020804662988,
+        "min": 0.5777435451197341,
+        "max": 2.0037269811657086
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.041385942287766445,
+        "median": 0.035641601618780154,
+        "min": 0.020400634362977687,
+        "max": 0.07275324171225511
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 1.399314466055999,
+          "median": 1.3235939222388353,
+          "min": 0.9463430385806166,
+          "max": 2.0037269811657086
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 0.7221971754312049,
+          "median": 0.6934920171265524,
+          "min": 0.5777435451197341,
+          "max": 0.9240611223519809
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "False->True": 1,
+          "False->False": 1,
+          "True->True": 2
+        },
+        "full_transitions": {
+          "False->True": 1,
+          "False->False": 1,
+          "True->True": 2
+        }
+      },
+      "ctc_share": 0.0009991470374793765
+    },
+    {
+      "id": "fresh24-am_eric-mero-merrow",
+      "steps": [
+        3,
+        38,
+        73,
+        108,
+        143,
+        187
+      ],
+      "ctc_sum": 9.388078922088694,
+      "observations": 12,
+      "full_event_observations": 7,
+      "full_event_total": 7,
+      "frame0_hey": 0,
+      "suffix_event_observations": 7,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 12,
+        "mean": 0.7823399101740577,
+        "median": 0.5241370604206543,
+        "min": 0.13725622951794358,
+        "max": 2.2896558512006604
+      },
+      "prefix_loss": {
+        "n": 12,
+        "mean": 0.04609973878648146,
+        "median": 0.039519229100300306,
+        "min": 0.01631960791500504,
+        "max": 0.08933240308972762
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 6,
+        "observations": 12,
+        "first_ctc": {
+          "n": 6,
+          "mean": 1.2587258351956956,
+          "median": 1.0664058021790355,
+          "min": 0.4571757014131662,
+          "max": 2.2896558512006604
+        },
+        "last_ctc": {
+          "n": 6,
+          "mean": 0.3059539851524201,
+          "median": 0.26479044237865024,
+          "min": 0.13725622951794358,
+          "max": 0.5910984194281425
+        },
+        "ctc_decrease": 6,
+        "suffix_transitions": {
+          "False->True": 5,
+          "True->True": 1
+        },
+        "full_transitions": {
+          "False->True": 5,
+          "True->True": 1
+        }
+      },
+      "ctc_share": 0.0009029342540726398
+    },
+    {
+      "id": "newpiper-409-mero-fast",
+      "steps": [
+        22,
+        92,
+        162
+      ],
+      "ctc_sum": 9.371843909746286,
+      "observations": 6,
+      "full_event_observations": 2,
+      "full_event_total": 2,
+      "frame0_hey": 0,
+      "suffix_event_observations": 2,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 1.5619739849577143,
+        "median": 1.4798454048426606,
+        "min": 0.9599011831107355,
+        "max": 2.4502171148535554
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.04295318216900695,
+        "median": 0.035361405390109464,
+        "min": 0.02019028372713844,
+        "max": 0.07330785738977293
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.0009013727899135814
+    },
+    {
+      "id": "newpiper-428-mero-fast",
+      "steps": [
+        34,
+        69,
+        104,
+        139,
+        174
+      ],
+      "ctc_sum": 9.066994935971573,
+      "observations": 10,
+      "full_event_observations": 4,
+      "full_event_total": 4,
+      "frame0_hey": 0,
+      "suffix_event_observations": 4,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 0.9066994935971573,
+        "median": 0.8710584517148114,
+        "min": 0.3149809781502876,
+        "max": 1.626421975863787
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.040122021095295,
+        "median": 0.03490817478120539,
+        "min": 0.020134342494450664,
+        "max": 0.07029792862168731
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 1.2199163705031364,
+          "median": 1.2414617252130768,
+          "min": 0.770320055722605,
+          "max": 1.626421975863787
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 0.6131258986220528,
+          "median": 0.5900717230320661,
+          "min": 0.3149809781502876,
+          "max": 0.957379170273791
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "False->True": 3,
+          "False->False": 1
+        },
+        "full_transitions": {
+          "False->True": 3,
+          "False->False": 1
+        }
+      },
+      "ctc_share": 0.0008720527785433703
+    },
+    {
+      "id": "newpiper-433-mero-slow",
+      "steps": [
+        27,
+        62,
+        97,
+        132,
+        167
+      ],
+      "ctc_sum": 7.780232392328577,
+      "observations": 10,
+      "full_event_observations": 5,
+      "full_event_total": 5,
+      "frame0_hey": 0,
+      "suffix_event_observations": 5,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 0.7780232392328579,
+        "median": 0.5837509919385864,
+        "min": 0.1658674167448228,
+        "max": 2.4788604305605424
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.041354409049403816,
+        "median": 0.035738600781850705,
+        "min": 0.02048071073813235,
+        "max": 0.07248729982501714
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 1.1840957229876277,
+          "median": 0.9501142452682796,
+          "min": 0.3572939708534085,
+          "max": 2.4788604305605424
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 0.43267396565749194,
+          "median": 0.4024112648909697,
+          "min": 0.1658674167448228,
+          "max": 0.7600059161032056
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "True->True": 2,
+          "False->False": 2
+        },
+        "full_transitions": {
+          "True->True": 2,
+          "False->False": 2
+        }
+      },
+      "ctc_share": 0.000748293489006592
+    },
+    {
+      "id": "newpiper-432-mero-fast",
+      "steps": [
+        11,
+        81,
+        151
+      ],
+      "ctc_sum": 7.354963552737408,
+      "observations": 6,
+      "full_event_observations": 2,
+      "full_event_total": 2,
+      "frame0_hey": 0,
+      "suffix_event_observations": 2,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 1.225827258789568,
+        "median": 1.1081686481091269,
+        "min": 0.6633297784404105,
+        "max": 1.9605950334947264
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.04718486879745636,
+        "median": 0.03933768106061395,
+        "min": 0.02173786523475752,
+        "max": 0.08047906009699762
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.0007073916383038757
+    },
+    {
+      "id": "mero24-455-mero-slow",
+      "steps": [
+        19,
+        54,
+        89,
+        124,
+        159
+      ],
+      "ctc_sum": 6.848729997003971,
+      "observations": 10,
+      "full_event_observations": 9,
+      "full_event_total": 9,
+      "frame0_hey": 0,
+      "suffix_event_observations": 9,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 0.684872999700397,
+        "median": 0.5961281136297962,
+        "min": 0.25793122006150865,
+        "max": 1.487998180978587
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.04188817712043154,
+        "median": 0.03566750432061155,
+        "min": 0.020298225786583825,
+        "max": 0.07443779368766056
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 0.9975653226362229,
+          "median": 0.9569663030390967,
+          "min": 0.5883305034881111,
+          "max": 1.487998180978587
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 0.4145091068350135,
+          "median": 0.398089741753532,
+          "min": 0.25793122006150865,
+          "max": 0.6039257237714815
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "True->True": 3,
+          "False->True": 1
+        },
+        "full_transitions": {
+          "True->True": 3,
+          "False->True": 1
+        }
+      },
+      "ctc_share": 0.0006587026975923487
+    },
+    {
+      "id": "newpiper-426-mero-slow",
+      "steps": [
+        28,
+        63,
+        98,
+        133,
+        168
+      ],
+      "ctc_sum": 6.717453404943873,
+      "observations": 10,
+      "full_event_observations": 9,
+      "full_event_total": 9,
+      "frame0_hey": 0,
+      "suffix_event_observations": 9,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 0.6717453404943873,
+        "median": 0.6102174946164289,
+        "min": 0.32116339622613455,
+        "max": 1.2490028865913836
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.04125166042935193,
+        "median": 0.035740147899073205,
+        "min": 0.02046638244994145,
+        "max": 0.07214144647181925
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 0.9138531526337654,
+          "median": 0.8992070899635242,
+          "min": 0.6079955440166299,
+          "max": 1.2490028865913836
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 0.45431920240541246,
+          "median": 0.4418369840896436,
+          "min": 0.32116339622613455,
+          "max": 0.6124394452162281
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "True->True": 3,
+          "False->True": 1
+        },
+        "full_transitions": {
+          "True->True": 3,
+          "False->True": 1
+        }
+      },
+      "ctc_share": 0.0006460766712548315
+    },
+    {
+      "id": "newpiper-404-mero-fast",
+      "steps": [
+        35,
+        105,
+        175
+      ],
+      "ctc_sum": 6.607436867338062,
+      "observations": 6,
+      "full_event_observations": 3,
+      "full_event_total": 3,
+      "frame0_hey": 0,
+      "suffix_event_observations": 3,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 1.1012394778896768,
+        "median": 1.0026559631234813,
+        "min": 0.425851420873187,
+        "max": 2.1422766578710553
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.04137359994683713,
+        "median": 0.034524556874875316,
+        "min": 0.019919972724541237,
+        "max": 0.06967627024109482
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.0006354954116443023
+    },
+    {
+      "id": "mero24-459-mero-slow",
+      "steps": [
+        66,
+        136,
+        183
+      ],
+      "ctc_sum": 6.316853238988855,
+      "observations": 6,
+      "full_event_observations": 3,
+      "full_event_total": 3,
+      "frame0_hey": 0,
+      "suffix_event_observations": 3,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 1.0528088731648093,
+        "median": 1.014411524084746,
+        "min": 0.448762498397481,
+        "max": 1.8713948182511446
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.03146546486958412,
+        "median": 0.02690098484742299,
+        "min": 0.01749003712238615,
+        "max": 0.05000537263894324
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.000607547424214001
+    },
+    {
+      "id": "mero24-459-mero-fast",
+      "steps": [
+        31,
+        101,
+        171
+      ],
+      "ctc_sum": 6.088015610742361,
+      "observations": 6,
+      "full_event_observations": 3,
+      "full_event_total": 3,
+      "frame0_hey": 0,
+      "suffix_event_observations": 3,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 1.01466926845706,
+        "median": 0.8640962508195424,
+        "min": 0.2366029731308904,
+        "max": 2.1813393722687064
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.04242086570735179,
+        "median": 0.0354780297326882,
+        "min": 0.020339512792276825,
+        "max": 0.07144505459709033
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.0005855380935640057
+    },
+    {
+      "id": "newpiper-441-mero-fast",
+      "steps": [
+        13,
+        83,
+        153
+      ],
+      "ctc_sum": 6.0657327425908205,
+      "observations": 6,
+      "full_event_observations": 3,
+      "full_event_total": 3,
+      "frame0_hey": 0,
+      "suffix_event_observations": 3,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 1.01095545709847,
+        "median": 0.9124081070066171,
+        "min": 0.2859825513202071,
+        "max": 1.9789881272381176
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.04595311861731235,
+        "median": 0.03807968287873683,
+        "min": 0.021115957265776118,
+        "max": 0.07866371570742407
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.0005833949538332914
+    },
+    {
+      "id": "fresh24-am_adam-mero-marrow",
+      "steps": [
+        2,
+        37,
+        72,
+        107,
+        142,
+        186
+      ],
+      "ctc_sum": 5.599343836793918,
+      "observations": 12,
+      "full_event_observations": 11,
+      "full_event_total": 11,
+      "frame0_hey": 0,
+      "suffix_event_observations": 11,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 12,
+        "mean": 0.46661198639949325,
+        "median": 0.33335937978192937,
+        "min": 0.17515579966398612,
+        "max": 1.1733128869312262
+      },
+      "prefix_loss": {
+        "n": 12,
+        "mean": 0.04699339103657674,
+        "median": 0.04023582747054565,
+        "min": 0.016634995828464734,
+        "max": 0.09146395911638885
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 6,
+        "observations": 12,
+        "first_ctc": {
+          "n": 6,
+          "mean": 0.673302830696425,
+          "median": 0.4899494118352389,
+          "min": 0.34439396821924373,
+          "max": 1.1733128869312262
+        },
+        "last_ctc": {
+          "n": 6,
+          "mean": 0.25992114210256134,
+          "median": 0.2767075906467722,
+          "min": 0.17515579966398612,
+          "max": 0.322324791344615
+        },
+        "ctc_decrease": 6,
+        "suffix_transitions": {
+          "True->True": 5,
+          "False->True": 1
+        },
+        "full_transitions": {
+          "True->True": 5,
+          "False->True": 1
+        }
+      },
+      "ctc_share": 0.0005385382241169856
+    },
+    {
+      "id": "fresh24-af_sky-mero-merrow",
+      "steps": [
+        1,
+        36,
+        71,
+        106,
+        141,
+        185
+      ],
+      "ctc_sum": 5.396781596922306,
+      "observations": 12,
+      "full_event_observations": 10,
+      "full_event_total": 10,
+      "frame0_hey": 0,
+      "suffix_event_observations": 10,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 12,
+        "mean": 0.4497317997435255,
+        "median": 0.3621647674714012,
+        "min": 0.05995303078421132,
+        "max": 1.2271279426540316
+      },
+      "prefix_loss": {
+        "n": 12,
+        "mean": 0.04791827590371108,
+        "median": 0.04090623804480728,
+        "min": 0.016937159805704594,
+        "max": 0.09405261572278278
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 6,
+        "observations": 12,
+        "first_ctc": {
+          "n": 6,
+          "mean": 0.6641147021790542,
+          "median": 0.6762807599722029,
+          "min": 0.16499553041209628,
+          "max": 1.2271279426540316
+        },
+        "last_ctc": {
+          "n": 6,
+          "mean": 0.23534889730799677,
+          "median": 0.20866662077207104,
+          "min": 0.05995303078421132,
+          "max": 0.4686881197989409
+        },
+        "ctc_decrease": 6,
+        "suffix_transitions": {
+          "False->True": 2,
+          "True->True": 4
+        },
+        "full_transitions": {
+          "False->True": 2,
+          "True->True": 4
+        }
+      },
+      "ctc_share": 0.0005190560290396284
+    },
+    {
+      "id": "mero24-448-mero-slow",
+      "steps": [
+        30,
+        65,
+        100,
+        135,
+        170
+      ],
+      "ctc_sum": 5.240624144392538,
+      "observations": 10,
+      "full_event_observations": 9,
+      "full_event_total": 9,
+      "frame0_hey": 0,
+      "suffix_event_observations": 9,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 0.5240624144392537,
+        "median": 0.4735273799758769,
+        "min": 0.21946878140964582,
+        "max": 1.174058851954077
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.041014371025020105,
+        "median": 0.03563740450499225,
+        "min": 0.020392464543219153,
+        "max": 0.0717092526926091
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 0.725298457807182,
+          "median": 0.6765440363356638,
+          "min": 0.37404690660332346,
+          "max": 1.174058851954077
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 0.35167977923330956,
+          "median": 0.3350440007383796,
+          "min": 0.21946878140964582,
+          "max": 0.5171623340468331
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "True->True": 3,
+          "False->True": 1
+        },
+        "full_transitions": {
+          "True->True": 3,
+          "False->True": 1
+        }
+      },
+      "ctc_share": 0.0005040369911631893
+    },
+    {
+      "id": "mero24-452-mero-fast",
+      "steps": [
+        17,
+        52,
+        87,
+        122,
+        157
+      ],
+      "ctc_sum": 5.118738461737041,
+      "observations": 10,
+      "full_event_observations": 8,
+      "full_event_total": 8,
+      "frame0_hey": 0,
+      "suffix_event_observations": 8,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 0.5118738461737041,
+        "median": 0.44774033354348597,
+        "min": 0.28825708101695013,
+        "max": 0.9247445702990886
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.04274016500229337,
+        "median": 0.036386624386809924,
+        "min": 0.02046517654362583,
+        "max": 0.07605180938387719
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 0.7021164899448573,
+          "median": 0.7122151121983256,
+          "min": 0.45929116508368983,
+          "max": 0.9247445702990886
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 0.35315574821404017,
+          "median": 0.3440882049179641,
+          "min": 0.28825708101695013,
+          "max": 0.43618950200328216
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "False->True": 2,
+          "True->True": 2
+        },
+        "full_transitions": {
+          "False->True": 2,
+          "True->True": 2
+        }
+      },
+      "ctc_share": 0.0004923141713121829
+    },
+    {
+      "id": "fresh24-ef_dora-mero-marrow",
+      "steps": [
+        10,
+        80,
+        150
+      ],
+      "ctc_sum": 4.991038775672753,
+      "observations": 6,
+      "full_event_observations": 4,
+      "full_event_total": 4,
+      "frame0_hey": 0,
+      "suffix_event_observations": 4,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 0.8318397959454589,
+        "median": 0.5571295881850644,
+        "min": 0.06376650766042961,
+        "max": 2.0059719191591814
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.04792376526071651,
+        "median": 0.040172036387199635,
+        "min": 0.022068306102692142,
+        "max": 0.08153095329225776
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.00048003216753498044
+    },
+    {
+      "id": "newpiper-440-mero-fast",
+      "steps": [
+        24,
+        59,
+        94,
+        129,
+        164
+      ],
+      "ctc_sum": 4.514842975532807,
+      "observations": 10,
+      "full_event_observations": 9,
+      "full_event_total": 9,
+      "frame0_hey": 0,
+      "suffix_event_observations": 9,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 0.45148429755328073,
+        "median": 0.40566309307057213,
+        "min": 0.17026304050178098,
+        "max": 1.0093626487664682
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.041355445978525265,
+        "median": 0.035469246451680626,
+        "min": 0.020243546525152988,
+        "max": 0.07311984011355474
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 0.6366274525703837,
+          "median": 0.605191303659251,
+          "min": 0.32676455419656436,
+          "max": 1.0093626487664682
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 0.29432486401119284,
+          "median": 0.2870280975853181,
+          "min": 0.17026304050178098,
+          "max": 0.43298022037235434
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "True->True": 3,
+          "False->True": 1
+        },
+        "full_transitions": {
+          "True->True": 3,
+          "False->True": 1
+        }
+      },
+      "ctc_share": 0.00043423222239602076
+    },
+    {
+      "id": "newpiper-404-mero-slow",
+      "steps": [
+        70,
+        140,
+        184
+      ],
+      "ctc_sum": 4.490881285791902,
+      "observations": 6,
+      "full_event_observations": 6,
+      "full_event_total": 6,
+      "frame0_hey": 0,
+      "suffix_event_observations": 6,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 0.7484802142986503,
+        "median": 0.7453654053486354,
+        "min": 0.37206748280978263,
+        "max": 1.2863059697838575
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.030560934841878436,
+        "median": 0.026062793160636817,
+        "min": 0.01721810949981262,
+        "max": 0.04840190186518588
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.0004319276156035045
+    },
+    {
+      "id": "mero24-451-mero-fast",
+      "steps": [
+        16,
+        86,
+        156
+      ],
+      "ctc_sum": 4.486189620509414,
+      "observations": 6,
+      "full_event_observations": 4,
+      "full_event_total": 4,
+      "frame0_hey": 0,
+      "suffix_event_observations": 4,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 0.7476982700849022,
+        "median": 0.6055729767505749,
+        "min": 0.1871449665915987,
+        "max": 1.4144960598981742
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.044715256274880794,
+        "median": 0.0367265404617064,
+        "min": 0.02058594903357896,
+        "max": 0.07683327932935702
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.00043147637682213526
+    },
+    {
+      "id": "fresh24-ef_dora-mero-merrow",
+      "steps": [
+        45,
+        115,
+        177
+      ],
+      "ctc_sum": 4.443732160283665,
+      "observations": 6,
+      "full_event_observations": 4,
+      "full_event_total": 4,
+      "frame0_hey": 0,
+      "suffix_event_observations": 4,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 0.7406220267139442,
+        "median": 0.6552059991404746,
+        "min": 0.17381118733180806,
+        "max": 1.5098900357099652
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.03628790358574046,
+        "median": 0.029130215835272893,
+        "min": 0.019377674252284365,
+        "max": 0.06035582066966413
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.00042739286884388894
+    },
+    {
+      "id": "newpiper-400-mero-slow",
+      "steps": [
+        33,
+        68,
+        103,
+        138,
+        173
+      ],
+      "ctc_sum": 4.190323363500086,
+      "observations": 10,
+      "full_event_observations": 9,
+      "full_event_total": 9,
+      "frame0_hey": 0,
+      "suffix_event_observations": 9,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 10,
+        "mean": 0.4190323363500085,
+        "median": 0.3814381179983045,
+        "min": 0.16388733307666414,
+        "max": 0.8283869816080114
+      },
+      "prefix_loss": {
+        "n": 10,
+        "mean": 0.04042245205340374,
+        "median": 0.03516518685780833,
+        "min": 0.02024861834592214,
+        "max": 0.07077424382052012
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 4,
+        "observations": 10,
+        "first_ctc": {
+          "n": 4,
+          "mean": 0.581889481230703,
+          "median": 0.5712969478817549,
+          "min": 0.35657704755129077,
+          "max": 0.8283869816080114
+        },
+        "last_ctc": {
+          "n": 4,
+          "mean": 0.280149650073427,
+          "median": 0.27540883652182185,
+          "min": 0.16388733307666414,
+          "max": 0.4058935941734003
+        },
+        "ctc_decrease": 4,
+        "suffix_transitions": {
+          "True->True": 3,
+          "False->True": 1
+        },
+        "full_transitions": {
+          "True->True": 3,
+          "False->True": 1
+        }
+      },
+      "ctc_share": 0.0004030203124563549
+    },
+    {
+      "id": "fresh24-am_liam-mero-marrow",
+      "steps": [
+        4,
+        74,
+        144
+      ],
+      "ctc_sum": 3.9266210750190718,
+      "observations": 6,
+      "full_event_observations": 4,
+      "full_event_total": 4,
+      "frame0_hey": 0,
+      "suffix_event_observations": 4,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 0.6544368458365121,
+        "median": 0.31671298176320517,
+        "min": 0.05908517863999136,
+        "max": 1.817256618234231
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.05231524646884386,
+        "median": 0.04517303845210035,
+        "min": 0.024403528008062992,
+        "max": 0.08736917294636824
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.0003776577402919234
+    },
+    {
+      "id": "newpiper-441-mero-slow",
+      "steps": [
+        48,
+        118,
+        179
+      ],
+      "ctc_sum": 3.6679983460310788,
+      "observations": 6,
+      "full_event_observations": 5,
+      "full_event_total": 5,
+      "frame0_hey": 0,
+      "suffix_event_observations": 5,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 0.6113330576718464,
+        "median": 0.5721038011750885,
+        "min": 0.16806432951885525,
+        "max": 1.2680940126222364
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.034640173748164145,
+        "median": 0.027902755449212925,
+        "min": 0.0187576566090455,
+        "max": 0.05726010918623403
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.0003527837141122362
+    },
+    {
+      "id": "mero24-454-mero-slow",
+      "steps": [
+        50,
+        120,
+        180
+      ],
+      "ctc_sum": 3.521931775093914,
+      "observations": 6,
+      "full_event_observations": 5,
+      "full_event_total": 5,
+      "frame0_hey": 0,
+      "suffix_event_observations": 5,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 0.5869886291823189,
+        "median": 0.5689584434129655,
+        "min": 0.15254457600047483,
+        "max": 1.2067968786327754
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.03376630470202708,
+        "median": 0.02735284895087521,
+        "min": 0.018432610188711042,
+        "max": 0.05551345496649499
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.0003387352052140223
+    },
+    {
+      "id": "mero24-451-mero-slow",
+      "steps": [
+        51,
+        121,
+        181
+      ],
+      "ctc_sum": 3.4606955009090155,
+      "observations": 6,
+      "full_event_observations": 4,
+      "full_event_total": 4,
+      "frame0_hey": 0,
+      "suffix_event_observations": 4,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 0.576782583484836,
+        "median": 0.5213707916427255,
+        "min": 0.2536539871507099,
+        "max": 0.9987025198316435
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.03329935322698969,
+        "median": 0.0271548662732803,
+        "min": 0.018090376158068782,
+        "max": 0.05465281724961999
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.00033284557326565485
+    },
+    {
+      "id": "mero24-454-mero-fast",
+      "steps": [
+        15,
+        85,
+        155
+      ],
+      "ctc_sum": 3.1701855933863006,
+      "observations": 6,
+      "full_event_observations": 5,
+      "full_event_total": 5,
+      "frame0_hey": 0,
+      "suffix_event_observations": 5,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 0.5283642655643834,
+        "median": 0.5042894491995329,
+        "min": 0.12167669317390356,
+        "max": 1.1927833371869379
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.045168155927265856,
+        "median": 0.037153728162768226,
+        "min": 0.0207535555663058,
+        "max": 0.0775971840527235
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.00030490467621667965
+    },
+    {
+      "id": "fresh24-am_liam-mero-merrow",
+      "steps": [
+        39,
+        109,
+        176
+      ],
+      "ctc_sum": 2.563888757180538,
+      "observations": 6,
+      "full_event_observations": 6,
+      "full_event_total": 6,
+      "frame0_hey": 0,
+      "suffix_event_observations": 6,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 0.42731479286342305,
+        "median": 0.4245234922257085,
+        "min": 0.20686998644213425,
+        "max": 0.6127520497338466
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.0393508937495023,
+        "median": 0.0323892684925231,
+        "min": 0.019653352033530917,
+        "max": 0.06601006072245287
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.000246591768316215
+    },
+    {
+      "id": "newpiper-432-mero-slow",
+      "steps": [
+        46,
+        116,
+        178
+      ],
+      "ctc_sum": 2.3783612288954834,
+      "observations": 6,
+      "full_event_observations": 6,
+      "full_event_total": 6,
+      "frame0_hey": 0,
+      "suffix_event_observations": 6,
+      "prefix_shortcut_observations": 0,
+      "silent_nonblank_frames": 0,
+      "ctc": {
+        "n": 6,
+        "mean": 0.3963935381492473,
+        "median": 0.35622345189191884,
+        "min": 0.18921824207594146,
+        "max": 0.6786458520323679
+      },
+      "prefix_loss": {
+        "n": 6,
+        "mean": 0.03568068443511221,
+        "median": 0.02867270749174205,
+        "min": 0.019083859015453366,
+        "max": 0.0592854867981412
+      },
+      "paired": {
+        "conditions": 6,
+        "repeat_conditions": 0,
+        "observations": 6,
+        "full_transitions": {}
+      },
+      "ctc_share": 0.000228747951519164
+    }
+  ],
+  "teacher_prefix": {
+    "retention_conditions": 122,
+    "teacher_hey_frame0": 1,
+    "observations": {
+      "True": {
+        "observations": 6,
+        "full_event_observations": 5,
+        "full_event_total": 5,
+        "frame0_hey": 0,
+        "loss": {
+          "n": 6,
+          "mean": 5.172431230545044,
+          "median": 5.1458330154418945,
+          "min": 4.8493194580078125,
+          "max": 5.702871799468994
+        }
+      },
+      "False": {
+        "observations": 686,
+        "full_event_observations": 421,
+        "full_event_total": 421,
+        "frame0_hey": 0,
+        "loss": {
+          "n": 686,
+          "mean": 9.643441038993636,
+          "median": 7.940021514892578,
+          "min": 3.8825676441192627,
+          "max": 44.06459045410156
+        }
+      }
+    }
+  }
+}
