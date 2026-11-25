@@ -3467,7 +3467,7 @@
     }
   ],
   "expected_retained_files": 2027,
-  "expected_tracked_files": 4235,
+  "expected_tracked_files": 4243,
   "integration_files": [
     ".github/research-v4/background-continuation-request.template.json",
     ".github/research-v4/native-c-librispeech-request.template.json",
@@ -3682,6 +3682,7 @@
     ".github/workflows/english-v6-b24-replication-sources-once.yml",
     ".github/workflows/english-v6-b24-source-contracts.yml",
     ".github/workflows/english-v6-b24-train-contracts.yml",
+    ".github/workflows/english-v6-b24q1-primary-failure-contract.yml",
     ".github/workflows/english-v6-b24q1-primary-model-eval-once.yml",
     ".github/workflows/english-v6-b24q1-primary-sources-once.yml",
     ".github/workflows/english-v6-b24q1-replication-model-eval-once.yml",
@@ -4357,6 +4358,7 @@
     "automation/english_v6_b24q1_panels/primary.json",
     "automation/english_v6_b24q1_panels/replication.json",
     "automation/english_v6_b24q1_primary_eval.py",
+    "automation/english_v6_b24q1_primary_failure.py",
     "automation/english_v6_b24q1_primary_inputs.json",
     "automation/english_v6_b24q1_primary_producer.json",
     "automation/english_v6_b24q1_primary_workflow_template.yml",
@@ -4727,6 +4729,7 @@
     "automation/test_english_v6_b24q1_capacity.py",
     "automation/test_english_v6_b24q1_evidence_scope.py",
     "automation/test_english_v6_b24q1_primary_eval.py",
+    "automation/test_english_v6_b24q1_primary_failure.py",
     "automation/test_english_v6_b24q1_quality_readback.py",
     "automation/test_english_v6_b24q1_quarantine.py",
     "automation/test_english_v6_b24q1_r1_git_transport.py",
@@ -5642,6 +5645,11 @@
     "research/english_v6_b24q1_preparation_20261125/README.md",
     "research/english_v6_b24q1_preparation_20261125/SOURCE_BINDING_AUDIT.json",
     "research/english_v6_b24q1_preparation_20261125/SOURCE_IMPLEMENTATION.md",
+    "research/english_v6_b24q1_primary_no_promotion_20261125/CLOSURE.json",
+    "research/english_v6_b24q1_primary_no_promotion_20261125/ORIGINAL_IDENTITIES.json",
+    "research/english_v6_b24q1_primary_no_promotion_20261125/ORIGINAL_LOCK.json",
+    "research/english_v6_b24q1_primary_no_promotion_20261125/READBACK.json",
+    "research/english_v6_b24q1_primary_no_promotion_20261125/README.md",
     "research/english_v6_b24r1_preparation_20261124/ENGINEERING_ORIGINAL_READBACK.md",
     "research/english_v6_b24r1_preparation_20261124/EVALUATION_ONLY_PREREGISTRATION.md",
     "research/english_v6_b24r1_preparation_20261124/SEALED_REPLICATION_AND_ENGINEERING.md",
@@ -33926,6 +33934,22 @@
       "previous_manifest_git_blob_sha1": "c77d9223ed9fcbeaa4ab4af59d8016e4a10da5bc",
       "rationale": "Retain the metadata-first LibriSpeech research TRAIN cohort, permissibly attributed source references, three blind ASR captures, four frozen native-gain model clocks and a human listening queue. Human reviews pending. No weights, formal training admissions, evaluation access or product status changes.",
       "source_commit": "cc6446a077bb9b8c77783a74759ced4b64044980"
+    },
+    {
+      "campaign": "english-v6-b24q1-original-primary-no-promotion-20261125",
+      "paths": [
+        ".github/workflows/english-v6-b24q1-primary-failure-contract.yml",
+        "automation/english_v6_b24q1_primary_failure.py",
+        "automation/test_english_v6_b24q1_primary_failure.py",
+        "research/english_v6_b24q1_primary_no_promotion_20261125/CLOSURE.json",
+        "research/english_v6_b24q1_primary_no_promotion_20261125/ORIGINAL_IDENTITIES.json",
+        "research/english_v6_b24q1_primary_no_promotion_20261125/ORIGINAL_LOCK.json",
+        "research/english_v6_b24q1_primary_no_promotion_20261125/READBACK.json",
+        "research/english_v6_b24q1_primary_no_promotion_20261125/README.md"
+      ],
+      "previous_manifest_sha256": "e58f53517395d9f431ec94e37cad08def4f84b9a4a0d5d7fffc45357d6056035",
+      "scope": "Complete original Q1 failure readback and exact public identities; unchanged B14; no scientific execution or downstream authority",
+      "source_commit": "969be023bf8e835429f01a268a7bd19247a4599f"
     }
   ]
 }
