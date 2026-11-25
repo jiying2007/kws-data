@@ -1,0 +1,61 @@
+name: B27 complete original quality binding in read-only public CI
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b27_remote_quality_binding.py
+      - automation/test_english_v6_b27_remote_quality_binding.py
+      - .github/workflows/english-v6-b27-remote-quality-binding.yml
+      - research/english_v6_b27_remote_binding_20261125/**
+  push:
+    branches: [research/en-v6-b27-primary-binding-ci-once-20261125]
+    paths: [.github/workflows/english-v6-b27-remote-quality-binding.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b27-complete-original-primary-binding
+  cancel-in-progress: false
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Reject incomplete provenance and broken byte transport using invented data
+        run: |
+          set -euo pipefail
+          for mode in '' -O -OO; do
+            python -I -S -B $mode automation/test_english_v6_b27_remote_quality_binding.py -v
+          done
+  bind:
+    needs: contracts
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b27-primary-binding-ci-once-20261125' && github.run_attempt == 1 && github.event.before == '__B27_REVIEWED_REMOTE_BINDING_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PREPARED_PARENT: '__B27_REVIEWED_REMOTE_BINDING_PARENT__'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Fetch full pinned originals and invoke the unchanged offline binder once
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python -I -S -B automation/english_v6_b27_remote_quality_binding.py "$RUNNER_TEMP/b27-remote-binding"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b27-primary-binding-review-${{ github.run_id }}
+          path: ${{ runner.temp }}/b27-remote-binding/review/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn
