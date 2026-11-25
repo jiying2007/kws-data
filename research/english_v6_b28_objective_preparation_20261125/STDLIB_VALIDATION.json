@@ -1,0 +1,345 @@
+{
+  "candidate_registered": false,
+  "draft_files": {
+    "README.md": {
+      "bytes": 4978,
+      "sha256": "8e4760daa033bc8e344ea172e5490d6dc6e49cf3a424f7e1737d74210119202a"
+    },
+    "no_event_reference.py": {
+      "bytes": 6851,
+      "sha256": "034a4827fb9ff3091a5e23ea25e2eab0bc23ee7263bce644fd52741e6b80f969"
+    },
+    "torch_objective_draft.py": {
+      "bytes": 5569,
+      "sha256": "1321eef19cf02d8ce8009e307d4fc384eeac7f59a57e2e07c05dbf79d273350a"
+    },
+    "verify_stdlib.py": {
+      "bytes": 21424,
+      "sha256": "1b873be7510989e43e062a3bd1979588f72d7cc9a51e9f69f2150528823467e4"
+    }
+  },
+  "exhaustive_semantics": {
+    "edge_cases": [
+      {
+        "collapsed": [],
+        "events": 0,
+        "path": []
+      },
+      {
+        "collapsed": [
+          1,
+          2,
+          3
+        ],
+        "events": 1,
+        "path": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "collapsed": [
+          1,
+          2,
+          3
+        ],
+        "events": 1,
+        "path": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ]
+      },
+      {
+        "collapsed": [
+          1,
+          2,
+          3
+        ],
+        "events": 1,
+        "path": [
+          1,
+          0,
+          2,
+          0,
+          3
+        ]
+      },
+      {
+        "collapsed": [
+          1,
+          2,
+          2,
+          3
+        ],
+        "events": 0,
+        "path": [
+          1,
+          2,
+          0,
+          2,
+          3
+        ]
+      },
+      {
+        "collapsed": [
+          1,
+          2,
+          3
+        ],
+        "events": 1,
+        "path": [
+          1,
+          2,
+          2,
+          0,
+          3
+        ]
+      },
+      {
+        "collapsed": [
+          1,
+          2,
+          1,
+          2,
+          3
+        ],
+        "events": 1,
+        "path": [
+          1,
+          2,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "collapsed": [
+          1,
+          2,
+          3,
+          1,
+          2,
+          3
+        ],
+        "events": 2,
+        "path": [
+          1,
+          2,
+          3,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "collapsed": [
+          1,
+          2,
+          3,
+          3
+        ],
+        "events": 1,
+        "path": [
+          1,
+          2,
+          3,
+          0,
+          3
+        ]
+      },
+      {
+        "collapsed": [
+          1,
+          1,
+          2,
+          3
+        ],
+        "events": 1,
+        "path": [
+          1,
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "collapsed": [
+          1,
+          2,
+          3
+        ],
+        "events": 1,
+        "path": [
+          1,
+          2,
+          0,
+          0,
+          3
+        ]
+      }
+    ],
+    "mismatches": 0,
+    "per_length": [
+      {
+        "frames": 0,
+        "mismatches": 0,
+        "paths": 1
+      },
+      {
+        "frames": 1,
+        "mismatches": 0,
+        "paths": 4
+      },
+      {
+        "frames": 2,
+        "mismatches": 0,
+        "paths": 16
+      },
+      {
+        "frames": 3,
+        "mismatches": 0,
+        "paths": 64
+      },
+      {
+        "frames": 4,
+        "mismatches": 0,
+        "paths": 256
+      },
+      {
+        "frames": 5,
+        "mismatches": 0,
+        "paths": 1024
+      },
+      {
+        "frames": 6,
+        "mismatches": 0,
+        "paths": 4096
+      },
+      {
+        "frames": 7,
+        "mismatches": 0,
+        "paths": 16384
+      },
+      {
+        "frames": 8,
+        "mismatches": 0,
+        "paths": 65536
+      },
+      {
+        "frames": 9,
+        "mismatches": 0,
+        "paths": 262144
+      }
+    ],
+    "total_paths": 349525
+  },
+  "frozen_decoder": {
+    "commit": "b37932fbbf8579b7efb3f4789acf3f11ca495e87",
+    "file_sha256": "0ff27034c441b12b69f8b0bf670262116801cd72e0e134fa04a6b09f13029975",
+    "full_modules_imported": false,
+    "function_lines": [
+      222,
+      232
+    ],
+    "function_source_sha256": "b99fc66036c5d22a3f9d8b64033eee452c3888f7efafc2397ed9ad63ba9a2fd0",
+    "manifest_sha256": "d2a00cccf68bc185939536a059a113b69edd2c065d3ca92adba93b95ee61982e",
+    "repository": "jiying2007/kws-data",
+    "source_files_verified": 5
+  },
+  "gradient_mathematics": {
+    "autograd_executed": false,
+    "enumerated_paths": 256,
+    "epsilon": 1e-05,
+    "formula": "p_t(k) - P(a_t=k | no event)",
+    "frames": 4,
+    "maximum_absolute_error": 1.5717418686000961e-12,
+    "maximum_conditional_gradient_row_sum": 1.1102230246251565e-16
+  },
+  "new_execution": {
+    "B27_SOURCE_or_PRIMARY_result_artifacts_read": 0,
+    "audio_decodes": 0,
+    "model_forwards": 0,
+    "observer_calls": 0,
+    "optimizer_updates": 0,
+    "torch_executions": 0,
+    "training_runs": 0
+  },
+  "numeric_extremes": {
+    "below_float64_range": {
+      "explanation": "Final NLL underflows below float64 range; log mass remains finite; no clamp.",
+      "log_hit_mass": -3000.0,
+      "nll": 0.0
+    },
+    "decimal_examples": [
+      {
+        "absolute_error": 3.469446951953614e-18,
+        "case": "uniform_three_frames",
+        "decimal_120_digit_nll": 0.015748356968139168,
+        "nll": 0.01574835696813917
+      },
+      {
+        "absolute_error": 2.773254398899373e-54,
+        "case": "tiny_event_mass_survives_cancellation",
+        "decimal_120_digit_nll": 8.194012623988215e-40,
+        "nll": 8.194012623988187e-40
+      },
+      {
+        "absolute_error": 0.0,
+        "case": "nearly_certain_event_1000_logit_gap",
+        "decimal_120_digit_nll": 997.8027754226638,
+        "nll": 997.8027754226638
+      },
+      {
+        "absolute_error": 0.0,
+        "case": "nearly_certain_event_20000_logit_gap",
+        "decimal_120_digit_nll": 19997.802775422664,
+        "nll": 19997.802775422664
+      }
+    ],
+    "deterministic_mask_examples": "PASS (stdlib reference only)",
+    "long_uniform": {
+      "absolute_error": 4.575895218295045e-12,
+      "exact_integer_count_nll": 176.48387395098416,
+      "frames": 4096,
+      "nll": 176.48387395098874
+    },
+    "short_sequences": "PASS for T=0,1,2"
+  },
+  "preparation_only": true,
+  "rejections": {
+    "invalid_inputs_rejected": 8
+  },
+  "runtime": {
+    "implementation": "cpython",
+    "python": "3.12.14"
+  },
+  "schema": "b28-objective-preparation-stdlib-verification-v1",
+  "status": "STDLIB_VERIFIED_TORCH_UNEXECUTED",
+  "torch_source": {
+    "ast_syntax": "PASS",
+    "autograd_executed": false,
+    "bytes": 5569,
+    "complete_fit_changed": false,
+    "limitation": "Static source checks only; Torch numerical and integration behavior remain untested.",
+    "matching_transition_table": true,
+    "runtime_executed": false,
+    "sha256": "1321eef19cf02d8ce8009e307d4fc384eeac7f59a57e2e07c05dbf79d273350a",
+    "short_sequence_zero_source_guard": true,
+    "unreachable_list_guard": true,
+    "wrapper_model_call_sites": 1
+  },
+  "weighted_probabilities": {
+    "cases": 21,
+    "enumerated_paths": 16383,
+    "maximum_nll_absolute_error": 1.1102230246251565e-16,
+    "maximum_probability_absolute_error": 2.220446049250313e-16,
+    "row_shift_invariance": "PASS",
+    "seed": 20261125
+  }
+}
