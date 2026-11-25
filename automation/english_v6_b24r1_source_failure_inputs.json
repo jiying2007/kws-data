@@ -1,14 +1,128 @@
 {
   "candidate_pt_sha256": "f6fce146324cab9286814bab26a594ef67cca58155fa2d2fb5f7fd9370992bb4",
   "condition": "only_one_separate_B24R1_evaluation_after_authenticated_B24_SOURCE_STOP",
-  "enabled": false,
-  "expected_failure_report_sha256": null,
+  "enabled": true,
+  "expected_failure_report_sha256": "4063a57f1d20ffe9f534248067e1adcbe9c25ab65cb5bd3682b5db44d3ba39d8",
   "maximum_new_source_registrations": 1,
   "new_training_allowed": false,
   "old_source_continuation_allowed": false,
   "old_source_retry_allowed": false,
   "open_old_sealed_reserve": false,
-  "original_source_lock": null,
+  "original_source_lock": {
+    "artifacts": {
+      "consumed_lv60": {
+        "bytes": 901,
+        "id": 14950183101,
+        "name": "english-v6-b24-primary-observer-lv60-consumed",
+        "sha256": "d1430520605f7532866e006615f7e739b671b79ab19a48d92adc05b8c4cd33b5"
+      },
+      "consumed_parakeet": {
+        "bytes": 903,
+        "id": 14950578665,
+        "name": "english-v6-b24-primary-observer-parakeet-consumed",
+        "sha256": "107c3898a56b4287e4d7e53dafb18a868e04ce3ab9dd7a443356aaf5f9a3f75a"
+      },
+      "consumed_qwen": {
+        "bytes": 901,
+        "id": 14952380435,
+        "name": "english-v6-b24-primary-observer-qwen-consumed",
+        "sha256": "d666fe0914cd6253b9bdb8c39c48e7362fa98795ce78017c35910d6829300ab4"
+      },
+      "consumed_whisper": {
+        "bytes": 903,
+        "id": 14949754953,
+        "name": "english-v6-b24-primary-observer-whisper-consumed",
+        "sha256": "e84a7fd6be21bde26634d3fb481a9a76d3e41a580f4db02fd7809b6e2309b0df"
+      },
+      "consumed_xlsr": {
+        "bytes": 901,
+        "id": 14951262503,
+        "name": "english-v6-b24-primary-observer-xlsr-consumed",
+        "sha256": "0dcdecc77a38331b4a30a8d3bb9f094220c2dd3c80806d52bd46e90100484a43"
+      },
+      "native_lv60": {
+        "bytes": 13362986,
+        "id": 14952675303,
+        "name": "b24-primary-dev-observer-lv60",
+        "sha256": "5781dbfc270b7530ce3eb47694ec5d9184067d3d7d1d5e2af5374edb23d4d283"
+      },
+      "native_parakeet": {
+        "bytes": 301341,
+        "id": 14952485431,
+        "name": "b24-primary-dev-observer-parakeet",
+        "sha256": "4f44c7e333bb50a93cd1dfe0b97f091826c15dd90629cd6f6a37cf62da8a6ac6"
+      },
+      "native_qwen": {
+        "bytes": 549598,
+        "id": 14951697352,
+        "name": "b24-primary-dev-observer-qwen",
+        "sha256": "e857100ba07555743d964827b2531ea98c3d9697f8b3e07af440473f0457f167"
+      },
+      "native_whisper": {
+        "bytes": 550594,
+        "id": 14952815149,
+        "name": "b24-primary-dev-observer-whisper",
+        "sha256": "27ebf0517eabda3d0659c7159cf5fade85a3680a0066f3ad2caa161cdd1d02b3"
+      },
+      "native_xlsr": {
+        "bytes": 13376064,
+        "id": 14952700277,
+        "name": "b24-primary-dev-observer-xlsr",
+        "sha256": "0163a755a6b350954b6e28889f5dac4ceb4c07c8fafd103b788a060ce4286e93"
+      },
+      "source": {
+        "bytes": 59393379,
+        "id": 14950099270,
+        "name": "english-v6-b24-primary-source-45456888767",
+        "sha256": "b4dd350b773ae925696f692e8f67caf7e83444220eab9cbb1f675ec20176ac4e"
+      },
+      "source_consumed": {
+        "bytes": 690,
+        "id": 14950817109,
+        "name": "english-v6-b24-primary-source-consumed",
+        "sha256": "f80c5aaf61e6b12ea3e21e2cf649466fe1c1e7057a758294134c4a4dd597064d"
+      },
+      "source_producer": {
+        "bytes": 17486742,
+        "id": 14951855225,
+        "name": "english-v6-b24-primary-source-producer-45456888767",
+        "sha256": "bcf47dc4e0d81f9678abf750ea184728a1cc8f7f1684ebbb9e71a36626bc6f7e"
+      },
+      "transport": {
+        "bytes": 49405413,
+        "id": 14951371785,
+        "name": "english-v6-b24-primary-transport-45456888767",
+        "sha256": "45d52ebf6e089e69d6af7dac54d22d66170346abdb868d799937d345893663e5"
+      }
+    },
+    "branch": "research/en-v6-b24-primary-sources-once-20261124",
+    "candidate_pt_sha256": "f6fce146324cab9286814bab26a594ef67cca58155fa2d2fb5f7fd9370992bb4",
+    "history_sha256": "fc5b2e3683222b5fd11136d42cd24949273b57148dd10a144bc6db6f34d8d72d",
+    "logs": {
+      "parakeet": {
+        "bytes": 52790,
+        "job_id": 138672328824,
+        "path": "PARAKEET_JOB.log",
+        "sha256": "c6bd1d3db1ff6350f314630733f5b2ce3b8f05e97026a37b4d3284cb5043cdde"
+      },
+      "readback": {
+        "bytes": 44266,
+        "job_id": 138676788255,
+        "path": "READBACK_JOB.log",
+        "sha256": "e8c2553c277138c0ac2674433e00308b3f02b7550360ed1f3dc5f58b85bd7bb0"
+      }
+    },
+    "prepared_parent": "c76fbc535344cac7d84c0efaf9e6ae904cef9890",
+    "repo": "jiying2007/kws-data",
+    "run_head": "273e7bd0ae4b16972236f77aacae0eb5d1a12520",
+    "run_id": 45456888767,
+    "schema": "english-v6-b24r1-original-b24-source-stop-lock-v1",
+    "source_assessment_sha256": "3afdb17e822bb0b4a49757ac116a28101ff9f1447b22429305299047410fe2ad",
+    "source_manifest_sha256": "5ab44377322029a99b105a998091550d2ef7a3768b01b67501c60d04b6256a12",
+    "source_producer_manifest_sha256": "80c0838fc2e75c591f62fc84fef7b74495796718d2f5e1305f49d92a4268d80d",
+    "train_result_sha256": "d7c641bd8f6f2551d4e116c5f94e2aaa777aab30da3d70d9b92e27269b6d345f",
+    "workflow": ".github/workflows/english-v6-b24-primary-sources-once.yml"
+  },
   "original_train_assessment_sha256": "3afdb17e822bb0b4a49757ac116a28101ff9f1447b22429305299047410fe2ad",
   "schema": "english-v6-b24r1-source-stop-opening-v1",
   "second_replacement_allowed": false

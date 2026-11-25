@@ -109,12 +109,35 @@ def fixture(panel="primary"):
 
 
 class ReadbackTests(unittest.TestCase):
-    def test_only_replica_source_and_producer_use_finite_composite_limit(self):
+    def test_offline_readback_only_launches_exact_isolated_stop_or_quality_worker(self):
+        worker = (HERE / 'english_v6_b24r1_b24_source_failure.py').resolve()
+        command = [reader.sys.executable, '-I', '-S', '-B', str(worker), '--verify-worker', '/evidence', '/lock.json']
+        with patch.object(reader.subprocess, 'Popen') as launch:
+            with reader.offline_only():
+                reader.subprocess.Popen(command)
+                recursive = list(command); recursive[4] = str(Path(reader.__file__).resolve())
+                reader.subprocess.Popen(recursive)
+                for index, value in ((1, '-E'), (2, ''), (5, '--fetch')):
+                    changed = list(command); changed[index] = value
+                    with self.assertRaises(ValueError): reader.subprocess.Popen(changed)
+                with self.assertRaises(ValueError): reader.subprocess.Popen(command + ['extra'])
+                with self.assertRaises(ValueError): reader.subprocess.Popen(command, shell=True)
+                for key in ('executable', 'preexec_fn'):
+                    with self.assertRaises(ValueError): reader.subprocess.Popen(command, **{key: None})
+                with self.assertRaises(ValueError): reader.subprocess.Popen(['gh', 'api', 'anything'])
+                with tempfile.TemporaryDirectory() as temporary:
+                    wrong = Path(temporary) / worker.name
+                    wrong.write_text('raise SystemExit(0)\n')
+                    changed = list(command); changed[4] = str(wrong)
+                    with self.assertRaises(ValueError): reader.subprocess.Popen(changed)
+                self.assertEqual(launch.call_count, 2)
+
+    def test_only_sources_and_replica_producer_use_finite_composite_limit(self):
         roles=(None,'result','producer','consumed','B0','B9','pair','source','screen',
                'train_producer','source_producer','native_qwen','native_whisper','native_parakeet','native_xlsr','native_lv60')
         for panel in ('primary','replication'):
             for role in roles:
-                expected=512_000_000 if panel=='replication' and role in ('source','producer') else 128_000_000
+                expected=512_000_000 if role=='source' or (panel=='replication' and role=='producer') else 128_000_000
                 self.assertEqual(reader.archive_limit(panel,role),expected)
                 pin=dict(id=1,run_id=1,run_head='a'*40,bytes=expected,sha256='b'*64)
                 reader.valid_artifact(pin,panel=panel,role=role)

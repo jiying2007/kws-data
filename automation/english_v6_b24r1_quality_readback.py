@@ -27,7 +27,8 @@ import zipfile
 from unittest import mock
 
 REPO = "jiying2007/kws-data"
-PRIMARY_CODE_SHA = "083625a0c455bf9f7ca079f18a722173397ead6d056f10363bfd86cbe6230e1b"
+PRIMARY_CODE_SHA = "3faa3c22dcad85fd5e157f9493cc2e4dd928206ad199e0617038a933918b499e"
+SOURCE_STOP_READER_SHA = "2d5564039689d5fb5e31bf5cde51d49dba5bf9d0697c295cd98c96f7706585c6"
 EVALUATOR_STEMS = {"primary": "english_v6_b24r1_primary", "replication": "english_v6_b24r1_replication"}
 QUALITY_CODE_SHA = "6aa5f999598e47b41eb0a946acd82fdc5b47d30aea8990871c1c1a01065e4023"
 QUALITY_ASSESSMENT_SHA = "944f5df3c7bc3244977a8a33f7e1c393bffff9f7f5c32d2d8cc79e2628e265d9"
@@ -84,7 +85,7 @@ def archive_limit(panel="primary", role=None):
     need(panel in SCHEMAS and role in {None, "result", "producer", "consumed", "B0", "B9", "pair", "source", "screen",
          "train_producer", "source_producer", *("native_" + provider for provider in ("qwen", "whisper", "parakeet", "xlsr", "lv60"))},
          "explicit existing panel and artifact role")
-    return 512_000_000 if panel == "replication" and role in {"source", "producer"} else 128_000_000
+    return 512_000_000 if role == "source" or (panel == "replication" and role == "producer") else 128_000_000
 
 
 def valid_artifact(pin, *, panel="primary", role=None):
@@ -179,19 +180,33 @@ def load(path, name):
 
 def offline_only():
     stack = ExitStack()
-    old_import, old_popen = builtins.__import__, subprocess.Popen
+    old_import, old_popen, old_socket = builtins.__import__, subprocess.Popen, socket.socket
     forbidden = {"numpy", "torch", "torchaudio", "onnxruntime", "soundfile", "transformers", "piper", "requests", "httpx"}
     def import_guard(name, *args, **kwargs):
         need(name.split(".")[0] not in forbidden, "no acoustic/network runtime during original quality verification")
         return old_import(name, *args, **kwargs)
     def popen_guard(command, *args, **kwargs):
         need(type(command) is list and len(command) == 8 and command[:4] == [sys.executable, "-I", "-S", "-B"]
-             and command[5] == "--verify-worker" and sha(Path(command[4]).read_bytes()) == sha(Path(__file__).read_bytes()),
-             "only an isolated recursive saved-quality verifier may start during readback")
+             and command[5] == "--verify-worker" and kwargs.get("shell", False) is False
+             and not {"executable", "preexec_fn"}.intersection(kwargs),
+             "only an isolated frozen saved-evidence verifier may start during readback")
+        path = Path(command[4])
+        need(path.is_absolute() and path == path.resolve() and path.is_file() and not path.is_symlink(),
+             "regular resolved frozen verifier path")
+        digest = sha(path.read_bytes())
+        need(digest == sha(Path(__file__).read_bytes())
+             or (path.name == "english_v6_b24r1_b24_source_failure.py" and digest == SOURCE_STOP_READER_SHA),
+             "only this recursive quality reader or the immutable original STOP reader")
         return old_popen(command, *args, **kwargs)
+    def blocked_network(*args, **kwargs):
+        raise ValueError("no network during original quality verification")
+    class BlockedSocket(old_socket):
+        def __init__(self, *args, **kwargs):
+            blocked_network()
     stack.enter_context(mock.patch("builtins.__import__", side_effect=import_guard))
     stack.enter_context(mock.patch("subprocess.Popen", side_effect=popen_guard))
-    stack.enter_context(mock.patch("socket.socket", side_effect=ValueError("no network during original quality verification")))
+    stack.enter_context(mock.patch("socket.socket", BlockedSocket))
+    stack.enter_context(mock.patch("socket.create_connection", side_effect=blocked_network))
     return stack
 
 
@@ -209,8 +224,7 @@ def source_admission(primary, inputs, spec, identity, workflow, fetched, panel, 
     pins = primary.archive_pins(spec)
     common, decision, source, plan = primary.helpers(spec)
     with ExitStack() as stack, tempfile.TemporaryDirectory() as temporary:
-        archives = {key: stack.enter_context(original_zip(inputs / (key + ".zip"), pin, role=key)
-                    if panel == 'replication' else original_zip(inputs / (key + ".zip"), pin)) for key, pin in pins.items()}
+        archives = {key: stack.enter_context(original_zip(inputs / (key + ".zip"), pin, role=key)) for key, pin in pins.items()}
         pair = archives["pair"]
         producer = json.loads(primary.PRODUCER.read_bytes())
         primary.verify_upstream_archives(archives, spec, fetched, producer)
@@ -446,7 +460,7 @@ def verify_worker(directory, lock):
         for key, pin in ((key, lock[key]) for key in ("result", "producer", "consumed")):
             selected = [item for item in artifacts["artifacts"] if item["id"] == pin["id"]]
             need(len(selected) == 1 and selected[0]["name"] == artifact_names[key], "exact named original quality artifact " + key)
-            primary.validate_provenance(pin, dict(run=run, commit=commit, artifact=selected[0]))
+            primary.validate_provenance(pin, dict(run=run, commit=commit, artifact=selected[0]), role=key)
         spec = primary.protocol()
         need(spec["schema"] == SCHEMAS[panel] and spec["producer_manifest_sha256"] == lock["producer_manifest_sha256"],
              "actual authenticated registration of this quality panel")
@@ -473,7 +487,7 @@ def verify_worker(directory, lock):
         pins = primary.archive_pins(spec)
         need(set(fetched["source_metadata"]) == set(pins), "all twelve original input and complete producer metadata receipts")
         for key, pin in pins.items():
-            primary.validate_provenance(pin, fetched["source_metadata"][key])
+            primary.validate_provenance(pin, fetched["source_metadata"][key], role=key)
         expected_files = {"FETCH.json", "CONSUMPTION.json"}
         for role, source_commit in ((panel, bound_commit), ("source", fetched["source_metadata"]["source"]["commit"])):
             tree = fetched["producer_trees"][role]
