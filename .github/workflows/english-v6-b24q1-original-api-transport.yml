@@ -1,0 +1,66 @@
+name: B24Q1 read-only original metadata transport preflight
+'on':
+  push:
+    branches: [review/en-v6-b24q1-original-api-transport-20261125]
+    paths: [.github/workflows/english-v6-b24q1-original-api-transport.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-metadata-bytes:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Read only five original public API responses and two failed job logs
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        python -SIB - <<'PY'
+        import hashlib,json,os,subprocess
+        from pathlib import Path
+        root=Path(os.environ['RUNNER_TEMP'])/'original-metadata-preflight'
+        root.mkdir()
+        (root/'metadata').mkdir()
+        lock=json.loads(Path('research/english_v6_b24r1_source_stop_20261125/ORIGINAL_LOCK.json').read_bytes())
+        run=str(lock['run_id'])
+        def collect(name,endpoint,expected):
+            raw=subprocess.run(['gh','api','repos/jiying2007/kws-data/'+endpoint,'--allow-escape-sequences'],
+                stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True).stdout
+            (root/name).write_bytes(raw)
+            actual=dict(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest())
+            matched=actual=={k:expected[k] for k in ('bytes','sha256')}
+            print(json.dumps(dict(path=name,matched=matched,actual=actual),sort_keys=True))
+            return raw,matched
+        checks=[]
+        for role,endpoint in [('run','actions/runs/'+run),('jobs','actions/runs/'+run+'/jobs?per_page=100'),
+            ('artifacts','actions/runs/'+run+'/artifacts?per_page=100'),('commit','commits/'+lock['run_head'])]:
+            raw,matched=collect('metadata/source_'+role+'.json',endpoint,lock['api'][role]);checks.append(matched)
+            if role=='commit':commit=json.loads(raw)
+        raw,matched=collect('metadata/source_tree.json','git/trees/'+commit['commit']['tree']['sha']+'?recursive=1',lock['api']['tree'])
+        checks.append(matched)
+        for role,item in lock['logs'].items():
+            raw,matched=collect(item['path'],'actions/jobs/'+str(item['job_id'])+'/logs',item);checks.append(matched)
+        report=dict(schema='english-v6-b24q1-read-only-original-transport-preflight-v1',
+            exact_original_responses=sum(checks),responses=7,new_source_calls=0,new_observer_calls=0,
+            new_KWS_forwards=0,new_optimizer_updates=0,scientific_execution_authorized=False,
+            artifacts_downloaded=0,complete_failure_readback_performed=False,passed=all(checks))
+        (root/'PREFLIGHT.json').write_text(json.dumps(report,sort_keys=True,indent=2)+'\n')
+        print(json.dumps(report,sort_keys=True))
+        if not all(checks):raise SystemExit('Original raw metadata transport mismatch; no scientific budget consumed')
+        PY
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b24q1-original-metadata-transport-${{ github.run_id }}
+        path: ${{ runner.temp }}/original-metadata-preflight/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
