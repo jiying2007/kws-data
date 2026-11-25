@@ -1,0 +1,130 @@
+{
+  "audio_decodes": 0,
+  "blocked_forbidden_attempts": [],
+  "candidate_registration": false,
+  "device": "cpu",
+  "errors": 0,
+  "expected_test_cases": 10,
+  "failures": 0,
+  "invented_logit_callable_invocations": 4,
+  "network_operations_allowed": false,
+  "observations": {
+    "below_float64_range": "Expected final NLL/gradient underflow; no epsilon or clamp introduced.",
+    "connected_zero_shapes": [
+      [
+        0,
+        4
+      ],
+      [
+        2,
+        0,
+        4
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        1,
+        4
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        2,
+        4
+      ]
+    ],
+    "double_gradcheck_shapes": [
+      [
+        4,
+        4
+      ],
+      [
+        2,
+        4,
+        4
+      ]
+    ],
+    "extreme_values": [
+      {
+        "case": 0,
+        "decimal_nll": 0.015748356968139168,
+        "nll": 0.01574835696813917
+      },
+      {
+        "case": 1,
+        "decimal_nll": 8.194012623988215e-40,
+        "nll": 8.194012623988187e-40
+      },
+      {
+        "case": 2,
+        "decimal_nll": 997.8027754226638,
+        "nll": 997.8027754226638
+      },
+      {
+        "case": 3,
+        "decimal_nll": 19997.802775422664,
+        "nll": 19997.802775422664
+      }
+    ],
+    "frozen_fit_interface_inspected_only": {
+      "complete_fit_execution_or_rewrite": false,
+      "natural_wrapper_omits_only_klass_argument": true,
+      "original_natural_call_sites": 1,
+      "original_shared_loss_call_sites": 2,
+      "outer_natural_weight_unchanged": 0.16
+    },
+    "independent_enumerated_finite_difference_max_error": 3.1701724578780954e-13,
+    "invalid_Torch_inputs_rejected": 10,
+    "long_uniform": {
+      "exact_count_nll": 10.894471015175384,
+      "frames": 256,
+      "nll": 10.894471015175384
+    },
+    "natural_only_interface": [
+      {
+        "calls_per_loss_invocation": 1,
+        "independent_expected_loss": 1.2677040934693948,
+        "nll": 1.2677041016741595,
+        "tier": "silver"
+      },
+      {
+        "calls_per_loss_invocation": 1,
+        "independent_expected_loss": 0.9507780701020461,
+        "nll": 0.9507780762556196,
+        "tier": "bronze"
+      }
+    ],
+    "small_path_gradient_max_abs_error": 9.020562075079397e-17
+  },
+  "operation_scope_basis": "Reviewed pinned test code; runtime guards; invented tensors and an ordinary fixed-logit callable only.",
+  "optimizer_updates": 0,
+  "original_files_verified": 9,
+  "original_objective_sha256": "1321eef19cf02d8ce8009e307d4fc384eeac7f59a57e2e07c05dbf79d273350a",
+  "original_pins_sha256": "16c76a1c990fa8419fb396b745b1d810748ea78aee438ad22d793189c8890faf",
+  "original_source_changed": false,
+  "preparation_only": true,
+  "prior_exhaustive_stdlib_report_sha256": "dbb0acacdc87dfdd9a62f3cefae79c94d1bf87ae4a957d4a42785da2339adeb1",
+  "python_version": "3.12.16",
+  "real_model_forwards": 0,
+  "real_training_runs": 0,
+  "real_weight_loads": 0,
+  "repository_refs_modified": false,
+  "schema": "b28-invented-logit-math-test-result-v1",
+  "skipped": 0,
+  "source_or_observer_calls": 0,
+  "status": "PASS",
+  "test_source_sha256": "4bbb16b756d7cb92223f32c13a184d41241e1f9bb46f2c7dfe8927be93f37395",
+  "tests_run": 10,
+  "torch_threads": 1,
+  "torch_version": "2.9.1+cpu",
+  "toy_autograd_executed": true,
+  "toy_autograd_grad_attempts": 31,
+  "toy_autograd_grad_completed_calls": 31,
+  "training_or_promotion_authority": false
+}
