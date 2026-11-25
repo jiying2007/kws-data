@@ -115,13 +115,41 @@ class SourceContracts(unittest.TestCase):
     def test_inert_registration_stops_before_output_network_tts_decode_or_observers(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary).resolve()
-            for owner in (source, replica):
-                with patch.object(owner.B13, 'render_panel') as render, patch.object(owner.natural, 'extract') as decode, \
-                     patch.object(owner.observers, 'observe') as observe, patch.object(owner.lineage, 'gh') as network:
-                    with self.assertRaises(ValueError):
-                        owner.generate(root / owner.PANEL, root / 'prior', root / 'prior/NATURAL_STAGING', 'a' * 40)
-                    self.assertFalse((root / owner.PANEL).exists())
-                    render.assert_not_called(); decode.assert_not_called(); observe.assert_not_called(); network.assert_not_called()
+            current = profile.profile(False)
+            # Invented future pin values only: this is not a bound production
+            # profile or evidence of any TRAIN/quality result.
+            future = dict(current, training_design_sha256='a' * 64, assessment_sha256='b' * 64,
+                          ancestry_sha256='c' * 64, panel_sha256=dict(primary='d' * 64, replication='e' * 64))
+            for state, registered in (('current', current), ('future_bound_fixture', future)):
+                inert = copy.deepcopy(registered)
+                inert.update(training_design_sha256=None, assessment_sha256=None, ancestry_sha256=None,
+                             panel_sha256=dict(primary=None, replication=None))
+                fixture = root / (state + '-inert-profile.json')
+                fixture.write_bytes(profile.canonical(inert))
+                for owner in (source, replica):
+                    event = root / (state + '-' + owner.PANEL + '-event.json')
+                    event.write_bytes(profile.canonical(dict(before='a' * 40, after='b' * 40,
+                        ref=owner.lineage.BRANCH, forced=False, deleted=False,
+                        repository=dict(full_name=owner.lineage.REPO, private=False))))
+                    env = dict(GITHUB_ACTIONS='true', GITHUB_REPOSITORY=owner.lineage.REPO,
+                        GITHUB_EVENT_NAME='push', GITHUB_REF=owner.lineage.BRANCH, GITHUB_RUN_ATTEMPT='1',
+                        GITHUB_RUN_ID='123', GITHUB_SHA='b' * 40, PREPARED_PARENT='a' * 40,
+                        GITHUB_WORKSPACE=str(root), GITHUB_EVENT_PATH=str(event))
+                    with self.subTest(state=state, panel=owner.PANEL), \
+                         patch.object(profile, 'PROFILE', fixture), patch.object(profile, 'DESIGN_SHA', None), \
+                         patch.dict(owner.lineage.os.environ, env, clear=True), \
+                         patch.object(subprocess, 'Popen', side_effect=AssertionError('no process before admission')) as process, \
+                         patch('socket.socket', side_effect=AssertionError('no network before admission')) as socket_call, \
+                         patch('socket.create_connection', side_effect=AssertionError('no connection before admission')) as connect, \
+                         patch.object(owner.B13, 'render_panel', side_effect=AssertionError('no TTS')) as render, \
+                         patch.object(owner.natural, 'extract', side_effect=AssertionError('no native decode')) as decode, \
+                         patch.object(owner.observers, 'observe', side_effect=AssertionError('no observer')) as observe, \
+                         patch.object(owner.lineage, 'gh', side_effect=AssertionError('no acquisition')) as network:
+                        with self.assertRaisesRegex(ValueError, 'INERT: prospective B28 quality metadata is unbound'):
+                            owner.generate(root / owner.PANEL, root / 'prior', root / 'prior/NATURAL_STAGING', 'a' * 40)
+                        self.assertFalse((root / owner.PANEL).exists())
+                        for entry in (process, socket_call, connect, render, decode, observe, network):
+                            entry.assert_not_called()
         with self.assertRaises(ValueError):
             profile.require_proof('primary')
 

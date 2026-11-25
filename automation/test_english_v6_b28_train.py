@@ -7,6 +7,7 @@ import inspect
 import io
 import os
 from pathlib import Path
+import re
 import sys
 import tempfile
 from types import SimpleNamespace
@@ -345,10 +346,26 @@ class ExecutionContracts(unittest.TestCase):
         template = (train.ROOT / producer.TEMPLATE).read_bytes()
         self.assertEqual(template.count(producer.TOKEN), 2)
         checked_in = (train.ROOT / train.WORKFLOW).read_bytes()
-        if checked_in != template:
-            # On the single real first push, the runner is the reviewed child
-            # whose only edit is substitution of its prepared parent token.
-            self.assertEqual(checked_in, producer.workflow(os.environ.get('PREPARED_PARENT', '')))
+
+        def exact_template_or_parent(raw):
+            if raw == template:
+                return
+            parents = re.findall(rb"^      PREPARED_PARENT: '([0-9a-f]{40})'$", raw, re.M)
+            self.assertEqual(len(parents), 1)
+            self.assertEqual(raw, producer.workflow(parents[0].decode('ascii')))
+
+        # This source-byte contract is independent of its invoking job's
+        # environment. The unchanged runtime guard authenticates the real
+        # event, reviewed parent, branch and first public push.
+        with patch.dict(os.environ, {}, clear=True):
+            exact_template_or_parent(checked_in)
+            exact_template_or_parent(template)
+            exact_template_or_parent(template.replace(producer.TOKEN, b'a' * 40))
+            partial = template.replace(producer.TOKEN, b'a' * 40, 1)
+            mismatched = partial.replace(producer.TOKEN, b'b' * 40)
+            for case, invalid in (('partial', partial), ('mismatched', mismatched)):
+                with self.subTest(workflow=case), self.assertRaises(AssertionError):
+                    exact_template_or_parent(invalid)
         self.assertEqual(producer.workflow('a' * 40), template.replace(producer.TOKEN, b'a' * 40))
         with self.assertRaises(ValueError): producer.workflow('main')
         text = template.decode()
