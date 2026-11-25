@@ -28,7 +28,7 @@ concurrency:
   group: en-v6-b24r1-primary-120-once
   cancel-in-progress: false
 env:
-  PREPARED_PARENT: '__B24R1_REVIEWED_SOURCE_PARENT__'
+  PREPARED_PARENT: 'ea9f9e3b467231efe2746cbe64f867481177d09e'
   HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
   HF_HUB_DISABLE_TELEMETRY: '1'
   TOKENIZERS_PARALLELISM: 'false'
@@ -54,7 +54,7 @@ jobs:
         python -SIB -OO automation/test_english_v6_b24r1_sources.py -v
   sources:
     needs: contracts
-    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b24r1-primary-sources-once-20261124' && github.run_attempt == 1 && github.event.before == '__B24R1_REVIEWED_SOURCE_PARENT__'
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b24r1-primary-sources-once-20261124' && github.run_attempt == 1 && github.event.before == 'ea9f9e3b467231efe2746cbe64f867481177d09e'
     runs-on: ubuntu-24.04
     timeout-minutes: 115
     steps:
