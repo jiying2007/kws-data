@@ -1,0 +1,36 @@
+name: English TRAIN360 inert metadata contracts
+'on':
+  pull_request:
+    paths:
+    - automation/english_v6_train360_metadata*
+    - automation/test_english_v6_train360_metadata.py
+    - automation/english_v6_b21_panels/SPEAKERS.TXT
+    - .github/workflows/english-v6-train360-metadata-*.yml
+    - research/librispeech_train360_metadata_20261125/**
+  push:
+    branches: [main]
+    paths:
+    - automation/english_v6_train360_metadata*
+    - automation/test_english_v6_train360_metadata.py
+    - automation/english_v6_b21_panels/SPEAKERS.TXT
+    - .github/workflows/english-v6-train360-metadata-*.yml
+    - research/librispeech_train360_metadata_20261125/**
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Check bounded in-memory tar fixtures with no corpus download
+      run: |
+        python -SIB automation/test_english_v6_train360_metadata.py -v
+        python -SIBO automation/test_english_v6_train360_metadata.py -v
+        python -SIBOO automation/test_english_v6_train360_metadata.py -v
+        python -SIB automation/english_v6_train360_metadata.py check
