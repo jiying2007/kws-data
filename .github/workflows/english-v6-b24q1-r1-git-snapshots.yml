@@ -1,0 +1,61 @@
+name: B24Q1 transport unchanged historical R1 Git metadata snapshots
+'on':
+  push:
+    branches: [review/en-v6-b24q1-r1-git-snapshots-20261125]
+    paths: [.github/workflows/english-v6-b24q1-r1-git-snapshots.yml]
+permissions:
+  contents: read
+jobs:
+  preserve-historical-snapshots:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Copy exactly two existing historical snapshots without reserializing them
+      run: |
+        python -SIB - <<'PY'
+        import hashlib,json,os,shutil
+        from pathlib import Path
+        origin=Path('research/english_v6_b24q1_original_git_transport_20261125')
+        out=Path(os.environ['RUNNER_TEMP'])/'historical-r1-git-snapshots'
+        out.mkdir()
+        lock=json.loads(Path('research/english_v6_b24r1_source_stop_20261125/ORIGINAL_LOCK.json').read_bytes())
+        files={}
+        for role in ('commit','tree'):
+            name='source_'+role+'.snapshot.json'
+            path=origin/name
+            raw=path.read_bytes()
+            pin=dict(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest())
+            if pin != lock['api'][role]:raise SystemExit('Historical snapshot pin mismatch: '+role)
+            if not isinstance(json.loads(raw),dict):raise SystemExit('Historical Git snapshot must be a complete object')
+            shutil.copyfile(path,out/name)
+            if (out/name).read_bytes()!=raw:raise SystemExit('Snapshot transport changed bytes')
+            files[name]=pin
+        manifest=dict(schema='english-v6-b24q1-historical-r1-git-metadata-transport-v1',
+            source_repository='jiying2007/kws-data',original_source_run=45534020313,
+            original_source_head='b65bfe4974432b3d922738d7931d1c2d6d6f367c',
+            original_source_tree='c3c804008ae68d7fb1166becdd11469bcf4d5e1d',
+            transport_run_id=int(os.environ['GITHUB_RUN_ID']),transport_run_head=os.environ['GITHUB_SHA'],
+            transport_branch=os.environ['GITHUB_REF_NAME'],transport_run_attempt=int(os.environ['GITHUB_RUN_ATTEMPT']),
+            original_lock_sha256=hashlib.sha256(Path('research/english_v6_b24r1_source_stop_20261125/ORIGINAL_LOCK.json').read_bytes()).hexdigest(),
+            files=files,transport_only=True,part_of_original_fourteen_artifacts=False,
+            historical_snapshot_bytes_unchanged=True,current_API_response_raw_bytes_claimed=False,
+            reserialization_performed=False,new_source_calls=0,new_observer_calls=0,new_KWS_forwards=0,
+            new_optimizer_updates=0,scientific_execution_authorized=False)
+        (out/'SNAPSHOTS.json').write_text(json.dumps(manifest,ensure_ascii=True,sort_keys=True,indent=2)+'\n')
+        print(json.dumps(manifest,sort_keys=True))
+        PY
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b24q1-historical-r1-git-metadata-${{ github.run_id }}
+        path: ${{ runner.temp }}/historical-r1-git-snapshots/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
