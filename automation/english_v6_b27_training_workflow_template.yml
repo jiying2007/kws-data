@@ -13,7 +13,7 @@ jobs:
   train:
     if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.run_attempt == 1 && github.event.before == '__B27_REVIEWED_NATURAL_WEIGHT_PARENT__'
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 90
     env:
       OMP_NUM_THREADS: '1'
       MKL_NUM_THREADS: '1'
