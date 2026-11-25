@@ -1,0 +1,31 @@
+name: B24Q1 original primary failure readback contracts
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b24q1_primary_failure.py
+      - automation/test_english_v6_b24q1_primary_failure.py
+      - automation/english_v6_b24q1_quality_readback.py
+      - .github/workflows/english-v6-b24q1-primary-failure-contract.yml
+  push:
+    branches: [main]
+    paths:
+      - automation/english_v6_b24q1_primary_failure.py
+      - automation/test_english_v6_b24q1_primary_failure.py
+      - automation/english_v6_b24q1_quality_readback.py
+      - .github/workflows/english-v6-b24q1-primary-failure-contract.yml
+permissions:
+  contents: read
+jobs:
+  failure-readback-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Offline rejection contracts; no original model or source execution
+        run: |
+          python -SIB automation/test_english_v6_b24q1_primary_failure.py -v
+          python -SIB -O automation/test_english_v6_b24q1_primary_failure.py -v
+          python -SIB -OO automation/test_english_v6_b24q1_primary_failure.py -v
