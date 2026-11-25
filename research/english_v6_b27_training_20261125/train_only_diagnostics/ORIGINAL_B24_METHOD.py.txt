@@ -1,0 +1,166 @@
+"""Saved B24 TRAIN numeric readback only. No model/library imports or evaluation inputs."""
+from collections import Counter, defaultdict
+from pathlib import Path
+import hashlib
+import io
+import json
+import math
+import numpy as np
+import zipfile
+
+BASE = Path('/workspace/scratch/fd9bcccb2ddd/b24-training-original')
+OUT = Path('/workspace/scratch/fd9bcccb2ddd/b24-train-only-analysis')
+OUT.mkdir(exist_ok=True)
+def sha(x): return hashlib.sha256(x).hexdigest()
+def mean(x): return float(np.mean(x)) if len(x) else None
+def median(x): return float(np.median(x)) if len(x) else None
+def summary(x):
+    return dict(n=len(x), mean=mean(x), median=median(x), min=min(x) if x else None, max=max(x) if x else None)
+def collapse(a):
+    runs=[]
+    for frame, token in enumerate(a):
+        token=int(token)
+        if runs and runs[-1][0] == token: runs[-1][2]=frame+1
+        else:runs.append([token, frame, frame+1])
+    nonblank=[v for v in runs if v[0]]
+    events=[nonblank[i:i+3] for i in range(len(nonblank)-2) if [v[0] for v in nonblank[i:i+3]] == [1,2,3]]
+    return nonblank,events
+def logp(x):
+    x=x.astype(np.float64)
+    high=x.max(axis=1,keepdims=True)
+    return x-high-np.log(np.exp(x-high).sum(axis=1,keepdims=True))
+def ctc(lp, positive):
+    if not positive:return float(-lp[:,0].sum())
+    labels=[0,1,0,2,0,3,0]
+    prev=np.full(7,-np.inf)
+    prev[:2]=lp[0,:2]
+    for frame in lp[1:]:
+        cur=np.full(7,-np.inf)
+        for j,t in enumerate(labels):
+            terms=[prev[j]]
+            if j:terms.append(prev[j-1])
+            if j>1 and t and t != labels[j-2]:terms.append(prev[j-2])
+            cur[j]=np.logaddexp.reduce(terms)+frame[t]
+        prev=cur
+    return -float(np.logaddexp(prev[-1],prev[-2]))
+
+archives={}
+for name,expected in [('TRAIN_models.zip','6adc488ceb760747f09c44bb07c591e4a505f7ce727eee8bfbf24330e420f95b'),('TRAIN_receipts.zip','d4437c339a6d684b6a03f0ce2076955aed6731218d9036f5ffe64305c4624274')]:
+    raw=(BASE/name).read_bytes()
+    if sha(raw)!=expected:raise ValueError('original archive hash '+name)
+    archives[name]=dict(bytes=len(raw),sha256=sha(raw))
+with zipfile.ZipFile(BASE/'TRAIN_models.zip') as z:
+    index=json.loads(z.read('challenger/TRAIN_FORWARD_INDEX.json'))
+    trace=json.loads(z.read('challenger/OPTIMIZER_TRACE.json'))
+    margins=json.loads(z.read('challenger/ORDINARY_MARGIN_TRACE.json'))
+    retention=json.loads(z.read('challenger/POSITIVE_RETENTION_TRACE.json'))
+    draw=json.loads(z.read('COMMON_DRAW.json'))
+    refs=json.loads(z.read('OLD120_POSITIVE_REFERENCES.json'))
+    design=json.loads(z.read('DESIGN.json'))
+    raw=z.read('challenger/TRAIN_FORWARD_LOGITS.npz')
+    if sha(raw)!=index['arrays_sha256']:raise ValueError('arrays archive')
+    arrays=np.load(io.BytesIO(raw),allow_pickle=False)
+    if len(arrays.files)!=index['count'] or index['count']!=1844:raise ValueError('array count')
+    member_hashes={name:sha(z.read(name)) for name in ['challenger/TRAIN_FORWARD_INDEX.json','challenger/TRAIN_FORWARD_LOGITS.npz','challenger/OPTIMIZER_TRACE.json','challenger/ORDINARY_MARGIN_TRACE.json','challenger/POSITIVE_RETENTION_TRACE.json','COMMON_DRAW.json','OLD120_POSITIVE_REFERENCES.json','DESIGN.json']}
+
+rows=[]
+logps={}
+for r in index['records']:
+    a=arrays[r['array']]
+    if a.shape != (r['frames'],4) or not np.isfinite(a).all() or sha(a.tobytes())!=r['sha256']:raise ValueError('array hash/shape '+r['array'])
+    labels=a.argmax(axis=1)
+    tokens, events=collapse(labels)
+    item=dict(r,full_events=len(events),frame0_token=int(labels[0]),tokens=[x[0] for x in tokens],full_first_event=events[0] if events else None)
+    if r['kind']!='positive_retention':
+        slot=draw[r['step']-1]
+        source=slot[{'synthetic_positive':'positive','synthetic_ordinary':'ordinary','natural_ordinary':'natural'}[r['kind']]]
+        if source['id']!=r['id'] or r['prefix']!=slot['prefix']:raise ValueError('exact draw')
+        at=r['prefix']//160-3
+        blank=r['prefix']//160-8
+        lp=logp(a);logps[(r['step'],r['kind'],r['gain'])]=lp
+        suf_tokens,suf_events=collapse(labels[at:])
+        tier=1.0 if source['tier']=='silver' else .75
+        loss_ctc=ctc(lp[at:],r['kind']=='synthetic_positive')
+        prefix_loss=.5*float((-lp[:blank,0]).max())
+        item.update(tier=source['tier'],suffix_frames=len(a)-at,suffix_events=len(suf_events),suffix_tokens=[x[0] for x in suf_tokens],ctc=loss_ctc,weighted_ctc=loss_ctc*tier,prefix_loss=prefix_loss,base_loss=(loss_ctc*(1 if r['kind']=='synthetic_positive' else .6)+prefix_loss)*tier,
+                    first_event_prefix_hey=bool(events and events[0][0][2]<=blank),silent_nonblank_frames=int((labels[:blank]!=0).sum()),known_silence=blank,
+                    prefix_max_nonblank_probability=float(1-np.exp(lp[:blank,0]).min()),
+                    suffix_best_hey_margin=float((a[at:,1]-np.max(a[at:][:,[0,2,3]],axis=1)).max()))
+    rows.append(item)
+
+by_step=defaultdict(list)
+for r in rows:by_step[r['step']].append(r)
+residuals=defaultdict(list)
+for t in trace:
+    step=t['step']; rr=by_step[step]
+    synthetic=sum(r['base_loss'] for r in rr if r['kind'].startswith('synthetic_'))/4
+    natural=.08*sum(r['base_loss'] for r in rr if r['kind']=='natural_ordinary')/2
+    kl=[]
+    for kind in ['synthetic_ordinary','synthetic_positive']:
+        at=t['prefix']//160-3
+        lp1,lp05=[logps[(step,kind,g)][at:] for g in [1.,.5]]
+        kl.append(min(max(float((np.exp(lp1)*(lp1-lp05)).sum(axis=1).mean()),0),8))
+    consistency=.03*sum(kl)/2
+    mm=[r for r in margins if r['step']==step]
+    ceiling=mean([r['mean'] for r in mm])
+    rgroup=defaultdict(list)
+    for r in retention:
+        if r['step']==step:rgroup[r['id']].append(r['unweighted_loss'])
+    positive=.08*mean([mean(v) for v in rgroup.values()])
+    expected=synthetic+natural+consistency+positive+.08*ceiling
+    for key,val in [('synthetic_ctc',synthetic),('natural_ctc',natural),('gain_consistency',consistency),('positive_retention',positive),('ordinary_ceiling',ceiling),('loss',expected)]:
+        residuals[key].append(abs(t[key]-val))
+
+def event_summary(rr):
+    out=dict(observations=len(rr),full_event_observations=sum(bool(r['full_events']) for r in rr),full_event_total=sum(r['full_events'] for r in rr),frame0_hey=sum(r['frame0_token']==1 for r in rr))
+    if rr and rr[0]['kind']!='positive_retention':out.update(suffix_event_observations=sum(bool(r['suffix_events']) for r in rr),prefix_shortcut_observations=sum(r['first_event_prefix_hey'] for r in rr),silent_nonblank_frames=sum(r['silent_nonblank_frames'] for r in rr),ctc=summary([r['weighted_ctc'] for r in rr]),prefix_loss=summary([r['prefix_loss'] for r in rr]))
+    return out
+
+def paired(rr,key):
+    groups=defaultdict(list)
+    for r in rr:groups[tuple(r[k] for k in key)].append(r)
+    pairs=[sorted(g,key=lambda r:r['step']) for g in groups.values() if len(g)>1]
+    result=dict(conditions=len(groups),repeat_conditions=len(pairs),observations=len(rr))
+    if pairs and 'suffix_events' in pairs[0][0]:
+        result.update(first_ctc=summary([p[0]['weighted_ctc'] for p in pairs]),last_ctc=summary([p[-1]['weighted_ctc'] for p in pairs]),ctc_decrease=sum(p[-1]['weighted_ctc']<p[0]['weighted_ctc'] for p in pairs),suffix_transitions=dict(Counter(str(bool(p[0]['suffix_events']))+'->'+str(bool(p[-1]['suffix_events'])) for p in pairs)))
+    result['full_transitions']=dict(Counter(str(bool(p[0]['full_events']))+'->'+str(bool(p[-1]['full_events'])) for p in pairs))
+    return result
+
+windows=[]
+for lo,hi in [(1,35),(36,70),(71,105),(106,140),(141,175),(176,192)]:
+    tt=[t for t in trace if lo<=t['step']<=hi]
+    rr=[r for r in rows if lo<=r['step']<=hi]
+    windows.append(dict(start=lo,end=hi,clipped=sum(t['gradient_clipped'] for t in tt),loss_terms={key:summary([t[key] for t in tt]) for key in ['loss','synthetic_ctc','positive_retention','natural_ctc','ordinary_ceiling','gain_consistency','preclip_gradient_norm']},events={kind:event_summary([r for r in rr if r['kind']==kind]) for kind in sorted({r['kind'] for r in rr})}))
+
+positive=[r for r in rows if r['kind']=='synthetic_positive']
+positive_originals=[]
+for uid in sorted({r['id'] for r in positive}):
+    rr=[r for r in positive if r['id']==uid]
+    positive_originals.append(dict(id=uid,steps=sorted({r['step'] for r in rr}),ctc_sum=sum(r['weighted_ctc'] for r in rr),**event_summary(rr),paired=paired(rr,['id','gain','prefix'])))
+positive_originals.sort(key=lambda r:-r['ctc_sum'])
+for r in positive_originals:r['ctc_share']=r['ctc_sum']/sum(x['weighted_ctc'] for x in positive)
+
+teacher_spans={(r['id'],float(r['gain'])):r['b9_registered_spans'] for r in refs}
+for r in design['retention_additions']:teacher_spans[(r['id'],float(r['gain']))]=r['teacher_spans']
+for r in rows:
+    if r['kind']=='positive_retention':
+        spans=teacher_spans[(r['id'],r['gain'])]
+        r['teacher_hey_frame0']=spans[0][1]==0
+        a=arrays[r['array']]
+        # Saved student output-space margins at the fixed old TRAIN teacher spans.
+        margins_token=[]
+        for token,start,end in spans:
+            diff=a[start:end,token]-np.max(a[start:end][:,[k for k in range(4) if k!=token]],axis=1)
+            margins_token.append(dict(token=token,start=start,end=end,mean=float(diff.mean()),minimum=float(diff.min()),win_fraction=float((diff>=0).mean())))
+        r['teacher_span_student_margins']=margins_token
+
+ret_by_key={(r['step'],r['id'],float(r['gain'])):r for r in retention}
+for r in rows:
+    if r['kind']=='positive_retention':r['unweighted_retention_loss']=ret_by_key[(r['step'],r['id'],r['gain'])]['unweighted_loss']
+
+report=dict(schema='scratch-b24-saved-train-only-diagnosis-v1',original_archives=archives,member_hashes=member_hashes,readback=dict(saved_arrays=1844,optimizer_updates=len(trace),no_model_forwards=True,no_evaluation_numerical_inputs=True,max_loss_reconstruction_residual={k:max(v) for k,v in residuals.items()}),overall_events={kind:event_summary([r for r in rows if r['kind']==kind]) for kind in sorted({r['kind'] for r in rows})},optimizer=dict(clipped_steps=sum(t['gradient_clipped'] for t in trace),preclip_norm=summary([t['preclip_gradient_norm'] for t in trace]),loss_terms={key:summary([t[key] for t in trace]) for key in ['loss','synthetic_ctc','positive_retention','natural_ctc','ordinary_ceiling','gain_consistency']},first_unclipped_step=next((t['step'] for t in trace if not t['gradient_clipped']),None)),windows=windows,paired_by_kind={kind:paired([r for r in rows if r['kind']==kind],['id','gain','prefix']) for kind in sorted({r['kind'] for r in rows})},positive_originals=positive_originals,teacher_prefix=dict(retention_conditions=len(teacher_spans),teacher_hey_frame0=sum(spans[0][1]==0 for spans in teacher_spans.values()),observations={str(flag):dict(**event_summary([r for r in rows if r['kind']=='positive_retention' and r['teacher_hey_frame0']==flag]),loss=summary([r['unweighted_retention_loss'] for r in rows if r['kind']=='positive_retention' and r['teacher_hey_frame0']==flag])) for flag in [True,False]}))
+(OUT/'analysis.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
+(OUT/'rows.json').write_text(json.dumps(rows,indent=2,allow_nan=False)+'\n')
+print(json.dumps({k:report[k] for k in ['readback','overall_events','optimizer','paired_by_kind','teacher_prefix']},indent=2))
+print('TOP_POSITIVE',json.dumps([{k:r[k] for k in ['id','ctc_share','observations','full_event_observations','suffix_event_observations','steps']} for r in positive_originals[:8]],indent=2))
+print('WINDOWS',json.dumps([dict(steps=[w['start'],w['end']],clipped=w['clipped'],loss=w['loss_terms']['loss']['mean'],positive_retention=w['loss_terms']['positive_retention']['mean'],synthetic_ctc=w['loss_terms']['synthetic_ctc']['mean'],norm=w['loss_terms']['preclip_gradient_norm']['median'],events={k:(v['full_event_observations'],v['observations']) for k,v in w['events'].items()}) for w in windows],indent=2))
