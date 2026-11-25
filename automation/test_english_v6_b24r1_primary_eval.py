@@ -146,8 +146,62 @@ class BoundaryTests(unittest.TestCase):
             with zipfile.ZipFile(data, "w") as archive:
                 archive.writestr("../outside", b"data")
             p.write_bytes(data.getvalue())
-            with self.assertRaises(ValueError):
-                primary.original_zip(p, dict(bytes=p.stat().st_size, sha256=primary.sha(p.read_bytes())))
+            pin = dict(id=1, run_id=1, run_head="a" * 40,
+                       bytes=p.stat().st_size, sha256=primary.sha(p.read_bytes()))
+            with self.assertRaisesRegex(ValueError, "safe original archive member"):
+                primary.original_zip(p, pin)
+
+    def test_only_explicit_source_receives_composite_envelope_before_file_read(self):
+        roles = [None, *primary.INPUT_KEYS, "train_producer", "source_producer", "result", "producer", "consumed",
+                 *("native_" + provider for provider in primary.PROVIDERS)]
+        for role in roles:
+            maximum = 512_000_000 if role == "source" else 128_000_000
+            self.assertEqual(primary.archive_limit(role), maximum)
+            pin = dict(id=1, run_id=1, run_head="a" * 40, bytes=maximum, sha256="b" * 64)
+            primary.valid_artifact(pin, role=role)
+            with patch.object(Path, "read_bytes", side_effect=AssertionError("must reject before reading")):
+                with self.assertRaises(ValueError):
+                    primary.original_zip(Path("absent.zip"), dict(pin, bytes=maximum + 1), role=role)
+        with self.assertRaises(ValueError):
+            primary.archive_limit("arbitrary")
+
+    def test_large_expanded_source_is_bounded_and_other_roles_stay_small(self):
+        # The original STOP ZIPs together exceed128MB. This harmless compressed
+        # fixture exercises the real expanded-size boundary without models/data.
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "composite.zip"
+            manifest = dict(schema=primary.SOURCE_SCHEMA, panel="primary",
+                            assessment_sha256=primary.EVALUATION_ASSESSMENT)
+            with zipfile.ZipFile(path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+                archive.writestr("MANIFEST.json", json.dumps(manifest))
+                with archive.open("ORIGINAL_B24_STOP/fixture.bin", "w") as member:
+                    remaining = 128_000_001
+                    block = b"\0" * (1024 * 1024)
+                    while remaining:
+                        count = min(remaining, len(block))
+                        member.write(block[:count])
+                        remaining -= count
+            pin = dict(id=1, run_id=1, run_head="a" * 40,
+                       bytes=path.stat().st_size, sha256=primary.sha(path.read_bytes()))
+            with primary.original_zip(path, pin, role="source") as archive:
+                self.assertGreater(sum(item.file_size for item in archive.infolist()), 128_000_000)
+            for role in (None, "pair", "source_producer", "native_xlsr"):
+                with self.assertRaisesRegex(ValueError, "bounded unique archive members"):
+                    primary.original_zip(path, pin, role=role)
+
+    def test_source_envelope_cannot_be_used_for_another_panel_or_assessment(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "source.zip"
+            original = dict(schema=primary.SOURCE_SCHEMA, panel="primary",
+                            assessment_sha256=primary.EVALUATION_ASSESSMENT)
+            for key, value in (("schema", "other-source"), ("panel", "replication"),
+                               ("assessment_sha256", primary.TRAINING_ASSESSMENT)):
+                with zipfile.ZipFile(path, "w") as archive:
+                    archive.writestr("MANIFEST.json", json.dumps(dict(original, **{key: value})))
+                pin = dict(id=1, run_id=1, run_head="a" * 40,
+                           bytes=path.stat().st_size, sha256=primary.sha(path.read_bytes()))
+                with self.assertRaisesRegex(ValueError, "composite envelope"):
+                    primary.original_zip(path, pin, role="source")
 
     def test_ctc_event_clocks_keep_original_greedy_rule(self):
         result = primary.ctc_events([0, 1, 1, 0, 2, 0, 3, 3, 0])
@@ -200,7 +254,7 @@ class BoundaryTests(unittest.TestCase):
         self.assertEqual(primary.INITIAL_PT, primary.CONTROL_PT)
         self.assertNotEqual(primary.INITIAL_PT, primary.B0_PT)
 
-    def test_score_changes_only_history_and_truthful_assessment_metadata(self):
+    def test_score_changes_only_history_assessment_and_explicit_source_envelope(self):
         def functions(path):
             return {node.name: node for node in ast.parse(path.read_bytes()).body
                     if isinstance(node, (ast.FunctionDef, ast.ClassDef))}
@@ -223,6 +277,15 @@ class BoundaryTests(unittest.TestCase):
                 node.value = ast.parse('spec["assessment_sha256"]', mode='eval').body
                 changed_assessment.append(node)
         self.assertEqual(len(changed_assessment), 1)
+        source_roles = []
+        for node in ast.walk(current['score']):
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == 'original_zip':
+                for field in list(node.keywords):
+                    if field.arg == 'role':
+                        self.assertEqual(field.value.value, 'source')
+                        node.keywords.remove(field)
+                        source_roles.append(field)
+        self.assertEqual(len(source_roles), 1)
         self.assertEqual(ast.dump(current['score'], include_attributes=False),
                          ast.dump(original['score'], include_attributes=False))
 

@@ -22,11 +22,16 @@ from pathlib import Path
 
 import sys
 
+import subprocess
+
+import socket
+
 import tempfile
 
 from unittest import mock
 
-DRIVER_SHA = "083625a0c455bf9f7ca079f18a722173397ead6d056f10363bfd86cbe6230e1b"
+DRIVER_SHA = "3faa3c22dcad85fd5e157f9493cc2e4dd928206ad199e0617038a933918b499e"
+SOURCE_STOP_READER_SHA = "2d5564039689d5fb5e31bf5cde51d49dba5bf9d0697c295cd98c96f7706585c6"
 
 GROUPS = ("B0", "B9", "train", "source")
 
@@ -77,7 +82,7 @@ def metadata(bundle, base, primary):
         need(type(item.get("digest")) is str and item["digest"].startswith("sha256:"), "real GitHub artifact digest")
         pin = dict(id=item["id"], run_id=run["id"], run_head=run["head_sha"],
                    bytes=item["size_in_bytes"], sha256=item["digest"].removeprefix("sha256:"))
-        primary.validate_provenance(pin, dict(run=run, commit=commit, artifact=item))
+        primary.validate_provenance(pin, dict(run=run, commit=commit, artifact=item), role=role)
         if role in primary.BASELINES:
             need(pin == primary.BASELINES[role], "unchanged original baseline " + role)
         pins[role] = pin
@@ -91,13 +96,32 @@ def metadata(bundle, base, primary):
 
 def source_protection():
     stack = ExitStack()
-    old_import = builtins.__import__
+    old_import, old_popen, old_socket = builtins.__import__, subprocess.Popen, socket.socket
     denied = {"torch", "numpy", "torchaudio", "transformers", "piper", "soundfile", "onnxruntime", "requests", "httpx"}
     def guard(name, *args, **kwargs):
         need(name.split(".")[0] not in denied, "no runtime/network import while binding saved evidence: " + name)
         return old_import(name, *args, **kwargs)
+    def saved_stop_worker(command, *args, **kwargs):
+        need(type(command) is list and len(command) == 8
+             and command[:4] == [sys.executable, "-I", "-S", "-B"]
+             and command[5] == "--verify-worker" and kwargs.get("shell", False) is False
+             and not {"executable", "preexec_fn"}.intersection(kwargs),
+             "only the isolated immutable original STOP reader may start during binding")
+        path = Path(command[4])
+        need(path.is_absolute() and path == path.resolve() and path.is_file() and not path.is_symlink()
+             and path.name == "english_v6_b24r1_b24_source_failure.py"
+             and sha(path.read_bytes()) == SOURCE_STOP_READER_SHA,
+             "exact original STOP reader bytes and regular resolved path")
+        return old_popen(command, *args, **kwargs)
+    def blocked_network(*args, **kwargs):
+        raise ValueError("no network during saved binding")
+    class BlockedSocket(old_socket):
+        def __init__(self, *args, **kwargs):
+            blocked_network()
     stack.enter_context(mock.patch("builtins.__import__", side_effect=guard))
-    stack.enter_context(mock.patch("subprocess.Popen", side_effect=AssertionError("no process or network during saved binding")))
+    stack.enter_context(mock.patch("subprocess.Popen", side_effect=saved_stop_worker))
+    stack.enter_context(mock.patch("socket.socket", BlockedSocket))
+    stack.enter_context(mock.patch("socket.create_connection", side_effect=blocked_network))
     return stack
 
 
@@ -126,7 +150,7 @@ def bind(repository, bundle_path, output):
     bundle = json.loads(bundle_path.read_bytes())
     groups, pins, meta = metadata(bundle, bundle_path.parent, primary)
     with ExitStack() as stack, tempfile.TemporaryDirectory() as temporary:
-        archives = {role: stack.enter_context(primary.original_zip(bundle_path.parent / bundle["archives"][role], pin))
+        archives = {role: stack.enter_context(primary.original_zip(bundle_path.parent / bundle["archives"][role], pin, role=role))
                     for role, pin in pins.items()}
         snapshots = {role: primary.snapshot_contract(archives[role + "_producer"], role, meta[role + "_producer"], repository)
                      for role in ("train", "source")}

@@ -87,9 +87,17 @@ def sha(raw):
 def valid_hash(value, length=64):
     return type(value) is str and re.fullmatch(r"[0-9a-f]{" + str(length) + "}", value) is not None
 
-def valid_artifact(pin):
+def archive_limit(role=None):
+    """Only the composite SOURCE may carry the fourteen original STOP ZIPs."""
+    need(role is None or role in INPUT_KEYS | {"train_producer", "source_producer", "result", "producer", "consumed",
+         *("native_" + provider for provider in PROVIDERS)}, "explicit original input role")
+    return 512_000_000 if role == "source" else 128_000_000
+
+
+def valid_artifact(pin, *, role=None):
     need(type(pin) is dict and set(pin) == {"id", "run_id", "run_head", "bytes", "sha256"}
          and all(type(pin[k]) is int and pin[k] > 0 for k in ("id", "run_id", "bytes"))
+         and pin["bytes"] <= archive_limit(role)
          and valid_hash(pin["run_head"], 40) and valid_hash(pin["sha256"]), "complete actual original artifact pin")
 
 def write(path, value):
@@ -141,8 +149,8 @@ def static_closure(directory, roots):
             pending.extend(p for name in names for p in local(name) if p not in seen)
     return {str(path.relative_to(repository)) for path in seen}
 
-def validate_provenance(pin, meta):
-    valid_artifact(pin)
+def validate_provenance(pin, meta, *, role=None):
+    valid_artifact(pin, role=role)
     run, artifact = meta["run"], meta["artifact"]
     need(type(run["id"]) is int and run["id"] == pin["run_id"] and run["head_sha"] == pin["run_head"]
          and type(run["run_attempt"]) is int and run["run_attempt"] == 1
@@ -154,19 +162,26 @@ def validate_provenance(pin, meta):
          and artifact["workflow_run"]["head_sha"] == pin["run_head"]
          and meta["commit"]["sha"] == pin["run_head"], "authentic first successful public input run/artifact")
 
-def original_zip(path, pin):
+def original_zip(path, pin, *, role=None):
+    valid_artifact(pin, role=role)
+    maximum = archive_limit(role)
     raw = path.read_bytes()
-    need(len(raw) == pin["bytes"] and sha(raw) == pin["sha256"] and len(raw) <= 128_000_000, "original complete input ZIP")
+    need(len(raw) == pin["bytes"] and sha(raw) == pin["sha256"] and len(raw) <= maximum, "original complete input ZIP")
     z = zipfile.ZipFile(io.BytesIO(raw))
     try:
         infos = z.infolist()
         need(len(infos) <= 8192 and len(infos) == len({i.filename for i in infos})
-             and sum(i.file_size for i in infos) <= 128_000_000, "bounded unique archive members")
+             and sum(i.file_size for i in infos) <= maximum, "bounded unique archive members")
         for info in infos:
             name = PurePosixPath(info.filename)
             need(name.parts and not name.is_absolute() and ".." not in name.parts and "\\" not in info.filename
                  and not stat.S_ISLNK(info.external_attr >> 16), "safe original archive member")
         need(z.testzip() is None, "original archive CRC")
+        if role == "source":
+            manifest = json.loads(z.read("MANIFEST.json"))
+            need(manifest["schema"] == SOURCE_SCHEMA and manifest["panel"] == "primary"
+                 and manifest["assessment_sha256"] == EVALUATION_ASSESSMENT,
+                 "composite envelope belongs only to the original registered B24R1 SOURCE")
         return z
     except BaseException:
         z.close()
@@ -279,7 +294,7 @@ def protocol():
          and doc["old_B24_sources_used_for_scoring"] is doc["old_B24_replication_opened"] is doc["automatic_R2_allowed"] is False,
          "original TRAIN assessment remains fixed; separate R1 evaluation froze after training and before new sources or KWS")
     pins = archive_pins(doc)
-    for pin in pins.values(): valid_artifact(pin)
+    for role, pin in pins.items(): valid_artifact(pin, role=role)
     need(all(doc["inputs"][role] == pin for role, pin in BASELINES.items()), "unchanged original B0/B9 artifacts")
     source_pins = [doc["inputs"]["source"], doc["inputs"]["screen"], doc["upstream_producers"]["source"], *doc["native_inputs"].values()]
     need(all(all(pin[key] == source_pins[0][key] for key in ("run_id", "run_head")) for pin in source_pins)
@@ -423,7 +438,7 @@ def fetch(inputs, prepared):
         metadata[key] = {"run": json.loads(gh("actions/runs/" + str(pin["run_id"]))),
                          "artifact": json.loads(gh("actions/artifacts/" + str(pin["id"]))),
                          "commit": json.loads(gh("commits/" + pin["run_head"]))}
-        validate_provenance(pin, metadata[key])
+        validate_provenance(pin, metadata[key], role=key)
         raw = gh("actions/artifacts/" + str(pin["id"]) + "/zip")
         need(len(raw) == pin["bytes"] and sha(raw) == pin["sha256"], "whole original input " + key)
         (inputs / (key + ".zip")).write_bytes(raw)
@@ -711,10 +726,10 @@ def preflight(inputs, prepared):
             raw = (directory / path).read_bytes()
             need(sha(raw) == digest and git_blob(raw) == tree_member(tree, path), "actual complete producer file " + path)
     for key, pin in pins.items():
-        validate_provenance(pin, fetched["source_metadata"][key])
+        validate_provenance(pin, fetched["source_metadata"][key], role=key)
     common, decision, source, plan = helpers(spec)
     with ExitStack() as stack, tempfile.TemporaryDirectory() as temporary:
-        archives = {key: stack.enter_context(original_zip(inputs / (key + ".zip"), pin)) for key, pin in pins.items()}
+        archives = {key: stack.enter_context(original_zip(inputs / (key + ".zip"), pin, role=key)) for key, pin in pins.items()}
         verify_upstream_archives(archives, spec, fetched, producer)
         pair = archives["pair"]
         train = validate_training_archive(pair, spec, fetched["source_metadata"]["pair"])
@@ -891,7 +906,7 @@ def score(inputs, output, prepared):
             hooks.append(values[0].register_forward_pre_hook(entered))
         arrays = zipfile.ZipFile(output / "ALL_FRAME_LOGITS.npz", "x", compression=zipfile.ZIP_DEFLATED)
         with ExitStack() as stack:
-            archive = stack.enter_context(original_zip(inputs / "source.zip", spec["inputs"]["source"]))
+            archive = stack.enter_context(original_zip(inputs / "source.zip", spec["inputs"]["source"], role="source"))
             for row, cohort in chosen:
                 record = score_identity(row, cohort); record["gains"] = {}; report["records"].append(record)
                 raw = archive.read("wav/" + row["id"] + ".wav")

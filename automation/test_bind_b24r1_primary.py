@@ -55,6 +55,23 @@ class BindingTests(unittest.TestCase):
         self.assertEqual(pins['pair']['run_id'], pins['train_producer']['run_id'])
         self.assertEqual(pins['source']['run_id'], pins['source_producer']['run_id'])
 
+    def test_binding_limits_large_originals_to_the_composite_source(self):
+        value = fixture()
+        items = value['groups']['source']['artifacts']['artifacts']
+        source = next(item for item in items if item['name'] == binder.artifact_name('source', 456))
+        source['size_in_bytes'] = 512_000_000
+        _, pins, _ = binder.metadata(value, HERE, primary)
+        self.assertEqual(pins['source']['bytes'], 512_000_000)
+        source['size_in_bytes'] += 1
+        with self.assertRaises(ValueError): binder.metadata(value, HERE, primary)
+        for role in ('pair', 'source_producer', 'native_xlsr'):
+            value = fixture()
+            group = value['groups'][binder.GROUP_FOR[role]]
+            item = next(item for item in group['artifacts']['artifacts']
+                        if item['name'] == binder.artifact_name(role, group['run']['id']))
+            item['size_in_bytes'] = 128_000_001
+            with self.assertRaises(ValueError): binder.metadata(value, HERE, primary)
+
     def test_observer_namespace_belongs_to_new_b24r1_source(self):
         for provider in binder.PROVIDERS:
             self.assertEqual(binder.artifact_name('native_' + provider, 456),
@@ -85,7 +102,31 @@ class BindingTests(unittest.TestCase):
             with self.assertRaises(ValueError): __import__('torch')
             with self.assertRaises(ValueError): __import__('numpy')
             import subprocess
-            with self.assertRaises(AssertionError): subprocess.run(['gh', 'api', 'anything'])
+            with self.assertRaises(ValueError): subprocess.run(['gh', 'api', 'anything'])
+            import socket
+            with self.assertRaises(ValueError): socket.socket()
+
+    def test_saved_binding_allows_only_original_isolated_stop_worker(self):
+        import subprocess
+        worker = (HERE / 'english_v6_b24r1_b24_source_failure.py').resolve()
+        command = [binder.sys.executable, '-I', '-S', '-B', str(worker), '--verify-worker', '/evidence', '/lock.json']
+        with patch.object(subprocess, 'Popen') as launch:
+            with binder.source_protection():
+                subprocess.Popen(command)
+                launch.assert_called_once_with(command)
+                for index, value in ((1, '-E'), (2, ''), (5, '--fetch')):
+                    changed = list(command); changed[index] = value
+                    with self.assertRaises(ValueError): subprocess.Popen(changed)
+                with self.assertRaises(ValueError): subprocess.Popen(command + ['extra'])
+                with self.assertRaises(ValueError): subprocess.Popen(command, shell=True)
+                for key in ('executable', 'preexec_fn'):
+                    with self.assertRaises(ValueError): subprocess.Popen(command, **{key: None})
+                with tempfile.TemporaryDirectory() as temporary:
+                    wrong = Path(temporary) / worker.name
+                    wrong.write_text('raise SystemExit(0)\n')
+                    changed = list(command); changed[4] = str(wrong)
+                    with self.assertRaises(ValueError): subprocess.Popen(changed)
+                self.assertEqual(launch.call_count, 1)
 
 
 if __name__ == '__main__':
