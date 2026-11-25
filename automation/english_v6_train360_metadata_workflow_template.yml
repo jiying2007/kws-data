@@ -1,0 +1,75 @@
+name: English TRAIN360 one public metadata acquisition
+'on':
+  push:
+    branches:
+    - research/en-v6-train360-metadata-once-20261125
+    paths:
+    - .github/workflows/english-v6-train360-metadata-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: en-v6-train360-metadata-once-20261125
+  cancel-in-progress: false
+env:
+  PREPARED_PARENT: '__TRAIN360_METADATA_PREPARED_PARENT__'
+  PYTHONHASHSEED: '20261125'
+jobs:
+  metadata:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-train360-metadata-once-20261125' && github.run_attempt == 1 && github.event.before == '__TRAIN360_METADATA_PREPARED_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 210
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+        sparse-checkout-cone-mode: false
+        sparse-checkout: |
+          /automation/english_v6_train360_metadata.py
+          /automation/test_english_v6_train360_metadata.py
+          /automation/english_v6_train360_metadata_registration.json
+          /automation/english_v6_train360_metadata_workflow_template.yml
+          /automation/english_v6_b21_panels/SPEAKERS.TXT
+          /.github/workflows/english-v6-train360-metadata-once.yml
+          /.github/workflows/english-v6-train360-metadata-contracts.yml
+          /research/librispeech_train360_metadata_20261125/
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Verify fixtures and capture the complete Git-bound metadata producer
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        python -SIB automation/test_english_v6_train360_metadata.py -v
+        python -SIB automation/english_v6_train360_metadata.py prepare "$RUNNER_TEMP/train360-metadata" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-train360-metadata-producer-${{ github.run_id }}
+        path: ${{ runner.temp }}/train360-metadata/producer/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-train360-metadata-consumed-20261125
+        path: ${{ runner.temp }}/train360-metadata/consumed/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - name: Stream one complete archive and retain authenticated metadata only
+      timeout-minutes: 190
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        python -SIB "$RUNNER_TEMP/train360-metadata/producer/repository/automation/english_v6_train360_metadata.py" collect "$RUNNER_TEMP/train360-metadata" "$PREPARED_PARENT"
+        python -SIB "$RUNNER_TEMP/train360-metadata/producer/repository/automation/english_v6_train360_metadata.py" verify-catalog "$RUNNER_TEMP/train360-metadata/receipts/COMPLETE"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-train360-metadata-${{ github.run_id }}
+        path: ${{ runner.temp }}/train360-metadata/receipts/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: warn

@@ -1,0 +1,13 @@
+name: English TRAIN360 metadata acquisition prepared and disabled
+'on':
+  push:
+    branches:
+    - __disabled_train360_metadata_20261125__
+permissions:
+  contents: read
+jobs:
+  metadata:
+    if: false
+    runs-on: ubuntu-24.04
+    steps:
+    - run: echo 'Prepared metadata-only acquisition; no corpus transport or scientific execution is active.'
