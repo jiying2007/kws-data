@@ -19,6 +19,7 @@ import signal
 import subprocess
 import tarfile
 import time
+import urllib.error
 import urllib.request
 
 
@@ -373,7 +374,17 @@ def scan_stream(source, spec, census_raw, progress=None, clock=time.monotonic, s
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, request, fp, code, message, headers, newurl):
-        raise RuntimeError("fixed origin: redirects are not authorized")
+        error = urllib.error.HTTPError(request.full_url, code,
+            "fixed origin: redirects are not authorized", headers, fp)
+        error.redirect_rejected = True
+        raise error
+
+
+def save_http_response(receipts, response):
+    """Retain bounded response headers before validation; never read its body."""
+    record(receipts / "HTTP_RESPONSE.json", dict(url=response.url, status=response.status,
+        headers=list(response.headers.items()), body_saved=False, redirects=0, retries=0,
+        redirect_rejected=bool(getattr(response, "redirect_rejected", False))))
 
 
 def validate_response(response, spec):
@@ -522,7 +533,8 @@ def collect(directory, prepared_parent):
         scientific_panel_budget_consumed=False, metadata_only_counters=spec["metadata_only_counters"]))
     result = dict(schema="english-v6-train360-metadata-acquisition-result-v1", execution=execution,
         status="METADATA_ACQUISITION_INCOMPLETE", scientific_panel_budget_consumed=False,
-        algorithm_result=None, metadata_only_counters=spec["metadata_only_counters"])
+        algorithm_result=None, metadata_only_counters=spec["metadata_only_counters"],
+        archive_get_attempted=0, archive_response_returned=0)
     started = time.monotonic()
     operational = dict(status="INCOMPLETE", compressed_bytes=0, expanded_tar_bytes=0,
                        opaque_flac_payload_bytes_hashed=0)
@@ -544,10 +556,24 @@ def collect(directory, prepared_parent):
                 print(line, end="", flush=True)
             request = urllib.request.Request(spec["corpus"]["url"], headers={"Accept-Encoding": "identity"}, method="GET")
             opener = urllib.request.build_opener(NoRedirect())
-            with opener.open(request, timeout=spec["transport"]["socket_timeout_seconds"]) as response:
+            record(receipts / "GET_ATTEMPT.json", dict(
+                schema="english-v6-train360-metadata-get-attempt-v1", execution=execution,
+                attempt=1, url=request.full_url, method=request.get_method(),
+                headers=request.header_items(), maximum_archive_gets=1, retries=0, redirects=0))
+            result["archive_get_attempted"] = 1
+            try:
+                response = opener.open(request, timeout=spec["transport"]["socket_timeout_seconds"])
+            except urllib.error.HTTPError as exc:
+                result["archive_response_returned"] = 1
+                try:
+                    save_http_response(receipts, exc)
+                finally:
+                    exc.close()
+                raise
+            result["archive_response_returned"] = 1
+            with response:
+                save_http_response(receipts, response)
                 validate_response(response, spec)
-                record(receipts / "HTTP_RESPONSE.json", dict(url=response.url, status=response.status,
-                    headers=list(response.headers.items()), body_saved=False, redirects=0, retries=0))
                 catalog, index, summary = scan_stream(response, spec, (ROOT / CENSUS).read_bytes(), progress,
                                                      started=started, operational=operational)
         need(time.monotonic() - started <= spec["transport"]["maximum_elapsed_seconds"], "complete metadata within transfer/parse deadline")

@@ -229,8 +229,93 @@ class MetadataContracts(unittest.TestCase):
                        {"Content-Encoding": "gzip"}, {"Transfer-Encoding": "chunked"}, {"Content-Length": "1"}):
             with self.subTest(change=change), self.assertRaises(RuntimeError):
                 m.validate_response(response(**change), spec)
-        with self.assertRaises(RuntimeError):
-            m.NoRedirect().redirect_request(None, None, 302, "redirect", {}, spec["corpus"]["url"])
+        request = m.urllib.request.Request(spec["corpus"]["url"])
+        with self.assertRaises(m.urllib.error.HTTPError):
+            m.NoRedirect().redirect_request(request, None, 302, "redirect", {}, spec["corpus"]["url"])
+
+    def _failed_http_collection(self, open_response, expected_error):
+        # These transport-only fixtures mock the already-covered capture/entry
+        # boundary. The opener and scan boundary cannot access a real network.
+        _, spec, _ = fixture()
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            receipts = root / "receipts"
+            receipts.mkdir()
+            execution = dict(run_id="123", run_head="2" * 40, run_branch=m.BRANCH,
+                             run_attempt=1, prepared_parent="1" * 40)
+            calls = []
+            class Opener:
+                def open(inner_self, request, timeout):
+                    calls.append(request.full_url)
+                    attempt = json.loads((receipts / "GET_ATTEMPT.json").read_bytes())
+                    self.assertEqual(attempt["attempt"], 1)
+                    self.assertEqual(attempt["url"], spec["corpus"]["url"])
+                    self.assertEqual(attempt["method"], "GET")
+                    self.assertEqual(request.get_header("Accept-encoding"), "identity")
+                    self.assertEqual(timeout, spec["transport"]["socket_timeout_seconds"])
+                    return open_response(request)
+            with mock.patch.object(m, "registration", return_value=spec), \
+                 mock.patch.object(m, "identity", return_value=execution), \
+                 mock.patch.object(m, "validate_capture"), \
+                 mock.patch.object(m, "once", return_value={"fixture_only": True}), \
+                 mock.patch.object(m.resource, "setrlimit"), \
+                 mock.patch.object(m.signal, "setitimer"), \
+                 mock.patch.object(m.urllib.request, "build_opener", return_value=Opener()), \
+                 mock.patch.object(m, "scan_stream", side_effect=AssertionError("body must not be read")) as scan:
+                with self.assertRaises(expected_error):
+                    m.collect(root, execution["prepared_parent"])
+            self.assertEqual(calls, [spec["corpus"]["url"]])
+            scan.assert_not_called()
+            self.assertFalse((receipts / "COMPLETE").exists())
+            result = json.loads((receipts / "RESULT.json").read_bytes())
+            self.assertEqual(result["status"], "METADATA_ACQUISITION_INCOMPLETE")
+            self.assertEqual((result["archive_get_attempted"], result["archive_response_returned"]), (1, 1))
+            self.assertEqual(result["transport_observation"]["compressed_bytes"], 0)
+            response = json.loads((receipts / "HTTP_RESPONSE.json").read_bytes())
+            self.assertFalse(response["body_saved"])
+            self.assertEqual((response["redirects"], response["retries"]), (0, 0))
+            return response
+
+    def test_invalid_http_headers_are_retained_before_rejection_without_body_read(self):
+        class Response(io.BytesIO):
+            status = 200
+            url = m.registration()["corpus"]["url"]
+            headers = Message()
+            def read(self, *args):
+                raise AssertionError("invalid response body must not be read")
+        Response.headers["Content-Length"] = "1"
+        Response.headers["X-Fixture"] = "original-invalid-length"
+        body = Response(b"UNREAD FIXTURE")
+        saved = self._failed_http_collection(lambda request: body, RuntimeError)
+        self.assertEqual(saved["status"], 200)
+        self.assertIn(["Content-Length", "1"], saved["headers"])
+        self.assertIn(["X-Fixture", "original-invalid-length"], saved["headers"])
+        self.assertFalse(saved["redirect_rejected"])
+        self.assertTrue(body.closed)
+
+    def test_http_error_and_redirect_rejection_retain_response_without_retry(self):
+        class UnreadBody(io.BytesIO):
+            def read(self, *args):
+                raise AssertionError("error or redirect response body must not be read")
+        for status in (403, 302):
+            with self.subTest(status=status):
+                headers = Message()
+                headers["X-Fixture"] = "original-error-headers"
+                if status == 302:
+                    headers["Location"] = "https://other.invalid/not-followed"
+                body = UnreadBody(b"UNREAD FIXTURE")
+                def fail(request):
+                    if status == 302:
+                        return m.NoRedirect().redirect_request(request, body, status, "fixture redirect",
+                            headers, headers["Location"])
+                    raise m.urllib.error.HTTPError(request.full_url, status, "fixture forbidden", headers, body)
+                saved = self._failed_http_collection(fail, m.urllib.error.HTTPError)
+                self.assertEqual(saved["status"], status)
+                self.assertIn(["X-Fixture", "original-error-headers"], saved["headers"])
+                self.assertEqual(saved["redirect_rejected"], status == 302)
+                if status == 302:
+                    self.assertIn(["Location", "https://other.invalid/not-followed"], saved["headers"])
+                self.assertTrue(body.closed)
 
     def test_closed_captured_only_runtime_and_registration(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -355,6 +440,7 @@ class MetadataContracts(unittest.TestCase):
                 result = captured_module.collect(str(output), prepared)
                 validation = captured_module.verify_catalog(output / "receipts/COMPLETE")
             self.assertEqual(get_count, 1)
+            self.assertEqual((result["archive_get_attempted"], result["archive_response_returned"]), (1, 1))
             self.assertEqual(len(calls), 4)
             self.assertEqual(result["status"], "COMPLETE_AUTHENTICATED_METADATA")
             self.assertEqual(validation["summary"]["census_readers"], 921)
