@@ -28,24 +28,72 @@
       "run_id": 44860855857,
       "sha256": "1a8b270200e0c72ab1025f139d16abde43c209f142d72e71a7201b847e06a612"
     },
-    "pair": null,
-    "screen": null,
-    "source": null
+    "pair": {
+      "bytes": 5524919,
+      "id": 14947936847,
+      "run_head": "146b9e8022e067855f96e2e6a33f0c8d2e5d23af",
+      "run_id": 45449190562,
+      "sha256": "6adc488ceb760747f09c44bb07c591e4a505f7ce727eee8bfbf24330e420f95b"
+    },
+    "screen": {
+      "bytes": 35179,
+      "id": 14997509124,
+      "run_head": "3f04370dde7c6c0d9521c7d9227d3dec37417929",
+      "run_id": 45554635013,
+      "sha256": "5c3a4fbc3d5522ab59b938cd5fcaa11da870490ac7fb2f50f83390c716dcaf0b"
+    },
+    "source": {
+      "bytes": 367799776,
+      "id": 14996004110,
+      "run_head": "3f04370dde7c6c0d9521c7d9227d3dec37417929",
+      "run_id": 45554635013,
+      "sha256": "a9f24a791583066ecb6fb78d2ac3f2f36bc172301145085de95b6ec14bce96df"
+    }
   },
   "maximum_model_forwards": 1440,
   "model_comparison": "B24_new_challenger_against_immutable_historical_B23_challenger",
   "model_pt_sha256": {
     "B0": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
     "B9": "7dba86a3fcda6e5f05cb80b414dc372c70a5a03b3aee783f168441a4871e7655",
-    "challenger": null,
+    "challenger": "f6fce146324cab9286814bab26a594ef67cca58155fa2d2fb5f7fd9370992bb4",
     "control": "784def9df6c2a8bfbecdb7ba2d7b70630337a1cda72561c05392327aa980297f"
   },
   "native_inputs": {
-    "lv60": null,
-    "parakeet": null,
-    "qwen": null,
-    "whisper": null,
-    "xlsr": null
+    "lv60": {
+      "bytes": 13070319,
+      "id": 14997471588,
+      "run_head": "3f04370dde7c6c0d9521c7d9227d3dec37417929",
+      "run_id": 45554635013,
+      "sha256": "6831297c7a3938d368bc853e0731af168c2dd4925403d53458fdfeac119887ae"
+    },
+    "parakeet": {
+      "bytes": 730449,
+      "id": 14996423147,
+      "run_head": "3f04370dde7c6c0d9521c7d9227d3dec37417929",
+      "run_id": 45554635013,
+      "sha256": "6ff903ca4a87cbc517c9c465ddaebde911c203d7e472a9ffcf58c4173ae4feb1"
+    },
+    "qwen": {
+      "bytes": 553769,
+      "id": 14997480815,
+      "run_head": "3f04370dde7c6c0d9521c7d9227d3dec37417929",
+      "run_id": 45554635013,
+      "sha256": "d26ab00f4bf1f23dd033a2125a35cdc07d2c3e9e2053f3ad4a5d4446e6923951"
+    },
+    "whisper": {
+      "bytes": 554741,
+      "id": 14997098895,
+      "run_head": "3f04370dde7c6c0d9521c7d9227d3dec37417929",
+      "run_id": 45554635013,
+      "sha256": "b4f44cbb1d9d396d5130bf07a7f545f093c91b0204990fc6ae279c9c6c0fb5cd"
+    },
+    "xlsr": {
+      "bytes": 13104050,
+      "id": 14996468430,
+      "run_head": "3f04370dde7c6c0d9521c7d9227d3dec37417929",
+      "run_id": 45554635013,
+      "sha256": "1f014e525a661e6aabbd6580289543ab2a356979a1cd7eed4e342b0865971f76"
+    }
   },
   "new_optimizer_updates": 0,
   "old_B24R1_replication_opened": false,
@@ -62,13 +110,13 @@
   "parent_authority": "reviewed_workflow",
   "parent_pt_sha256": "784def9df6c2a8bfbecdb7ba2d7b70630337a1cda72561c05392327aa980297f",
   "prepared_parent": null,
-  "producer_manifest_sha256": null,
+  "producer_manifest_sha256": "8471a82d0217f6f3451424bbdf8cf7732ad6fbf2b06984673eea9639563b9469",
   "product_released": false,
   "promotion_allowed": false,
   "replication_opened": false,
   "same_job_matched_control": false,
   "schema": "english-v6-b24q1-fresh-primary-four-frozen-models-v1",
-  "scoring_allowed": false,
+  "scoring_allowed": true,
   "screen_schema": "english-v6-b24q1-120-original-quarantine-source-screen-v1",
   "source_gate": {
     "natural_originals": 12,
@@ -78,14 +126,37 @@
     "synthetic_positive": 12
   },
   "source_module": "english_v6_b24q1_source",
-  "source_policy": null,
+  "source_policy": {
+    "approval_sha256": "6b3a9303874606b17045ff1ee0b78f7a08123c9a1cdc80442056451110b3b13b",
+    "asr_adapter_sha256": "5f1070c1443742a69953c8376c4f044471224a535bf9ee4bed89ce007f2efef4",
+    "experiment_id": "B24Q1",
+    "observer_sha256": "19639d7edf2258fbbd7c8adb354453b9b761c69d03d1c326d01d005bcc9346b0",
+    "orchestration_contract_sha256": "75136b683c893e3d6457d93b2f9f74829c711e7b614b6a5b727380faf4f42f49",
+    "orchestration_implementation_sha256": "19639d7edf2258fbbd7c8adb354453b9b761c69d03d1c326d01d005bcc9346b0",
+    "parser_contract_sha256": "7bf7fa315b016f034cfa5e0917d57db2c9d7d25ee7791c24e84ce2d2acff8591",
+    "proposal_sha256": "b5149d29049d5f308efd92a966ab36b0ccb81a9e04fbc64f8ff81e52d5fe7bea",
+    "quarantine_helper_sha256": "fc8b4cfcff014b68841810a4863b7f1ec0dc36a149cb88cc10aaf114a0e9f961",
+    "schema": "english-v6-b24q1-source-policy-v1"
+  },
   "source_schema": "english-v6-b24q1-fresh-combined-source-v1",
   "threshold_search": false,
   "training_allowed": false,
   "training_assessment_sha256": "3afdb17e822bb0b4a49757ac116a28101ff9f1447b22429305299047410fe2ad",
   "training_design_sha256": "4fa88cf4050aa276323a7306f21d53163d47c27e3c011c2547d5eeebe6980309",
   "upstream_producers": {
-    "source": null,
-    "train": null
+    "source": {
+      "bytes": 18369647,
+      "id": 14995822013,
+      "run_head": "3f04370dde7c6c0d9521c7d9227d3dec37417929",
+      "run_id": 45554635013,
+      "sha256": "8b518514ca29b491cde448a3b6c8b3c3409e97466cf76a2783999c3dfeaa733b"
+    },
+    "train": {
+      "bytes": 4647482,
+      "id": 14948570742,
+      "run_head": "146b9e8022e067855f96e2e6a33f0c8d2e5d23af",
+      "run_id": 45449190562,
+      "sha256": "4edbd41ba01f008fe57fe037e33a39ee06829ad347945942c6d9ab516c5ba373"
+    }
   }
 }
