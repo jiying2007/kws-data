@@ -1,0 +1,82 @@
+{
+  "B24Q1_terminal_NO_PROMOTION_preserved": true,
+  "B24R1_original_source_stop_preserved": true,
+  "B24_original_source_stop_preserved": true,
+  "assessment_sha256": "8c7b4571d2ac08546fd00789fc2809df8c4290ad53a38c1f6b33a993331ae2ee",
+  "automatic_R2_allowed": false,
+  "c_max_abs": 0.005,
+  "c_mean_abs": 0.0005,
+  "cal_locked_access": false,
+  "candidate_files": null,
+  "candidate_role": "challenger",
+  "conditions": [
+    "original",
+    "one_second_zero_prefix"
+  ],
+  "enabled": false,
+  "evaluation_only": true,
+  "historical_control_retrained": false,
+  "inputs": {
+    "B0": {
+      "bytes": 501276,
+      "id": 14514228406,
+      "run_head": "d0b567fe37147aae6ab5d7bdec3721b879a0b22d",
+      "run_id": 44495594627,
+      "sha256": "91b203f05041d92e7ffb1b748f94959ce19af6673b91dbc2144920815058d702"
+    },
+    "engineering_screen": {
+      "bytes": 5586,
+      "id": 14545584039,
+      "run_head": "e7f3e56819b4156cec4fd965e5f0529adcc99a73",
+      "run_id": 44558582911,
+      "sha256": "9fd68b177823a24446c50c163a4838967de7b6e9d3e2be23861d136d93af0c9e"
+    },
+    "engineering_source": {
+      "bytes": 646524,
+      "id": 14543254675,
+      "run_head": "3af2027d2ca9d195e18b1cf8da8e07663d841bc6",
+      "run_id": 44554345276,
+      "sha256": "530fccdd25abca9e76331dd8dad1f2440181158e140f2279ee952833a8d220f6"
+    },
+    "pair": null
+  },
+  "maximum_backend_calls": 140,
+  "model_comparison": "B27_new_challenger_against_immutable_historical_B24_challenger",
+  "model_pt_sha256": {
+    "B0": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+    "B9": "7dba86a3fcda6e5f05cb80b414dc372c70a5a03b3aee783f168441a4871e7655",
+    "challenger": null,
+    "control": "f6fce146324cab9286814bab26a594ef67cca58155fa2d2fb5f7fd9370992bb4"
+  },
+  "new_optimizer_updates": 0,
+  "new_source_allowed": false,
+  "old_B24Q1_replication_opened": false,
+  "old_B24R1_replication_opened": false,
+  "old_B24R1_sources_used_for_scoring": false,
+  "old_B24_replication_opened": false,
+  "old_B24_sources_used_for_scoring": false,
+  "onnx_max_abs": 0.001,
+  "onnx_mean_abs": 0.0001,
+  "original_B24Q1_failure_report_sha256": "9cd5df45c5b9ca22b0eb56f3fdda4788b2420e906a35bb754af9c23eb38be62f",
+  "original_B24_training_assessment_sha256": "3afdb17e822bb0b4a49757ac116a28101ff9f1447b22429305299047410fe2ad",
+  "original_count": 14,
+  "original_training_report_sha256": null,
+  "parent_authority": "reviewed_workflow",
+  "physical_ssc305": false,
+  "pipeline_commit": "88a043c6c00bb3a1a62f45098a023c7601042ded",
+  "prepared_parent": null,
+  "product_decoder_settings_defined": false,
+  "product_promotion_allowed": false,
+  "quality_locks": {
+    "primary": null,
+    "replication": null
+  },
+  "quality_reader": "english_v6_b27_quality_readback",
+  "quality_reader_sha256": null,
+  "same_job_matched_control": false,
+  "schema": "english-v6-b27-dual-pass-software-sdk-v1",
+  "threshold_search": false,
+  "training_allowed": false,
+  "training_assessment_sha256": "8c7b4571d2ac08546fd00789fc2809df8c4290ad53a38c1f6b33a993331ae2ee",
+  "training_design_sha256": "956f0695e6b4e3ac450bc3881c5ef13985d775210cf43cf4da98947a5a1846bf"
+}
