@@ -138,6 +138,7 @@ class ReadbackTests(unittest.TestCase):
         for panel in ('primary','replication'):
             for role in roles:
                 expected=512_000_000 if role=='source' or (panel=='replication' and role=='producer') else 128_000_000
+                if panel=='replication' and role=='source': expected=768_000_000
                 self.assertEqual(reader.archive_limit(panel,role),expected)
                 pin=dict(id=1,run_id=1,run_head='a'*40,bytes=expected,sha256='b'*64)
                 reader.valid_artifact(pin,panel=panel,role=role)

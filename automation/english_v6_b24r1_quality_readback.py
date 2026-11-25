@@ -85,6 +85,8 @@ def archive_limit(panel="primary", role=None):
     need(panel in SCHEMAS and role in {None, "result", "producer", "consumed", "B0", "B9", "pair", "source", "screen",
          "train_producer", "source_producer", *("native_" + provider for provider in ("qwen", "whisper", "parakeet", "xlsr", "lv60"))},
          "explicit existing panel and artifact role")
+    if panel == "replication" and role == "source":
+        return 768_000_000
     return 512_000_000 if role == "source" or (panel == "replication" and role == "producer") else 128_000_000
 
 
