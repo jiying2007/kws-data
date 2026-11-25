@@ -3467,7 +3467,7 @@
     }
   ],
   "expected_retained_files": 2027,
-  "expected_tracked_files": 4376,
+  "expected_tracked_files": 4379,
   "integration_files": [
     ".github/research-v4/background-continuation-request.template.json",
     ".github/research-v4/native-c-librispeech-request.template.json",
@@ -5805,7 +5805,10 @@
     "research/kws_unified_evidence_20261117/test_compare_saved.py",
     "research/librispeech_train360_metadata_20261125/OFFICIAL_HEAD.json",
     "research/librispeech_train360_metadata_20261125/OFFICIAL_SOURCES.json",
+    "research/librispeech_train360_metadata_20261125/OPENSLR_MD5SUM.txt",
     "research/librispeech_train360_metadata_20261125/README.md",
+    "research/librispeech_train360_metadata_20261125/SOURCE_EVIDENCE.json",
+    "research/librispeech_train360_metadata_20261125/TORCHAUDIO_LIBRISPEECH.py.txt",
     "tests/test_b27_primary_continuation.py",
     "tests/test_b27_replication_binding.py",
     "tests/test_b27_replication_continuation.py",
@@ -29305,8 +29308,8 @@
         "docs/ENGLISH_IPA_PHONEME_TTS_RESEARCH_20261116.md"
       ],
       "previous_manifest_git_blob_sha1": "c76824847a477dd3118158121565bc8a8e0765ea",
-      "rationale": "User image dated 2026-11-16 supersedes previous readings. New v2 trigger and runner use long /i\u02d0/ and voiced /z/, four calls, no retries, no ASR, no training, no qualification.",
-      "scope": "Four one-shot Piper raw-phoneme probes for final image-confirmed American readings Mero /he\u026a \u02c8mi\u02d0ro\u028a/ and Vosen /he\u026a \u02c8vo\u028az\u0259n/. Old-IPA artifacts remain immutable and unadmitted.",
+      "rationale": "User image dated 2026-11-16 supersedes previous readings. New v2 trigger and runner use long /iː/ and voiced /z/, four calls, no retries, no ASR, no training, no qualification.",
+      "scope": "Four one-shot Piper raw-phoneme probes for final image-confirmed American readings Mero /heɪ ˈmiːroʊ/ and Vosen /heɪ ˈvoʊzən/. Old-IPA artifacts remain immutable and unadmitted.",
       "source_commit": "652855987dc50e9eb5a66c51e81bc0b8b2975a4d"
     },
     {
@@ -29377,8 +29380,8 @@
         "docs/ENGLISH_IPA_PHONEME_TTS_RESEARCH_20261116.md"
       ],
       "previous_manifest_git_blob_sha1": "1af1cb2821323972972091d3f384e9f82f0947a1",
-      "rationale": "Review against the owner's pronunciation reference showed Hey is marked light while the name's first syllable carries stress. v2 used a stress marker on Hey; v3 removes it while retaining long /i\u02d0/ for Mero and voiced /z/ for Vosen. Exactly four new Piper calls, no retries, no ASR, no training or qualification.",
-      "scope": "Four one-shot Piper raw-phoneme probes for final image-confirmed American readings Mero /he\u026a \u02c8mi\u02d0ro\u028a/ and Vosen /he\u026a \u02c8vo\u028az\u0259n/, with light/unstressed Hey and primary stress on the name. v2 outputs remain immutable historical evidence.",
+      "rationale": "Review against the owner's pronunciation reference showed Hey is marked light while the name's first syllable carries stress. v2 used a stress marker on Hey; v3 removes it while retaining long /iː/ for Mero and voiced /z/ for Vosen. Exactly four new Piper calls, no retries, no ASR, no training or qualification.",
+      "scope": "Four one-shot Piper raw-phoneme probes for final image-confirmed American readings Mero /heɪ ˈmiːroʊ/ and Vosen /heɪ ˈvoʊzən/, with light/unstressed Hey and primary stress on the name. v2 outputs remain immutable historical evidence.",
       "source_commit": "eb6aa230b415cd9596bfdd1a84dc37447b052ad5"
     },
     {
@@ -29392,7 +29395,7 @@
       ],
       "previous_manifest_git_blob_sha1": "a14c591f58d4df6ed68fc936bf493991681482f5",
       "rationale": "The four v3 samples were generated once with light/unstressed Hey and first-syllable stress on Mero/Vosen. v2 was superseded for stress placement. The independent blind screen must consume only exact v3 WAV bytes and must not reuse old v2 transcripts or CTC observations.",
-      "scope": "Exactly twelve blind ASR calls (four stress-aligned Piper v3 WAVs \u00d7 Qwen3-ASR, Whisper-small and Parakeet TDT v3), source-verified by immutable run/artifact/ZIP/WAV/PCM identities; no retries, training, human gold or qualification.",
+      "scope": "Exactly twelve blind ASR calls (four stress-aligned Piper v3 WAVs × Qwen3-ASR, Whisper-small and Parakeet TDT v3), source-verified by immutable run/artifact/ZIP/WAV/PCM identities; no retries, training, human gold or qualification.",
       "source_commit": "543ffe1a1343d5581c6ee62dae46ecae0b16ff0c"
     },
     {
@@ -29420,7 +29423,7 @@
       ],
       "previous_manifest_git_blob_sha1": "1585d7f791216a722527a508d7b6d932559d9c11",
       "rationale": "V3 blind ASR and independent phone observations did not admit any sample as a positive. V4 broadens speaker-family coverage while preserving exact IPA/stress, pinned model/config, source-speaker map, WAV/PCM hashes and CC-BY-4.0 attribution. Machine agreement remains non-gold; formal training admission stays false.",
-      "scope": "Sixteen new Piper v4 raw-phoneme WAVs: two owner-confirmed American wake targets \u00d7 eight previously unused LibriTTS train-clean-360 speaker IDs p4535/p6701/p3638/p922/p2531/p1638/p8848/p6544. v3 speakers p3922/p8699 are not regenerated. Exactly 16 calls, no retries, no ASR/CTC/training or qualification.",
+      "scope": "Sixteen new Piper v4 raw-phoneme WAVs: two owner-confirmed American wake targets × eight previously unused LibriTTS train-clean-360 speaker IDs p4535/p6701/p3638/p922/p2531/p1638/p8848/p6544. v3 speakers p3922/p8699 are not regenerated. Exactly 16 calls, no retries, no ASR/CTC/training or qualification.",
       "source_commit": "8b82c0ff1e27ad754f1a1c16d7f40310b8b65787"
     },
     {
@@ -29434,7 +29437,7 @@
       ],
       "previous_manifest_git_blob_sha1": "4f4c10cd6ed88f58b9a66bb27b332c201062d2a9",
       "rationale": "All 16 original v4 audio cells were generated successfully in run 43898728142. The workflow failed only because aggregate status compared completed==4 instead of 16. This ASR stage preserves that original run failure, documents the mismatch, and uses independent source-closure checks rather than rewriting the source artifact. No training admission, human gold or pronunciation qualification is granted.",
-      "scope": "Exactly 48 blind ASR calls: 16 v4 Piper WAVs \u00d7 Qwen3-ASR, Whisper-small and Parakeet TDT v3. The immutable source ZIP has 16/16 complete per-cell receipts but its aggregate result status is mislabeled INCOMPLETE_NO_RETRY due a v3 constant left in the v4 generator; the ASR worker accepts this only after checking 16/16 attempts, 16/16 completed receipts, plan/model-lock hashes, all WAV/PCM hashes and exact speaker/phrase roster. No TTS retry or regeneration.",
+      "scope": "Exactly 48 blind ASR calls: 16 v4 Piper WAVs × Qwen3-ASR, Whisper-small and Parakeet TDT v3. The immutable source ZIP has 16/16 complete per-cell receipts but its aggregate result status is mislabeled INCOMPLETE_NO_RETRY due a v3 constant left in the v4 generator; the ASR worker accepts this only after checking 16/16 attempts, 16/16 completed receipts, plan/model-lock hashes, all WAV/PCM hashes and exact speaker/phrase roster. No TTS retry or regeneration.",
       "source_commit": "a5ab0733225f65fec2ae941ff9ca1459cf14b9a7"
     },
     {
@@ -32149,7 +32152,7 @@
         "automation/test_english_synthetic192_training.py"
       ],
       "previous_manifest_git_blob_sha1": "0fb4d94008cf7cb9b51d6461206294783a28a5e0",
-      "rationale": "Preserve the actual first 192-source rejection and prepare an independent, disabled 192-source campaign on untouched Piper indices 34\u201357. Use verified direct-phone IDs, explicit Hey stress and sentence punctuation, preregistered length_scale 1.2 and prospective transcript-spelling v2 rules while preserving strict acoustic phone support, observer identities, tier weights, UNKNOWN masking and fixed source minima. Adapt only the unconsumed trainer intake to the exact new source design. Frozen optimization core, quality gates, workflow guard, full-PCM and SDK sources remain unchanged. No old audio/model call is repeated and no future artifact is invented.",
+      "rationale": "Preserve the actual first 192-source rejection and prepare an independent, disabled 192-source campaign on untouched Piper indices 34–57. Use verified direct-phone IDs, explicit Hey stress and sentence punctuation, preregistered length_scale 1.2 and prospective transcript-spelling v2 rules while preserving strict acoustic phone support, observer identities, tier weights, UNKNOWN masking and fixed source minima. Adapt only the unconsumed trainer intake to the exact new source design. Frozen optimization core, quality gates, workflow guard, full-PCM and SDK sources remain unchanged. No old audio/model call is repeated and no future artifact is invented.",
       "source_commit": "4a421d420ec13db1c51d9fb4dc5750c463a28d94"
     },
     {
@@ -33268,7 +33271,7 @@
         "research/english_mero_meh_20261118/PRONUNCIATION.md"
       ],
       "previous_manifest_git_blob_sha1": "1f33c1d00e2db2eeb0950a0b6404c3199a3ff9e7",
-      "rationale": "Freeze the user-selected Hey Mero /he\u026a \u02c8m\u025bro\u028a/ brand reading before generating a formal fresh corpus. Keep Vosen /s/, exclude homophonous Marrow/Merrow strict negatives, retain every historical probe exclusion, and admit new rows only through whole-PCM blind ASR plus native phone evidence. Fix 12 nonblended synthetic preset roles at 6/2/2/2, 144 native requests and 576 observations, no retries or automatic expansion, original Kokoro graph and runtime, exact first main push only. Source checks are stdlib/mock; original retained models, audio, results and algorithms remain byte-identical. All accepted source bytes, native evidence and hidden workflow files are retained for independently recomputed training admission.",
+      "rationale": "Freeze the user-selected Hey Mero /heɪ ˈmɛroʊ/ brand reading before generating a formal fresh corpus. Keep Vosen /s/, exclude homophonous Marrow/Merrow strict negatives, retain every historical probe exclusion, and admit new rows only through whole-PCM blind ASR plus native phone evidence. Fix 12 nonblended synthetic preset roles at 6/2/2/2, 144 native requests and 576 observations, no retries or automatic expansion, original Kokoro graph and runtime, exact first main push only. Source checks are stdlib/mock; original retained models, audio, results and algorithms remain byte-identical. All accepted source bytes, native evidence and hidden workflow files are retained for independently recomputed training admission.",
       "source_commit": "97456bccbed6f767005beb03fe7dbffb98017bea"
     },
     {
@@ -33509,7 +33512,7 @@
         "research/english_mero_meh_20261118/ACTUAL_LV60_44224679148.md"
       ],
       "previous_manifest_git_blob_sha1": "d82780845ac13b0239d4158c085736c43da2d0de",
-      "rationale": "Retain actual diagnostic run 44224679148: exactly 24 LV60 forwards/returns/captures on unchanged whole PCM, original artifact 14391739453 verified by ZIP digest, complete 4423-member closure, frozen readers, native logits and paired reconstruction. Report all raw pairs and controls. The eight Mero rows show XLSR seven \u0254 plus one missing final vowel versus LV60 six o plus two o\u02d0, with no exact o\u028a; a door control is decoded as do\u028a by LV60. Observer disagreement is not pronunciation gold or a new label. Preserve original 144-row corpus STOP, all roles/weights/exclusions and disabled downstream execution. These two documents and registry registration add no workflow or model execution.",
+      "rationale": "Retain actual diagnostic run 44224679148: exactly 24 LV60 forwards/returns/captures on unchanged whole PCM, original artifact 14391739453 verified by ZIP digest, complete 4423-member closure, frozen readers, native logits and paired reconstruction. Report all raw pairs and controls. The eight Mero rows show XLSR seven ɔ plus one missing final vowel versus LV60 six o plus two oː, with no exact oʊ; a door control is decoded as doʊ by LV60. Observer disagreement is not pronunciation gold or a new label. Preserve original 144-row corpus STOP, all roles/weights/exclusions and disabled downstream execution. These two documents and registry registration add no workflow or model execution.",
       "source_commit": "56af8e67c8777e582713394fe7205840dc3a21bd"
     },
     {
@@ -33953,7 +33956,7 @@
         "automation/english_v6_question_source_pair_receipt.json"
       ],
       "previous_manifest_git_blob_sha1": "4248f4d02d1a1dc715ec0cd3fa6f72b7ab978a5e",
-      "rationale": "One spent public source-only campaign 45108917466. Four source-diagnostic-only speakers (594\u2013597) disjoint from 1148 retained PCM, 212 families and B11/B12 reserved rosters. Eight original question recordings from matched, same-seed plain-text vs direct-IPA conditions and 40 blinded ASR/phone observations. Full authenticated source artifact 14788787525, sha256:12285464b64f6dbe5c37ab3fb17e9fac887c7c1cc84ce11c40d115226c701b1c; source screen 14789200396, sha256:d3aabb070dd1e98ca5b2c785eeac11c486e77cf0eeb0650dfbc109bc961c6e26. Frozen result IPA_ADVANTAGE_ON_MATCHED_SOURCES and arm counts {\"ipa\": {\"exact_asr_votes\": 12, \"qualified\": 4}, \"text\": {\"exact_asr_votes\": 0, \"qualified\": 0}}. All raw PCM chunks, phone IDs, transcripts and posterior receipts bound. Outcome applies to wording/rendering on these four sources; no KWS model, training, DEV, CAL, LOCKED or physical evidence. Registered all preserved source/code/receipt paths.",
+      "rationale": "One spent public source-only campaign 45108917466. Four source-diagnostic-only speakers (594–597) disjoint from 1148 retained PCM, 212 families and B11/B12 reserved rosters. Eight original question recordings from matched, same-seed plain-text vs direct-IPA conditions and 40 blinded ASR/phone observations. Full authenticated source artifact 14788787525, sha256:12285464b64f6dbe5c37ab3fb17e9fac887c7c1cc84ce11c40d115226c701b1c; source screen 14789200396, sha256:d3aabb070dd1e98ca5b2c785eeac11c486e77cf0eeb0650dfbc109bc961c6e26. Frozen result IPA_ADVANTAGE_ON_MATCHED_SOURCES and arm counts {\"ipa\": {\"exact_asr_votes\": 12, \"qualified\": 4}, \"text\": {\"exact_asr_votes\": 0, \"qualified\": 0}}. All raw PCM chunks, phone IDs, transcripts and posterior receipts bound. Outcome applies to wording/rendering on these four sources; no KWS model, training, DEV, CAL, LOCKED or physical evidence. Registered all preserved source/code/receipt paths.",
       "source_commit": "f7430a89649036c636eb6f7fdfe4b2244fbd411e"
     },
     {
@@ -34201,7 +34204,10 @@
         "automation/test_english_v6_train360_metadata.py",
         "research/librispeech_train360_metadata_20261125/OFFICIAL_HEAD.json",
         "research/librispeech_train360_metadata_20261125/OFFICIAL_SOURCES.json",
-        "research/librispeech_train360_metadata_20261125/README.md"
+        "research/librispeech_train360_metadata_20261125/OPENSLR_MD5SUM.txt",
+        "research/librispeech_train360_metadata_20261125/README.md",
+        "research/librispeech_train360_metadata_20261125/SOURCE_EVIDENCE.json",
+        "research/librispeech_train360_metadata_20261125/TORCHAUDIO_LIBRISPEECH.py.txt"
       ],
       "previous_manifest_sha256": "f1d01bb6cdda7fa284295e26d2cd88022304fa740e52a8217d877f222c6c41bf",
       "scope": "Independent metadata-only whole-archive acquisition preparation. All original files retained. Runtime remains disabled; no model, audio decode, source panel or person draw is authorized by preparation.",
