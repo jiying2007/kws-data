@@ -32,7 +32,7 @@ jobs:
           python -SIB automation/english_v6_b27_primary_eval.py check
   score:
     needs: contracts
-    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b27-primary-scoring-once-20261125' && github.run_attempt == 1 && github.event.before == '__B27_REVIEWED_PRIMARY_SCORING_PARENT__'
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b27-primary-scoring-once-20261125' && github.run_attempt == 1 && github.event.before == '8981de96d00e4ac6d6a1b2e65aea6a7023d1d3dc'
     runs-on: ubuntu-24.04
     timeout-minutes: 180
     env:
@@ -40,7 +40,7 @@ jobs:
       MKL_NUM_THREADS: '1'
       OPENBLAS_NUM_THREADS: '1'
       PYTHONHASHSEED: '20261124'
-      PREPARED_PARENT: '__B27_REVIEWED_PRIMARY_SCORING_PARENT__'
+      PREPARED_PARENT: '8981de96d00e4ac6d6a1b2e65aea6a7023d1d3dc'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with: {ref: '${{ github.sha }}', persist-credentials: false, fetch-depth: 2}
