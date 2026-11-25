@@ -1,0 +1,40 @@
+name: Prospective no-event objective mathematics only
+'on':
+  push:
+    branches: [research/en-v6-no-event-objective-math-only-20261125]
+    paths: [.github/workflows/english-v6-no-event-objective-math.yml]
+permissions:
+  contents: read
+concurrency:
+  group: english-v6-no-event-invented-logit-math
+  cancel-in-progress: false
+jobs:
+  mathematics:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.event_name == 'push' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: '${{ github.sha }}'
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Install the fixed CPU tensor runtime for invented mathematics
+        run: python -m pip install --disable-pip-version-check --retries 0 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+      - name: Validate the frozen formula and autograd on invented logits only
+        run: python -I -B research/english_v6_b28_objective_preparation_20261125/torch_math/test_torch_objective_math.py --run-pure-math --report CI_MATH_RESULT.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: b28-invented-logit-math-${{ github.run_id }}
+          path: research/english_v6_b28_objective_preparation_20261125/torch_math/CI_MATH_RESULT.json
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn

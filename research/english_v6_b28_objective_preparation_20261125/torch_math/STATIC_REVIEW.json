@@ -1,0 +1,143 @@
+{
+  "authoring_operations": {
+    "audio_decodes": 0,
+    "model_forwards": 0,
+    "network_requests": 0,
+    "optimizer_updates": 0,
+    "repository_ref_changes": 0,
+    "source_or_observer_calls": 0,
+    "torch_calls": 0,
+    "weights_loaded": 0
+  },
+  "frozen_originals_verified": [
+    {
+      "bytes": 5569,
+      "direct_original_bytes_equal": true,
+      "original_bytes_unchanged": true,
+      "path": "frozen/torch_objective_draft.py",
+      "sha256": "1321eef19cf02d8ce8009e307d4fc384eeac7f59a57e2e07c05dbf79d273350a"
+    },
+    {
+      "bytes": 6851,
+      "direct_original_bytes_equal": true,
+      "original_bytes_unchanged": true,
+      "path": "frozen/no_event_reference.py",
+      "sha256": "034a4827fb9ff3091a5e23ea25e2eab0bc23ee7263bce644fd52741e6b80f969"
+    },
+    {
+      "bytes": 7225,
+      "direct_original_bytes_equal": true,
+      "original_bytes_unchanged": true,
+      "path": "frozen/STDLIB_VALIDATION.json",
+      "sha256": "dbb0acacdc87dfdd9a62f3cefae79c94d1bf87ae4a957d4a42785da2339adeb1"
+    },
+    {
+      "bytes": 1855,
+      "direct_original_bytes_equal": true,
+      "original_bytes_unchanged": true,
+      "path": "frozen/FROZEN_SOURCE_MANIFEST.json",
+      "sha256": "d2a00cccf68bc185939536a059a113b69edd2c065d3ca92adba93b95ee61982e"
+    },
+    {
+      "bytes": 44920,
+      "direct_original_bytes_equal": true,
+      "original_bytes_unchanged": true,
+      "path": "frozen/originals/english_v6_b27_primary_eval.py",
+      "sha256": "0810522c031da4e9e8d4d3eadcfa2cecd0365277c8bec557448c8b8315e97d49"
+    },
+    {
+      "bytes": 73733,
+      "direct_original_bytes_equal": true,
+      "original_bytes_unchanged": true,
+      "path": "frozen/originals/english_v6_b24q1_primary_eval.py",
+      "sha256": "0ff27034c441b12b69f8b0bf670262116801cd72e0e134fa04a6b09f13029975"
+    },
+    {
+      "bytes": 27480,
+      "direct_original_bytes_equal": true,
+      "original_bytes_unchanged": true,
+      "path": "frozen/originals/english_v6_b23_prefix_peak.py",
+      "sha256": "4c61ffafb00fa75478424179b80d004eb4370e8050b1841caa47c51c669ccbae"
+    },
+    {
+      "bytes": 30993,
+      "direct_original_bytes_equal": true,
+      "original_bytes_unchanged": true,
+      "path": "frozen/originals/english_v6_b27_natural_weight.py",
+      "sha256": "43257d9f5349b4efb08b20c35575a75b181f277e769d9f7ff405f5778440c401"
+    },
+    {
+      "bytes": 2990,
+      "direct_original_bytes_equal": true,
+      "original_bytes_unchanged": true,
+      "path": "frozen/originals/english_v6_b27_execution_profile.json",
+      "sha256": "aed01e7b3f19066e001190e89e37858a3ec93251ffef09c2d2bf5e66c0481d22"
+    }
+  ],
+  "future_invocation": "python3 test_torch_objective_math.py --run-pure-math --report CI_MATH_RESULT.json",
+  "future_runtime_required": "torch==2.9.1+cpu",
+  "no_candidate_registration_or_training_or_promotion_authority": true,
+  "original_math_source_fix_identified_by_static_review": false,
+  "original_math_source_modified": false,
+  "original_pins_sha256": "16c76a1c990fa8419fb396b745b1d810748ea78aee438ad22d793189c8890faf",
+  "python_version": "3.12.14",
+  "schema": "b28-math-test-draft-static-review-v1",
+  "static_checks": {
+    "ast_parse_and_compile_without_execution": true,
+    "ci_math_result_file_absent": true,
+    "independent_oracles_have_no_torch_or_objective_reference": true,
+    "original_exhaustive_stdlib_verification_repeated": false,
+    "original_natural_call_signature_and_single_call_site_checked": true,
+    "test_methods": [
+      "test_batch_independence_shift_and_fp32_boundary",
+      "test_double_gradcheck_scalar_and_batch",
+      "test_extreme_values_and_rare_event_gradient",
+      "test_independent_finite_differences",
+      "test_invalid_input_rejections",
+      "test_long_uniform_log_domain_and_gradients",
+      "test_natural_wrapper_single_callable_value_and_gradient",
+      "test_short_sequences_have_connected_exact_zero",
+      "test_small_enumeration_and_conditional_gradient",
+      "test_unchanged_sources_and_no_complete_fit_substitution"
+    ],
+    "test_module_imported": false,
+    "top_level_imports_all_stdlib": [
+      "__future__",
+      "argparse",
+      "ast",
+      "builtins",
+      "copy",
+      "decimal",
+      "functools",
+      "hashlib",
+      "importlib",
+      "io",
+      "itertools",
+      "json",
+      "math",
+      "pathlib",
+      "random",
+      "socket",
+      "subprocess",
+      "sys",
+      "unittest"
+    ],
+    "torch_imported": false,
+    "torch_imports_inside_explicit_guarded_main": [
+      "torch",
+      "torch.nn.functional"
+    ],
+    "torch_tests_run": 0
+  },
+  "status": "AST_ONLY_TORCH_UNEXECUTED",
+  "test_source": {
+    "bytes": 28293,
+    "path": "test_torch_objective_math.py",
+    "sha256": "4bbb16b756d7cb92223f32c13a184d41241e1f9bb46f2c7dfe8927be93f37395"
+  },
+  "unverified": [
+    "Torch numerical values, autograd, gradcheck and finite-difference agreement: tests drafted, not executed.",
+    "Exact CPU runtime and runtime-guard compatibility: no local Torch import.",
+    "Complete fit integration and scientific outcomes: outside this preparation task."
+  ]
+}
