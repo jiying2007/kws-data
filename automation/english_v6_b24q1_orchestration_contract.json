@@ -1,0 +1,185 @@
+{
+  "approved_proposal_sha256": "b5149d29049d5f308efd92a966ab36b0ccb81a9e04fbc64f8ff81e52d5fe7bea",
+  "automatic_next_assessment_allowed": false,
+  "complete_denominator_and_readback": {
+    "coverage_and_attrition_frozen_before_any_KWS": true,
+    "do_not_claim_incomparable_old_stopped_panel_metrics_improved": true,
+    "do_not_impute_quarantined_rows_as_KWS_misses_hits_or_true_negatives": true,
+    "do_not_report_qualified_subset_accuracy_as_all_120_performance": true,
+    "independent_readback_recomputes": [
+      "all original artifact and producer identities",
+      "unchanged pre-observer eligibility and all 120 exposure identities",
+      "all 5*N predeclared slot identities and consumption, at most 600",
+      "every actual raw return and exact empty proof",
+      "union of quarantined original IDs",
+      "all existing five-valid nonempty admission decisions",
+      "unchanged source minima and family counts"
+    ],
+    "independent_saved_byte_readback_required_before_KWS": true,
+    "report_partition": "For a complete nonfatal panel: 120 originals = pre-observer rejected (120-N) + quarantined invalid-empty + five-valid but unqualified + qualified. The last three strata sum to N. Report attempted/returned/valid/empty/fatal/unknown separately for every required slot among the 5*N; never classify unplanned pre-observer rejects as missing returns.",
+    "report_pre_observer_rejected_stratum": true,
+    "report_strata": [
+      "provider",
+      "cohort",
+      "requested_class",
+      "preplanned_synthetic_cell",
+      "canonical_person"
+    ],
+    "retain_every_actual_raw_return_including_invalid_empty": true,
+    "retain_every_original_id_pcm_person_cell_and_requested_class": true,
+    "retain_manifest_original_denominator": 120,
+    "retain_native_call_slot_denominator": "5*N exact preplanned slots; report the 600 maximum separately",
+    "retain_observer_eligible_denominator": "N per provider, fixed before observation",
+    "retain_per_provider_original_denominator": 120
+  },
+  "experiment_id": "B24Q1",
+  "fixed_plan": {
+    "all_remaining_unknown_or_unstarted_slots_keep_panel_closed": "Any unknown or unstarted required slot among the predeclared 5*N keeps the panel closed; the 120-N pre-observer rejects were never planned calls.",
+    "allowed_completed_slot_states": [
+      "VALID_NONEMPTY",
+      "INVALID_EMPTY_PROVEN"
+    ],
+    "automatic_next_panel_after_failure": false,
+    "continuation_budget_from_previous_experiments": 0,
+    "exactly_one_attempt_for_each_planned_slot_unless_fatal_stop": true,
+    "fatal_condition_terminal_even_if_other_jobs_have_already_consumed_calls": true,
+    "finish_other_preplanned_calls_even_for_quarantined_originals": true,
+    "full_completed_panel_requires_all_5N_distinct_attempts_and_returns": true,
+    "maximum_native_calls_across_primary_and_conditionally_opened_replication": 1200,
+    "maximum_native_calls_per_panel": 600,
+    "maximum_native_calls_per_provider_per_panel": 120,
+    "maximum_new_assessments": 1,
+    "natural_originals_per_panel": 24,
+    "no_extra_calls_to_fill_600_when_N_is_less_than_120": true,
+    "observer_eligible_originals": "N = exactly the unchanged source owner's 96 synthetic plus pre-observer-eligible natural originals; 96 <= N <= 120, frozen before any observer.",
+    "originals_per_panel": 120,
+    "panels": [
+      "primary",
+      "sealed_replication"
+    ],
+    "planned_native_call_slots_per_panel": "5*N, fixed before any native observation, at most 600",
+    "pre_observer_rejected_natural_originals": "All 120 exposure identities remain retained. The 120-N natural originals rejected by the existing pre-observer rule receive no native calls, no replacements and no empty-return classification.",
+    "providers": [
+      "qwen",
+      "whisper",
+      "parakeet",
+      "xlsr",
+      "lv60"
+    ],
+    "replication_opener": "Only complete authenticated numerical PASS of this new primary; use the prospectively frozen untouched replica with identical weights and this same prospective policy.",
+    "retain_all_concurrent_or_inflight_returns_and_true_consumption": true,
+    "retries_rescues_replacements_or_extra_canaries": 0,
+    "source_minima_shortfall_is_terminal": true,
+    "source_pre_observer_eligibility_unchanged": true,
+    "stop_early_when_minima_met": false,
+    "synthetic_originals_per_panel": 96
+  },
+  "native_empty_boundary": {
+    "all_raw_bytes_and_original_envelopes_hash_verified": true,
+    "applicable_providers": [
+      "qwen",
+      "whisper",
+      "parakeet"
+    ],
+    "attempt": 1,
+    "complete_original_input_identity_required": true,
+    "empty_predicate": "Original selected native text has zero codepoints or every codepoint is in the frozen explicit White_Space set, after successful strict decoding and the original length/control checks.",
+    "invalid_empty_receipt_state": "INVALID_EMPTY_PROVEN",
+    "lexical_case_punctuation_or_unicode_compatibility_edits_allowed": false,
+    "maximum_raw_decoded_codepoints_before_normalization": 4096,
+    "missing_raw_file_is_not_empty_return": true,
+    "native_exception": null,
+    "native_return_observed": true,
+    "parakeet_additional_proof": [
+      "Original fixed command, model/runtime identity, environment, complete input, STARTED and RETURNED receipts agree.",
+      "Process actually started and returned exit code 0; no timeout, exception or unknown consumption.",
+      "Complete native stdout and stderr are preserved without transforms; the exact successful-return evidence is independently reopened."
+    ],
+    "payload_valid": false,
+    "phone_provider_rule": "XLSR/LV60 retain the complete finite nonempty native logits matrix, exact vocabulary, shape, frame coverage and original parser. Empty greedy token sequences are not empty native payloads. Missing, zero-byte, malformed or nonfinite matrices remain fatal.",
+    "qwen_additional_proof": "Original native envelope is a list of exactly one native result whose text field is a string; preserve the original envelope and its exact UTF-8 text. An empty list, missing field or non-string value is fatal.",
+    "raw_return_saved_before_validation": true,
+    "raw_text_encoding": "UTF-8 strict",
+    "source_admission_eligible": false,
+    "target_hints_or_prompt_changes_allowed": false,
+    "text_or_log_line_extraction_allowed": false,
+    "timed_out": false,
+    "vote": null,
+    "whisper_additional_proof": "Original native envelope is a dict with a present string text field; preserve the original envelope and its exact UTF-8 text. A missing field, None or non-string value is fatal.",
+    "white_space_codepoints": [
+      "U+0009",
+      "U+000A",
+      "U+000B",
+      "U+000C",
+      "U+000D",
+      "U+0020",
+      "U+0085",
+      "U+00A0",
+      "U+1680",
+      "U+2000",
+      "U+2001",
+      "U+2002",
+      "U+2003",
+      "U+2004",
+      "U+2005",
+      "U+2006",
+      "U+2007",
+      "U+2008",
+      "U+2009",
+      "U+200A",
+      "U+2028",
+      "U+2029",
+      "U+202F",
+      "U+205F",
+      "U+3000"
+    ]
+  },
+  "native_payload_validity_and_numerical_admission_unchanged": true,
+  "old_B24_and_B24R1_STOPs_remain_terminal": true,
+  "old_whole_panel_empty_return_policy_changed": true,
+  "quarantine_rule": {
+    "all_five_votes_for_this_original_excluded": true,
+    "applies_to_all_cohorts": [
+      "synthetic",
+      "natural"
+    ],
+    "applies_to_both_requested_classes": [
+      0,
+      2
+    ],
+    "kws_forwards_allowed": 0,
+    "later_fatal_return_on_quarantined_row_still_stops_panel": true,
+    "observed_class": null,
+    "other_nonempty_votes_cannot_rescue_row": true,
+    "other_originals_of_same_person_use_original_individual_rules": true,
+    "paired_voice_families_recomputed_only_from_unchanged_qualified_rows": true,
+    "reason": "INVALID_EMPTY_NATIVE_RETURN_QUARANTINED",
+    "row_relabeling_resynthesis_padding_cropping_replacement_or_retry_allowed": false,
+    "tier": "unknown",
+    "training_allowed": false,
+    "unit": "One immutable original ID and PCM, not a selected provider response and not an entire person."
+  },
+  "return_dispositions": [
+    {
+      "condition": "Every one of the five original native payloads is valid; ASR text is nonempty and phone tensors are complete finite nonempty matrices.",
+      "panel_action": "Continue the fixed plan; eligibility alone does not assign a class or pass a source minimum.",
+      "row_status": "ELIGIBLE_FOR_UNCHANGED_ADMISSION"
+    },
+    {
+      "condition": "At least one ASR return satisfies every exact successful-empty proof requirement, and no fatal condition exists.",
+      "panel_action": "Keep the entire original out of all admission and KWS; continue every remaining preplanned call once.",
+      "row_status": "QUARANTINED_INVALID_EMPTY"
+    },
+    {
+      "condition": "A nonempty return fails its original parser, envelope, Unicode, shape, identity, hash, coverage or numeric validation.",
+      "panel_action": "SOURCE_STOP; no admitted subset can rescue this panel.",
+      "row_status": "FATAL"
+    },
+    {
+      "condition": "Timeout, exception, nonzero process exit, missing/partial raw data, unknown consumption, model initialization failure, duplicate or unplanned call, or incomplete required ledger.",
+      "panel_action": "SOURCE_STOP; no replay, replacement, resume, inference of empty, or KWS opening.",
+      "row_status": "FATAL_OR_INCOMPLETE"
+    }
+  ],
+  "schema": "english-v6-b24q1-native-empty-quarantine-orchestration-v1"
+}

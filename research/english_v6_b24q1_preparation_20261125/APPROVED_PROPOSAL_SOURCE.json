@@ -1,0 +1,434 @@
+{
+  "approval": {
+    "approval_record": null,
+    "approved": false,
+    "approved_at_utc": null,
+    "approved_by": null,
+    "explicit_user_decision_required": true
+  },
+  "complete_denominator_and_readback": {
+    "coverage_and_attrition_frozen_before_any_KWS": true,
+    "do_not_claim_incomparable_old_stopped_panel_metrics_improved": true,
+    "do_not_impute_quarantined_rows_as_KWS_misses_hits_or_true_negatives": true,
+    "do_not_report_qualified_subset_accuracy_as_all_120_performance": true,
+    "independent_readback_recomputes": [
+      "all original artifact and producer identities",
+      "unchanged pre-observer eligibility and all 120 exposure identities",
+      "all 5*N predeclared slot identities and consumption, at most 600",
+      "every actual raw return and exact empty proof",
+      "union of quarantined original IDs",
+      "all existing five-valid nonempty admission decisions",
+      "unchanged source minima and family counts"
+    ],
+    "independent_saved_byte_readback_required_before_KWS": true,
+    "report_partition": "For a complete nonfatal panel: 120 originals = pre-observer rejected (120-N) + quarantined invalid-empty + five-valid but unqualified + qualified. The last three strata sum to N. Report attempted/returned/valid/empty/fatal/unknown separately for every required slot among the 5*N; never classify unplanned pre-observer rejects as missing returns.",
+    "report_pre_observer_rejected_stratum": true,
+    "report_strata": [
+      "provider",
+      "cohort",
+      "requested_class",
+      "preplanned_synthetic_cell",
+      "canonical_person"
+    ],
+    "retain_every_actual_raw_return_including_invalid_empty": true,
+    "retain_every_original_id_pcm_person_cell_and_requested_class": true,
+    "retain_manifest_original_denominator": 120,
+    "retain_native_call_slot_denominator": "5*N exact preplanned slots; report the 600 maximum separately",
+    "retain_observer_eligible_denominator": "N per provider, fixed before observation",
+    "retain_per_provider_original_denominator": 120
+  },
+  "evidence_scope": {
+    "R1_failure_motivation": "The complete original 14-artifact SOURCE STOP readback authenticates an exit-zero native Parakeet empty return before any independent KWS scoring. This is a prospective policy proposal after that terminal failure, not a reinterpretation of it.",
+    "R1_source_run_id": 45534020313,
+    "R1_source_run_url": "https://github.com/jiying2007/kws-data/actions/runs/45534020313",
+    "complete_original_R1_STOP_report_binding": {
+      "actual_native_attempts": 489,
+      "commit": "ce171ce839e82cad0d7b309e832f88957e3133dc",
+      "empty_native_returns": 1,
+      "lock_bytes": 5435,
+      "lock_path": "research/english_v6_b24r1_source_stop_20261125/ORIGINAL_LOCK.json",
+      "lock_sha256": "56c10ef6a669650050fd1d821871489c030f13f224fc85d1c9dc537c69ef37f8",
+      "never_started": 111,
+      "quality_verdict": null,
+      "reader_path": "automation/english_v6_b24r1_source_stop_readback.py",
+      "reader_sha256": "ac3e12810f72f68c3bdd4328dc5933b71c3e05da00524b508f91ce870b83d83d",
+      "report_bytes": 12097,
+      "report_path": "research/english_v6_b24r1_source_stop_20261125/READBACK.json",
+      "report_sha256": "e3ca7baa272609fc8a4b304fb56b52bd98c8a85a504dd2f4ab0fab298b777ffd",
+      "repository": "jiying2007/kws-data",
+      "scientific_execution_authorized": false,
+      "status": "SOURCE_STOP_EMPTY_NATIVE_TRANSCRIPT",
+      "valid_native_payloads": 488
+    },
+    "immutable_reference_files": {
+      "automation/english_v6_b14_decision.py": {
+        "bytes": 3053,
+        "sha256": "6aa5f999598e47b41eb0a946acd82fdc5b47d30aea8990871c1c1a01065e4023"
+      },
+      "automation/english_v6_b18_asr_adapter.py": {
+        "bytes": 18369,
+        "sha256": "5f1070c1443742a69953c8376c4f044471224a535bf9ee4bed89ce007f2efef4"
+      },
+      "automation/english_v6_b24r1_evaluation_design.json": {
+        "bytes": 3650,
+        "sha256": "79300b64e5870272ebeb54cc4364ee07b7e01518ad1b95752cc3a8ec2938d3a4"
+      },
+      "automation/english_v6_b24r1_panels/assessment.json": {
+        "bytes": 84419,
+        "sha256": "e783c982f66ed35f903680772842ca8068aad6fb18221e22b9512cd819efa075"
+      },
+      "automation/english_v6_b26_natural_weight_design.json": {
+        "bytes": 2132,
+        "sha256": "da6853da24ce47ca685aa8deb2132fc03045bdab80a8f4a5693221f28c41c97b"
+      },
+      "automation/english_v6_b26_opening.json": {
+        "bytes": 410,
+        "sha256": "8310131a92f15783d312058241db780ad3da4e44778f2f0599e2e6d0e75988b8"
+      },
+      "research/english_v6_b26_preparation_20261125/FROZEN_TRAIN_ONLY_PROPOSAL.json": {
+        "bytes": 11354,
+        "sha256": "4f2df013204098f1014e366def6e8b0b6b983fcaba73805db1204a415f116b8c"
+      }
+    },
+    "new_source_native_or_KWS_evidence_created": false,
+    "nonempty_observation_or_KWS_results_used_to_choose_rule": false,
+    "observed_empty_shape_scope": "The two motivating successful empty returns are reported as a single LF. Zero-byte and other explicit-White_Space-only cases below are prospective classification choices, not additional observed or empirically validated returns.",
+    "original_STOP_evidence_bound_at_utc": "2026-11-25T03:24:56.914545+00:00",
+    "proposal_is_post_SOURCE_failure": true,
+    "retroactive_preregistration_claimed": false,
+    "this_proposal_authenticates_original_failure": false
+  },
+  "exclusions_before_any_future_selection": {
+    "all_B24R1_120_originals_including_failed_or_unobserved_rows": true,
+    "all_B24R1_72_people_including_36_unopened_replication_people": true,
+    "all_earlier_conservative_population_exclusions_retained": true,
+    "all_prior_exposed_canonical_people_in_both_source_types": true,
+    "all_prior_original_PCMs_and_source_groups": true,
+    "all_prior_reserved_people_even_if_never_called": true,
+    "fresh_people_selected_in_this_proposal": 0,
+    "metadata_only_deterministic_selection_once_before_new_audio_or_KWS": true,
+    "no_reuse_of_any_existing_reserve": true
+  },
+  "execution_authority": {
+    "engineering_authorized": false,
+    "observer_execution_authorized": false,
+    "optimizer_authorized": false,
+    "people_selection_authorized": false,
+    "primary_kws_authorized": false,
+    "product_release_authorized": false,
+    "promotion_authorized": false,
+    "registration_accepted": false,
+    "remote_mutation_authorized": false,
+    "replication_opening_authorized": false,
+    "source_generation_authorized": false
+  },
+  "fixed_execution_plan_if_separately_approved": {
+    "all_remaining_unknown_or_unstarted_slots_keep_panel_closed": "Any unknown or unstarted required slot among the predeclared 5*N keeps the panel closed; the 120-N pre-observer rejects were never planned calls.",
+    "allowed_completed_slot_states": [
+      "VALID_NONEMPTY",
+      "INVALID_EMPTY_PROVEN"
+    ],
+    "automatic_next_panel_after_failure": false,
+    "continuation_budget_from_previous_experiments": 0,
+    "exactly_one_attempt_for_each_planned_slot_unless_fatal_stop": true,
+    "fatal_condition_terminal_even_if_other_jobs_have_already_consumed_calls": true,
+    "finish_other_preplanned_calls_even_for_quarantined_originals": true,
+    "full_completed_panel_requires_all_5N_distinct_attempts_and_returns": true,
+    "future_activation": null,
+    "future_assessment_sha256": null,
+    "future_experiment_id": null,
+    "future_roster": null,
+    "maximum_native_calls_across_primary_and_conditionally_opened_replication": 1200,
+    "maximum_native_calls_per_panel": 600,
+    "maximum_native_calls_per_provider_per_panel": 120,
+    "maximum_new_assessments": 1,
+    "natural_originals_per_panel": 24,
+    "no_extra_calls_to_fill_600_when_N_is_less_than_120": true,
+    "observer_eligible_originals": "N = exactly the unchanged source owner's 96 synthetic plus pre-observer-eligible natural originals; 96 <= N <= 120, frozen before any observer.",
+    "originals_per_panel": 120,
+    "panels": [
+      "primary",
+      "sealed_replication"
+    ],
+    "planned_native_call_slots_per_panel": "5*N, fixed before any native observation, at most 600",
+    "pre_observer_rejected_natural_originals": "All 120 exposure identities remain retained. The 120-N natural originals rejected by the existing pre-observer rule receive no native calls, no replacements and no empty-return classification.",
+    "providers": [
+      "qwen",
+      "whisper",
+      "parakeet",
+      "xlsr",
+      "lv60"
+    ],
+    "replication_opener": "Only complete authenticated numerical PASS of this new primary; use the prospectively frozen untouched replica with identical weights and this same prospective policy.",
+    "retain_all_concurrent_or_inflight_returns_and_true_consumption": true,
+    "retries_rescues_replacements_or_extra_canaries": 0,
+    "source_minima_shortfall_is_terminal": true,
+    "source_pre_observer_eligibility_unchanged": true,
+    "stop_early_when_minima_met": false,
+    "synthetic_originals_per_panel": 96
+  },
+  "future_implementation_prerequisites": [
+    "Explicit user decision accepts this precise prospective orchestration change; broad continuation alone is not recorded as that approval.",
+    "Complete original B24 and B24R1 failure evidence is independently authenticated and remains terminal.",
+    "A separate new versioned proposal/registration binds only this approved rule, the exact unchanged scientific dependencies, all complete exclusions and one deterministic untouched primary/replica assessment.",
+    "A narrow production wrapper and independent saved-byte readback are reviewed with corrupt/missing/nonempty/fatal and whole-original quarantine counterexamples before any scientific call.",
+    "Exact new producer, budget, immutable assessment, one-shot consumed marker and reviewed activation are bound; this proposal creates none of those bindings."
+  ],
+  "native_empty_boundary": {
+    "all_raw_bytes_and_original_envelopes_hash_verified": true,
+    "applicable_providers": [
+      "qwen",
+      "whisper",
+      "parakeet"
+    ],
+    "attempt": 1,
+    "complete_original_input_identity_required": true,
+    "empty_predicate": "Original selected native text has zero codepoints or every codepoint is in the frozen explicit White_Space set, after successful strict decoding and the original length/control checks.",
+    "invalid_empty_receipt_state": "INVALID_EMPTY_PROVEN",
+    "lexical_case_punctuation_or_unicode_compatibility_edits_allowed": false,
+    "maximum_raw_decoded_codepoints_before_normalization": 4096,
+    "missing_raw_file_is_not_empty_return": true,
+    "native_exception": null,
+    "native_return_observed": true,
+    "parakeet_additional_proof": [
+      "Original fixed command, model/runtime identity, environment, complete input, STARTED and RETURNED receipts agree.",
+      "Process actually started and returned exit code 0; no timeout, exception or unknown consumption.",
+      "Complete native stdout and stderr are preserved without transforms; the exact successful-return evidence is independently reopened."
+    ],
+    "payload_valid": false,
+    "phone_provider_rule": "XLSR/LV60 retain the complete finite nonempty native logits matrix, exact vocabulary, shape, frame coverage and original parser. Empty greedy token sequences are not empty native payloads. Missing, zero-byte, malformed or nonfinite matrices remain fatal.",
+    "qwen_additional_proof": "Original native envelope is a list of exactly one native result whose text field is a string; preserve the original envelope and its exact UTF-8 text. An empty list, missing field or non-string value is fatal.",
+    "raw_return_saved_before_validation": true,
+    "raw_text_encoding": "UTF-8 strict",
+    "source_admission_eligible": false,
+    "target_hints_or_prompt_changes_allowed": false,
+    "text_or_log_line_extraction_allowed": false,
+    "timed_out": false,
+    "vote": null,
+    "whisper_additional_proof": "Original native envelope is a dict with a present string text field; preserve the original envelope and its exact UTF-8 text. A missing field, None or non-string value is fatal.",
+    "white_space_codepoints": [
+      "U+0009",
+      "U+000A",
+      "U+000B",
+      "U+000C",
+      "U+000D",
+      "U+0020",
+      "U+0085",
+      "U+00A0",
+      "U+1680",
+      "U+2000",
+      "U+2001",
+      "U+2002",
+      "U+2003",
+      "U+2004",
+      "U+2005",
+      "U+2006",
+      "U+2007",
+      "U+2008",
+      "U+2009",
+      "U+200A",
+      "U+2028",
+      "U+2029",
+      "U+202F",
+      "U+205F",
+      "U+3000"
+    ]
+  },
+  "prepared_at_utc": "2026-11-25T03:09:33.236409+00:00",
+  "proposal_id": "FUTURE_SOURCE_EMPTY_QUARANTINE_20261125",
+  "protected_existing_state": {
+    "B24R1_SOURCE_STOP_remains_terminal": true,
+    "B24_SOURCE_STOP_remains_terminal": true,
+    "B26_opening_unchanged": {
+      "actual_primary_evaluator_sha256": null,
+      "actual_primary_producer_manifest_sha256": null,
+      "baseline_challenger_pt_sha256": "f6fce146324cab9286814bab26a594ef67cca58155fa2d2fb5f7fd9370992bb4",
+      "condition": "only_after_actual_complete_B24R1_primary_NO_PROMOTION",
+      "enabled": false,
+      "failure_adapter": null,
+      "quality_lock": null,
+      "schema": "english-v6-b26-after-original-b24r1-no-promotion-v1"
+    },
+    "automatic_R2_allowed": false,
+    "future_other_panel_result_satisfies_B26_opening": false,
+    "new_training_to_evade_SOURCE_STOP_allowed": false,
+    "old_B25_condition_unchanged": true,
+    "old_calls_resumed_or_retried": false,
+    "old_raw_returns_and_failed_records_preserved": true,
+    "old_reserves_reclaimed": false,
+    "old_source_gate_recomputed_under_new_rule": false,
+    "repeat_panel_sampling_loop_allowed": false
+  },
+  "purpose": "Present one material prospective SOURCE-policy choice for explicit user decision; do not reinterpret or resume any consumed experiment.",
+  "quarantine_rule": {
+    "all_five_votes_for_this_original_excluded": true,
+    "applies_to_all_cohorts": [
+      "synthetic",
+      "natural"
+    ],
+    "applies_to_both_requested_classes": [
+      0,
+      2
+    ],
+    "kws_forwards_allowed": 0,
+    "later_fatal_return_on_quarantined_row_still_stops_panel": true,
+    "observed_class": null,
+    "other_nonempty_votes_cannot_rescue_row": true,
+    "other_originals_of_same_person_use_original_individual_rules": true,
+    "paired_voice_families_recomputed_only_from_unchanged_qualified_rows": true,
+    "reason": "INVALID_EMPTY_NATIVE_RETURN_QUARANTINED",
+    "row_relabeling_resynthesis_padding_cropping_replacement_or_retry_allowed": false,
+    "tier": "unknown",
+    "training_allowed": false,
+    "unit": "One immutable original ID and PCM, not a selected provider response and not an entire person."
+  },
+  "return_dispositions": [
+    {
+      "condition": "Every one of the five original native payloads is valid; ASR text is nonempty and phone tensors are complete finite nonempty matrices.",
+      "panel_action": "Continue the fixed plan; eligibility alone does not assign a class or pass a source minimum.",
+      "row_status": "ELIGIBLE_FOR_UNCHANGED_ADMISSION"
+    },
+    {
+      "condition": "At least one ASR return satisfies every exact successful-empty proof requirement, and no fatal condition exists.",
+      "panel_action": "Keep the entire original out of all admission and KWS; continue every remaining preplanned call once.",
+      "row_status": "QUARANTINED_INVALID_EMPTY"
+    },
+    {
+      "condition": "A nonempty return fails its original parser, envelope, Unicode, shape, identity, hash, coverage or numeric validation.",
+      "panel_action": "SOURCE_STOP; no admitted subset can rescue this panel.",
+      "row_status": "FATAL"
+    },
+    {
+      "condition": "Timeout, exception, nonzero process exit, missing/partial raw data, unknown consumption, model initialization failure, duplicate or unplanned call, or incomplete required ledger.",
+      "panel_action": "SOURCE_STOP; no replay, replacement, resume, inference of empty, or KWS opening.",
+      "row_status": "FATAL_OR_INCOMPLETE"
+    }
+  ],
+  "schema": "future-source-empty-quarantine-amendment-proposal-v1",
+  "scientific_risks_and_limits": [
+    {
+      "consequence": "Quarantining may remove hard positives or alter the negative population; absence of KWS peeking does not make this missingness random.",
+      "mitigation": "Symmetric whole-original quarantine, fixed preplanned calls and complete stratified attrition reporting make selection visible; they do not remove the bias.",
+      "risk": "Selection depends on observer success, which can correlate with accent, speaker, duration, rare pronunciation or acoustic difficulty."
+    },
+    {
+      "consequence": "The existing floors sum to 48 qualified originals (12 synthetic positive, 24 synthetic ordinary, 12 natural), so in a compatible panel up to 72 of 120 originals could be excluded while numerical minima still hold. The existing eight paired families/eight natural readers remain additional requirements.",
+      "mitigation": "Disclose the actual full-denominator coverage. No new attrition threshold, post-result cutoff, or statistical correction is silently introduced.",
+      "risk": "Fixed source minima are coverage floors, not a bound on all missing data."
+    },
+    {
+      "consequence": "This is an explicitly prospective protocol amendment motivated by failures, not an independent confirmation of the prior whole-panel protocol.",
+      "mitigation": "Preserve old failures; require explicit approval and a fresh separately frozen primary plus sealed replica; prohibit repeated panel shopping or claims of retroactive success.",
+      "risk": "A more permissive orchestration rule is chosen after two SOURCE stops."
+    },
+    {
+      "consequence": "Misclassifying missing data, a timeout or corrupt envelope as a successful empty would hide execution failure.",
+      "mitigation": "Authenticate the complete native return and replay the exact unchanged whitespace-only predicate; all uncertainty remains whole-panel STOP.",
+      "risk": "Provider evidence can be malformed despite text that looks empty."
+    },
+    {
+      "consequence": "A future numerical PASS is conditional on the fixed five-observer-admissible subset and cannot by itself establish field FRR, FAR/hour, latency or SSC305 deployment readiness.",
+      "mitigation": "Keep separate sealed replication, engineering, physical and field requirements; do not train on or infer outcomes for quarantined originals.",
+      "risk": "Surviving source rows are not the deployment population."
+    }
+  ],
+  "single_policy_change": {
+    "before": "Every missing, empty or invalid native payload terminates the entire panel.",
+    "claim_original_whole_panel_failure_contract_unchanged": false,
+    "empty_return_becomes_valid": false,
+    "empty_return_has_positive_or_negative_vote": false,
+    "new_versioned_orchestration_contract_required_if_approved": true,
+    "orchestration_and_ledger_completion_contract_materially_changes": true,
+    "original_parser_validity_and_numeric_admission_functions_unchanged": true,
+    "proposed_after": "Only a proved successful native empty text return quarantines that whole original; all other malformed, failed, missing or uncertain returns still terminate the panel."
+  },
+  "status": "PROPOSAL_ONLY_NOT_APPROVED_NOT_REGISTERED_NOT_ACTIVATED",
+  "unchanged_science": {
+    "all_qualified_rows_required_not_a_handpicked_subset": true,
+    "canonical_ipa": "/heɪ ˈmɛroʊ/",
+    "engineering_and_physical_field_requirements_unchanged": true,
+    "frozen_model_pt_sha256": {
+      "B0": "1ae8a2b20c8b6991f925dd4c626af2f36b308adee8733a3a7215818716f565d7",
+      "B9": "7dba86a3fcda6e5f05cb80b414dc372c70a5a03b3aee783f168441a4871e7655",
+      "challenger": "f6fce146324cab9286814bab26a594ef67cca58155fa2d2fb5f7fd9370992bb4",
+      "control": "784def9df6c2a8bfbecdb7ba2d7b70630337a1cda72561c05392327aa980297f"
+    },
+    "gains": [
+      "1.0",
+      "0.75",
+      "0.5"
+    ],
+    "historical_control_provenance": {
+      "evaluation_forwards": "The same four-model quality evaluation, including this fixed control, remains within the unchanged KWS budget.",
+      "inherited_quality_criteria_wording": "The copied B14 positive criterion contains the historical phrase same-run control. Here that numerical control role maps explicitly to the original B23 model above; no matching rerun or causal-isolation claim is made.",
+      "new_control_training_updates": 0,
+      "new_matched_control_generated": false,
+      "pt_sha256": "784def9df6c2a8bfbecdb7ba2d7b70630337a1cda72561c05392327aa980297f",
+      "role": "Exact immutable original B23 challenger, not a newly trained same-job matched control"
+    },
+    "keyword": "Hey Mero",
+    "maximum_KWS_forwards_per_panel": 1440,
+    "model_selection_or_threshold_search_allowed": false,
+    "native_numerical_decoding_and_original_nonempty_parsers_unchanged": true,
+    "new_optimizer_updates": 0,
+    "new_training_audio": 0,
+    "primary_and_sealed_replication_PASS_both_required": true,
+    "quality_assessment_sha256": "944f5df3c7bc3244977a8a33f7e1c393bffff9f7f5c32d2d8cc79e2628e265d9",
+    "quality_criteria": {
+      "minimum_improved_readers_vs_B9": 2,
+      "minimum_recovered_positive_families": 1,
+      "ordinary": "No added event on any qualified ordinary original/gain versus B9/control; natural false-event totals at each gain no higher than B0. Improve >=2 natural readers at original gain versus B9.",
+      "positive": "Preserve every B0 and same-run control positive original/gain hit; no extra duplicate events versus B9/control. Recover >=1 qualified positive family with B9 hit, control miss and challenger hit.",
+      "quality_assessment_sha256": "944f5df3c7bc3244977a8a33f7e1c393bffff9f7f5c32d2d8cc79e2628e265d9",
+      "quality_function_sha256": "6aa5f999598e47b41eb0a946acd82fdc5b47d30aea8990871c1c1a01065e4023",
+      "reject_if": "Any missing source, same-speaker ancestry, failed source minima, lost positive, extra positive event, added ordinary event or B0 natural regression. No threshold or coefficient sweep.",
+      "same_unchanged_quality_function": "automation/english_v6_b14_decision.py",
+      "source_minimums": {
+        "natural_qualified_originals": 12,
+        "natural_qualified_speakers": 8,
+        "synthetic_paired_voice_families": 8,
+        "synthetic_qualified_ordinary_originals": 24,
+        "synthetic_qualified_positive_originals": 12
+      }
+    },
+    "quality_function_sha256": "6aa5f999598e47b41eb0a946acd82fdc5b47d30aea8990871c1c1a01065e4023",
+    "source_Piper_calls_per_panel": 96,
+    "source_format": {
+      "no_cropping": true,
+      "no_padding": true,
+      "no_third_rate_or_retry": true,
+      "ordinary_length_scales": {
+        "question": 1.0,
+        "request": 1.08
+      },
+      "positive_length_scales": [
+        1.4,
+        1.8
+      ],
+      "whole_originals_only": true
+    },
+    "source_gate": {
+      "natural_originals": 12,
+      "natural_speakers": 8,
+      "synthetic_ordinary": 24,
+      "synthetic_paired": 8,
+      "synthetic_positive": 12
+    },
+    "source_prompts_models_runtime_versions_and_unmodified_original_inputs_unchanged": true,
+    "target": {
+      "field_far_per_hour_max": 0.1,
+      "field_frr_max": 0.05,
+      "word_end_to_callback_p95_ms_max": 500
+    },
+    "whole_natural_original_decodes_per_panel": 24
+  },
+  "validation_scope": {
+    "KWS_forwards": 0,
+    "fixtures": "Invented standard-library admission-invariant examples only; not a production observer, actual failure authenticator, native forward or model test.",
+    "native_calls": 0,
+    "optimizer_updates": 0,
+    "original_audio_read": false,
+    "people_selected": 0,
+    "production_observer_code_modified": false
+  }
+}
