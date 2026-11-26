@@ -308,7 +308,7 @@ def catalog_registration():
     execution = value['execution']
     need(set(execution) == {'run_id', 'run_head', 'run_branch', 'run_attempt', 'prepared_parent'}
          and re.fullmatch('[1-9][0-9]*', execution['run_id']) is not None and execution['run_attempt'] == 1
-         and execution['run_branch'] == 'refs/heads/research/en-v6-train360-metadata-once-20261125'
+         and execution['run_branch'] == 'refs/heads/research/en-v6-train360-metadata-once-20261126'
          and all(re.fullmatch('[0-9a-f]{40}', execution[k]) for k in ('run_head', 'prepared_parent'))
          and execution['run_head'] != execution['prepared_parent'], 'one actually registered metadata run')
     need(set(value['files']) == set(value['transport']) == set(CATALOG_FILES), 'complete seven original catalog files')
