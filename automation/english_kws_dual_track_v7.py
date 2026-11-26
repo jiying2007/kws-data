@@ -110,6 +110,62 @@ def load_source_plan() -> dict:
     return json.loads(SOURCE_PLAN.read_bytes(), object_pairs_hook=_unique_pairs)
 
 
+def validate_source_map_evidence(value: dict, plan: dict) -> dict:
+    import hashlib
+    evidence = value["source_map_evidence"]
+    expected_ids = {
+        "496": "p4290", "497": "p2999", "498": "p2427", "499": "p637",
+        "500": "p2229", "501": "p1874", "502": "p3446", "503": "p9023",
+        "504": "p3114", "505": "p6235", "506": "p4860", "507": "p4519",
+    }
+    expected_exclusions = list(range(58)) + list(range(400, 496))
+    need(evidence["schema"] == "english-kws-dual-track-v7-source-map-evidence-lock-v1"
+         and evidence["status"] == "PASS_NEW_SOURCE_IDENTITIES_AUTHENTICATED",
+         "source-map evidence schema/status")
+    run = evidence["workflow"]
+    need(run == {
+        "run_id": 45840830422, "job_id": 139983043103,
+        "branch": "research/english-kws-dual-track-v7-20261126",
+        "head_sha": "ca3dfe8c7fed8803d2650f416d63a6146ca82a9c", "attempt": 1,
+    }, "exact original one-shot source-map workflow identity")
+    artifact = evidence["artifact"]
+    need(artifact == {
+        "artifact_id": 15127752986,
+        "name": "english-kws-v7-source-map-preflight-45840830422",
+        "zip_bytes": 1325,
+        "zip_sha256": "ee87db9d7469663d6d1a9820900dcadcc65d1cbee8faa4a704815eaeb625bbf2",
+        "member_path": "v7-source-map-preflight.json",
+        "member_bytes": 3937,
+        "member_sha256": "4e0e4d5cc1ab2873fb9ddcacd0f3b55935a856851588b94a4445abc57ff2f93c",
+    }, "exact original preflight artifact identity")
+    source_plan_raw = SOURCE_PLAN.read_bytes()
+    need(evidence["source_plan_sha256"] == hashlib.sha256(source_plan_raw).hexdigest()
+         == "baad365440a789db351aa6277214a631feae0383ef5550664bcddf118fd94c31",
+         "same frozen source-plan bytes as authenticated preflight")
+    config = evidence["config"]
+    need(config == {
+        "url": plan["source_map_preflight"]["config_url"],
+        "bytes": 20163,
+        "md5": "cb1564bb779f3b1f87e2de778adeb669",
+        "sha256": "2efdc6d7f954588b8180132cbd9b8001933fdd00932c92bc92fd0d2028a9eb3d",
+        "speaker_count": 904,
+    }, "exact immutable 904-speaker config identity")
+    need(evidence["selected_speaker_ids"] == expected_ids
+         and len(set(expected_ids.values())) == 12
+         and [g["speaker_index"] for g in evidence["source_groups"]] == list(range(496, 508))
+         and evidence["source_groups"] == plan["source_selection"]["roles"],
+         "all 12 selected speaker IDs and frozen source roles")
+    need(evidence["historical_index_exclusions"] == expected_exclusions
+         and evidence["historical_speaker_id_exclusion_count"] == 194,
+         "exact historical index and speaker-ID exclusion audit")
+    need(evidence["no_audio_or_model_execution"] == {
+        "audio_downloaded": False, "model_weights_downloaded": False, "locked_test_opened": False,
+        "new_tts_calls": 0, "new_asr_calls": 0, "new_phone_calls": 0, "new_kws_forwards": 0,
+        "training_allowed": False, "retry_count": 0,
+    }, "metadata-only preflight; no source or scientific execution")
+    return evidence
+
+
 def validate(value: dict) -> dict:
     need(type(value) is dict and value.get("schema") == "english-kws-dual-track-v7-registration-v1", "schema")
     need(value.get("version") == "V7.0" and value.get("status") == "INERT_DESIGN_ONLY", "version/status")
@@ -167,7 +223,8 @@ def validate(value: dict) -> dict:
     need(value["promotion"]["allowed"] is False
          and value["promotion"]["hard_gates_before_comparison"] is True,
          "promotion remains closed")
-    validate_source_plan(load_source_plan())
+    plan = validate_source_plan(load_source_plan())
+    validate_source_map_evidence(value, plan)
     return value
 
 
