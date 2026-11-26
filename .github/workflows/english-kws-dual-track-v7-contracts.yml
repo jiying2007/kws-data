@@ -1,11 +1,13 @@
-name: English KWS V7 dual-track inert contracts
+name: English KWS V7 dual-track inert contracts and source-map preflight
 'on':
   push:
     branches:
       - research/english-kws-dual-track-v7-20261126
     paths:
       - automation/english_kws_dual_track_v7_registration.json
+      - automation/english_kws_dual_track_v7_source_plan.json
       - automation/english_kws_dual_track_v7.py
+      - automation/english_kws_dual_track_v7_source_map_preflight.py
       - automation/test_english_kws_dual_track_v7.py
       - .github/workflows/english-kws-dual-track-v7-contracts.yml
 permissions:
@@ -25,7 +27,28 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.12'
-      - name: Validate inert dual-track registration without audio or model access
+      - name: Validate inert dual-track registration and paired source plan
         run: |
           python -SIB automation/english_kws_dual_track_v7.py
           python -SIB automation/test_english_kws_dual_track_v7.py -v
+  source-map-preflight:
+    needs: inert-contracts
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Authenticate only the pinned 904-speaker map and historical speaker exclusions
+        run: |
+          python -SIB automation/english_kws_dual_track_v7_source_map_preflight.py "$RUNNER_TEMP/v7-source-map-preflight.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-kws-v7-source-map-preflight-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-source-map-preflight.json
+          if-no-files-found: error
+          retention-days: 90
