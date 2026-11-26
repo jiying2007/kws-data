@@ -1,0 +1,341 @@
+{
+  "schema": "english-kws-dual-track-v7-paired-source-plan-v1",
+  "version": "V7.0",
+  "status": "INERT_AWAITING_PINNED_904_SPEAKER_MAP_AUDIT",
+  "execution_enabled": false,
+  "source_model": {
+    "repository": "rhasspy/piper-voices",
+    "revision": "de3dcfdf1912bb49726dc4aa11c26017ce2ac62a",
+    "model_path": "en/en_US/libritts/high/en_US-libritts-high.onnx",
+    "model_bytes": 136673811,
+    "model_sha256": "9127a559e11603f10b366d1a20ac7426826081dbc521de4c2420c57728d73f0f",
+    "config_path": "en/en_US/libritts/high/en_US-libritts-high.onnx.json",
+    "config_bytes": 20163,
+    "config_md5": "cb1564bb779f3b1f87e2de778adeb669",
+    "piper_tts_version": "1.8.0",
+    "num_speakers": 904,
+    "native_sample_rate": 22050,
+    "output_sample_rate": 16000,
+    "dataset": "LibriTTS train-clean-360",
+    "dataset_license": "CC-BY-4.0",
+    "engine_license": "GPL-3.0",
+    "voice_repository_license": "MIT"
+  },
+  "source_selection": {
+    "indices": [
+      496,
+      497,
+      498,
+      499,
+      500,
+      501,
+      502,
+      503,
+      504,
+      505,
+      506,
+      507
+    ],
+    "source_group_ids": [
+      "piper-libritts-index-496",
+      "piper-libritts-index-497",
+      "piper-libritts-index-498",
+      "piper-libritts-index-499",
+      "piper-libritts-index-500",
+      "piper-libritts-index-501",
+      "piper-libritts-index-502",
+      "piper-libritts-index-503",
+      "piper-libritts-index-504",
+      "piper-libritts-index-505",
+      "piper-libritts-index-506",
+      "piper-libritts-index-507"
+    ],
+    "roles": [
+      {
+        "speaker_index": 496,
+        "role": "train",
+        "source_group_id": "piper-libritts-index-496"
+      },
+      {
+        "speaker_index": 497,
+        "role": "train",
+        "source_group_id": "piper-libritts-index-497"
+      },
+      {
+        "speaker_index": 498,
+        "role": "train",
+        "source_group_id": "piper-libritts-index-498"
+      },
+      {
+        "speaker_index": 499,
+        "role": "train",
+        "source_group_id": "piper-libritts-index-499"
+      },
+      {
+        "speaker_index": 500,
+        "role": "train",
+        "source_group_id": "piper-libritts-index-500"
+      },
+      {
+        "speaker_index": 501,
+        "role": "train",
+        "source_group_id": "piper-libritts-index-501"
+      },
+      {
+        "speaker_index": 502,
+        "role": "development",
+        "source_group_id": "piper-libritts-index-502"
+      },
+      {
+        "speaker_index": 503,
+        "role": "development",
+        "source_group_id": "piper-libritts-index-503"
+      },
+      {
+        "speaker_index": 504,
+        "role": "calibration",
+        "source_group_id": "piper-libritts-index-504"
+      },
+      {
+        "speaker_index": 505,
+        "role": "calibration",
+        "source_group_id": "piper-libritts-index-505"
+      },
+      {
+        "speaker_index": 506,
+        "role": "locked-test",
+        "source_group_id": "piper-libritts-index-506"
+      },
+      {
+        "speaker_index": 507,
+        "role": "locked-test",
+        "source_group_id": "piper-libritts-index-507"
+      }
+    ],
+    "selection_basis": "first explicitly frozen candidate range after prior Piper/LibriTTS exposure through index 495; must pass exact 904-speaker map and original-speaker-ID exclusion audit before TTS",
+    "no_fallback_or_replacement": true,
+    "requires_exact_source_map_preflight": true,
+    "prior_index_exclusions": [
+      "0..57",
+      "400..495",
+      "all historical NEW_VOICES indices"
+    ],
+    "prior_original_speaker_id_exclusions": [
+      "OLD_LIBRI_IDS",
+      "OLD_PIPER_IDS",
+      "all historical NEW_VOICES speaker IDs",
+      "all mapped speaker IDs for prior index exclusions"
+    ]
+  },
+  "cells": [
+    {
+      "id": "vosen-slow",
+      "text": "Hey Vosen.",
+      "raw_ipa": "heɪ vˈoʊsən",
+      "kind": "target",
+      "length_scale": 1.08,
+      "class_by_candidate": {
+        "VOSEN": 1,
+        "MERO": 0
+      },
+      "negative_role_for": "MERO"
+    },
+    {
+      "id": "vosen-normal",
+      "text": "Hey Vosen.",
+      "raw_ipa": "heɪ vˈoʊsən",
+      "kind": "target",
+      "length_scale": 1,
+      "class_by_candidate": {
+        "VOSEN": 1,
+        "MERO": 0
+      },
+      "negative_role_for": "MERO"
+    },
+    {
+      "id": "vosen-fast",
+      "text": "Hey Vosen.",
+      "raw_ipa": "heɪ vˈoʊsən",
+      "kind": "target",
+      "length_scale": 0.92,
+      "class_by_candidate": {
+        "VOSEN": 1,
+        "MERO": 0
+      },
+      "negative_role_for": "MERO"
+    },
+    {
+      "id": "mero-slow",
+      "text": "Hey Mero.",
+      "raw_ipa": "heɪ mˈɛɹoʊ",
+      "kind": "target",
+      "length_scale": 1.08,
+      "class_by_candidate": {
+        "VOSEN": 0,
+        "MERO": 1
+      },
+      "negative_role_for": "VOSEN"
+    },
+    {
+      "id": "mero-normal",
+      "text": "Hey Mero.",
+      "raw_ipa": "heɪ mˈɛɹoʊ",
+      "kind": "target",
+      "length_scale": 1,
+      "class_by_candidate": {
+        "VOSEN": 0,
+        "MERO": 1
+      },
+      "negative_role_for": "VOSEN"
+    },
+    {
+      "id": "mero-fast",
+      "text": "Hey Mero.",
+      "raw_ipa": "heɪ mˈɛɹoʊ",
+      "kind": "target",
+      "length_scale": 0.92,
+      "class_by_candidate": {
+        "VOSEN": 0,
+        "MERO": 1
+      },
+      "negative_role_for": "VOSEN"
+    },
+    {
+      "id": "bosen-s",
+      "text": "Hey Bosen.",
+      "raw_ipa": "heɪ bˈoʊsən",
+      "kind": "contrast-negative",
+      "length_scale": 1,
+      "class_by_candidate": {
+        "VOSEN": 0,
+        "MERO": 0
+      }
+    },
+    {
+      "id": "bosen-z",
+      "text": "Hey Bosen.",
+      "raw_ipa": "heɪ bˈoʊzən",
+      "kind": "contrast-negative",
+      "length_scale": 1,
+      "class_by_candidate": {
+        "VOSEN": 0,
+        "MERO": 0
+      }
+    },
+    {
+      "id": "memo",
+      "text": "Hey Memo.",
+      "raw_ipa": "heɪ mˈɛmoʊ",
+      "kind": "contrast-negative",
+      "length_scale": 1,
+      "class_by_candidate": {
+        "VOSEN": 0,
+        "MERO": 0
+      }
+    },
+    {
+      "id": "nero",
+      "text": "Hey Nero.",
+      "raw_ipa": "heɪ nˈɛɹoʊ",
+      "kind": "contrast-negative",
+      "length_scale": 1,
+      "class_by_candidate": {
+        "VOSEN": 0,
+        "MERO": 0
+      }
+    },
+    {
+      "id": "hello",
+      "text": "Hello there.",
+      "raw_ipa": "həlˈoʊ ðɛɹ",
+      "kind": "ordinary-negative",
+      "length_scale": 1,
+      "class_by_candidate": {
+        "VOSEN": 0,
+        "MERO": 0
+      }
+    },
+    {
+      "id": "morning",
+      "text": "Good morning.",
+      "raw_ipa": "ɡʊd ˈmɔɹnɪŋ",
+      "kind": "ordinary-negative",
+      "length_scale": 1,
+      "class_by_candidate": {
+        "VOSEN": 0,
+        "MERO": 0
+      }
+    }
+  ],
+  "paired_candidate_policy": {
+    "matched_source_groups_across_tracks": true,
+    "same_original_pcm_sha256_referenced_in_both_candidate_manifests": true,
+    "candidate_relative_label_projection": true,
+    "same_phrase_is_positive_only_for_its_own_detector": true,
+    "other_brand_phrase_is_cross_trigger_negative": true,
+    "no_relabeling_within_a_candidate": true,
+    "model_parameters_optimizer_checkpoints_thresholds_and_reports_independent": true
+  },
+  "split": {
+    "train": 6,
+    "development": 2,
+    "calibration": 2,
+    "locked_test": 2
+  },
+  "budget": {
+    "tts_requests": 144,
+    "qwen_asr_requests": 144,
+    "whisper_requests": 144,
+    "parakeet_requests": 144,
+    "phoneme_observer_requests": 144,
+    "total_high_level_model_requests": 720,
+    "new_kws_model_forwards": 0,
+    "optimizer_updates": 0,
+    "retries": 0,
+    "automatic_expansion": false
+  },
+  "source_map_preflight": {
+    "script": "automation/english_kws_dual_track_v7_source_map_preflight.py",
+    "config_url": "https://huggingface.co/rhasspy/piper-voices/resolve/de3dcfdf1912bb49726dc4aa11c26017ce2ac62a/en/en_US/libritts/high/en_US-libritts-high.onnx.json",
+    "config_bytes": 20163,
+    "config_md5": "cb1564bb779f3b1f87e2de778adeb669",
+    "expected_num_speakers": 904,
+    "verify_exact_candidate_indices": true,
+    "verify_unique_source_speaker_ids": true,
+    "verify_no_historical_original_speaker_id_collision": true,
+    "downloads_model_weights": false,
+    "downloads_or_generates_audio": false,
+    "observer_calls": 0,
+    "kws_model_calls": 0
+  },
+  "audio_policy": {
+    "tts_only_not_human_recording": true,
+    "human_speaker_identity_claimed": false,
+    "full_original_wav_and_pcm_identity": true,
+    "no_crop_or_trimming": true,
+    "no_retry_or_replacement": true,
+    "empty_result_quarantines_whole_item": true,
+    "duplicate_pcm_quarantined": true,
+    "positive_geometry_max_samples": 28672,
+    "positive_minimum_complete_support_windows": 3,
+    "locked_test_audio_sealed_from_training_and_mining": true,
+    "source_group_role_frozen_before_tts": true
+  },
+  "admission_policy": {
+    "three_blind_asr_plus_independent_phone_observer": true,
+    "asr_agreement_is_not_human_gold": true,
+    "pronunciation_and_phoneme_review_required": true,
+    "no_failed_positive_relabelled_as_ordinary_negative": true,
+    "only_train_role_can_enter_optimizer": true,
+    "development_calibration_locked_roles_never_enter_optimizer": true,
+    "source_group_minimums_must_all_pass": true
+  },
+  "status_flags": {
+    "source_map_authenticated": false,
+    "audio_generated": false,
+    "observers_completed": false,
+    "data_admitted": false,
+    "training_allowed": false,
+    "promotion_allowed": false
+  }
+}
