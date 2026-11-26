@@ -77,9 +77,19 @@ def validate_source_plan(plan: dict) -> dict:
         "total_high_level_model_requests": 720, "new_kws_model_forwards": 0,
         "optimizer_updates": 0, "retries": 0, "automatic_expansion": False
     }, "fixed source-stage budget with no retry")
-    need(plan["source_map_preflight"]["requires_exact_candidate_indices"] is True
-         and plan["source_map_preflight"]["requires_unique_source_speaker_ids"] is True
-         and plan["source_selection"]["no_fallback_or_replacement"] is True,
+    preflight = plan["source_map_preflight"]
+    need(preflight["verify_exact_candidate_indices"] is True
+         and preflight["verify_unique_source_speaker_ids"] is True
+         and preflight["verify_no_historical_original_speaker_id_collision"] is True
+         and preflight["downloads_model_weights"] is False
+         and preflight["downloads_or_generates_audio"] is False
+         and preflight["observer_calls"] == 0 and preflight["kws_model_calls"] == 0
+         and preflight["config_bytes"] == model["config_bytes"]
+         and preflight["config_md5"] == model["config_md5"]
+         and preflight["expected_num_speakers"] == model["num_speakers"],
+         "exact source-map and no-model/no-audio preflight")
+    need(plan["source_selection"]["no_fallback_or_replacement"] is True
+         and plan["source_selection"]["requires_exact_source_map_preflight"] is True,
          "source map must pass before any TTS; no replacements")
     need(plan["audio_policy"]["tts_only_not_human_recording"] is True
          and plan["audio_policy"]["no_crop_or_trimming"] is True
