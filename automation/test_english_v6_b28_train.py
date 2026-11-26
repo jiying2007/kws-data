@@ -54,6 +54,20 @@ class ExecutionContracts(unittest.TestCase):
         self.assertEqual(value['fit_adapter_sha256'], train.objective_fit.contract()['fit_adapter_sha256'])
         self.assertTrue({'numpy', 'torch', 'onnx', 'onnxruntime'}.isdisjoint(sys.modules))
 
+    def test_authenticated_original_b27_no_promotion_opens_preparation_only(self):
+        value = train.opening()
+        self.assertIs(value["enabled"], True)
+        self.assertEqual(value["original_B27_challenger_pt_sha256"], train.B27_PT)
+        self.assertEqual(value["original_training_binding_sha256"], train.B27_PROOF_SHA)
+        self.assertEqual(value["quality_lock"]["result"]["run_id"], 45627775991)
+        self.assertEqual(value["quality_lock"]["result"]["run_head"], "dce5b169163039091afcc5ab62beed3211d37552")
+        self.assertEqual(len(value["original_primary_files"]), 18)
+        self.assertEqual(set(value["original_primary_files"]), set(value["original_primary_transport"]))
+        self.assertEqual(value["original_failure_report_sha256"], "29c443c060cd80caaba29d4f59e63f976ad6c75f68bf82ae55f403f99c41ba4b")
+        self.assertEqual(value["quality_import_adapter_report_sha256"], "4bd55367437ffa2680622799b629abe63a5a58492dce1378405fe8a432345585")
+        with self.assertRaisesRegex(ValueError, "unbound"):
+            train.design()
+
     def test_unbound_design_fails_before_any_guard_or_network(self):
         with patch.object(train, 'DESIGN_SHA', None), patch.object(train, 'gh', side_effect=AssertionError('network')):
             with self.assertRaisesRegex(ValueError, 'unbound'):
