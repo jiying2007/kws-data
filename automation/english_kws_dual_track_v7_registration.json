@@ -1,0 +1,121 @@
+{
+  "schema": "english-kws-dual-track-v7-registration-v1",
+  "version": "V7.0",
+  "date": "2026-11-26",
+  "status": "INERT_DESIGN_ONLY",
+  "execution_enabled": false,
+  "shared_runtime": {
+    "frontend": "PCM16 -> FFT512/Hann400 -> 40 Mel",
+    "model_family": "streaming FSMN-CTC",
+    "runtime": "shared C11 runtime",
+    "model_parameters_shared": false,
+    "optimizer_state_shared": false,
+    "checkpoints_shared": false,
+    "thresholds_shared": false,
+    "evaluation_results_shared": false
+  },
+  "candidates": {
+    "VOSEN": {
+      "candidate_id": "hey-vosen-v7",
+      "phrase": "Hey Vosen",
+      "locale": "en-US",
+      "ipa": "/heɪ ˈvoʊ.sən/",
+      "role": "single-keyword detector",
+      "positive_registry": "v7/vosen/positive",
+      "negative_registry": "v7/vosen/negative",
+      "cross_trigger_negative": "Hey Mero",
+      "partition": {
+        "train": 6,
+        "development": 2,
+        "calibration": 2,
+        "locked_test": 2
+      },
+      "initializer_sha256": null,
+      "dataset_manifest_sha256": null,
+      "training_design_sha256": null,
+      "budget": {
+        "optimizer_updates": null,
+        "model_forwards": null,
+        "training_runs": 1
+      },
+      "model_sha256": null,
+      "primary_report_sha256": null,
+      "replication_report_sha256": null,
+      "engineering_report_sha256": null,
+      "promotion_allowed": false
+    },
+    "MERO": {
+      "candidate_id": "hey-mero-v7",
+      "phrase": "Hey Mero",
+      "locale": "en-US",
+      "ipa": "/heɪ ˈmɛroʊ/",
+      "role": "single-keyword detector",
+      "positive_registry": "v7/mero/positive",
+      "negative_registry": "v7/mero/negative",
+      "cross_trigger_negative": "Hey Vosen",
+      "partition": {
+        "train": 6,
+        "development": 2,
+        "calibration": 2,
+        "locked_test": 2
+      },
+      "initializer_sha256": null,
+      "dataset_manifest_sha256": null,
+      "training_design_sha256": null,
+      "budget": {
+        "optimizer_updates": null,
+        "model_forwards": null,
+        "training_runs": 1
+      },
+      "model_sha256": null,
+      "primary_report_sha256": null,
+      "replication_report_sha256": null,
+      "engineering_report_sha256": null,
+      "promotion_allowed": false
+    }
+  },
+  "shared_negative_pool_policy": {
+    "enabled_only_after_explicit_identity_review": true,
+    "preserve_original_source_identity": true,
+    "cross_trigger_phrases_are_mandatory_negatives": true,
+    "no_positive_relabeling": true,
+    "locked_test_never_used_for_training_or_mining": true
+  },
+  "admission": {
+    "bounded_multi_asr": true,
+    "independent_pronunciation_review": true,
+    "synthetic_and_human_sources_distinguished": true,
+    "empty_result_quarantines_whole_item": true,
+    "duplicate_audio_reused_not_regenerated": true,
+    "provenance_license_and_sha256_required": true
+  },
+  "gates": {
+    "G0": "specification_and_inert_registrations",
+    "G1": "license_exposure_and_source_capacity",
+    "G2": "two_frozen_6_2_2_2_dataset_manifests_and_candidate_budgets",
+    "G3": "independent_train_workflow_contracts",
+    "G4": "one_training_run_per_candidate",
+    "G5": "independent_train_readback_and_primary",
+    "G6": "same_candidate_sealed_replication",
+    "G7": "runtime_and_SSC305_engineering",
+    "G8": "release_and_rollback_acceptance"
+  },
+  "migration": {
+    "B28_immutable": true,
+    "B28_train360_run_id": 45804250909,
+    "B28_one_shot_retry_allowed": false,
+    "B28_metadata_can_qualify_audio": false,
+    "vosen_schwa16_historical_only": true
+  },
+  "promotion": {
+    "allowed": false,
+    "outcomes": [
+      "VOSEN_ONLY",
+      "MERO_ONLY",
+      "BOTH_INDEPENDENTLY_QUALIFIED",
+      "NO_PROMOTION"
+    ],
+    "hard_gates_before_comparison": true,
+    "numeric_thresholds": "must_bind_existing_approved_product_gates_before_locked_test"
+  }
+}
