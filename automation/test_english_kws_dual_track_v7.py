@@ -61,6 +61,22 @@ class V7RegistrationContracts(unittest.TestCase):
         self.assertEqual(preflight["config_bytes"], 20163)
         self.assertEqual(preflight["config_md5"], "cb1564bb779f3b1f87e2de778adeb669")
 
+    def test_authenticated_source_map_is_bound_to_exact_904_speaker_run(self):
+        evidence = self.value["source_map_evidence"]
+        self.assertEqual(evidence["workflow"]["run_id"], 45840830422)
+        self.assertEqual(evidence["artifact"]["artifact_id"], 15127752986)
+        self.assertEqual(evidence["config"]["speaker_count"], 904)
+        self.assertEqual(evidence["selected_speaker_ids"]["496"], "p4290")
+        self.assertEqual(evidence["selected_speaker_ids"]["507"], "p4519")
+        self.assertFalse(evidence["no_audio_or_model_execution"]["audio_downloaded"])
+        self.assertEqual(evidence["no_audio_or_model_execution"]["new_tts_calls"], 0)
+
+    def test_source_map_evidence_rejects_reused_speaker_id(self):
+        bad = copy.deepcopy(self.value)
+        bad["source_map_evidence"]["selected_speaker_ids"]["497"] = "p4290"
+        with self.assertRaises(ValueError):
+            v7.validate(bad)
+
     def test_source_map_contract_rejects_missing_historical_collision_check(self):
         bad = copy.deepcopy(self.plan)
         bad["source_map_preflight"]["verify_no_historical_original_speaker_id_collision"] = False
