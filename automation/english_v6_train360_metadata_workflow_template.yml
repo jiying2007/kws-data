@@ -2,23 +2,23 @@ name: English TRAIN360 one public metadata acquisition
 'on':
   push:
     branches:
-    - research/en-v6-train360-metadata-once-20261125
+    - research/en-v6-train360-metadata-once-20261126
     paths:
     - .github/workflows/english-v6-train360-metadata-once.yml
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: en-v6-train360-metadata-once-20261125
+  group: en-v6-train360-metadata-once-20261126
   cancel-in-progress: false
 env:
   PREPARED_PARENT: '__TRAIN360_METADATA_PREPARED_PARENT__'
-  PYTHONHASHSEED: '20261125'
+  PYTHONHASHSEED: '20261126'
 jobs:
   metadata:
-    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-train360-metadata-once-20261125' && github.run_attempt == 1 && github.event.before == '__TRAIN360_METADATA_PREPARED_PARENT__'
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-train360-metadata-once-20261126' && github.run_attempt == 1 && github.event.before == '__TRAIN360_METADATA_PREPARED_PARENT__'
     runs-on: ubuntu-24.04
-    timeout-minutes: 210
+    timeout-minutes: 330
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       with:
@@ -53,13 +53,13 @@ jobs:
         if-no-files-found: error
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
-        name: english-v6-train360-metadata-consumed-20261125
+        name: english-v6-train360-metadata-consumed-20261126
         path: ${{ runner.temp }}/train360-metadata/consumed/
         include-hidden-files: true
         retention-days: 90
         if-no-files-found: error
     - name: Stream one complete archive and retain authenticated metadata only
-      timeout-minutes: 190
+      timeout-minutes: 320
       env:
         GH_TOKEN: ${{ github.token }}
       run: |

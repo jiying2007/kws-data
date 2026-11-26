@@ -25,16 +25,16 @@ import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = "jiying2007/kws-data"
-BRANCH = "refs/heads/research/en-v6-train360-metadata-once-20261125"
+BRANCH = "refs/heads/research/en-v6-train360-metadata-once-20261126"
 WORKFLOW = ".github/workflows/english-v6-train360-metadata-once.yml"
 TEMPLATE = "automation/english_v6_train360_metadata_workflow_template.yml"
 TOKEN = "__TRAIN360_METADATA_PREPARED_PARENT__"
-MARKER = "english-v6-train360-metadata-consumed-20261125"
+MARKER = "english-v6-train360-metadata-consumed-20261126"
 REGISTRATION = "automation/english_v6_train360_metadata_registration.json"
 CENSUS = "automation/english_v6_b21_panels/SPEAKERS.TXT"
 DOCS = "research/librispeech_train360_metadata_20261125/"
 FROZEN = {
-    REGISTRATION: "bf973f4be99cfa73610d1d7da543a19517da661840a28d78b99f7bc3e7a6222a",
+    REGISTRATION: "19e0981435941bb0d8413bd2205c0e3dcd01ec76a1baaf6e7b2d7748eb641f81",
     CENSUS: "3350f093382f8baa1d589c9f5a5cee8ec3705e656f521d6eafbaa31a5fcd8f76",
     DOCS + "OFFICIAL_HEAD.json": "7a103bdc958b3aa67f37887469e81918fa2c7a114a39568326ecfd50984a373e",
     DOCS + "OFFICIAL_SOURCES.json": "27a7930a87f87a9a3b2a3cdf2a6abab87a2939d60d46ee39e19c8b58688a9bc8",
@@ -542,7 +542,7 @@ def collect(directory, prepared_parent):
     operational = dict(status="INCOMPLETE", compressed_bytes=0, expanded_tar_bytes=0,
                        opaque_flac_payload_bytes_hashed=0)
     def expired(signum, frame):
-        raise TimeoutError("metadata acquisition fixed 180-minute wall deadline")
+        raise TimeoutError(f"metadata acquisition configured {spec['transport']['maximum_elapsed_seconds'] // 60}-minute wall deadline")
     previous_alarm = signal.signal(signal.SIGALRM, expired)
     signal.setitimer(signal.ITIMER_REAL, spec["transport"]["maximum_elapsed_seconds"])
     try:

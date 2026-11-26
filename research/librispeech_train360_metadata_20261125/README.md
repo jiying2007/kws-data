@@ -46,7 +46,7 @@ small runner. The new standalone implementation uses only the Python standard
 library and never imports B21 source/model implementations.
 
 There is one fixed full HTTPS GET to
-`https://www.openslr.org/resources/12/train-clean-360.tar.gz`. The request uses
+`https://openslr.trmal.net/resources/12/train-clean-360.tar.gz`. The request uses
 identity encoding. Redirects, retry, resume, ranges, alternate mirrors, and
 fallback selection are prohibited. The HTTP status, final URL, and exact content
 length are checked before reading. SHA-256 and official MD5 include every byte
@@ -86,7 +86,7 @@ their size checks. A partial catalog is never labeled complete.
 |---|---:|
 | Complete archive GET | 1 |
 | Retry / resume / redirect / range / fallback | 0 |
-| Full transfer, decompression, parsing and hashing | 180 minutes |
+| Full transfer, decompression, parsing and hashing | 300 minutes |
 | Socket timeout | 60 seconds |
 | Expanded tar bytes, including every header/payload/padding byte | 40 GiB |
 | All tar member headers, including directories | 150,000 |
@@ -97,7 +97,7 @@ their size checks. A partial catalog is never labeled complete.
 | Combined artifact roles, including explicit ZIP reserve | 192 MiB |
 | Process address space | 1.5 GiB |
 | Minimum free disk before GET | 256 MiB |
-| Collection step / complete job | 190 / 210 minutes |
+| Collection step / complete job | 320 / 330 minutes |
 
 The stream does not materialize the 23 GB archive or any audio file. Only the
 bounded text and member index are accumulated and saved. The memory cap covers
@@ -106,7 +106,7 @@ reviewable limits, not claims that official pages provide exact expanded sizes
 or that a particular throughput has been measured. Exceeding a cap leaves this
 metadata acquisition incomplete; the code does not increase caps during a run.
 
-The 180-minute bound needs about 2.04 MiB/s of average compressed throughput,
+The 300-minute bound needs about 1.22 MiB/s of average compressed throughput,
 including processing time. Actual GitHub runner throughput has not been tested.
 `PROGRESS.jsonl` and final receipts preserve elapsed time, compressed and
 expanded bytes, and average throughput. A timeout or transport failure is a

@@ -50,7 +50,7 @@ DESIGN_PATH = 'automation/english_v6_b28_natural_event_design.json'
 OPENING_PATH = 'automation/english_v6_b28_opening.json'
 BINDING_PATH = 'automation/english_v6_b28_assessment_binding.json'
 COLLECTOR = 'automation/english_v6_train360_metadata.py'
-COLLECTOR_SHA = 'b32fef85c966254b08b034704664d4dd04c9139657ff5046513fcea8bd22853e'
+COLLECTOR_SHA = '727db0570adc4eedfa06e76fe60bb66a39dee09ab5d54c2fc4ded3e64321ade7'
 CATALOG_FILES = ('api/artifacts.json', 'api/commit.json', 'api/run.json', 'api/tree.json',
     'originals/consumed.zip', 'originals/metadata.zip', 'originals/producer.zip')
 CATALOG_MEMBERS = ('FULL_MEMBER_INDEX.json', 'FULL_METADATA_CATALOG.json', 'VALIDATION.json')
