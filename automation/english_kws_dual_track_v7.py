@@ -79,7 +79,7 @@ def validate_source_plan(plan: dict) -> dict:
     }, "fixed source-stage budget with no retry")
     need(plan["source_map_preflight"]["requires_exact_candidate_indices"] is True
          and plan["source_map_preflight"]["requires_unique_source_speaker_ids"] is True
-         and plan["source_map_preflight"]["no_fallback_or_replacement"] is True,
+         and plan["source_selection"]["no_fallback_or_replacement"] is True,
          "source map must pass before any TTS; no replacements")
     need(plan["audio_policy"]["tts_only_not_human_recording"] is True
          and plan["audio_policy"]["no_crop_or_trimming"] is True
