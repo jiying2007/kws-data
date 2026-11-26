@@ -1,0 +1,33 @@
+name: English B28 inert quality registration and complete-original binding contracts
+'on':
+  pull_request:
+    paths:
+    - automation/*b28*
+    - automation/english_v6_b28_panels/**
+    - .github/workflows/english-v6-b28-*-model-eval-once.yml
+    - .github/workflows/english-v6-b28-quality-contracts.yml
+permissions:
+  contents: read
+concurrency:
+  group: b28-quality-contracts-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: No-execution registration and wrong-original rejection fixtures
+      run: |
+        set -euo pipefail
+        for mode in '' -O -OO; do
+          python -SIB $mode automation/test_english_v6_b28_quality_execution.py -v
+          python -SIB $mode automation/test_bind_b28.py -v
+        done
+        python -SIB automation/english_v6_b28_primary_eval.py check
+        python -SIB automation/english_v6_b28_replication_eval.py check

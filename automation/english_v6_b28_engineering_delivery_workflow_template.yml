@@ -1,0 +1,75 @@
+name: B28 reviewed software package and zero-forward installation once
+on:
+  pull_request:
+    paths:
+      - automation/english_v6_b28_engineering_delivery_entry.py
+      - automation/english_v6_b28_engineering_delivery_inputs.json
+      - automation/english_v6_b28_engineering_delivery_workflow_template.yml
+      - automation/test_english_v6_b28_engineering_delivery_entry.py
+      - .github/workflows/english-v6-b28-engineering-delivery-once.yml
+  push:
+    branches: [research/en-v6-b28-engineering-delivery-once-20261125]
+    paths: [.github/workflows/english-v6-b28-engineering-delivery-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b28-reviewed-software-delivery-once
+  cancel-in-progress: false
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Closed-entry and exact workflow contracts without any candidate access
+        run: |
+          python -SIB automation/test_english_v6_b28_engineering_delivery_entry.py -v
+          python -SIB -O automation/test_english_v6_b28_engineering_delivery_entry.py -v
+          python -SIB -OO automation/test_english_v6_b28_engineering_delivery_entry.py -v
+          python -SIB automation/english_v6_b28_engineering_delivery_entry.py check
+  delivery:
+    needs: contracts
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b28-engineering-delivery-once-20261125' && github.run_attempt == 1 && github.event.before == '__B28_REVIEWED_DELIVERY_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      PREPARED_PARENT: '__B28_REVIEWED_DELIVERY_PARENT__'
+      PYTHONDONTWRITEBYTECODE: '1'
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {path: data, ref: '${{ github.sha }}', persist-credentials: false, fetch-depth: 2}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Read the exact previously reviewed pipeline selection commit
+        id: selected
+        working-directory: data
+        run: python -SIB automation/english_v6_b28_engineering_delivery_entry.py pipeline-commit >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: jiying2007/kws-pipeline
+          ref: '${{ steps.selected.outputs.pipeline_commit }}'
+          path: pipeline
+          persist-credentials: false
+      - name: Copy original candidate bytes, install immutably and load candidate plus B0 without PCM or forwards
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          python -SIB "$GITHUB_WORKSPACE/pipeline/research/english_v6_delivery/once_b28.py" execute \
+            --data-root "$GITHUB_WORKSPACE/data" --prepared-parent "$PREPARED_PARENT" \
+            --output "$RUNNER_TEMP/b28-software-delivery"
+      - name: Retain the concrete delivery tar and original installation receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b28-software-delivery-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/b28-software-delivery/heym43-B28-software-delivery.tar.gz
+            ${{ runner.temp }}/b28-software-delivery/receipts/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn

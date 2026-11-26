@@ -335,6 +335,17 @@ class MetadataContracts(unittest.TestCase):
                                     cwd=root, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             self.assertNotEqual(result.returncode, 0)
 
+    def test_approved_trmal_mirror_and_300_330_minute_capture_bounds(self):
+        spec = m.registration()
+        self.assertEqual(spec["corpus"]["url"],
+                         "https://openslr.trmal.net/resources/12/train-clean-360.tar.gz")
+        self.assertEqual(spec["transport"]["maximum_elapsed_seconds"], 300 * 60)
+        self.assertEqual(m.BRANCH, "refs/heads/research/en-v6-train360-metadata-once-20261126")
+        self.assertEqual(m.MARKER, "english-v6-train360-metadata-consumed-20261126")
+        template = (m.ROOT / m.TEMPLATE).read_text()
+        self.assertIn("timeout-minutes: 330", template)
+        self.assertIn("timeout-minutes: 320", template)
+
     def test_only_stdlib_and_no_audio_or_selection_imports(self):
         allowed = {"__future__", "argparse", "gzip", "hashlib", "json", "os", "pathlib", "re", "resource",
                    "shutil", "signal", "subprocess", "tarfile", "time", "urllib"}
@@ -483,8 +494,8 @@ class MetadataContracts(unittest.TestCase):
         self.assertNotIn("workflow_dispatch", current)
         self.assertNotIn("workflow_dispatch", template)
         self.assertIn("producer/repository/automation/english_v6_train360_metadata.py\" collect", template)
-        self.assertIn("timeout-minutes: 210", template)
-        self.assertIn("timeout-minutes: 190", template)
+        self.assertIn("timeout-minutes: 330", template)
+        self.assertIn("timeout-minutes: 320", template)
         self.assertIn("/automation/english_v6_train360_metadata_registration.json", template)
 
 

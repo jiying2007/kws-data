@@ -1,0 +1,286 @@
+name: English B28 independently frozen primary sources with complete original training proof
+'on':
+  pull_request:
+    paths:
+    - automation/*b28*
+    - automation/english_v6_b28_panels/**
+    - research/english_v6_b28_preparation_20261125/**
+    - .github/workflows/english-v6-b28-primary-sources-once.yml
+  push:
+    branches:
+    - research/en-v6-b28-primary-sources-once-20261125
+    paths:
+    - .github/workflows/english-v6-b28-primary-sources-once.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: en-v6-b28-primary-120-once
+  cancel-in-progress: false
+env:
+  PREPARED_PARENT: '__B28_REVIEWED_PRIMARY_SOURCE_PARENT__'
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  TOKENIZERS_PARALLELISM: 'false'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+  OPENBLAS_NUM_THREADS: '1'
+  PYTHONHASHSEED: '20261124'
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Offline approval, whole-original quarantine and complete dependency contracts
+      run: |
+        set -euo pipefail
+        for mode in '' -O -OO; do
+          for test in automation/test_english_v6_b28_source_metadata.py automation/test_english_v6_b28_multicorpus_source.py automation/test_english_v6_b28_sources.py automation/test_english_v6_b24q1_quarantine.py; do
+            python -SIB $mode "$test" -v
+          done
+        done
+  sources:
+    needs: contracts
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b28-primary-sources-once-20261125' && github.run_attempt == 1 && github.event.before == '__B28_REVIEWED_PRIMARY_SOURCE_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Capture exact Git-bound scientific producer
+      run: |
+        python -SIB automation/english_v6_b28_source_producer.py "$RUNNER_TEMP/b28-source-producer" --panel primary --prepared-parent "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b28-primary-source-producer-${{ github.run_id }}
+        path: ${{ runner.temp }}/b28-source-producer/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - name: Reopen every original B28 TRAIN and complete original B27 terminal failure and full360 metadata before new source permission
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python -SIB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_original_proof.py" primary "$RUNNER_TEMP/b28-proof"
+    - name: Authenticate the complete original candidate and separately frozen B28 source population
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        python -IB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_source.py" --proof "$RUNNER_TEMP/b28-proof" guard "$PREPARED_PARENT"
+        python -IB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_source.py" --proof "$RUNNER_TEMP/b28-proof" check
+        python -IB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_source.py" --proof "$RUNNER_TEMP/b28-proof" authorize "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"
+    - name: Consume the fixed current-panel whole-original staging before any archive access
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        python -SIB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_source.py" --proof "$RUNNER_TEMP/b28-proof" stage-consume "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"
+        mkdir "$RUNNER_TEMP/staging-consumed"
+        cp "$RUNNER_TEMP/prior-source/STAGING_CONSUMPTION.json" "$RUNNER_TEMP/staging-consumed/STAGING_CONSUMPTION.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b28-primary-whole-original-staging-consumed
+        path: ${{ runner.temp }}/staging-consumed/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - name: Verify each selected official whole archive and stage exactly the frozen24 originals without audio decode
+      shell: bash
+      timeout-minutes: 245
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python -SIB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_source.py" --proof "$RUNNER_TEMP/b28-proof" transport "$RUNNER_TEMP/prior-source/NATURAL_STAGING" "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b28-primary-transport-${{ github.run_id }}
+        path: ${{ runner.temp }}/prior-source/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: warn
+    - name: Consume TTS96, natural24 and exact five-times-N observer budget after complete corpus and capacity verification
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        python -IB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_source.py" --proof "$RUNNER_TEMP/b28-proof" consume "$RUNNER_TEMP/prior-source/NATURAL_STAGING" "$RUNNER_TEMP/prior-source" "$PREPARED_PARENT"
+        mkdir "$RUNNER_TEMP/source-consumed"
+        cp "$RUNNER_TEMP/prior-source/CONSUMPTION.json" "$RUNNER_TEMP/source-consumed/CONSUMPTION.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b28-primary-source-consumed
+        path: ${{ runner.temp }}/source-consumed/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - name: Generate only the new frozen96 synthetic originals and decode only the committed24 whole natural originals
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        python -m pip install --disable-pip-version-check --no-cache-dir --retries 0 --timeout 90 'piper-tts==1.8.0' 'numpy==1.26.4' 'scipy==1.15.3' 'huggingface-hub==0.36.2' 'soundfile==0.13.1'
+        python -IB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_source.py" --proof "$RUNNER_TEMP/b28-proof" generate "$RUNNER_TEMP/source" "$RUNNER_TEMP/prior-source" "$RUNNER_TEMP/prior-source/NATURAL_STAGING" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b28-primary-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: warn
+  observers:
+    needs: sources
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        provider: [qwen, parakeet, xlsr, lv60, whisper]
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b28-primary-source-producer-${{ github.run_id }}
+        path: ${{ runner.temp }}/b28-source-producer
+    - name: Check all19 captured dynamic helpers before any observer budget or model installation
+      run: python -SIB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b22_source_dynamic_preflight.py"
+    - name: Fetch and independently reopen every fixed original proof byte
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python -SIB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_original_proof.py" primary "$RUNNER_TEMP/b28-proof"
+    - name: Guard the same original source execution before model installation
+      run: python -IB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_source.py" --proof "$RUNNER_TEMP/b28-proof" guard "$PREPARED_PARENT"
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b28-primary-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - name: Read every original including natural rejects before observer installation
+      run: python -IB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_source.py" --proof "$RUNNER_TEMP/b28-proof" verify-source "$RUNNER_TEMP/source"
+    - name: Consume this provider's exact original-observation budget before model installation
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PROVIDER: ${{ matrix.provider }}
+      run: python -IB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_source.py" --proof "$RUNNER_TEMP/b28-proof" consume-observer "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/observer-consumed" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: english-v6-b28-primary-observer-${{ matrix.provider }}-consumed
+        path: ${{ runner.temp }}/observer-consumed/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error
+    - name: Install one pinned native observer runtime
+      shell: bash
+      timeout-minutes: 19
+      env:
+        PROVIDER: ${{ matrix.provider }}
+      run: |
+        set -euo pipefail
+        python -m venv "$RUNNER_TEMP/b28-native-env"
+        PIP="$RUNNER_TEMP/b28-native-env/bin/pip"
+        FLAGS="--disable-pip-version-check --no-cache-dir --retries 0 --timeout 90"
+        if [ "$PROVIDER" != "parakeet" ]; then
+          if [ "$PROVIDER" = "qwen" ] || [ "$PROVIDER" = "whisper" ]; then
+            "$PIP" install $FLAGS 'torch==2.9.1+cpu' 'torchaudio==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          else
+            "$PIP" install $FLAGS 'torch==2.9.1+cpu' --extra-index-url https://download.pytorch.org/whl/cpu
+          fi
+        fi
+        case "$PROVIDER" in
+          qwen) "$PIP" install $FLAGS 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2' ;;
+          whisper) "$PIP" install $FLAGS 'openai-whisper==20250625' ;;
+          parakeet) "$PIP" install $FLAGS 'huggingface-hub==0.36.2' 'hf-xet==1.2.0' ;;
+          xlsr|lv60) "$PIP" install $FLAGS 'transformers==4.46.3' 'numpy==1.26.4' 'huggingface-hub==0.36.2' ;;
+          *) exit 7 ;;
+        esac
+        "$RUNNER_TEMP/b28-native-env/bin/python" -m pip check
+    - name: Save each native return and independently prove any invalid empty without changing the remaining fixed slots
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PROVIDER: ${{ matrix.provider }}
+      run: |
+        set -euo pipefail
+        "$RUNNER_TEMP/b28-native-env/bin/python" -IB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_source.py" --proof "$RUNNER_TEMP/b28-proof" observe "$PROVIDER" "$RUNNER_TEMP/source" "$RUNNER_TEMP/$PROVIDER" "$PREPARED_PARENT"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: b28-primary-dev-observer-${{ matrix.provider }}
+        path: ${{ runner.temp }}/${{ matrix.provider }}/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: warn
+  readback:
+    needs: [sources, observers]
+    if: always() && needs.sources.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b28-primary-source-producer-${{ github.run_id }}
+        path: ${{ runner.temp }}/b28-source-producer
+    - name: Check the complete captured dynamic dependency root without assets or audio
+      run: python -SIB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b22_source_dynamic_preflight.py"
+    - name: Fetch and independently reopen every fixed original proof byte
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python -SIB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_original_proof.py" primary "$RUNNER_TEMP/b28-proof"
+    - name: Guard original event before source readback
+      run: python -IB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_source.py" --proof "$RUNNER_TEMP/b28-proof" guard "$PREPARED_PARENT"
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        name: english-v6-b28-primary-source-${{ github.run_id }}
+        path: ${{ runner.temp }}/source
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      with:
+        pattern: b28-primary-dev-observer-*
+        path: ${{ runner.temp }}/providers
+    - name: Reopen the complete five-times-N ledger and quarantine union before unchanged numerical admission
+      shell: bash
+      run: |
+        set -euo pipefail
+        for p in qwen whisper parakeet xlsr lv60; do
+          mv "$RUNNER_TEMP/providers/b28-primary-dev-observer-$p" "$RUNNER_TEMP/providers/$p"
+        done
+        mkdir "$RUNNER_TEMP/final"
+        python -IB "$RUNNER_TEMP/b28-source-producer/repository/automation/english_v6_b28_source.py" --proof "$RUNNER_TEMP/b28-proof" screen "$RUNNER_TEMP/source" "$RUNNER_TEMP/providers" "$RUNNER_TEMP/final/SCREEN.json"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: english-v6-b28-primary-frozen-screen-${{ github.run_id }}
+        path: ${{ runner.temp }}/final/
+        include-hidden-files: true
+        retention-days: 90
+        if-no-files-found: error

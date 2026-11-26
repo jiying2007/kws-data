@@ -1,0 +1,91 @@
+name: B28 independent primary of new challenger and immutable historical control
+'on':
+  pull_request:
+    paths:
+      - automation/*b28*
+      - automation/english_v6_b28_panels/**
+      - .github/workflows/english-v6-b28-primary-model-eval-once.yml
+  push:
+    branches: [research/en-v6-b28-primary-scoring-once-20261125]
+    paths: [.github/workflows/english-v6-b28-primary-model-eval-once.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-v6-b28-one-frozen-primary-assessment
+  cancel-in-progress: false
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Offline provenance, source-identity and no-replay contracts only
+        run: |
+          set -euo pipefail
+          for mode in '' -O -OO; do
+            python -SIB $mode automation/test_english_v6_b28_quality_execution.py -v
+            python -SIB $mode automation/test_bind_b28.py -v
+          done
+          python -SIB automation/english_v6_b28_primary_eval.py check
+  score:
+    needs: contracts
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data' && github.event.repository.private == false && github.ref == 'refs/heads/research/en-v6-b28-primary-scoring-once-20261125' && github.run_attempt == 1 && github.event.before == '__B28_REVIEWED_PRIMARY_SCORING_PARENT__'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONHASHSEED: '20261124'
+      PREPARED_PARENT: '__B28_REVIEWED_PRIMARY_SCORING_PARENT__'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: '${{ github.sha }}', persist-credentials: false, fetch-depth: 2}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with: {python-version: '3.12'}
+      - name: Reopen complete original B28 TRAIN71 and B27 terminal failure before quality acquisition
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python -SIB automation/english_v6_b28_original_proof.py primary "$RUNNER_TEMP/b28-proof"
+      - name: Authenticate all original artifacts and both actual producer closures
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python -SIB automation/english_v6_b28_primary_eval.py fetch --proof "$RUNNER_TEMP/b28-proof" --inputs "$RUNNER_TEMP/b28-inputs" --prepared-parent "$PREPARED_PARENT"
+      - name: Complete raw-source, native SCREEN, lineage and TRAIN checks before Torch exists
+        run: python -SIB automation/english_v6_b28_primary_eval.py preflight --proof "$RUNNER_TEMP/b28-proof" --inputs "$RUNNER_TEMP/b28-inputs" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: english-v6-b28-primary-consumed
+          path: ${{ runner.temp }}/b28-inputs/CONSUMPTION.json
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+      - name: Install only the original CPU scoring runtime after all evidence passes
+        run: |
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --retries 0 --timeout 90 numpy==1.26.4
+      - name: Score each exact original and gain once; preserve every actual output
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python -IB automation/english_v6_b28_primary_eval.py score --proof "$RUNNER_TEMP/b28-proof" --inputs "$RUNNER_TEMP/b28-inputs" --output "$RUNNER_TEMP/b28-result" --prepared-parent "$PREPARED_PARENT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b28-historical-control-primary-logits-${{ github.run_id }}
+          path: ${{ runner.temp }}/b28-result/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: english-v6-b28-primary-producer-evidence-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/b28-inputs/FETCH.json
+            ${{ runner.temp }}/b28-inputs/CONSUMPTION.json
+            ${{ runner.temp }}/b28-inputs/primary_producer/
+            ${{ runner.temp }}/b28-inputs/source_producer/
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: warn

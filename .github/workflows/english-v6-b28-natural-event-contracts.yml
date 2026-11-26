@@ -1,0 +1,44 @@
+name: B28 natural event inert implementation contracts
+'on':
+  pull_request:
+    paths:
+      - 'automation/english_v6_b28_*'
+      - 'automation/test_english_v6_b28_*'
+      - 'automation/english_v6_b27_primary_no_promotion_readback.py'
+      - 'automation/test_english_v6_b27_primary_no_promotion_readback.py'
+      - '.github/workflows/english-v6-b28-*.yml'
+      - 'research/english_v6_b28_preparation_20261125/**'
+  push:
+    branches: [main]
+    paths:
+      - 'automation/english_v6_b28_*'
+      - 'automation/test_english_v6_b28_*'
+      - 'automation/english_v6_b27_primary_no_promotion_readback.py'
+      - 'automation/test_english_v6_b27_primary_no_promotion_readback.py'
+      - '.github/workflows/english-v6-b28-*.yml'
+      - 'research/english_v6_b28_preparation_20261125/**'
+permissions:
+  contents: read
+jobs:
+  inert-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Verify original-code invariants and independent readers using fixtures
+        run: |
+          set -euo pipefail
+          for mode in -SIB -SIBO -SIBOO; do
+            python "$mode" automation/test_english_v6_b28_natural_event_fit.py -v
+            python "$mode" automation/test_english_v6_b28_train.py -v
+            python "$mode" automation/test_english_v6_b28_objective_readback.py -v
+            python "$mode" automation/test_english_v6_b28_training_readback.py -v
+            python "$mode" automation/test_english_v6_b28_source_metadata.py -v
+            python "$mode" automation/test_english_v6_b27_primary_no_promotion_readback.py -v
+          done
+          python -SIB automation/english_v6_b28_train.py check

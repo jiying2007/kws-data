@@ -1,0 +1,32 @@
+name: English B28 inert whole-source and complete-metadata contracts
+'on':
+  pull_request:
+    paths:
+    - automation/*b28*
+    - automation/english_v6_b28_panels/**
+    - .github/workflows/english-v6-b28-*-sources-once.yml
+    - .github/workflows/english-v6-b28-source-contracts.yml
+permissions:
+  contents: read
+concurrency:
+  group: b28-source-contracts-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - name: Invented containers and no scientific, network, selection or activation calls
+      run: |
+        set -euo pipefail
+        for mode in '' -O -OO; do
+          for test in automation/test_english_v6_b28_source_metadata.py automation/test_english_v6_b28_multicorpus_source.py automation/test_english_v6_b28_sources.py automation/test_english_v6_b24q1_quarantine.py; do
+            python -SIB $mode "$test" -v
+          done
+        done
