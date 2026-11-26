@@ -49,6 +49,24 @@ class V7RegistrationContracts(unittest.TestCase):
         self.assertEqual(cells["mero-slow"]["class_by_candidate"], {"VOSEN": 0, "MERO": 1})
         self.assertTrue(self.plan["paired_candidate_policy"]["same_original_pcm_sha256_referenced_in_both_candidate_manifests"])
 
+    def test_source_map_preflight_is_exact_and_metadata_only(self):
+        preflight = self.plan["source_map_preflight"]
+        self.assertTrue(preflight["verify_exact_candidate_indices"])
+        self.assertTrue(preflight["verify_unique_source_speaker_ids"])
+        self.assertTrue(preflight["verify_no_historical_original_speaker_id_collision"])
+        self.assertFalse(preflight["downloads_model_weights"])
+        self.assertFalse(preflight["downloads_or_generates_audio"])
+        self.assertEqual(preflight["observer_calls"], 0)
+        self.assertEqual(preflight["kws_model_calls"], 0)
+        self.assertEqual(preflight["config_bytes"], 20163)
+        self.assertEqual(preflight["config_md5"], "cb1564bb779f3b1f87e2de778adeb669")
+
+    def test_source_map_contract_rejects_missing_historical_collision_check(self):
+        bad = copy.deepcopy(self.plan)
+        bad["source_map_preflight"]["verify_no_historical_original_speaker_id_collision"] = False
+        with self.assertRaises(ValueError):
+            v7.validate_source_plan(bad)
+
     def test_no_voiced_z_vosen_positive_in_source_plan(self):
         for cell in self.plan["cells"]:
             if cell["id"].startswith("vosen"):
