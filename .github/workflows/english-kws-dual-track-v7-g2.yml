@@ -25,6 +25,7 @@ concurrency:
   group: english-kws-dual-track-v7-g2-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
+  # Branch and PR events are source-only; generation is main-only below.
   source_contract:
     if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
     runs-on: ubuntu-24.04
