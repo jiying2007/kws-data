@@ -21,6 +21,7 @@ env:
   G2_SOURCE_WORKFLOW_ID: "432334213"
   G2_SOURCE_ARTIFACT_ID: "15199166079"
   G2_SOURCE_ARTIFACT_NAME: v7-machine-evidence-packet-46000882374
+  G2_SOURCE_ARTIFACT_SHA256: sha256:df649c6819c6f5ae8c3b7eaba95c528002eddd8c27c5b4e703bab03f67715771
 
 concurrency:
   group: english-kws-v7-g3-${{ github.ref }}
@@ -32,6 +33,10 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 8
     steps:
+      - name: Set up pinned Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
       - name: Fetch exact reviewed pipeline source
         shell: bash
         run: |
@@ -53,6 +58,10 @@ jobs:
     outputs:
       admitted: ${{ steps.admit.outputs.admitted }}
     steps:
+      - name: Set up pinned Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
       - name: Require exact first public main successor and one-shot G2 source
         env:
           GH_TOKEN: ${{ github.token }}
@@ -88,12 +97,24 @@ jobs:
           assert run["repository"]["full_name"] == "jiying2007/kws-data"
           assert run["repository"]["private"] is False
           PY
+          gh api "repos/jiying2007/kws-data/actions/runs/46000882374/artifacts" > "$RUNNER_TEMP/g2-artifacts.json"
+          python3 -I -S -B - <<'PY'
+          import json, os
+          with open(os.path.join(os.environ["RUNNER_TEMP"], "g2-artifacts.json"), encoding="utf-8") as stream:
+              payload = json.load(stream)
+          matches = [item for item in payload["artifacts"] if item["id"] == 15199166079]
+          assert len(matches) == 1
+          artifact = matches[0]
+          assert artifact["name"] == "v7-machine-evidence-packet-46000882374"
+          assert artifact["digest"] == "sha256:df649c6819c6f5ae8c3b7eaba95c528002eddd8c27c5b4e703bab03f67715771"
+          assert artifact["expired"] is False
+          PY
       - name: Download the exact immutable G2 machine-evidence packet
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
-          artifact-ids: 15199166079
+          artifact-ids: ${{ env.G2_SOURCE_ARTIFACT_ID }}
           path: ${{ runner.temp }}/v7-packet
-          run-id: 46000882374
+          run-id: ${{ env.G2_SOURCE_RUN_ID }}
           github-token: ${{ github.token }}
       - name: Fetch exact reviewed pipeline source
         shell: bash
@@ -147,6 +168,10 @@ jobs:
       MKL_NUM_THREADS: "1"
       PYTHONHASHSEED: "0"
     steps:
+      - name: Set up pinned Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
       - name: Download the exact admitted G2 packet
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
