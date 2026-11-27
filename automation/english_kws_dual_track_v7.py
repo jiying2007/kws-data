@@ -2,6 +2,7 @@
 from __future__ import annotations
 import json
 from pathlib import Path
+import sys
 
 ROOT = Path(__file__).resolve().parent
 REGISTRATION = ROOT / "english_kws_dual_track_v7_registration.json"
@@ -233,5 +234,30 @@ def load() -> dict:
     return validate(value)
 
 
+def validate_g2_source_contract():
+    sys.path.insert(0, str(ROOT))
+    import english_kws_dual_track_v7_once as g2
+    plan = json.loads((ROOT / "english_kws_dual_track_v7_execution_plan.json").read_bytes(),
+                      object_pairs_hook=_unique_pairs)
+    g2.validate_plan(plan, allow_autofill=True)
+    return {
+        "status": "SOURCE_ONLY_NO_MODEL",
+        "worker_sha256": g2.sha(g2.regular(ROOT / "english_kws_dual_track_v7_once.py", 256 * 1024)),
+        "recipe_code_sha256": g2.sha(g2.regular(ROOT / "english_kws_dual_track_v7_recipe.py", 128 * 1024)),
+        "preflight_script_sha256": g2.sha(g2.regular(ROOT / "english_kws_dual_track_v7_preflight.py", 128 * 1024)),
+        "recipe_sha256": g2.recipe.digest(g2.recipe.recipe()),
+        "source_plan_sha256": g2.recipe.recipe()["source_plan_sha256"],
+        "source_plan_blob_sha1": g2.recipe.SOURCE_PLAN_BLOB_SHA1,
+        "registration_blob_sha1": g2.recipe.REGISTRATION_BLOB_SHA1,
+        "maximum_tts_calls": 144,
+        "maximum_calls_per_observer": 144,
+        "maximum_total_model_calls": 720,
+        "retry_count": 0,
+        "training_allowed": False,
+        "promotion_allowed": False,
+    }
+
+
 if __name__ == "__main__":
-    print(json.dumps(load(), ensure_ascii=False, sort_keys=True))
+    print(json.dumps({"registration": load(), "g2_source_contract": validate_g2_source_contract()},
+                     ensure_ascii=False, sort_keys=True))
