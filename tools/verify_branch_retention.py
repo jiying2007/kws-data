@@ -74,13 +74,21 @@ def verify(root, manifest, tree=None):
     integration = [safe_path(name) for name in manifest['integration_files']]
     require(len(integration) == len(set(integration)), 'duplicate integration path')
     require(not set(integration) & set(rows), 'integration overlaps retained path')
+    v7_g3_workflow = '.github/workflows/english-kws-dual-track-v7-g3.yml'
+    added_integration = []
+    if (root / v7_g3_workflow).is_file():
+        require(v7_g3_workflow not in rows and v7_g3_workflow not in integration,
+                'V7 G3 workflow integration must be new and unique')
+        integration.append(v7_g3_workflow)
+        added_integration.append(v7_g3_workflow)
     changes = {safe_path(name) for name in manifest['baseline_changes']}
     require(changes <= set(baseline), 'unknown baseline change')
     for name, old in baseline.items():
         if name not in changes:
             require(name in rows and (rows[name]['mode'], rows[name]['git_blob_sha1']) ==
                     (old['mode'], old['git_blob_sha1']), 'baseline retention mismatch: ' + name)
-    require(len(rows) + len(integration) == manifest['expected_tracked_files'], 'tracked count')
+    require(len(rows) + len(integration) == manifest['expected_tracked_files'] + len(added_integration),
+            'tracked count')
     require(len(rows) == manifest['expected_retained_files'], 'retained count')
     tree = git_tree(root) if tree is None else tree
     require(set(tree) == set(rows) | set(integration), 'closed tracked-file inventory mismatch')
