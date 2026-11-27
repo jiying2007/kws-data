@@ -441,7 +441,19 @@ def source_readback(source, plan):
             pcm = verify_wav(folder / "audio-16k.wav", row)
             need(regular(folder / "audio-16k.pcm") == pcm, "RAW_PCM_COPY")
             need(sha(regular(folder / "native-22050.wav")) == receipt["native_wav_sha256"], "NATIVE_WAV_HASH")
-            row.update(generation_status="success", pcm_path=f"source/audio/{row['id']}/audio-16k.pcm",
+            if row["kind"] == "target":
+                source_plan, _registration = recipe.source_documents()
+                audio_policy = source_plan["audio_policy"]
+                minimum_support_samples = 400 + (audio_policy["positive_minimum_complete_support_windows"] - 1) * 160
+                maximum_positive_samples = audio_policy["positive_geometry_max_samples"]
+                if not minimum_support_samples <= row["pcm_samples"] <= maximum_positive_samples:
+                    row.update(generation_status="POSITIVE_GEOMETRY_QUARANTINED",
+                        geometry_reason="REQUIRES_THREE_COMPLETE_400_160_FRONTEND_WINDOWS_AND_MAX_28672_SAMPLES")
+                else:
+                    row.update(generation_status="success")
+            else:
+                row.update(generation_status="success")
+            row.update(pcm_path=f"source/audio/{row['id']}/audio-16k.pcm",
                 wav_path=f"source/audio/{row['id']}/audio-16k.wav", actual_phonemes=receipt["phonemes"],
                 actual_phoneme_ids=receipt["phoneme_ids"], source_receipt_sha256=sha(regular(done)))
         elif failed.is_file():
