@@ -79,7 +79,7 @@ class V7G2ContractTests(unittest.TestCase):
         self.assertFalse(PLAN["promotion_allowed"])
         self.assertEqual(PLAN["new_kws_calls"], 0)
         self.assertEqual(PLAN["optimizer_updates"], 0)
-        self.assertEqual(PLAN["positive_min_samples"], 720)
+        self.assertEqual(PLAN["positive_min_samples"], 6400)
         self.assertEqual(PLAN["positive_max_samples"], 28672)
         self.assertEqual(PLAN["source_plan_sha256"], recipe.recipe()["source_plan_sha256"])
         worker.validate_plan(PLAN, allow_autofill=True)
