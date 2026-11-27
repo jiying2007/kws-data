@@ -11,7 +11,11 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import sys
 import urllib.request
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
 
 import english_kws_dual_track_v7_recipe as recipe
 import english_synthetic192_recipe as history
