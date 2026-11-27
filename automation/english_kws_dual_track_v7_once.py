@@ -125,7 +125,7 @@ def validate_plan(plan, *, check_sources=True, allow_autofill=False):
     audio_policy = source_plan["audio_policy"]
     need(audio_policy["positive_minimum_complete_support_windows"] == 3 and
          audio_policy["positive_geometry_max_samples"] == 28672 and
-         plan.get("positive_min_samples") == 720 and
+         plan.get("positive_min_samples") == 6400 and
          plan.get("positive_max_samples") == 28672, "POSITIVE_FRONTEND_SUPPORT_GEOMETRY")
     groups = recipe.source_groups()
     need([sum(group["role"] == role for group in groups) for role in recipe.ROLES] == [6, 2, 2, 2],
@@ -447,16 +447,13 @@ def source_readback(source, plan):
             pcm = verify_wav(folder / "audio-16k.wav", row)
             need(regular(folder / "audio-16k.pcm") == pcm, "RAW_PCM_COPY")
             need(sha(regular(folder / "native-22050.wav")) == receipt["native_wav_sha256"], "NATIVE_WAV_HASH")
-            if row["kind"] == "target":
-                source_plan, _registration = recipe.source_documents()
-                audio_policy = source_plan["audio_policy"]
-                minimum_support_samples = 400 + (audio_policy["positive_minimum_complete_support_windows"] - 1) * 160
-                maximum_positive_samples = audio_policy["positive_geometry_max_samples"]
-                if not minimum_support_samples <= row["pcm_samples"] <= maximum_positive_samples:
-                    row.update(generation_status="POSITIVE_GEOMETRY_QUARANTINED",
-                        geometry_reason="REQUIRES_THREE_COMPLETE_400_160_FRONTEND_WINDOWS_AND_MAX_28672_SAMPLES")
-                else:
-                    row.update(generation_status="success")
+            source_plan, _registration = recipe.source_documents()
+            audio_policy = source_plan["audio_policy"]
+            minimum_model_samples = plan["positive_min_samples"]
+            maximum_model_samples = audio_policy["positive_geometry_max_samples"]
+            if not minimum_model_samples <= row["pcm_samples"] <= maximum_model_samples:
+                row.update(generation_status="MODEL_INPUT_GEOMETRY_QUARANTINED",
+                    geometry_reason="REQUIRES_AT_LEAST_6400_PCM16_SAMPLES_FOR_35_CAUSAL_CTC_FRAMES_AND_MAX_28672")
             else:
                 row.update(generation_status="success")
             row.update(pcm_path=f"source/audio/{row['id']}/audio-16k.pcm",
