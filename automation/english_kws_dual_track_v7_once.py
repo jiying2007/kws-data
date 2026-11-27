@@ -93,9 +93,14 @@ def within(root, name):
 
 def identity(env=None):
     env = os.environ if env is None else env
-    return {"repository": env.get("GITHUB_REPOSITORY"), "commit": env.get("GITHUB_SHA"),
-        "run_id": env.get("GITHUB_RUN_ID"), "run_attempt": env.get("GITHUB_RUN_ATTEMPT"),
-        "event": env.get("GITHUB_EVENT_NAME")}
+    return {
+        "repository": env.get("GITHUB_REPOSITORY"),
+        "event": env.get("GITHUB_EVENT_NAME"),
+        "ref": env.get("GITHUB_REF"),
+        "sha": env.get("GITHUB_SHA"),
+        "run_id": env.get("GITHUB_RUN_ID"),
+        "attempt": env.get("GITHUB_RUN_ATTEMPT"),
+    }
 
 
 def validate_plan(plan, *, check_sources=True, allow_autofill=False):
