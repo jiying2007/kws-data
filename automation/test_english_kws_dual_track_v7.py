@@ -6,6 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import english_kws_dual_track_v7 as v7
+import test_english_kws_dual_track_v7_g2 as v7_g2
 
 
 class V7RegistrationContracts(unittest.TestCase):
@@ -139,6 +140,10 @@ class V7RegistrationContracts(unittest.TestCase):
     def test_duplicate_json_keys_rejected(self):
         with self.assertRaises(ValueError):
             v7._unique_pairs([("x", 1), ("x", 2)])
+
+
+class V7G2SourceOnlyContracts(v7_g2.V7G2ContractTests):
+    """Run the G2 source-only suite in the already-active V7 PR gate."""
 
 
 if __name__ == "__main__":

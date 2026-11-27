@@ -1,0 +1,332 @@
+name: English KWS V7 G2 source generation and blind observation
+'on':
+  push:
+    branches: [main, research/english-kws-dual-track-v7-g2-20261127]
+    paths:
+      - automation/english_kws_dual_track_v7_execution_plan.json
+      - automation/english_kws_dual_track_v7_once.py
+      - automation/english_kws_dual_track_v7_recipe.py
+      - automation/english_kws_dual_track_v7_preflight.py
+      - automation/test_english_kws_dual_track_v7_g2.py
+      - .github/workflows/english-kws-dual-track-v7-g2.yml
+  pull_request:
+    branches: [main]
+    paths:
+      - automation/english_kws_dual_track_v7_execution_plan.json
+      - automation/english_kws_dual_track_v7_once.py
+      - automation/english_kws_dual_track_v7_recipe.py
+      - automation/english_kws_dual_track_v7_preflight.py
+      - automation/test_english_kws_dual_track_v7_g2.py
+      - .github/workflows/english-kws-dual-track-v7-g2.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: english-kws-dual-track-v7-g2-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  # Source-only validation binds the exact 35-frame CTC geometry; generation is main-only.
+  source_contract:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    outputs:
+      enabled: ${{ steps.plan.outputs.enabled }}
+      next_main_before: ${{ steps.plan.outputs.next_main_before }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Validate source-only contract under normal, optimized and stripped interpreters
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in
+              optimized) args=(-O) ;;
+              stripped) args=(-OO) ;;
+            esac
+            python3 -I -S -B "${args[@]}" automation/english_kws_dual_track_v7_once.py --plan automation/english_kws_dual_track_v7_execution_plan.json --source-check
+            python3 -I -S -B "${args[@]}" automation/test_english_kws_dual_track_v7_g2.py -v
+          done
+          test -z "$(git status --porcelain)"
+      - name: Export one-shot main-push guard
+        id: plan
+        shell: bash
+        run: |
+          python3 -I -S -B - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          plan = json.loads(Path("automation/english_kws_dual_track_v7_execution_plan.json").read_text())
+          print("enabled=" + str(plan["enabled"]).lower())
+          print("next_main_before=" + plan["next_main_before"])
+          PY
+  source_preflight:
+    needs: source_contract
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Verify speaker map, raw-IPA coverage, model card and Piper engine license
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_kws_dual_track_v7_preflight.py --output-dir "$RUNNER_TEMP/v7-preflight"
+          test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: v7-preflight-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-preflight/
+          if-no-files-found: warn
+          retention-days: 90
+  generate:
+    needs: [source_contract, source_preflight]
+    if: github.repository == 'jiying2007/kws-data' &&
+        github.event.repository.private == false &&
+        github.event_name == 'push' &&
+        github.ref == 'refs/heads/main' &&
+        github.run_attempt == 1 &&
+        needs.source_contract.outputs.enabled == 'true' &&
+        github.event.before == needs.source_contract.outputs.next_main_before &&
+        needs.source_preflight.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    outputs:
+      source_ready: ${{ steps.readback.outputs.source_ready }}
+      valid_count: ${{ steps.readback.outputs.valid_count }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: v7-preflight-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-preflight
+      - name: Verify exact one-shot main successor before runtime installation
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_kws_dual_track_v7_once.py --plan automation/english_kws_dual_track_v7_execution_plan.json --guard
+      - name: Install pinned Piper source-generation runtime
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/v7-tts-venv"
+          "$RUNNER_TEMP/v7-tts-venv/bin/pip" install --disable-pip-version-check --no-input \
+            'piper-tts==1.8.0' 'huggingface-hub==0.36.2' 'scipy==1.15.3'
+          "$RUNNER_TEMP/v7-tts-venv/bin/pip" freeze > "$RUNNER_TEMP/v7-tts-pip-freeze.txt"
+      - name: Generate the 144 fixed source rows exactly once
+        id: generate
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/v7-tts-venv/bin/python" -I -B automation/english_kws_dual_track_v7_once.py \
+            --plan automation/english_kws_dual_track_v7_execution_plan.json --generate \
+            --preflight-dir "$RUNNER_TEMP/v7-preflight" --output "$RUNNER_TEMP/v7-source"
+      - name: Read back immutable PCM, WAV and per-item receipts
+        id: readback
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/v7-readback"
+          if [ -d "$RUNNER_TEMP/v7-source" ]; then
+            python3 -I -S -B automation/english_kws_dual_track_v7_once.py \
+              --plan automation/english_kws_dual_track_v7_execution_plan.json --read-source \
+              --source "$RUNNER_TEMP/v7-source" --output "$RUNNER_TEMP/v7-readback/corpus.json"
+            count="$(python3 -I -S -B -c 'import json,sys; print(json.load(open(sys.argv[1]))["valid_count"])' "$RUNNER_TEMP/v7-readback/corpus.json")"
+          else
+            count=0
+          fi
+          echo "valid_count=$count" >> "$GITHUB_OUTPUT"
+          if [ "$count" -gt 0 ]; then echo "source_ready=true" >> "$GITHUB_OUTPUT"; else echo "source_ready=false" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: v7-source-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-source/
+          if-no-files-found: warn
+          retention-days: 90
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: v7-source-readback-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-readback/
+          if-no-files-found: warn
+          retention-days: 90
+  observe:
+    needs: [source_contract, generate]
+    if: always() &&
+        github.repository == 'jiying2007/kws-data' &&
+        github.event.repository.private == false &&
+        github.event_name == 'push' &&
+        github.ref == 'refs/heads/main' &&
+        github.run_attempt == 1 &&
+        needs.source_contract.outputs.enabled == 'true' &&
+        needs.generate.outputs.source_ready == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        provider: [qwen, whisper, parakeet, phoneme]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: v7-source-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-source
+      - name: Create isolated observer runtime
+        run: python3 -m venv "$RUNNER_TEMP/v7-observer-venv"
+      - name: Install pinned observer dependencies
+        id: install
+        continue-on-error: true
+        shell: bash
+        env:
+          PROVIDER: ${{ matrix.provider }}
+        run: |
+          set -euo pipefail
+          pip="$RUNNER_TEMP/v7-observer-venv/bin/pip"
+          if [ "$PROVIDER" = qwen ] || [ "$PROVIDER" = whisper ] || [ "$PROVIDER" = phoneme ]; then
+            "$pip" install --disable-pip-version-check --no-input --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+          fi
+          if [ "$PROVIDER" = qwen ] || [ "$PROVIDER" = whisper ]; then
+            "$pip" install --disable-pip-version-check --no-input --index-url https://download.pytorch.org/whl/cpu 'torchaudio==2.9.1+cpu'
+          fi
+          case "$PROVIDER" in
+            qwen)
+              "$pip" install --disable-pip-version-check --no-input 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2'
+              ;;
+            whisper)
+              "$pip" install --disable-pip-version-check --no-input 'openai-whisper==20250625'
+              ;;
+            parakeet)
+              "$pip" install --disable-pip-version-check --no-input 'huggingface-hub==0.36.2' 'hf-xet==1.2.0'
+              ;;
+            phoneme)
+              "$pip" install --disable-pip-version-check --no-input 'transformers==4.46.3' 'huggingface-hub==0.36.2' 'numpy==1.26.4'
+              ;;
+            *)
+              exit 2
+              ;;
+          esac
+          "$pip" freeze > "$RUNNER_TEMP/v7-observer-pip-freeze.txt"
+      - name: Run one blind observer over the immutable source PCM
+        id: observe
+        if: steps.install.outcome == 'success'
+        continue-on-error: true
+        env:
+          PROVIDER: ${{ matrix.provider }}
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/v7-observer-venv/bin/python" -I -B automation/english_kws_dual_track_v7_once.py \
+            --plan automation/english_kws_dual_track_v7_execution_plan.json --observe "$PROVIDER" \
+            --source "$RUNNER_TEMP/v7-source" --output "$RUNNER_TEMP/v7-observer"
+      - name: Preserve observer startup and terminal status
+        if: always()
+        shell: bash
+        env:
+          PROVIDER: ${{ matrix.provider }}
+          INSTALL_OUTCOME: ${{ steps.install.outcome }}
+          OBSERVE_OUTCOME: ${{ steps.observe.outcome }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/v7-observer"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          path = Path(os.environ["RUNNER_TEMP"]) / "v7-observer" / "JOB_STATUS.json"
+          payload = {
+              "provider": os.environ["PROVIDER"],
+              "install_outcome": os.environ.get("INSTALL_OUTCOME"),
+              "observe_outcome": os.environ.get("OBSERVE_OUTCOME"),
+          }
+          path.write_text(json.dumps(payload, sort_keys=True, indent=2) + "\\n")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: v7-observer-${{ matrix.provider }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-observer/
+          if-no-files-found: warn
+          retention-days: 90
+  combine:
+    needs: [source_contract, generate, observe]
+    if: always() &&
+        github.repository == 'jiying2007/kws-data' &&
+        github.event.repository.private == false &&
+        github.event_name == 'push' &&
+        github.ref == 'refs/heads/main' &&
+        github.run_attempt == 1 &&
+        needs.source_contract.outputs.enabled == 'true' &&
+        needs.generate.outputs.source_ready == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: v7-source-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-source
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        continue-on-error: true
+        with:
+          name: v7-observer-qwen-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-observers/v7-observer-qwen
+          if-no-artifact-found: warn
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        continue-on-error: true
+        with:
+          name: v7-observer-whisper-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-observers/v7-observer-whisper
+          if-no-artifact-found: warn
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        continue-on-error: true
+        with:
+          name: v7-observer-parakeet-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-observers/v7-observer-parakeet
+          if-no-artifact-found: warn
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        continue-on-error: true
+        with:
+          name: v7-observer-phoneme-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-observers/v7-observer-phoneme
+          if-no-artifact-found: warn
+      - name: Retain immutable corpus and all available observer evidence
+        id: combine
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_kws_dual_track_v7_once.py \
+            --plan automation/english_kws_dual_track_v7_execution_plan.json --combine \
+            --source "$RUNNER_TEMP/v7-source" --observers "$RUNNER_TEMP/v7-observers" \
+            --output "$RUNNER_TEMP/v7-packet"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: v7-machine-evidence-packet-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-packet/
+          if-no-files-found: warn
+          retention-days: 90
