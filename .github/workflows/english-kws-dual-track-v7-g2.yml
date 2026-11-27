@@ -25,7 +25,7 @@ concurrency:
   group: english-kws-dual-track-v7-g2-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
-  # Source-only validation binds the actual Git blob object format; generation is main-only.
+  # Source-only validation binds the exact 35-frame CTC geometry; generation is main-only.
   source_contract:
     if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
     runs-on: ubuntu-24.04
