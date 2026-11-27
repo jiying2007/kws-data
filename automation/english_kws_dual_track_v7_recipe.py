@@ -9,6 +9,8 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 SOURCE_PLAN_PATH = HERE / "english_kws_dual_track_v7_source_plan.json"
 REGISTRATION_PATH = HERE / "english_kws_dual_track_v7_registration.json"
+SOURCE_PLAN_BLOB_SHA1 = "1a35d841dba1921ba89053c7b8bb99ec3ef0ea64"
+REGISTRATION_BLOB_SHA1 = "23a5f78efa735b72a9aaba351199acfa6cdb717e"
 
 SCHEMA = "english-kws-dual-track-v7-source-recipe-v1"
 SOURCE_COUNT = 144
