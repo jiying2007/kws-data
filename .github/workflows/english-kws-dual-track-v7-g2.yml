@@ -25,7 +25,7 @@ concurrency:
   group: english-kws-dual-track-v7-g2-${{ github.event_name }}
   cancel-in-progress: false
 jobs:
-  source-contract:
+  source_contract:
     if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
     runs-on: ubuntu-24.04
     timeout-minutes: 12
@@ -64,8 +64,8 @@ jobs:
           print("enabled=" + str(plan["enabled"]).lower())
           print("next_main_before=" + plan["next_main_before"])
           PY
-  source-license-preflight:
-    needs: source-contract
+  source_preflight:
+    needs: source_contract
     if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
     runs-on: ubuntu-24.04
     timeout-minutes: 8
@@ -89,15 +89,15 @@ jobs:
           if-no-files-found: warn
           retention-days: 90
   generate:
-    needs: [source-contract, source-license-preflight]
+    needs: [source_contract, source_preflight]
     if: github.repository == 'jiying2007/kws-data' &&
         github.event.repository.private == false &&
         github.event_name == 'push' &&
         github.ref == 'refs/heads/main' &&
         github.run_attempt == 1 &&
-        needs.source-contract.outputs.enabled == 'true' &&
-        github.event.before == needs.source-contract.outputs.next_main_before &&
-        needs.source-license-preflight.result == 'success'
+        needs.source_contract.outputs.enabled == 'true' &&
+        github.event.before == needs.source_contract.outputs.next_main_before &&
+        needs.source_preflight.result == 'success'
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     outputs:
@@ -157,7 +157,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 90
   observe:
-    needs: [source-contract, generate]
+    needs: [source_contract, generate]
     if: always() &&
         github.repository == 'jiying2007/kws-data' &&
         github.event.repository.private == false &&
@@ -225,7 +225,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 90
   combine:
-    needs: [source-contract, generate, observe]
+    needs: [source_contract, generate, observe]
     if: always() &&
         github.repository == 'jiying2007/kws-data' &&
         github.event.repository.private == false &&
