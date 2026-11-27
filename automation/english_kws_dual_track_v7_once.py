@@ -121,6 +121,12 @@ def validate_plan(plan, *, check_sources=True, allow_autofill=False):
     need(plan.get("source_count") == recipe.SOURCE_COUNT == 144 and
          len(frozen["rows"]) == recipe.SOURCE_COUNT and
          len({row["id"] for row in frozen["rows"]}) == recipe.SOURCE_COUNT, "EXACT_SOURCE_ROSTER")
+    source_plan, _registration = recipe.source_documents()
+    audio_policy = source_plan["audio_policy"]
+    need(audio_policy["positive_minimum_complete_support_windows"] == 3 and
+         audio_policy["positive_geometry_max_samples"] == 28672 and
+         plan.get("positive_min_samples") == 720 and
+         plan.get("positive_max_samples") == 28672, "POSITIVE_FRONTEND_SUPPORT_GEOMETRY")
     groups = recipe.source_groups()
     need([sum(group["role"] == role for group in groups) for role in recipe.ROLES] == [6, 2, 2, 2],
          "FROZEN_6_2_2_2_SOURCE_SPLIT")
