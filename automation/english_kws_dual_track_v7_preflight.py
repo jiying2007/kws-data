@@ -83,10 +83,11 @@ def write_once(path, raw):
 def identity():
     return {
         "repository": os.environ.get("GITHUB_REPOSITORY"),
-        "commit": os.environ.get("GITHUB_SHA"),
-        "run_id": os.environ.get("GITHUB_RUN_ID"),
-        "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
         "event": os.environ.get("GITHUB_EVENT_NAME"),
+        "ref": os.environ.get("GITHUB_REF"),
+        "sha": os.environ.get("GITHUB_SHA"),
+        "run_id": os.environ.get("GITHUB_RUN_ID"),
+        "attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
     }
 
 
