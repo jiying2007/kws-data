@@ -117,7 +117,10 @@ def main(argv=None):
     need(len(config_raw) == recipe.MODEL["config_bytes"], "PIPER_CONFIG_BYTES")
     need(hashlib.md5(config_raw).hexdigest() == recipe.MODEL["config_md5"], "PIPER_CONFIG_MD5")
     config = json.loads(config_raw, object_pairs_hook=unique)
-    need(config.get("num_speakers") == recipe.MODEL["num_speakers"] == 904, "PIPER_SPEAKER_COUNT")\n    need(config.get("audio", {}).get("sample_rate") == recipe.MODEL["native_sample_rate"] and\n         config.get("espeak", {}).get("voice") == recipe.MODEL["phonemizer_voice"], "PIPER_AUDIO_PHONEMIZER_GEOMETRY")\n    need(len(source_plan["cells"]) == 12 and len(recipe.recipe()["rows"]) == recipe.SOURCE_COUNT, "V7_RECIPE_GEOMETRY")
+    need(config.get("num_speakers") == recipe.MODEL["num_speakers"] == 904, "PIPER_SPEAKER_COUNT")
+    need(config.get("audio", {}).get("sample_rate") == recipe.MODEL["native_sample_rate"] and
+         config.get("espeak", {}).get("voice") == recipe.MODEL["phonemizer_voice"], "PIPER_AUDIO_PHONEMIZER_GEOMETRY")
+    need(len(source_plan["cells"]) == 12 and len(recipe.recipe()["rows"]) == recipe.SOURCE_COUNT, "V7_RECIPE_GEOMETRY")
     speaker_map = config.get("speaker_id_map")
     need(type(speaker_map) is dict and len(speaker_map) == 904, "PIPER_SPEAKER_MAP")
     inverse = {index: speaker for speaker, index in speaker_map.items()}
