@@ -597,13 +597,18 @@ def combine(source, observers, plan, output):
     for provider in recipe.PROVIDERS:
         path = Path(observers) / ("v7-observer-" + provider)
         if path.is_dir():
-            started = read(path / "STARTED.json")
-            need(started.get("run") == run and started.get("provider") == provider and
-                 started.get("source_corpus_sha256") == recipe.digest(corpus) and
-                 started.get("observer_identity") == recipe.observer_identity(provider), "OBSERVER_HANDOFF_IDENTITY")
-            copy_closed_tree(path, output / "evidence" / provider, 32 * 1024**2)
-            result_path = output / "evidence" / provider / "RESULT.json"
-            observer_statuses[provider] = read(result_path).get("status") if result_path.is_file() else "MISSING_TERMINAL_RESULT"
+            started_path = path / "STARTED.json"
+            if started_path.is_file():
+                started = read(started_path)
+                need(started.get("run") == run and started.get("provider") == provider and
+                     started.get("source_corpus_sha256") == recipe.digest(corpus) and
+                     started.get("observer_identity") == recipe.observer_identity(provider), "OBSERVER_HANDOFF_IDENTITY")
+                copy_closed_tree(path, output / "evidence" / provider, 32 * 1024**2)
+                result_path = output / "evidence" / provider / "RESULT.json"
+                observer_statuses[provider] = read(result_path).get("status") if result_path.is_file() else "MISSING_TERMINAL_RESULT"
+            else:
+                copy_closed_tree(path, output / "evidence" / provider, 32 * 1024**2)
+                observer_statuses[provider] = "FAILED_BEFORE_START"
         else:
             observer_statuses[provider] = "MISSING_ARTIFACT"
     once(output / "CORPUS_MANIFEST.json", corpus)
@@ -630,7 +635,6 @@ def combine(source, observers, plan, output):
             files.append({"path": path.relative_to(output).as_posix(), "bytes": len(raw), "sha256": sha(raw)})
     once(output / "FILES.json", {"schema": "english-kws-dual-track-v7-files-v1", "files": files})
     return result
-
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--plan", type=Path, required=True)
