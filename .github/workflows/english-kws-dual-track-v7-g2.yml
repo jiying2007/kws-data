@@ -185,6 +185,7 @@ jobs:
           name: v7-source-${{ github.run_id }}
           path: ${{ runner.temp }}/v7-source
       - name: Install pinned CPU observer dependencies
+        id: install
         run: |
           set -euo pipefail
           python3 -m pip install --disable-pip-version-check --no-input numpy==2.2.6 scipy==1.15.3 qwen-asr==0.0.6 openai-whisper==20250625 'nemo_toolkit[asr]==2.5.0'
@@ -195,6 +196,27 @@ jobs:
         run: |
           set -euo pipefail
           python3 -I -S -B automation/english_kws_dual_track_v7_once.py --plan automation/english_kws_dual_track_v7_execution_plan.json --observe ${{ matrix.provider }} --source "$RUNNER_TEMP/v7-source" --output "$RUNNER_TEMP/v7-observer"
+      - name: Preserve observer startup and terminal status
+        if: always()
+        shell: bash
+        env:
+          PROVIDER: ${{ matrix.provider }}
+          INSTALL_OUTCOME: ${{ steps.install.outcome }}
+          OBSERVE_OUTCOME: ${{ steps.observe.outcome }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/v7-observer"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          path = Path(os.environ["RUNNER_TEMP"]) / "v7-observer" / "JOB_STATUS.json"
+          payload = {
+              "provider": os.environ["PROVIDER"],
+              "install_outcome": os.environ.get("INSTALL_OUTCOME"),
+              "observe_outcome": os.environ.get("OBSERVE_OUTCOME"),
+          }
+          path.write_text(json.dumps(payload, sort_keys=True, indent=2) + "\\n")
+          PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
