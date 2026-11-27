@@ -102,6 +102,7 @@ jobs:
     timeout-minutes: 40
     outputs:
       source_ready: ${{ steps.readback.outputs.source_ready }}
+      valid_count: ${{ steps.readback.outputs.valid_count }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -113,20 +114,25 @@ jobs:
         with:
           name: v7-preflight-${{ github.run_id }}
           path: ${{ runner.temp }}/v7-preflight
-      - name: Verify exact one-shot main successor before installing runtime
+      - name: Verify exact one-shot main successor before runtime installation
         run: |
           set -euo pipefail
           python3 -I -S -B automation/english_kws_dual_track_v7_once.py --plan automation/english_kws_dual_track_v7_execution_plan.json --guard
       - name: Install pinned Piper source-generation runtime
         run: |
           set -euo pipefail
-          python3 -m pip install --disable-pip-version-check --no-input numpy==2.2.6 scipy==1.15.3 huggingface-hub==0.36.2 piper-tts==1.8.0
+          python3 -m venv "$RUNNER_TEMP/v7-tts-venv"
+          "$RUNNER_TEMP/v7-tts-venv/bin/pip" install --disable-pip-version-check --no-input \
+            'piper-tts==1.8.0' 'huggingface-hub==0.36.2' 'scipy==1.15.3'
+          "$RUNNER_TEMP/v7-tts-venv/bin/pip" freeze > "$RUNNER_TEMP/v7-tts-pip-freeze.txt"
       - name: Generate the 144 fixed source rows exactly once
         id: generate
         continue-on-error: true
         run: |
           set -euo pipefail
-          python3 -I -S -B automation/english_kws_dual_track_v7_once.py --plan automation/english_kws_dual_track_v7_execution_plan.json --generate --preflight-dir "$RUNNER_TEMP/v7-preflight" --output "$RUNNER_TEMP/v7-source"
+          "$RUNNER_TEMP/v7-tts-venv/bin/python" -I -B automation/english_kws_dual_track_v7_once.py \
+            --plan automation/english_kws_dual_track_v7_execution_plan.json --generate \
+            --preflight-dir "$RUNNER_TEMP/v7-preflight" --output "$RUNNER_TEMP/v7-source"
       - name: Read back immutable PCM, WAV and per-item receipts
         id: readback
         if: always()
@@ -135,7 +141,9 @@ jobs:
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/v7-readback"
           if [ -d "$RUNNER_TEMP/v7-source" ]; then
-            python3 -I -S -B automation/english_kws_dual_track_v7_once.py --plan automation/english_kws_dual_track_v7_execution_plan.json --read-source --source "$RUNNER_TEMP/v7-source" --output "$RUNNER_TEMP/v7-readback/corpus.json"
+            python3 -I -S -B automation/english_kws_dual_track_v7_once.py \
+              --plan automation/english_kws_dual_track_v7_execution_plan.json --read-source \
+              --source "$RUNNER_TEMP/v7-source" --output "$RUNNER_TEMP/v7-readback/corpus.json"
             count="$(python3 -I -S -B -c 'import json,sys; print(json.load(open(sys.argv[1]))["valid_count"])' "$RUNNER_TEMP/v7-readback/corpus.json")"
           else
             count=0
@@ -164,7 +172,7 @@ jobs:
         github.event_name == 'push' &&
         github.ref == 'refs/heads/main' &&
         github.run_attempt == 1 &&
-        needs.source-contract.outputs.enabled == 'true' &&
+        needs.source_contract.outputs.enabled == 'true' &&
         needs.generate.outputs.source_ready == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 90
@@ -184,18 +192,52 @@ jobs:
         with:
           name: v7-source-${{ github.run_id }}
           path: ${{ runner.temp }}/v7-source
-      - name: Install pinned CPU observer dependencies
+      - name: Create isolated observer runtime
+        run: python3 -m venv "$RUNNER_TEMP/v7-observer-venv"
+      - name: Install pinned observer dependencies
         id: install
+        continue-on-error: true
+        shell: bash
+        env:
+          PROVIDER: ${{ matrix.provider }}
         run: |
           set -euo pipefail
-          python3 -m pip install --disable-pip-version-check --no-input numpy==2.2.6 scipy==1.15.3 qwen-asr==0.0.6 openai-whisper==20250625 'nemo_toolkit[asr]==2.5.0'
-          python3 -m pip install --disable-pip-version-check --no-input transformers==4.49.0
+          pip="$RUNNER_TEMP/v7-observer-venv/bin/pip"
+          if [ "$PROVIDER" = qwen ] || [ "$PROVIDER" = whisper ] || [ "$PROVIDER" = phoneme ]; then
+            "$pip" install --disable-pip-version-check --no-input --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+          fi
+          if [ "$PROVIDER" = qwen ] || [ "$PROVIDER" = whisper ]; then
+            "$pip" install --disable-pip-version-check --no-input --index-url https://download.pytorch.org/whl/cpu 'torchaudio==2.9.1+cpu'
+          fi
+          case "$PROVIDER" in
+            qwen)
+              "$pip" install --disable-pip-version-check --no-input 'qwen-asr==0.0.6' 'huggingface-hub==0.36.2'
+              ;;
+            whisper)
+              "$pip" install --disable-pip-version-check --no-input 'openai-whisper==20250625'
+              ;;
+            parakeet)
+              "$pip" install --disable-pip-version-check --no-input 'huggingface-hub==0.36.2' 'hf-xet==1.2.0'
+              ;;
+            phoneme)
+              "$pip" install --disable-pip-version-check --no-input 'transformers==4.46.3' 'huggingface-hub==0.36.2' 'numpy==1.26.4'
+              ;;
+            *)
+              exit 2
+              ;;
+          esac
+          "$pip" freeze > "$RUNNER_TEMP/v7-observer-pip-freeze.txt"
       - name: Run one blind observer over the immutable source PCM
         id: observe
+        if: steps.install.outcome == 'success'
         continue-on-error: true
+        env:
+          PROVIDER: ${{ matrix.provider }}
         run: |
           set -euo pipefail
-          python3 -I -S -B automation/english_kws_dual_track_v7_once.py --plan automation/english_kws_dual_track_v7_execution_plan.json --observe ${{ matrix.provider }} --source "$RUNNER_TEMP/v7-source" --output "$RUNNER_TEMP/v7-observer"
+          "$RUNNER_TEMP/v7-observer-venv/bin/python" -I -B automation/english_kws_dual_track_v7_once.py \
+            --plan automation/english_kws_dual_track_v7_execution_plan.json --observe "$PROVIDER" \
+            --source "$RUNNER_TEMP/v7-source" --output "$RUNNER_TEMP/v7-observer"
       - name: Preserve observer startup and terminal status
         if: always()
         shell: bash
@@ -232,7 +274,7 @@ jobs:
         github.event_name == 'push' &&
         github.ref == 'refs/heads/main' &&
         github.run_attempt == 1 &&
-        needs.source-contract.outputs.enabled == 'true' &&
+        needs.source_contract.outputs.enabled == 'true' &&
         needs.generate.outputs.source_ready == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -248,17 +290,38 @@ jobs:
           name: v7-source-${{ github.run_id }}
           path: ${{ runner.temp }}/v7-source
       - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        continue-on-error: true
         with:
-          pattern: v7-observer-*-${{ github.run_id }}
-          path: ${{ runner.temp }}/v7-observers
-          merge-multiple: false
+          name: v7-observer-qwen-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-observers/v7-observer-qwen
+          if-no-artifact-found: warn
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        continue-on-error: true
+        with:
+          name: v7-observer-whisper-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-observers/v7-observer-whisper
+          if-no-artifact-found: warn
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        continue-on-error: true
+        with:
+          name: v7-observer-parakeet-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-observers/v7-observer-parakeet
+          if-no-artifact-found: warn
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        continue-on-error: true
+        with:
+          name: v7-observer-phoneme-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-observers/v7-observer-phoneme
           if-no-artifact-found: warn
       - name: Retain immutable corpus and all available observer evidence
         id: combine
         continue-on-error: true
         run: |
           set -euo pipefail
-          python3 -I -S -B automation/english_kws_dual_track_v7_once.py --plan automation/english_kws_dual_track_v7_execution_plan.json --combine --source "$RUNNER_TEMP/v7-source" --observers "$RUNNER_TEMP/v7-observers" --output "$RUNNER_TEMP/v7-packet"
+          python3 -I -S -B automation/english_kws_dual_track_v7_once.py \
+            --plan automation/english_kws_dual_track_v7_execution_plan.json --combine \
+            --source "$RUNNER_TEMP/v7-source" --observers "$RUNNER_TEMP/v7-observers" \
+            --output "$RUNNER_TEMP/v7-packet"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
