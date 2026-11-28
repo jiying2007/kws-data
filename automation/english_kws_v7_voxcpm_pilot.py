@@ -302,18 +302,22 @@ def verify_reference_archive(archive, output, plan=None):
         opened = []
         for donor in plan["donors"]:
             row = rows.get(donor["donor_id"])
-            need(isinstance(row, dict)
-                 and row.get("role") == donor["role"]
-                 and row.get("source_group_id") == donor["source_group_id"]
-                 and row.get("reference_text") == donor["reference_text"]
-                 and row.get("reference_kind") == donor["reference_kind"]
-                 and row.get("sample_rate") == donor["sample_rate"]
-                 and row.get("training_allowed") is False
-                 and row.get("human_gold") is False
-                 and row.get("independent_human_source_claim") is False
-                 and row.get("wav_sha256") == donor["reference_wav_sha256"]
+            need(isinstance(row, dict), "DONOR_METADATA_ROW_PRESENT:" + donor["donor_id"])
+            need(row.get("role") == donor["role"], "DONOR_ROLE_MISMATCH:" + donor["donor_id"])
+            need(row.get("source_group_id") == donor["source_group_id"],
+                 "DONOR_SOURCE_GROUP_MISMATCH:" + donor["donor_id"])
+            need(row.get("reference_text") == donor["reference_text"],
+                 "DONOR_REFERENCE_TEXT_MISMATCH:" + donor["donor_id"])
+            need(row.get("reference_kind") == donor["reference_kind"],
+                 "DONOR_REFERENCE_KIND_MISMATCH:" + donor["donor_id"])
+            need(row.get("sample_rate") == donor["sample_rate"],
+                 "DONOR_SAMPLE_RATE_MISMATCH:" + donor["donor_id"])
+            need(row.get("training_allowed") is False and row.get("human_gold") is False
+                 and row.get("independent_human_source_claim") is False,
+                 "DONOR_SYNTHETIC_ONLY_FLAGS:" + donor["donor_id"])
+            need(row.get("wav_sha256") == donor["reference_wav_sha256"]
                  and row.get("joined_pcm_sha256") == donor["joined_pcm_sha256"],
-                 "DONOR_ROLE_OR_LINEAGE_MISMATCH:" + donor["donor_id"])
+                 "DONOR_AUDIO_HASH_MISMATCH:" + donor["donor_id"])
             name = safe_relative(donor["reference_path"])
             need(name in names, "SELECTED_DONOR_WAV_MISSING")
             wav = zf.read(name)
