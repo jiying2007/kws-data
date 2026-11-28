@@ -135,6 +135,16 @@ def read_source_audio(zips, original_rows, row):
     return pcm, raw_wav
 
 
+def candidate_class(candidate, observed_class):
+    need(type(observed_class) is int and observed_class in (0, 1, 2),
+         "KNOWN_MACHINE_OBSERVED_CLASS")
+    if candidate == "VOSEN":
+        return 1 if observed_class == 1 else 0
+    if candidate == "MERO":
+        return 1 if observed_class == 2 else 0
+    raise ValueError("KNOWN_DUAL_TRACK_CANDIDATE")
+
+
 def group_rows(rows):
     result = defaultdict(list)
     for row in rows:
@@ -177,7 +187,7 @@ def write_candidate_snapshot(output, candidate, selected, groups, zips,
                 stream.flush()
             file_entries.append({"path": name, "bytes": len(raw), "sha256": sha(raw)})
             total_bytes += len(raw)
-        research_class = 1 if source_row["weak_class"] == positive_class else 0
+        research_class = candidate_class(candidate, source_row["weak_class"])
         train = source_row["role"] == "train"
         weight = 1.0 if source_row["tier"] == "silver" else 0.5
         snapshot_rows.append({
