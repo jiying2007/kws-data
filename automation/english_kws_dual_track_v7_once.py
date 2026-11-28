@@ -598,95 +598,215 @@ def generate(plan, preflight_dir, output):
     return summary
 
 
-def source_readback(source, plan):
+def source_readback(source, plan, run, output=None):
+    import io
+    import wave
+
     source = Path(source)
+    model_lock_raw = regular(source / "MODEL_LOCK.json", 2 * 1024 * 1024)
+    model_lock = json.loads(model_lock_raw, object_pairs_hook=recipe.unique_pairs)
+    model_lock_sha = sha(model_lock_raw)
     frozen = recipe.recipe()
-    need(read(source / "RECIPE.json") == frozen and read(source / "EXECUTION_PLAN.json") == plan,
-         "SOURCE_RECIPE_OR_PLAN")
-    start = read(source / "STARTED.json")
-    need(start.get("schema") == SCHEMA and start.get("stage") == "generate" and
-         start.get("maximum_calls") == recipe.SOURCE_COUNT and start.get("retry_count") == 0,
-         "SOURCE_STARTED")
-    preflight = verify_preflight(source / "preflight", plan, start["run"])
-    need(start.get("preflight_sha256") == sha(regular(source / "preflight" / "source-license-preflight.json")),
-         "SOURCE_PREFLIGHT_BINDING")
-    lock_path = source / "MODEL_LOCK.json"
-    if lock_path.is_file():
-        lock = read(lock_path)
-        need(all(lock.get(k) == v for k, v in recipe.MODEL.items()), "SOURCE_MODEL_LOCK")
-        cb = regular(source / "preflight" / "piper-config.json", 1024 * 1024)
-        need(sha(cb) == lock["config_sha256"] and hashlib.md5(cb).hexdigest() == recipe.MODEL["config_md5"],
-             "SOURCE_CONFIG_PIN")
-        need(sha(regular(source / "preflight" / "MODEL_CARD", 4096)) == lock["model_card_sha256"],
-             "SOURCE_MODEL_CARD_PIN")
-        need(sha(regular(source / "preflight" / "PIPER_SETUP.py", 128 * 1024)) == lock["engine_setup_sha256"] and
-             sha(regular(source / "preflight" / "COPYING", 128 * 1024)) == lock["engine_copying_sha256"],
-             "SOURCE_ENGINE_LICENSE_PIN")
-        need(sha(regular(source / "installed-piper-voice.py", 128 * 1024)) == lock["installed_voice_api_sha256"],
-             "PIPER_API_CAPTURE")
-    rows = []
-    for expected in frozen["rows"]:
-        row = dict(expected)
-        folder = source / "audio" / row["id"]
-        done = folder / "COMPLETED.json"
-        begun = folder / "STARTED.json"
-        failed = folder / "FAILED.json"
-        row.update(generation_status="NOT_STARTED", pcm_path=None, pcm_sha256=None, pcm_samples=None,
-            wav_path=None, wav_sha256=None, sample_rate=16000, channels=1)
-        if done.is_file():
-            need(begun.is_file() and not failed.exists() and lock_path.is_file(), "SOURCE_TERMINAL_CLOSURE")
-            receipt = read(done)
-            receipt_start = read(begun)
-            need(receipt.get("status") == "COMPLETE" and receipt.get("id") == row["id"] and
-                 receipt.get("request_sha256") == row["request_sha256"] and
-                 receipt.get("generation_model_sha256") == recipe.MODEL["model_sha256"] and
-                 receipt.get("model_card_sha256") == lock["model_card_sha256"] and
-                 receipt.get("human_gold") is False, "SOURCE_COMPLETE_BINDING")
-            need(receipt_start.get("id") == row["id"] and receipt_start.get("request_sha256") == row["request_sha256"] and
-                 receipt_start.get("attempt") == 1 and receipt_start.get("direct_api") is True and
-                 receipt_start.get("raw_bracket_parser_used") is False and
-                 receipt_start.get("phonemes") == receipt.get("phonemes") and
-                 receipt_start.get("phoneme_ids") == receipt.get("phoneme_ids") and
-                 receipt_start.get("speaker_index") == row["source_speaker_index"] and
-                 receipt_start.get("source_group_id") == row["source_group_id"] and
-                 receipt_start.get("role") == row["role"] and receipt_start.get("cell_id") == row["cell_id"] and
-                 receipt_start.get("length_scale") == row["length_scale"], "SOURCE_DIRECT_API_RECEIPT")
-            row.update({k: receipt[k] for k in ("pcm_sha256", "pcm_samples", "wav_sha256")})
-            pcm = verify_wav(folder / "audio-16k.wav", row)
-            need(regular(folder / "audio-16k.pcm") == pcm, "RAW_PCM_COPY")
-            need(sha(regular(folder / "native-22050.wav")) == receipt["native_wav_sha256"], "NATIVE_WAV_HASH")
-            source_plan, _registration = recipe.source_documents()
-            audio_policy = source_plan["audio_policy"]
-            minimum_model_samples = plan["positive_min_samples"]
-            maximum_model_samples = audio_policy["positive_geometry_max_samples"]
-            if not minimum_model_samples <= row["pcm_samples"] <= maximum_model_samples:
-                row.update(generation_status="MODEL_INPUT_GEOMETRY_QUARANTINED",
-                    geometry_reason="REQUIRES_AT_LEAST_6400_PCM16_SAMPLES_FOR_35_CAUSAL_CTC_FRAMES_AND_MAX_28672")
-            else:
-                row.update(generation_status="success")
-            row.update(pcm_path=f"source/audio/{row['id']}/audio-16k.pcm",
-                wav_path=f"source/audio/{row['id']}/audio-16k.wav", actual_phonemes=receipt["phonemes"],
-                actual_phoneme_ids=receipt["phoneme_ids"], source_receipt_sha256=sha(regular(done)))
-        elif failed.is_file():
-            need(read(failed).get("id") == row["id"], "FAILED_SOURCE_ID")
-            row["generation_status"] = "FAILED_NO_RETRY"
-        elif begun.is_file():
-            row["generation_status"] = "UNKNOWN_AFTER_START_NO_RETRY"
-        rows.append(row)
-    pcm_hashes = [row["pcm_sha256"] for row in rows if row["generation_status"] == "success"]
-    duplicates = {digest for digest in pcm_hashes if pcm_hashes.count(digest) > 1}
-    for row in rows:
-        if row["pcm_sha256"] in duplicates:
-            row["generation_status"] = "DUPLICATE_PCM_QUARANTINED"
-    corpus = {"schema": "english-kws-dual-track-v7-corpus-v1", "run": start["run"],
-        "recipe_sha256": recipe.digest(frozen), "declared_count": recipe.SOURCE_COUNT,
-        "valid_count": sum(row["generation_status"] == "success" for row in rows),
-        "source_groups": recipe.source_groups(), "rows": rows, "human_gold": False,
-        "evaluation_scope": "FRESH_SYNTHETIC_SOURCE_GROUPS_WITH_SHARED_PIPER_PRETRAINING",
-        "independent_human_speaker_claim": False, "duplicate_pcm_count": len(duplicates),
-        "preflight_sha256": sha(regular(source / "preflight" / "source-license-preflight.json")),
-        "license_evidence": preflight["license"], "kws_forward_calls": 0, "optimizer_updates": 0}
+    voice_ids = {group["source_speaker_id"] for group in frozen["source_groups"]}
+    need(model_lock.get("schema") == "english-kws-dual-track-v7-kokoro-model-lock-v1"
+         and model_lock.get("run") == run
+         and model_lock.get("repository") == recipe.MODEL["repository"]
+         and model_lock.get("revision") == recipe.MODEL["revision"]
+         and model_lock.get("checkpoint_sha256") == recipe.MODEL["checkpoint_sha256"]
+         and model_lock.get("source_plan_sha256") == plan["source_plan_sha256"]
+         and model_lock.get("product_promotion_allowed") is False,
+         "PINNED_KOKORO_MODEL_LOCK")
+    need(set(model_lock.get("voice_packs", {})) == voice_ids,
+         "EXACT_KOKORO_VOICE_PACK_LOCK_SET")
+    vocab = model_lock.get("phoneme_vocab")
+    need(isinstance(vocab, dict)
+         and sha(canonical(vocab)) == model_lock.get("phoneme_vocab_sha256"),
+         "KOKORO_PHONEME_VOCAB_LOCK")
+
+    def member(relative, expected_sha, limit):
+        rel = Path(relative)
+        need(not rel.is_absolute() and ".." not in rel.parts and ".git" not in rel.parts,
+             "SAFE_KOKORO_SOURCE_MEMBER")
+        path = source / rel
+        raw = regular(path, limit)
+        need(sha(raw) == expected_sha, "KOKORO_SOURCE_MEMBER_SHA256:" + str(relative))
+        return raw
+
+    def inspect_wav(raw, expected_rate, expected_samples):
+        with wave.open(io.BytesIO(raw), "rb") as stream:
+            params = (stream.getnchannels(), stream.getsampwidth(), stream.getframerate(),
+                      stream.getcomptype(), stream.getnframes())
+            decoded = stream.readframes(stream.getnframes())
+        need(params == (1, 2, expected_rate, "NONE", expected_samples),
+             "KOKORO_WAV_GEOMETRY")
+        return decoded
+
+    completed_rows = []
+    seen_pcm = set()
+    valid_count = 0
+    for frozen_row in frozen["rows"]:
+        receipt_dir = source / "source" / "receipts" / frozen_row["id"]
+        completed_path = receipt_dir / "COMPLETED.json"
+        failed_path = receipt_dir / "FAILED.json"
+        need(not (completed_path.exists() and failed_path.exists()),
+             "KOKORO_ROW_CANNOT_BE_BOTH_COMPLETE_AND_FAILED")
+        common = {
+            key: frozen_row[key] for key in (
+                "source_group_id", "source_speaker_id", "source_speaker_index",
+                "voice_family", "role", "id", "request_sha256", "cell_id",
+                "requested_text", "requested_class", "pronunciation_hypothesis",
+                "kind", "length_scale", "raw_phonemes", "candidate_labels")
+        }
+        if failed_path.is_file() and not completed_path.exists():
+            failure_raw = regular(failed_path, 1024 * 1024)
+            failure = json.loads(failure_raw, object_pairs_hook=recipe.unique_pairs)
+            need(failure.get("id") == frozen_row["id"]
+                 and failure.get("request_sha256") == frozen_row["request_sha256"]
+                 and failure.get("run") == run
+                 and failure.get("status") == "FAILED_NO_RETRY"
+                 and failure.get("retry_allowed") is False,
+                 "KOKORO_FAILED_ROW_NO_RETRY_RECEIPT")
+            completed_rows.append({
+                **common,
+                "generation_status": "FAILED_NO_RETRY",
+                "source_generation_status": "FAILED_NO_RETRY",
+                "source_receipt_sha256": sha(failure_raw),
+                "actual_phonemes": None,
+                "actual_phoneme_ids": None,
+                "pcm_path": None, "wav_path": None,
+                "pcm_sha256": None, "wav_sha256": None,
+                "pcm_samples": None, "sample_rate": None, "channels": None,
+                "voice_id": frozen_row["source_speaker_id"],
+                "tts_model_sha256": model_lock["checkpoint_sha256"],
+                "voice_pack_sha256": model_lock["voice_packs"][frozen_row["source_speaker_id"]]["sha256"],
+            })
+            continue
+        if not completed_path.is_file():
+            completed_rows.append({
+                **common,
+                "generation_status": "FAILED_NO_RETRY",
+                "source_generation_status": "MISSING_NO_RETRY_RECEIPT",
+                "source_receipt_sha256": None,
+                "actual_phonemes": None,
+                "actual_phoneme_ids": None,
+                "pcm_path": None, "wav_path": None,
+                "pcm_sha256": None, "wav_sha256": None,
+                "pcm_samples": None, "sample_rate": None, "channels": None,
+                "voice_id": frozen_row["source_speaker_id"],
+                "tts_model_sha256": model_lock["checkpoint_sha256"],
+                "voice_pack_sha256": model_lock["voice_packs"][frozen_row["source_speaker_id"]]["sha256"],
+            })
+            continue
+
+        receipt_raw = regular(completed_path, 1024 * 1024)
+        receipt = json.loads(receipt_raw, object_pairs_hook=recipe.unique_pairs)
+        voice_id = frozen_row["source_speaker_id"]
+        voice_lock = model_lock["voice_packs"][voice_id]
+        expected_ids = [vocab[char] for char in frozen_row["raw_phonemes"]]
+        need(receipt.get("schema") == "english-kws-dual-track-v7-kokoro-source-receipt-v1"
+             and receipt.get("run") == run
+             and receipt.get("id") == frozen_row["id"]
+             and receipt.get("request_sha256") == frozen_row["request_sha256"]
+             and receipt.get("source_group_id") == frozen_row["source_group_id"]
+             and receipt.get("source_speaker_id") == voice_id
+             and receipt.get("role") == frozen_row["role"]
+             and receipt.get("cell_id") == frozen_row["cell_id"]
+             and receipt.get("requested_text") == frozen_row["requested_text"]
+             and receipt.get("requested_phonemes") == frozen_row["raw_phonemes"]
+             and receipt.get("requested_phoneme_ids") == expected_ids
+             and receipt.get("speed") == frozen_row["speed"]
+             and receipt.get("length_scale") == frozen_row["length_scale"]
+             and receipt.get("model_revision") == model_lock["revision"]
+             and receipt.get("model_sha256") == model_lock["checkpoint_sha256"]
+             and receipt.get("config_sha256") == model_lock["config_sha256"]
+             and receipt.get("voice_pack_sha256") == voice_lock["sha256"]
+             and receipt.get("model_lock_sha256") == model_lock_sha
+             and receipt.get("retry") is False
+             and receipt.get("retry_allowed") is False
+             and receipt.get("actual_phonemes_claimed") is False
+             and receipt.get("calibration_audio_generated") is False
+             and receipt.get("locked_test_audio_generated") is False,
+             "KOKORO_COMPLETED_SOURCE_RECEIPT_BINDING")
+
+        native_raw = member(receipt["native_wav_path"], receipt["native_wav_sha256"], 8 * 1024 * 1024)
+        native_samples = receipt["native_samples"]
+        inspect_wav(native_raw, 24000, native_samples)
+        pcm_raw = member(receipt["pcm_path"], receipt["pcm_sha256"], 1024 * 1024)
+        wav_raw = member(receipt["wav_path"], receipt["wav_sha256"], 4 * 1024 * 1024)
+        pcm_samples = receipt["pcm_samples"]
+        need(6400 <= pcm_samples <= 28672
+             and len(pcm_raw) == pcm_samples * 2
+             and receipt.get("sample_rate") == 16000
+             and receipt.get("channels") == 1
+             and inspect_wav(wav_raw, 16000, pcm_samples) == pcm_raw,
+             "KOKORO_PCM_WAV_BYTE_IDENTITY_AND_GEOMETRY")
+        if receipt["pcm_sha256"] in seen_pcm:
+            completed_rows.append({
+                **common,
+                "generation_status": "FAILED_NO_RETRY",
+                "source_generation_status": "DUPLICATE_PCM_QUARANTINED",
+                "source_receipt_sha256": sha(receipt_raw),
+                "actual_phonemes": None, "actual_phoneme_ids": None,
+                "pcm_path": None, "wav_path": None,
+                "pcm_sha256": None, "wav_sha256": None,
+                "pcm_samples": None, "sample_rate": None, "channels": None,
+                "voice_id": voice_id,
+                "tts_model_sha256": model_lock["checkpoint_sha256"],
+                "voice_pack_sha256": voice_lock["sha256"],
+            })
+            continue
+        seen_pcm.add(receipt["pcm_sha256"])
+        valid_count += 1
+        completed_rows.append({
+            **common,
+            "generation_status": "success",
+            "source_generation_status": "success",
+            "source_receipt_sha256": sha(receipt_raw),
+            "actual_phonemes": None,
+            "actual_phoneme_ids": None,
+            "pcm_path": receipt["pcm_path"],
+            "wav_path": receipt["wav_path"],
+            "pcm_sha256": receipt["pcm_sha256"],
+            "wav_sha256": receipt["wav_sha256"],
+            "pcm_samples": pcm_samples,
+            "sample_rate": 16000,
+            "channels": 1,
+            "voice_id": voice_id,
+            "tts_model_sha256": model_lock["checkpoint_sha256"],
+            "voice_pack_sha256": voice_lock["sha256"],
+            "native_wav_path": receipt["native_wav_path"],
+            "native_wav_sha256": receipt["native_wav_sha256"],
+            "native_samples": native_samples,
+        })
+
+    corpus = {
+        "schema": recipe.CORPUS_SCHEMA,
+        "run": run,
+        "source_plan_sha256": plan["source_plan_sha256"],
+        "recipe_sha256": recipe.digest(frozen),
+        "model_lock_sha256": model_lock_sha,
+        "preflight_report_sha256": model_lock["preflight_report_sha256"],
+        "source_groups": frozen["source_groups"],
+        "declared_count": recipe.SOURCE_COUNT,
+        "valid_count": valid_count,
+        "rows": completed_rows,
+        "human_gold": False,
+        "calibration_audio_generated": False,
+        "locked_test_audio_generated": False,
+        "training_allowed": False,
+        "product_promotion_allowed": False,
+        "license_evidence": {
+            "model_license": model_lock["model_license"],
+            "inference_code_license": model_lock["inference_code_license"],
+            "voice_asset_license_scope": "Pinned model repository metadata; no human speaker identity or commercial derivative-rights claim",
+            "generated_audio_derivative_clearance": "NOT_ASSERTED_LEGAL_REVIEW_REQUIRED_BEFORE_COMMERCIAL_PRODUCT_CLAIM",
+        },
+        "status": "COMPLETE" if valid_count == recipe.SOURCE_COUNT else "INCOMPLETE_NO_RETRY",
+    }
+    if output is not None:
+        write_once(output, corpus)
     return corpus
+
 
 def observe(provider, source, plan, output):
     run = execution_guard(plan)
