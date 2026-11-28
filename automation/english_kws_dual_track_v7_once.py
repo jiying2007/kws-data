@@ -104,58 +104,98 @@ def identity(env=None):
 
 
 def validate_plan(plan, *, check_sources=True, allow_autofill=False):
-    need(plan.get("schema") == SCHEMA and type(plan.get("enabled")) is bool, "PLAN_SCHEMA_ENABLE")
+    need(plan.get("schema") == SCHEMA and plan.get("enabled") is True,
+         "ENABLED_KOKORO_V7_EXECUTION_PLAN")
+    need(plan.get("source_repository") == "jiying2007/kws-data"
+         and plan.get("next_main_before") == "5902f1f8d4fdc8096a864eb5d814c253d6f58ff2",
+         "EXACT_PUBLIC_MAIN_SUCCESSOR")
+    need(plan.get("source_plan_blob_sha1") == recipe.SOURCE_PLAN_BLOB_SHA1
+         and plan.get("registration_blob_sha1") == recipe.REGISTRATION_BLOB_SHA1,
+         "EXACT_KOKORO_SOURCE_PLAN_AND_REGISTRATION_BLOBS")
+    source_plan, registration = recipe.source_documents()
+    source_plan_sha = sha(regular(recipe.SOURCE_PLAN_PATH))
+    registration_sha = sha(regular(recipe.REGISTRATION_PATH))
+    need(plan.get("source_plan_sha256") == source_plan_sha
+         and registration["source_map_evidence"]["source_plan_sha256"] == source_plan_sha,
+         "KOKORO_SOURCE_PLAN_SHA256")
     frozen = recipe.recipe()
-    need(plan.get("source_plan_sha256") == frozen["source_plan_sha256"], "SOURCE_PLAN_SHA256_PIN")
-    need(plan.get("source_plan_blob_sha1") == recipe.SOURCE_PLAN_BLOB_SHA1 and
-         plan.get("registration_blob_sha1") == recipe.REGISTRATION_BLOB_SHA1, "SOURCE_DOCUMENT_BLOB_PINS")
-    expected_recipe = recipe.digest(frozen)
-    expected_worker = sha(regular(Path(__file__), 256 * 1024))
-    expected_recipe_code = sha(regular(Path(recipe.__file__), 128 * 1024))
-    expected_preflight = sha(regular(ROOT / "automation/english_kws_dual_track_v7_preflight.py", 128 * 1024))
-    for field, expected in (("recipe_sha256", expected_recipe), ("worker_sha256", expected_worker),
-                            ("recipe_code_sha256", expected_recipe_code),
-                            ("preflight_script_sha256", expected_preflight)):
-        need(plan.get(field) == expected or (allow_autofill and plan.get(field) == "AUTO"), "SOURCE_PIN:" + field)
-    need(plan.get("execution_stage") == "G2_SOURCE_GENERATION_AND_BLIND_OBSERVATION_ONLY", "G2_STAGE")
-    need(plan.get("source_count") == recipe.SOURCE_COUNT == 144 and
-         len(frozen["rows"]) == recipe.SOURCE_COUNT and
-         len({row["id"] for row in frozen["rows"]}) == recipe.SOURCE_COUNT, "EXACT_SOURCE_ROSTER")
-    source_plan, _registration = recipe.source_documents()
-    audio_policy = source_plan["audio_policy"]
-    need(audio_policy["positive_minimum_complete_support_windows"] == 3 and
-         audio_policy["positive_geometry_max_samples"] == 28672 and
-         plan.get("positive_min_samples") == 6400 and
-         plan.get("positive_max_samples") == 28672, "POSITIVE_FRONTEND_SUPPORT_GEOMETRY")
-    groups = recipe.source_groups()
-    need([sum(group["role"] == role for group in groups) for role in recipe.ROLES] == [6, 2, 2, 2],
-         "FROZEN_6_2_2_2_SOURCE_SPLIT")
-    need(len(groups) == 12 and all(sum(row["source_group_id"] == group["source_group_id"] for row in frozen["rows"]) == 12
-         for group in groups), "TWELVE_CELLS_PER_SOURCE_GROUP")
-    need(plan.get("candidate_ids") == frozen["candidate_ids"] and
-         plan.get("observer_providers") == list(recipe.PROVIDERS), "CANDIDATE_AND_OBSERVER_ROSTER")
-    need(plan.get("maximum_tts_calls") == 144 and plan.get("maximum_calls_per_observer") == 144 and
-         plan.get("maximum_total_model_calls") == 720 and plan.get("retry_count") == 0 and
-         plan.get("new_kws_calls") == 0 and plan.get("optimizer_updates") == 0, "FINITE_CALL_BUDGET")
-    need(plan.get("generation_deadline_seconds") == 900 and
-         plan.get("observation_deadline_seconds") == 3600, "STAGE_DEADLINES")
-    need(plan.get("no_regenerate_old_audio") is True and
-         plan.get("same_pcm_shared_between_candidates") is True and
-         plan.get("training_allowed") is False and plan.get("promotion_allowed") is False, "NO_TRAINING_OR_REGENERATION")
-    need(plan.get("preflight_schema") == "english-kws-dual-track-v7-source-license-preflight-v1" and
-         plan.get("model_card_md5") == recipe.MODEL_CARD["md5"] and
-         plan.get("engine_commit") == recipe.ENGINE["commit"] and
-         plan.get("engine_license") == recipe.ENGINE["license"], "SOURCE_LICENSE_PREFLIGHT_PIN")
-    helpers = plan.get("helper_sha256")
-    need(type(helpers) is dict and 12 <= len(helpers) <= 24, "PINNED_HELPER_CLOSURE")
+    need(plan.get("recipe_sha256") == recipe.digest(frozen)
+         or (allow_autofill and plan.get("recipe_sha256") == "AUTO"),
+         "FROZEN_KOKORO_RECIPE_SHA256")
+    need(plan.get("source_count") == recipe.SOURCE_COUNT == 96
+         and frozen["source_count"] == 96
+         and plan.get("source_role_counts") == {"train": 6, "development": 2}
+         and frozen["source_role_counts"] == {"train": 6, "development": 2}
+         and len(frozen["source_groups"]) == 8
+         and len(frozen["rows"]) == 96,
+         "EXACT_96_ROW_6_2_KOKORO_TRAIN_DEV_PANEL")
+    role_counts = {}
+    for group in frozen["source_groups"]:
+        role_counts[group["role"]] = role_counts.get(group["role"], 0) + 1
+    need(role_counts == {"train": 6, "development": 2}
+         and len({group["source_speaker_id"] for group in frozen["source_groups"]}) == 8,
+         "EXACT_EIGHT_UNIQUE_VOICE_GROUPS")
+    need(plan.get("observer_providers") == list(recipe.PROVIDERS)
+         and plan.get("tts_requests") == 96
+         and plan.get("observer_requests_per_provider") == 96
+         and plan.get("total_high_level_model_requests") == 480
+         and plan.get("new_kws_model_forwards") == 0
+         and plan.get("optimizer_updates") == 0
+         and plan.get("retries") == 0
+         and plan.get("automatic_expansion") is False,
+         "FIXED_480_CALL_NO_TRAINING_NO_RETRY_BUDGET")
+    need(plan.get("model") == recipe.MODEL
+         and plan.get("preflight_schema") == "english-kws-dual-track-v7-kokoro-source-preflight-v1",
+         "EXACT_KOKORO_MODEL_AND_PREFLIGHT_PINS")
+    need(plan.get("minimum_pcm_samples") == 6400
+         and plan.get("maximum_pcm_samples") == 28672
+         and plan.get("native_sample_rate") == 24000
+         and plan.get("output_sample_rate") == 16000,
+         "KOKORO_AUDIO_GEOMETRY")
+    need(plan.get("calibration_audio_generated") is False
+         and plan.get("locked_test_audio_generated") is False
+         and plan.get("calibration_audio_opened") is False
+         and plan.get("locked_test_audio_opened") is False
+         and plan.get("training_allowed") is False
+         and plan.get("promotion_allowed") is False,
+         "NO_CALIBRATION_OR_LOCKED_TEST_AUDIO_AND_NO_TRAINING")
+    need(plan.get("execution") == {
+        "event": "push",
+        "ref": "refs/heads/main",
+        "run_attempt": 1,
+        "retries": 0,
+        "main_successor_only": True,
+        "no_manual_dispatch": True,
+    }, "EXACT_ONE_SHOT_MAIN_PUSH_EXECUTION")
+    computed = {
+        "worker_sha256": sha(regular(Path(__file__))),
+        "recipe_code_sha256": sha(regular(HERE / "english_kws_dual_track_v7_recipe.py")),
+        "preflight_script_sha256": sha(regular(HERE / "english_kws_dual_track_v7_preflight.py")),
+    }
     if check_sources:
+        for key, value in computed.items():
+            expected = plan.get(key)
+            need(expected == value or (allow_autofill and expected == "AUTO"),
+                 "PINNED_SOURCE_CODE_HASH:" + key)
+        helpers = plan.get("helper_sha256")
+        need(isinstance(helpers, dict) and 5 <= len(helpers) <= 12,
+             "PINNED_OBSERVER_HELPER_INVENTORY")
         for name, expected in helpers.items():
-            need(HEX64.fullmatch(expected) is not None and
-                 sha(regular(within(ROOT, name), 256 * 1024)) == expected, "HELPER_SOURCE_PIN: " + name)
-    if plan["enabled"]:
-        need(type(plan.get("next_main_before")) is str and HEX40.fullmatch(plan["next_main_before"]),
-             "EXACT_MAIN_PREDECESSOR")
-    return frozen
+            path = HERE / name
+            need(path.is_file() and not path.is_symlink()
+                 and sha(regular(path)) == expected,
+                 "PINNED_OBSERVER_HELPER_SHA256:" + name)
+    return {
+        "plan": plan,
+        "source_plan": source_plan,
+        "registration": registration,
+        "recipe": frozen,
+        "source_plan_sha256": source_plan_sha,
+        "registration_sha256": registration_sha,
+        "computed_source_hashes": computed,
+        "recipe_sha256": recipe.digest(frozen),
+    }
+
 
 def execution_guard(plan, env=None, event=None):
     env = os.environ if env is None else env
