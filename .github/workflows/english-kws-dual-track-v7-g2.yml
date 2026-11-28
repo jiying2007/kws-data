@@ -1,4 +1,4 @@
-name: English KWS V7 G2 source generation and blind observation
+name: English KWS V7 Kokoro G2 source generation and blind observation
 'on':
   push:
     branches: [main, research/english-kws-dual-track-v7-g2-20261127]
@@ -77,10 +77,11 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.12'
-      - name: Verify speaker map, raw-IPA coverage, model card and Piper engine license
+      - name: Verify pinned Kokoro model, voice map, raw-IPA vocabulary and Apache license metadata
         run: |
           set -euo pipefail
-          python3 -I -S -B automation/english_kws_dual_track_v7_preflight.py --output-dir "$RUNNER_TEMP/v7-preflight"
+          python3 -m pip install --disable-pip-version-check --no-input 'huggingface-hub==0.36.2'
+          python3 -I -B automation/english_kws_dual_track_v7_preflight.py --output-dir "$RUNNER_TEMP/v7-preflight"
           test -z "$(git status --porcelain)"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
@@ -119,14 +120,17 @@ jobs:
         run: |
           set -euo pipefail
           python3 -I -S -B automation/english_kws_dual_track_v7_once.py --plan automation/english_kws_dual_track_v7_execution_plan.json --guard
-      - name: Install pinned Piper source-generation runtime
+      - name: Install pinned Kokoro KModel raw-IPA runtime without G2P/eSpeak dependencies
         run: |
           set -euo pipefail
           python3 -m venv "$RUNNER_TEMP/v7-tts-venv"
+          "$RUNNER_TEMP/v7-tts-venv/bin/pip" install --disable-pip-version-check --no-input --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+          "$RUNNER_TEMP/v7-tts-venv/bin/pip" install --disable-pip-version-check --no-input --no-deps 'kokoro==0.9.4'
           "$RUNNER_TEMP/v7-tts-venv/bin/pip" install --disable-pip-version-check --no-input \
-            'piper-tts==1.8.0' 'huggingface-hub==0.36.2' 'scipy==1.15.3'
+            'transformers==4.46.3' 'loguru==0.7.3' 'huggingface-hub==0.36.2' \
+            'numpy==1.26.4' 'scipy==1.15.3' 'einops==0.8.1'
           "$RUNNER_TEMP/v7-tts-venv/bin/pip" freeze > "$RUNNER_TEMP/v7-tts-pip-freeze.txt"
-      - name: Generate the 144 fixed source rows exactly once
+      - name: Generate the 96 fixed Kokoro train/dev source rows exactly once
         id: generate
         continue-on-error: true
         run: |
