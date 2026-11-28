@@ -1,131 +1,92 @@
 {
-  "schema": "english-kws-dual-track-v7-paired-source-plan-v1",
-  "version": "V7.0",
-  "status": "INERT_AWAITING_PINNED_904_SPEAKER_MAP_AUDIT",
+  "schema": "english-kws-dual-track-v7-kokoro-train-dev-source-plan-v1",
+  "version": "V7.0-KOKORO",
+  "status": "INERT_AWAITING_PINNED_MAIN_SUCCESSOR",
   "execution_enabled": false,
   "source_model": {
-    "repository": "rhasspy/piper-voices",
-    "revision": "de3dcfdf1912bb49726dc4aa11c26017ce2ac62a",
-    "model_path": "en/en_US/libritts/high/en_US-libritts-high.onnx",
-    "model_bytes": 136673811,
-    "model_sha256": "9127a559e11603f10b366d1a20ac7426826081dbc521de4c2420c57728d73f0f",
-    "config_path": "en/en_US/libritts/high/en_US-libritts-high.onnx.json",
-    "config_bytes": 20163,
-    "config_md5": "cb1564bb779f3b1f87e2de778adeb669",
-    "piper_tts_version": "1.8.0",
-    "num_speakers": 904,
-    "native_sample_rate": 22050,
+    "repository": "hexgrad/Kokoro-82M",
+    "revision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+    "checkpoint_path": "kokoro-v1_0.pth",
+    "checkpoint_sha256": "496dba118d1a58f5f3db2efc88dbdc216e0483fc89fe6e47ee1f2c53f18ad1e4",
+    "config_path": "config.json",
+    "voices_directory": "voices",
+    "native_sample_rate": 24000,
     "output_sample_rate": 16000,
-    "dataset": "LibriTTS train-clean-360",
-    "dataset_license": "CC-BY-4.0",
-    "engine_license": "GPL-3.0",
-    "voice_repository_license": "MIT"
+    "parameter_count": 82000000,
+    "model_license": "Apache-2.0",
+    "inference_package": "kokoro==0.9.4",
+    "inference_package_license": "Apache-2.0",
+    "inference_source_repository": "hexgrad/kokoro",
+    "inference_source_commit": "dfb907a02bba8152ca444717ca5d78747ccb4bec",
+    "phoneme_input_mode": "KModel.forward(raw_ipa, ref_s, speed); no G2P, no eSpeak, no text normalization",
+    "model_generation": "Kokoro v1.0"
   },
   "source_selection": {
-    "indices": [
-      496,
-      497,
-      498,
-      499,
-      500,
-      501,
-      502,
-      503,
-      504,
-      505,
-      506,
-      507
-    ],
-    "source_group_ids": [
-      "piper-libritts-index-496",
-      "piper-libritts-index-497",
-      "piper-libritts-index-498",
-      "piper-libritts-index-499",
-      "piper-libritts-index-500",
-      "piper-libritts-index-501",
-      "piper-libritts-index-502",
-      "piper-libritts-index-503",
-      "piper-libritts-index-504",
-      "piper-libritts-index-505",
-      "piper-libritts-index-506",
-      "piper-libritts-index-507"
-    ],
     "roles": [
       {
-        "speaker_index": 496,
+        "speaker_index": 0,
+        "voice_id": "af_heart",
         "role": "train",
-        "source_group_id": "piper-libritts-index-496"
+        "source_group_id": "kokoro-af_heart"
       },
       {
-        "speaker_index": 497,
+        "speaker_index": 1,
+        "voice_id": "af_bella",
         "role": "train",
-        "source_group_id": "piper-libritts-index-497"
+        "source_group_id": "kokoro-af_bella"
       },
       {
-        "speaker_index": 498,
+        "speaker_index": 2,
+        "voice_id": "af_nicole",
         "role": "train",
-        "source_group_id": "piper-libritts-index-498"
+        "source_group_id": "kokoro-af_nicole"
       },
       {
-        "speaker_index": 499,
+        "speaker_index": 3,
+        "voice_id": "af_sarah",
         "role": "train",
-        "source_group_id": "piper-libritts-index-499"
+        "source_group_id": "kokoro-af_sarah"
       },
       {
-        "speaker_index": 500,
+        "speaker_index": 4,
+        "voice_id": "am_fenrir",
         "role": "train",
-        "source_group_id": "piper-libritts-index-500"
+        "source_group_id": "kokoro-am_fenrir"
       },
       {
-        "speaker_index": 501,
+        "speaker_index": 5,
+        "voice_id": "am_michael",
         "role": "train",
-        "source_group_id": "piper-libritts-index-501"
+        "source_group_id": "kokoro-am_michael"
       },
       {
-        "speaker_index": 502,
+        "speaker_index": 6,
+        "voice_id": "af_aoede",
         "role": "development",
-        "source_group_id": "piper-libritts-index-502"
+        "source_group_id": "kokoro-af_aoede"
       },
       {
-        "speaker_index": 503,
+        "speaker_index": 7,
+        "voice_id": "am_puck",
         "role": "development",
-        "source_group_id": "piper-libritts-index-503"
-      },
-      {
-        "speaker_index": 504,
-        "role": "calibration",
-        "source_group_id": "piper-libritts-index-504"
-      },
-      {
-        "speaker_index": 505,
-        "role": "calibration",
-        "source_group_id": "piper-libritts-index-505"
-      },
-      {
-        "speaker_index": 506,
-        "role": "locked-test",
-        "source_group_id": "piper-libritts-index-506"
-      },
-      {
-        "speaker_index": 507,
-        "role": "locked-test",
-        "source_group_id": "piper-libritts-index-507"
+        "source_group_id": "kokoro-am_puck"
       }
     ],
-    "selection_basis": "first explicitly frozen candidate range after prior Piper/LibriTTS exposure through index 495; must pass exact 904-speaker map and original-speaker-ID exclusion audit before TTS",
-    "no_fallback_or_replacement": true,
-    "requires_exact_source_map_preflight": true,
-    "prior_index_exclusions": [
-      "0..57",
-      "400..495",
-      "all historical NEW_VOICES indices"
+    "source_group_ids": [
+      "kokoro-af_heart",
+      "kokoro-af_bella",
+      "kokoro-af_nicole",
+      "kokoro-af_sarah",
+      "kokoro-am_fenrir",
+      "kokoro-am_michael",
+      "kokoro-af_aoede",
+      "kokoro-am_puck"
     ],
-    "prior_original_speaker_id_exclusions": [
-      "OLD_LIBRI_IDS",
-      "OLD_PIPER_IDS",
-      "all historical NEW_VOICES speaker IDs",
-      "all mapped speaker IDs for prior index exclusions"
-    ]
+    "selection_basis": "Eight distinct pinned en-US Kokoro voice packs selected before any TTS; six TRAIN and two DEVELOPMENT; no voice reuse across groups",
+    "no_fallback_or_replacement": true,
+    "source_group_role_frozen_before_tts": true,
+    "unique_voice_pack_per_source_group": true,
+    "human_speaker_identity_claimed": false
   },
   "cells": [
     {
@@ -137,8 +98,7 @@
       "class_by_candidate": {
         "VOSEN": 1,
         "MERO": 0
-      },
-      "negative_role_for": "MERO"
+      }
     },
     {
       "id": "vosen-normal",
@@ -149,8 +109,7 @@
       "class_by_candidate": {
         "VOSEN": 1,
         "MERO": 0
-      },
-      "negative_role_for": "MERO"
+      }
     },
     {
       "id": "vosen-fast",
@@ -161,8 +120,7 @@
       "class_by_candidate": {
         "VOSEN": 1,
         "MERO": 0
-      },
-      "negative_role_for": "MERO"
+      }
     },
     {
       "id": "mero-slow",
@@ -173,8 +131,7 @@
       "class_by_candidate": {
         "VOSEN": 0,
         "MERO": 1
-      },
-      "negative_role_for": "VOSEN"
+      }
     },
     {
       "id": "mero-normal",
@@ -185,8 +142,7 @@
       "class_by_candidate": {
         "VOSEN": 0,
         "MERO": 1
-      },
-      "negative_role_for": "VOSEN"
+      }
     },
     {
       "id": "mero-fast",
@@ -197,8 +153,7 @@
       "class_by_candidate": {
         "VOSEN": 0,
         "MERO": 1
-      },
-      "negative_role_for": "VOSEN"
+      }
     },
     {
       "id": "bosen-s",
@@ -247,7 +202,7 @@
     {
       "id": "hello",
       "text": "Hello there.",
-      "raw_ipa": "həlˈoʊ ðɛɹ",
+      "raw_ipa": "həˈloʊ ðɛɹ",
       "kind": "ordinary-negative",
       "length_scale": 1,
       "class_by_candidate": {
@@ -267,59 +222,60 @@
       }
     }
   ],
-  "paired_candidate_policy": {
-    "matched_source_groups_across_tracks": true,
-    "same_original_pcm_sha256_referenced_in_both_candidate_manifests": true,
-    "candidate_relative_label_projection": true,
-    "same_phrase_is_positive_only_for_its_own_detector": true,
-    "other_brand_phrase_is_cross_trigger_negative": true,
-    "no_relabeling_within_a_candidate": true,
-    "model_parameters_optimizer_checkpoints_thresholds_and_reports_independent": true
-  },
   "split": {
     "train": 6,
-    "development": 2,
-    "calibration": 2,
-    "locked_test": 2
+    "development": 2
+  },
+  "source_role_counts": {
+    "train": 6,
+    "development": 2
   },
   "budget": {
-    "tts_requests": 144,
-    "qwen_asr_requests": 144,
-    "whisper_requests": 144,
-    "parakeet_requests": 144,
-    "phoneme_observer_requests": 144,
-    "total_high_level_model_requests": 720,
+    "tts_requests": 96,
+    "qwen_asr_requests": 96,
+    "whisper_asr_requests": 96,
+    "parakeet_asr_requests": 96,
+    "phoneme_observer_requests": 96,
+    "total_high_level_model_requests": 480,
     "new_kws_model_forwards": 0,
     "optimizer_updates": 0,
     "retries": 0,
     "automatic_expansion": false
   },
   "source_map_preflight": {
-    "script": "automation/english_kws_dual_track_v7_source_map_preflight.py",
-    "config_url": "https://huggingface.co/rhasspy/piper-voices/resolve/de3dcfdf1912bb49726dc4aa11c26017ce2ac62a/en/en_US/libritts/high/en_US-libritts-high.onnx.json",
-    "config_bytes": 20163,
-    "config_md5": "cb1564bb779f3b1f87e2de778adeb669",
-    "expected_num_speakers": 904,
-    "verify_exact_candidate_indices": true,
-    "verify_unique_source_speaker_ids": true,
-    "verify_no_historical_original_speaker_id_collision": true,
+    "script": "automation/english_kws_dual_track_v7_preflight.py",
+    "model_config_url": "https://huggingface.co/hexgrad/Kokoro-82M/resolve/f3ff3571791e39611d31c381e3a41a3af07b4987/config.json",
+    "voice_index_url": "https://huggingface.co/hexgrad/Kokoro-82M/resolve/f3ff3571791e39611d31c381e3a41a3af07b4987/VOICES.md",
+    "expected_voice_ids": [
+      "af_heart",
+      "af_bella",
+      "af_nicole",
+      "af_sarah",
+      "am_fenrir",
+      "am_michael",
+      "af_aoede",
+      "am_puck"
+    ],
+    "verify_exact_vocab_coverage_for_raw_ipa": true,
+    "verify_unique_voice_ids": true,
     "downloads_model_weights": false,
-    "downloads_or_generates_audio": false,
+    "downloads_voice_weights": false,
+    "generates_audio": false,
     "observer_calls": 0,
     "kws_model_calls": 0
   },
   "audio_policy": {
     "tts_only_not_human_recording": true,
-    "human_speaker_identity_claimed": false,
-    "full_original_wav_and_pcm_identity": true,
+    "no_text_g2p_or_orthographic_fallback": true,
+    "full_original_waveform_and_pcm_identity": true,
     "no_crop_or_trimming": true,
     "no_retry_or_replacement": true,
-    "empty_result_quarantines_whole_item": true,
     "duplicate_pcm_quarantined": true,
+    "positive_geometry_min_samples": 6400,
     "positive_geometry_max_samples": 28672,
     "positive_minimum_complete_support_windows": 3,
-    "locked_test_audio_sealed_from_training_and_mining": true,
-    "source_group_role_frozen_before_tts": true
+    "calibration_audio_not_generated": true,
+    "locked_test_audio_not_generated_or_opened": true
   },
   "admission_policy": {
     "three_blind_asr_plus_independent_phone_observer": true,
@@ -327,8 +283,34 @@
     "pronunciation_and_phoneme_review_required": true,
     "no_failed_positive_relabelled_as_ordinary_negative": true,
     "only_train_role_can_enter_optimizer": true,
-    "development_calibration_locked_roles_never_enter_optimizer": true,
+    "development_never_enters_optimizer": true,
+    "calibration_and_locked_test_deferred_to_post_freeze_stages": true,
     "source_group_minimums_must_all_pass": true
+  },
+  "future_evaluation_voice_reservations": {
+    "calibration": [
+      {
+        "voice_id": "af_sky",
+        "role": "calibration"
+      },
+      {
+        "voice_id": "am_echo",
+        "role": "calibration"
+      }
+    ],
+    "locked_test": [
+      {
+        "voice_id": "af_nova",
+        "role": "locked-test"
+      },
+      {
+        "voice_id": "am_eric",
+        "role": "locked-test"
+      }
+    ],
+    "generated": false,
+    "observed": false,
+    "audio_opened": false
   },
   "status_flags": {
     "source_map_authenticated": false,
@@ -336,6 +318,8 @@
     "observers_completed": false,
     "data_admitted": false,
     "training_allowed": false,
+    "calibration_opened": false,
+    "locked_test_opened": false,
     "promotion_allowed": false
   }
 }
