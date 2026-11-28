@@ -293,8 +293,9 @@ def verify_preflight(preflight_dir, plan, run):
         need(isinstance(expected, str) and sha(raw) == expected,
              "KOKORO_PREFLIGHT_FILE_SHA256:" + name)
     config = read_json(preflight_dir / "config.json")
-    vocab = config.get("vocab")
-    need(isinstance(vocab, dict) and vocab, "KOKORO_CONFIG_VOCAB")
+    raw_vocab = config.get("vocab")
+    need(isinstance(raw_vocab, dict) and raw_vocab, "KOKORO_CONFIG_VOCAB")
+    vocab = {phoneme: int(token_id) for token_id, phoneme in raw_vocab.items()}
     selected_plan, _ = recipe.source_documents()
     required_chars = {char for cell in selected_plan["cells"] for char in cell["raw_ipa"]}
     need(required_chars <= set(vocab), "KOKORO_RUNTIME_VOCAB_RECHECK")
