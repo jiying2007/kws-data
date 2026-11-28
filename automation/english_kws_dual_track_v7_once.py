@@ -294,8 +294,8 @@ def verify_preflight(preflight_dir, plan, run):
     config = read_json(preflight_dir / "config.json")
     vocab = config.get("vocab")
     need(isinstance(vocab, dict) and vocab, "KOKORO_CONFIG_VOCAB")
-    required_chars = {char for cell in plan["source_plan_sha256"] and
-                      recipe.source_documents()[0]["cells"] for char in cell["raw_ipa"]}
+    selected_plan, _ = recipe.source_documents()
+    required_chars = {char for cell in selected_plan["cells"] for char in cell["raw_ipa"]}
     need(required_chars <= set(vocab), "KOKORO_RUNTIME_VOCAB_RECHECK")
     return report
 
