@@ -178,10 +178,11 @@ def validate_plan(plan, *, check_sources=True, allow_autofill=False):
             need(expected == value or (allow_autofill and expected == "AUTO"),
                  "PINNED_SOURCE_CODE_HASH:" + key)
         helpers = plan.get("helper_sha256")
-        need(isinstance(helpers, dict) and 5 <= len(helpers) <= 12,
+        need(isinstance(helpers, dict) and 5 <= len(helpers) <= 20,
              "PINNED_OBSERVER_HELPER_INVENTORY")
         for name, expected in helpers.items():
-            path = HERE / name
+            relative = Path(name)
+            path = (HERE.parent / relative) if relative.parts and relative.parts[0] == "automation" else (HERE / relative)
             need(path.is_file() and not path.is_symlink()
                  and sha(regular(path)) == expected,
                  "PINNED_OBSERVER_HELPER_SHA256:" + name)
