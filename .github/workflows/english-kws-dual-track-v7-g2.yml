@@ -3,6 +3,8 @@ name: English KWS V7 Kokoro G2 source generation and blind observation
   push:
     branches: [main, research/english-kws-dual-track-v7-g2-20261127]
     paths:
+      - automation/english_kws_dual_track_v7_source_plan.json
+      - automation/english_kws_dual_track_v7_registration.json
       - automation/english_kws_dual_track_v7_execution_plan.json
       - automation/english_kws_dual_track_v7_once.py
       - automation/english_kws_dual_track_v7_recipe.py
@@ -138,6 +140,14 @@ jobs:
           "$RUNNER_TEMP/v7-tts-venv/bin/python" -I -B automation/english_kws_dual_track_v7_once.py \
             --plan automation/english_kws_dual_track_v7_execution_plan.json --generate \
             --preflight-dir "$RUNNER_TEMP/v7-preflight" --output "$RUNNER_TEMP/v7-source"
+      - name: Preserve exact pinned Kokoro inference environment
+        if: always() && hashFiles(runner.temp + '/v7-tts-pip-freeze.txt') != ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -d "$RUNNER_TEMP/v7-source" ] && [ -f "$RUNNER_TEMP/v7-tts-pip-freeze.txt" ]; then
+            cp "$RUNNER_TEMP/v7-tts-pip-freeze.txt" "$RUNNER_TEMP/v7-source/ENVIRONMENT.txt"
+          fi
       - name: Read back immutable PCM, WAV and per-item receipts
         id: readback
         if: always()
