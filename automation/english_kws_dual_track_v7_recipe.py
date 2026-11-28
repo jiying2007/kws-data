@@ -12,6 +12,9 @@ SOURCE_PLAN_BLOB_SHA1 = "9eb148ed2dd39df67ac28573e2f3a752120be366"
 REGISTRATION_BLOB_SHA1 = "9f9542b36d96d3621ed9935d5a9627e80c9d1e37"
 
 SCHEMA = "english-kws-dual-track-v7-kokoro-source-recipe-v1"
+CORPUS_SCHEMA = "english-kws-dual-track-v7-kokoro-corpus-v1"
+EVIDENCE_SCHEMA = "english-kws-dual-track-v7-kokoro-machine-evidence-v1"
+CAPTURE_SCHEMA = "english-kws-dual-track-v7-kokoro-observer-capture-v1"
 SOURCE_COUNT = 96
 PROVIDERS = ("qwen", "whisper", "parakeet", "phoneme")
 ROLES = ("train", "development")
