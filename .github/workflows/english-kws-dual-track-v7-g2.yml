@@ -141,7 +141,7 @@ jobs:
             --plan automation/english_kws_dual_track_v7_execution_plan.json --generate \
             --preflight-dir "$RUNNER_TEMP/v7-preflight" --output "$RUNNER_TEMP/v7-source"
       - name: Preserve exact pinned Kokoro inference environment
-        if: always() && hashFiles(runner.temp + '/v7-tts-pip-freeze.txt') != ''
+        if: always()
         shell: bash
         run: |
           set -euo pipefail
