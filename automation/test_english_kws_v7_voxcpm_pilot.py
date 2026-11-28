@@ -153,14 +153,11 @@ class VoxCPMPilotContracts(unittest.TestCase):
             self.assertEqual(sorted(p.name for p in (output / "reference").iterdir()),
                              ["synthetic-af_aoede.wav", "synthetic-af_bella.wav"])
 
-    def test_reserved_donor_audio_cannot_be_selected_by_plan(self):
-        plan, _ = pilot.load_plan()
-        bad = copy.deepcopy(plan)
-        bad["donors"][0]["role"] = "calibration"
-        with self.assertRaisesRegex(ValueError, "ONLY_ONE_TRAIN_AND_ONE_DEVELOPMENT_DONOR"):
-            # load_plan validates the frozen file; the explicit role contract
-            # is checked by passing the malformed plan to the archive verifier.
-            pilot.verify_reference_archive("/nonexistent", "/tmp/not-created", bad)
+    def test_archive_member_paths_cannot_escape_the_selected_donor_root(self):
+        with self.assertRaisesRegex(ValueError, "SAFE_RELATIVE_PATH"):
+            pilot.safe_relative("../calibration/secret.wav")
+        with self.assertRaisesRegex(ValueError, "SAFE_RELATIVE_PATH"):
+            pilot.safe_relative("/absolute/locked.wav")
 
 
 if __name__ == "__main__":
