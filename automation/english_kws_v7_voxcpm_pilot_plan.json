@@ -177,5 +177,49 @@
     "training_allowed": false,
     "promotion_allowed": false,
     "calibration_locked_test_opened": false
+  },
+  "admission_policy": {
+    "repository": "jiying2007/kws-pipeline",
+    "commit": "ec414dc89c52fb5756e9560e79517bcd41784248",
+    "path": "training/english_kws_dual_track_v7_silver.py",
+    "git_blob_sha": "d7c0d68b7ad7ed7e79f67b0e15037cd42ab74ffb",
+    "rule": "exact V7 candidate-relative triple-ASR plus independent phoneme; unknown is never background"
+  },
+  "converter_runtime": {
+    "python": "3.12",
+    "torch": "2.9.1+cpu",
+    "numpy": "2.2.6",
+    "safetensors": "0.6.2",
+    "pydantic": "2.12.5",
+    "huggingface_hub": "0.36.2",
+    "transformers": "4.57.3",
+    "tokenizers": "0.22.1",
+    "gguf": "0.19.0",
+    "gguf_wheel_sha256": "70bcd10edfe697fb2dad6e40af2234b9d8ece9a41a99761405121ebda1c3c1cd2",
+    "gguf_license": "MIT",
+    "converter_import_strategy": "pinned AudioVAEConfig source with minimal empty package initializers; do not install unrelated full training stack"
+  },
+  "observer_runtimes": {
+    "qwen": {
+      "torch": "2.9.1+cpu",
+      "torchaudio": "2.9.1+cpu",
+      "qwen-asr": "0.0.6",
+      "huggingface_hub": "0.36.2"
+    },
+    "whisper": {
+      "torch": "2.9.1+cpu",
+      "torchaudio": "2.9.1+cpu",
+      "openai-whisper": "20250625"
+    },
+    "parakeet": {
+      "huggingface_hub": "0.36.2",
+      "runtime": "NVIDIA/NeMo-Speech.cpp v0.3.0 CPU"
+    },
+    "phoneme": {
+      "torch": "2.9.1+cpu",
+      "transformers": "4.46.3",
+      "huggingface_hub": "0.36.2",
+      "numpy": "1.26.4"
+    }
   }
 }
