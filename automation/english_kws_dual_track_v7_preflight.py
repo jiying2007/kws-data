@@ -75,7 +75,7 @@ def run(output_dir: Path):
         raise ValueError("KOKORO_VOICE_NOT_IN_PINNED_VOICES_MD:" + repr(missing_voices))
 
     readme_text = readme_raw.decode("utf-8", errors="replace")
-    license_match = re.search(r"(?im)^license:\\s*apache-2\\.0\\s*$", readme_text)
+    license_match = re.search(r"(?im)^license:\s*apache-2\.0\s*$", readme_text)
     if license_match is None:
         raise ValueError("KOKORO_MODEL_CARD_APACHE_2_LICENSE_METADATA")
     license_text = license_raw.decode("utf-8", errors="replace")
