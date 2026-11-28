@@ -40,8 +40,8 @@ EXCLUDED_TRANSCRIPTS = {
     "hey vozan", "hay vozan", "hey vozin", "hay vozin",
 }
 PHONE_PATTERNS = {
-    "VOSEN": re.compile(r"h?eɪv(?:oʊ|ou|o)s[əɐʌ]n\\Z"),
-    "MERO": re.compile(r"h?eɪmɛr(?:oʊ|ou|o)\\Z"),
+    "VOSEN": re.compile(r"h?eɪv(?:oʊ|ou|o)s[əɐʌ]n$"),
+    "MERO": re.compile(r"h?eɪmɛr(?:oʊ|ou|o)$"),
 }
 
 
@@ -70,7 +70,9 @@ def normalized_phones(tokens):
     need(isinstance(tokens, list) and all(isinstance(token, str) and token for token in tokens),
          "PHONE_TOKENS_REQUIRED")
     value = unicodedata.normalize("NFKC", "".join(tokens))
-    value = re.sub(r"[\\sˈˌːˑ͜͡]", "", value)
+    value = "".join(value.split())
+    for marker in ("ˈ", "ˌ", "ː", "ˑ", "͡", "͜"):
+        value = value.replace(marker, "")
     return value.replace("ɹ", "r").replace("ɾ", "r")
 
 
@@ -92,11 +94,11 @@ def observer_identity(provider):
 
 
 def safe_relative(name):
-    need(type(name) is str and name and "\\\\" not in name, "SAFE_CAPTURE_PATH")
+    need(type(name) is str and name and chr(92) not in name, "SAFE_CAPTURE_PATH")
     path = PurePosixPath(name)
     need(not path.is_absolute() and path.as_posix() == name
          and all(part not in ("", ".", "..", ".git") for part in path.parts),
-         "SAFE_CAPTURE_PATH")
+    need(type(name) is str and name and chr(92) not in name, "SAFE_CAPTURE_PATH")
     return name
 
 
