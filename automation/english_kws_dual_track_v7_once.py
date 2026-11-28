@@ -718,6 +718,9 @@ def source_readback(source, plan, run, output=None):
              and receipt.get("requested_phoneme_ids") == expected_ids
              and receipt.get("speed") == frozen_row["speed"]
              and receipt.get("length_scale") == frozen_row["length_scale"]
+             and receipt.get("seed") == int(frozen_row["request_sha256"][:16], 16)
+             and receipt.get("native_sample_rate") == 24000
+             and receipt.get("sample_rate") == 16000
              and receipt.get("model_revision") == model_lock["revision"]
              and receipt.get("model_sha256") == model_lock["checkpoint_sha256"]
              and receipt.get("config_sha256") == model_lock["config_sha256"]
@@ -732,12 +735,16 @@ def source_readback(source, plan, run, output=None):
 
         native_raw = member(receipt["native_wav_path"], receipt["native_wav_sha256"], 8 * 1024 * 1024)
         native_samples = receipt["native_samples"]
+        need(receipt.get("native_wav_bytes") == len(native_raw),
+             "KOKORO_NATIVE_WAV_BYTE_COUNT")
         inspect_wav(native_raw, 24000, native_samples)
         pcm_raw = member(receipt["pcm_path"], receipt["pcm_sha256"], 1024 * 1024)
         wav_raw = member(receipt["wav_path"], receipt["wav_sha256"], 4 * 1024 * 1024)
         pcm_samples = receipt["pcm_samples"]
         need(6400 <= pcm_samples <= 28672
              and len(pcm_raw) == pcm_samples * 2
+             and receipt.get("pcm_bytes") == len(pcm_raw)
+             and receipt.get("wav_bytes") == len(wav_raw)
              and receipt.get("sample_rate") == 16000
              and receipt.get("channels") == 1
              and inspect_wav(wav_raw, 16000, pcm_samples) == pcm_raw,
