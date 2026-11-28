@@ -1,4 +1,4 @@
-"""Frozen V7 dual-track source recipe; no audio/model execution at import time."""
+"""Frozen Kokoro V7 train/dev source recipe and independent observer identities."""
 from __future__ import annotations
 
 import hashlib
@@ -6,65 +6,33 @@ import json
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parent
 SOURCE_PLAN_PATH = HERE / "english_kws_dual_track_v7_source_plan.json"
 REGISTRATION_PATH = HERE / "english_kws_dual_track_v7_registration.json"
-SOURCE_PLAN_BLOB_SHA1 = "1a35d841dba1921ba89053c7b8bb99ec3ef0ea64"
-REGISTRATION_BLOB_SHA1 = "23a5f78efa735b72a9aaba351199acfa6cdb717e"
+SOURCE_PLAN_BLOB_SHA1 = "9eb148ed2dd39df67ac28573e2f3a752120be366"
+REGISTRATION_BLOB_SHA1 = "9f9542b36d96d3621ed9935d5a9627e80c9d1e37"
 
-SCHEMA = "english-kws-dual-track-v7-source-recipe-v1"
-SOURCE_COUNT = 144
+SCHEMA = "english-kws-dual-track-v7-kokoro-source-recipe-v1"
+SOURCE_COUNT = 96
 PROVIDERS = ("qwen", "whisper", "parakeet", "phoneme")
-ROLES = ("train", "development", "calibration", "locked-test")
+ROLES = ("train", "development")
 
 MODEL = {
-    "repository": "rhasspy/piper-voices",
-    "revision": "de3dcfdf1912bb49726dc4aa11c26017ce2ac62a",
-    "model_path": "en/en_US/libritts/high/en_US-libritts-high.onnx",
-    "model_bytes": 136673811,
-    "model_sha256": "9127a559e11603f10b366d1a20ac7426826081dbc521de4c2420c57728d73f0f",
-    "config_path": "en/en_US/libritts/high/en_US-libritts-high.onnx.json",
-    "config_bytes": 20163,
-    "config_md5": "cb1564bb779f3b1f87e2de778adeb669",
-    "piper_version": "1.8.0",
-    "native_sample_rate": 22050,
-    "phonemizer_voice": "en-us",
-    "num_speakers": 904,
-    "dataset": "LibriTTS train-clean-360",
-    "dataset_license": "CC-BY-4.0",
-    "engine_source": "https://github.com/OHF-Voice/piper1-gpl/tree/v1.8.0",
-    "engine_license": "GPL-3.0-or-later",
-    "voice_repository_license": "MIT (repository metadata only; model card governs voice data provenance)",
+    "repository": "hexgrad/Kokoro-82M",
+    "revision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+    "checkpoint_path": "kokoro-v1_0.pth",
+    "checkpoint_sha256": "496dba118d1a58f5f3db2efc88dbdc216e0483fc89fe6e47ee1f2c53f18ad1e4",
+    "config_path": "config.json",
+    "voices_directory": "voices",
+    "package": "kokoro==0.9.4",
+    "package_license": "Apache-2.0",
+    "source_commit": "dfb907a02bba8152ca444717ca5d78747ccb4bec",
+    "model_license": "Apache-2.0",
+    "code_license": "Apache-2.0",
+    "native_sample_rate": 24000,
+    "output_sample_rate": 16000,
+    "phoneme_path": "direct KModel raw IPA; no G2P, no eSpeak, no orthographic fallback",
+    "voice_pack_format": "torch weights_only tensor [1,256]",
 }
-MODEL_CARD = {
-    "path": "en/en_US/libritts/high/MODEL_CARD",
-    "bytes": 255,
-    "md5": "cdeac934f1154489924a071470b22365",
-    "dataset_url": "http://www.openslr.org/60/",
-    "dataset_license": "CC BY 4.0",
-    "training": "Trained from scratch on train-clean-360.",
-}
-ENGINE = {
-    "repository": "OHF-Voice/piper1-gpl",
-    "commit": "639388b6317fc4731e91d53da42aea68fd4166ff",
-    "version": "1.8.0",
-    "license": "GPL-3.0-or-later",
-}
-
-NEW_VOICES = (
-    (496, 4290),
-    (497, 2999),
-    (498, 2427),
-    (499, 637),
-    (500, 2229),
-    (501, 1874),
-    (502, 3446),
-    (503, 9023),
-    (504, 3114),
-    (505, 6235),
-    (506, 4860),
-    (507, 4519),
-)
 
 OBSERVERS = {
     "qwen": {"recognizer_id": "qwen", "model_family": "qwen3-asr",
@@ -98,38 +66,54 @@ def unique_pairs(pairs):
     return result
 
 
-def read_json(path):
-    return json.loads(Path(path).read_bytes(), object_pairs_hook=unique_pairs)
-
-
 def canonical(value):
-    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"),
+                      allow_nan=False).encode("utf-8")
 
 
 def digest(value):
     return hashlib.sha256(canonical(value)).hexdigest()
 
 
+def read_json(path):
+    return json.loads(Path(path).read_bytes(), object_pairs_hook=unique_pairs)
+
+
 def source_documents():
     source_plan = read_json(SOURCE_PLAN_PATH)
     registration = read_json(REGISTRATION_PATH)
+    plan_sha = hashlib.sha256(SOURCE_PLAN_PATH.read_bytes()).hexdigest()
+    if plan_sha != registration["source_map_evidence"]["source_plan_sha256"]:
+        raise ValueError("SOURCE_PLAN_REGISTRATION_SHA256")
+    if source_plan["source_model"]["revision"] != MODEL["revision"]:
+        raise ValueError("KOKORO_MODEL_REVISION_PIN")
+    if source_plan["source_model"]["checkpoint_sha256"] != MODEL["checkpoint_sha256"]:
+        raise ValueError("KOKORO_MODEL_CHECKPOINT_PIN")
     return source_plan, registration
 
 
 def source_groups():
     source_plan, registration = source_documents()
-    speaker_ids = registration["source_map_evidence"]["selected_speaker_ids"]
+    roles = source_plan["source_selection"]["roles"]
+    selected = registration["source_map_evidence"]["selected_voice_ids"]
     result = []
-    for item in source_plan["source_selection"]["roles"]:
+    seen = set()
+    for item in roles:
         index = item["speaker_index"]
-        speaker_id = speaker_ids[str(index)]
+        voice_id = item["voice_id"]
+        if selected.get(str(index)) != voice_id or voice_id in seen:
+            raise ValueError("KOKORO_VOICE_SOURCE_MAP_IDENTITY")
+        seen.add(voice_id)
         result.append({
             "source_group_id": item["source_group_id"],
-            "source_speaker_id": speaker_id,
+            "source_speaker_id": voice_id,
             "source_speaker_index": index,
-            "voice_family": "piper-libritts-" + speaker_id,
+            "voice_family": "kokoro-82m-" + voice_id,
             "role": item["role"],
+            "voice_id": voice_id,
         })
+    if len(result) != 8 or len(seen) != 8:
+        raise ValueError("EXACT_EIGHT_DISTINCT_KOKORO_VOICES")
     return result
 
 
@@ -146,60 +130,59 @@ def recipe():
     rows = []
     for group in groups:
         for cell in source_plan["cells"]:
-            candidate_labels = cell["class_by_candidate"]
-            requested_class = 1 if candidate_labels["VOSEN"] == 1 else 2 if candidate_labels["MERO"] == 1 else 0
-            if requested_class == 1:
-                hypothesis = "vosen-us-s-v7"
-            elif requested_class == 2:
-                hypothesis = "mero-us-eh-v7"
-            elif cell["kind"] == "contrast-negative":
-                hypothesis = "contrast-negative-v7"
-            else:
-                hypothesis = "ordinary-negative-v7"
-            frozen_cell = {
+            labels = cell["class_by_candidate"]
+            requested_class = 1 if labels["VOSEN"] == 1 else 2 if labels["MERO"] == 1 else 0
+            hypothesis = ("vosen-us-s-v7" if requested_class == 1 else
+                          "mero-us-eh-v7" if requested_class == 2 else
+                          "contrast-negative-v7" if cell["kind"] == "contrast-negative" else
+                          "ordinary-negative-v7")
+            speed = round(1.0 / float(cell["length_scale"]), 8)
+            request = {
+                "schema": "english-kws-dual-track-v7-kokoro-tts-request-v1",
+                "model": MODEL,
+                "voice_id": group["voice_id"],
+                "source_group_id": group["source_group_id"],
+                "role": group["role"],
+                "cell_id": cell["id"],
+                "text": cell["text"],
+                "raw_ipa": cell["raw_ipa"],
+                "speed": speed,
+                "length_scale": cell["length_scale"],
+                "sample_rate": 16000,
+            }
+            request_sha = hashlib.sha256(canonical(request)).hexdigest()
+            row_id = "v7-kokoro-" + request_sha[:24]
+            rows.append({
+                **{key: group[key] for key in (
+                    "source_group_id", "source_speaker_id", "source_speaker_index",
+                    "voice_family", "role")},
+                "id": row_id,
+                "request_sha256": request_sha,
                 "cell_id": cell["id"],
                 "requested_text": cell["text"],
                 "requested_class": requested_class,
                 "pronunciation_hypothesis": hypothesis,
-                "generation_mode": "direct-phoneme-ids",
-                "raw_phonemes": cell["raw_ipa"],
-                "length_scale": cell["length_scale"],
                 "kind": cell["kind"],
-                "candidate_labels": candidate_labels,
-            }
-            synthesis = {
                 "length_scale": cell["length_scale"],
-                "noise_scale": 0.333,
-                "noise_w_scale": 0.333,
-                "normalize_audio": False,
-                "volume": 1.0,
-            }
-            request = {"model": MODEL, "model_card": MODEL_CARD, "source": group,
-                       "cell": frozen_cell, "synthesis_config": synthesis}
-            rows.append(group | frozen_cell | {
-                "id": "kws-v7-" + digest(request)[:24],
-                "request_sha256": digest(request),
-                "human_gold": False,
-                "label_basis": "PREREGISTERED_SYNTHETIC_RESEARCH_HYPOTHESIS",
+                "speed": speed,
+                "raw_phonemes": cell["raw_ipa"],
+                "candidate_labels": labels,
+                "voice_id": group["voice_id"],
+                "generation_status": "pending",
             })
+    if len(rows) != SOURCE_COUNT or len({row["id"] for row in rows}) != SOURCE_COUNT:
+        raise ValueError("EXACT_96_UNIQUE_KOKORO_SOURCE_ROWS")
     return {
         "schema": SCHEMA,
+        "source_plan_sha256": hashlib.sha256(SOURCE_PLAN_PATH.read_bytes()).hexdigest(),
+        "registration_sha256": hashlib.sha256(REGISTRATION_PATH.read_bytes()).hexdigest(),
         "source_count": SOURCE_COUNT,
-        "model": MODEL,
-        "model_card": MODEL_CARD,
-        "engine": ENGINE,
-        "source_plan_sha256": registration["source_map_evidence"]["source_plan_sha256"],
         "source_groups": groups,
-        "rows": rows,
-        "observer_identities": {p: observer_identity(p) for p in PROVIDERS},
-        "same_engine_shared_pretraining": True,
-        "independent_human_speakers_claimed": False,
-        "new_tts_calls_max": SOURCE_COUNT,
-        "new_calls_per_observer_max": SOURCE_COUNT,
-        "retry_count": 0,
-        "regenerate_old_audio": False,
-        "final_owner_ipa_declared": True,
-        "kws_forward_calls": 0,
-        "optimizer_updates": 0,
+        "source_role_counts": {"train": 6, "development": 2},
         "candidate_ids": ["hey-vosen-v7", "hey-mero-v7"],
+        "observer_providers": list(PROVIDERS),
+        "rows": rows,
+        "human_gold": False,
+        "training_allowed": False,
+        "promotion_allowed": False,
     }
