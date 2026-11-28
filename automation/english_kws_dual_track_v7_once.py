@@ -421,44 +421,77 @@ def source_model(folder, preflight_dir, run):
     return model, voice_styles, model_lock
 
 
-def request_phonemes(voice, row):
-    if row["generation_mode"] == "direct-phoneme-ids":
-        phones = list(row["raw_phonemes"])
-    else:
-        sentences = voice.phonemize(row["requested_text"])
-        need(type(sentences) is list and len(sentences) == 1 and type(sentences[0]) is list, "ONE_G2P_SENTENCE")
-        phones = sentences[0]
-    need(0 < len(phones) <= 256 and all(type(x) is str and x in voice.config.phoneme_id_map for x in phones), "KNOWN_PHONEMES_ONLY")
-    ids = voice.phonemes_to_ids(phones)
-    need(type(ids) is list and 0 < len(ids) <= 1024 and all(type(i) is int and 0 <= i < 130 for i in ids), "DIRECT_PHONE_IDS")
-    return phones, ids
+def request_phonemes(row, model):
+    phonemes = row["raw_phonemes"]
+    need(isinstance(phonemes, str) and phonemes, "FROZEN_RAW_IPA_STRING")
+    ids = []
+    for char in phonemes:
+        token_id = model.vocab.get(char)
+        need(token_id is not None, "KOKORO_RAW_IPA_TOKEN:" + repr(char))
+        ids.append(int(token_id))
+    return phonemes, ids
 
 
-def write_audio(folder, audio):
+def write_wav(path, pcm_bytes, sample_rate):
+    import wave
+    path = Path(path)
+    with wave.open(path.as_posix(), "wb") as stream:
+        stream.setnchannels(1)
+        stream.setsampwidth(2)
+        stream.setframerate(sample_rate)
+        stream.writeframes(pcm_bytes)
+    return path
+
+
+def write_audio(output, row, audio):
     import numpy as np
     from scipy.signal import resample_poly
-    need(isinstance(audio, np.ndarray) and audio.ndim == 1 and
-         552 <= len(audio) <= 264600 and bool(np.isfinite(audio).all()), "NATIVE_AUDIO_GEOMETRY")
-    x = audio.astype(np.float32)
-    rms = float(np.sqrt(np.mean(x * x)))
-    peak = float(np.max(np.abs(x)))
-    need(0.003 <= rms <= 0.6 and 0.01 <= peak <= 1.1, "NATIVE_AUDIO_LEVEL")
-    native = np.rint(np.clip(x, -1.0, 32767 / 32768) * 32768).astype("<i2").tobytes()
-    y = resample_poly(np.frombuffer(native, dtype="<i2").astype(np.float32) / 32768.0, 320, 441)
-    need(400 <= len(y) <= 192000 and bool(np.isfinite(y).all()), "DERIVED_AUDIO_GEOMETRY")
-    pcm = np.rint(np.clip(y, -1.0, 32767 / 32768) * 32768).astype("<i2").tobytes()
-    for name, raw, rate in (("native-22050.wav", native, 22050), ("audio-16k.wav", pcm, 16000)):
-        with (folder / name).open("xb") as output:
-            with wave.open(output, "wb") as stream:
-                stream.setnchannels(1); stream.setsampwidth(2); stream.setframerate(rate); stream.writeframes(raw)
-    with (folder / "audio-16k.pcm").open("xb") as output:
-        output.write(pcm)
-    return {"pcm_sha256": sha(pcm), "pcm_samples": len(pcm) // 2,
-        "wav_sha256": sha(regular(folder / "audio-16k.wav")),
-        "native_wav_sha256": sha(regular(folder / "native-22050.wav")),
-        "native_samples": len(native) // 2, "sample_rate": 16000, "channels": 1,
-        "sample_width": 2, "native_rms": rms, "native_peak": peak,
-        "resampler": "scipy.signal.resample_poly(320,441)", "synthetic_silence_added": False}
+
+    audio = audio.detach().cpu().numpy().astype(np.float32, copy=False).squeeze()
+    need(audio.ndim == 1 and 600 <= audio.size <= 288000
+         and np.isfinite(audio).all(), "KOKORO_NATIVE_AUDIO_GEOMETRY")
+    peak = float(np.max(np.abs(audio)))
+    rms = float(np.sqrt(np.mean(np.square(audio, dtype=np.float64))))
+    need(0.0005 <= rms <= 0.8 and 0.005 <= peak <= 1.0,
+         "KOKORO_AUDIO_LEVEL_GATE")
+    native_pcm = np.rint(np.clip(audio, -1.0, 1.0) * 32767.0).astype("<i2")
+    native_bytes = native_pcm.tobytes()
+    resampled = resample_poly(audio.astype(np.float64), 2, 3)
+    need(resampled.size >= 6400 and resampled.size <= 28672
+         and np.isfinite(resampled).all(), "KOKORO_16K_RESAMPLE_GEOMETRY")
+    resampled_peak = float(np.max(np.abs(resampled)))
+    need(resampled_peak <= 1.0, "KOKORO_RESAMPLED_PCM_NO_CLIPPING")
+    pcm = np.rint(np.clip(resampled, -1.0, 1.0) * 32767.0).astype("<i2")
+    pcm_bytes = pcm.tobytes()
+    need(len(pcm_bytes) == pcm.size * 2, "KOKORO_PCM16_BYTE_GEOMETRY")
+
+    audio_dir = Path(output) / "source" / "audio" / row["id"]
+    audio_dir.mkdir(mode=0o700, parents=True, exist_ok=False)
+    native_name = "native-24k.wav"
+    pcm_name = "audio-16k.pcm"
+    wav_name = "audio-16k.wav"
+    native_path = write_wav(audio_dir / native_name, native_bytes, 24000)
+    (audio_dir / pcm_name).write_bytes(pcm_bytes)
+    wav_path = write_wav(audio_dir / wav_name, pcm_bytes, 16000)
+    return {
+        "native_wav_path": (Path("source/audio") / row["id"] / native_name).as_posix(),
+        "native_wav_sha256": sha(regular(native_path)),
+        "native_wav_bytes": native_path.stat().st_size,
+        "native_samples": int(native_pcm.size),
+        "native_sample_rate": 24000,
+        "pcm_path": (Path("source/audio") / row["id"] / pcm_name).as_posix(),
+        "pcm_sha256": sha(pcm_bytes),
+        "pcm_bytes": len(pcm_bytes),
+        "pcm_samples": int(pcm.size),
+        "sample_rate": 16000,
+        "channels": 1,
+        "wav_path": (Path("source/audio") / row["id"] / wav_name).as_posix(),
+        "wav_sha256": sha(regular(wav_path)),
+        "wav_bytes": wav_path.stat().st_size,
+        "native_peak": peak,
+        "native_rms": rms,
+        "resampled_peak": resampled_peak,
+    }
 
 
 def generate(plan, output, preflight_dir):
