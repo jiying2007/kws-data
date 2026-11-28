@@ -16,7 +16,7 @@ SCHEMA = "english-kws-v7-voxcpm-pilot-policy-v1"
 CAPTURE_SCHEMA = "english-kws-dual-track-v7-voice-clone-observer-capture-v1"
 UPSTREAM = {
     "repository": "jiying2007/kws-pipeline",
-    "commit": "ec414dc89c52fb5756e9560e79517bcd41784248",
+    "commit": "eb0c82309ef96214559d127216a5d053206334ac",
     "path": "training/english_kws_dual_track_v7_silver.py",
     "blob_sha": "d7c0d68b7ad7ed7e79f67b0e15037cd42ab74ffb",
 }
