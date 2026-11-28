@@ -147,7 +147,8 @@ def write_candidate_snapshot(output, candidate, selected, groups, zips,
     candidate_plan = plan["candidates"][candidate]
     positive_class = 1 if candidate == "VOSEN" else 2
     role_rows = [row for row in selected if row["role"] in ("train", "development")]
-    role_groups = [group for group in groups if group["role"] in ("train", "development")]
+    role_groups = [{**group, "source_speaker_id": group["source_group_id"]}
+                    for group in groups if group["role"] in ("train", "development")]
     need(Counter(group["role"] for group in role_groups) == Counter({"train": 8, "development": 4}),
          "CANDIDATE_TRAIN_DEV_GROUPS_8_4")
     by_group = group_rows(role_rows)
