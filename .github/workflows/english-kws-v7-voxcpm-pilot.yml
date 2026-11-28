@@ -1,0 +1,320 @@
+name: V7 VoxCPM1.5 actual generation and four-observer pilot
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/english-kws-v7-voxcpm-pilot.yml
+      - automation/english_v7_voxcpm_pilot.py
+      - automation/english_kws_v7_voxcpm_pilot_plan.json
+      - automation/english_kws_v7_voxcpm_observer.py
+      - automation/english_kws_v7_voxcpm_policy.py
+      - automation/english_kws_v7_voxcpm_evaluate.py
+      - automation/prepare_voxcpm_v7_model.py
+      - automation/test_english_kws_v7_voxcpm_pilot.py
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-kws-v7-voxcpm-pilot.yml
+      - automation/english_v7_voxcpm_pilot.py
+      - automation/english_kws_v7_voxcpm_pilot_plan.json
+      - automation/english_kws_v7_voxcpm_observer.py
+      - automation/english_kws_v7_voxcpm_policy.py
+      - automation/english_kws_v7_voxcpm_evaluate.py
+      - automation/prepare_voxcpm_v7_model.py
+      - automation/test_english_kws_v7_voxcpm_pilot.py
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: english-kws-v7-voxcpm-pilot-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Validate source-only contracts without model or network execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v7_voxcpm_pilot.py --source-check
+          python3 -I -S -B automation/prepare_voxcpm_v7_model.py --source-check
+          for mode in normal optimized stripped; do
+            args=()
+            case "$mode" in
+              optimized) args=(-O) ;;
+              stripped) args=(-OO) ;;
+            esac
+            python3 -I -S -B "${args[@]}" automation/test_english_kws_v7_voxcpm_pilot.py -v
+          done
+          test -z "$(git status --porcelain)"
+
+  execute-one-shot-pilot:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '5902f1f8d4fdc8096a864eb5d814c253d6f58ff2'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      TOKENIZERS_PARALLELISM: 'false'
+      OMP_NUM_THREADS: '4'
+      MKL_NUM_THREADS: '4'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Require the exact first public main successor
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v7_voxcpm_pilot.py --guard
+      - name: Install pinned CPU build prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential cmake git ffmpeg libopenblas-dev
+          ffmpeg -version | head -n 1
+      - name: Record and enforce same-run resource envelope
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, shutil
+          from pathlib import Path
+          disk = shutil.disk_usage("/")
+          memory = {}
+          for line in Path("/proc/meminfo").read_text().splitlines():
+              key, value = line.split(":", 1)
+              if key in ("MemTotal", "MemAvailable"):
+                  memory[key] = int(value.strip().split()[0]) * 1024
+          result = {
+              "disk_total_bytes": disk.total,
+              "disk_free_bytes": disk.free,
+              "memory_bytes": memory,
+              "disk_minimum_bytes": 25 * 1024**3,
+              "available_memory_minimum_bytes": 4 * 1024**3,
+          }
+          Path("$RUNNER_TEMP/resource-preflight.json").write_text(json.dumps(result, sort_keys=True) + "\n")
+          print(json.dumps(result, sort_keys=True))
+          if disk.free < result["disk_minimum_bytes"]:
+              raise SystemExit("RESOURCE_STOP_DISK_BELOW_25_GIB")
+          if memory.get("MemAvailable", 0) < result["available_memory_minimum_bytes"]:
+              raise SystemExit("RESOURCE_STOP_MEMORY_BELOW_4_GIB")
+          PY
+      - name: Download only immutable donor and historical metadata artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/v7-history"
+          download_artifact() {
+            local artifact_id="$1"
+            local target="$2"
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$artifact_id" > "$RUNNER_TEMP/artifact-$artifact_id.json"
+            python3 - "$RUNNER_TEMP/artifact-$artifact_id.json" "$artifact_id" <<'PY'
+          import json, sys
+          value = json.load(open(sys.argv[1], encoding="utf-8"))
+          assert value["id"] == int(sys.argv[2])
+          assert value["expired"] is False
+          assert value["size_in_bytes"] > 0
+          PY
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$artifact_id/zip" > "$target"
+            test -s "$target"
+          }
+          download_artifact 14406282094 "$RUNNER_TEMP/donor-reference.zip"
+          for id in 14422271973 14429578824 14434542792 15198755523; do
+            download_artifact "$id" "$RUNNER_TEMP/v7-history/$id.zip"
+          done
+          echo "Downloaded one donor archive and four prior metadata archives; no reserved audio extraction."
+
+      - name: Clone and build the exact VoxCPM.cpp CPU runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --no-checkout https://github.com/bluryar/VoxCPM.cpp.git "$RUNNER_TEMP/VoxCPM.cpp"
+          git -C "$RUNNER_TEMP/VoxCPM.cpp" checkout --detach e5b89534e379c79b923c9969b79c3858d140bedb
+          test "$(git -C "$RUNNER_TEMP/VoxCPM.cpp" rev-parse HEAD)" = e5b89534e379c79b923c9969b79c3858d140bedb
+          cmake -S "$RUNNER_TEMP/VoxCPM.cpp" -B "$RUNNER_TEMP/VoxCPM.cpp/build" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DVOXCPM_CUDA=OFF \
+            -DVOXCPM_NATIVE=OFF \
+            -DVOXCPM_BUILD_EXAMPLES=ON \
+            -DVOXCPM_BUILD_BENCHMARK=OFF \
+            -DVOXCPM_BUILD_TESTS=OFF \
+            -DVOXCPM_ENABLE_MP3=OFF \
+            -DVOXCPM_ENABLE_OPUS=OFF
+          cmake --build "$RUNNER_TEMP/VoxCPM.cpp/build" --parallel 4 --target voxcpm_tts voxcpm_quantize
+          test -x "$RUNNER_TEMP/VoxCPM.cpp/build/examples/voxcpm_tts"
+          test -x "$RUNNER_TEMP/VoxCPM.cpp/build/examples/voxcpm_quantize"
+
+      - name: Install the hash-pinned CPU conversion runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/converter-venv"
+          "$RUNNER_TEMP/converter-venv/bin/pip" install --disable-pip-version-check --no-input \
+            --index-url https://download.pytorch.org/whl/cpu 'torch==2.9.1+cpu'
+          "$RUNNER_TEMP/converter-venv/bin/pip" install --disable-pip-version-check --no-input \
+            'numpy==2.2.6' 'safetensors==0.6.2' 'huggingface-hub==0.36.2'
+          mkdir -p "$RUNNER_TEMP/wheels" "$RUNNER_TEMP/sdist"
+          "$RUNNER_TEMP/converter-venv/bin/pip" download --no-deps --only-binary=:all: 'gguf==0.17.1' -d "$RUNNER_TEMP/wheels"
+          "$RUNNER_TEMP/converter-venv/bin/pip" download --no-deps --no-binary=:all: 'voxcpm==1.5.0' -d "$RUNNER_TEMP/sdist"
+          python3 - "$RUNNER_TEMP/wheels" "$RUNNER_TEMP/sdist" <<'PY'
+          import hashlib, pathlib, sys
+          wheels = list(pathlib.Path(sys.argv[1]).glob("gguf-0.17.1-*.whl"))
+          sdists = list(pathlib.Path(sys.argv[2]).glob("voxcpm-1.5.0*"))
+          assert len(wheels) == 1 and len(sdists) == 1
+          digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+          assert digest(wheels[0]) == "7bc5aa7eeb1931f7d39b48fdc5b38fda6b294b9dca75cf607ac69557840a3943"
+          assert digest(sdists[0]) == "6b623812006d35f16d9dc93c3d1bd69a8440ae3970d0d2b8ff27954aae607f40"
+          print("Pinned GGUF wheel and VoxCPM source distribution hashes: PASS")
+          PY
+          "$RUNNER_TEMP/converter-venv/bin/pip" install --no-deps "$RUNNER_TEMP"/wheels/gguf-0.17.1-*.whl
+          "$RUNNER_TEMP/converter-venv/bin/pip" check
+
+      - name: Convert official VoxCPM1.5 revision and quantize Q8_0 plus AudioVAE F16
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/converter-venv/bin/python" automation/prepare_voxcpm_v7_model.py \
+            --runtime-dir "$RUNNER_TEMP/VoxCPM.cpp" \
+            --model-dir "$RUNNER_TEMP/voxcpm-model-source" \
+            --output-dir "$RUNNER_TEMP/voxcpm-model-output" \
+            --tts-binary "$RUNNER_TEMP/VoxCPM.cpp/build/examples/voxcpm_tts" \
+            --quantizer "$RUNNER_TEMP/VoxCPM.cpp/build/examples/voxcpm_quantize"
+          test -s "$RUNNER_TEMP/voxcpm-model-output/voxcpm1.5-q8_0-audiovae-f16.gguf"
+          test -s "$RUNNER_TEMP/voxcpm-model-output/MODEL_LOCK.json"
+
+      - name: Fetch the exact merged V7 admission implementation
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$RUNNER_TEMP/kws-pipeline"
+          git -C "$RUNNER_TEMP/kws-pipeline" remote add origin https://github.com/jiying2007/kws-pipeline.git
+          git -C "$RUNNER_TEMP/kws-pipeline" fetch --depth 1 origin eb0c82309ef96214559d127216a5d053206334ac
+          git -C "$RUNNER_TEMP/kws-pipeline" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/kws-pipeline" rev-parse HEAD)" = eb0c82309ef96214559d127216a5d053206334ac
+          test "$(git -C "$RUNNER_TEMP/kws-pipeline" rev-parse HEAD:training/english_kws_dual_track_v7_silver.py)" = d7c0d68b7ad7ed7e79f67b0e15037cd42ab74ffb
+
+      - name: Run the one-shot VoxCPM source generation and deterministic tempo derivation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v7_voxcpm_pilot.py \
+            --generate \
+            --donor-zip "$RUNNER_TEMP/donor-reference.zip" \
+            --history-dir "$RUNNER_TEMP/v7-history" \
+            --output "$RUNNER_TEMP/v7-source" \
+            --private-dir "$RUNNER_TEMP/v7-private-donors" \
+            --runtime-dir "$RUNNER_TEMP/v7-runtime-logs" \
+            --tts-bin "$RUNNER_TEMP/VoxCPM.cpp/build/examples/voxcpm_tts" \
+            --model "$RUNNER_TEMP/voxcpm-model-output/voxcpm1.5-q8_0-audiovae-f16.gguf" \
+            --model-lock "$RUNNER_TEMP/voxcpm-model-output/MODEL_LOCK.json"
+          python3 -I -S -B automation/english_v7_voxcpm_pilot.py \
+            --read-source --source "$RUNNER_TEMP/v7-source" \
+            --output "$RUNNER_TEMP/v7-source-readback.json"
+
+      - name: Execute all four independent blind observers once each
+        shell: bash
+        run: |
+          set -euo pipefail
+          for provider in qwen whisper parakeet phoneme; do
+            venv="$RUNNER_TEMP/observer-$provider-venv"
+            install="$RUNNER_TEMP/observer-$provider-install"
+            out="$RUNNER_TEMP/v7-observers/$provider"
+            assets="$RUNNER_TEMP/private-observer-assets/$provider"
+            mkdir -p "$RUNNER_TEMP/v7-observers" "$RUNNER_TEMP/private-observer-assets"
+            python3 -I -S -B automation/english_v7_voxcpm_pilot.py \
+              --install-observer "$provider" --venv "$venv" --runtime-dir "$install"
+            "$venv/bin/python" -I -B automation/english_v7_voxcpm_pilot.py \
+              --observe "$provider" --source "$RUNNER_TEMP/v7-source" \
+              --output "$out" --assets "$assets"
+          done
+
+      - name: Reconstruct candidate-relative evidence from the exact saved bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_v7_voxcpm_pilot.py \
+            --combine \
+            --source "$RUNNER_TEMP/v7-source" \
+            --observers-root "$RUNNER_TEMP/v7-observers" \
+            --output "$RUNNER_TEMP/v7-evaluation" \
+            --pipeline-root "$RUNNER_TEMP/kws-pipeline"
+          python3 - "$RUNNER_TEMP/v7-evaluation/PILOT_RESULT.json" <<'PY'
+          import json, sys
+          result = json.load(open(sys.argv[1], encoding="utf-8"))
+          print(json.dumps({
+              "status": result["status"],
+              "source_ready": result["source_ready"],
+              "observers_complete": result["observers_complete"],
+              "candidate_joint_asr_phone_pass": result["candidate_joint_asr_phone_pass"],
+              "duration_pass": result["duration_pass"],
+              "clipping_pass": result["clipping_pass"],
+              "duplicate_pass": result["duplicate_pass"],
+              "candidate_counts": result["candidate_counts"],
+              "naturalness_manual_review": result["naturalness_manual_review"],
+              "training_allowed": result["training_allowed"],
+              "promotion_allowed": result["promotion_allowed"],
+          }, sort_keys=True))
+          assert result["training_allowed"] is False
+          assert result["promotion_allowed"] is False
+          PY
+
+      - name: Publish only synthetic source, blind observations and aggregate evaluation
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: v7-voxcpm-four-observer-pilot-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/v7-source/
+            ${{ runner.temp }}/v7-source-readback.json
+            ${{ runner.temp }}/v7-observers/
+            ${{ runner.temp }}/v7-evaluation/
+            ${{ runner.temp }}/voxcpm-model-output/MODEL_LOCK.json
+            ${{ runner.temp }}/v7-runtime-logs/
+            ${{ runner.temp }}/resource-preflight.json
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Require the first machine-evidence acceptance gate
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - "$RUNNER_TEMP/v7-evaluation/PILOT_RESULT.json" <<'PY'
+          import json, sys
+          result = json.load(open(sys.argv[1], encoding="utf-8"))
+          assert result["status"] == "MACHINE_PILOT_PASS_REVIEW_PENDING", "VoxCPM pilot machine gates did not pass"
+          assert result["observers_complete"] is True
+          assert result["candidate_joint_asr_phone_pass"] is True
+          assert result["duration_pass"] is True
+          assert result["clipping_pass"] is True
+          assert result["duplicate_pass"] is True
+          assert result["naturalness_manual_review"] == "NOT_REVIEWED"
+          assert result["training_allowed"] is False and result["promotion_allowed"] is False
+          PY
