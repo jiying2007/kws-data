@@ -57,9 +57,11 @@ def run(output_dir: Path):
     readme_raw = readme_path.read_bytes()
     license_raw = fetch_github_license()
     config = json.loads(config_raw)
-    vocab = config.get("vocab")
-    if not isinstance(vocab, dict) or not vocab:
+    raw_vocab = config.get("vocab")
+    if not isinstance(raw_vocab, dict) or not raw_vocab:
         raise ValueError("KOKORO_CONFIG_VOCAB_REQUIRED")
+    # KModel reverses the config's id->phoneme mapping into phoneme->id.
+    vocab = {phoneme: int(token_id) for token_id, phoneme in raw_vocab.items()}
 
     required_chars = sorted({char for cell in source_plan["cells"] for char in cell["raw_ipa"]})
     missing_chars = [char for char in required_chars if char not in vocab]
