@@ -56,6 +56,12 @@ def source_check():
         "blob_sha": "d7c0d68b7ad7ed7e79f67b0e15037cd42ab74ffb",
     }, "EXACT_UPSTREAM_V7_ADMISSION_POLICY")
     need(set(policy.MODEL_PINS) == set(PROVIDERS), "EXACT_FOUR_OBSERVER_SET")
+    for provider in PROVIDERS:
+        pin = plan["observers"][provider]
+        family, model_sha, decode_sha = policy.MODEL_PINS[provider]
+        need(pin.get("model_sha256") == model_sha
+             and pin.get("decode_config_sha256") == decode_sha,
+             "PILOT_OBSERVER_PIN_DRIFT:" + provider)
     return result | {
         "source_check": "PASS",
         "source_schema": plan["schema"],
@@ -211,7 +217,8 @@ def run(provider, source_root, output_root, model_root):
         "target_conditioned": False, "training_allowed": False,
     }
     write_once(output / "STARTED.json", started)
-    ledger = []
+    progress_ledger = []
+    observations = []
     attempts = returned = completed = 0
     initialization_error = None
     lock = None
@@ -226,20 +233,26 @@ def run(provider, source_root, output_root, model_root):
     except Exception as exc:
         initialization_error = type(exc).__name__ + ":" + str(exc)[:1000]
     for row in source["rows"]:
-        item = {
+        progress = {
             "id": row["id"], "status": "unknown",
             "input_started": False, "forward_attempts": 0,
             "forward_returned": False, "capture_saved": False,
         }
+        observation = {
+            "id": row["id"], "status": "unknown",
+            "raw_text": None, "phone_tokens": None,
+            "target_conditioned": False,
+        }
         directory = output / "rows" / row["id"]
         directory.mkdir(mode=0o700)
         if row.get("generation_status") != "success" or initialization_error is not None:
-            item["status"] = "not_started"
+            progress["status"] = "not_started"
             write_once(directory / "UNOBSERVED.json", {
-                **item, "reason": initialization_error or "SOURCE_AUDIO_NOT_VALID",
+                **progress, "reason": initialization_error or "SOURCE_AUDIO_NOT_VALID",
                 "retry_count": 0, "training_allowed": False,
             })
-            ledger.append(item)
+            progress_ledger.append(progress)
+            observations.append(observation)
             continue
         base = {
             "schema": policy.CAPTURE_SCHEMA,
@@ -255,9 +268,9 @@ def run(provider, source_root, output_root, model_root):
             "training_allowed": False,
         }
         write_once(directory / "STARTED.json", base)
-        item["input_started"] = True
+        progress["input_started"] = True
         attempts += 1
-        item["forward_attempts"] = 1
+        progress["forward_attempts"] = 1
         write_once(directory / "FORWARD_STARTED.json", base)
         try:
             wav, pcm = _source_audio(source_root, row)
@@ -271,36 +284,43 @@ def run(provider, source_root, output_root, model_root):
                      and not any(ord(ch) < 32 for ch in transcript.strip()),
                      "RAW_COMPLETE_BLIND_ASR_TEXT")
                 capture = base | {"raw_text": transcript, "status": "success"}
-            item["forward_returned"] = True
+            progress["forward_returned"] = True
             returned += 1
             write_once(directory / "FORWARD_RETURNED.json", base)
             pin = write_once(directory / "CAPTURE.json", capture)
-            item.update(status="success", capture_saved=True,
-                        capture_path="rows/" + row["id"] + "/CAPTURE.json",
-                        capture_sha256=pin["sha256"])
+            progress.update(status="success", capture_saved=True,
+                            capture_path="rows/" + row["id"] + "/CAPTURE.json",
+                            capture_sha256=pin["sha256"])
+            observation = capture | {
+                "capture_path": progress["capture_path"],
+                "capture_sha256": progress["capture_sha256"],
+            }
             completed += 1
         except Exception as exc:
-            item.update(status="failed", error=type(exc).__name__ + ":" + str(exc)[:1000])
+            progress.update(status="failed",
+                            error=type(exc).__name__ + ":" + str(exc)[:1000])
             write_once(directory / "FAILED.json", {
                 **base, "forward_attempts": 1,
-                "forward_returned": item["forward_returned"],
-                "capture_saved": False, "error": item["error"],
+                "forward_returned": progress["forward_returned"],
+                "capture_saved": False, "error": progress["error"],
                 "retry_count": 0,
             })
-        ledger.append(item)
+        progress_ledger.append(progress)
+        observations.append(observation)
     result = {
         "schema": SCHEMA, "provider": provider, "run": run_identity,
         "source_sha256": source_sha, "denominator": 12,
         "actual_forward_attempts": attempts, "native_forward_returns": returned,
         "completed_count": completed,
-        "failed_count": sum(item["status"] == "failed" for item in ledger),
-        "not_started_count": sum(item["status"] == "not_started" for item in ledger),
+        "failed_count": sum(item["status"] == "failed" for item in progress_ledger),
+        "not_started_count": sum(item["status"] == "not_started" for item in progress_ledger),
         "retry_count": 0, "initialization_error": initialization_error,
-        "rows": ledger, "model_lock": lock,
-        "target_conditioned": False, "human_gold": False,
+        "rows": observations, "call_ledger": progress_ledger,
+        "model_lock": lock, "target_conditioned": False, "human_gold": False,
         "training_allowed": False, "promotion_allowed": False,
     }
-    need(len(ledger) == 12 and 0 <= completed <= returned <= attempts <= 12,
+    need(len(observations) == len(progress_ledger) == 12
+         and 0 <= completed <= returned <= attempts <= 12,
          "OBSERVER_COUNTER_INVARIANTS")
     write_once(output / "RESULT.json", result)
     write_once(output / "FILES.json", {
