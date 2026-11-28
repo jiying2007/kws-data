@@ -1,0 +1,181 @@
+{
+  "schema": "english-kws-v7-voxcpm-cpu-pilot-v1",
+  "campaign_id": "v7-voxcpm-two-donor-12-clip-pilot",
+  "repository": "jiying2007/kws-data",
+  "enabled": true,
+  "status": "PILOT_ONLY_NO_TRAINING",
+  "main_before": "5902f1f8d4fdc8096a864eb5d814c253d6f58ff2",
+  "execution": {
+    "event": "push",
+    "ref": "refs/heads/main",
+    "run_attempt": 1,
+    "public_repository_only": true,
+    "retries": 0,
+    "automatic_expansion": false
+  },
+  "donor_reference": {
+    "repository": "jiying2007/kws-data",
+    "run_id": 44256271861,
+    "artifact_id": 14406282094,
+    "artifact_sha256": "8b86b46759f6f2bd084cd37e1c804c72058fe52ec57f6c221c912eeca96092e5",
+    "artifact_name": "english-neutral-clone-reference12-44256271861",
+    "record_kind": "SYNTHETIC_VOICE_CLONING_REFERENCES_ONLY",
+    "human_gold": false,
+    "training_allowed": false,
+    "independent_human_source_claim": false,
+    "original_source_run_id": 44218734553,
+    "original_source_artifact_id": 14389757284,
+    "calibration_and_locked_test_audio_opened": false
+  },
+  "donors": [
+    {
+      "donor_id": "synthetic-af_bella",
+      "role": "train",
+      "source_group_id": "kokoro-v1_0-preset:af_bella",
+      "reference_path": "wav/synthetic-af_bella.wav",
+      "reference_wav_sha256": "cb8103bb68e8888b68c85780e7b3b4dfe2eac0d7f48022e102e0268abb9dea59",
+      "joined_pcm_sha256": "e1b55a910c28025545d7ebcac4e0f2b8c95e243ec9376a9d989997ed57ad7985",
+      "reference_text": "Hello there. Good morning.",
+      "sample_rate": 16000,
+      "channels": 1,
+      "reference_kind": "SYNTHETIC_NEUTRAL_CLONE_SEED_ONLY",
+      "human_gold": false,
+      "training_allowed": false
+    },
+    {
+      "donor_id": "synthetic-af_aoede",
+      "role": "development",
+      "source_group_id": "kokoro-v1_0-preset:af_aoede",
+      "reference_path": "wav/synthetic-af_aoede.wav",
+      "reference_wav_sha256": "9cbc06a7b4829ac90c68ae1bb609fd2a013e8537ffa4ec687c11c7ee38c3742a",
+      "joined_pcm_sha256": "212a57c684d708bfba3398f58269755e205ccc2ee330550036a0b523ae24ee13",
+      "reference_text": "Hello there. Good morning.",
+      "sample_rate": 16000,
+      "channels": 1,
+      "reference_kind": "SYNTHETIC_NEUTRAL_CLONE_SEED_ONLY",
+      "human_gold": false,
+      "training_allowed": false
+    }
+  ],
+  "generator": {
+    "repository": "bluryar/VoxCPM.cpp",
+    "commit": "e5b89534e379c79b923c9969b79c3858d140bedb",
+    "license": "Apache-2.0",
+    "backend": "cpu",
+    "threads": 8,
+    "retry_badcase": false
+  },
+  "converter": {
+    "repository": "OpenBMB/VoxCPM",
+    "commit": "300e4260b509066151d623dc9c0aa922cf82232b",
+    "license": "Apache-2.0",
+    "script": "scripts/convert_voxcpm_to_gguf.py"
+  },
+  "model": {
+    "repository": "openbmb/VoxCPM1.5",
+    "revision": "09c7a389438c27100dfa4e6cda1f8f0dd0d2fbfa",
+    "license": "Apache-2.0",
+    "files": {
+      "model.safetensors": "7e97ee2cd2ca891662f7da368921df08368a616410afe67461253e4dcd3823cc",
+      "audiovae.pth": "8160987a7f10acd4c49b72a9a3e974c0b5c1c786538cd4bcaac5f2df388c0f14"
+    },
+    "audio_vae_sample_rate": 44100,
+    "quantization": "Q8_0+AudioVAE-F16"
+  },
+  "synthesis": {
+    "prompt_audio": "the exact verified donor WAV",
+    "prompt_text": "Hello there. Good morning.",
+    "cfg_value": 2,
+    "inference_timesteps": 10,
+    "threads": 8,
+    "backend": "cpu",
+    "retry_badcase": false,
+    "base_tts_calls": 4,
+    "deterministic_tempo_variants": [
+      0.92,
+      1,
+      1.08
+    ],
+    "tempo_transform": "ffmpeg atempo; no trimming, cropping, denoising, normalization or silence removal",
+    "final_clip_count": 12,
+    "output_sample_rate": 16000,
+    "output_channels": 1,
+    "output_sample_width_bytes": 2,
+    "min_samples": 6400,
+    "max_samples": 28672,
+    "no_regenerate_old_audio": true
+  },
+  "candidates": {
+    "VOSEN": {
+      "candidate_id": "hey-vosen-v7",
+      "phrase": "Hey Vosen.",
+      "ipa": "/heɪ ˈvoʊ.sən/",
+      "phone_core": "voiceless /s/"
+    },
+    "MERO": {
+      "candidate_id": "hey-mero-v7",
+      "phrase": "Hey Mero.",
+      "ipa": "/heɪ ˈmɛroʊ/",
+      "phone_core": "DRESS /ɛ/ + rhotic /ɹ/"
+    }
+  },
+  "observers": {
+    "qwen": {
+      "model_id": "Qwen/Qwen3-ASR-0.6B",
+      "revision": "5eb144179a02acc5e5ba31e748d22b0cf3e303b0",
+      "model_sha256": "79d6cbd4c98c7bbffe9db2edac07f56cd6637d0d5944b27f6c2b8353840323ea",
+      "decode_config_sha256": "6ef4ab0c3a329ac618980f42a00ebff601c08a768b8f341256b85ffaffb3bca1"
+    },
+    "whisper": {
+      "model_id": "openai/whisper-small",
+      "revision": "31243bad24cc746f07d4c8bfdd2d974872cb1803",
+      "model_sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+      "decode_config_sha256": "439b51d2e7e5f7ce4ade748a87c3d3e6d5b6b66d2acaec893bfc3bf673af04a7"
+    },
+    "parakeet": {
+      "model_id": "nvidia/parakeet-tdt-0.6b-v3",
+      "revision": "541d1f99c6b0c3cd0b11a95167540bb8edefd82b",
+      "model_sha256": "e3880d0aaaaf2c308ea2c35016b2b895c423eb3fda924c1b463d1c19b7f4d32e",
+      "runtime_repository": "NVIDIA/NeMo-Speech.cpp",
+      "runtime_tag": "v0.3.0",
+      "runtime_sha256": "255f12b722ab15b2a38a51cf125d56e3fa97058b528f7e895b39d6a473deb06e",
+      "decode_config_sha256": "c83bcf97f4c3f718264df1ecac8f013a276bdf7024f3ed39b255f85ad4bb9b6d"
+    },
+    "phoneme": {
+      "model_id": "facebook/wav2vec2-xlsr-53-espeak-cv-ft",
+      "revision": "2c733782da5604684829819a5eb744c193fe9398",
+      "model_sha256": "04366b6c8d24099ef313cf02f0e58d26f5dddfda16edbfc8eb2c713d94a9f551",
+      "decode_config_sha256": "2b37c89e02afc6b44b8109a9ae38303eca75411564f53b3d61d86985de5af441"
+    },
+    "max_calls_per_provider": 12,
+    "total_observer_calls": 48,
+    "target_text_supplied_to_observers": false,
+    "retries": 0
+  },
+  "budgets": {
+    "tts_model_calls": 4,
+    "asr_model_calls": 36,
+    "phoneme_model_calls": 12,
+    "total_model_calls": 52,
+    "tempo_transforms": 12,
+    "kws_model_forwards": 0,
+    "optimizer_updates": 0
+  },
+  "pilot_gates": {
+    "per_donor_group_per_candidate_minimum_silver_positive_clips": 2,
+    "per_donor_group_per_candidate_minimum_silver_cross_trigger_clips": 2,
+    "silver_requires_all_three_asr_and_matching_phone": true,
+    "all_12_final_clips_must_pass_duration_and_no_clip_check": true,
+    "blind_human_naturalness_review_required_before_scale_up": true,
+    "unknown_never_background": true
+  },
+  "flags": {
+    "synthetic_only": true,
+    "human_gold": false,
+    "independent_human_speaker_identity_claimed": false,
+    "real_human_far_field_quality_claimed": false,
+    "training_allowed": false,
+    "promotion_allowed": false,
+    "calibration_locked_test_opened": false
+  }
+}
