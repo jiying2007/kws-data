@@ -24,7 +24,7 @@ ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 import english_kws_dual_track_v7_recipe as recipe
 
-SCHEMA = "english-kws-dual-track-v7-execution-v1"
+SCHEMA = "english-kws-dual-track-v7-kokoro-execution-plan-v1"
 MAX_FILE = 4 * 1024 * 1024
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
@@ -224,49 +224,79 @@ def set_deadline(seconds):
     signal.alarm(seconds)
 
 
-def verify_preflight(folder, plan, run):
-    folder = Path(folder)
-    report = read(folder / "source-license-preflight.json")
-    need(report.get("schema") == plan["preflight_schema"] and report.get("status") == "PASS",
-         "PREFLIGHT_SCHEMA_STATUS")
-    need(report.get("run") == run, "PREFLIGHT_SAME_RUN_IDENTITY")
-    need(report.get("source_plan_sha256") == plan["source_plan_sha256"] and
-         report.get("source_plan_blob_sha1") == plan["source_plan_blob_sha1"] and
-         report.get("registration_blob_sha1") == plan["registration_blob_sha1"], "PREFLIGHT_SOURCE_BINDING")
-    expected_speakers = {str(index): f"p{speaker}" for index, speaker in recipe.NEW_VOICES}
-    need(report.get("source_map", {}).get("selected_speaker_ids") == expected_speakers and
-         report["source_map"].get("selected_count") == 12 and
-         report["source_map"].get("historical_speaker_overlap") is False, "PREFLIGHT_SOURCE_MAP")
-    need(report.get("phoneme_map", {}).get("missing_characters") == [] and
-         report["phoneme_map"].get("covered_count") == len(report["phoneme_map"].get("required_characters", [])),
-         "PREFLIGHT_PHONEME_COVERAGE")
+def verify_preflight(preflight_dir, plan, run):
+    preflight_dir = Path(preflight_dir)
+    report_path = preflight_dir / "source-license-preflight.json"
+    report_raw = regular(report_path, 1024 * 1024)
+    report = read_json(report_path)
+    frozen = recipe.recipe()
+    need(report.get("schema") == "english-kws-dual-track-v7-kokoro-source-preflight-v1"
+         and report.get("status") == "PASS"
+         and report.get("run") == run
+         and report.get("source_plan_sha256") == plan["source_plan_sha256"]
+         and report.get("source_plan_blob_sha1") == recipe.SOURCE_PLAN_BLOB_SHA1
+         and report.get("registration_blob_sha1") == recipe.REGISTRATION_BLOB_SHA1,
+         "PINNED_KOKORO_PREFLIGHT_AND_CURRENT_RUN")
+    expected_no_execution = {
+        "model_weights_downloaded": False,
+        "voice_weights_downloaded": False,
+        "audio_downloaded": False,
+        "tts_calls": 0,
+        "asr_calls": 0,
+        "phoneme_observer_calls": 0,
+        "kws_forward_calls": 0,
+        "optimizer_updates": 0,
+        "training_allowed": False,
+    }
+    need(report.get("no_execution") == expected_no_execution,
+         "PREFLIGHT_MUST_NOT_DOWNLOAD_WEIGHTS_OR_GENERATE_AUDIO")
+    expected_voices = {
+        str(group["source_speaker_index"]): group["source_speaker_id"]
+        for group in frozen["source_groups"]
+    }
+    source_map = report.get("source_map", {})
+    need(source_map.get("selected_voice_ids") == expected_voices
+         and source_map.get("selected_count") == 8
+         and source_map.get("role_counts") == {"train": 6, "development": 2}
+         and source_map.get("voice_id_unique") is True
+         and source_map.get("human_speaker_identity_claimed") is False,
+         "EXACT_KOKORO_VOICE_SOURCE_MAP")
+    phoneme_map = report.get("phoneme_map", {})
+    need(phoneme_map.get("missing_characters") == []
+         and phoneme_map.get("covered_count") == len(phoneme_map.get("required_characters", [])),
+         "KOKORO_RAW_IPA_VOCAB_COVERAGE")
+    model = report.get("model", {})
+    need(model.get("repository") == recipe.MODEL["repository"]
+         and model.get("revision") == recipe.MODEL["revision"]
+         and model.get("checkpoint_path") == recipe.MODEL["checkpoint_path"]
+         and model.get("expected_checkpoint_sha256") == recipe.MODEL["checkpoint_sha256"]
+         and model.get("native_sample_rate") == 24000
+         and model.get("output_sample_rate") == 16000
+         and model.get("license") == "Apache-2.0",
+         "EXACT_KOKORO_MODEL_REVISION_AND_LICENSE")
     license_row = report.get("license", {})
-    card = license_row.get("voice_model_card", {})
-    engine = license_row.get("piper_engine", {})
-    need(card.get("bytes") == recipe.MODEL_CARD["bytes"] and
-         card.get("md5") == recipe.MODEL_CARD["md5"] and
-         card.get("dataset_license") == recipe.MODEL_CARD["dataset_license"] and
-         card.get("training") == recipe.MODEL_CARD["training"], "PREFLIGHT_MODEL_CARD_LICENSE")
-    need(engine.get("commit") == recipe.ENGINE["commit"] and
-         engine.get("version") == recipe.ENGINE["version"] and
-         engine.get("license") == recipe.ENGINE["license"] and
-         engine.get("scope") == "source-generation-only-not-in-device-runtime", "PREFLIGHT_ENGINE_LICENSE")
-    need(license_row.get("generated_audio_derivative_clearance") ==
-         "NOT_ASSERTED_LEGAL_REVIEW_REQUIRED_BEFORE_COMMERCIAL_PRODUCT_CLAIM", "PREFLIGHT_PRODUCT_LICENSE_BOUNDARY")
-    no_execution = report.get("no_execution", {})
-    need(no_execution == {"model_weights_downloaded": False, "audio_downloaded": False, "tts_calls": 0,
-         "asr_calls": 0, "phoneme_observer_calls": 0, "kws_forward_calls": 0,
-         "optimizer_updates": 0, "training_allowed": False}, "PREFLIGHT_NO_EXECUTION")
-    config_raw = regular(folder / "piper-config.json", 1024 * 1024)
-    card_raw = regular(folder / "MODEL_CARD", 4096)
-    setup_raw = regular(folder / "PIPER_SETUP.py", 128 * 1024)
-    copying_raw = regular(folder / "COPYING", 128 * 1024)
-    need(sha(config_raw) == report["config"]["sha256"] and
-         hashlib.md5(config_raw).hexdigest() == recipe.MODEL["config_md5"], "PREFLIGHT_CONFIG_FILE")
-    need(sha(card_raw) == card["sha256"] and hashlib.md5(card_raw).hexdigest() == recipe.MODEL_CARD["md5"],
-         "PREFLIGHT_MODEL_CARD_FILE")
-    need(sha(setup_raw) == engine["setup_sha256"] and sha(copying_raw) == engine["copying_sha256"],
-         "PREFLIGHT_ENGINE_LICENSE_FILES")
+    need(license_row.get("model_license") == "Apache-2.0"
+         and license_row.get("inference_code_license") == "Apache-2.0"
+         and license_row.get("inference_code_commit") == recipe.MODEL["source_commit"]
+         and license_row.get("generated_audio_derivative_clearance") ==
+             "NOT_ASSERTED_LEGAL_REVIEW_REQUIRED_BEFORE_COMMERCIAL_PRODUCT_CLAIM",
+         "KOKORO_LICENSE_AND_NO_COMMERCIAL_CLEARANCE_CLAIM")
+    files = {
+        "config.json": model.get("config_sha256"),
+        "VOICES.md": model.get("voices_index_sha256"),
+        "README.md": model.get("model_card_sha256"),
+        "KOKORO_LICENSE": license_row.get("inference_code_license_sha256"),
+    }
+    for name, expected in files.items():
+        raw = regular(preflight_dir / name, 4 * 1024 * 1024)
+        need(isinstance(expected, str) and sha(raw) == expected,
+             "KOKORO_PREFLIGHT_FILE_SHA256:" + name)
+    config = read_json(preflight_dir / "config.json")
+    vocab = config.get("vocab")
+    need(isinstance(vocab, dict) and vocab, "KOKORO_CONFIG_VOCAB")
+    required_chars = {char for cell in plan["source_plan_sha256"] and
+                      recipe.source_documents()[0]["cells"] for char in cell["raw_ipa"]}
+    need(required_chars <= set(vocab), "KOKORO_RUNTIME_VOCAB_RECHECK")
     return report
 
 
