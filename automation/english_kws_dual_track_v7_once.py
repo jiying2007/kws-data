@@ -453,7 +453,7 @@ def write_audio(output, row, audio):
     need(audio.ndim == 1 and 600 <= audio.size <= 288000
          and np.isfinite(audio).all(), "KOKORO_NATIVE_AUDIO_GEOMETRY")
     peak = float(np.max(np.abs(audio)))
-    rms = float(np.sqrt(np.mean(np.square(audio, dtype=np.float64))))
+    rms = float(np.sqrt(np.mean(np.square(audio.astype(np.float64)))))
     need(0.0005 <= rms <= 0.8 and 0.005 <= peak <= 1.0,
          "KOKORO_AUDIO_LEVEL_GATE")
     native_pcm = np.rint(np.clip(audio, -1.0, 1.0) * 32767.0).astype("<i2")
