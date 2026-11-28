@@ -494,84 +494,108 @@ def write_audio(output, row, audio):
     }
 
 
-def generate(plan, output, preflight_dir):
-    run = execution_guard(plan)
-    verify_preflight(preflight_dir, plan, run)
-    output = new_directory(output)
-    frozen = recipe.recipe()
-    once(output / "RECIPE.json", frozen)
-    once(output / "EXECUTION_PLAN.json", plan)
-    copy_closed_tree(preflight_dir, output / "preflight", 2 * 1024**2)
-    once(output / "STARTED.json", {"schema": SCHEMA, "stage": "generate", "run": run,
-        "maximum_calls": recipe.SOURCE_COUNT, "retry_count": 0, "model_calls_at_start": 0,
-        "preflight_sha256": sha(regular(output / "preflight" / "source-license-preflight.json"))})
-    model_root = output / "private-model"
-    model_root.mkdir(mode=0o700)
-    calls = 0
-    completed = 0
-    error = None
-    start = time.monotonic()
-    set_deadline(plan["generation_deadline_seconds"])
-    try:
-        voice, lock, api_bytes = source_model(model_root, output / "preflight")
-        once(output / "MODEL_LOCK.json", lock)
-        (output / "installed-piper-voice.py").write_bytes(api_bytes)
-        from piper import SynthesisConfig
-        import onnxruntime
-        onnxruntime.set_seed(20261127)
-        for row in frozen["rows"]:
-            folder = output / "audio" / row["id"]
-            folder.mkdir(parents=True, mode=0o700)
-            try:
-                phones, ids = request_phonemes(voice, row)
-                once(folder / "STARTED.json", {"schema": SCHEMA, "stage": "generate", "id": row["id"],
-                    "request_sha256": row["request_sha256"], "attempt": 1, "phonemes": phones,
-                    "phoneme_ids": ids, "speaker_index": row["source_speaker_index"],
-                    "source_group_id": row["source_group_id"], "role": row["role"], "cell_id": row["cell_id"],
-                    "length_scale": row["length_scale"], "direct_api": True, "raw_bracket_parser_used": False})
-                need(calls < recipe.SOURCE_COUNT, "SOURCE_CALL_CEILING")
-                calls += 1
-                audio = voice.phoneme_ids_to_audio(ids, SynthesisConfig(
-                    speaker_id=row["source_speaker_index"], length_scale=row["length_scale"],
-                    noise_scale=0.333, noise_w_scale=0.333, normalize_audio=False, volume=1.0))
-                measured = write_audio(folder, audio)
-                once(folder / "COMPLETED.json", {"schema": SCHEMA, "id": row["id"], "status": "COMPLETE",
-                    "request_sha256": row["request_sha256"], "generation_model_sha256": recipe.MODEL["model_sha256"],
-                    "model_card_sha256": lock["model_card_sha256"], "phonemes": phones, "phoneme_ids": ids,
-                    "source_group_id": row["source_group_id"], "role": row["role"], "cell_id": row["cell_id"],
-                    "length_scale": row["length_scale"], "observed_target_pronunciation": False,
-                    "human_gold": False, **measured})
-                completed += 1
-            except BaseException as exc:
-                once(folder / "FAILED.json", {"schema": SCHEMA, "id": row["id"], "status": "FAILED_NO_RETRY",
-                    "error_type": type(exc).__name__, "started_receipt_exists": (folder / "STARTED.json").is_file()})
-                if not isinstance(exc, Exception):
-                    raise
-    except BaseException as exc:
-        error = type(exc).__name__
-    finally:
-        signal.alarm(0)
-        if model_root.exists():
-            shutil.rmtree(model_root)
-        result = {"schema": SCHEMA, "stage": "generate", "run": run,
-            "status": "COMPLETE" if completed == recipe.SOURCE_COUNT and error is None else "INCOMPLETE_NO_RETRY",
-            "declared_count": recipe.SOURCE_COUNT, "actual_forward_attempts": calls, "completed": completed,
-            "error_type": error, "elapsed_seconds": time.monotonic() - start,
-            "retry_count": 0, "old_audio_model_calls": 0, "kws_forward_calls": 0,
-            "preflight_sha256": sha(regular(output / "preflight" / "source-license-preflight.json"))}
-        once(output / "RESULT.json", result)
-    return result
+def generate(plan, preflight_dir, output):
+    import shutil
+    import torch
 
-def verify_wav(path, row):
-    raw = regular(path)
-    need(sha(raw) == row["wav_sha256"], "WAV_HASH")
-    with wave.open(io.BytesIO(raw), "rb") as stream:
-        n = stream.getnframes()
-        need((stream.getnchannels(), stream.getsampwidth(), stream.getframerate(), stream.getcomptype()) ==
-             (1, 2, 16000, "NONE") and n == row["pcm_samples"] and 400 <= n <= 192000, "WAV_GEOMETRY")
-        pcm = stream.readframes(n)
-    need(len(pcm) == n * 2 and sha(pcm) == row["pcm_sha256"], "PCM_HASH")
-    return pcm
+    run = execution_guard(plan)
+    preflight = verify_preflight(preflight_dir, plan, run)
+    output = Path(output)
+    new_directory(output)
+    model_root = output / "private-model"
+    model, voice_styles, model_lock = source_model(model_root, preflight_dir, run)
+    model_lock["preflight_report_sha256"] = sha(regular(
+        Path(preflight_dir) / "source-license-preflight.json", 1024 * 1024))
+    model_lock["source_plan_sha256"] = plan["source_plan_sha256"]
+    model_lock_sha = write_once(output / "MODEL_LOCK.json", model_lock)["sha256"]
+
+    rows = recipe.recipe()["rows"]
+    success = 0
+    failed = 0
+    receipts = output / "source" / "receipts"
+    receipts.mkdir(mode=0o700, parents=True)
+    for row in rows:
+        receipt_dir = receipts / row["id"]
+        receipt_dir.mkdir(mode=0o700)
+        try:
+            voice_id = row["source_speaker_id"]
+            need(voice_id in voice_styles, "REGISTERED_KOKORO_VOICE_STYLE:" + voice_id)
+            phonemes, phoneme_ids = request_phonemes(row, model)
+            seed = int(row["request_sha256"][:16], 16)
+            torch.manual_seed(seed)
+            with torch.inference_mode():
+                audio = model(phonemes, voice_styles[voice_id], float(row["speed"]))
+            audio_info = write_audio(output, row, audio)
+            receipt = {
+                "schema": "english-kws-dual-track-v7-kokoro-source-receipt-v1",
+                "run": run,
+                "id": row["id"],
+                "request_sha256": row["request_sha256"],
+                "source_group_id": row["source_group_id"],
+                "source_speaker_id": voice_id,
+                "role": row["role"],
+                "cell_id": row["cell_id"],
+                "requested_text": row["requested_text"],
+                "requested_phonemes": phonemes,
+                "requested_phoneme_ids": phoneme_ids,
+                "speed": row["speed"],
+                "length_scale": row["length_scale"],
+                "seed": seed,
+                "model_revision": model_lock["revision"],
+                "model_sha256": model_lock["checkpoint_sha256"],
+                "config_sha256": model_lock["config_sha256"],
+                "voice_pack_sha256": model_lock["voice_packs"][voice_id]["sha256"],
+                "model_lock_sha256": model_lock_sha,
+                "retry": False,
+                "retry_allowed": False,
+                "human_recording": False,
+                "actual_phonemes_claimed": False,
+                "calibration_audio_generated": False,
+                "locked_test_audio_generated": False,
+                "product_promotion_allowed": False,
+                **audio_info,
+            }
+            write_once(receipt_dir / "COMPLETED.json", receipt)
+            success += 1
+        except BaseException as exc:
+            audio_dir = output / "source" / "audio" / row["id"]
+            if audio_dir.exists():
+                shutil.rmtree(audio_dir)
+            failure = {
+                "schema": "english-kws-dual-track-v7-kokoro-source-failure-v1",
+                "run": run,
+                "id": row["id"],
+                "request_sha256": row["request_sha256"],
+                "source_group_id": row["source_group_id"],
+                "source_speaker_id": row["source_speaker_id"],
+                "role": row["role"],
+                "status": "FAILED_NO_RETRY",
+                "exception_type": type(exc).__name__,
+                "reason": str(exc)[:520],
+                "retry": False,
+                "retry_allowed": False,
+                "calibration_audio_generated": False,
+                "locked_test_audio_generated": False,
+            }
+            write_once(receipt_dir / "FAILED.json", failure)
+            failed += 1
+    shutil.rmtree(model_root, ignore_errors=True)
+    summary = {
+        "schema": "english-kws-dual-track-v7-kokoro-generation-summary-v1",
+        "run": run,
+        "model_lock_sha256": model_lock_sha,
+        "declared_count": recipe.SOURCE_COUNT,
+        "success_count": success,
+        "failed_count": failed,
+        "retry_count": 0,
+        "calibration_audio_generated": False,
+        "locked_test_audio_generated": False,
+        "training_allowed": False,
+        "product_promotion_allowed": False,
+    }
+    write_once(output / "GENERATION_SUMMARY.json", summary)
+    print(json.dumps(summary, sort_keys=True))
+    return summary
 
 
 def source_readback(source, plan):
