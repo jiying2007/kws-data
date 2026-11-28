@@ -82,6 +82,18 @@ def regular(path, limit):
     return path.read_bytes()
 
 
+def sha_file(path, limit):
+    path = Path(path)
+    need(path.is_file() and not path.is_symlink()
+         and not any(parent.is_symlink() for parent in path.parents)
+         and 0 < path.stat().st_size <= limit, "BOUNDED_REGULAR_HASH_FILE")
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
 def safe_relative(name):
     need(type(name) is str and name and "\\\\" not in name, "SAFE_RELATIVE_PATH")
     rel = PurePosixPath(name)
@@ -157,6 +169,12 @@ def load_plan():
         "audio_vae_sample_rate": 44100,
         "quantization": "Q8_0+AudioVAE-F16",
     }, "PINNED_OFFICIAL_VOXCPM15_WEIGHTS")
+    need(plan["candidates"] == {
+        "VOSEN": {"candidate_id": "hey-vosen-v7", "phrase": "Hey Vosen.",
+                  "ipa": "/heɪ ˈvoʊ.sən/", "phone_core": "voiceless /s/"},
+        "MERO": {"candidate_id": "hey-mero-v7", "phrase": "Hey Mero.",
+                 "ipa": "/heɪ ˈmɛroʊ/", "phone_core": "DRESS /ɛ/ + rhotic /ɹ/"},
+    }, "EXACT_BRAND_PRONUNCIATIONS")
     need(plan["synthesis"]["base_tts_calls"] == 4
          and plan["synthesis"]["final_clip_count"] == 12
          and plan["synthesis"]["deterministic_tempo_variants"] == [0.92, 1.0, 1.08]
@@ -387,7 +405,7 @@ def generate(donors_root, output, voxcpm_tts, model_path, ffmpeg, model_lock):
          and model_lock.get("engine_repository") == plan["generator"]["repository"]
          and model_lock.get("engine_commit") == plan["generator"]["commit"]
          and model_lock.get("quantization") == "Q8_0+AudioVAE-F16"
-         and model_lock.get("model_gguf_sha256") == sha(regular(model, 8 * 1024**3)),
+         and model_lock.get("model_gguf_sha256") == sha_file(model, 8 * 1024**3),
          "MODEL_LOCK_AND_GGUF_SHA256")
     root = create_output_root(output)
     (root / "audio").mkdir(mode=0o700)
@@ -494,7 +512,9 @@ def generate(donors_root, output, voxcpm_tts, model_path, ffmpeg, model_lock):
                     "VOSEN": 1 if candidate == "VOSEN" else 0,
                     "MERO": 1 if candidate == "MERO" else 0,
                 },
-                "pronunciation_hypothesis": candidate.lower() + "-us-v7",
+                "pronunciation_hypothesis": (
+                    "heɪ vˈoʊsən" if candidate == "VOSEN" else "heɪ mˈɛɹoʊ"
+                ),
                 "ipa": phrase["ipa"], "tempo": speed,
                 "parent_base_id": base_id,
                 "parent_base_wav_sha256": call["base_wav_sha256"],
@@ -553,8 +573,10 @@ def generate(donors_root, output, voxcpm_tts, model_path, ffmpeg, model_lock):
     }
     present = {row["id"] for row in rows}
     for missing in sorted(expected_ids - present):
-        donor_id, cell_id = missing.split("-", 1)
-        donor = next(item for item in plan["donors"] if item["donor_id"] == donor_id)
+        donor = next(item for item in plan["donors"]
+                     if missing.startswith(item["donor_id"] + "-"))
+        donor_id = donor["donor_id"]
+        cell_id = missing[len(donor_id) + 1:]
         candidate = "VOSEN" if cell_id.startswith("vosen-") else "MERO"
         phrase = plan["candidates"][candidate]
         rows.append({
@@ -568,7 +590,9 @@ def generate(donors_root, output, voxcpm_tts, model_path, ffmpeg, model_lock):
             "kind": "target",
             "candidate_labels": {"VOSEN": int(candidate == "VOSEN"),
                                  "MERO": int(candidate == "MERO")},
-            "pronunciation_hypothesis": candidate.lower() + "-us-v7",
+            "pronunciation_hypothesis": (
+                "heɪ vˈoʊsən" if candidate == "VOSEN" else "heɪ mˈɛɹoʊ"
+            ),
             "ipa": phrase["ipa"], "generation_status": "NOT_STARTED",
             "training_allowed": False, "human_gold": False,
         })
