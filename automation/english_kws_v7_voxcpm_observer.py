@@ -54,6 +54,12 @@ def source_check():
         "commit": "ec414dc89c52fb5756e9560e79517bcd41784248",
         "path": "training/english_kws_dual_track_v7_silver.py",
         "blob_sha": "d7c0d68b7ad7ed7e79f67b0e15037cd42ab74ffb",
+    } and plan.get("admission_policy") == {
+        "repository": policy.UPSTREAM["repository"],
+        "commit": policy.UPSTREAM["commit"],
+        "path": policy.UPSTREAM["path"],
+        "git_blob_sha": policy.UPSTREAM["blob_sha"],
+        "rule": "exact V7 candidate-relative triple-ASR plus independent phoneme; unknown is never background",
     }, "EXACT_UPSTREAM_V7_ADMISSION_POLICY")
     need(set(policy.MODEL_PINS) == set(PROVIDERS), "EXACT_FOUR_OBSERVER_SET")
     for provider in PROVIDERS:
@@ -196,6 +202,7 @@ def file_inventory(root):
 
 def run(provider, source_root, output_root, model_root):
     need(provider in PROVIDERS, "FIXED_PROVIDER_ONLY")
+    source_check()
     plan, plan_raw = pilot.load_plan()
     run_identity = pilot.guard(plan)
     source_root = Path(source_root)
@@ -332,6 +339,7 @@ def run(provider, source_root, output_root, model_root):
 
 def readback(provider, source_root, observer_root):
     need(provider in PROVIDERS, "FIXED_PROVIDER")
+    source_check()
     source, source_sha = validate_source(source_root)
     root = Path(observer_root)
     result = read_json(root / "RESULT.json")
