@@ -25,8 +25,8 @@ import zipfile
 HERE = Path(__file__).resolve().parent
 PLAN_PATH = HERE / "english_kws_v7_voxcpm_pilot_plan.json"
 SCHEMA = "english-kws-v7-voxcpm-pilot-source-v1"
-HEX40 = re.compile(r"[0-9a-f]{40}\\Z")
-HEX64 = re.compile(r"[0-9a-f]{64}\\Z")
+HEX40 = re.compile(r"[0-9a-f]{40}$")
+HEX64 = re.compile(r"[0-9a-f]{64}$")
 MAX_WAV_BYTES = 4 * 1024 * 1024
 MAX_PCM_BYTES = 1024 * 1024
 PROMPT_TEXT = "Hello there. Good morning."
@@ -43,7 +43,7 @@ def sha(raw: bytes) -> str:
 
 def canonical(value) -> bytes:
     return (json.dumps(value, ensure_ascii=False, sort_keys=True,
-                       separators=(",", ":"), allow_nan=False) + "\\n").encode()
+                       separators=(",", ":"), allow_nan=False) + chr(10)).encode()
 
 
 def unique_pairs(pairs):
@@ -95,7 +95,7 @@ def sha_file(path, limit):
 
 
 def safe_relative(name):
-    need(type(name) is str and name and "\\\\" not in name, "SAFE_RELATIVE_PATH")
+    need(type(name) is str and name and chr(92) not in name, "SAFE_RELATIVE_PATH")
     rel = PurePosixPath(name)
     need(not rel.is_absolute() and rel.as_posix() == name
          and all(part not in ("", ".", "..", ".git") for part in rel.parts),
