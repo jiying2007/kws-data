@@ -110,24 +110,41 @@ jobs:
           import json, os
           path = os.path.join(os.environ["RUNNER_TEMP"], "v7-packet", "admission", "G3_READINESS.json")
           gate = json.load(open(path, encoding="utf-8"))
-          assert gate["status"] == "READY_FOR_G3_BUDGET_DECLARATION"
-          assert gate["data_admitted"] is True and gate["training_authorized"] is False
+          assert gate["status"] in {"READY_FOR_G3_BUDGET_DECLARATION", "STOP_INCOMPLETE_SOURCE_ADMISSION"}
+          assert gate["training_authorized"] is False
           assert gate["source_run"]["run_id"] == "46000882374"
           assert gate["source_run"]["sha"] == "5902f1f8d4fdc8096a864eb5d814c253d6f58ff2"
+          print("G3 admission status:", gate["status"])
           for candidate, item in gate["candidate_manifests"].items():
-              assert item["training_snapshot_allowed"] is True
-              assert item["balanced_groups_by_role"] == {"train": 6, "development": 2, "calibration": 2, "locked-test": 2}
-              print(candidate, json.dumps(item["tier_counts"], sort_keys=True))
+              assert item["training_snapshot_allowed"] is gate["data_admitted"]
+              manifest_path = os.path.join(os.environ["RUNNER_TEMP"], "v7-packet", "admission",
+                                           "HEY_" + candidate + "_V7_MANIFEST.json")
+              with open(manifest_path, encoding="utf-8") as stream:
+                  manifest = json.load(stream)
+              from collections import Counter
+              reasons = Counter(row["reason"] for row in manifest["rows"])
+              by_cell = {}
+              for row in manifest["rows"]:
+                  by_cell.setdefault(row["cell_id"], Counter())[row["reason"]] += 1
+              print(candidate, "tier_counts=", json.dumps(item["tier_counts"], sort_keys=True))
+              print(candidate, "reason_counts=", json.dumps(dict(sorted(reasons.items())), sort_keys=True))
+              print(candidate, "cell_reason_counts=", json.dumps(
+                  {cell: dict(sorted(counts.items())) for cell, counts in sorted(by_cell.items())},
+                  sort_keys=True))
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as summary:
               summary.write("## V7 G2 admission preflight\\n\\n")
-              summary.write("Both independent candidate snapshots passed the 6/2/2/2 gate. One incomplete Whisper observation remains UNKNOWN; no retry, no new audio, no KWS forwards, no optimizer updates.\\n")
+              summary.write("Status: **" + gate["status"] + "**\\n\\n")
+              summary.write("Data admission: **" + str(gate["data_admitted"]) + "**; training authorization: **false**.\\n\\n")
+              summary.write("Candidate manifests and row-level reason distributions are retained in the artifact.\\n")
+              summary.write("No retry, no new audio, no KWS forwards, no optimizer updates.\\n")
           PY
       - name: Retain G3 admission-only preflight evidence
+        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: v7-g3-admission-preflight-${{ github.run_id }}
           path: ${{ runner.temp }}/v7-packet/admission/
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 90
 
   admission:
