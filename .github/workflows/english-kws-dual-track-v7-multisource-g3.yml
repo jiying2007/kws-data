@@ -1,0 +1,269 @@
+name: English KWS V7 independent multisource candidate training
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - automation/english_kws_dual_track_v7_multisource_bind.py
+      - automation/test_english_kws_dual_track_v7_multisource_bind.py
+      - automation/english_canonical_multisource_bind_once.py
+      - automation/english_canonical_multisource_train_config.json
+      - .github/workflows/english-kws-dual-track-v7-multisource-g3.yml
+      - docs/BRANCH_RETENTION_20261007.json
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-kws-dual-track-v7-multisource-g3.yml
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PIPELINE_COMMIT: be6f43a8417694e1c8da2dd668beb205a9a7460d
+  REQUIRED_MAIN_PARENT: 5902f1f8d4fdc8096a864eb5d814c253d6f58ff2
+  PYTHONHASHSEED: "20261128"
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
+  HF_HUB_DISABLE_IMPLICIT_TOKEN: "1"
+
+concurrency:
+  group: english-kws-v7-multisource-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  source-contract:
+    if: github.repository == 'jiying2007/kws-data' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Fetch exact reviewed V7 pipeline source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$RUNNER_TEMP/kws-pipeline"
+          git -C "$RUNNER_TEMP/kws-pipeline" remote add origin https://github.com/jiying2007/kws-pipeline.git
+          git -C "$RUNNER_TEMP/kws-pipeline" fetch --depth 1 origin "$PIPELINE_COMMIT"
+          git -C "$RUNNER_TEMP/kws-pipeline" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/kws-pipeline" rev-parse HEAD)" = "$PIPELINE_COMMIT"
+      - name: Verify frozen source bundle, candidate-relative mapping and source-only tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_kws_dual_track_v7_multisource_bind.py \
+            --source-check --pipeline-root "$RUNNER_TEMP/kws-pipeline"
+          for opt in '' '-O' '-OO'; do
+            python3 -I -S -B $opt automation/test_english_kws_dual_track_v7_multisource_bind.py -v
+          done
+          python3 -I -S -B tools/verify_branch_retention.py
+          git diff --check
+          test -z "$(git status --porcelain)"
+
+  exact-six-artifact-audit:
+    needs: source-contract
+    if: >-
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      (github.event_name == 'push' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Obtain only six exact immutable public source and screen archives
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/canonical-six-authenticated"
+          for item in \
+            'fresh24-source:14422271973' 'fresh24-screen:14429385634' \
+            'fresh18-source:14429578824' 'fresh18-screen:14429884666' \
+            'piper24-source:14434542792' 'piper24-screen:14436377961'; do
+            label="${item%%:*}"; aid="${item#*:}"
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$aid/zip" \
+              > "$RUNNER_TEMP/canonical-six-authenticated/$label.zip"
+          done
+      - name: Recompute original source identity, all 462 PCM hashes and 8-4-3-3 role closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_canonical_multisource_bind_once.py \
+            --audit-inputs --sources "$RUNNER_TEMP/canonical-six-authenticated"
+          test -z "$(git status --porcelain)"
+
+  bind:
+    needs: [source-contract, exact-six-artifact-audit]
+    if: >-
+      github.event_name == 'push' &&
+      github.repository == 'jiying2007/kws-data' &&
+      github.event.repository.private == false &&
+      github.ref == 'refs/heads/main' &&
+      github.run_attempt == 1 &&
+      github.event.before == '5902f1f8d4fdc8096a864eb5d814c253d6f58ff2' &&
+      needs.source-contract.result == 'success' &&
+      needs.exact-six-artifact-audit.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    outputs:
+      bound: ${{ steps.bind.outputs.bound }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Fetch exact reviewed V7 pipeline source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$RUNNER_TEMP/kws-pipeline"
+          git -C "$RUNNER_TEMP/kws-pipeline" remote add origin https://github.com/jiying2007/kws-pipeline.git
+          git -C "$RUNNER_TEMP/kws-pipeline" fetch --depth 1 origin "$PIPELINE_COMMIT"
+          git -C "$RUNNER_TEMP/kws-pipeline" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/kws-pipeline" rev-parse HEAD)" = "$PIPELINE_COMMIT"
+      - name: Obtain exact six source archives without TTS or observer calls
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/canonical-six"
+          for item in \
+            'fresh24-source:14422271973' 'fresh24-screen:14429385634' \
+            'fresh18-source:14429578824' 'fresh18-screen:14429884666' \
+            'piper24-source:14434542792' 'piper24-screen:14436377961'; do
+            label="${item%%:*}"; aid="${item#*:}"
+            gh api "repos/jiying2007/kws-data/actions/artifacts/$aid/zip" \
+              > "$RUNNER_TEMP/canonical-six/$label.zip"
+          done
+      - name: Bind two candidate-only TRAIN DEV snapshots and separate sealed evaluation packet
+        id: bind
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B automation/english_kws_dual_track_v7_multisource_bind.py \
+            --bind \
+            --sources "$RUNNER_TEMP/canonical-six" \
+            --pipeline-root "$RUNNER_TEMP/kws-pipeline" \
+            --output "$RUNNER_TEMP/v7-candidate-snapshots" \
+            --evaluation-output "$RUNNER_TEMP/v7-sealed-evaluation"
+          echo "bound=true" >> "$GITHUB_OUTPUT"
+      - name: Retain immutable candidate TRAIN DEV snapshots only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: v7-multisource-candidate-snapshots-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-candidate-snapshots/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Retain separate sealed CALIBRATION LOCKED TEST packet
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: v7-multisource-sealed-evaluation-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-sealed-evaluation/
+          if-no-files-found: error
+          retention-days: 90
+
+  train:
+    needs: bind
+    if: needs.bind.result == 'success' && needs.bind.outputs.bound == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        candidate: [VOSEN, MERO]
+    env:
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      PYTHONHASHSEED: "0"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Download only this candidate's TRAIN DEV snapshot
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          name: v7-multisource-candidate-snapshots-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-candidate-snapshots
+      - name: Fetch exact reviewed V7 pipeline source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$RUNNER_TEMP/kws-pipeline"
+          git -C "$RUNNER_TEMP/kws-pipeline" remote add origin https://github.com/jiying2007/kws-pipeline.git
+          git -C "$RUNNER_TEMP/kws-pipeline" fetch --depth 1 origin "$PIPELINE_COMMIT"
+          git -C "$RUNNER_TEMP/kws-pipeline" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/kws-pipeline" rev-parse HEAD)" = "$PIPELINE_COMMIT"
+      - name: Install pinned CPU training runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/v7-train-venv"
+          "$RUNNER_TEMP/v7-train-venv/bin/pip" install --disable-pip-version-check --no-input \
+            --index-url https://download.pytorch.org/whl/cpu 'torch==2.13.0+cpu'
+          "$RUNNER_TEMP/v7-train-venv/bin/pip" install --disable-pip-version-check --no-input \
+            'numpy==2.3.2' 'onnx==1.19.0'
+          "$RUNNER_TEMP/v7-train-venv/bin/python" -m pip check
+      - name: Execute exactly one independent candidate training run
+        shell: bash
+        env:
+          CANDIDATE: ${{ matrix.candidate }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/v7-model/$CANDIDATE"
+          "$RUNNER_TEMP/v7-train-venv/bin/python" -B \
+            "$RUNNER_TEMP/kws-pipeline/training/english_kws_dual_track_v7_train.py" \
+            --execute \
+            --snapshot "$RUNNER_TEMP/v7-candidate-snapshots/$CANDIDATE" \
+            --candidate "$CANDIDATE" \
+            --output "$RUNNER_TEMP/v7-model/$CANDIDATE"
+          "$RUNNER_TEMP/v7-train-venv/bin/python" - <<'PY'
+          import os, onnx
+          path = os.path.join(os.environ["RUNNER_TEMP"], "v7-model",
+                              os.environ["CANDIDATE"], "candidate.onnx")
+          model = onnx.load(path)
+          onnx.checker.check_model(model)
+          assert [value.name for value in model.graph.input] == ["fbank40"]
+          assert [value.name for value in model.graph.output] == ["frame_ctc_logits"]
+          print("ONNX structural validation: PASS")
+          PY
+      - name: Build candidate-aware C11 runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake -S "$RUNNER_TEMP/kws-pipeline/research/english_kws_v7" \
+            -B "$RUNNER_TEMP/v7-c11-build" -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+          cmake --build "$RUNNER_TEMP/v7-c11-build" --parallel 2
+          ctest --test-dir "$RUNNER_TEMP/v7-c11-build" --output-on-failure
+      - name: Verify actual trained PyTorch to C11 frame-logit and token parity
+        shell: bash
+        env:
+          CANDIDATE: ${{ matrix.candidate }}
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/v7-train-venv/bin/python" -B \
+            "$RUNNER_TEMP/kws-pipeline/training/verify_v7_pytorch_c11_parity.py" \
+            --snapshot "$RUNNER_TEMP/v7-candidate-snapshots/$CANDIDATE" \
+            --candidate "$CANDIDATE" \
+            --model-dir "$RUNNER_TEMP/v7-model/$CANDIDATE" \
+            --c11-runner "$RUNNER_TEMP/v7-c11-build/v7_c11_dump_logits" \
+            --output "$RUNNER_TEMP/v7-model/$CANDIDATE/PYTORCH_C11_PARITY.json"
+      - name: Retain candidate weights, ONNX, C11 parity and immutable training receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: v7-multisource-${{ matrix.candidate }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-model/${{ matrix.candidate }}/
+          if-no-files-found: warn
+          retention-days: 90
