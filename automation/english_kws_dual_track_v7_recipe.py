@@ -110,7 +110,6 @@ def source_groups():
             "source_speaker_index": index,
             "voice_family": "kokoro-82m-" + voice_id,
             "role": item["role"],
-            "voice_id": voice_id,
         })
     if len(result) != 8 or len(seen) != 8:
         raise ValueError("EXACT_EIGHT_DISTINCT_KOKORO_VOICES")
@@ -140,7 +139,7 @@ def recipe():
             request = {
                 "schema": "english-kws-dual-track-v7-kokoro-tts-request-v1",
                 "model": MODEL,
-                "voice_id": group["voice_id"],
+                "voice_id": group["source_speaker_id"],
                 "source_group_id": group["source_group_id"],
                 "role": group["role"],
                 "cell_id": cell["id"],
@@ -167,7 +166,7 @@ def recipe():
                 "speed": speed,
                 "raw_phonemes": cell["raw_ipa"],
                 "candidate_labels": labels,
-                "voice_id": group["voice_id"],
+                "voice_id": group["source_speaker_id"],
                 "generation_status": "pending",
             })
     if len(rows) != SOURCE_COUNT or len({row["id"] for row in rows}) != SOURCE_COUNT:
