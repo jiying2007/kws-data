@@ -787,6 +787,7 @@ def source_readback(source, plan, run, output=None):
         "source_plan_sha256": plan["source_plan_sha256"],
         "recipe_sha256": recipe.digest(frozen),
         "model_lock_sha256": model_lock_sha,
+        "preflight_sha256": model_lock["preflight_report_sha256"],
         "preflight_report_sha256": model_lock["preflight_report_sha256"],
         "source_groups": frozen["source_groups"],
         "declared_count": recipe.SOURCE_COUNT,
