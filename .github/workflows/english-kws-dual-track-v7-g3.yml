@@ -1,0 +1,322 @@
+name: English KWS V7 G3 independent candidate training
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/english-kws-dual-track-v7-g3.yml
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/english-kws-dual-track-v7-g3.yml
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  PIPELINE_COMMIT: c95a9e776c8b9298161ee8412b8ddd0b9f09e3ab
+  G2_SOURCE_RUN_ID: "46000882374"
+  G2_SOURCE_COMMIT: 5902f1f8d4fdc8096a864eb5d814c253d6f58ff2
+  G2_SOURCE_WORKFLOW_ID: "432334213"
+  G2_SOURCE_ARTIFACT_ID: "15199166079"
+  G2_SOURCE_ARTIFACT_NAME: v7-machine-evidence-packet-46000882374
+  G2_SOURCE_ARTIFACT_SHA256: sha256:df649c6819c6f5ae8c3b7eaba95c528002eddd8c27c5b4e703bab03f67715771
+
+concurrency:
+  group: english-kws-v7-g3-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  source-contract:
+    if: github.event_name == 'pull_request' && github.repository == 'jiying2007/kws-data'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Set up pinned Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Fetch exact reviewed pipeline source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$RUNNER_TEMP/kws-pipeline"
+          git -C "$RUNNER_TEMP/kws-pipeline" remote add origin https://github.com/jiying2007/kws-pipeline.git
+          git -C "$RUNNER_TEMP/kws-pipeline" fetch --depth 1 origin "$PIPELINE_COMMIT"
+          git -C "$RUNNER_TEMP/kws-pipeline" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/kws-pipeline" rev-parse HEAD)" = "$PIPELINE_COMMIT"
+      - name: Verify frozen two-candidate G3 plan without model execution
+        run: |
+          set -euo pipefail
+          python3 -I -S -B "$RUNNER_TEMP/kws-pipeline/training/english_kws_dual_track_v7_train.py" --source-check
+
+  packet-admission-preflight:
+    if: github.event_name == 'pull_request' && github.repository == 'jiying2007/kws-data'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Set up pinned Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Verify exact completed G2 source run and artifact digest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/jiying2007/kws-data/actions/runs/46000882374" > "$RUNNER_TEMP/g2-run.json"
+          gh api "repos/jiying2007/kws-data/actions/runs/46000882374/artifacts" > "$RUNNER_TEMP/g2-artifacts.json"
+          python3 -I -S -B - <<'PY'
+          import json, os
+          root = os.environ["RUNNER_TEMP"]
+          run = json.load(open(os.path.join(root, "g2-run.json"), encoding="utf-8"))
+          artifacts = json.load(open(os.path.join(root, "g2-artifacts.json"), encoding="utf-8"))["artifacts"]
+          assert run["id"] == 46000882374 and run["workflow_id"] == 432334213
+          assert run["head_sha"] == "5902f1f8d4fdc8096a864eb5d814c253d6f58ff2"
+          assert run["head_branch"] == "main" and run["event"] == "push"
+          assert run["run_attempt"] == 1 and run["status"] == "completed" and run["conclusion"] == "success"
+          artifact = [item for item in artifacts if item["id"] == 15199166079]
+          assert len(artifact) == 1
+          assert artifact[0]["name"] == "v7-machine-evidence-packet-46000882374"
+          assert artifact[0]["digest"] == "sha256:df649c6819c6f5ae8c3b7eaba95c528002eddd8c27c5b4e703bab03f67715771"
+          assert artifact[0]["expired"] is False
+          PY
+      - name: Download immutable G2 packet for admission-only preflight
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          artifact-ids: 15199166079
+          path: ${{ runner.temp }}/v7-packet
+          run-id: 46000882374
+          github-token: ${{ github.token }}
+      - name: Fetch exact reviewed pipeline source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$RUNNER_TEMP/kws-pipeline"
+          git -C "$RUNNER_TEMP/kws-pipeline" remote add origin https://github.com/jiying2007/kws-pipeline.git
+          git -C "$RUNNER_TEMP/kws-pipeline" fetch --depth 1 origin "$PIPELINE_COMMIT"
+          git -C "$RUNNER_TEMP/kws-pipeline" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/kws-pipeline" rev-parse HEAD)" = "$PIPELINE_COMMIT"
+      - name: Verify both candidate snapshots without any KWS inference or optimizer updates
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B "$RUNNER_TEMP/kws-pipeline/automation/english_kws_dual_track_v7_admit.py" \
+            --packet "$RUNNER_TEMP/v7-packet" \
+            --output "$RUNNER_TEMP/v7-packet/admission"
+          python3 -I -S -B - <<'PY'
+          import json, os
+          path = os.path.join(os.environ["RUNNER_TEMP"], "v7-packet", "admission", "G3_READINESS.json")
+          gate = json.load(open(path, encoding="utf-8"))
+          assert gate["status"] in {"READY_FOR_G3_BUDGET_DECLARATION", "STOP_INCOMPLETE_SOURCE_ADMISSION"}
+          assert gate["training_authorized"] is False
+          assert gate["source_run"]["run_id"] == "46000882374"
+          assert gate["source_run"]["sha"] == "5902f1f8d4fdc8096a864eb5d814c253d6f58ff2"
+          print("G3 admission status:", gate["status"])
+          for candidate, item in gate["candidate_manifests"].items():
+              assert item["training_snapshot_allowed"] is gate["data_admitted"]
+              manifest_path = os.path.join(os.environ["RUNNER_TEMP"], "v7-packet", "admission",
+                                           "HEY_" + candidate + "_V7_MANIFEST.json")
+              with open(manifest_path, encoding="utf-8") as stream:
+                  manifest = json.load(stream)
+              from collections import Counter
+              reasons = Counter(row["reason"] for row in manifest["rows"])
+              by_cell = {}
+              for row in manifest["rows"]:
+                  by_cell.setdefault(row["cell_id"], Counter())[row["reason"]] += 1
+              print(candidate, "tier_counts=", json.dumps(item["tier_counts"], sort_keys=True))
+              print(candidate, "reason_counts=", json.dumps(dict(sorted(reasons.items())), sort_keys=True))
+              print(candidate, "cell_reason_counts=", json.dumps(
+                  {cell: dict(sorted(counts.items())) for cell, counts in sorted(by_cell.items())},
+                  sort_keys=True))
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as summary:
+              summary.write("## V7 G2 admission preflight\\n\\n")
+              summary.write("Status: **" + gate["status"] + "**\\n\\n")
+              summary.write("Data admission: **" + str(gate["data_admitted"]) + "**; training authorization: **false**.\\n\\n")
+              summary.write("Candidate manifests and row-level reason distributions are retained in the artifact.\\n")
+              summary.write("No retry, no new audio, no KWS forwards, no optimizer updates.\\n")
+          PY
+      - name: Retain G3 admission-only preflight evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: v7-g3-admission-preflight-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-packet/admission/
+          if-no-files-found: warn
+          retention-days: 90
+
+  admission:
+    if: github.event_name == 'push' && github.repository == 'jiying2007/kws-data'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      admitted: ${{ steps.admit.outputs.admitted }}
+    steps:
+      - name: Set up pinned Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Require exact first public main successor and one-shot G2 source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B - <<'PY'
+          import json, os
+          with open(os.environ["GITHUB_EVENT_PATH"], encoding="utf-8") as stream:
+              event = json.load(stream)
+          assert os.environ["GITHUB_REPOSITORY"] == "jiying2007/kws-data"
+          assert os.environ["GITHUB_REF"] == "refs/heads/main"
+          assert os.environ["GITHUB_RUN_ATTEMPT"] == "1"
+          assert event["before"] == "5902f1f8d4fdc8096a864eb5d814c253d6f58ff2"
+          assert event["after"] == os.environ["GITHUB_SHA"]
+          assert event["ref"] == "refs/heads/main"
+          assert event["forced"] is False and event["deleted"] is False
+          assert event["repository"]["full_name"] == "jiying2007/kws-data"
+          assert event["repository"]["private"] is False
+          PY
+          gh api "repos/jiying2007/kws-data/actions/runs/46000882374" > "$RUNNER_TEMP/g2-run.json"
+          python3 -I -S -B - <<'PY'
+          import json, os
+          with open(os.path.join(os.environ["RUNNER_TEMP"], "g2-run.json"), encoding="utf-8") as stream:
+              run = json.load(stream)
+          assert run["id"] == 46000882374
+          assert run["workflow_id"] == 432334213
+          assert run["head_sha"] == "5902f1f8d4fdc8096a864eb5d814c253d6f58ff2"
+          assert run["head_branch"] == "main"
+          assert run["event"] == "push"
+          assert run["run_attempt"] == 1
+          assert run["status"] == "completed" and run["conclusion"] == "success"
+          assert run["repository"]["full_name"] == "jiying2007/kws-data"
+          assert run["repository"]["private"] is False
+          PY
+          gh api "repos/jiying2007/kws-data/actions/runs/46000882374/artifacts" > "$RUNNER_TEMP/g2-artifacts.json"
+          python3 -I -S -B - <<'PY'
+          import json, os
+          with open(os.path.join(os.environ["RUNNER_TEMP"], "g2-artifacts.json"), encoding="utf-8") as stream:
+              payload = json.load(stream)
+          matches = [item for item in payload["artifacts"] if item["id"] == 15199166079]
+          assert len(matches) == 1
+          artifact = matches[0]
+          assert artifact["name"] == "v7-machine-evidence-packet-46000882374"
+          assert artifact["digest"] == "sha256:df649c6819c6f5ae8c3b7eaba95c528002eddd8c27c5b4e703bab03f67715771"
+          assert artifact["expired"] is False
+          PY
+      - name: Download the exact immutable G2 machine-evidence packet
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          artifact-ids: ${{ env.G2_SOURCE_ARTIFACT_ID }}
+          path: ${{ runner.temp }}/v7-packet
+          run-id: ${{ env.G2_SOURCE_RUN_ID }}
+          github-token: ${{ github.token }}
+      - name: Fetch exact reviewed pipeline source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$RUNNER_TEMP/kws-pipeline"
+          git -C "$RUNNER_TEMP/kws-pipeline" remote add origin https://github.com/jiying2007/kws-pipeline.git
+          git -C "$RUNNER_TEMP/kws-pipeline" fetch --depth 1 origin "$PIPELINE_COMMIT"
+          git -C "$RUNNER_TEMP/kws-pipeline" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/kws-pipeline" rev-parse HEAD)" = "$PIPELINE_COMMIT"
+      - name: Build both candidate-relative admission manifests without inference
+        id: admit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -S -B "$RUNNER_TEMP/kws-pipeline/automation/english_kws_dual_track_v7_admit.py" \
+            --packet "$RUNNER_TEMP/v7-packet" \
+            --output "$RUNNER_TEMP/v7-packet/admission"
+          python3 -I -S -B - <<'PY'
+          import json, os
+          path = os.path.join(os.environ["RUNNER_TEMP"], "v7-packet", "admission", "G3_READINESS.json")
+          with open(path, encoding="utf-8") as stream:
+              gate = json.load(stream)
+          assert gate["status"] == "READY_FOR_G3_BUDGET_DECLARATION"
+          assert gate["data_admitted"] is True
+          assert gate["training_authorized"] is False
+          assert gate["source_run"]["run_id"] == "46000882374"
+          assert gate["source_run"]["sha"] == "5902f1f8d4fdc8096a864eb5d814c253d6f58ff2"
+          print("G3 data admission: PASS; training remains one-shot and independently budgeted")
+          PY
+          echo "admitted=true" >> "$GITHUB_OUTPUT"
+      - name: Retain immutable admitted packet and candidate manifests
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: v7-g3-admitted-packet-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-packet/
+          if-no-files-found: error
+          retention-days: 90
+
+  train:
+    needs: admission
+    if: needs.admission.result == 'success' && needs.admission.outputs.admitted == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        candidate: [VOSEN, MERO]
+    env:
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      PYTHONHASHSEED: "0"
+    steps:
+      - name: Set up pinned Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Download the exact admitted G2 packet
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: v7-g3-admitted-packet-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-packet
+      - name: Fetch exact reviewed pipeline source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$RUNNER_TEMP/kws-pipeline"
+          git -C "$RUNNER_TEMP/kws-pipeline" remote add origin https://github.com/jiying2007/kws-pipeline.git
+          git -C "$RUNNER_TEMP/kws-pipeline" fetch --depth 1 origin "$PIPELINE_COMMIT"
+          git -C "$RUNNER_TEMP/kws-pipeline" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/kws-pipeline" rev-parse HEAD)" = "$PIPELINE_COMMIT"
+      - name: Install pinned CPU training runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/v7-train-venv"
+          "$RUNNER_TEMP/v7-train-venv/bin/pip" install --disable-pip-version-check --no-input \
+            --index-url https://download.pytorch.org/whl/cpu 'torch==2.13.0+cpu'
+          "$RUNNER_TEMP/v7-train-venv/bin/pip" install --disable-pip-version-check --no-input \
+            'numpy==2.3.2' 'onnx==1.19.0'
+      - name: Train exactly one independent candidate
+        id: train
+        shell: bash
+        env:
+          CANDIDATE: ${{ matrix.candidate }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/v7-model"
+          "$RUNNER_TEMP/v7-train-venv/bin/python" -B \
+            "$RUNNER_TEMP/kws-pipeline/training/english_kws_dual_track_v7_train.py" \
+            --execute --packet "$RUNNER_TEMP/v7-packet" \
+            --candidate "$CANDIDATE" --output "$RUNNER_TEMP/v7-model/$CANDIDATE"
+          "$RUNNER_TEMP/v7-train-venv/bin/python" - <<'PY'
+          import os, onnx
+          path = os.path.join(os.environ["RUNNER_TEMP"], "v7-model", os.environ["CANDIDATE"], "models", "candidate.onnx")
+          model = onnx.load(path)
+          onnx.checker.check_model(model)
+          assert [value.name for value in model.graph.input] == ["fbank40"]
+          assert [value.name for value in model.graph.output] == ["frame_ctc_logits"]
+          print("ONNX structural validation: PASS")
+          PY
+      - name: Retain candidate weights, deployable pack and immutable training evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: v7-g3-${{ matrix.candidate }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/v7-model/${{ matrix.candidate }}/
+          if-no-files-found: warn
+          retention-days: 90

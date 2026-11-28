@@ -52,6 +52,14 @@ class RetentionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'closed tracked'):
             self.verify()
 
+    def test_v7_g3_workflow_is_explicit_integration(self):
+        path = '.github/workflows/english-kws-dual-track-v7-g3.yml'
+        target = self.root / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text('reviewed G3 workflow\\n')
+        self.tree[path] = ('100644', 'd' * 40)
+        self.assertEqual(self.verify()['tracked_files'], 3)
+
     def test_git_mode(self):
         self.tree['archive/item.txt'] = ('100755', self.sha)
         with self.assertRaisesRegex(ValueError, 'Git identity'):
