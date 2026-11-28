@@ -98,7 +98,7 @@ def safe_relative(name):
     path = PurePosixPath(name)
     need(not path.is_absolute() and path.as_posix() == name
          and all(part not in ("", ".", "..", ".git") for part in path.parts),
-    need(type(name) is str and name and chr(92) not in name, "SAFE_CAPTURE_PATH")
+         "SAFE_CAPTURE_PATH")
     return name
 
 
