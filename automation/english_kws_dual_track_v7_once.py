@@ -300,45 +300,126 @@ def verify_preflight(preflight_dir, plan, run):
     return report
 
 
-def source_model(folder, preflight_dir):
-    from importlib.metadata import version
+def source_model(folder, preflight_dir, run):
+    import importlib.metadata
+    import importlib.machinery
+    import sys
+    import types
+    import torch
     from huggingface_hub import hf_hub_download
-    need(version("piper-tts") == recipe.MODEL["piper_version"], "PIPER_VERSION")
-    preflight_dir = Path(preflight_dir)
-    config_path = preflight_dir / "piper-config.json"
-    cb = regular(config_path, 1024 * 1024)
-    need(len(cb) == recipe.MODEL["config_bytes"] and hashlib.md5(cb).hexdigest() == recipe.MODEL["config_md5"],
-         "PIPER_CONFIG_BYTES")
-    config = loads(cb)
-    need(config.get("num_speakers") == 904 and config.get("audio", {}).get("sample_rate") == 22050 and
-         config.get("espeak", {}).get("voice") == "en-us", "PIPER_GEOMETRY")
-    need(all(config["speaker_id_map"].get(f"p{speaker}") == index for index, speaker in recipe.NEW_VOICES),
-         "EXACT_NEW_SPEAKER_MAP")
-    required_chars = {char for row in recipe.recipe()["rows"] for char in row["raw_phonemes"]}
-    need(required_chars.issubset(config.get("phoneme_id_map", {})), "DIRECT_PHONEME_MAP_COVERAGE")
-    card = regular(preflight_dir / "MODEL_CARD", 4096)
-    need(len(card) == recipe.MODEL_CARD["bytes"] and hashlib.md5(card).hexdigest() == recipe.MODEL_CARD["md5"],
-         "MODEL_CARD_PIN")
-    paths = Path(hf_hub_download(repo_id=recipe.MODEL["repository"],
-        filename=recipe.MODEL["model_path"], revision=recipe.MODEL["revision"],
-        local_dir=str(folder), token=False))
-    mb = regular(paths, 150 * 1024**2)
-    need(len(mb) == recipe.MODEL["model_bytes"] and sha(mb) == recipe.MODEL["model_sha256"],
-         "PIPER_MODEL_BYTES")
-    from piper import PiperVoice
-    voice = PiperVoice.load(str(paths), config_path=str(config_path), use_cuda=False)
-    need(callable(voice.phonemes_to_ids) and callable(voice.phoneme_ids_to_audio), "DIRECT_PHONEME_API")
-    import piper.voice
-    api_bytes = regular(Path(piper.voice.__file__), 128 * 1024)
-    engine = read(preflight_dir / "source-license-preflight.json")["license"]["piper_engine"]
-    lock = dict(recipe.MODEL) | {
-        "config_sha256": sha(cb), "model_card_sha256": sha(card),
-        "engine_setup_sha256": engine["setup_sha256"], "engine_copying_sha256": engine["copying_sha256"],
-        "source_speaker_map": {f"p{s}": i for i, s in recipe.NEW_VOICES},
-        "installed_voice_api_sha256": sha(api_bytes), "model_bytes_verified": True,
-        "direct_api": "PiperVoice.phonemes_to_ids -> PiperVoice.phoneme_ids_to_audio",
+
+    folder = Path(folder)
+    folder.mkdir(mode=0o700, parents=True, exist_ok=True)
+    cache_dir = folder / "hf-cache"
+    cache_dir.mkdir(mode=0o700, exist_ok=True)
+    model_config = recipe.MODEL
+    repo_id = model_config["repository"]
+    revision = model_config["revision"]
+
+    config_path = Path(hf_hub_download(
+        repo_id=repo_id, filename=model_config["config_path"],
+        revision=revision, cache_dir=cache_dir, token=False))
+    model_path = Path(hf_hub_download(
+        repo_id=repo_id, filename=model_config["checkpoint_path"],
+        revision=revision, cache_dir=cache_dir, token=False))
+    config_raw = regular(config_path, 4 * 1024 * 1024)
+    model_raw = regular(model_path, 1024 * 1024 * 1024)
+    config_sha = sha(config_raw)
+    model_sha = sha(model_raw)
+    need(model_sha == model_config["checkpoint_sha256"],
+         "PINNED_KOKORO_CHECKPOINT_SHA256")
+    preflight = read_json(Path(preflight_dir) / "source-license-preflight.json")
+    need(config_sha == preflight["model"]["config_sha256"],
+         "KOKORO_CONFIG_PREFLIGHT_RUNTIME_SHA256")
+
+    # Import KModel without executing kokoro.__init__ / KPipeline / Misaki G2P.
+    # The model receives the frozen IPA string directly; no eSpeak or text G2P
+    # dependency is installed or invoked.
+    package_dir = Path(importlib.metadata.distribution("kokoro").locate_file("kokoro"))
+    need(package_dir.is_dir() and (package_dir / "model.py").is_file(),
+         "KOKORO_DIRECT_MODEL_PACKAGE")
+    sys.modules.pop("kokoro", None)
+    package = types.ModuleType("kokoro")
+    package.__path__ = [package_dir.as_posix()]
+    package.__package__ = "kokoro"
+    package_spec = importlib.machinery.ModuleSpec("kokoro", loader=None, is_package=True)
+    package_spec.submodule_search_locations = [package_dir.as_posix()]
+    package.__spec__ = package_spec
+    sys.modules["kokoro"] = package
+    from kokoro.model import KModel
+
+    torch.set_num_threads(1)
+    torch.set_num_interop_threads(1)
+    torch.use_deterministic_algorithms(True)
+    model = KModel(repo_id=repo_id, config=config_path.as_posix(),
+                   model=model_path.as_posix(), device="cpu")
+    model.eval()
+    vocab = model.vocab
+    selected_plan, _ = recipe.source_documents()
+    required_chars = sorted({char for cell in selected_plan["cells"] for char in cell["raw_ipa"]})
+    missing = [char for char in required_chars if char not in vocab]
+    need(not missing, "KOKORO_RUNTIME_RAW_IPA_VOCAB:" + repr(missing))
+    vocab_subset = {char: int(vocab[char]) for char in required_chars}
+
+    voice_styles = {}
+    voice_packs = {}
+    for group in recipe.source_groups():
+        voice_id = group["source_speaker_id"]
+        voice_path = Path(hf_hub_download(
+            repo_id=repo_id, filename="voices/" + voice_id + ".pt",
+            revision=revision, cache_dir=cache_dir, token=False))
+        voice_raw = regular(voice_path, 8 * 1024 * 1024)
+        style = torch.load(voice_path, map_location="cpu", weights_only=True)
+        need(torch.is_tensor(style) and tuple(style.shape) == (1, 256)
+             and style.dtype == torch.float32 and bool(torch.isfinite(style).all()),
+             "KOKORO_VOICE_STYLE_GEOMETRY:" + voice_id)
+        voice_styles[voice_id] = style.contiguous()
+        voice_packs[voice_id] = {
+            "path": "voices/" + voice_id + ".pt",
+            "bytes": len(voice_raw),
+            "sha256": sha(voice_raw),
+            "style_shape": [1, 256],
+            "dtype": "float32",
+        }
+
+    try:
+        package_version = importlib.metadata.version("kokoro")
+        transformers_version = importlib.metadata.version("transformers")
+        huggingface_hub_version = importlib.metadata.version("huggingface-hub")
+    except importlib.metadata.PackageNotFoundError as exc:
+        raise ValueError("PINNED_KOKORO_RUNTIME_DEPENDENCIES") from exc
+    model_lock = {
+        "schema": "english-kws-dual-track-v7-kokoro-model-lock-v1",
+        "run": run,
+        "repository": repo_id,
+        "revision": revision,
+        "checkpoint_path": model_config["checkpoint_path"],
+        "checkpoint_bytes": len(model_raw),
+        "checkpoint_sha256": model_sha,
+        "config_path": model_config["config_path"],
+        "config_bytes": len(config_raw),
+        "config_sha256": config_sha,
+        "voice_packs": voice_packs,
+        "inference_package": "kokoro==" + package_version,
+        "inference_source_commit": model_config["source_commit"],
+        "inference_code_license": "Apache-2.0",
+        "torch_version": torch.__version__,
+        "transformers_version": transformers_version,
+        "huggingface_hub_version": huggingface_hub_version,
+        "phoneme_vocab": vocab_subset,
+        "phoneme_vocab_sha256": sha(canonical(vocab_subset)),
+        "raw_ipa_mode": "direct KModel.forward; no G2P, no eSpeak, no orthographic fallback",
+        "native_sample_rate": 24000,
+        "output_sample_rate": 16000,
+        "model_license": "Apache-2.0",
+        "human_speaker_identity_claimed": False,
+        "calibration_audio_generated": False,
+        "locked_test_audio_generated": False,
+        "training_allowed": False,
+        "product_promotion_allowed": False,
     }
-    return voice, lock, api_bytes
+    return model, voice_styles, model_lock
+
 
 def request_phonemes(voice, row):
     if row["generation_mode"] == "direct-phoneme-ids":
