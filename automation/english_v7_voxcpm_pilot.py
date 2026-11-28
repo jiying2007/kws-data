@@ -38,7 +38,7 @@ VOXCPM_CPP_COMMIT = "e5b89534e379c79b923c9969b79c3858d140bedb"
 HF_MODEL_REPO = "openbmb/VoxCPM1.5"
 HF_MODEL_REVISION = "09c7a389438c27100dfa4e6cda1f8f0dd0d2fbfa"
 VOXCPM_PYPI_VERSION = "1.5.0"
-VOXCPM_PYPI_SDIST_SHA256 = "6b6238d5a8e6e3d55c5c5c4c9f54b9c2a0c0e8a9c4f9b9c4f6b0f7e8a6b6c6b5"
+VOXCPM_PYPI_SDIST_SHA256 = "6b623812006d35f16d9dc93c3d1bd69a8440ae3970d0d2b8ff27954aae607f40"
 GGUF_PYPI_VERSION = "0.17.1"
 GGUF_PYPI_WHEEL_SHA256 = "7bc5aa7eeb1931f7d39b48fdc5b38fda6b294b9dca75cf607ac69557840a3943"
 
@@ -380,7 +380,7 @@ def extract_donors(donor_zip, private_dir):
             path = private_dir / (preset + ".wav")
             write_bytes_once(path, raw)
             selected[preset] = {
-                "path": path.as_posix(),
+                "private_file": preset + ".wav",
                 "role": expected["role"],
                 "source_group_id": expected["source_group_id"],
                 "wav_sha256": expected["wav_sha256"],
@@ -529,10 +529,17 @@ def validate_model_lock(lock, model_path):
     need(lock.get("q8_0_audiovae_f16_gguf_sha256")
          and re.fullmatch(r"[0-9a-f]{64}", lock["q8_0_audiovae_f16_gguf_sha256"]),
          "QUANTIZED_GGUF_SHA256")
-    model_path = Path(model_path)
-    need(model_path.is_file() and not model_path.is_symlink()
-         and sha_file(model_path) == lock["q8_0_audiovae_f16_gguf_sha256"],
-         "QUANTIZED_MODEL_BYTES_MATCH_LOCK")
+    need(type(lock.get("q8_0_audiovae_f16_gguf_bytes")) is int
+         and lock["q8_0_audiovae_f16_gguf_bytes"] > 0
+         and lock.get("ffmpeg_version") and lock.get("ffmpeg_binary_sha256")
+         and lock.get("tts_binary_sha256") and lock.get("quantizer_binary_sha256"),
+         "RUNTIME_BINARY_AND_QUANTIZED_MODEL_PROVENANCE")
+    if model_path is not None:
+        model_path = Path(model_path)
+        need(model_path.is_file() and not model_path.is_symlink()
+             and sha_file(model_path) == lock["q8_0_audiovae_f16_gguf_sha256"]
+             and model_path.stat().st_size == lock["q8_0_audiovae_f16_gguf_bytes"],
+             "QUANTIZED_MODEL_BYTES_MATCH_LOCK")
     return lock
 
 def planned_base_rows():
@@ -696,7 +703,7 @@ def generate(*, donor_zip, history_dir, output, private_dir, tts_bin, model_path
             cmd = [
                 str(tts_bin), "--text", base["requested_text"],
                 "--output", str(base_path),
-                "--prompt-audio", donor["path"],
+                "--prompt-audio", str(private_dir / donor["private_file"]),
                 "--prompt-text", REFERENCE_TEXT,
                 "--model-path", str(model_path),
                 "--backend", "cpu",
@@ -855,7 +862,7 @@ def verify_source(source_root):
          and result.get("training_allowed") is False and result.get("promotion_allowed") is False
          and result.get("retry_count") == 0, "SOURCE_RESULT_IDENTITY")
     need(source.get("pipeline_commit") == PIPELINE_COMMIT, "EXACT_PIPELINE_COMMIT")
-    validate_model_lock(lock, root / "MODEL_LOCK.gguf") if (root / "MODEL_LOCK.gguf").exists() else None
+    validate_model_lock(lock, None)
     base_rows, rows = source.get("base_outputs"), source.get("rows")
     need(isinstance(base_rows, list) and len(base_rows) == BASE_CALLS
          and isinstance(rows, list) and len(rows) == FINAL_ROWS, "SOURCE_DENOMINATORS")
@@ -1054,7 +1061,7 @@ def verify_observer(provider, observer_root, source_info, output_root, pipeline)
              and result.get("run") == source_info["source"]["run"]
              and result.get("source_sha256") == sha((Path(source_info["root"]) / "SOURCE.json").read_bytes())
              and result.get("denominator") == FINAL_ROWS and result.get("retry_count") == 0
-             and observe.FLAGS.items() <= result.items(),
+             and all(result.get(k) == v for k, v in observe.FLAGS.items()),
              "OBSERVER_RESULT_BINDING")
         need(result.get("status") == "COMPLETE" and result.get("completed_count") == FINAL_ROWS
              and result.get("actual_forward_attempts") == FINAL_ROWS
@@ -1159,6 +1166,7 @@ def combine(*, source_root, observers_root, output_root, pipeline_root):
                 counts[tier] += 1
                 key = "positive" if label == 1 else "negative"
                 counts[key][row["role"]] += 1
+        pipeline.verify_pcm(row, source_root)
         row_out = {
             "id": row["id"], "role": row["role"], "source_group_id": row["source_group_id"],
             "candidate": row["candidate"], "requested_text": row["requested_text"],
