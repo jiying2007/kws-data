@@ -22,8 +22,8 @@ ROLES = ("train", "development")
 MODEL = {
     "repository": "hexgrad/Kokoro-82M",
     "revision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
-    "checkpoint_path": "kokoro-v1_0.pth",
-    "checkpoint_sha256": "496dba118d1a58f5f3db2efc88dbdc216e0483fc89fe6e47ee1f2c53f18ad1e4",
+    "checkpoint_path": "kokoro-v1_0.pth",\n    "model_path": "kokoro-v1_0.pth",
+    "checkpoint_sha256": "496dba118d1a58f5f3db2efc88dbdc216e0483fc89fe6e47ee1f2c53f18ad1e4",\n    "model_sha256": "496dba118d1a58f5f3db2efc88dbdc216e0483fc89fe6e47ee1f2c53f18ad1e4",
     "config_path": "config.json",
     "voices_directory": "voices",
     "package": "kokoro==0.9.4",
