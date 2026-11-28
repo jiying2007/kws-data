@@ -102,7 +102,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import json, shutil
+          import json, os, shutil
           from pathlib import Path
           disk = shutil.disk_usage("/")
           memory = {}
@@ -117,7 +117,7 @@ jobs:
               "disk_minimum_bytes": 25 * 1024**3,
               "available_memory_minimum_bytes": 4 * 1024**3,
           }
-          Path("$RUNNER_TEMP/resource-preflight.json").write_text(json.dumps(result, sort_keys=True) + "\n")
+          (Path(os.environ["RUNNER_TEMP"]) / "resource-preflight.json").write_text(json.dumps(result, sort_keys=True) + "\n")
           print(json.dumps(result, sort_keys=True))
           if disk.free < result["disk_minimum_bytes"]:
               raise SystemExit("RESOURCE_STOP_DISK_BELOW_25_GIB")
