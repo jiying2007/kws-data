@@ -852,7 +852,7 @@ def observe(provider, source, plan, output):
             need(calls < recipe.SOURCE_COUNT, "OBSERVER_CALL_CEILING")
             calls += 1
             try:
-                capture = recipe.observer_identity(provider) | {"schema": "english-kws-dual-track-v7-native-capture-v1",
+                capture = recipe.observer_identity(provider) | {"schema": "english-kws-dual-track-v7-kokoro-observer-capture-v1",
                     "id": row["id"], "source_pcm_sha256": row["pcm_sha256"],
                     "source_wav_sha256": row["wav_sha256"], "source_samples": row["pcm_samples"],
                     "status": "success", "target_conditioned": False,
@@ -932,7 +932,7 @@ def capture_evidence(root, corpus):
                 result["observations"].append(observation)
         rows.append(result)
     need(len({row["id"] for row in corpus["rows"]}) == recipe.SOURCE_COUNT, "COMPLETE_EVIDENCE_DENOMINATOR")
-    return {"schema": "english-kws-dual-track-v7-machine-evidence-v1", "rows": rows,
+    return {"schema": "english-kws-dual-track-v7-kokoro-machine-evidence-v1", "rows": rows,
         "human_gold": False, "new_model_calls_during_join": 0, "optimizer_updates": 0}
 
 def combine(source, observers, plan, output):
