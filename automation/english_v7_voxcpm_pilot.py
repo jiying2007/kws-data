@@ -28,6 +28,7 @@ import wave
 import zipfile
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
 REPO = "jiying2007/kws-data"
 MAIN_BEFORE = "5902f1f8d4fdc8096a864eb5d814c253d6f58ff2"
 PIPELINE_REPO = "jiying2007/kws-pipeline"
@@ -910,18 +911,33 @@ def verify_source(source_root):
             "source_ready": source_ready, "rows": rows, "base_rows": base_rows}
 
 def read_source_cli(source_root, output_path):
-    verified = verify_source(source_root)
-    value = {
-        "schema": SOURCE_SCHEMA + "/readback",
-        "source_ready": verified["source_ready"],
-        "base_tts_calls": len(verified["base_rows"]),
-        "final_rows": len(verified["rows"]),
-        "opened_roles": verified["source"]["opened_roles"],
-        "calibration_audio_opened": False,
-        "locked_test_audio_opened": False,
-        "training_allowed": False,
-        "promotion_allowed": False,
-    }
+    try:
+        verified = verify_source(source_root)
+        value = {
+            "schema": SOURCE_SCHEMA + "/readback",
+            "source_ready": verified["source_ready"],
+            "base_tts_calls": len(verified["base_rows"]),
+            "final_rows": len(verified["rows"]),
+            "opened_roles": verified["source"]["opened_roles"],
+            "calibration_audio_opened": False,
+            "locked_test_audio_opened": False,
+            "training_allowed": False,
+            "promotion_allowed": False,
+        }
+    except Exception as exc:
+        root = Path(source_root)
+        source = read_json(root / "SOURCE.json") if (root / "SOURCE.json").is_file() else {}
+        result = read_json(root / "RESULT.json") if (root / "RESULT.json").is_file() else {}
+        value = {
+            "schema": SOURCE_SCHEMA + "/readback", "source_ready": False,
+            "status": result.get("status", "UNKNOWN"),
+            "error": type(exc).__name__ + ": " + str(exc)[:1000],
+            "base_tts_calls": result.get("base_tts_calls_returned"),
+            "final_rows": result.get("derived_rows_returned"),
+            "opened_roles": source.get("opened_roles", ["train", "development"]),
+            "calibration_audio_opened": False, "locked_test_audio_opened": False,
+            "training_allowed": False, "promotion_allowed": False,
+        }
     write_json(output_path, value)
     return value
 
@@ -1166,7 +1182,8 @@ def combine(*, source_root, observers_root, output_root, pipeline_root):
                 counts[tier] += 1
                 key = "positive" if label == 1 else "negative"
                 counts[key][row["role"]] += 1
-        pipeline.verify_pcm(row, source_root)
+        if row.get("duration_pass") is True:
+            pipeline.verify_pcm(row, source_root)
         row_out = {
             "id": row["id"], "role": row["role"], "source_group_id": row["source_group_id"],
             "candidate": row["candidate"], "requested_text": row["requested_text"],
